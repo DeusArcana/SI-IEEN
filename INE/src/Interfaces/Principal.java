@@ -353,6 +353,7 @@ public class Principal extends javax.swing.JFrame {
         rb_inventario_granel = new javax.swing.JRadioButton();
         tf_cantidad = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         sp_recoleccion_inventario = new javax.swing.JScrollPane();
         pn_recoleccion_inventario = new javax.swing.JPanel();
         lb_empleado1 = new javax.swing.JLabel();
@@ -1598,6 +1599,8 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jButton7.setText("PRUEBA");
+
         javax.swing.GroupLayout pn_asignacion_inventarioLayout = new javax.swing.GroupLayout(pn_asignacion_inventario);
         pn_asignacion_inventario.setLayout(pn_asignacion_inventarioLayout);
         pn_asignacion_inventarioLayout.setHorizontalGroup(
@@ -1627,8 +1630,10 @@ public class Principal extends javax.swing.JFrame {
                             .addComponent(lb_objetos_asignables)
                             .addGroup(pn_asignacion_inventarioLayout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addComponent(jButton5)))
-                        .addGap(4, 4, 4)
+                                .addComponent(jButton5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton7)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pn_asignacion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pn_asignacion_inventarioLayout.createSequentialGroup()
                                 .addComponent(rb_inventario_normal)
@@ -1651,7 +1656,8 @@ public class Principal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pn_asignacion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_seleccionar_empleado)
-                    .addComponent(jButton5))
+                    .addComponent(jButton5)
+                    .addComponent(jButton7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pn_asignacion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lb_objetos_asignables)
@@ -3332,6 +3338,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
