@@ -1,0 +1,511 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Clases;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+/**
+ *
+ * @author kevin
+ */
+public class ManagerInventario {
+    
+    private Connection conexion;
+    private Conexion db;
+    
+    public ManagerInventario(){
+    
+        db = new Conexion();
+        
+    }//Constructor
+    
+    public boolean insertarInventarioG(String clave, String producto, String almacen, String marca,int stockmin, int stock, String descripcion, String observaciones,String tipo) {
+        try {
+            //Hacemos la conexión
+            conexion = db.getConexion();
+            //Creamos la variable para hacer operaciones CRUD
+            Statement st = conexion.createStatement();
+            //Creamos la variable para guardar el resultado de las consultas
+            ResultSet rs;
+            
+            //Insertamos al inventario
+            String sql = "insert into inventario_Granel (id_productoGranel,nombre_prod,almacen,marca,stock_min,stock,descripcion,observaciones,estatus,tipo_uso) "
+                         +"values('"+clave+"','"+producto+"','"+almacen+"','"+marca+"','"+stockmin+"','"+stock+"','"
+                         +descripcion+"','"+observaciones+"','DISPONIBLE','"+tipo+"');";
+            st.executeUpdate(sql);
+            
+            //Cerramos la conexión
+            conexion.close();
+            return true;
+            
+        } catch (SQLException ex) {
+            System.out.printf("Error al insertar en el inventario en SQL");
+            Logger.getLogger(ManagerInventario.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } 
+        
+    }//insertarEmpleado
+    
+    public boolean existeInventarioG(String id_producto) {
+
+        boolean estado = false;
+        
+        try {
+            //Consulta para saber si existe o no dicho producto
+            String sql = "select * from inventario_Granel where id_productoGranel = '"+id_producto+"';";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            estado = rs.next();//Guardamos el resultado para retornar la respuesta.
+            conexion.close();
+            
+        } catch (SQLException ex) {
+            System.out.printf("Error al consultar el inventario en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } 
+            return estado;
+
+    }//existeInventarioG
+    
+    public DefaultTableModel getInventarioG() {
+
+        DefaultTableModel table = new DefaultTableModel();
+
+        try {
+            table.addColumn("Clave");
+            table.addColumn("Producto");
+            table.addColumn("Descripción");
+            table.addColumn("Almacén");
+            table.addColumn("Estatus");
+            table.addColumn("Marca");
+            table.addColumn("Observaciones");
+            table.addColumn("Stock");
+            
+            //Consulta de los empleados
+            String sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel;";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            Object datos[] = new Object[8];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<8;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+           }//while
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error getTabla Inventario SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//getInventarioG
+
+    public DefaultTableModel getInventario() {
+
+        DefaultTableModel table = new DefaultTableModel();
+
+        try {
+            table.addColumn("Producto");
+            table.addColumn("Almacén");
+            table.addColumn("Marca");
+            table.addColumn("Stock");
+            
+            //Consulta de los empleados
+            String sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario group by nombre_prod,marca;";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            Object datos[] = new Object[4];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<4;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+           }//while
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error getTabla Inventario SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//getInventario
+    
+    public boolean existeInventario(String id_producto) {
+
+        boolean estado = false;
+        
+        try {
+            //Consulta para saber si existe o no dicho producto
+            String sql = "select * from inventario where id_producto = '"+id_producto+"';";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            estado = rs.next();//Guardamos el resultado para retornar la respuesta.
+            conexion.close();
+            
+        } catch (SQLException ex) {
+            System.out.printf("Error al consultar el inventario en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } 
+            return estado;
+
+    }//existeInventario
+    
+    public boolean insertarInventario(String clave, String producto, String almacen, String marca,String noserie, String descripcion, String observaciones,String tipo,String modelo,String color) {
+        try {
+            //Hacemos la conexión
+            conexion = db.getConexion();
+            //Creamos la variable para hacer operaciones CRUD
+            Statement st = conexion.createStatement();
+            //Creamos la variable para guardar el resultado de las consultas
+            ResultSet rs;
+            
+            //Insertamos al inventario
+            String sql = "insert into inventario (id_producto,nombre_prod,almacen,marca,no_serie,descripcion,observaciones,estatus,tipo_uso,modelo,color) "
+                         +"values('"+clave+"','"+producto+"','"+almacen+"','"+marca+"','"+noserie+"','"
+                         +descripcion+"','"+observaciones+"','DISPONIBLE','"+tipo+"','"+modelo+"','"+color+"');";
+            st.executeUpdate(sql);
+            
+            //Si es algún CPU o Monitor o Teclado, lo insertamos a su correspondiente tabla para cuando se necesite
+            //asignar a un grupo en la tabla de equipo de computo. Cada componente tenga su propia llave.
+            if(producto.equals("CPU") || producto.equals("Monitor") || producto.equals("Teclado")){
+                sql = "insert into "+producto+" values('"+clave+"');";
+                st.executeUpdate(sql);
+            }
+            
+            //Cerramos la conexión
+            conexion.close();
+            return true;
+            
+        } catch (SQLException ex) {
+            System.out.printf("Error al insertar en el inventario en SQL");
+            Logger.getLogger(ManagerInventario.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } 
+        
+    }//insertarInventario
+    
+    public DefaultTableModel getInventarioCoincidencias(String prod) {
+
+        DefaultTableModel table = new DefaultTableModel();
+
+        try {
+            table.addColumn("Clave");
+            table.addColumn("Producto");
+            table.addColumn("Almacén");
+            table.addColumn("Descripción");
+            table.addColumn("No. serie");
+            table.addColumn("Marca");
+            table.addColumn("Observaciones");
+            table.addColumn("Modelo");
+            table.addColumn("Color");
+            table.addColumn("Estatus");
+            
+            //Consulta de los empleados
+            String sql = "select id_producto,nombre_prod,almacen,descripcion,no_serie,marca,observaciones,modelo,color,estatus "
+                         +"from inventario where nombre_prod = '"+prod+"';";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            Object datos[] = new Object[10];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<10;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+           }//while
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error getTabla Inventario SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//getInventarioCoincidencias
+    
+    public boolean existeProductoEspecifico(int filtro, String busqueda,String inventario){
+        boolean estado = false;
+        try{
+            /*
+            filtro = 0; Producto
+            filtro = 1; Almacén
+            filtro = 2; Marca
+            */
+            String sql;
+            Connection c = db.getConexion();
+            Statement st = c.createStatement();
+            ResultSet rs;
+            
+            //BUSCA EN EL INVENTARIO
+            if(inventario.equals("Inventario")){
+                
+                switch(filtro){
+                    
+                    //BUSQUEDA POR PRODUCTO
+                    case 0:
+                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario\n" +
+                                "where nombre_prod like '"+busqueda+"%' group by nombre_prod,marca;";
+                        rs = st.executeQuery(sql);
+                        estado = rs.next();
+                        break;
+
+                    //BUSQUEDA POR ALMACEN
+                    case 1:
+                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario\n" +
+                                "where almacen like '"+busqueda+"%' group by nombre_prod,marca;";
+                        rs = st.executeQuery(sql);
+                        estado = rs.next();
+                        break;
+                        
+                    //BUSQUEDA POR MARCA
+                    case 2:
+                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario\n" +
+                                "where marca like '"+busqueda+"%' group by nombre_prod,marca;";
+                        rs = st.executeQuery(sql);
+                        estado = rs.next();
+                        break;
+                
+                }//Hace la busqueda de acuerdo al filtro
+                
+            }//if
+            
+            //BUSCA EN EL INVENTARIO A GRANEL
+            else{
+                
+                /*
+                filtro = 0; Clave
+                filtro = 1; Producto
+                filtro = 2; Descripción
+                filtro = 3; Almacén
+                filtro = 4; Marca
+                filtro = 5; Observaciones
+                */
+                
+                switch(filtro){
+            
+                    //BUSQUEDA POR CLAVE
+                    case 0:
+                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
+                                + " where id_productoGranel like '"+busqueda+"%';";
+                        rs = st.executeQuery(sql);
+                        estado = rs.next();
+                        break;
+
+                    //BUSQUEDA POR PRODUCTO
+                    case 1:
+                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
+                                + " where nombre_prod like '"+busqueda+"%';";
+                        rs = st.executeQuery(sql);
+                        estado = rs.next();
+                        break;
+                        
+                    //BUSQUEDA POR DESCRIPCIÓN
+                    case 2:
+                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
+                                + " where descripcion like '"+busqueda+"%';";
+                        rs = st.executeQuery(sql);
+                        estado = rs.next();
+                        break;
+                        
+                    //BUSQUEDA POR ALMACÉN
+                    case 3:
+                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
+                                + " where almacen like '"+busqueda+"%';";
+                        rs = st.executeQuery(sql);
+                        estado = rs.next();
+                        break;
+
+                    //BUSQUEDA POR MARCA
+                    case 4:
+                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
+                                + " where marca like '"+busqueda+"%';";
+                        rs = st.executeQuery(sql);
+                        estado = rs.next();
+                        break;
+                        
+                    //BUSQUEDA POR OBSERVACIONES
+                    case 5:
+                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
+                                + " where observaciones like '"+busqueda+"%';";
+                        rs = st.executeQuery(sql);
+                        estado = rs.next();
+                        break;    
+                
+                }//Hace la busqueda de acuerdo al filtro
+            
+            }//else
+            
+        } //try  
+        catch (SQLException ex) {
+            Logger.getLogger(ManagerInventario.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        
+        return estado; //Retorna el resultado, si se encontro o no
+        
+    }//Buscar si existe el producto
+
+    public DefaultTableModel getInventarioEspecifico(int filtro, String busqueda,String inventario) {
+
+        DefaultTableModel table = new DefaultTableModel();
+        int tamaño;
+        try {
+            
+            if(inventario.equals("Inventario")){
+                table.addColumn("Producto");
+                table.addColumn("Almacén");
+                table.addColumn("Marca");
+                table.addColumn("Stock");
+                tamaño = 4;
+            }else{
+                table.addColumn("Clave");
+                table.addColumn("Producto");
+                table.addColumn("Descripción");
+                table.addColumn("Almacén");
+                table.addColumn("Estatus");
+                table.addColumn("Marca");
+                table.addColumn("Observaciones");
+                table.addColumn("Stock");
+                tamaño = 8;
+            }
+            
+            //Consulta de los empleados
+            String sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario group by nombre_prod,marca;";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            Object datos[] = new Object[tamaño];
+            
+            //BUSCA EN EL INVENTARIO
+            if(inventario.equals("Inventario")){
+                
+                switch(filtro){
+                    
+                    //BUSQUEDA POR PRODUCTO
+                    case 0:
+                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario\n" +
+                                "where nombre_prod like '"+busqueda+"%' group by nombre_prod,marca;";
+                        break;
+
+                    //BUSQUEDA POR ALMACEN
+                    case 1:
+                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario\n" +
+                                "where almacen like '"+busqueda+"%' group by nombre_prod,marca;";
+                        break;
+                        
+                    //BUSQUEDA POR MARCA
+                    case 2:
+                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario\n" +
+                                "where marca like '"+busqueda+"%' group by nombre_prod,marca;";
+                        break;
+                
+                }//Hace la busqueda de acuerdo al filtro
+                
+            }//if
+            
+            //BUSCA EN EL INVENTARIO A GRANEL
+            else{
+                
+                /*
+                filtro = 0; Clave
+                filtro = 1; Producto
+                filtro = 2; Descripción
+                filtro = 3; Almacén
+                filtro = 4; Marca
+                filtro = 5; Observaciones
+                */
+                
+                switch(filtro){
+            
+                    //BUSQUEDA POR CLAVE
+                    case 0:
+                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
+                                + " where id_productoGranel like '"+busqueda+"%';";
+                        break;
+
+                    //BUSQUEDA POR PRODUCTO
+                    case 1:
+                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
+                                + " where nombre_prod like '"+busqueda+"%';";
+                        break;
+                        
+                    //BUSQUEDA POR DESCRIPCIÓN
+                    case 2:
+                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
+                                + " where descripcion like '"+busqueda+"%';";
+                        break;
+                        
+                    //BUSQUEDA POR ALMACÉN
+                    case 3:
+                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
+                                + " where almacen like '"+busqueda+"%';";
+                        break;
+
+                    //BUSQUEDA POR MARCA
+                    case 4:
+                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
+                                + " where marca like '"+busqueda+"%';";
+                        break;
+                        
+                    //BUSQUEDA POR OBSERVACIONES
+                    case 5:
+                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
+                                + " where observaciones like '"+busqueda+"%';";
+                        break;    
+                
+                }//Hace la busqueda de acuerdo al filtro
+            
+            }//else
+            
+            ResultSet rs = st.executeQuery(sql);
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<tamaño;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+           }//while
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error getTabla Inventario SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//getInventario
+    
+}//class

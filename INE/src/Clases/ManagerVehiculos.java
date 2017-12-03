@@ -1,0 +1,233 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Clases;
+
+/**
+ *
+ * @author oscar
+ */
+
+
+import static com.alee.managers.notification.NotificationIcon.image;
+import java.awt.Image;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+public class ManagerVehiculos {
+
+    public String DIRECCIONIP = "";
+    public static String IP = "";
+    private static String usuario = "PC70";
+    private static String contra = "";
+    private Connection con;
+    private Conexion db;
+    
+    public ManagerVehiculos(){
+        con = null;
+        db = new Conexion();
+    }//Constructor Conexion
+    
+     public String leer() {
+        String texto = "";
+        try {
+            //Creamos un archivo FileReader que obtiene lo que tenga el archivo
+            FileReader lector = new FileReader("cnfg.ntw");
+
+            //El contenido de lector se guarda en un BufferedReader
+            BufferedReader contenido = new BufferedReader(lector);
+
+            IP = contenido.readLine();
+            
+            if(IP.equals(InetAddress.getLocalHost().getHostAddress())){
+                DIRECCIONIP = "localhost";
+                usuario = "root";
+                contra = "sanphoenix";
+                
+                System.out.println("DATOS "+DIRECCIONIP+" "+usuario+" "+contra);
+            }else{
+                DIRECCIONIP = IP;
+                
+                usuario = "PC70";
+                contra = "";
+                
+                System.out.println("DATOS "+DIRECCIONIP+" "+usuario+" "+contra);
+            }
+            
+        } catch (Exception e) {
+
+        }
+        return texto;
+    }//leer()
+
+    public Connection conectar() {
+        leer();
+         try {
+            Class.forName("com.mysql.jdbc.Driver");
+            //con = DriverManager.getConnection("jdbc:mysql://localhost/vboutique3",usuario, contra);
+            con = DriverManager.getConnection("jdbc:mysql://"+DIRECCIONIP+"/ine",usuario, contra);
+            System.out.println("Conexion Correcta");
+         }catch (ClassNotFoundException ex) {
+            //throw new ClassCastException(ex.getMessage());
+            JOptionPane.showMessageDialog(null,"No hay conexión a la base de datos","ADVERTENCIA CLASS",JOptionPane.WARNING_MESSAGE);
+           
+         }
+        // throw new SQLException(ex);
+        finally{
+             
+             return con;
+         }
+    }//conexion
+
+    public boolean guardarImagen(String marca, String linea, String clase, String color, String modelo, String motor,
+            String kilomentraje, String matricula, String observaciones, String ruta) {
+        Connection con = conectar();
+        String insert = "insert into vehiculos(marca, linea, clase, color, modelo, motor,kilometraje ,matricula,observaciones,imagen) values(?,?,?,?,?,?,?,?,?,?);";
+        FileInputStream fi = null;
+        PreparedStatement ps = null;
+
+        try {
+            File file = new File(ruta);
+            fi = new FileInputStream(file);
+
+            ps = con.prepareStatement(insert);
+
+            ps.setString(1, marca);
+            ps.setString(2, linea);
+            ps.setString(3, clase);
+            ps.setString(4, color);
+            ps.setString(5, modelo);
+            ps.setString(6, motor);
+            ps.setString(7, kilomentraje);
+            ps.setString(8, matricula);
+            ps.setString(9, observaciones);
+            ps.setBinaryStream(10, fi);
+
+            ps.executeUpdate();
+
+            return true;
+
+        } catch (Exception ex) {
+            System.out.println("Error al guardar Imagen " + ex.getMessage());
+            return false;
+
+        }
+
+    }//guardarImagen
+    
+    public Blob leerImagen(String matricula) throws IOException {
+        Connection con = conectar();
+        String sSql = "select imagen from vehiculos where matricula = '"+matricula+"';";
+        PreparedStatement pst;
+        Blob blob = null;
+        try {
+            pst = con.prepareStatement(sSql);
+            ResultSet res = pst.executeQuery();
+            if (res.next()) {
+
+                blob = res.getBlob("imagen");
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerVehiculos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return blob;
+    }//leerImagen
+    
+    
+    public DefaultTableModel getVehiculos() {
+
+        DefaultTableModel table = new DefaultTableModel();
+
+        try {
+            table.addColumn("Marca");
+            table.addColumn("Linea");
+            table.addColumn("Año");
+            table.addColumn("Color");
+            table.addColumn("Matricula");
+            
+            
+            //Consulta de los empleados
+            String sql = "select marca,linea,modelo,color,matricula from vehiculos;";
+            con = db.getConexion();
+            Statement st = con.createStatement();
+            Object datos[] = new Object[5];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<5;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+           }//while
+            //La conexion no se debe de cerrar para no perder los parametros de puerto e ip
+           // con.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error getTabla Inventario SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//getEmpleados
+    
+    
+    public Vector infoVehiculos(String matricula) {
+        con = db.getConexion();
+        Vector v = new Vector();
+        try {
+
+            Statement st = con.createStatement();
+            String sql = "select marca,linea,clase,kilometraje,modelo,color,motor,matricula,observaciones,estado from vehiculos where matricula = '"+matricula+"';";
+            ResultSet resultados = st.executeQuery(sql);
+            while (resultados.next()) {
+                String temp = "";
+                temp += "" + resultados.getString("marca") + "," + resultados.getString("linea") + "," + resultados.getString("clase")
+                         + "," + resultados.getString("kilometraje")+ "," + resultados.getString("modelo")+ "," + resultados.getString("color")
+                        + "," + resultados.getString("motor") + "," + resultados.getString("matricula")+ "," + resultados.getString("observaciones")
+                        + "," + resultados.getString("estado");
+                v.add(temp);
+            }
+
+            con.close();
+
+        } //para el ticket
+        catch (SQLException ex) {
+            Logger.getLogger(ManagerVehiculos.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Error Vehiculo infoVehiculos");
+        }
+
+        return v;
+    }//infoVehiculos
+    
+}//class
+      
+
+
+      
+
+
