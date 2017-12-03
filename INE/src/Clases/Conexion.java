@@ -46,7 +46,7 @@ public class Conexion {
             if (IP.equals(InetAddress.getLocalHost().getHostAddress())) {
                 DIRECCIONIP = "localhost";
                 usuario = "root";
-                contra = "Cisco123";
+                contra = "123456";
                 //  System.out.println("DATOS "+DIRECCIONIP+" "+usuario+" "+contra);
             } else {
                 DIRECCIONIP = IP;
@@ -88,7 +88,7 @@ public class Conexion {
     public Connection getPreConexion() {
 
         usuario = "root";
-        contra = "Cisco123";
+        contra = "123456";
 
         try {
 
