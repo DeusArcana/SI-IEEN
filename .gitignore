@@ -25,6 +25,8 @@
 *.properties
 *.xml
 ./INE/build/built-jar.properties
+./INE/nbproject/private/private.properties
+./INE/nbproject/private/private.xml
 
 # Images
 *.png
