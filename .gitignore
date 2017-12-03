@@ -6,6 +6,7 @@
 
 # Log file
 *.log
+*.txt
 
 # BlueJ files
 *.ctxt
@@ -27,6 +28,13 @@
 ./INE/build/built-jar.properties
 ./INE/nbproject/private/private.properties
 ./INE/nbproject/private/private.xml
+
+# Configuration Files Running
+./INE/cnfg.cfg
+./INE/cnfg.init
+./INE/cnfg.ntw
+./INE/vale_resguardo_configsA.txt
+./INE/vale_resguardo_configsB.txtg
 
 # Images
 *.png
