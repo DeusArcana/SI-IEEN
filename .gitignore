@@ -1,6 +1,9 @@
 # Compiled class file
 *.class
 
+# Conexion Java File
+./INE/src/Clases/Conexion.java
+
 # Log file
 *.log
 
