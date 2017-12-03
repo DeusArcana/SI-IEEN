@@ -24,6 +24,7 @@
 # NetBeans Configuration files
 *.properties
 *.xml
+./INE/build/built-jar.properties
 
 # Images
 *.png
