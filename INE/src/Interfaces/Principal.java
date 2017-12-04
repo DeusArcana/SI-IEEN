@@ -230,6 +230,8 @@ public class Principal extends javax.swing.JFrame {
         Servicio = new javax.swing.JMenuItem();
         bg_manejo_inventario = new javax.swing.ButtonGroup();
         bt_tipo_inventario_asignable = new javax.swing.ButtonGroup();
+        MenuPersonal = new javax.swing.JPopupMenu();
+        CambiarContra = new javax.swing.JMenuItem();
         tabbedPrincipal = new javax.swing.JTabbedPane();
         pestañaInventario = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -252,7 +254,10 @@ public class Principal extends javax.swing.JFrame {
         tablaUsuarios = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         btnAddEmpleado = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jButton7 = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        txtBusquedaUsuario = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        comboFiltroUsuario = new javax.swing.JComboBox<>();
         fondo = new javax.swing.JLabel();
         vehiculos = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -354,7 +359,7 @@ public class Principal extends javax.swing.JFrame {
         rb_inventario_granel = new javax.swing.JRadioButton();
         tf_cantidad = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
         sp_recoleccion_inventario = new javax.swing.JScrollPane();
         pn_recoleccion_inventario = new javax.swing.JPanel();
         lb_empleado1 = new javax.swing.JLabel();
@@ -487,6 +492,9 @@ public class Principal extends javax.swing.JFrame {
         SolictarMas.add(Servicio);
 
         MenuVehiculos.add(SolictarMas);
+
+        CambiarContra.setText("Cambiar contraseña");
+        MenuPersonal.add(CambiarContra);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Sistema Integral - Instituto Estatal Electoral de Nayarit");
@@ -628,11 +636,11 @@ public class Principal extends javax.swing.JFrame {
         pestañaInventario.setLayout(pestañaInventarioLayout);
         pestañaInventarioLayout.setHorizontalGroup(
             pestañaInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 1367, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 1400, Short.MAX_VALUE)
         );
         pestañaInventarioLayout.setVerticalGroup(
             pestañaInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 791, Short.MAX_VALUE)
         );
 
         tabbedPrincipal.addTab("  Inventario", new javax.swing.ImageIcon(getClass().getResource("/Iconos/inventario.png")), pestañaInventario); // NOI18N
@@ -675,7 +683,7 @@ public class Principal extends javax.swing.JFrame {
         );
 
         jPanel5.add(pn_tablaUsuarios);
-        pn_tablaUsuarios.setBounds(10, 90, 1010, 360);
+        pn_tablaUsuarios.setBounds(20, 150, 1010, 360);
 
         btnAddEmpleado.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         btnAddEmpleado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar.png"))); // NOI18N
@@ -692,9 +700,33 @@ public class Principal extends javax.swing.JFrame {
         jPanel5.add(jLabel2);
         jLabel2.setBounds(10, 10, 1350, 80);
 
-        jButton7.setText("jButton7");
-        jPanel5.add(jButton7);
-        jButton7.setBounds(150, 490, 220, 70);
+        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel14.setText("Busqueda:");
+        jPanel5.add(jLabel14);
+        jLabel14.setBounds(30, 100, 100, 22);
+
+        txtBusquedaUsuario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtBusquedaUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBusquedaUsuarioKeyReleased(evt);
+            }
+        });
+        jPanel5.add(txtBusquedaUsuario);
+        txtBusquedaUsuario.setBounds(120, 100, 290, 30);
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel16.setText("Filtro:");
+        jPanel5.add(jLabel16);
+        jLabel16.setBounds(460, 100, 60, 22);
+
+        comboFiltroUsuario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        comboFiltroUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboFiltroUsuarioActionPerformed(evt);
+            }
+        });
+        jPanel5.add(comboFiltroUsuario);
+        comboFiltroUsuario.setBounds(520, 100, 210, 28);
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel5.add(fondo);
@@ -704,11 +736,11 @@ public class Principal extends javax.swing.JFrame {
         usuarios.setLayout(usuariosLayout);
         usuariosLayout.setHorizontalGroup(
             usuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 1367, Short.MAX_VALUE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 1400, Short.MAX_VALUE)
         );
         usuariosLayout.setVerticalGroup(
             usuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 791, Short.MAX_VALUE)
         );
 
         tabbedPrincipal.addTab("Usuarios", new javax.swing.ImageIcon(getClass().getResource("/Iconos/usuarios.png")), usuarios); // NOI18N
@@ -884,11 +916,11 @@ public class Principal extends javax.swing.JFrame {
         vehiculos.setLayout(vehiculosLayout);
         vehiculosLayout.setHorizontalGroup(
             vehiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 1367, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 1400, Short.MAX_VALUE)
         );
         vehiculosLayout.setVerticalGroup(
             vehiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 791, Short.MAX_VALUE)
         );
 
         tabbedPrincipal.addTab("  Vehiculos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/vehiculos.png")), vehiculos); // NOI18N
@@ -941,14 +973,16 @@ public class Principal extends javax.swing.JFrame {
         solicitudes.setLayout(solicitudesLayout);
         solicitudesLayout.setHorizontalGroup(
             solicitudesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 1367, Short.MAX_VALUE)
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 1400, Short.MAX_VALUE)
         );
         solicitudesLayout.setVerticalGroup(
             solicitudesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE)
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 791, Short.MAX_VALUE)
         );
 
         tabbedPrincipal.addTab("Solicitudes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/vehiculos.png")), solicitudes); // NOI18N
+
+        empleado.setComponentPopupMenu(MenuPersonal);
 
         jPanel9.setLayout(null);
 
@@ -1186,11 +1220,11 @@ public class Principal extends javax.swing.JFrame {
         empleado.setLayout(empleadoLayout);
         empleadoLayout.setHorizontalGroup(
             empleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 1367, Short.MAX_VALUE)
+            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 1400, Short.MAX_VALUE)
         );
         empleadoLayout.setVerticalGroup(
             empleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE)
+            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 791, Short.MAX_VALUE)
         );
 
         tabbedPrincipal.addTab("Empleado", new javax.swing.ImageIcon(getClass().getResource("/Iconos/vehiculos.png")), empleado); // NOI18N
@@ -1401,11 +1435,11 @@ public class Principal extends javax.swing.JFrame {
         configuracion.setLayout(configuracionLayout);
         configuracionLayout.setHorizontalGroup(
             configuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 1367, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 1400, Short.MAX_VALUE)
         );
         configuracionLayout.setVerticalGroup(
             configuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 791, Short.MAX_VALUE)
         );
 
         tabbedPrincipal.addTab("  Configuración", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), configuracion); // NOI18N
@@ -1604,7 +1638,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jButton7.setText("PRUEBA");
+        jButton8.setText("PRUEBA");
 
         javax.swing.GroupLayout pn_asignacion_inventarioLayout = new javax.swing.GroupLayout(pn_asignacion_inventario);
         pn_asignacion_inventario.setLayout(pn_asignacion_inventarioLayout);
@@ -1637,7 +1671,7 @@ public class Principal extends javax.swing.JFrame {
                                 .addGap(10, 10, 10)
                                 .addComponent(jButton5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton7)))
+                                .addComponent(jButton8)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pn_asignacion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pn_asignacion_inventarioLayout.createSequentialGroup()
@@ -1662,7 +1696,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(pn_asignacion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_seleccionar_empleado)
                     .addComponent(jButton5)
-                    .addComponent(jButton7))
+                    .addComponent(jButton8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pn_asignacion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lb_objetos_asignables)
@@ -2163,17 +2197,11 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(tabbedPrincipal)
-                .addContainerGap())
+            .addComponent(tabbedPrincipal)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tabbedPrincipal)
-                .addContainerGap())
+            .addComponent(tabbedPrincipal)
         );
 
         pack();
@@ -2199,9 +2227,21 @@ public class Principal extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         pestañas = 0;
+        //COMBOBOX
+        
+        //COMBOINVENTARIO
         comboInventario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboInventario.addItem("Inventario");
         comboInventario.addItem("Inventario Granel");
+        
+        //COMBOFILTROUSUARIO
+        comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        comboFiltroUsuario.addItem("Usuario");
+        comboFiltroUsuario.addItem("Nombre");
+        comboFiltroUsuario.addItem("Apellido P");
+        comboFiltroUsuario.addItem("Apellido M");
+        comboFiltroUsuario.addItem("Cargo");
+        comboFiltroUsuario.addItem("Área");
         
         //Llenado de tablas
         if(manager_permisos.consulta_user(Username)){
@@ -3150,6 +3190,36 @@ public class Principal extends javax.swing.JFrame {
         fr_Generacion_Vale_Salida_Almacen vale=new fr_Generacion_Vale_Salida_Almacen();
         vale.setVisible(true);
     }//GEN-LAST:event_btn_generar_vale2ActionPerformed
+
+    private void txtBusquedaUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaUsuarioKeyReleased
+        // TODO add your handling code here:
+        int filtro = comboFiltroUsuario.getSelectedIndex();
+        String busqueda = txtBusquedaUsuario.getText();
+        
+        //Si no hay nada en el campo entonces mostramos todos los empleados
+        if(busqueda.equals("")){
+            tablaUsuarios.setModel(manager_users.getEmpleados(Username));
+        }//if
+
+        else{
+            
+            //Si hay coincidencias entonces los muestra
+            if(manager_users.existeEmpleado(filtro, busqueda, Username)){
+                tablaUsuarios.setModel(manager_users.getEmpleadosCoincidencia(Username,filtro,busqueda));
+            }//if
+            
+            //Si no hay coincidecnias entonces mostramos todos los empleados
+            else{
+                tablaUsuarios.setModel(manager_users.getEmpleados(Username));
+            }//Segundo else
+
+        }//Primer else
+        
+    }//GEN-LAST:event_txtBusquedaUsuarioKeyReleased
+
+    private void comboFiltroUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboFiltroUsuarioActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -3286,11 +3356,13 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem AsignarV;
     private javax.swing.JMenuItem Atender;
     private javax.swing.JMenuItem Baja;
+    private javax.swing.JMenuItem CambiarContra;
     private javax.swing.JMenuItem Comodato;
     private javax.swing.JMenuItem Eliminar;
     private javax.swing.JMenuItem Equipos;
     private javax.swing.ButtonGroup Grupo1;
     private javax.swing.JPopupMenu MenuInventario;
+    private javax.swing.JPopupMenu MenuPersonal;
     private javax.swing.JMenuItem MenuSolicitud;
     private javax.swing.JPopupMenu MenuSolicitudes;
     private javax.swing.JPopupMenu MenuUsuarios;
@@ -3323,6 +3395,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JSpinner campoip3;
     private javax.swing.JSpinner campoip4;
     private javax.swing.JComboBox<String> comboFiltro;
+    private javax.swing.JComboBox<String> comboFiltroUsuario;
     private javax.swing.JComboBox<String> comboInventario;
     private javax.swing.JPanel configuracion;
     private javax.swing.JPanel empleado;
@@ -3343,7 +3416,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
@@ -3351,7 +3424,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
@@ -3479,6 +3554,7 @@ public class Principal extends javax.swing.JFrame {
     public javax.swing.JTextField tf_empleado1;
     public javax.swing.JTextField tf_pruducto_reemplazable;
     private javax.swing.JTextField txtBusqueda;
+    private javax.swing.JTextField txtBusquedaUsuario;
     private javax.swing.JPanel usuarios;
     private javax.swing.JPanel vehiculos;
     private javax.swing.JButton zoom;

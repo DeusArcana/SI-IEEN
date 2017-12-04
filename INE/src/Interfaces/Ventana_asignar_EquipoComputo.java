@@ -301,7 +301,7 @@ public class Ventana_asignar_EquipoComputo extends javax.swing.JDialog {
             
         }//Si hay por lo menos un registro entonces
         else{
-            this.dispose();
+            
         }
     }//GEN-LAST:event_formWindowClosing
 

@@ -40,6 +40,7 @@ public class addEmpleados extends javax.swing.JDialog {
         manager_permisos = new ManagerPermisos();
         
         if(Principal.banderaUser != 1){
+            
             if(Principal.banderaUser == 2){
                 txtUsuario.setText(Principal.UserUpdate);
             }else{
