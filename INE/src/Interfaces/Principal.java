@@ -241,11 +241,11 @@ public class Principal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnAddInventario = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        comboInventario = new javax.swing.JComboBox<String>();
+        comboInventario = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         txtBusqueda = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        comboFiltro = new javax.swing.JComboBox<String>();
+        comboFiltro = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         usuarios = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -257,7 +257,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         txtBusquedaUsuario = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        comboFiltroUsuario = new javax.swing.JComboBox<String>();
+        comboFiltroUsuario = new javax.swing.JComboBox<>();
         fondo = new javax.swing.JLabel();
         vehiculos = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -277,7 +277,7 @@ public class Principal extends javax.swing.JFrame {
         zoom = new javax.swing.JButton();
         imagenVehiculo = new javax.swing.JLabel();
         btnAñadirVehiculo = new javax.swing.JButton();
-        comboFiltroVehiculos = new javax.swing.JComboBox<String>();
+        comboFiltroVehiculos = new javax.swing.JComboBox<>();
         jLabel21 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         txtBusquedaVehiculos = new javax.swing.JTextField();
@@ -564,7 +564,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IEE.png"))); // NOI18N
 
         comboInventario.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        comboInventario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Inventario", "Inventario Granel" }));
+        comboInventario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Inventario", "Inventario Granel" }));
         comboInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboInventarioActionPerformed(evt);
@@ -1293,7 +1293,8 @@ public class Principal extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(tablaBD);
 
-        jButton4.setText("< Quitar ");
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/quitar_permiso.png"))); // NOI18N
+        jButton4.setText(" Quitar ");
         jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1301,8 +1302,10 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Agregar >");
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/dar_permiso.png"))); // NOI18N
+        jButton3.setText("Agregar");
         jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -1348,7 +1351,7 @@ public class Principal extends javax.swing.JFrame {
 
         campoip1.setModel(new javax.swing.SpinnerNumberModel(192, 1, 255, 1));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/if_view-refresh_118801.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/net2.png"))); // NOI18N
         jButton1.setText(" Escanear todo");
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -1357,7 +1360,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/rescan.png"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/net.png"))); // NOI18N
         jButton2.setText(" Añadir subred");
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -1645,7 +1648,6 @@ public class Principal extends javax.swing.JFrame {
         });
 
         bt_tipo_inventario_asignable.add(rb_inventario_granel);
-        rb_inventario_granel.setSelected(true);
         rb_inventario_granel.setText("Granel");
         rb_inventario_granel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -2522,36 +2524,43 @@ public class Principal extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         //System.out.println(tablaIP.getValueAt(tablaIP.getSelectedRow(),0)+" "+tablaIP.getValueAt(tablaIP.getSelectedRow(),1));
-        try{
-            if(manajerMySQL.quitarUsuarioBD(tablaBD.getValueAt(tablaBD.getSelectedRow(),0).toString(), tablaBD.getValueAt(tablaBD.getSelectedRow(),1).toString())){
-                JOptionPane.showMessageDialog(null, "Permisos retirados con exito!","Información!",JOptionPane.INFORMATION_MESSAGE);
-                modeloTablaIP.removeRow(tablaBD.getSelectedRow());             
-                manajerMySQL.borrarPrivilegios(tablaBD.getValueAt(tablaBD.getSelectedRow(),1).toString());
+                //System.out.println(tablaIP.getValueAt(tablaIP.getSelectedRow(),0)+" "+tablaIP.getValueAt(tablaIP.getSelectedRow(),1));
+        try {
+            if (manajerMySQL.quitarUsuarioBD(tablaBD.getValueAt(tablaBD.getSelectedRow(), 0).toString(), tablaBD.getValueAt(tablaBD.getSelectedRow(), 1).toString())) {
+                //regresar los datos a la tabla de ip
+
+                manajerMySQL.borrarPrivilegios(tablaBD.getValueAt(tablaBD.getSelectedRow(), 1).toString());
+                //regresar los datos al modelo de ip para poder reasignar
+                modeloTablaIP.addRow(new Object[]{""+tablaBD.getValueAt(tablaBD.getSelectedRow(), 0).toString(),
+                    ""+tablaBD.getValueAt(tablaBD.getSelectedRow(), 1).toString(),"Conectado"});
+                
+                JOptionPane.showMessageDialog(null, "Permisos retirados con exito!", "Información!", JOptionPane.INFORMATION_MESSAGE);
             }else{
                 JOptionPane.showMessageDialog(null, "Error al retirar Permisos","Advertencia!",JOptionPane.WARNING_MESSAGE);
             }
         }catch(java.lang.ArrayIndexOutOfBoundsException e){
-            JOptionPane.showMessageDialog(null,"Seleccione una dirección!","Información!",JOptionPane.INFORMATION_MESSAGE);
+           // JOptionPane.showMessageDialog(null,"Seleccione una dirección!","Información!",JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        // TODO add your handling code here:
         try{
             System.out.println(tablaIP.getValueAt(tablaIP.getSelectedRow(),0)+" "+tablaIP.getValueAt(tablaIP.getSelectedRow(),1));
             if(manajerMySQL.insertarUsuarioBD("PC70", tablaIP.getValueAt(tablaIP.getSelectedRow(),1).toString())){
                 JOptionPane.showMessageDialog(null,"Permisos creados con exito!","Información!",JOptionPane.INFORMATION_MESSAGE);
-
+                
                 manajerMySQL.insertarPrivilegios(
                     tablaIP.getValueAt(tablaIP.getSelectedRow(),0).toString(),
                     tablaIP.getValueAt(tablaIP.getSelectedRow(),1).toString(),
                     tablaIP.getValueAt(tablaIP.getSelectedRow(),2).toString());
-                
+                modeloTablaIP.removeRow(tablaIP.getSelectedRow());
             }else{
                 JOptionPane.showMessageDialog(null, "Error al asignar Permisos","Advertencia!",JOptionPane.WARNING_MESSAGE);
             }//else
         }catch(java.lang.ArrayIndexOutOfBoundsException e){
-            JOptionPane.showMessageDialog(null,"Seleccione una dirección!","Información!",JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(null,"Seleccione una dirección!","Información!",JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
     
