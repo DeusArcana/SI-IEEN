@@ -254,6 +254,177 @@ public class ManagerInventario {
 
     }//getInventarioCoincidencias
     
+    public DefaultTableModel getInventarioCoincidenciasEspecifico(int filtro,String prod,String busqueda) {
+
+        DefaultTableModel table = new DefaultTableModel();
+        String tipoBusqueda = "";
+        
+        try {
+            table.addColumn("Clave");
+            table.addColumn("Producto");
+            table.addColumn("Almacén");
+            table.addColumn("Descripción");
+            table.addColumn("No. serie");
+            table.addColumn("Marca");
+            table.addColumn("Observaciones");
+            table.addColumn("Modelo");
+            table.addColumn("Color");
+            table.addColumn("Estatus");
+            
+            /*
+            filtro = 0; Clave
+            filtro = 1; Almacén
+            filtro = 2; Descripción
+            filtro = 3; No. serie
+            filtro = 4; Marca
+            filtro = 5; Observaciones
+            filtro = 6; Modelo
+            filtro = 7; Color
+            filtro = 8; Estatus
+            */
+            
+            switch(filtro){
+
+                case 0:
+                    tipoBusqueda = "id_producto";
+                    break;
+
+                case 1:
+                    tipoBusqueda = "almacen";
+                    break;
+
+                case 2:
+                    tipoBusqueda = "descripcion";
+                    break;
+
+                case 3:
+                    tipoBusqueda = "no_serie";
+                    break;
+
+                case 4:
+                    tipoBusqueda = "marca";
+                    break;
+
+                case 5:
+                    tipoBusqueda = "observaciones";
+                    break;
+                    
+                case 6:
+                    tipoBusqueda = "modelo";
+                    break;
+
+                case 7:
+                    tipoBusqueda = "color";
+                    break;
+
+                case 8:
+                    tipoBusqueda = "estatus";
+                    break;    
+
+            }//Buscamos el nombre de la columna con lo que vamos a buscar la coincidencia
+            
+            //Consulta de los empleados
+            String sql = "select id_producto,nombre_prod,almacen,descripcion,no_serie,marca,observaciones,modelo,color,estatus "
+                         +"from inventario where nombre_prod = '"+prod+"' and "+tipoBusqueda+" like '"+busqueda+"%';";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            Object datos[] = new Object[10];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<10;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+           }//while
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error getTabla Inventario SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//getInventarioCoincidenciasEspecifico
+    
+    public boolean existeProductoCoincidenciaEspecifico(int filtro, String prod, String busqueda){
+        boolean estado = false;
+        String tipoBusqueda = "";
+        try{
+            /*
+            filtro = 0; Clave
+            filtro = 1; Almacén
+            filtro = 2; Descripción
+            filtro = 3; No. serie
+            filtro = 4; Marca
+            filtro = 5; Observaciones
+            filtro = 6; Modelo
+            filtro = 7; Color
+            filtro = 8; Estatus
+            */
+            
+            switch(filtro){
+
+                case 0:
+                    tipoBusqueda = "id_producto";
+                    break;
+
+                case 1:
+                    tipoBusqueda = "almacen";
+                    break;
+
+                case 2:
+                    tipoBusqueda = "descripcion";
+                    break;
+
+                case 3:
+                    tipoBusqueda = "no_serie";
+                    break;
+
+                case 4:
+                    tipoBusqueda = "marca";
+                    break;
+
+                case 5:
+                    tipoBusqueda = "observaciones";
+                    break;
+                    
+                case 6:
+                    tipoBusqueda = "modelo";
+                    break;
+
+                case 7:
+                    tipoBusqueda = "color";
+                    break;
+
+                case 8:
+                    tipoBusqueda = "estatus";
+                    break;    
+
+            }//Buscamos el nombre de la columna con lo que vamos a buscar la coincidencia
+            
+            //Consulta de los empleados
+            String sql = "select id_producto,nombre_prod,almacen,descripcion,no_serie,marca,observaciones,modelo,color,estatus "
+                         +"from inventario where nombre_prod = '"+prod+"' and "+tipoBusqueda+" like '"+busqueda+"%';";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            estado = rs.next();
+            
+        } //try  
+        catch (SQLException ex) {
+            Logger.getLogger(ManagerInventario.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        
+        return estado; //Retorna el resultado, si se encontro o no
+        
+    }//Buscar si existe el producto de coincidnecia especifico
+    
     public boolean existeProductoEspecifico(int filtro, String busqueda,String inventario){
         boolean estado = false;
         try{
