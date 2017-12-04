@@ -241,11 +241,11 @@ public class Principal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnAddInventario = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        comboInventario = new javax.swing.JComboBox<>();
+        comboInventario = new javax.swing.JComboBox<String>();
         jLabel11 = new javax.swing.JLabel();
         txtBusqueda = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        comboFiltro = new javax.swing.JComboBox<>();
+        comboFiltro = new javax.swing.JComboBox<String>();
         jLabel1 = new javax.swing.JLabel();
         usuarios = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -257,7 +257,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         txtBusquedaUsuario = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        comboFiltroUsuario = new javax.swing.JComboBox<>();
+        comboFiltroUsuario = new javax.swing.JComboBox<String>();
         fondo = new javax.swing.JLabel();
         vehiculos = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -277,7 +277,7 @@ public class Principal extends javax.swing.JFrame {
         zoom = new javax.swing.JButton();
         imagenVehiculo = new javax.swing.JLabel();
         btnAñadirVehiculo = new javax.swing.JButton();
-        comboFiltroVehiculos = new javax.swing.JComboBox<>();
+        comboFiltroVehiculos = new javax.swing.JComboBox<String>();
         jLabel21 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         txtBusquedaVehiculos = new javax.swing.JTextField();
@@ -362,8 +362,6 @@ public class Principal extends javax.swing.JFrame {
         rb_inventario_normal = new javax.swing.JRadioButton();
         rb_inventario_granel = new javax.swing.JRadioButton();
         tf_cantidad = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
         sp_recoleccion_inventario = new javax.swing.JScrollPane();
         pn_recoleccion_inventario = new javax.swing.JPanel();
         lb_empleado1 = new javax.swing.JLabel();
@@ -566,7 +564,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IEE.png"))); // NOI18N
 
         comboInventario.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        comboInventario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Inventario", "Inventario Granel" }));
+        comboInventario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Inventario", "Inventario Granel" }));
         comboInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboInventarioActionPerformed(evt);
@@ -1663,15 +1661,6 @@ public class Principal extends javax.swing.JFrame {
         tf_cantidad.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         tf_cantidad.setPreferredSize(new java.awt.Dimension(6, 30));
 
-        jButton5.setText("jButton1");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
-        jButton8.setText("PRUEBA");
-
         javax.swing.GroupLayout pn_asignacion_inventarioLayout = new javax.swing.GroupLayout(pn_asignacion_inventario);
         pn_asignacion_inventario.setLayout(pn_asignacion_inventarioLayout);
         pn_asignacion_inventarioLayout.setHorizontalGroup(
@@ -1697,14 +1686,8 @@ public class Principal extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(btn_asignar, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pn_asignacion_inventarioLayout.createSequentialGroup()
-                        .addGroup(pn_asignacion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lb_objetos_asignables)
-                            .addGroup(pn_asignacion_inventarioLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jButton5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton8)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lb_objetos_asignables)
+                        .addGap(8, 8, 8)
                         .addGroup(pn_asignacion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pn_asignacion_inventarioLayout.createSequentialGroup()
                                 .addComponent(rb_inventario_normal)
@@ -1725,10 +1708,7 @@ public class Principal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pn_asignacion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_seleccionar_empleado)
-                    .addComponent(jButton5)
-                    .addComponent(jButton8))
+                .addComponent(btn_seleccionar_empleado)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pn_asignacion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lb_objetos_asignables)
@@ -3149,16 +3129,6 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_rb_inventario_granelActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        try {
-            metodo.cargarInventarioGlobal(tb_inventario_normal_asignado);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jButton5ActionPerformed
-
     private void tb_empleado1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_empleado1MouseClicked
         try {
             metodo.cargarNombreEmpleado_Asignacion1();
@@ -3484,9 +3454,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton8;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
