@@ -224,6 +224,76 @@ public class ManagerVehiculos {
         return v;
     }//infoVehiculos
     
+        public boolean existeVehiculo(String tipoBusqueda, String busqueda){
+        boolean estado = false;
+        try{
+            
+            String sql;
+            //Consulta de los vehiculos
+            if(tipoBusqueda.equals("Año")){
+                sql = "select marca,linea,modelo,color,matricula from vehiculos where modelo like '"+busqueda+"%';";
+            }else{
+                sql = "select marca,linea,modelo,color,matricula from vehiculos where "+tipoBusqueda+" like '"+busqueda+"%';";
+            }
+            con = db.getConexion();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            estado = rs.next();
+                
+        } //try  
+        catch (SQLException ex) {
+            Logger.getLogger(ManagerInventario.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        
+        return estado; //Retorna el resultado, si se encontro o no
+        
+    }//Buscar si existe el vehiculo
+
+    public DefaultTableModel getVehiculosEspecificos(String tipoBusqueda, String busqueda) {
+
+        DefaultTableModel table = new DefaultTableModel();
+
+        try {
+            table.addColumn("Marca");
+            table.addColumn("Linea");
+            table.addColumn("Año");
+            table.addColumn("Color");
+            table.addColumn("Matricula");
+            
+            String sql;
+            //Consulta de los vehiculos
+            if(tipoBusqueda.equals("Año")){
+                sql = "select marca,linea,modelo,color,matricula from vehiculos where modelo like '"+busqueda+"%';";
+            }else{
+                sql = "select marca,linea,modelo,color,matricula from vehiculos where "+tipoBusqueda+" like '"+busqueda+"%';";
+            }
+            con = db.getConexion();
+            Statement st = con.createStatement();
+            Object datos[] = new Object[5];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<5;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+           }//while
+            //La conexion no se debe de cerrar para no perder los parametros de puerto e ip
+           // con.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error getTabla Inventario SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//getEmpleados    
+        
 }//class
       
 

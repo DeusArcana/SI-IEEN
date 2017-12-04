@@ -277,6 +277,10 @@ public class Principal extends javax.swing.JFrame {
         zoom = new javax.swing.JButton();
         imagenVehiculo = new javax.swing.JLabel();
         btnAñadirVehiculo = new javax.swing.JButton();
+        comboFiltroVehiculos = new javax.swing.JComboBox<>();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        txtBusquedaVehiculos = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         solicitudes = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
@@ -791,7 +795,7 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane10.setViewportView(tablaVehiculos);
 
         jPanel6.add(jScrollPane10);
-        jScrollPane10.setBounds(20, 30, 900, 580);
+        jScrollPane10.setBounds(10, 100, 900, 580);
 
         jPanel14.setBackground(new java.awt.Color(255, 255, 255));
         jPanel14.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -907,6 +911,34 @@ public class Principal extends javax.swing.JFrame {
         });
         jPanel6.add(btnAñadirVehiculo);
         btnAñadirVehiculo.setBounds(930, 30, 420, 30);
+
+        comboFiltroVehiculos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        comboFiltroVehiculos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboFiltroVehiculosActionPerformed(evt);
+            }
+        });
+        jPanel6.add(comboFiltroVehiculos);
+        comboFiltroVehiculos.setBounds(530, 40, 210, 28);
+
+        jLabel21.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel21.setText("Filtro:");
+        jPanel6.add(jLabel21);
+        jLabel21.setBounds(470, 40, 60, 22);
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel20.setText("Busqueda:");
+        jPanel6.add(jLabel20);
+        jLabel20.setBounds(40, 40, 100, 22);
+
+        txtBusquedaVehiculos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtBusquedaVehiculos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBusquedaVehiculosKeyReleased(evt);
+            }
+        });
+        jPanel6.add(txtBusquedaVehiculos);
+        txtBusquedaVehiculos.setBounds(130, 40, 290, 30);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel6.add(jLabel4);
@@ -2243,6 +2275,14 @@ public class Principal extends javax.swing.JFrame {
         comboFiltroUsuario.addItem("Cargo");
         comboFiltroUsuario.addItem("Área");
         
+        //COMBOFILTROVEHICULOS
+        comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        comboFiltroVehiculos.addItem("Marca");
+        comboFiltroVehiculos.addItem("Linea");
+        comboFiltroVehiculos.addItem("Año");
+        comboFiltroVehiculos.addItem("Color");
+        comboFiltroVehiculos.addItem("Matricula");
+        
         //Llenado de tablas
         if(manager_permisos.consulta_user(Username)){
             tablaUsuarios.setModel(manager_users.getEmpleados(Username));
@@ -3220,6 +3260,35 @@ public class Principal extends javax.swing.JFrame {
     private void comboFiltroUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroUsuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboFiltroUsuarioActionPerformed
+
+    private void txtBusquedaVehiculosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaVehiculosKeyReleased
+        // TODO add your handling code here:
+        String filtro = comboFiltroVehiculos.getSelectedItem().toString();
+        String busqueda = txtBusquedaVehiculos.getText();
+        
+        //Si no hay nada en el campo entonces mostramos todos los empleados
+        if(busqueda.equals("")){
+            tablaVehiculos.setModel(managerVehiculos.getVehiculos());
+        }//if
+
+        else{
+            
+            //Si hay coincidencias entonces los muestra
+            if(managerVehiculos.existeVehiculo(filtro, busqueda)){
+                tablaVehiculos.setModel(managerVehiculos.getVehiculosEspecificos(filtro,busqueda));
+            }//if
+            
+            //Si no hay coincidecnias entonces mostramos todos los vehiculos
+            else{
+                tablaVehiculos.setModel(managerVehiculos.getVehiculos());
+            }//Segundo else
+
+        }//Primer else
+    }//GEN-LAST:event_txtBusquedaVehiculosKeyReleased
+
+    private void comboFiltroVehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroVehiculosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboFiltroVehiculosActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -3396,6 +3465,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JSpinner campoip4;
     private javax.swing.JComboBox<String> comboFiltro;
     private javax.swing.JComboBox<String> comboFiltroUsuario;
+    private javax.swing.JComboBox<String> comboFiltroVehiculos;
     private javax.swing.JComboBox<String> comboInventario;
     private javax.swing.JPanel configuracion;
     private javax.swing.JPanel empleado;
@@ -3431,6 +3501,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
@@ -3555,6 +3627,7 @@ public class Principal extends javax.swing.JFrame {
     public javax.swing.JTextField tf_pruducto_reemplazable;
     private javax.swing.JTextField txtBusqueda;
     private javax.swing.JTextField txtBusquedaUsuario;
+    private javax.swing.JTextField txtBusquedaVehiculos;
     private javax.swing.JPanel usuarios;
     private javax.swing.JPanel vehiculos;
     private javax.swing.JButton zoom;
