@@ -69,7 +69,7 @@ public class Ventana_asignar_EquipoComputo extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         comboEmpleados = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);

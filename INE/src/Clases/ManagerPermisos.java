@@ -230,7 +230,7 @@ public class ManagerPermisos {
 
     }//actualizar permisos estaticos de acuerdo al puesto
 
-//---------------------------------PUESTOS QUE TIENEN PERMISO PARA REVISAR SOLICITUDES BAJA O COMODATO O DONACIÓN---------------------------------------//
+//---------------------------------PUESTOS QUE TIENEN PERMISO PARA REVISAR SOLICITUDES BAJA O COMODATO O DONACIÓN O REEMPLAZO---------------------------------------//
     
     public boolean permisosSolicitud(String tipo, boolean usuario, boolean auxiliar, boolean jefe, boolean administracion, boolean organizacion, boolean presidencia){
     
@@ -413,12 +413,12 @@ public class ManagerPermisos {
     
  //---------------------------------------------------------------------------------------------------------------------//   
     public int verTablaSolicitudes(String user){
-        int baja = 0,comodato = 0,donacion = 0;
+        int baja = 0,comodato = 0,donacion = 0,reemplazo = 0;
         String puesto;
         conexion = db.getConexion();
         try {
             Statement st = conexion.createStatement();
-            //obtenemos el puesto
+            //obtenemos el puesto 
             String sql = "select puesto from user where id_user = '"+user+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
@@ -442,33 +442,87 @@ public class ManagerPermisos {
             if(rs.next()){
                 if(rs.getBoolean(1)){donacion = 1;}
             }
+            //Obtenemos la respuesta de permiso para el puesto de la persona que se logeo de la solicitud reemplazo
+            sql = "select permiso from permisos_solicitud where tipo_solicitud = 'Solicitud Reemplazo' and puesto = '"+puesto+"';";
+            rs = st.executeQuery(sql);
+            if(rs.next()){
+                if(rs.getBoolean(1)){reemplazo = 1;}
+            }
             rs.close();
             st.close();
             conexion.close();
-
-            if(baja == donacion && baja == comodato && baja == 1){
-                return 7; //Tiene permiso para ver todos los tipos de solicitud
+            /*
+            14 -> todos los tipos de solicitud
+            13 -> baja, donación y comodato
+            12 -> baja, donación y reemplazo
+            11 -> baja, comodato y reemplazo
+            10 -> baja y donación 
+            9 -> baja y comodato
+            8 -> baja y reemplazo
+            7 -> reemplazo y comodato
+            6 -> reemplazo y donación
+            5 -> comodato y donación
+            4 -> baja
+            3 -> comodato
+            2 -> donación
+            1 -> reemplazo
+            0 -> ningun permiso
+           */
+            
+//------------------PERMISO PARA LOS 4 TIPOS DE SOLICITUDES------------------------//
+            if(baja == donacion && baja == comodato && baja == reemplazo && baja == 1){
+                return 14; //Tiene permiso para ver todos los tipos de solicitud
             }
+            
+//------------------PERMISO PARA 3 TIPOS DE SOLICITUDES------------------------//
+            if(baja == donacion && baja == comodato && baja == 1){
+                return 13; //Tiene permiso para ver baja,donacion y comodato
+            }
+            if(baja == donacion && baja == reemplazo && baja == 1){
+                return 12; //Tiene permiso para ver baja, donacion y reemplazo
+            }
+            if(baja == comodato && baja == reemplazo && baja == 1){
+                return 11; //Tiene permiso para ver baja, comodato y reemplazo
+            }
+            
+//------------------PERIMSO PARA 2 TIPOS DE SOLICITUDES------------------------//
             if(baja == donacion && baja == 1){
-                return 6; //Tiene permiso para ver baja y donacion
+                return 10; //Tiene permiso para ver baja y donacion
             }
             if(baja == comodato && baja == 1){
-                return 5; //Tiene permiso para ver baja y comodato
+                return 9; //Tiene permiso para ver baja y comodato
+            }
+            if(baja == reemplazo && baja == 1){
+                return 8; //Tiene permiso para ver baja y reemplazo
+            }
+            if(reemplazo == comodato && baja == 1){
+                return 7; //Tiene permiso para ver reemplazo y comodato
+            }
+            if(reemplazo == donacion && baja == 1){
+                return 6; //Tiene permiso para ver reemplazo y donacion
             }
             if(comodato == donacion && comodato == 1){
-                return 4;//Tiene permiso para ver comodato y donacion
+                return 5;//Tiene permiso para ver comodato y donacion
             }
+
+//------------------PERIMSO PARA 1 TIPO DE SOLICITUDES------------------------// 
             if(baja == 1){
-                return 3;
+                return 4;
             }
             if(comodato == 1){
-                return 2;
+                return 3;
             }
             if(donacion == 1){
+                return 2;
+            }
+            if(reemplazo == 1){
                 return 1;
             }
+            
+//------------------SIN PERMISOS PARA LAS SOLICITUDES------------------------//            
             return 0;
-           
+            
+            
         } //try  
         
         catch (SQLException ex) {
