@@ -242,7 +242,6 @@ public class Principal extends javax.swing.JFrame {
         btnAddInventario = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         comboInventario = new javax.swing.JComboBox<>();
-        jLabel11 = new javax.swing.JLabel();
         txtBusqueda = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         comboFiltro = new javax.swing.JComboBox<>();
@@ -256,7 +255,6 @@ public class Principal extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         txtBusquedaUsuario = new javax.swing.JTextField();
-        jLabel16 = new javax.swing.JLabel();
         comboFiltroUsuario = new javax.swing.JComboBox<>();
         fondo = new javax.swing.JLabel();
         vehiculos = new javax.swing.JPanel();
@@ -278,7 +276,6 @@ public class Principal extends javax.swing.JFrame {
         imagenVehiculo = new javax.swing.JLabel();
         btnAñadirVehiculo = new javax.swing.JButton();
         comboFiltroVehiculos = new javax.swing.JComboBox<>();
-        jLabel21 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         txtBusquedaVehiculos = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -602,11 +599,6 @@ public class Principal extends javax.swing.JFrame {
         jPanel3.add(jPanel1);
         jPanel1.setBounds(1150, 90, 200, 540);
 
-        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel11.setText("Filtro:");
-        jPanel3.add(jLabel11);
-        jLabel11.setBounds(460, 90, 60, 22);
-
         txtBusqueda.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -614,12 +606,12 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel3.add(txtBusqueda);
-        txtBusqueda.setBounds(120, 90, 290, 30);
+        txtBusqueda.setBounds(380, 90, 290, 30);
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel12.setText("Busqueda:");
+        jLabel12.setText("Busqueda por ");
         jPanel3.add(jLabel12);
-        jLabel12.setBounds(30, 90, 100, 22);
+        jLabel12.setBounds(30, 90, 130, 22);
 
         comboFiltro.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboFiltro.addActionListener(new java.awt.event.ActionListener() {
@@ -628,7 +620,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel3.add(comboFiltro);
-        comboFiltro.setBounds(520, 90, 210, 28);
+        comboFiltro.setBounds(150, 90, 210, 28);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel3.add(jLabel1);
@@ -703,9 +695,9 @@ public class Principal extends javax.swing.JFrame {
         jLabel2.setBounds(10, 10, 1350, 80);
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel14.setText("Busqueda:");
+        jLabel14.setText("Busqueda por ");
         jPanel5.add(jLabel14);
-        jLabel14.setBounds(30, 100, 100, 22);
+        jLabel14.setBounds(30, 100, 130, 22);
 
         txtBusquedaUsuario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtBusquedaUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -714,12 +706,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel5.add(txtBusquedaUsuario);
-        txtBusquedaUsuario.setBounds(120, 100, 290, 30);
-
-        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel16.setText("Filtro:");
-        jPanel5.add(jLabel16);
-        jLabel16.setBounds(460, 100, 60, 22);
+        txtBusquedaUsuario.setBounds(390, 100, 290, 30);
 
         comboFiltroUsuario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboFiltroUsuario.addActionListener(new java.awt.event.ActionListener() {
@@ -728,7 +715,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel5.add(comboFiltroUsuario);
-        comboFiltroUsuario.setBounds(520, 100, 210, 28);
+        comboFiltroUsuario.setBounds(150, 100, 210, 28);
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel5.add(fondo);
@@ -917,17 +904,12 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel6.add(comboFiltroVehiculos);
-        comboFiltroVehiculos.setBounds(530, 40, 210, 28);
-
-        jLabel21.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel21.setText("Filtro:");
-        jPanel6.add(jLabel21);
-        jLabel21.setBounds(470, 40, 60, 22);
+        comboFiltroVehiculos.setBounds(160, 40, 210, 28);
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel20.setText("Busqueda:");
+        jLabel20.setText("Busqueda por ");
         jPanel6.add(jLabel20);
-        jLabel20.setBounds(40, 40, 100, 22);
+        jLabel20.setBounds(40, 40, 120, 22);
 
         txtBusquedaVehiculos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtBusquedaVehiculos.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -936,7 +918,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel6.add(txtBusquedaVehiculos);
-        txtBusquedaVehiculos.setBounds(130, 40, 290, 30);
+        txtBusquedaVehiculos.setBounds(390, 40, 290, 30);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel6.add(jLabel4);
@@ -1293,7 +1275,6 @@ public class Principal extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(tablaBD);
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/quitar_permiso.png"))); // NOI18N
         jButton4.setText(" Quitar ");
         jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -1302,7 +1283,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/dar_permiso.png"))); // NOI18N
         jButton3.setText("Agregar");
         jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -1351,7 +1331,6 @@ public class Principal extends javax.swing.JFrame {
 
         campoip1.setModel(new javax.swing.SpinnerNumberModel(192, 1, 255, 1));
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/net2.png"))); // NOI18N
         jButton1.setText(" Escanear todo");
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -1360,7 +1339,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/net.png"))); // NOI18N
         jButton2.setText(" Añadir subred");
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -2258,7 +2236,7 @@ public class Principal extends javax.swing.JFrame {
         comboFiltroUsuario.addItem("Área");
         
         //COMBOFILTROVEHICULOS
-        comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        comboFiltroVehiculos.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboFiltroVehiculos.addItem("Marca");
         comboFiltroVehiculos.addItem("Linea");
         comboFiltroVehiculos.addItem("Año");
@@ -3468,18 +3446,15 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
