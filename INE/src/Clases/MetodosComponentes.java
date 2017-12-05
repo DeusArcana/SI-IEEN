@@ -151,6 +151,18 @@ public class MetodosComponentes {
          conexion.close();
     }
     
+    public void cargarInventarioPendiente(JTable tabla) throws ClassNotFoundException, SQLException{
+        conexion=db.getConexion();  
+        pointerA.modelo=new DefaultTableModel();
+        ResultSet rs=Conexion.getTabla(ConsultasSQL.datosObjetosAsignadosGlobalesDeProductosQuehanSidoAsignados(),conexion);
+        pointerA.modelo.setColumnIdentifiers(Tablas.generarColumnasGraficamenteInventarioGlobal());
+        try{
+            while(rs.next()){pointerA.modelo.addRow(Tablas.generarContenidoColumnasInventarioGlobal(rs));}
+            tabla.setModel(pointerA.modelo);
+        }catch(Exception e){System.out.println("Error no se pudo cargar inventario global");}
+         conexion.close();
+    }
+    
     public void cargarInventarioGlobalGranel(JTable tabla) throws ClassNotFoundException, SQLException{
         conexion=db.getConexion();  
         pointerA.modelo=new DefaultTableModel();
@@ -428,10 +440,28 @@ public class MetodosComponentes {
         PreparedStatement preparedStmt = conn.prepareStatement(query);
         //System.out.print("VALOR EMPLEADO= "+(String)pointerA.tb_empleado.getValueAt(pointerA.tb_empleado.getSelectedRow(),0));
         preparedStmt.setInt(1, pointerA.serialVale);
-        preparedStmt.setString(2, "Pendiente");
+        preparedStmt.setString(2, "PENDIENTE");
         preparedStmt.setString(3, Archivo.leerContenidoArchivo("cnfg.cfg"));
         preparedStmt.setDate(4, new java.sql.Date(System.currentTimeMillis()));
         preparedStmt.setString(5, "resguardo_bienes");
+        preparedStmt.setString(6, transformarEmpleadoEnUsuario((String)pointerA.tb_empleado.getValueAt(pointerA.tb_empleado.getSelectedRow(),0)));
+        preparedStmt.execute();
+        conn.close();
+    }
+    
+     public void insertarDatosValeRecoleccion() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, IOException{
+        pointerA.serialVale++;
+        Archivo.createArchivo("", "serial_vale.vl",pointerA.serialVale+"");
+        Conexion con=new Conexion();
+        Connection conn =con.getConexion();
+        String query = ConsultasSQL.insertarDatosValeAsignacion();
+        PreparedStatement preparedStmt = conn.prepareStatement(query);
+        //System.out.print("VALOR EMPLEADO= "+(String)pointerA.tb_empleado.getValueAt(pointerA.tb_empleado.getSelectedRow(),0));
+        preparedStmt.setInt(1, pointerA.serialVale);
+        preparedStmt.setString(2, "PENDIENTE");
+        preparedStmt.setString(3, Archivo.leerContenidoArchivo("cnfg.cfg"));
+        preparedStmt.setDate(4, new java.sql.Date(System.currentTimeMillis()));
+        preparedStmt.setString(5, "recoleccion_bienes");
         preparedStmt.setString(6, transformarEmpleadoEnUsuario((String)pointerA.tb_empleado.getValueAt(pointerA.tb_empleado.getSelectedRow(),0)));
         preparedStmt.execute();
         conn.close();
@@ -446,10 +476,24 @@ public class MetodosComponentes {
             //System.out.println("Iteracion Buena: "+i+" Valor fila: "+Tablas.retornarIdFila(pointerA.tb_objetos_asignados, i));
             preparedStmt.setInt(1, pointerA.serialVale);
             preparedStmt.setString(2,Tablas.retornarIdFila(pointerA.tb_objetos_asignados, i));
-            preparedStmt.setString(3, "Asignado");
+            preparedStmt.setString(3, "ASIGNADO");
             preparedStmt.execute();
         }
-        
+        conn.close();
+    }
+    
+    public void insertarDatosDetalleRecoleccion() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException{
+        Conexion con=new Conexion();
+        Connection conn =con.getConexion();
+        String query = ConsultasSQL.insertarDatosDetalleValeRecoleccion();
+        for(int i=0;i<pointerA.tb_objetos_entregados.getRowCount();i++){
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            //System.out.println("Iteracion Buena: "+i+" Valor fila: "+Tablas.retornarIdFila(pointerA.tb_objetos_asignados, i));
+            preparedStmt.setInt(1, pointerA.serialVale);
+            preparedStmt.setString(2,Tablas.retornarIdFila(pointerA.tb_objetos_entregados, i));
+            preparedStmt.setString(3, "DISPONIBLE");
+            preparedStmt.execute();
+        }
         conn.close();
     }
     
@@ -656,5 +700,19 @@ public class MetodosComponentes {
         modelo.setColumnIdentifiers(columnas);
         tabla.removeAll();
         tabla.setModel(modelo);
+    }
+    
+    public void setInventarioDisponible(JTable tabla) throws SQLException{
+        Conexion con=new Conexion();
+        Connection conn =con.getConexion();
+        String query = ConsultasSQL.setObjetosInventarioDisponible();
+        for(int i=0;i<tabla.getRowCount();i++){
+            System.out.println("ACTUALIZANDO "+(String)tabla.getValueAt(i, 0));
+            PreparedStatement preparedStmt = conn.prepareStatement(query);               
+            preparedStmt.setString(1,"DISPONIBLE");
+            preparedStmt.setString(2,(String)tabla.getValueAt(i, 0));
+            preparedStmt.execute(); 
+        }
+        conn.close();
     }
 }

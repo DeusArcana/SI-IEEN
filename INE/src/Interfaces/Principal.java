@@ -3184,6 +3184,12 @@ public class Principal extends javax.swing.JFrame {
             Archivo.createArchivo("", "vale_recoleccion_configsB.txt",datosInventarioFaltante
             );
             
+            metodo.insertarDatosValeRecoleccion();
+            metodo.insertarDatosDetalleRecoleccion();
+            metodo.setInventarioDisponible(tb_objetos_entregados);
+            metodo.cargarInventarioGlobal(tb_inventario_normal_asignado);
+            
+            
         } catch (Exception ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -3203,6 +3209,7 @@ public class Principal extends javax.swing.JFrame {
             metodo.activarObjetosAsignables();
             if(tb_objetos_asignados1.getRowCount()!=0){
                 l_obj_asig=metodo.transformContentTableIntoArrayList(this.tb_objetos_asignados1);
+
                 l_obj_entr.add(Tablas.retornarContenidoFila(tb_objetos_asignados1, tb_objetos_asignados1.getSelectedRow()));
                 printContenidoLista(l_obj_asig,"l_obj_asig");
                 printContenidoLista(l_obj_entr,"l_obj_entr");
