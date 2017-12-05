@@ -36,6 +36,7 @@ import Clases.ManagerComplemento;
 import Clases.ManagerVehiculos;
 import Clases.ManagerVales;
 import Clases.MetodosComponentes;
+import static Clases.MetodosComponentes.printContenidoLista;
 import Clases.Tablas;
 
 
@@ -85,6 +86,9 @@ public class Principal extends javax.swing.JFrame {
     public String id_inventario,last_id_inventarioGranel;
     public String encargado,encargado1;
     public ArrayList<Object[]> l_eliminables_objetos_asignables_asignacion;
+    public ArrayList<Object[]> l_obj_asig;
+    public ArrayList<Object[]> l_obj_entr;
+    public ArrayList<Object[]> l_obj_falt;
     public ArrayList<Object[]> l_objetos_asignables_asignacion;
     public ArrayList<Object[]> l_eliminables_objetos_asignables_asignacion_granel;
     public ArrayList<Object[]> l_objetos_asignables_asignacion_granel; 
@@ -172,8 +176,10 @@ public class Principal extends javax.swing.JFrame {
         
         /*NUEVO*/
         stockActualSeleccionado=unidadesAsignadas=unidadesRestantes=unidadesAcumuladas=last_granel_index=last_producto_granel_tabla_id=0;
-        //serialVale=Integer.parseInt(Archivo.leerContenidoArchivo("serial_vale.vl"));
         serialVale=0;
+        //serialVale=Integer.parseInt(Archivo.leerContenidoArchivo("serial_vale.vl"));
+        System.out.println("Contenido "+((Archivo.leerContenidoArchivo("serial_vale.vl")).replace("$","")));
+        serialVale=Integer.parseInt((Archivo.leerContenidoArchivo("serial_vale.vl")).replace("$",""));
      
         last_id_inventarioGranel="";
         CardLayout c_recoleccion = (CardLayout)pn_contenedor_ventanas.getLayout();
@@ -187,6 +193,9 @@ public class Principal extends javax.swing.JFrame {
         l_eliminables_objetos_asignables_asignacion_granel=new ArrayList();
         l_objetos_asignables_asignacion_granel=new ArrayList();
         l_cantidades_pedidas_granel=new ArrayList();
+        l_obj_asig=new ArrayList();
+        l_obj_entr=new ArrayList();;
+        l_obj_falt=new ArrayList();;
         metodo=new MetodosComponentes(); 
         metodo.pointerA=this;
         metodo.cargarEmpleados(tb_empleado);//cargarEmpleados(tb_empleado);
@@ -3131,20 +3140,60 @@ public class Principal extends javax.swing.JFrame {
 
     private void tb_empleado1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_empleado1MouseClicked
         try {
-            metodo.cargarNombreEmpleado_Asignacion1();
+            if(tb_empleado1.isEnabled()){
+                metodo.cargarNombreEmpleado_Asignacion1();
+                metodo.cargarObjetosAsignados_Recoleccion();
+            }
+            
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_tb_empleado1MouseClicked
 
     private void btn_seleccionar_empleado1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_seleccionar_empleado1ActionPerformed
-        asignacion_botones_activadas[5]=asignacion_botones_activadas[7]=true;tb_empleado1.setEnabled(false);
-        metodo.activarObjetosAsignables();
+        if(tb_objetos_asignados1.getRowCount()!=0){
+            asignacion_botones_activadas[5]=asignacion_botones_activadas[7]=true;tb_empleado1.setEnabled(false);
+            metodo.activarObjetosAsignables();
+        }
+        
     }//GEN-LAST:event_btn_seleccionar_empleado1ActionPerformed
 
     private void btn_generar_vale1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generar_vale1ActionPerformed
-        fr_Generacion_Vale_Recoleccion_Bienes vale=new fr_Generacion_Vale_Recoleccion_Bienes();
-        vale.setVisible(true);
+        String datosInventarioRecolectado="";
+        String datosInventarioFaltante="";
+        try {
+            tb_empleado.setEnabled(true);
+            asignacion_botones_activadas[4]=true;
+            asignacion_botones_activadas[5]=asignacion_botones_activadas[6]=asignacion_botones_activadas[7]=asignacion_botones_activadas[8]=false;
+            metodo.activarObjetosAsignables();
+            
+            Archivo.createArchivo("", "vale_recoleccion_configs.txt",
+                tf_empleado1.getText()+","+"\n"+Cargo1+","+Area1+","+Tipo_de_uso1+","+
+                Municipio1+","+Localidad1
+            );
+            for(int i=0;i<tb_objetos_entregados.getRowCount();i++){
+                datosInventarioRecolectado+=Tablas.retornarCadenaFila(tb_objetos_entregados, i)+";"+"\n";
+                System.out.println(datosInventarioRecolectado+"\n");
+            }
+            Archivo.createArchivo("", "vale_recoleccion_configsA.txt",datosInventarioRecolectado
+            );
+            for(int i=0;i<tb_objetos_faltantes.getRowCount();i++){
+                datosInventarioFaltante+=Tablas.retornarCadenaFila(tb_objetos_faltantes, i)+";"+"\n";
+            }
+            Archivo.createArchivo("", "vale_recoleccion_configsB.txt",datosInventarioFaltante
+            );
+            
+        } catch (Exception ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        fr_Generacion_Vale_Recoleccion_Bienes vale;
+        try {
+            vale = new fr_Generacion_Vale_Recoleccion_Bienes();
+            vale.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_generar_vale1ActionPerformed
 
     private void btn_recolectar_productoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_recolectar_productoActionPerformed
@@ -3152,26 +3201,25 @@ public class Principal extends javax.swing.JFrame {
             asignacion_botones_activadas[6]=true;
             metodo.activarObjetosAsignables();
             if(tb_objetos_asignados1.getRowCount()!=0){
-                objetos_asignables_asignacion=Tablas.retornarCadenaFila(tb_objetos_asignados1,tb_objetos_asignados1.getSelectedRow());
-                l_eliminables_objetos_asignables_asignacion.add(objetos_asignables_asignacion.split(","));
-
-                metodo.renovarInventarioRemovible(tb_objetos_asignados1);
-                metodo.cargarInventarioRemovido(tb_objetos_entregados);
+                l_obj_asig=metodo.transformContentTableIntoArrayList(this.tb_objetos_asignados1);
+                l_obj_entr.add(Tablas.retornarContenidoFila(tb_objetos_asignados1, tb_objetos_asignados1.getSelectedRow()));
+                printContenidoLista(l_obj_asig,"l_obj_asig");
+                printContenidoLista(l_obj_entr,"l_obj_entr");
+                metodo.renovarInventarioRecoleccion(tb_objetos_asignados1,tb_objetos_entregados);
             }
-            objetos_asignables_asignacion=Tablas.retornarCadenaFila(tb_objetos_asignables,tb_objetos_asignables.getSelectedRow());
-            l_eliminables_objetos_asignables_asignacion.add(objetos_asignables_asignacion.split(","));
-            metodo.renovarInventarioAsignable(tb_objetos_asignables);
-            metodo.cargarInventarioAsignado(tb_objetos_asignados);
+
         }
-        catch (ClassNotFoundException ex) {
+        catch (Exception ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_recolectar_productoActionPerformed
 
     private void btn_entregar_objetosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_entregar_objetosActionPerformed
-        asignacion_botones_activadas[8]=true;asignacion_botones_activadas[6]=false;
+        asignacion_botones_activadas[8]=true;asignacion_botones_activadas[6]=asignacion_botones_activadas[5]=asignacion_botones_activadas[4]=false;
         metodo.activarObjetosAsignables();
-        if(tb_objetos_asignados1.getRowCount()!=0){metodo.copyContentTabla(tb_objetos_asignados1,tb_objetos_faltantes);}
+        if(tb_objetos_asignados1.getRowCount()!=0){
+            metodo.copyContentTabla(tb_objetos_asignados1,tb_objetos_faltantes);
+        }
     }//GEN-LAST:event_btn_entregar_objetosActionPerformed
 
     private void btn_cancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelar1ActionPerformed

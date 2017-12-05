@@ -107,5 +107,4 @@ public class Tablas {
         return new Object[]{rs.getString("id_user")};
     }
     
-    
 }

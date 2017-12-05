@@ -47,6 +47,21 @@ public class ConsultasSQL {
                 +" INNER JOIN empleados"
                 +" ON user.id_empleado=empleados.id_empleado;";
     }
+    
+    public static String datosObjetosAsignadosPersonales(String nombres,String paterno){
+        return "SELECT inventario.id_producto,Inventario.nombre_prod,Inventario.estatus,vales.id_vale,vales.tipo_vale,vales.estado,empleados.nombres,empleados.apellido_p,empleados.apellido_m"
+                +" FROM detalle_vale"
+                +" INNER JOIN inventario"
+                +" ON detalle_vale.id_producto=inventario.id_producto"
+                +" INNER JOIN vales"
+                +" ON detalle_vale.id_vale=vales.id_vale"
+                +" INNER JOIN user"
+                +" ON vales.id_user=user.id_user"
+                +" INNER JOIN empleados"
+                +" ON user.id_empleado=empleados.id_empleado"
+                + " where empleados.nombres= '"+nombres+"' and empleados.apellido_p= '"+paterno+"';";
+    }
+    
     public static String datosObjetosAsignadosGlobalesGranel(){
     return "select inventario_granel.id_productoGranel,inventario_granel.nombre_prod,inventario_granel.estatus,vales.id_vale,vales.tipo_vale,vales.estado,empleados.nombres,empleados.apellido_p,empleados.apellido_m"
            +" from detalle_valegranel"
@@ -107,11 +122,11 @@ public class ConsultasSQL {
     }
     
     public static String resumenDatos_inventario(){
-        return  "Select id_producto,nombre_prod,descripcion,almacen,observaciones,no_serie,modelo,color  from inventario where estatus='Disponible';";
+        return  "Select id_producto,nombre_prod,descripcion,almacen,observaciones,no_serie,modelo,color  from inventario where estatus='DISPONIBLE';";
     }
     
     public static String resumenDatos_inventarioAsignado(){
-        return  "Select id_producto,nombre_prod,descripcion,almacen,observaciones,no_serie,modelo,color  from inventario where estatus='Asignado';";
+        return  "Select id_producto,nombre_prod,descripcion,almacen,observaciones,no_serie,modelo,color  from inventario where estatus='ASIGNADO';";
     }
     
     public static String resumenDatos_inventarioGranel(){

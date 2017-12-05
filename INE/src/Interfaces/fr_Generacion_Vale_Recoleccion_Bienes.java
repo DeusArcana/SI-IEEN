@@ -5,6 +5,7 @@
  */
 package Interfaces;
 
+import Clases.Archivo;
 import clasesBackground.ImagenFondo;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -19,6 +20,9 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -26,9 +30,21 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class fr_Generacion_Vale_Recoleccion_Bienes extends javax.swing.JFrame {
 
     String Responsable,Cargo,Area,Tipo_de_uso,Municipio,Localidad,No_inventario,No_serie,Descripcion,Marca,Modelo,Color;
-    public fr_Generacion_Vale_Recoleccion_Bienes() {
+    public fr_Generacion_Vale_Recoleccion_Bienes() throws IOException {
         initComponents();
+        cargarDatosEncargado();
         dp_background_principal.setBorder(new ImagenFondo());
+    }
+    
+    public void cargarDatosEncargado() throws IOException{
+        String datosEncargado[]=(Archivo.leerContenidoArchivo("vale_recoleccion_configs.txt")).replaceAll("$", "").split(",");
+        System.out.println("Responsable= "+datosEncargado[0]);
+        Responsable=datosEncargado[0];tf_responsable.setText(Responsable);
+        Cargo=datosEncargado[1];tf_cargo.setText(Cargo);
+        Area=datosEncargado[2];tf_area.setText(Area);
+        Tipo_de_uso=datosEncargado[3];tf_tipo_de_uso.setText(Tipo_de_uso);
+        Municipio=datosEncargado[4];tf_municipio.setText(Municipio);
+        Localidad=datosEncargado[5];tf_localidad.setText(Localidad.replaceAll("$", ""));
     }
 
     /**
@@ -42,7 +58,6 @@ public class fr_Generacion_Vale_Recoleccion_Bienes extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         pn_encabezado = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
         dp_background_principal = new javax.swing.JDesktopPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         pb_principal = new javax.swing.JPanel();
@@ -61,31 +76,9 @@ public class fr_Generacion_Vale_Recoleccion_Bienes extends javax.swing.JFrame {
         lb_localidad = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         pn_datos_bien_asignados = new javax.swing.JPanel();
-        lb_no_inventario = new javax.swing.JLabel();
-        tf_no_inventario = new javax.swing.JTextField();
-        tf_no_serie = new javax.swing.JTextField();
-        lb_no_serie = new javax.swing.JLabel();
-        lb_descripcion = new javax.swing.JLabel();
-        tf_descripcion = new javax.swing.JTextField();
-        lb_marca = new javax.swing.JLabel();
-        tf_marca = new javax.swing.JTextField();
-        lb_modelo = new javax.swing.JLabel();
-        tf_modelo = new javax.swing.JTextField();
-        lb_color = new javax.swing.JLabel();
-        tf_color = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jComboBox1 = new javax.swing.JComboBox();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jComboBox2 = new javax.swing.JComboBox();
         pn_acciones = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
 
@@ -99,23 +92,15 @@ public class fr_Generacion_Vale_Recoleccion_Bienes extends javax.swing.JFrame {
         pn_encabezado.setPreferredSize(new java.awt.Dimension(1576, 150));
         pn_encabezado.setRequestFocusEnabled(false);
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/IEE_logo-iloveimg-resized.png"))); // NOI18N
-
         javax.swing.GroupLayout pn_encabezadoLayout = new javax.swing.GroupLayout(pn_encabezado);
         pn_encabezado.setLayout(pn_encabezadoLayout);
         pn_encabezadoLayout.setHorizontalGroup(
             pn_encabezadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_encabezadoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7)
-                .addContainerGap(1366, Short.MAX_VALUE))
+            .addGap(0, 1576, Short.MAX_VALUE)
         );
         pn_encabezadoLayout.setVerticalGroup(
             pn_encabezadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_encabezadoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel7)
-                .addContainerGap())
+            .addGap(0, 150, Short.MAX_VALUE)
         );
 
         getContentPane().add(pn_encabezado, java.awt.BorderLayout.NORTH);
@@ -261,146 +246,6 @@ public class fr_Generacion_Vale_Recoleccion_Bienes extends javax.swing.JFrame {
         pn_datos_bien_asignados.setBackground(new java.awt.Color(255, 153, 153));
         pn_datos_bien_asignados.setLayout(new java.awt.GridBagLayout());
 
-        lb_no_inventario.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lb_no_inventario.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        lb_no_inventario.setText("No. Inventario");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        pn_datos_bien_asignados.add(lb_no_inventario, gridBagConstraints);
-
-        tf_no_inventario.setMinimumSize(new java.awt.Dimension(150, 30));
-        tf_no_inventario.setPreferredSize(new java.awt.Dimension(150, 30));
-        tf_no_inventario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_no_inventarioActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 271;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        pn_datos_bien_asignados.add(tf_no_inventario, gridBagConstraints);
-
-        tf_no_serie.setMinimumSize(new java.awt.Dimension(150, 30));
-        tf_no_serie.setPreferredSize(new java.awt.Dimension(150, 30));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 271;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        pn_datos_bien_asignados.add(tf_no_serie, gridBagConstraints);
-
-        lb_no_serie.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lb_no_serie.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lb_no_serie.setText("No. Serie");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        pn_datos_bien_asignados.add(lb_no_serie, gridBagConstraints);
-
-        lb_descripcion.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lb_descripcion.setText("Descripción");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        pn_datos_bien_asignados.add(lb_descripcion, gridBagConstraints);
-
-        tf_descripcion.setMinimumSize(new java.awt.Dimension(150, 30));
-        tf_descripcion.setPreferredSize(new java.awt.Dimension(150, 30));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 271;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        pn_datos_bien_asignados.add(tf_descripcion, gridBagConstraints);
-
-        lb_marca.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lb_marca.setText("Marca");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        pn_datos_bien_asignados.add(lb_marca, gridBagConstraints);
-
-        tf_marca.setMinimumSize(new java.awt.Dimension(150, 30));
-        tf_marca.setPreferredSize(new java.awt.Dimension(150, 30));
-        tf_marca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_marcaActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 271;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        pn_datos_bien_asignados.add(tf_marca, gridBagConstraints);
-
-        lb_modelo.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lb_modelo.setText("Modelo");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        pn_datos_bien_asignados.add(lb_modelo, gridBagConstraints);
-
-        tf_modelo.setMinimumSize(new java.awt.Dimension(150, 30));
-        tf_modelo.setPreferredSize(new java.awt.Dimension(150, 30));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 271;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        pn_datos_bien_asignados.add(tf_modelo, gridBagConstraints);
-
-        lb_color.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lb_color.setText("Color");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        pn_datos_bien_asignados.add(lb_color, gridBagConstraints);
-
-        tf_color.setMinimumSize(new java.awt.Dimension(150, 30));
-        tf_color.setPreferredSize(new java.awt.Dimension(150, 30));
-        tf_color.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_colorActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 271;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        pn_datos_bien_asignados.add(tf_color, gridBagConstraints);
-
-        jLabel3.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
-        jLabel3.setText("Relación de mobiliario y equipo de cómputo");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
-        pn_datos_bien_asignados.add(jLabel3, gridBagConstraints);
-
         jPanel1.setBackground(new java.awt.Color(255, 153, 153));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -413,34 +258,13 @@ public class fr_Generacion_Vale_Recoleccion_Bienes extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Responsable", "Cargo", "Area", "Tipo de uso", "Municipio", "Localidad" }));
-        jComboBox1.setMinimumSize(new java.awt.Dimension(56, 30));
-        jComboBox1.setPreferredSize(new java.awt.Dimension(56, 30));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-
-        jTextField1.setPreferredSize(new java.awt.Dimension(59, 30));
-
-        jLabel2.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        jLabel2.setText("Criterio:");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(107, 107, 107)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(121, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
         jPanel1Layout.setVerticalGroup(
@@ -448,66 +272,7 @@ public class fr_Generacion_Vale_Recoleccion_Bienes extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel2.setBackground(new java.awt.Color(255, 153, 153));
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane3.setViewportView(jTable2);
-
-        jLabel4.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        jLabel4.setText("Criterio:");
-
-        jTextField2.setPreferredSize(new java.awt.Dimension(6, 30));
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "No. Inventario", "No. Serie", "Descripción", "Marca", "Modelo", "Color" }));
-        jComboBox2.setPreferredSize(new java.awt.Dimension(56, 30));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pb_principalLayout = new javax.swing.GroupLayout(pb_principal);
@@ -517,7 +282,6 @@ public class fr_Generacion_Vale_Recoleccion_Bienes extends javax.swing.JFrame {
             .addGroup(pb_principalLayout.createSequentialGroup()
                 .addGap(69, 69, 69)
                 .addGroup(pb_principalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pn_datos_bien_asignados, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pn_datos_responsable, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -526,14 +290,13 @@ public class fr_Generacion_Vale_Recoleccion_Bienes extends javax.swing.JFrame {
         pb_principalLayout.setVerticalGroup(
             pb_principalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pb_principalLayout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+                .addContainerGap(139, Short.MAX_VALUE)
                 .addComponent(pn_datos_responsable, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pn_datos_bien_asignados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(176, 176, 176))
         );
 
         jScrollPane2.setViewportView(pb_principal);
@@ -551,7 +314,7 @@ public class fr_Generacion_Vale_Recoleccion_Bienes extends javax.swing.JFrame {
             dp_background_principalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dp_background_principalLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
+                .addComponent(jScrollPane2)
                 .addContainerGap())
         );
         dp_background_principal.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -598,36 +361,15 @@ public class fr_Generacion_Vale_Recoleccion_Bienes extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tf_municipioActionPerformed
 
-    private void tf_marcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_marcaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tf_marcaActionPerformed
-
-    private void tf_no_inventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_no_inventarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tf_no_inventarioActionPerformed
-
     private void tf_responsableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_responsableActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tf_responsableActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
-
-    private void tf_colorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_colorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tf_colorActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try{
             Responsable=tf_responsable.getText();Cargo=tf_cargo.getText();Area=tf_area.getText();Tipo_de_uso=tf_tipo_de_uso.getText();
-            Municipio=tf_municipio.getText();Localidad=tf_localidad.getText();No_inventario=tf_no_inventario.getText();
-            No_serie=tf_no_serie.getText();Descripcion=tf_descripcion.getText();Marca=tf_marca.getText();Modelo=tf_modelo.getText();Color=tf_color.getText();
- 
+            Municipio=tf_municipio.getText();Localidad=tf_localidad.getText();
+            
             JFileChooser file=new JFileChooser();
             file.showSaveDialog(this);
             File guarda =file.getSelectedFile();
@@ -754,7 +496,11 @@ public class fr_Generacion_Vale_Recoleccion_Bienes extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new fr_Generacion_Vale_Recoleccion_Bienes().setVisible(true);
+                try {
+                    new fr_Generacion_Vale_Recoleccion_Bienes().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(fr_Generacion_Vale_Recoleccion_Bienes.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -762,32 +508,15 @@ public class fr_Generacion_Vale_Recoleccion_Bienes extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane dp_background_principal;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lb_area;
     private javax.swing.JLabel lb_cargo;
-    private javax.swing.JLabel lb_color;
-    private javax.swing.JLabel lb_descripcion;
     private javax.swing.JLabel lb_localidad;
-    private javax.swing.JLabel lb_marca;
-    private javax.swing.JLabel lb_modelo;
     private javax.swing.JLabel lb_municipio;
-    private javax.swing.JLabel lb_no_inventario;
-    private javax.swing.JLabel lb_no_serie;
     private javax.swing.JLabel lb_responsable;
     private javax.swing.JLabel lb_tipo_de_uso;
     private javax.swing.JPanel pb_principal;
@@ -797,14 +526,8 @@ public class fr_Generacion_Vale_Recoleccion_Bienes extends javax.swing.JFrame {
     private javax.swing.JPanel pn_encabezado;
     private javax.swing.JTextField tf_area;
     private javax.swing.JTextField tf_cargo;
-    private javax.swing.JTextField tf_color;
-    private javax.swing.JTextField tf_descripcion;
     private javax.swing.JTextField tf_localidad;
-    private javax.swing.JTextField tf_marca;
-    private javax.swing.JTextField tf_modelo;
     private javax.swing.JTextField tf_municipio;
-    private javax.swing.JTextField tf_no_inventario;
-    private javax.swing.JTextField tf_no_serie;
     private javax.swing.JTextField tf_responsable;
     private javax.swing.JTextField tf_tipo_de_uso;
     // End of variables declaration//GEN-END:variables

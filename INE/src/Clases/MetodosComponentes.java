@@ -94,6 +94,22 @@ public class MetodosComponentes {
             conexion.close();
         } catch (SQLException ex) {}
     }
+    
+    public void cargarObjetosAsignados_Recoleccion() throws ClassNotFoundException{//SE ACTIVA AL TAR CLICK EN UNA FILA DE LA TABLA
+        try {//EMPLEADOS. OBTIENE  LOS DATOS DE LA FILA DE LA TABLA EMPLEADOS1
+            conexion=db.getConexion();
+            pointerA.modelo=new DefaultTableModel();
+            pointerA.modelo.setColumnIdentifiers(Tablas.generarColumnasGraficamenteInventarioGlobal());
+            ResultSet rs =Conexion.getTabla(ConsultasSQL.datosObjetosAsignadosPersonales(
+            (String)pointerA.tb_empleado1.getValueAt(pointerA.tb_empleado1.getSelectedRow(), 0), 
+            (String)pointerA.tb_empleado1.getValueAt(pointerA.tb_empleado1.getSelectedRow(), 1)),conexion);
+            while(rs.next()){
+                pointerA.modelo.addRow(Tablas.generarContenidoColumnasInventarioGlobal(rs));
+            }
+            pointerA.tb_objetos_asignados1.setModel(pointerA.modelo);
+            conexion.close();
+        } catch (SQLException ex) {}
+    }
     //ACTIVACION DE COMPONENTES VISUALES
     public void activarObjetosAsignables(){       
         pointerA.btn_seleccionar_empleado.setEnabled(pointerA.asignacion_botones_activadas[0]);
@@ -264,7 +280,7 @@ public class MetodosComponentes {
                }
            }
        }
-       
+      printContenidoLista(pointerA.l_objetos_asignables_asignacion,"l_objetos después remocion");
         try{
             for(int i=0;i<pointerA.l_objetos_asignables_asignacion.size();i++){
                 pointerA.modelo.addRow(pointerA.l_objetos_asignables_asignacion.get(i));
@@ -272,6 +288,7 @@ public class MetodosComponentes {
             
             tabla.setModel(pointerA.modelo);
         }catch(Exception e){System.out.println("Error no se pudo renovar el inventario removible");}
+        printContenidoLista(pointerA.l_objetos_asignables_asignacion,"l_objetos después addRow");
     }
     
     public void renovarInventarioGranelAsignable(JTable tabla) throws ClassNotFoundException{
@@ -353,7 +370,7 @@ public class MetodosComponentes {
         for(int i=0;i<pointerA.tb_objetos_asignados.getRowCount();i++){
             pointerA.id_inventario=(String)pointerA.tb_objetos_asignados.getValueAt(i, 0);
             //System.out.println("ID_INVENTARIO= "+pointerA.id_inventario);
-            preparedStmt.setString(1, "Asignado");
+            preparedStmt.setString(1, "ASIGNADO");
             preparedStmt.setString(2, pointerA.id_inventario);
             preparedStmt.executeUpdate();
         }
@@ -467,6 +484,10 @@ public class MetodosComponentes {
         pointerA.l_eliminables_objetos_asignables_asignacion_granel.clear();
         pointerA.l_objetos_asignables_asignacion_granel.clear();
         pointerA.l_cantidades_pedidas_granel.clear();
+        pointerA.l_obj_asig.clear();pointerA.l_obj_entr.clear();pointerA.l_obj_falt.clear();
+        clearTabla(pointerA.tb_objetos_entregados,Tablas.generarColumnasGraficamenteInventarioGlobal(),pointerA.modelo);
+        clearTabla(pointerA.tb_objetos_faltantes,Tablas.generarColumnasGraficamenteInventarioGlobal(),pointerA.modelo);
+        
         cargarInventarioGlobal(pointerA.tb_objetos_asignados1);
         if(pointerA.rb_inventario_normal.isSelected()){
             cargarInventario(pointerA.tb_objetos_asignables);
@@ -589,4 +610,51 @@ public class MetodosComponentes {
         //tb_objetos_faltantes
     }
     
+    public ArrayList transformContentTableIntoArrayList(JTable table){
+        ArrayList list=new ArrayList();
+        for(int i=0;i<table.getRowCount();i++){
+            list.add(Tablas.retornarContenidoFila(table, i));
+        }
+        return list;
+    }
+    
+    public void renovarInventarioRecoleccion(JTable tabla,JTable tabla1) throws ClassNotFoundException{
+        pointerA.modelo=new DefaultTableModel();
+        pointerA.modelo.setColumnIdentifiers(Tablas.generarColumnasGraficamenteInventarioGlobal());
+        pointerA.modelo0=new DefaultTableModel();
+        pointerA.modelo0.setColumnIdentifiers(Tablas.generarColumnasGraficamenteInventarioGlobal());
+        
+       for(int i=0;i<pointerA.l_obj_asig.size();i++){
+           for(int j=0;j<pointerA.l_obj_entr.size();j++){
+               if(pointerA.l_obj_asig.get(i)[0].equals(pointerA.l_obj_entr.get(j)[0])){
+                   pointerA.l_obj_asig.remove(pointerA.l_obj_asig.get(i));
+               }
+           }
+       }
+      
+        try{
+            for(int i=0;i<pointerA.l_obj_asig.size();i++){
+                pointerA.modelo.addRow(pointerA.l_obj_asig.get(i));
+            }
+            
+            tabla.setModel(pointerA.modelo);
+        }catch(Exception e){System.out.println("Error no se pudo renovar el inventario removible");}
+        printContenidoLista(pointerA.l_objetos_asignables_asignacion,"l_objetos después addRow");
+        
+        try{
+            for(int i=0;i<pointerA.l_obj_entr.size();i++){
+                pointerA.modelo0.addRow(pointerA.l_obj_entr.get(i));
+            }
+            
+            tabla1.setModel(pointerA.modelo0);
+        }catch(Exception e){System.out.println("Error no se pudo renovar el inventario removible");}
+        printContenidoLista(pointerA.l_objetos_asignables_asignacion,"l_objetos después addRow");
+    }
+    
+    public void clearTabla(JTable tabla,Object[] columnas,DefaultTableModel modelo){
+        modelo=new DefaultTableModel();
+        modelo.setColumnIdentifiers(columnas);
+        tabla.removeAll();
+        tabla.setModel(modelo);
+    }
 }
