@@ -11,6 +11,7 @@ import Clases.ManagerComplemento;
 import Clases.ManagerVehiculos;
 import static Interfaces.Principal.Username;
 import java.awt.Image;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
@@ -55,7 +56,14 @@ public class ventana_añadir_vehiculo extends javax.swing.JDialog {
         ((DefaultEditor) campoModelo.getEditor()).getTextField().setEditable(false);
         
         campoObservaciones.setLineWrap(true);
+        
+        campoRuta.setText(cargarNoImage()+"\\src\\Imagenes\\noimage.png");
 
+    }
+    
+    public String cargarNoImage() {
+        File f = new File("");
+        return f.getAbsolutePath();
     }
 
     /**
@@ -190,6 +198,11 @@ public class ventana_añadir_vehiculo extends javax.swing.JDialog {
         campoLinea.setBounds(80, 62, 190, 30);
 
         campoKilometraje.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
+        campoKilometraje.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campoKilometrajeKeyTyped(evt);
+            }
+        });
         pn_permisos.add(campoKilometraje);
         campoKilometraje.setBounds(100, 170, 170, 30);
 
@@ -267,9 +280,11 @@ public class ventana_añadir_vehiculo extends javax.swing.JDialog {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
          // TODO add your handling code here: 
+        // TODO add your handling code here: 
         ImageIcon imgThisImg = new ImageIcon(campoRuta.getText());
         ImageIcon icono = new ImageIcon(imgThisImg.getImage().getScaledInstance(contenedor.getWidth(), contenedor.getHeight(), Image.SCALE_DEFAULT));
         contenedor.setIcon(icono);
+        
         
        // ImageIcon imagen = new ImageIcon(path);
         //ImageIcon icono = new ImageIcon(imagen.getImage().getScaledInstance(contenedor.getWidth(), contenedor.getHeight(), Image.SCALE_DEFAULT));
@@ -359,6 +374,23 @@ public class ventana_añadir_vehiculo extends javax.swing.JDialog {
 //        this.repaint();
         
     }//GEN-LAST:event_btnImagenActionPerformed
+
+    private void campoKilometrajeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoKilometrajeKeyTyped
+        // TODO add your handling code here:
+                 // TODO add your handling code here:
+         char caracter = evt.getKeyChar();
+
+        if (campoKilometraje.getText().length() == 6) {
+            evt.consume();
+        } else if (caracter != evt.getKeyCode()) {
+        }
+        if (((caracter < '0') || (caracter > '9'))) {
+
+            evt.consume();
+        } else {
+
+        }
+    }//GEN-LAST:event_campoKilometrajeKeyTyped
 
     public static void limpiarTablaPermisos(){
         int a = modelo.getRowCount() - 1;

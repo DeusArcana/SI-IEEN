@@ -193,23 +193,56 @@ public class ManagerComplemento {
         try {
             
             /*
-                7 -> todos los tipos de solicitud
-                6 -> baja y donacion
-                5 -> baja y comodato
-                4 -> comodato y donacion
-                3 -> baja
-                2 -> comodato
-                1 -> donacion
-            */
+            14 -> todos los tipos de solicitud
+            13 -> baja, donación y comodato
+            12 -> baja, donación y reemplazo
+            11 -> baja, comodato y reemplazo
+            10 -> baja y donación 
+            9 -> baja y comodato
+            8 -> baja y reemplazo
+            7 -> reemplazo y comodato
+            6 -> reemplazo y donación
+            5 -> comodato y donación
+            4 -> baja
+            3 -> comodato
+            2 -> donación
+            1 -> reemplazo
+            0 -> ningun permiso
+           */
+            
             switch(permiso){
-                case 7:
+                case 14:
                     sql = "select count(*) from detalle_solicitud ds\n" +
                             "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud)\n" +
                             "inner join user u on (u.id_user = s.id_user)\n" +
                             "inner join empleados e on (e.id_empleado = u.id_empleado)\n" +
                             "inner join inventario i on (i.id_producto = ds.id_producto);";
                     break;
-                case 6:
+                case 13:
+                    sql = "select count(*) from detalle_solicitud ds\n" +
+                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud)\n" +
+                            "inner join user u on (u.id_user = s.id_user)\n" +
+                            "inner join empleados e on (e.id_empleado = u.id_empleado)\n" +
+                            "inner join inventario i on (i.id_producto = ds.id_producto)"
+                            + " where s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud donación' or s.tipo_solicitud = 'Solicitud comodato';";
+                    break;
+                case 12:
+                    sql = "select count(*) from detalle_solicitud ds\n" +
+                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud)\n" +
+                            "inner join user u on (u.id_user = s.id_user)\n" +
+                            "inner join empleados e on (e.id_empleado = u.id_empleado)\n" +
+                            "inner join inventario i on (i.id_producto = ds.id_producto)"
+                            + " where s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud donación' or s.tipo_solicitud = 'Solicitud reemplazo';";
+                    break;
+                case 11:
+                    sql = "select count(*) from detalle_solicitud ds\n" +
+                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud)\n" +
+                            "inner join user u on (u.id_user = s.id_user)\n" +
+                            "inner join empleados e on (e.id_empleado = u.id_empleado)\n" +
+                            "inner join inventario i on (i.id_producto = ds.id_producto)"
+                            + " where s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud comodato' or s.tipo_solicitud = 'Solicitud reemplazo';";
+                    break;
+                case 10:
                     sql = "select count(*) from detalle_solicitud ds\n" +
                             "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud)\n" +
                             "inner join user u on (u.id_user = s.id_user)\n" +
@@ -217,7 +250,7 @@ public class ManagerComplemento {
                             "inner join inventario i on (i.id_producto = ds.id_producto)"
                             + " where s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud donación';";
                     break;
-                case 5:
+                case 9:
                     sql = "select count(*) from detalle_solicitud ds\n" +
                             "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud)\n" +
                             "inner join user u on (u.id_user = s.id_user)\n" +
@@ -225,15 +258,39 @@ public class ManagerComplemento {
                             "inner join inventario i on (i.id_producto = ds.id_producto)"
                             + " where s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud comodato';";
                     break;
-                case 4:
+                case 8:
                     sql = "select count(*) from detalle_solicitud ds\n" +
                             "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud)\n" +
                             "inner join user u on (u.id_user = s.id_user)\n" +
                             "inner join empleados e on (e.id_empleado = u.id_empleado)\n" +
                             "inner join inventario i on (i.id_producto = ds.id_producto)"
-                            + " where s.tipo_solicitud = 'Solicitud comodato' or s.tipo_solicitud = 'Solicitud donación';";
+                            + " where s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud reemplazo';";
                     break;
-                case 3:
+                case 7:
+                    sql = "select count(*) from detalle_solicitud ds\n" +
+                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud)\n" +
+                            "inner join user u on (u.id_user = s.id_user)\n" +
+                            "inner join empleados e on (e.id_empleado = u.id_empleado)\n" +
+                            "inner join inventario i on (i.id_producto = ds.id_producto)\n"+
+                            "where s.tipo_solicitud = 'Solicitud reemplazo' or s.tipo_solicitud = 'Solicitud comodato';";
+                    break;
+                case 6:
+                    sql = "select count(*) from detalle_solicitud ds\n" +
+                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud)\n" +
+                            "inner join user u on (u.id_user = s.id_user)\n" +
+                            "inner join empleados e on (e.id_empleado = u.id_empleado)\n" +
+                            "inner join inventario i on (i.id_producto = ds.id_producto)"
+                            + " where s.tipo_solicitud = 'Solicitud reemplazo' or s.tipo_solicitud = 'Solicitud donación';";
+                    break;
+                case 5:
+                    sql = "select count(*) from detalle_solicitud ds\n" +
+                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud)\n" +
+                            "inner join user u on (u.id_user = s.id_user)\n" +
+                            "inner join empleados e on (e.id_empleado = u.id_empleado)\n" +
+                            "inner join inventario i on (i.id_producto = ds.id_producto)"
+                            + " where s.tipo_solicitud = 'Solicitud comodato or s.tipo_solicitud = 'Solicitud donación';";
+                    break;
+                case 4:
                     sql = "select count(*) from detalle_solicitud ds\n" +
                             "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud)\n" +
                             "inner join user u on (u.id_user = s.id_user)\n" +
@@ -241,7 +298,7 @@ public class ManagerComplemento {
                             "inner join inventario i on (i.id_producto = ds.id_producto)"
                             + " where s.tipo_solicitud = 'Solicitud baja';";
                     break;
-                case 2:
+                case 3:
                     sql = "select count(*) from detalle_solicitud ds\n" +
                             "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud)\n" +
                             "inner join user u on (u.id_user = s.id_user)\n" +
@@ -249,13 +306,21 @@ public class ManagerComplemento {
                             "inner join inventario i on (i.id_producto = ds.id_producto)"
                             + " where s.tipo_solicitud = 'Solicitud comodato';";
                     break;
-                case 1:
+                case 2:
                     sql = "select count(*) from detalle_solicitud ds\n" +
                             "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud)\n" +
                             "inner join user u on (u.id_user = s.id_user)\n" +
                             "inner join empleados e on (e.id_empleado = u.id_empleado)\n" +
                             "inner join inventario i on (i.id_producto = ds.id_producto)"
                             + " where s.tipo_solicitud = 'Solicitud donación';";
+                    break;
+                case 1:
+                    sql = "select count(*) from detalle_solicitud ds\n" +
+                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud)\n" +
+                            "inner join user u on (u.id_user = s.id_user)\n" +
+                            "inner join empleados e on (e.id_empleado = u.id_empleado)\n" +
+                            "inner join inventario i on (i.id_producto = ds.id_producto)"
+                            + " where s.tipo_solicitud = 'Solicitud reemplazo';";
                     break;
             }
             conexion = db.getConexion();

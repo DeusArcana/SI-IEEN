@@ -60,7 +60,6 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
         tablaCoincidencias = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel12 = new javax.swing.JLabel();
         txtBusquedaInventario = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
         comboFiltroInventario = new javax.swing.JComboBox<>();
 
         Asignar.setText("Asignar...");
@@ -123,17 +122,19 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
         jScrollPane1.setViewportView(tablaCoincidencias);
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel12.setText("Busqueda:");
+        jLabel12.setText("Busqueda por ");
 
         txtBusquedaInventario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtBusquedaInventario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBusquedaInventarioActionPerformed(evt);
+            }
+        });
         txtBusquedaInventario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBusquedaInventarioKeyReleased(evt);
             }
         });
-
-        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel11.setText("Filtro:");
 
         comboFiltroInventario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboFiltroInventario.addActionListener(new java.awt.event.ActionListener() {
@@ -146,28 +147,26 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
         pn_tablaCoincidencias.setLayout(pn_tablaCoincidenciasLayout);
         pn_tablaCoincidenciasLayout.setHorizontalGroup(
             pn_tablaCoincidenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 893, Short.MAX_VALUE)
             .addGroup(pn_tablaCoincidenciasLayout.createSequentialGroup()
-                .addGap(56, 56, 56)
                 .addGroup(pn_tablaCoincidenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pn_tablaCoincidenciasLayout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(txtBusquedaInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(50, 50, 50)
-                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(comboFiltroInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboFiltroInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtBusquedaInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 236, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
         pn_tablaCoincidenciasLayout.setVerticalGroup(
             pn_tablaCoincidenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_tablaCoincidenciasLayout.createSequentialGroup()
+            .addGroup(pn_tablaCoincidenciasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pn_tablaCoincidenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pn_tablaCoincidenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBusquedaInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
-                    .addComponent(jLabel11)
                     .addComponent(comboFiltroInventario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -328,6 +327,10 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_comboFiltroInventarioActionPerformed
 
+    private void txtBusquedaInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBusquedaInventarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBusquedaInventarioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -381,7 +384,6 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
     private javax.swing.JPopupMenu MenuCoincidencias;
     private javax.swing.JMenu Solicitar;
     private javax.swing.JComboBox<String> comboFiltroInventario;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pn_tablaCoincidencias;
