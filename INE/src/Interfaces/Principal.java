@@ -52,7 +52,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JSpinner;
-
+import static Interfaces.ventana_modificar_vehiculo.campo;
 
 /**
  *
@@ -250,10 +250,10 @@ public class Principal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnAddInventario = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        comboInventario = new javax.swing.JComboBox<String>();
+        comboInventario = new javax.swing.JComboBox<>();
         txtBusqueda = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        comboFiltro = new javax.swing.JComboBox<String>();
+        comboFiltro = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         usuarios = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -264,7 +264,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         txtBusquedaUsuario = new javax.swing.JTextField();
-        comboFiltroUsuario = new javax.swing.JComboBox<String>();
+        comboFiltroUsuario = new javax.swing.JComboBox<>();
         fondo = new javax.swing.JLabel();
         vehiculos = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -284,9 +284,10 @@ public class Principal extends javax.swing.JFrame {
         zoom = new javax.swing.JButton();
         imagenVehiculo = new javax.swing.JLabel();
         btnAñadirVehiculo = new javax.swing.JButton();
-        comboFiltroVehiculos = new javax.swing.JComboBox<String>();
+        comboFiltroVehiculos = new javax.swing.JComboBox<>();
         jLabel20 = new javax.swing.JLabel();
         txtBusquedaVehiculos = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         solicitudes = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
@@ -570,7 +571,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IEE.png"))); // NOI18N
 
         comboInventario.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        comboInventario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Inventario", "Inventario Granel" }));
+        comboInventario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Inventario", "Inventario Granel" }));
         comboInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboInventarioActionPerformed(evt);
@@ -928,6 +929,16 @@ public class Principal extends javax.swing.JFrame {
         });
         jPanel6.add(txtBusquedaVehiculos);
         txtBusquedaVehiculos.setBounds(390, 40, 290, 30);
+
+        jButton5.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
+        jButton5.setText("Modificar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(jButton5);
+        jButton5.setBounds(930, 73, 420, 30);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel6.add(jLabel4);
@@ -3292,6 +3303,17 @@ public class Principal extends javax.swing.JFrame {
     private void comboFiltroVehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroVehiculosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboFiltroVehiculosActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+         // TODO add your handling code here:
+         try {
+            ventana_modificar_vehiculo ob = new ventana_modificar_vehiculo(this, true);
+            campo.setText(tablaVehiculos.getValueAt(tablaVehiculos.getSelectedRow(), 4).toString());
+            ob.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Seleccione un vehiculo!","Información",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -3487,6 +3509,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;

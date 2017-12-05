@@ -292,7 +292,79 @@ public class ManagerVehiculos {
             return table;
         }
 
-    }//getEmpleados    
+    }//getEmpleados   
+    
+    public boolean actualizarVehiculo(String marca, String linea, String clase, String color, String modelo, String motor,
+            String kilomentraje, String matricula, String observaciones, String ruta) {
+        Connection con = conectar();
+        
+        String update = "update vehiculos set marca = ?, linea = ?,clase = ?,color = ?,modelo = ?,motor = ?,kilometraje = ?,observaciones = ?,imagen = ? where matricula = '"+matricula+"'";
+        FileInputStream fi = null;
+        PreparedStatement ps = null;
+
+        try {
+            File file = new File(ruta);
+            fi = new FileInputStream(file);
+
+             ps = con.prepareStatement(update);
+
+            ps.setString(1, marca);
+            ps.setString(2, linea);
+            ps.setString(3, clase);
+            ps.setString(4, color);
+            ps.setString(5, modelo);
+            ps.setString(6, motor);
+            ps.setString(7, kilomentraje);
+            ps.setString(8, observaciones);
+            ps.setBinaryStream(9, fi);
+
+            ps.executeUpdate();
+
+            return true;
+
+        } catch (Exception ex) {
+            System.out.println("Error al actualizar imagen " + ex.getMessage());
+            return false;
+
+        }
+
+    }//guardarImagen
+    
+    public boolean actualizarVehiculoSinFoto(String marca, String linea, String clase, String color, String modelo, String motor,
+            String kilomentraje, String matricula, String observaciones) {
+        Connection con = conectar();
+        
+        String update = "update vehiculos set marca = ?, linea = ?,clase = ?,color = ?,modelo = ?,motor = ?,kilometraje = ?,observaciones = ? where matricula = '"+matricula+"'";
+        
+        PreparedStatement ps = null;
+
+        try {
+            
+           
+
+             ps = con.prepareStatement(update);
+
+            ps.setString(1, marca);
+            ps.setString(2, linea);
+            ps.setString(3, clase);
+            ps.setString(4, color);
+            ps.setString(5, modelo);
+            ps.setString(6, motor);
+            ps.setString(7, kilomentraje);
+            ps.setString(8, observaciones);
+            
+
+            ps.executeUpdate();
+
+            return true;
+
+        } catch (Exception ex) {
+            System.out.println("Error al actualizar imagen " + ex.getMessage());
+            return false;
+
+        }
+
+    }//guardarImagen
         
 }//class
       
