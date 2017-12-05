@@ -215,10 +215,10 @@ public class Ventana_asignar_EquipoComputo extends javax.swing.JDialog {
 
                     //Si el codigo ya se habia registrado entonces preguntamos si desea reemplazarlo
                     if(tablaAsignarEquipo.getValueAt(f,1).toString().equals(producto)){
-
+                    coincidencia = true;
                     int opcion = JOptionPane.showOptionDialog(this,"¿Desea reemplazar el equipo "+tablaAsignarEquipo.getValueAt(f,0).toString()+"\n por el equipo "+clave+"?", "Confirmación",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botones, botones[0]);
-
+                    
                         //Si da reemplazar entonces lo reemplazamos
                         if(opcion == 0){
                             if(manager_asignar.desasignarEquipo(tablaAsignarEquipo.getValueAt(f,0).toString())){
@@ -228,13 +228,11 @@ public class Ventana_asignar_EquipoComputo extends javax.swing.JDialog {
 
                                     tablaEquipoComputo.setModel(manager_asignar.getEquipoComputo());
                                     modeloAsignarEquipo.addRow(new Object[]{clave,producto,noserie,modelo});
-                                    coincidencia = true;
                                     break;//Terminamos el ciclo
 
                                 }else{
 
                                     JOptionPane.showMessageDialog(null, "Verificar con el distribuidor");
-                                    coincidencia = true;
                                     break;//Terminamos el ciclo
 
                                 }//else
@@ -248,7 +246,6 @@ public class Ventana_asignar_EquipoComputo extends javax.swing.JDialog {
 
                             }//¿reemplazar?
                             else if(opcion == 1){
-                                coincidencia = true;
                                 break;//Terminamos el ciclo
                             }//No quiso reemplazar
                         

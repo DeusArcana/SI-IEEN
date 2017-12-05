@@ -471,6 +471,11 @@ public class Principal extends javax.swing.JFrame {
         MenuInventario.add(AgregarStock);
 
         Atender.setText("Atender...");
+        Atender.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AtenderActionPerformed(evt);
+            }
+        });
         MenuSolicitudes.add(Atender);
 
         ActualizarInfo.setText("Actualizar información");
@@ -3314,6 +3319,13 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Seleccione un vehiculo!","Información",JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void AtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtenderActionPerformed
+        // TODO add your handling code here:
+        ventana_AtenderSolicitud ob = new ventana_AtenderSolicitud(this,true);
+        ob.setVisible(true);
+        
+    }//GEN-LAST:event_AtenderActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         

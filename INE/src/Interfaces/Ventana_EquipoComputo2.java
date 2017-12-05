@@ -183,7 +183,7 @@ public class Ventana_EquipoComputo2 extends javax.swing.JDialog {
                     //Si el codigo ya se habia registrado entonces preguntamos si desea reemplazarlo
                     if(tablaDetalleInventario.producto.equals(producto)){
 
-                    int opcion = JOptionPane.showOptionDialog(this,"¿Desea reemplazar el equipo "+tablaEquipoComputo.getValueAt(f,0).toString()+"\n por el equipo "+tablaDetalleInventario.clave+"?", "Confirmación",
+                    int opcion = JOptionPane.showOptionDialog(this,"¿Desea reemplazar el equipo "+clave+"\n por el equipo "+tablaDetalleInventario.clave+"?", "Confirmación",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botones, botones[0]);
 
                         //Si da reemplazar entonces lo reemplazamos
@@ -211,8 +211,9 @@ public class Ventana_EquipoComputo2 extends javax.swing.JDialog {
                                     modeloAsignarEquipo.addRow(new Object[]{v[0],v[1],v[2],v[3]});
                                     
                                     manager_asignar.cambioAsignacionEquipo(clave, tablaDetalleInventario.clave,producto,claveEquipo);
+                                    JOptionPane.showMessageDialog(null,"Se realizo correctamente el reemplazo de "+producto+"\n"+clave+" -----> "+tablaDetalleInventario.clave);
+                                    this.dispose();
                                     break;//Terminamos el ciclo
-                                    
                                 }else{
 
                                     JOptionPane.showMessageDialog(null, "Verificar con el distribuidor");
@@ -230,11 +231,11 @@ public class Ventana_EquipoComputo2 extends javax.swing.JDialog {
                             else if(opcion == 1){
                                 break;//Terminamos el ciclo
                             }//No quiso reemplazar
-
+                            
                         }//if de coincidencia
 
                 }//for
-                this.dispose();
+                
             }else{
                 JOptionPane.showMessageDialog(null, "Se te han revocado los permisos para actualizar el equipo de computo.");
             }
