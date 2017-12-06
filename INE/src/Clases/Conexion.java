@@ -14,6 +14,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -46,7 +47,7 @@ public class Conexion {
             if (IP.equals(InetAddress.getLocalHost().getHostAddress())) {
                 DIRECCIONIP = "localhost";
                 usuario = "root";
-                contra = "123456";
+                contra = "Cisco123";
                 //  System.out.println("DATOS "+DIRECCIONIP+" "+usuario+" "+contra);
             } else {
                 DIRECCIONIP = IP;
@@ -87,8 +88,8 @@ public class Conexion {
 
     public Connection getPreConexion() {
 
-        usuario = "root";
-        contra = "123456";
+        usuario = "Cisco";
+        contra = "123";
 
         try {
 
@@ -151,5 +152,38 @@ public class Conexion {
 
         return true;
     }
+    //GIL
+    public ArrayList<String> acceder(String sql){
+        ArrayList<String> arr=new ArrayList<String>();
+        try {
+            Statement comando=con.createStatement();
+            ResultSet registro = comando.executeQuery(sql);
+            /*for(int i=1;i<=registro.getMetaData().getColumnCount();i++){
+                arr.add(registro.getString(i));
+                System.out.print(registro.getString(i));
+            }*/
+            while(registro.next()){
+                for(int i=1;i<=registro.getMetaData().getColumnCount();i++){
+                System.out.print(registro.getString(i));
+                arr.add(registro.getString(i));
+                }
+            }
+            comando.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return arr;
+    }
     
+    public boolean ejecutar(String sql) {
+        try {
+            Statement sentencia = con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+            sentencia.executeUpdate(sql);
+            sentencia.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }        return true;
+    }
 }//ConexionLogin
