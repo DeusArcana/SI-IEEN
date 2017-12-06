@@ -250,10 +250,10 @@ public class Principal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnAddInventario = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        comboInventario = new javax.swing.JComboBox<String>();
+        comboInventario = new javax.swing.JComboBox<>();
         txtBusqueda = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        comboFiltro = new javax.swing.JComboBox<String>();
+        comboFiltro = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         usuarios = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -264,7 +264,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         txtBusquedaUsuario = new javax.swing.JTextField();
-        comboFiltroUsuario = new javax.swing.JComboBox<String>();
+        comboFiltroUsuario = new javax.swing.JComboBox<>();
         fondo = new javax.swing.JLabel();
         vehiculos = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -284,7 +284,7 @@ public class Principal extends javax.swing.JFrame {
         zoom = new javax.swing.JButton();
         imagenVehiculo = new javax.swing.JLabel();
         btnAñadirVehiculo = new javax.swing.JButton();
-        comboFiltroVehiculos = new javax.swing.JComboBox<String>();
+        comboFiltroVehiculos = new javax.swing.JComboBox<>();
         jLabel20 = new javax.swing.JLabel();
         txtBusquedaVehiculos = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
@@ -577,7 +577,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IEE.png"))); // NOI18N
 
         comboInventario.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        comboInventario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Inventario", "Inventario Granel" }));
+        comboInventario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Inventario", "Inventario Granel" }));
         comboInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboInventarioActionPerformed(evt);
@@ -989,7 +989,7 @@ public class Principal extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 810, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 1321, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
@@ -1001,7 +1001,7 @@ public class Principal extends javax.swing.JFrame {
         );
 
         jPanel7.add(jPanel8);
-        jPanel8.setBounds(20, 20, 830, 330);
+        jPanel8.setBounds(20, 20, 1340, 330);
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel7.add(jLabel9);
@@ -2304,9 +2304,8 @@ public class Principal extends javax.swing.JFrame {
                 pestañas++;
         }else{
             tablaSolicitudes.setModel(manager_solicitud.tabla_Solicitudes(manager_permisos.verTablaSolicitudes(Username)));
-            int cantidad = manager_complemento.permisosPendientes(manager_permisos.verTablaSolicitudes(Username));
+            int cantidad = manager_complemento.cantidadSolicitudes(manager_permisos.verTablaSolicitudes(Username));
             if(cantidad > 0){
-                tabbedPrincipal.setBackgroundAt(3, Color.RED);
                 tabbedPrincipal.setTitleAt(3, "Solicitudes ("+cantidad+")");//Le damos el nombre a esa pestaña
             }
         }
@@ -2489,6 +2488,13 @@ public class Principal extends javax.swing.JFrame {
         tablaBD.setModel(manajerMySQL.getPermisosMySQL());
         infoEmpleado();
         
+        if(manager_permisos.verTablaSolicitudes(Username) > 0){
+            tablaSolicitudes.setModel(manager_solicitud.tabla_Solicitudes(manager_permisos.verTablaSolicitudes(Username)));
+            int cantidad = manager_complemento.cantidadSolicitudes(manager_permisos.verTablaSolicitudes(Username));
+            if(cantidad > 0){
+                tabbedPrincipal.setTitleAt(3, "Solicitudes ("+cantidad+")");//Le damos el nombre a esa pestaña
+            }
+        }
         
     }//GEN-LAST:event_formWindowActivated
 

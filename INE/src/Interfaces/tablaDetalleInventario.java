@@ -55,6 +55,7 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
         Baja = new javax.swing.JMenuItem();
         Comodato = new javax.swing.JMenuItem();
         Donación = new javax.swing.JMenuItem();
+        Reemplazo = new javax.swing.JMenuItem();
         pn_tablaCoincidencias = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaCoincidencias = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
@@ -96,6 +97,14 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
             }
         });
         Solicitar.add(Donación);
+
+        Reemplazo.setText("Reemplazo");
+        Reemplazo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReemplazoActionPerformed(evt);
+            }
+        });
+        Solicitar.add(Reemplazo);
 
         MenuCoincidencias.add(Solicitar);
 
@@ -331,6 +340,24 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBusquedaInventarioActionPerformed
 
+    private void ReemplazoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReemplazoActionPerformed
+        // TODO add your handling code here:
+        int fila = tablaCoincidencias.getSelectedRow();
+        clave = tablaCoincidencias.getValueAt(fila, 0).toString();
+        tipoSolicitud = "Solicitud Reemplazo";
+        
+        String estado = manager_solicitud.estadoProducto(clave);
+        
+        if(estado.equals("DISPONIBLE")){
+            
+            Principal.banderaSolicitud = 1;
+            Ventana_solicitud ob = new Ventana_solicitud(this,true);
+            ob.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "El producto se encuentra "+estado);
+        }
+    }//GEN-LAST:event_ReemplazoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -382,6 +409,7 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
     private javax.swing.JMenuItem Comodato;
     private javax.swing.JMenuItem Donación;
     private javax.swing.JPopupMenu MenuCoincidencias;
+    private javax.swing.JMenuItem Reemplazo;
     private javax.swing.JMenu Solicitar;
     private javax.swing.JComboBox<String> comboFiltroInventario;
     private javax.swing.JLabel jLabel12;

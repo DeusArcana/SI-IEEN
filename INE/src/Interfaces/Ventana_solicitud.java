@@ -106,6 +106,8 @@ public class Ventana_solicitud extends javax.swing.JDialog {
         lblSolicitud3.setBounds(79, 160, 59, 17);
 
         txtCantidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtCantidad.setText("1");
+        txtCantidad.setEnabled(false);
         pn_solicitud.add(txtCantidad);
         txtCantidad.setBounds(148, 157, 200, 23);
 
@@ -185,6 +187,7 @@ public class Ventana_solicitud extends javax.swing.JDialog {
         if(manager_solicitud.registro_Solicitud(solicitud, producto, tipo, usuario, motivo, cantidad)){
             JOptionPane.showMessageDialog(null, "La solicitud ha sido generada");
             tablaDetalleInventario.tablaCoincidencias.setModel(manager_inventario.getInventarioCoincidencias(Principal.prodInventario));
+            
             this.dispose();
         }//registro_solicitud
         else{

@@ -65,6 +65,7 @@ public class Ventana_EquipoComputo extends javax.swing.JDialog {
         Baja = new javax.swing.JMenuItem();
         Comodato = new javax.swing.JMenuItem();
         Donación = new javax.swing.JMenuItem();
+        Reemplazo = new javax.swing.JMenuItem();
         pn_asignarEquipo = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaDetallesEquipos = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
@@ -97,6 +98,14 @@ public class Ventana_EquipoComputo extends javax.swing.JDialog {
             }
         });
         Solicitar.add(Donación);
+
+        Reemplazo.setText("Reemplazo");
+        Reemplazo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReemplazoActionPerformed(evt);
+            }
+        });
+        Solicitar.add(Reemplazo);
 
         MenuComputo.add(Solicitar);
 
@@ -285,6 +294,25 @@ public class Ventana_EquipoComputo extends javax.swing.JDialog {
 
     }//GEN-LAST:event_DonaciónActionPerformed
 
+    private void ReemplazoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReemplazoActionPerformed
+        // TODO add your handling code here:
+        int fila = tablaEquipoComputo.getSelectedRow();
+        tipo_solicitud = "Solicitud Reemplazo";
+        Clave = tablaEquipoComputo.getValueAt(fila, 0).toString();
+        //Buscamos el estado del producto que vamos a remover
+        String estado = manager_solicitud.estadoProducto(Clave);
+        
+        if(estado.equals("ASIGNADO")){
+
+            Principal.banderaSolicitud = 2;
+            Ventana_solicitud ob = new Ventana_solicitud(this,true);
+            ob.setVisible(true);
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "El equipo actualmente se encuentra en "+estado);
+        }
+    }//GEN-LAST:event_ReemplazoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -335,6 +363,7 @@ public class Ventana_EquipoComputo extends javax.swing.JDialog {
     private javax.swing.JMenuItem Comodato;
     private javax.swing.JMenuItem Donación;
     private javax.swing.JPopupMenu MenuComputo;
+    private javax.swing.JMenuItem Reemplazo;
     private javax.swing.JMenu Solicitar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
