@@ -1225,5 +1225,32 @@ public class ManagerPermisos {
         return estado;
     }//esSuperUsuario
     
+    public boolean esPresidencia(String usuario){
+        String puesto;
+        boolean estado = false;
+        conexion = db.getConexion();
+        
+        try {
+            Statement st = conexion.createStatement();
+            //Obtenemos el puesto del usuario
+            String sql = "select puesto from user where id_user = '"+usuario+"';";
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            puesto = rs.getString(1);
+            
+            if(puesto.equals("Presidencia")){
+               estado = true;
+            }
+            
+            conexion.close();
+        } //try  
+        
+        catch (SQLException ex) {
+            Logger.getLogger(ManagerPermisos.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }//Catch//Catch//Catch//Catch
+        
+        return estado;
+    }//esPresidencia
     
 }//class

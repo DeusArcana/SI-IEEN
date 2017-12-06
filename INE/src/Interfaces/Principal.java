@@ -241,6 +241,10 @@ public class Principal extends javax.swing.JFrame {
         bt_tipo_inventario_asignable = new javax.swing.ButtonGroup();
         MenuPersonal = new javax.swing.JPopupMenu();
         CambiarContra = new javax.swing.JMenuItem();
+        MenuPendientes = new javax.swing.JPopupMenu();
+        Autorizar = new javax.swing.JMenuItem();
+        Denegar = new javax.swing.JMenuItem();
+        InfoPendiente = new javax.swing.JMenuItem();
         tabbedPrincipal = new javax.swing.JTabbedPane();
         pestañaInventario = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -510,6 +514,20 @@ public class Principal extends javax.swing.JFrame {
 
         CambiarContra.setText("Cambiar contraseña");
         MenuPersonal.add(CambiarContra);
+
+        Autorizar.setText("Autorizar");
+        MenuPendientes.add(Autorizar);
+
+        Denegar.setText("Denegar");
+        MenuPendientes.add(Denegar);
+
+        InfoPendiente.setText("Actualizar información");
+        InfoPendiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InfoPendienteActionPerformed(evt);
+            }
+        });
+        MenuPendientes.add(InfoPendiente);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Sistema Integral - Instituto Estatal Electoral de Nayarit");
@@ -2287,26 +2305,44 @@ public class Principal extends javax.swing.JFrame {
         
         //Buscamos si el usuario puede ver solicitudes o no.
         /*
-            7 -> todos los tipos de solicitud
-            6 -> baja y donacion
-            5 -> baja y comodato
-            4 -> comodato y donacion
-            3 -> baja
-            2 -> comodato
-            1 -> donacion
+            14 -> todos los tipos de solicitud
+            13 -> baja, donación y comodato
+            12 -> baja, donación y reemplazo
+            11 -> baja, comodato y reemplazo
+            10 -> baja y donación 
+            9 -> baja y comodato
+            8 -> baja y reemplazo
+            7 -> reemplazo y comodato
+            6 -> reemplazo y donación
+            5 -> comodato y donación
+            4 -> baja
+            3 -> comodato
+            2 -> donación
+            1 -> reemplazo
             0 -> ningun permiso
         */
         
         if(manager_permisos.verTablaSolicitudes(Username) == 0){
-                //"Ocultamos" la pestaña        
-                temporalSolicitud = tabbedPrincipal.getComponentAt(4); //Hacemos una copia de esa pestaña porque será eliminada
                 tabbedPrincipal.removeTabAt(3);//Eliminamos la pestaña
                 pestañas++;
         }else{
-            tablaSolicitudes.setModel(manager_solicitud.tabla_Solicitudes(manager_permisos.verTablaSolicitudes(Username)));
-            int cantidad = manager_complemento.cantidadSolicitudes(manager_permisos.verTablaSolicitudes(Username));
-            if(cantidad > 0){
-                tabbedPrincipal.setTitleAt(3, "Solicitudes ("+cantidad+")");//Le damos el nombre a esa pestaña
+            if(!(manager_permisos.esPresidencia(Username))){
+                
+                tablaSolicitudes.setModel(manager_solicitud.tabla_Solicitudes(manager_permisos.verTablaSolicitudes(Username)));
+                int solicitud = manager_complemento.cantidadSolicitudes(manager_permisos.verTablaSolicitudes(Username));
+                if(solicitud > 0){
+                    tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
+                }//if cantidad
+                
+            }//if esPresidencia
+            else{
+                
+                tablaSolicitudes.setModel(manager_solicitud.tabla_Pendientes());
+                int pendientes = manager_complemento.cantidadPendientes();
+                if(pendientes > 0){
+                    tabbedPrincipal.setTitleAt(3, "Pendientes ("+pendientes+")");//Le damos el nombre a esa pestaña
+                }//if cantidad
+                
             }
         }
         
@@ -2489,12 +2525,27 @@ public class Principal extends javax.swing.JFrame {
         infoEmpleado();
         
         if(manager_permisos.verTablaSolicitudes(Username) > 0){
-            tablaSolicitudes.setModel(manager_solicitud.tabla_Solicitudes(manager_permisos.verTablaSolicitudes(Username)));
-            int cantidad = manager_complemento.cantidadSolicitudes(manager_permisos.verTablaSolicitudes(Username));
-            if(cantidad > 0){
-                tabbedPrincipal.setTitleAt(3, "Solicitudes ("+cantidad+")");//Le damos el nombre a esa pestaña
+            
+            if(!(manager_permisos.esPresidencia(Username))){
+                
+                tablaSolicitudes.setModel(manager_solicitud.tabla_Solicitudes(manager_permisos.verTablaSolicitudes(Username)));
+                int solicitud = manager_complemento.cantidadSolicitudes(manager_permisos.verTablaSolicitudes(Username));
+                if(solicitud > 0){
+                    tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
+                }//if cantidad
+                
+            }//if esPresidencia
+            else{
+                
+                tablaSolicitudes.setModel(manager_solicitud.tabla_Pendientes());
+                int pendientes = manager_complemento.cantidadPendientes();
+                if(pendientes > 0){
+                    tabbedPrincipal.setTitleAt(3, "Pendientes ("+pendientes+")");//Le damos el nombre a esa pestaña
+                }//if cantidad
+                
             }
-        }
+            
+        }//if verTablaSolicitudes
         
     }//GEN-LAST:event_formWindowActivated
 
@@ -2679,9 +2730,7 @@ public class Principal extends javax.swing.JFrame {
     private void ActualizarInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoActionPerformed
         // TODO add your handling code here:
         if(manager_permisos.verTablaSolicitudes(Username) == 0){
-                //"Ocultamos" la pestaña        
-                temporalSolicitud = tabbedPrincipal.getComponentAt(4); //Hacemos una copia de esa pestaña porque será eliminada
-                tabbedPrincipal.removeTabAt(4);//Eliminamos la pestaña 
+                tabbedPrincipal.removeTabAt(3);//Eliminamos la pestaña 
         }else{
             tablaSolicitudes.setModel(manager_solicitud.tabla_Solicitudes(manager_permisos.verTablaSolicitudes(Username)));
         }
@@ -2689,13 +2738,25 @@ public class Principal extends javax.swing.JFrame {
 
     private void tablaSolicitudesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaSolicitudesMouseReleased
         // TODO add your handling code here:
-        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
-        if(SwingUtilities.isRightMouseButton(evt)){
-            int r = tablaSolicitudes.rowAtPoint(evt.getPoint());
-            if (r >= 0 && r < tablaSolicitudes.getRowCount())
-            tablaSolicitudes.setRowSelectionInterval(r, r);
-            MenuSolicitudes.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-        }//clic derecho
+        
+        if(!(manager_permisos.esPresidencia(Username))){
+
+            //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+            if(SwingUtilities.isRightMouseButton(evt)){
+                int r = tablaSolicitudes.rowAtPoint(evt.getPoint());
+                if (r >= 0 && r < tablaSolicitudes.getRowCount())
+                tablaSolicitudes.setRowSelectionInterval(r, r);
+                MenuSolicitudes.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+            }//clic derecho
+            
+        }else{
+            if(SwingUtilities.isRightMouseButton(evt)){
+                int r = tablaSolicitudes.rowAtPoint(evt.getPoint());
+                if (r >= 0 && r < tablaSolicitudes.getRowCount())
+                tablaSolicitudes.setRowSelectionInterval(r, r);
+                MenuPendientes.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+            }//clic derecho
+        }
     }//GEN-LAST:event_tablaSolicitudesMouseReleased
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -3356,6 +3417,17 @@ public class Principal extends javax.swing.JFrame {
         this.dispose();
         
     }//GEN-LAST:event_mi_viaticosActionPerformed
+
+    private void InfoPendienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InfoPendienteActionPerformed
+        // TODO add your handling code here:
+        
+        tablaSolicitudes.setModel(manager_solicitud.tabla_Pendientes());
+        int pendientes = manager_complemento.cantidadPendientes();
+        if(pendientes > 0){
+            tabbedPrincipal.setTitleAt(3, "Pendientes ("+pendientes+")");//Le damos el nombre a esa pestaña
+        }//if cantidad
+        
+    }//GEN-LAST:event_InfoPendienteActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -3491,13 +3563,17 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem Asignar;
     private javax.swing.JMenuItem AsignarV;
     private javax.swing.JMenuItem Atender;
+    private javax.swing.JMenuItem Autorizar;
     private javax.swing.JMenuItem Baja;
     private javax.swing.JMenuItem CambiarContra;
     private javax.swing.JMenuItem Comodato;
+    private javax.swing.JMenuItem Denegar;
     private javax.swing.JMenuItem Eliminar;
     private javax.swing.JMenuItem Equipos;
     private javax.swing.ButtonGroup Grupo1;
+    private javax.swing.JMenuItem InfoPendiente;
     private javax.swing.JPopupMenu MenuInventario;
+    private javax.swing.JPopupMenu MenuPendientes;
     private javax.swing.JPopupMenu MenuPersonal;
     private javax.swing.JMenuItem MenuSolicitud;
     private javax.swing.JPopupMenu MenuSolicitudes;

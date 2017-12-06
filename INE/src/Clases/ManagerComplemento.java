@@ -339,6 +339,35 @@ public class ManagerComplemento {
             return cantidad;
         }
 
-    }//PermisosPendientes
+    }//cantidadSolicitudes
+    
+    public int cantidadPendientes() {
+        int cantidad = 0;
+
+        try {
+            
+            conexion = db.getConexion();
+            
+            String sql="select count(*) from detalle_solicitud ds\n" +
+                            "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud)\n" +
+                            "inner join user u on (u.id_user = s.id_user)\n" +
+                            "inner join empleados e on (e.id_empleado = u.id_empleado)\n" +
+                            "inner join inventario i on (i.id_producto = ds.id_producto)\n"+ 
+                            "where s.estado = 'PENDIENTE';";
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            cantidad = rs.getInt(1);
+            
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error getTabla Inventario SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return cantidad;
+        }
+
+    }//cantidadPendientes
     
 }//class
