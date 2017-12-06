@@ -78,18 +78,12 @@ public class Validaciones {
         return txt.isEmpty();
     }
     
-    public static boolean validarClave_añadirInventarioNormal(String txt){
-        String regex= "CMP([0-9]{8})";
-        Pattern patron=Pattern.compile(regex);//CMP00000001
-        Matcher emparejador = patron.matcher(txt);
-        return emparejador.matches();
+    public static boolean validarClave_añadirInventarioNormal(String txt){//CMP00000001
+        return Pattern.compile( "CMP([0-9]{8})").matcher(txt).matches();
     }
         
     public static boolean validarNoSerie_añadirInventarioNormal(String txt){
-        String regex= "([A-Z0-9]){10}";
-        Pattern patron= Pattern.compile(regex);;//5CD44945F2
-        Matcher emparejador = patron.matcher(txt);
-        return emparejador.matches();
+        return Pattern.compile( "([A-Z0-9]){10}").matcher(txt).matches();
     }
     
     public static boolean validarNombres_añadirUsuario(String txt){
