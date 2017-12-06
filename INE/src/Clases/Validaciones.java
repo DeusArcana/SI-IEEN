@@ -11,8 +11,22 @@ public class Validaciones {
         return emparejador.matches();
     }
     
+    public static boolean validarLongitudCadenaAlfanumericaRango(String txt,int min,int max){
+        String regex= "([A-Z0-9]){"+min+","+max+"}";
+        Pattern patron= Pattern.compile(regex);//5CD44945F2
+        Matcher emparejador = patron.matcher(txt);
+        return emparejador.matches();
+    }
+    
     public static boolean validarLongitudCantidadEntera(String txt,int longitud){
         String regex= "([0-9]){"+longitud+"}";
+        Pattern patron= Pattern.compile(regex);//5CD44945F2
+        Matcher emparejador = patron.matcher(txt);
+        return emparejador.matches();
+    }
+    
+    public static boolean validarLongitudCantidadEnteraRango(String txt,int min,int max){
+        String regex= "([0-9]){"+min+","+max+"}";
         Pattern patron= Pattern.compile(regex);//5CD44945F2
         Matcher emparejador = patron.matcher(txt);
         return emparejador.matches();
@@ -25,6 +39,13 @@ public class Validaciones {
         return emparejador.matches();
     }
     
+    public static boolean validarLongitudCadenaMinusculasyMayusculasRango(String txt,int min,int max){
+        String regex= "([A-Za-z]){"+min+","+max+"}";
+        Pattern patron= Pattern.compile(regex);//5CD44945F2
+        Matcher emparejador = patron.matcher(txt);
+        return emparejador.matches();
+    }
+    
     public static boolean validarLongitudCadenaSoloMayusculas(String txt,int longitud){
         String regex= "([A-Z]){"+longitud+"}";
         Pattern patron= Pattern.compile(regex);//5CD44945F2
@@ -32,8 +53,22 @@ public class Validaciones {
         return emparejador.matches();
     }
     
+    public static boolean validarLongitudCadenaSoloMayusculas(String txt,int min,int max){
+        String regex= "([A-Z]){"+min+","+max+"}";
+        Pattern patron= Pattern.compile(regex);//5CD44945F2
+        Matcher emparejador = patron.matcher(txt);
+        return emparejador.matches();
+    }
+    
     public static boolean validarLongitudCadenaSoloMinusculas(String txt,int longitud){
         String regex= "([a-z]){"+longitud+"}";
+        Pattern patron= Pattern.compile(regex);//5CD44945F2
+        Matcher emparejador = patron.matcher(txt);
+        return emparejador.matches();
+    }
+    
+    public static boolean validarLongitudCadenaSoloMinusculasRango(String txt,int min,int max){
+        String regex= "([a-z]){"+min+","+max+"}";
         Pattern patron= Pattern.compile(regex);//5CD44945F2
         Matcher emparejador = patron.matcher(txt);
         return emparejador.matches();

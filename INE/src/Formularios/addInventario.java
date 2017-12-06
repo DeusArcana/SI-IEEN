@@ -7,6 +7,7 @@ package Formularios;
 
 import Clases.ManagerInventario;
 import Clases.ManagerPermisos;
+import Clases.Validaciones;
 
 import Interfaces.Principal;
 import javax.swing.JOptionPane;
@@ -53,7 +54,6 @@ public class addInventario extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtAlmacen = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtMarca = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -70,9 +70,10 @@ public class addInventario extends javax.swing.JDialog {
         txtModelo = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         txtColor = new javax.swing.JTextField();
-        comboProducto = new javax.swing.JComboBox<>();
+        comboProducto = new javax.swing.JComboBox<String>();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        cb_almacen = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -108,15 +109,6 @@ public class addInventario extends javax.swing.JDialog {
         jLabel4.setText("Almacén:");
         pn_addInventario.add(jLabel4);
         jLabel4.setBounds(32, 77, 56, 17);
-
-        txtAlmacen.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtAlmacen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAlmacenActionPerformed(evt);
-            }
-        });
-        pn_addInventario.add(txtAlmacen);
-        txtAlmacen.setBounds(106, 71, 215, 23);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Marca:");
@@ -214,7 +206,7 @@ public class addInventario extends javax.swing.JDialog {
         txtColor.setBounds(105, 217, 215, 23);
 
         comboProducto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        comboProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CPU", "Monitor", "Teclado" }));
+        comboProducto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "CPU", "Monitor", "Teclado" }));
         pn_addInventario.add(comboProducto);
         comboProducto.setBounds(110, 42, 90, 23);
 
@@ -242,6 +234,11 @@ public class addInventario extends javax.swing.JDialog {
         pn_addInventario.add(btnCancelar);
         btnCancelar.setBounds(440, 300, 150, 33);
 
+        cb_almacen.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cb_almacen.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Informatica", "Administracion", "Bodega" }));
+        pn_addInventario.add(cb_almacen);
+        cb_almacen.setBounds(110, 70, 110, 20);
+
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         pn_addInventario.add(jLabel6);
         jLabel6.setBounds(0, 0, 860, 340);
@@ -260,10 +257,6 @@ public class addInventario extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtAlmacenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAlmacenActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtAlmacenActionPerformed
-
     private void txtMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMarcaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMarcaActionPerformed
@@ -272,24 +265,24 @@ public class addInventario extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNoSerieActionPerformed
 
-    public void getInfo(){
-    
-        clave = txtClave.getText();
+    public boolean getInfo(){
+        if(Validaciones.validarClave_añadirInventarioNormal(txtClave.getText())){clave = txtClave.getText();}else{JOptionPane.showMessageDialog(null, "Clave no cumple con requerimientos.");return false;}
         producto = comboProducto.getSelectedItem().toString();
-        almacen = txtAlmacen.getText();
+        almacen = cb_almacen.getSelectedItem().toString();
         marca = txtMarca.getText();
-        noserie = txtNoSerie.getText();
+        if(Validaciones.validarLongitudCadenaAlfanumerica(txtNoSerie.getText(), 8)){noserie = txtNoSerie.getText();}else{JOptionPane.showMessageDialog(null, "No Serie no cumple con requerimientos.");return false;}
+        
         descripcion = txtAreaDescripcion.getText();
         observaciones = txtAreaObservaciones.getText();
         tipo = txtTipoUso.getText();
         modelo = txtModelo.getText();
         color = txtColor.getText();
-        
+        return true;
     }//getInfo
     
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        getInfo();
+        if(getInfo()==false){return;}
         if(manager_permisos.alta_inventario(Principal.Username)){
             
             if(manager_inventario.insertarInventario(clave, producto, almacen, marca, noserie, descripcion, observaciones,tipo,modelo,color)){
@@ -397,6 +390,7 @@ public class addInventario extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JComboBox cb_almacen;
     private javax.swing.JComboBox<String> comboProducto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -413,7 +407,6 @@ public class addInventario extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblAviso;
     private javax.swing.JPanel pn_addInventario;
-    private javax.swing.JTextField txtAlmacen;
     private javax.swing.JTextArea txtAreaDescripcion;
     private javax.swing.JTextArea txtAreaObservaciones;
     private javax.swing.JTextField txtClave;

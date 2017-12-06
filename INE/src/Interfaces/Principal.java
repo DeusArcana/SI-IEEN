@@ -250,10 +250,10 @@ public class Principal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnAddInventario = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        comboInventario = new javax.swing.JComboBox<>();
+        comboInventario = new javax.swing.JComboBox<String>();
         txtBusqueda = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        comboFiltro = new javax.swing.JComboBox<>();
+        comboFiltro = new javax.swing.JComboBox<String>();
         jLabel1 = new javax.swing.JLabel();
         usuarios = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -264,7 +264,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         txtBusquedaUsuario = new javax.swing.JTextField();
-        comboFiltroUsuario = new javax.swing.JComboBox<>();
+        comboFiltroUsuario = new javax.swing.JComboBox<String>();
         fondo = new javax.swing.JLabel();
         vehiculos = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -284,7 +284,7 @@ public class Principal extends javax.swing.JFrame {
         zoom = new javax.swing.JButton();
         imagenVehiculo = new javax.swing.JLabel();
         btnAñadirVehiculo = new javax.swing.JButton();
-        comboFiltroVehiculos = new javax.swing.JComboBox<>();
+        comboFiltroVehiculos = new javax.swing.JComboBox<String>();
         jLabel20 = new javax.swing.JLabel();
         txtBusquedaVehiculos = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
@@ -418,6 +418,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         itemAnterior = new javax.swing.JMenuItem();
         itemSiguiente = new javax.swing.JMenuItem();
+        mi_viaticos = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         itemSalir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -576,7 +577,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IEE.png"))); // NOI18N
 
         comboInventario.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        comboInventario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Inventario", "Inventario Granel" }));
+        comboInventario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Inventario", "Inventario Granel" }));
         comboInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboInventarioActionPerformed(evt);
@@ -2139,6 +2140,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(itemSiguiente);
+
+        mi_viaticos.setText("Viaticos");
+        mi_viaticos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_viaticosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mi_viaticos);
         jMenu1.add(jSeparator1);
 
         itemSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
@@ -3333,6 +3342,14 @@ public class Principal extends javax.swing.JFrame {
         ob.setVisible(true);
         
     }//GEN-LAST:event_AtenderActionPerformed
+
+    private void mi_viaticosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_viaticosActionPerformed
+ 
+        PrincipalS a= new PrincipalS();
+        a.setVisible(true);
+        this.dispose();
+        
+    }//GEN-LAST:event_mi_viaticosActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -3620,6 +3637,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu menuOpciones;
     private javax.swing.JMenuItem menuPermisos;
     private javax.swing.JMenuItem menuPuestoArea;
+    private javax.swing.JMenuItem mi_viaticos;
     private javax.swing.JPanel pestañaInventario;
     private javax.swing.JPanel pn_acciones;
     private javax.swing.JPanel pn_asignacion_inventario;
