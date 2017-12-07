@@ -114,9 +114,9 @@ public class Principal extends javax.swing.JFrame {
     public static int banderaPermisosSolicitud = 1;
     
     //VARIABLES GLOBALES
-    public static String usuario = "",prodInventario = "";
-    public static String Username = "";
-    public static String UserUpdate = "";
+    public static String usuario = "",prodInventario = "",UserUpdate = "",estadoPendiente = "",Username = "";
+    public static int idPendiente;
+            
     Vector IPS = new Vector();
     public static DefaultTableModel modeloTablaIP;
     public static Component temporalSolicitud;
@@ -218,7 +218,6 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Grupo1 = new javax.swing.ButtonGroup();
         MenuUsuarios = new javax.swing.JPopupMenu();
         Eliminar = new javax.swing.JMenuItem();
         Actualizar = new javax.swing.JMenuItem();
@@ -237,14 +236,15 @@ public class Principal extends javax.swing.JFrame {
         SolictarMas = new javax.swing.JMenu();
         SolicitarBaja = new javax.swing.JMenuItem();
         Servicio = new javax.swing.JMenuItem();
-        bg_manejo_inventario = new javax.swing.ButtonGroup();
-        bt_tipo_inventario_asignable = new javax.swing.ButtonGroup();
         MenuPersonal = new javax.swing.JPopupMenu();
         CambiarContra = new javax.swing.JMenuItem();
         MenuPendientes = new javax.swing.JPopupMenu();
         Autorizar = new javax.swing.JMenuItem();
         Denegar = new javax.swing.JMenuItem();
         InfoPendiente = new javax.swing.JMenuItem();
+        Grupo1 = new javax.swing.ButtonGroup();
+        bg_manejo_inventario = new javax.swing.ButtonGroup();
+        bt_tipo_inventario_asignable = new javax.swing.ButtonGroup();
         tabbedPrincipal = new javax.swing.JTabbedPane();
         pestañaInventario = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -2336,7 +2336,7 @@ public class Principal extends javax.swing.JFrame {
                 
             }//if esPresidencia
             else{
-                
+                tabbedPrincipal.setTitleAt(3, "Pendientes");//Le damos el nombre a esa pestaña
                 tablaSolicitudes.setModel(manager_solicitud.tabla_Pendientes());
                 int pendientes = manager_complemento.cantidadPendientes();
                 if(pendientes > 0){
@@ -3405,6 +3405,17 @@ public class Principal extends javax.swing.JFrame {
 
     private void AtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtenderActionPerformed
         // TODO add your handling code here:
+        
+        //Obtenemos la fila seleccionada
+        int fila = tablaSolicitudes.getSelectedRow();
+        //Obtenemos el tipo de la solicitud
+        String solicitud = tablaSolicitudes.getValueAt(fila, 1).toString();
+        //Obtenemos el id de la solicitud
+        idPendiente = Integer.parseInt(tablaSolicitudes.getValueAt(fila, 0).toString());
+        //Le quitamos la palabra "Solicitud " y nos quedamos con el estado pendiente al que va a cambiar
+        estadoPendiente = solicitud.substring(10, solicitud.length());
+        
+        //Abrimos la ventana para atender la solicitud y actualizar la foto del producto solicitado.
         ventana_AtenderSolicitud ob = new ventana_AtenderSolicitud(this,true);
         ob.setVisible(true);
         

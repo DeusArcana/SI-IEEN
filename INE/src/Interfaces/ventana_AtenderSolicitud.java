@@ -6,19 +6,30 @@
 package Interfaces;
 
 import javax.swing.JOptionPane;
-
+import Clases.ManagerSolicitud;
+import Clases.ManagerComplemento;
+import Clases.ManagerPermisos;
+import static Interfaces.Principal.Username;
+import static Interfaces.Principal.tabbedPrincipal;
+import static Interfaces.Principal.tablaSolicitudes;
 /**
  *
  * @author kevin
  */
 public class ventana_AtenderSolicitud extends javax.swing.JDialog {
-
+    ManagerSolicitud manager_solicitud;
+    ManagerComplemento manager_complemento;
+    ManagerPermisos manager_permisos;
     /**
      * Creates new form ventana_AtenderSolicitud
      */
     public ventana_AtenderSolicitud(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        manager_solicitud = new ManagerSolicitud();
+        manager_complemento = new ManagerComplemento();
+        manager_permisos = new ManagerPermisos();
     }
 
     /**
@@ -32,6 +43,8 @@ public class ventana_AtenderSolicitud extends javax.swing.JDialog {
 
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -51,25 +64,48 @@ public class ventana_AtenderSolicitud extends javax.swing.JDialog {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel1.setText("Actualizar la info correspondiente");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel2.setText("Cambiar Imagen");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(182, 182, 182)
-                .addComponent(btnAceptar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCancelar)
-                .addContainerGap(230, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(182, 182, 182)
+                        .addComponent(btnAceptar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCancelar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel1)))
+                .addContainerGap(37, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(151, 151, 151)
+                    .addComponent(jLabel2)
+                    .addContainerGap(180, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(398, Short.MAX_VALUE)
+                .addContainerGap(201, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(153, 153, 153)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
                     .addComponent(btnCancelar))
                 .addGap(19, 19, 19))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(149, 149, 149)
+                    .addComponent(jLabel2)
+                    .addContainerGap(249, Short.MAX_VALUE)))
         );
 
         pack();
@@ -82,8 +118,21 @@ public class ventana_AtenderSolicitud extends javax.swing.JDialog {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "La solicitud se comprobo, paso de solicitud a pendiente.");
-        this.dispose();
+        
+        if(manager_solicitud.actualizar_Solicitud(Principal.idPendiente, Principal.estadoPendiente.toUpperCase())){
+            
+            JOptionPane.showMessageDialog(null, "La solicitud "+Principal.idPendiente+" se atendio, paso de solicitud a pendiente "+Principal.estadoPendiente+".");
+            tablaSolicitudes.setModel(manager_solicitud.tabla_Solicitudes(manager_permisos.verTablaSolicitudes(Username)));
+                int solicitud = manager_complemento.cantidadSolicitudes(manager_permisos.verTablaSolicitudes(Username));
+                if(solicitud > 0){
+                    tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
+                }//if cantidad
+                else{
+                    tabbedPrincipal.setTitleAt(3, "Solicitudes");//Le damos el nombre a esa pestaña
+                }
+            this.dispose();
+            
+        }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     /**
@@ -131,5 +180,7 @@ public class ventana_AtenderSolicitud extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }

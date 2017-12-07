@@ -29,7 +29,7 @@ public class addInventario extends javax.swing.JDialog {
     public addInventario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-
+        
         //Asginamos memoria al objeto
         manager_inventario = new ManagerInventario();
         manager_permisos = new ManagerPermisos();
@@ -266,12 +266,20 @@ public class addInventario extends javax.swing.JDialog {
     }//GEN-LAST:event_txtNoSerieActionPerformed
 
     public boolean getInfo(){
-        if(Validaciones.validateClaveInventario(txtClave.getText())){clave = txtClave.getText();}else{JOptionPane.showMessageDialog(null, "Clave no cumple con requerimientos.");return false;}
+        //if(Validaciones.validarClave_añadirInventarioNormal(txtClave.getText())){
+        clave = txtClave.getText();
+    //}else{JOptionPane.showMessageDialog(null, "Clave no cumple con requerimientos.");return false;}
         producto = comboProducto.getSelectedItem().toString();
         almacen = cb_almacen.getSelectedItem().toString();
         marca = txtMarca.getText();
-        if(Validaciones.validateAlphanumeric(txtNoSerie.getText(), 8)){noserie = txtNoSerie.getText();}else{JOptionPane.showMessageDialog(null, "No Serie no cumple con requerimientos.");return false;}
-
+        
+        //if(Validaciones.validarLongitudCadenaAlfanumerica(txtNoSerie.getText(), 8)){
+            noserie = txtNoSerie.getText();
+        //}else{
+        //    JOptionPane.showMessageDialog(null, "No Serie no cumple con requerimientos.");
+        //    return false;
+        //}
+        
         descripcion = txtAreaDescripcion.getText();
         observaciones = txtAreaObservaciones.getText();
         tipo = txtTipoUso.getText();

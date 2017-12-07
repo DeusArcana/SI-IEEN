@@ -2,8 +2,6 @@
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Component class="javax.swing.ButtonGroup" name="Grupo1">
-    </Component>
     <Container class="javax.swing.JPopupMenu" name="MenuUsuarios">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
@@ -129,10 +127,6 @@
         </Menu>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.ButtonGroup" name="bg_manejo_inventario">
-    </Component>
-    <Component class="javax.swing.ButtonGroup" name="bt_tipo_inventario_asignable">
-    </Component>
     <Container class="javax.swing.JPopupMenu" name="MenuPersonal">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
@@ -172,6 +166,12 @@
         </MenuItem>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.ButtonGroup" name="Grupo1">
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="bg_manejo_inventario">
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="bt_tipo_inventario_asignable">
+    </Component>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jMenu1">
