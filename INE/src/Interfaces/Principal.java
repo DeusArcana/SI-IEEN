@@ -142,7 +142,7 @@ public class Principal extends javax.swing.JFrame {
         
         //Para obtener el nombre de usuario con el que se logearon
         leer();
-
+        
         //Deshabilitamos el movimiento de los encabezados de las tablas
         tablaUsuarios.getTableHeader().setReorderingAllowed(false);
         tablaInventario.getTableHeader().setReorderingAllowed(false);
@@ -159,11 +159,8 @@ public class Principal extends javax.swing.JFrame {
         campoObservaciones.setLineWrap(true);
         //Quitar editable a spinner
         ((JSpinner.DefaultEditor) campoip1.getEditor()).getTextField().setEditable(false);
-        //Quitar editable a spinner
         ((JSpinner.DefaultEditor) campoip2.getEditor()).getTextField().setEditable(false);
-        //Quitar editable a spinner
         ((JSpinner.DefaultEditor) campoip3.getEditor()).getTextField().setEditable(false);
-        //Quitar editable a spinner
         ((JSpinner.DefaultEditor) campoip4.getEditor()).getTextField().setEditable(false);
 
         etiquetaMarca.setText("");
@@ -205,6 +202,7 @@ public class Principal extends javax.swing.JFrame {
         metodo.cargarInventarioGlobal(tb_inventario_normal_asignado);metodo.cargarInventarioGlobal(tb_objetos_asignados1);
         metodo.cargarInventarioGlobalGranel(tb_inventario_granel_asignado);      
         /*NUEVO*/    
+        
     }
       
     
@@ -3618,7 +3616,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JSpinner campoip2;
     private javax.swing.JSpinner campoip3;
     private javax.swing.JSpinner campoip4;
-    private javax.swing.JComboBox<String> comboFiltro;
+    public static javax.swing.JComboBox<String> comboFiltro;
     private javax.swing.JComboBox<String> comboFiltroUsuario;
     private javax.swing.JComboBox<String> comboFiltroVehiculos;
     private javax.swing.JComboBox<String> comboInventario;

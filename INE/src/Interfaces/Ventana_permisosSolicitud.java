@@ -210,7 +210,8 @@ public class Ventana_permisosSolicitud extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnAceptar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptar1ActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here
+        this.dispose();
     }//GEN-LAST:event_btnAceptar1ActionPerformed
 
     public void colocarRadios(){

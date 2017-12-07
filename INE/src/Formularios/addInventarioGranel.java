@@ -278,7 +278,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null,"Se inserto correctamente al inventario");
                 
                 if(manager_permisos.consulta_inventario(Principal.Username)){
-                    Principal.tablaInventario.setModel(manager_inventario.getInventarioG());
+                    Principal.tablaInventario.setModel(manager_inventario.getInventarioG(Principal.comboFiltro.getSelectedIndex()));
                 }
                 
             }else{

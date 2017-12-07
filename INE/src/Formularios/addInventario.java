@@ -297,7 +297,7 @@ public class addInventario extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null,"Se inserto correctamente al inventario");
                 
                 if(manager_permisos.consulta_inventario(Principal.Username)){
-                    Principal.tablaInventario.setModel(manager_inventario.getInventario());
+                    Principal.tablaInventario.setModel(manager_inventario.getInventario(Principal.comboFiltro.getSelectedIndex()));
                 }
                 
             }else{

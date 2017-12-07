@@ -63,7 +63,7 @@ public class Ventana_solicitud extends javax.swing.JDialog {
         lblSolicitud5 = new javax.swing.JLabel();
         txtProducto = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
-        btnAceptar1 = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         txtTipoSolicitud = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
@@ -144,11 +144,16 @@ public class Ventana_solicitud extends javax.swing.JDialog {
         pn_solicitud.add(btnAceptar);
         btnAceptar.setBounds(30, 400, 140, 33);
 
-        btnAceptar1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnAceptar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
-        btnAceptar1.setText("Cancelar");
-        pn_solicitud.add(btnAceptar1);
-        btnAceptar1.setBounds(190, 400, 140, 33);
+        btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+        pn_solicitud.add(btnCancelar);
+        btnCancelar.setBounds(190, 400, 140, 33);
 
         txtTipoSolicitud.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtTipoSolicitud.setEnabled(false);
@@ -209,6 +214,11 @@ public class Ventana_solicitud extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTipoSolicitudActionPerformed
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
     public void getInfo(){
     
         solicitud = txtNoSolicitud.getText();
@@ -265,7 +275,7 @@ public class Ventana_solicitud extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
-    private javax.swing.JButton btnAceptar1;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblSolicitud;
