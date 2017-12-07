@@ -26,7 +26,7 @@ public class MetodosComponentes {
     public void cargarEmpleados(JTable tabla) throws ClassNotFoundException, SQLException{
         conexion=db.getConexion();  
         pointerA.modelo=new DefaultTableModel();
-        ResultSet rs =Conexion.getTabla(ConsultasSQL.datosValeAsignacion_responsable(),conexion);
+        ResultSet rs =db.getTabla(ConsultasSQL.datosValeAsignacion_responsable(),conexion);
         pointerA.modelo.setColumnIdentifiers(Tablas.generarColumnasGraficamenteDatosResponsable());
         try{
             while(rs.next()){pointerA.modelo.addRow(Tablas.generarContenidoColumnasDatosResponsable(rs));}
@@ -39,7 +39,7 @@ public class MetodosComponentes {
     public void cargarInventario(JTable tabla) throws ClassNotFoundException, SQLException{
         conexion=db.getConexion();  
         pointerA.modelo=new DefaultTableModel();
-        ResultSet rs =Conexion.getTabla(ConsultasSQL.resumenDatos_inventario(),conexion);
+        ResultSet rs =db.getTabla(ConsultasSQL.resumenDatos_inventario(),conexion);
         pointerA.modelo.setColumnIdentifiers(Tablas.generarColumnasGraficamenteInventarioParcial());
         try{
             while(rs.next()){pointerA.modelo.addRow(Tablas.generarContenidoColumnasInventarioParcial(rs));}
@@ -52,7 +52,7 @@ public class MetodosComponentes {
     public void cargarNombreEmpleado_Asignacion() throws ClassNotFoundException{//SE ACTIVA AL TAR CLICK EN UNA FILA DE LA TABLA
         try {//EMPLEADOS. OBTIENE  LOS DATOS DE LA FILA DE LA TABLA EMPLEADOS
             conexion=db.getConexion();  
-            ResultSet rs =Conexion.getTabla(ConsultasSQL.datosValeAsignacion_responsableParticular(
+            ResultSet rs =db.getTabla(ConsultasSQL.datosValeAsignacion_responsableParticular(
                     "nombres",(String)pointerA.tb_empleado.getValueAt(pointerA.tb_empleado.getSelectedRow(), 0)
             ),conexion);
             while(rs.next()){  
@@ -67,7 +67,7 @@ public class MetodosComponentes {
     public void cargarNombreEmpleado_Asignacion1() throws ClassNotFoundException{//SE ACTIVA AL TAR CLICK EN UNA FILA DE LA TABLA
         try {//EMPLEADOS. OBTIENE  LOS DATOS DE LA FILA DE LA TABLA EMPLEADOS
             conexion=db.getConexion();  
-            ResultSet rs =Conexion.getTabla(ConsultasSQL.datosValeAsignacion_responsableParticular(
+            ResultSet rs =db.getTabla(ConsultasSQL.datosValeAsignacion_responsableParticular(
                     "nombres",(String)pointerA.tb_empleado1.getValueAt(pointerA.tb_empleado1.getSelectedRow(), 0)
             ),conexion);
             while(rs.next()){  
@@ -83,7 +83,7 @@ public class MetodosComponentes {
     public void cargarNombreEmpleado_Recoleccion() throws ClassNotFoundException{//SE ACTIVA AL TAR CLICK EN UNA FILA DE LA TABLA
         try {//EMPLEADOS. OBTIENE  LOS DATOS DE LA FILA DE LA TABLA EMPLEADOS1
             conexion=db.getConexion();  
-            ResultSet rs =Conexion.getTabla(ConsultasSQL.datosValeAsignacion_responsableParticular(
+            ResultSet rs =db.getTabla(ConsultasSQL.datosValeAsignacion_responsableParticular(
                     "nombres",(String)pointerA.tb_empleado1.getValueAt(pointerA.tb_empleado1.getSelectedRow(), 0)
             ),conexion);
             while(rs.next()){
@@ -100,7 +100,7 @@ public class MetodosComponentes {
             conexion=db.getConexion();
             pointerA.modelo=new DefaultTableModel();
             pointerA.modelo.setColumnIdentifiers(Tablas.generarColumnasGraficamenteInventarioGlobal());
-            ResultSet rs =Conexion.getTabla(ConsultasSQL.datosObjetosAsignadosPersonales(
+            ResultSet rs =db.getTabla(ConsultasSQL.datosObjetosAsignadosPersonales(
             (String)pointerA.tb_empleado1.getValueAt(pointerA.tb_empleado1.getSelectedRow(), 0), 
             (String)pointerA.tb_empleado1.getValueAt(pointerA.tb_empleado1.getSelectedRow(), 1)),conexion);
             while(rs.next()){
@@ -142,7 +142,7 @@ public class MetodosComponentes {
     public void cargarInventarioGlobal(JTable tabla) throws ClassNotFoundException, SQLException{
         conexion=db.getConexion();  
         pointerA.modelo=new DefaultTableModel();
-        ResultSet rs=Conexion.getTabla(ConsultasSQL.datosObjetosAsignadosGlobales(),conexion);
+        ResultSet rs=db.getTabla(ConsultasSQL.datosObjetosAsignadosGlobales(),conexion);
         pointerA.modelo.setColumnIdentifiers(Tablas.generarColumnasGraficamenteInventarioGlobal());
         try{
             while(rs.next()){pointerA.modelo.addRow(Tablas.generarContenidoColumnasInventarioGlobal(rs));}
@@ -154,7 +154,7 @@ public class MetodosComponentes {
     public void cargarInventarioPendiente(JTable tabla) throws ClassNotFoundException, SQLException{
         conexion=db.getConexion();  
         pointerA.modelo=new DefaultTableModel();
-        ResultSet rs=Conexion.getTabla(ConsultasSQL.datosObjetosAsignadosGlobalesDeProductosQuehanSidoAsignados(),conexion);
+        ResultSet rs=db.getTabla(ConsultasSQL.datosObjetosAsignadosGlobalesDeProductosQuehanSidoAsignados(),conexion);
         pointerA.modelo.setColumnIdentifiers(Tablas.generarColumnasGraficamenteInventarioGlobal());
         try{
             while(rs.next()){pointerA.modelo.addRow(Tablas.generarContenidoColumnasInventarioGlobal(rs));}
@@ -166,7 +166,7 @@ public class MetodosComponentes {
     public void cargarInventarioGlobalGranel(JTable tabla) throws ClassNotFoundException, SQLException{
         conexion=db.getConexion();  
         pointerA.modelo=new DefaultTableModel();
-        ResultSet rs=Conexion.getTabla(ConsultasSQL.datosObjetosAsignadosGlobalesGranel(),conexion);
+        ResultSet rs=db.getTabla(ConsultasSQL.datosObjetosAsignadosGlobalesGranel(),conexion);
         pointerA.modelo.setColumnIdentifiers(Tablas.generarColumnasGraficamenteInventarioGlobal());
         try{
             while(rs.next()){pointerA.modelo.addRow(Tablas.generarContenidoColumnasInventarioGlobalGranel(rs));}
@@ -178,7 +178,7 @@ public class MetodosComponentes {
     public void cargarInventarioAsignaciones(JTable tabla) throws ClassNotFoundException, SQLException{
         conexion=db.getConexion(); 
         pointerA.modelo=new DefaultTableModel();
-        ResultSet rs=Conexion.getTabla(ConsultasSQL.resumenDatos_inventarioAsignado(),conexion);
+        ResultSet rs=db.getTabla(ConsultasSQL.resumenDatos_inventarioAsignado(),conexion);
         pointerA.modelo.setColumnIdentifiers(Tablas.generarColumnasGraficamenteInventarioGlobal());
         try{
             while(rs.next()){pointerA.modelo.addRow(Tablas.generarContenidoColumnasInventarioGlobal(rs));}
@@ -190,7 +190,7 @@ public class MetodosComponentes {
      public void cargarInventarioGranel(JTable tabla) throws ClassNotFoundException, SQLException{
         conexion=db.getConexion(); 
         pointerA.modelo=new DefaultTableModel();
-        ResultSet rs =Conexion.getTabla(ConsultasSQL.resumenDatos_inventarioGranel(),conexion);
+        ResultSet rs =db.getTabla(ConsultasSQL.resumenDatos_inventarioGranel(),conexion);
         pointerA.modelo.setColumnIdentifiers(Tablas.generarColumnasGraficamenteInventarioGranelParcial());
         
         try{
@@ -203,7 +203,7 @@ public class MetodosComponentes {
     public void cargarInventarioGranelAuxiliar(JTable tabla) throws ClassNotFoundException, SQLException{
         conexion=db.getConexion(); 
         pointerA.modelo=new DefaultTableModel();
-        ResultSet rs =Conexion.getTabla(ConsultasSQL.resumenDatos_inventarioGranelAuxiliar(),conexion);
+        ResultSet rs =db.getTabla(ConsultasSQL.resumenDatos_inventarioGranelAuxiliar(),conexion);
         pointerA.modelo.setColumnIdentifiers(Tablas.generarColumnasGraficamenteInventarioGranelParcial());
         
         try{
@@ -551,7 +551,7 @@ public class MetodosComponentes {
     public String transformarEmpleadoEnUsuario(String empleado) throws ClassNotFoundException, SQLException{
         Object tx[];
         conexion=db.getConexion(); 
-        ResultSet rs =Conexion.getTabla(ConsultasSQL.getEmpleado(empleado),conexion);
+        ResultSet rs =db.getTabla(ConsultasSQL.getEmpleado(empleado),conexion);
         try{
             if(rs.next()){
                 tx=Tablas.generarContenidoColumaUsuario(rs);
