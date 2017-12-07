@@ -76,8 +76,8 @@ public class ManagerInventario {
 
     }//existeInventarioG
     
-    public DefaultTableModel getInventarioG() {
-
+    public DefaultTableModel getInventarioG(int filtro) {
+        String orden = "";
         DefaultTableModel table = new DefaultTableModel();
 
         try {
@@ -90,8 +90,29 @@ public class ManagerInventario {
             table.addColumn("Observaciones");
             table.addColumn("Stock");
             
+            switch(filtro){
+                case 0:
+                    orden = "order by id_productoGranel";
+                    break;
+                case 1:
+                    orden = "order by nombre_prod";
+                    break;
+                case 2:
+                    orden = "order by descripcion";
+                    break;    
+                case 3:
+                    orden = "order by almacen";
+                    break;
+                case 4:
+                    orden = "order by marca";
+                    break;
+                case 5:
+                    orden = "order by observaciones";
+                    break;
+            }
+            
             //Consulta de los empleados
-            String sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel;";
+            String sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel "+orden+";";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             Object datos[] = new Object[8];
@@ -117,8 +138,8 @@ public class ManagerInventario {
 
     }//getInventarioG
 
-    public DefaultTableModel getInventario() {
-
+    public DefaultTableModel getInventario(int filtro) {
+        String orden = "";
         DefaultTableModel table = new DefaultTableModel();
 
         try {
@@ -127,8 +148,20 @@ public class ManagerInventario {
             table.addColumn("Marca");
             table.addColumn("Stock");
             
+            switch(filtro){
+                case 0:
+                    orden = "order by nombre_prod";
+                    break;
+                case 1:
+                    orden = "order by almacen";
+                    break;
+                case 2:
+                    orden = "order by marca";
+                    break;    
+            }
+            
             //Consulta de los empleados
-            String sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario group by nombre_prod,marca;";
+            String sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario group by nombre_prod,marca "+orden+";";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             Object datos[] = new Object[4];
@@ -571,8 +604,8 @@ public class ManagerInventario {
                 tamaño = 8;
             }
             
-            //Consulta de los empleados
-            String sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario group by nombre_prod,marca;";
+            //Consulta del inventario 
+            String sql = "";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             Object datos[] = new Object[tamaño];

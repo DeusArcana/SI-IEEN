@@ -2789,10 +2789,11 @@ public class Principal extends javax.swing.JFrame {
 
     private void comboInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboInventarioActionPerformed
         // TODO add your handling code here:
+        int filtro = comboFiltro.getSelectedIndex();
         if(manager_permisos.consulta_inventario(Username)){
             
             if(comboInventario.getSelectedItem().toString().equals("Inventario")){
-                tablaInventario.setModel(manager_inventario.getInventario());
+                tablaInventario.setModel(manager_inventario.getInventario(filtro));
                 banderaInventario = 1;
                 
                 comboFiltro.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
@@ -2801,7 +2802,7 @@ public class Principal extends javax.swing.JFrame {
                 comboFiltro.addItem("Marca");
                 
             }else{
-                tablaInventario.setModel(manager_inventario.getInventarioG());
+                tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
                 banderaInventario = 2;
                 
                 comboFiltro.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
@@ -2863,10 +2864,10 @@ public class Principal extends javax.swing.JFrame {
         if(busqueda.equals("")){
 
             if(inventario.equals("Inventario")){
-                tablaInventario.setModel(manager_inventario.getInventario());
+                tablaInventario.setModel(manager_inventario.getInventario(filtro));
             }
             else{
-                tablaInventario.setModel(manager_inventario.getInventarioG());
+                tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
             }
         }//if
 
@@ -2881,10 +2882,10 @@ public class Principal extends javax.swing.JFrame {
             else{
 
                 if(inventario.equals("Inventario")){
-                    tablaInventario.setModel(manager_inventario.getInventario());
+                    tablaInventario.setModel(manager_inventario.getInventario(filtro));
                 }
                 else{
-                    tablaInventario.setModel(manager_inventario.getInventarioG());
+                    tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
                 }
 
             }//Segundo else
@@ -2903,10 +2904,10 @@ public class Principal extends javax.swing.JFrame {
         if(busqueda.equals("")){
 
             if(inventario.equals("Inventario")){
-                tablaInventario.setModel(manager_inventario.getInventario());
+                tablaInventario.setModel(manager_inventario.getInventario(filtro));
             }
             else{
-                tablaInventario.setModel(manager_inventario.getInventarioG());
+                tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
             }
         }//if
 
@@ -2921,10 +2922,10 @@ public class Principal extends javax.swing.JFrame {
             else{
 
                 if(inventario.equals("Inventario")){
-                    tablaInventario.setModel(manager_inventario.getInventario());
+                    tablaInventario.setModel(manager_inventario.getInventario(filtro));
                 }
                 else{
-                    tablaInventario.setModel(manager_inventario.getInventarioG());
+                    tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
                 }
 
             }//Segundo else
