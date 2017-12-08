@@ -31,6 +31,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -62,7 +63,7 @@ public class ManagerVehiculos {
             if(IP.equals(InetAddress.getLocalHost().getHostAddress())){
                 DIRECCIONIP = "localhost";
                 usuario = "root";
-                contra = "sanphoenix";
+                contra = "123456";
                 
                 System.out.println("DATOS "+DIRECCIONIP+" "+usuario+" "+contra);
             }else{
@@ -102,7 +103,7 @@ public class ManagerVehiculos {
     public boolean guardarImagen(String marca, String linea, String clase, String color, String modelo, String motor,
             String kilomentraje, String matricula, String observaciones, String ruta) {
         Connection con = conectar();
-        String insert = "insert into vehiculos(marca, linea, clase, color, modelo, motor,kilometraje ,matricula,observaciones,imagen) values(?,?,?,?,?,?,?,?,?,?);";
+        String insert = "insert into vehiculos(marca, linea, clase, color, modelo, motor,kilometraje ,matricula,observaciones,imagen,estado) values(?,?,?,?,?,?,?,?,?,?,?);";
         FileInputStream fi = null;
         PreparedStatement ps = null;
 
@@ -122,6 +123,7 @@ public class ManagerVehiculos {
             ps.setString(8, matricula);
             ps.setString(9, observaciones);
             ps.setBinaryStream(10, fi);
+            ps.setString(11, "DISPONIBLE");
 
             ps.executeUpdate();
 
@@ -366,6 +368,25 @@ public class ManagerVehiculos {
 
     }//guardarImagen
         
+    public void getVehiculosDisponibles(JComboBox combo) {
+        try{
+           
+            String sql = "select concat(linea,'-',matricula) from vehiculos where estado = 'DISPONIBLE';";
+            con = db.getConexion();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                combo.addItem(rs.getObject(1).toString());
+            }
+            
+            con.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los vehiculos para meterlos en el combo SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+    }//Obtiene todas los nombres de los empleados
+    
 }//class
       
 

@@ -13,6 +13,7 @@ import Clases.CrearPDF;
 
 import Formularios.addSolicitudViaticos;
 import Formularios.visSolicitudViaticos;
+import static Interfaces.Principal.Username;
 import com.itextpdf.text.DocumentException;
 import java.io.IOException;
 import java.sql.Connection;
@@ -22,6 +23,7 @@ import java.sql.Statement;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -46,10 +48,7 @@ public class PrincipalS extends javax.swing.JFrame {
         tablasolic.getTableHeader().setReorderingAllowed(false);
         tablon.getTableHeader().setReorderingAllowed(false);
         manager_soviaticos = new ManagerSoViaticos();
-        //tablasolic.setModel(manager_soviaticos.getTasol());
-        tablasolic.setModel(manager_soviaticos.getTasol());
-         tablon.setModel(manager_soviaticos.SolicitudP());
-         btnmontotablon.setVisible(false);
+        btnmontotablon.setVisible(false);
         btnoficomi.setVisible(false);
         btnofivia.setVisible(false);
         
@@ -71,7 +70,6 @@ public class PrincipalS extends javax.swing.JFrame {
         solicviaticos = new javax.swing.JTabbedPane();
         solicitudviaticos1 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
         tablasolic = new javax.swing.JTable();
         jLabel17 = new javax.swing.JLabel();
         txtbusquedasoli = new javax.swing.JTextField();
@@ -197,27 +195,17 @@ public class PrincipalS extends javax.swing.JFrame {
         jPanel16.setLayout(jPanel16Layout);
         jPanel16Layout.setHorizontalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel16Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1030, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel16Layout.createSequentialGroup()
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addComponent(tablasolic, javax.swing.GroupLayout.PREFERRED_SIZE, 1028, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel16Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(tablasolic, javax.swing.GroupLayout.PREFERRED_SIZE, 1028, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
-            .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel16Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(tablasolic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(tablasolic, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         solicitudviaticos1.add(jPanel16);
@@ -371,7 +359,7 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         jPanel20.add(btnmontotablon);
-        btnmontotablon.setBounds(30, 170, 150, 19);
+        btnmontotablon.setBounds(30, 170, 150, 43);
 
         btnaceptartablon.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnaceptartablon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
@@ -386,6 +374,11 @@ public class PrincipalS extends javax.swing.JFrame {
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/quitar.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
         jPanel20.add(btnCancelar);
         btnCancelar.setBounds(30, 225, 150, 41);
 
@@ -426,6 +419,11 @@ public class PrincipalS extends javax.swing.JFrame {
         combotablon.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 combotablonItemStateChanged(evt);
+            }
+        });
+        combotablon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combotablonActionPerformed(evt);
             }
         });
         tablonsolicitud.add(combotablon);
@@ -736,16 +734,7 @@ public class PrincipalS extends javax.swing.JFrame {
     }//GEN-LAST:event_MenuSolicitudActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        tablasolic.setModel(manager_soviaticos.getTasol());
-        if(combotablon.getSelectedIndex()==0){
-         tablon.setModel(manager_soviaticos.SolicitudP());}
-        else if(combotablon.getSelectedIndex()==1){
-         tablon.setModel(manager_soviaticos.SolicitudA());   
-        }
-        else if(combotablon.getSelectedIndex()==2){
-         tablon.setModel(manager_soviaticos.SolicitudC());   
-        }
-        
+                
     }//GEN-LAST:event_formWindowActivated
 
     private void btnAddInventario2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddInventario2ActionPerformed
@@ -871,7 +860,17 @@ public class PrincipalS extends javax.swing.JFrame {
     }//GEN-LAST:event_txtbusquedasoliKeyReleased
 
     private void btnAddInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddInventarioActionPerformed
-         addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            // If Nimbus is not available, you can set the GUI to another look and feel.
+        }
+        addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
         asv.setVisible(true);
     }//GEN-LAST:event_btnAddInventarioActionPerformed
 
@@ -884,11 +883,12 @@ public class PrincipalS extends javax.swing.JFrame {
         btnconsultarreporte.setVisible(false);
         btnnuevaactividad.setVisible(false);
         btneliminaractividad.setVisible(false);
-         i = 0;
-         c = 0;
-         Solicitud("SELECT O.Folio, S.Nombre FROM solicitud_viatico S, oficio_comision O WHERE S.Estado = 'A' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
-         //tablasolic.setModel(manager_soviaticos.getTasol());
-         //tablon.setModel(manager_soviaticos.SolicitudP());
+        i = 0;
+        c = 0;
+        Solicitud("SELECT O.Folio, S.Nombre FROM solicitud_viatico S, oficio_comision O WHERE S.Estado = 'A' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+        tablasolic.setModel(manager_soviaticos.getTasol());
+        tablon.setModel(manager_soviaticos.SolicitudP());
+        
     }//GEN-LAST:event_formWindowOpened
 
     private void btnconsultartablonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconsultartablonActionPerformed
@@ -1014,14 +1014,14 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void combotablonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_combotablonItemStateChanged
         // TODO add your handling code here:
-        switch (combotablon.getSelectedIndex()) {
+        i = combotablon.getSelectedIndex();
+        switch (i) {
             case 0: {
                 btnmontotablon.setVisible(false);
                 btnaceptartablon.setVisible(true);
                 btnoficomi.setVisible(false);
                 btnofivia.setVisible(false);
                 tablon.setModel(manager_soviaticos.SolicitudP());
-                i = 0;
                 break;
             }
             case 1: {
@@ -1030,7 +1030,6 @@ public class PrincipalS extends javax.swing.JFrame {
                 btnoficomi.setVisible(true);
                 btnofivia.setVisible(true);
                 tablon.setModel(manager_soviaticos.SolicitudA());
-                i = 1;
                 break;
             }
             case 2: {
@@ -1039,7 +1038,6 @@ public class PrincipalS extends javax.swing.JFrame {
                 btnoficomi.setVisible(false);
                 btnofivia.setVisible(false);
                 tablon.setModel(manager_soviaticos.SolicitudC());
-                i = 2;
                 break;
             }
         }
@@ -1344,6 +1342,14 @@ public class PrincipalS extends javax.swing.JFrame {
             Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_mi_inventarioActionPerformed
+
+    private void combotablonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combotablonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_combotablonActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarActionPerformed
     public void Consultar() {
         if (i == 1) {
             int i = tablon.getSelectedRow();
@@ -1519,7 +1525,6 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel22;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JLabel jlb;
     private javax.swing.JMenu menuOpciones;

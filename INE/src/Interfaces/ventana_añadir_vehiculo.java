@@ -334,6 +334,7 @@ public class ventana_añadir_vehiculo extends javax.swing.JDialog {
                      campoModelo.getValue().toString(), campoMotor.getValue().toString(), campoKilometraje.getText(), campoMatricula.getText(), campoObservaciones.getText(), ruta)) {
                 //vehiculos.guardarImagen("C:\\Users\\oscar\\OneDrive\\Documentos\\NetBeansProjects\\INE\\src\\Iconos\\asd.png", "asd");
                 JOptionPane.showMessageDialog(null, "Insertado Correctamente!", "Información!", JOptionPane.INFORMATION_MESSAGE);
+                Principal.tablaVehiculos.setModel(vehiculos.getVehiculos());
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(null, "Error al insertar!", "Información!", JOptionPane.WARNING_MESSAGE);

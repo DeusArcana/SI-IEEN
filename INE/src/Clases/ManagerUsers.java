@@ -411,4 +411,44 @@ public class ManagerUsers {
         
     }//Obtiene todas los nombres de los empleados
     
+    public String obtenerPuesto(String empleado) {
+        try{
+           
+            //Hacemos la conexión
+            conexion = db.getConexion();
+            //Creamos la variable para hacer operaciones CRUD
+            Statement st = conexion.createStatement();
+            //Creamos la variable para guardar el resultado de las consultas
+            ResultSet rs;
+
+            //Obtenemos el id del empleado para dar con su usuario
+            String sql = "select id_empleado from Empleados where concat(nombres,' ',apellido_p,' ',apellido_m) = '"+empleado+"';";
+            rs = st.executeQuery(sql);
+            rs.next();
+            int idEmpleado = rs.getInt(1);
+            
+            //Ahora obtenemos el usuario gracias al id del empleado
+            sql = "select u.id_user from user u inner join empleados e on(e.id_empleado = u.id_empleado) where e.id_empleado = "+idEmpleado+";";
+            rs = st.executeQuery(sql);
+            rs.next();
+            String usuario = rs.getString(1);
+            
+            //Ahora obtenemos el usuario gracias al id del empleado
+            sql = "select puesto from user where id_user = '"+usuario+"';";
+            rs = st.executeQuery(sql);
+            rs.next();
+            String puesto = rs.getString(1);
+            
+            //Cerramos la conexión
+            conexion.close();
+            return puesto;
+            
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los nombres de los empleados para ingresarlos al combo SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        } 
+        
+    }//obtenerPuesto
+    
 }//class

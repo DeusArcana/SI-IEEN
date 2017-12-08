@@ -11,6 +11,7 @@ import Clases.Validaciones;
 
 import Interfaces.Principal;
 import javax.swing.JOptionPane;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 //import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
@@ -35,7 +36,8 @@ public class addInventario extends javax.swing.JDialog {
         manager_permisos = new ManagerPermisos();
         
         comboProducto.setEditable(true);
-        //AutoCompleteDecorator.decorate(this.comboProducto);
+        AutoCompleteDecorator.decorate(this.comboProducto);
+        
         this.setLocationRelativeTo(null);
     }
 

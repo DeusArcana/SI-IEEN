@@ -30,18 +30,18 @@ public class ManagerSoViaticos {
        public DefaultTableModel getTasol() {
 
         DefaultTableModel taso = new DefaultTableModel();
+        taso.addColumn("idSolicitud");
+        taso.addColumn("Fecha_Salida");
+        taso.addColumn("Lugar");
+        taso.addColumn("Nombre");
+        taso.addColumn("Actividad");
+        taso.addColumn("Pernoctado");
+        taso.addColumn("Vehiculo");
+        taso.addColumn("Puesto");
+        taso.addColumn("Fecha_llegada");
+        taso.addColumn("Estado");
 
         try {
-            taso.addColumn("idSolicitud");
-       taso.addColumn("Fecha_Salida");
-       taso.addColumn("Lugar");
-       taso.addColumn("Nombre");
-       taso.addColumn("Actividad");
-       taso.addColumn("Pernoctado");
-       taso.addColumn("Vehiculo");
-       taso.addColumn("Puesto");
-       taso.addColumn("Fecha_llegada");
-       taso.addColumn("Estado");
             
             //Consulta de los empleados
             String sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_llegada,Estado from solicitud_viatico";
@@ -108,7 +108,7 @@ public class ManagerSoViaticos {
         modelo.addColumn("Lugar");
         try {
             //conexion = db.getConexion();
-            String sql="SELECT O.Folio, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar FROM solicitud S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud";
+            String sql="SELECT O.Folio, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar FROM solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud";
             Statement sentencia = cn.createStatement();
             Object datos[] = new Object[5];
             ResultSet rs = sentencia.executeQuery(sql);
@@ -124,7 +124,7 @@ public class ManagerSoViaticos {
             //cn.close();
 
         } catch (SQLException ex) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+            javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta de la tabla Aceptados");
 
         }finally {
 
@@ -146,7 +146,7 @@ public class ManagerSoViaticos {
             //conexion = db.getConexion();
             Statement sentencia = cn.createStatement();
 
-            ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM solicitud WHERE Estado = 'C'");
+            ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM solicitud_viatico WHERE Estado = 'C'");
 
             Object datos[] = new Object[6];
             while (rs.next()) {
