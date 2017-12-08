@@ -514,9 +514,19 @@ public class Principal extends javax.swing.JFrame {
         MenuPersonal.add(CambiarContra);
 
         Autorizar.setText("Autorizar");
+        Autorizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AutorizarActionPerformed(evt);
+            }
+        });
         MenuPendientes.add(Autorizar);
 
         Denegar.setText("Denegar");
+        Denegar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DenegarActionPerformed(evt);
+            }
+        });
         MenuPendientes.add(Denegar);
 
         InfoPendiente.setText("Actualizar información");
@@ -3438,6 +3448,57 @@ public class Principal extends javax.swing.JFrame {
         }//if cantidad
         
     }//GEN-LAST:event_InfoPendienteActionPerformed
+
+    private void AutorizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AutorizarActionPerformed
+        // TODO add your handling code here:
+        //Obtenemos la fila seleccionada
+        int fila = tablaSolicitudes.getSelectedRow();
+        //Obtenemos el tipo de la solicitud
+        String solicitud = tablaSolicitudes.getValueAt(fila, 1).toString();
+        //Obtenemos el id de la solicitud
+        int idSolicitud = Integer.parseInt(tablaSolicitudes.getValueAt(fila, 0).toString());
+        //Le quitamos la palabra "Solicitud " y nos quedamos con el estado autorizado al que va a cambiar
+        String estado = solicitud.substring(10, solicitud.length());
+        
+        //PREGUNTA AUTORIZACIÓN
+        Object[] botones = {"Autorizar","Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this,"¿Está seguro de autorizar la solicitud "+idSolicitud+"?", "Confirmación",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+        
+        if(opcion == 0){
+
+            if(manager_solicitud.respuesta_Pendiente(idSolicitud, estado.toUpperCase(), "AUTORIZADO")){
+                JOptionPane.showMessageDialog(null, "Se autorizo correctamente la solicitud.");
+            }//Se realizaron los cambios correctamente
+         
+        }//Acepto la autorización
+        
+    }//GEN-LAST:event_AutorizarActionPerformed
+
+    private void DenegarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DenegarActionPerformed
+        // TODO add your handling code here:
+        //Obtenemos la fila seleccionada
+        int fila = tablaSolicitudes.getSelectedRow();
+        //Obtenemos el tipo de la solicitud
+        String solicitud = tablaSolicitudes.getValueAt(fila, 1).toString();
+        //Obtenemos el id de la solicitud
+        int idSolicitud = Integer.parseInt(tablaSolicitudes.getValueAt(fila, 0).toString());
+        //Le quitamos la palabra "Solicitud " y nos quedamos con el estado autorizado al que va a cambiar
+        String estado = solicitud.substring(10, solicitud.length());
+        
+        //PREGUNTA AUTORIZACIÓN
+        Object[] botones = {"Denegar","Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this,"¿Está seguro de denegar la solicitud "+idSolicitud+"?", "Confirmación",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+        
+        if(opcion == 0){
+
+            if(manager_solicitud.respuesta_Pendiente(idSolicitud, estado.toUpperCase(), "DENEGADO")){
+                JOptionPane.showMessageDialog(null, "Se autorizo correctamente la solicitud.");
+            }//Se realizaron los cambios correctamente
+         
+        }//Acepto la autorización
+    }//GEN-LAST:event_DenegarActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         

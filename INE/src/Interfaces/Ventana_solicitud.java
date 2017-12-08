@@ -206,7 +206,7 @@ public class Ventana_solicitud extends javax.swing.JDialog {
         if(Principal.banderaSolicitud == 1){
             txtTipoSolicitud.setText(tablaDetalleInventario.tipoSolicitud);
         }else{
-            txtTipoSolicitud.setText(tablaDetalleInventario.tipoSolicitud);
+            txtTipoSolicitud.setText(Ventana_EquipoComputo.tipo_solicitud);
         }
     }//GEN-LAST:event_formWindowOpened
 

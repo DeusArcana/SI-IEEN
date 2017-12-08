@@ -191,10 +191,10 @@ public class Ventana_EquipoComputo2 extends javax.swing.JDialog {
 
                             //Buscamos el estado del producto que vamos a remover
                             String estado = manager_solicitud.estadoProducto(clave);
-                            if(estado.equals("ASIGNADO")){
+                            if(estado.equals("REEMPLAZO AUTORIZADO")){
                                 pase = manager_asignar.desasignarEquipo(clave);
                             }else{
-                                pase = true;
+                                pase = false;
                             }
 
                             if(pase){
@@ -223,7 +223,7 @@ public class Ventana_EquipoComputo2 extends javax.swing.JDialog {
 
                             }//desasignar
                             else{
-                                JOptionPane.showMessageDialog(null, "Verificar con el distribuidor");
+                                JOptionPane.showMessageDialog(null, "Es necesario que se realice una solicitud reemplazo y dicha\nsolicitud la autoricen para reemplazar el equipo.");
                                 break;//Terminamos el ciclo
                             }
 

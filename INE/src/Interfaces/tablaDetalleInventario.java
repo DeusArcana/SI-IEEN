@@ -8,6 +8,7 @@ package Interfaces;
 import javax.swing.JTable;
 import Clases.ManagerInventario;
 import Clases.ManagerSolicitud;
+import Clases.ManagerPermisos;
 
 import Interfaces.Principal;
 import javax.swing.JOptionPane;
@@ -21,6 +22,7 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
     
     ManagerInventario manager_inventario;
     ManagerSolicitud manager_solicitud;
+    ManagerPermisos manager_permisos;
     
     public static String clave,producto,tipoSolicitud;
     
@@ -34,6 +36,7 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
         //Asignamos memoria al objeto
         manager_inventario = new ManagerInventario();
         manager_solicitud = new ManagerSolicitud();
+        manager_permisos = new ManagerPermisos();
         
         //Deshabilitamos el movimiento de los encabezados
         tablaCoincidencias.getTableHeader().setReorderingAllowed(false);
@@ -231,19 +234,23 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
 
     private void AsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AsignarActionPerformed
         // TODO add your handling code here:
-        int fila = tablaCoincidencias.getSelectedRow();
-        
-        clave = tablaCoincidencias.getValueAt(fila, 0).toString();
-        String estado = manager_solicitud.estadoProducto(clave);
-        
-        if(estado.equals("DISPONIBLE")){
-            
-            producto = tablaCoincidencias.getValueAt(fila, 1).toString();
-            Ventana_EquipoComputo2 ob = new Ventana_EquipoComputo2(this,true);
-            ob.setVisible(true);
-            
+        if(manager_permisos.update_asignacion(Principal.Username)){
+            int fila = tablaCoincidencias.getSelectedRow();
+
+            clave = tablaCoincidencias.getValueAt(fila, 0).toString();
+            String estado = manager_solicitud.estadoProducto(clave);
+
+            if(estado.equals("DISPONIBLE")){
+
+                producto = tablaCoincidencias.getValueAt(fila, 1).toString();
+                Ventana_EquipoComputo2 ob = new Ventana_EquipoComputo2(this,true);
+                ob.setVisible(true);
+
+            }else{
+                JOptionPane.showMessageDialog(null, "El producto se encuentra "+estado);
+            }
         }else{
-            JOptionPane.showMessageDialog(null, "El producto se encuentra "+estado);
+            JOptionPane.showMessageDialog(null, "No tiene permisos para asignar un equipo");
         }
     }//GEN-LAST:event_AsignarActionPerformed
 
@@ -348,7 +355,7 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
         
         String estado = manager_solicitud.estadoProducto(clave);
         
-        if(estado.equals("DISPONIBLE")){
+        if(estado.equals("DISPONIBLE") || estado.equals("ASIGNADO")){
             
             Principal.banderaSolicitud = 1;
             Ventana_solicitud ob = new Ventana_solicitud(this,true);

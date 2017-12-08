@@ -99,6 +99,40 @@ public class ManagerSolicitud {
         
     }//actualizar_Solicitud
     
+    public boolean respuesta_Pendiente(int idSol,String tipo,String respuesta){
+        
+        try {
+            //Hacemos la conexión
+            conexion = db.getConexion();
+            //Creamos la variable para hacer operaciones CRUD
+            Statement st = conexion.createStatement();
+            
+            //Actualizamos la solicitud
+            String sql = "update solicitudes set estado = '"+respuesta+"' where id_solicitud = "+idSol+"";
+            st.executeUpdate(sql);
+            
+            //Obtenemos el id del producto
+            sql = "select id_producto from detalle_solicitud where id_solicitud = '"+idSol+"';";
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            String idProd = rs.getString(1);
+            
+            //Actualizamos el estatus del producto
+            sql = "update Inventario set estatus = '"+tipo+" "+respuesta+"' where id_producto = '"+idProd+"'";
+            st.executeUpdate(sql);
+
+            //Cerramos la conexión
+            conexion.close();
+            return true;
+            
+        } catch (SQLException ex) {
+            System.out.printf("Error al insertar la solicitud en SQL");
+            Logger.getLogger(ManagerSolicitud.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } 
+        
+    }//respuesta_Pendiente
+    
     public void getComboSolicitud(JComboBox combo) {
         try{
            
