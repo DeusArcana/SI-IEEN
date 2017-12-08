@@ -76,7 +76,7 @@ public class ManagerAsignarEquipo {
             table.addColumn("Teclado");
             table.addColumn("Responsable");
             
-            //Consulta de los empleados
+            //Consulta de los equipos de computo
             String sql = "select de_c.id_equipo,ic.id_producto,im.id_producto,it.id_producto,ec.ubicacion from detalles_equipo_computo de_c\n" +
                          "inner join inventario ic on(ic.id_producto = de_c.id_cpu)\n" +
                          "inner join inventario it on(it.id_producto = de_c.id_teclado)\n" +
@@ -106,6 +106,49 @@ public class ManagerAsignarEquipo {
         }
 
     }//getDetallesEquipoComputo
+    
+    public DefaultTableModel getConjuntosEquipoComputoReemplazo(){
+
+        DefaultTableModel table = new DefaultTableModel();
+
+        try {
+            table.addColumn("Clave");
+            table.addColumn("CPU");
+            table.addColumn("Monitor");
+            table.addColumn("Teclado");
+            table.addColumn("Responsable");
+            
+            //Consulta de los equipos de computo
+            String sql = "select de_c.id_equipo,ic.id_producto,im.id_producto,it.id_producto,ec.ubicacion from detalles_equipo_computo de_c\n" +
+                         "inner join inventario ic on(ic.id_producto = de_c.id_cpu)\n" +
+                         "inner join inventario it on(it.id_producto = de_c.id_teclado)\n" +
+                         "inner join inventario im on(im.id_producto = de_c.id_monitor)\n" +
+                         "inner join equipo_computo ec on(ec.id_equipo = de_c.id_equipo)\n" +
+                         "where ic.estatus = 'REEMPLAZO AUTORIZADO' or im.estatus = 'REEMPLAZO AUTORIZADO' or it.estatus = 'REEMPLAZO AUTORIZADO';";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            Object datos[] = new Object[5];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<5;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+           }//while
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error getTabla Detalles Equipo Computo SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//getDetallesEquipoComputoReemplazo
     
     public DefaultTableModel getDetallesEquipoComputo(String[] Claves){
 

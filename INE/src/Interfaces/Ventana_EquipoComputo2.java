@@ -149,7 +149,7 @@ public class Ventana_EquipoComputo2 extends javax.swing.JDialog {
     
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        tablaDetallesEquipos.setModel(manager_asignar.getConjuntosEquipoComputo());
+        tablaDetallesEquipos.setModel(manager_asignar.getConjuntosEquipoComputoReemplazo());
         
     }//GEN-LAST:event_formWindowOpened
     
