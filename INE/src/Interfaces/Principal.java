@@ -222,8 +222,6 @@ public class Principal extends javax.swing.JFrame {
         Promover = new javax.swing.JMenuItem();
         Permisos = new javax.swing.JMenuItem();
         MenuInventario = new javax.swing.JPopupMenu();
-        Baja = new javax.swing.JMenuItem();
-        Comodato = new javax.swing.JMenuItem();
         AgregarStock = new javax.swing.JMenuItem();
         MenuSolicitudes = new javax.swing.JPopupMenu();
         Atender = new javax.swing.JMenuItem();
@@ -459,18 +457,12 @@ public class Principal extends javax.swing.JFrame {
         });
         MenuUsuarios.add(Permisos);
 
-        Baja.setText("Solicitar baja");
-        Baja.addActionListener(new java.awt.event.ActionListener() {
+        AgregarStock.setText("Actualizar stock");
+        AgregarStock.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BajaActionPerformed(evt);
+                AgregarStockActionPerformed(evt);
             }
         });
-        MenuInventario.add(Baja);
-
-        Comodato.setText("Solicitar comodato");
-        MenuInventario.add(Comodato);
-
-        AgregarStock.setText("Actualizar stock");
         MenuInventario.add(AgregarStock);
 
         Atender.setText("Atender...");
@@ -2557,10 +2549,6 @@ public class Principal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_formWindowActivated
 
-    private void BajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BajaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BajaActionPerformed
-
     private void btnAddInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddInventarioActionPerformed
         // TODO add your handling code here:
         
@@ -3499,6 +3487,34 @@ public class Principal extends javax.swing.JFrame {
          
         }//Acepto la autorización
     }//GEN-LAST:event_DenegarActionPerformed
+
+    private void AgregarStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarStockActionPerformed
+        // TODO add your handling code here:
+        
+        boolean entero = true;
+        while(entero){    
+            
+            String cadena = JOptionPane.showInputDialog("Ingrese la cantidad de stock a agregar");
+            
+            if(cadena == null){
+                entero = true;
+            }else{
+            
+                try{
+
+                    int cantidad = Integer.parseInt(cadena);
+                    //Sumamos el stock
+                    
+
+                }catch(NumberFormatException e){
+                    JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
+                }//try catch
+                
+            }//else
+            
+        }//while
+        
+    }//GEN-LAST:event_AgregarStockActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -3635,9 +3651,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem AsignarV;
     private javax.swing.JMenuItem Atender;
     private javax.swing.JMenuItem Autorizar;
-    private javax.swing.JMenuItem Baja;
     private javax.swing.JMenuItem CambiarContra;
-    private javax.swing.JMenuItem Comodato;
     private javax.swing.JMenuItem Denegar;
     private javax.swing.JMenuItem Eliminar;
     private javax.swing.JMenuItem Equipos;

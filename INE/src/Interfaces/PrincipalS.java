@@ -14,6 +14,8 @@ import Clases.CrearPDF;
 import Formularios.addSolicitudViaticos;
 import Formularios.visSolicitudViaticos;
 import static Interfaces.Principal.Username;
+import static Interfaces.Principal.tablaInventario;
+import static Interfaces.Principal.tablaUsuarios;
 import com.itextpdf.text.DocumentException;
 import java.io.IOException;
 import java.sql.Connection;
@@ -23,6 +25,8 @@ import java.sql.Statement;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
@@ -48,9 +52,6 @@ public class PrincipalS extends javax.swing.JFrame {
         tablasolic.getTableHeader().setReorderingAllowed(false);
         tablon.getTableHeader().setReorderingAllowed(false);
         manager_soviaticos = new ManagerSoViaticos();
-        btnmontotablon.setVisible(false);
-        btnoficomi.setVisible(false);
-        btnofivia.setVisible(false);
         
     }
     
@@ -67,35 +68,43 @@ public class PrincipalS extends javax.swing.JFrame {
         jPanel17 = new javax.swing.JPanel();
         btnAddInventario2 = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
+        MenuSolicitudViaticos = new javax.swing.JPopupMenu();
+        Impri_Sol = new javax.swing.JMenuItem();
+        MenuTablonP = new javax.swing.JPopupMenu();
+        ConsultarP = new javax.swing.JMenuItem();
+        AceptarP = new javax.swing.JMenuItem();
+        CancelarP = new javax.swing.JMenuItem();
+        MenuTablonA = new javax.swing.JPopupMenu();
+        ConsultarA = new javax.swing.JMenuItem();
+        OficioComision = new javax.swing.JMenuItem();
+        OficioViatico = new javax.swing.JMenuItem();
+        AsignarMonto = new javax.swing.JMenuItem();
+        CancelarA = new javax.swing.JMenuItem();
+        MenuTablonC = new javax.swing.JPopupMenu();
+        ConsultarC = new javax.swing.JMenuItem();
+        AceptarC = new javax.swing.JMenuItem();
+        CancelarC = new javax.swing.JMenuItem();
         solicviaticos = new javax.swing.JTabbedPane();
         solicitudviaticos1 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
-        tablasolic = new javax.swing.JTable();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        tablasolic = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel17 = new javax.swing.JLabel();
         txtbusquedasoli = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btnAddInventario = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
         tablonsolicitud = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         jScrollPane10 = new javax.swing.JScrollPane();
-        tablon = new javax.swing.JTable();
-        jPanel20 = new javax.swing.JPanel();
-        jLabel20 = new javax.swing.JLabel();
-        btnconsultartablon = new javax.swing.JButton();
-        btnmontotablon = new javax.swing.JButton();
-        btnaceptartablon = new javax.swing.JButton();
-        btnCancelar = new javax.swing.JButton();
+        tablon = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         txtbusquedasoli1 = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        btnoficomi = new javax.swing.JButton();
         combotablon = new javax.swing.JComboBox();
-        btnofivia = new javax.swing.JButton();
         jLabel23 = new javax.swing.JLabel();
         informe = new javax.swing.JPanel();
         jlb = new javax.swing.JLabel();
@@ -167,6 +176,92 @@ public class PrincipalS extends javax.swing.JFrame {
                 .addContainerGap(339, Short.MAX_VALUE))
         );
 
+        Impri_Sol.setText("Imprimir solicitud");
+        Impri_Sol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Impri_SolActionPerformed(evt);
+            }
+        });
+        MenuSolicitudViaticos.add(Impri_Sol);
+
+        ConsultarP.setText("Consultar");
+        ConsultarP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConsultarPActionPerformed(evt);
+            }
+        });
+        MenuTablonP.add(ConsultarP);
+
+        AceptarP.setText("Aceptar");
+        AceptarP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AceptarPActionPerformed(evt);
+            }
+        });
+        MenuTablonP.add(AceptarP);
+
+        CancelarP.setText("Cancelar");
+        MenuTablonP.add(CancelarP);
+
+        ConsultarA.setText("Consultar");
+        ConsultarA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConsultarAActionPerformed(evt);
+            }
+        });
+        MenuTablonA.add(ConsultarA);
+
+        OficioComision.setText("Oficio de comisión");
+        OficioComision.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OficioComisionActionPerformed(evt);
+            }
+        });
+        MenuTablonA.add(OficioComision);
+
+        OficioViatico.setText("Oficio de viatico");
+        OficioViatico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OficioViaticoActionPerformed(evt);
+            }
+        });
+        MenuTablonA.add(OficioViatico);
+
+        AsignarMonto.setText("Asignar monto");
+        AsignarMonto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AsignarMontoActionPerformed(evt);
+            }
+        });
+        MenuTablonA.add(AsignarMonto);
+
+        CancelarA.setText("Cancelar");
+        MenuTablonA.add(CancelarA);
+
+        ConsultarC.setText("Consultar");
+        ConsultarC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConsultarCActionPerformed(evt);
+            }
+        });
+        MenuTablonC.add(ConsultarC);
+
+        AceptarC.setText("Aceptar");
+        AceptarC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AceptarCActionPerformed(evt);
+            }
+        });
+        MenuTablonC.add(AceptarC);
+
+        CancelarC.setText("Cancelar");
+        CancelarC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelarCActionPerformed(evt);
+            }
+        });
+        MenuTablonC.add(CancelarC);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
@@ -187,25 +282,34 @@ public class PrincipalS extends javax.swing.JFrame {
 
             },
             new String [] {
-                "idSolicitud", "Fecha_salida", "Lugar", "Nombre", "Actividad", "Pernoctado", "Vehiculo", "Puesto", "Fecha_llegada", "Estado"
+                "ID", "Nombre", "Puesto", "Fecha_salida", "Fecha_llegada", "Lugar"
             }
         ));
+        tablasolic.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablasolicMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablasolicMouseReleased(evt);
+            }
+        });
+        jScrollPane11.setViewportView(tablasolic);
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
         jPanel16Layout.setHorizontalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel16Layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addComponent(tablasolic, javax.swing.GroupLayout.PREFERRED_SIZE, 1028, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 1030, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tablasolic, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addGap(15, 15, 15)
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         solicitudviaticos1.add(jPanel16);
@@ -245,14 +349,6 @@ public class PrincipalS extends javax.swing.JFrame {
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IEE.png"))); // NOI18N
 
-        jButton1.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
-        jButton1.setText("Imprimir solicitud");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         jButton2.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         jButton2.setText("Actualizar Director General");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -272,7 +368,6 @@ public class PrincipalS extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAddInventario, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -283,11 +378,9 @@ public class PrincipalS extends javax.swing.JFrame {
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61)
                 .addComponent(btnAddInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(252, Short.MAX_VALUE))
+                .addContainerGap(287, Short.MAX_VALUE))
         );
 
         solicitudviaticos1.add(jPanel1);
@@ -309,6 +402,11 @@ public class PrincipalS extends javax.swing.JFrame {
                 "ID", "Nombre", "Puesto", "Fecha_salida", "Fecha_llegada", "Lugar"
             }
         ));
+        tablon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablonMouseReleased(evt);
+            }
+        });
         jScrollPane10.setViewportView(tablon);
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
@@ -317,73 +415,18 @@ public class PrincipalS extends javax.swing.JFrame {
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel19Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 1060, Short.MAX_VALUE)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 1300, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel19Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE))
         );
 
         tablonsolicitud.add(jPanel19);
-        jPanel19.setBounds(20, 180, 1080, 410);
-
-        jPanel20.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel20.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Opciones :", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Yu Gothic UI", 0, 12))); // NOI18N
-        jPanel20.setLayout(null);
-
-        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IEE.png"))); // NOI18N
-        jPanel20.add(jLabel20);
-        jLabel20.setBounds(16, 29, 193, 83);
-
-        btnconsultartablon.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnconsultartablon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/consultar.png"))); // NOI18N
-        btnconsultartablon.setText("CONSULTAR");
-        btnconsultartablon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnconsultartablonActionPerformed(evt);
-            }
-        });
-        jPanel20.add(btnconsultartablon);
-        btnconsultartablon.setBounds(30, 120, 150, 40);
-
-        btnmontotablon.setFont(new java.awt.Font("Tahoma", 1, 8)); // NOI18N
-        btnmontotablon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/monto.png"))); // NOI18N
-        btnmontotablon.setText("ASIGNAR MONTO");
-        btnmontotablon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnmontotablonActionPerformed(evt);
-            }
-        });
-        jPanel20.add(btnmontotablon);
-        btnmontotablon.setBounds(30, 170, 150, 43);
-
-        btnaceptartablon.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnaceptartablon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
-        btnaceptartablon.setText("ACEPTAR");
-        btnaceptartablon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnaceptartablonActionPerformed(evt);
-            }
-        });
-        jPanel20.add(btnaceptartablon);
-        btnaceptartablon.setBounds(50, 170, 111, 38);
-
-        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/quitar.png"))); // NOI18N
-        btnCancelar.setText("Cancelar");
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
-            }
-        });
-        jPanel20.add(btnCancelar);
-        btnCancelar.setBounds(30, 225, 150, 41);
-
-        tablonsolicitud.add(jPanel20);
-        jPanel20.setBounds(1130, 130, 200, 540);
+        jPanel19.setBounds(20, 180, 1320, 530);
 
         txtbusquedasoli1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtbusquedasoli1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -404,17 +447,7 @@ public class PrincipalS extends javax.swing.JFrame {
         tablonsolicitud.add(jLabel22);
         jLabel22.setBounds(10, 10, 1350, 80);
 
-        btnoficomi.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnoficomi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/oficio.png"))); // NOI18N
-        btnoficomi.setText("OFICIO DE COMISIÒN");
-        btnoficomi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnoficomiActionPerformed(evt);
-            }
-        });
-        tablonsolicitud.add(btnoficomi);
-        btnoficomi.setBounds(447, 130, 210, 40);
-
+        combotablon.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         combotablon.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pendientes", "Aceptadas", "Canceladas" }));
         combotablon.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -427,18 +460,7 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         tablonsolicitud.add(combotablon);
-        combotablon.setBounds(690, 140, 110, 30);
-
-        btnofivia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnofivia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/oficio.png"))); // NOI18N
-        btnofivia.setText("OFICIO DE VIÀTICOS");
-        btnofivia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnofiviaActionPerformed(evt);
-            }
-        });
-        tablonsolicitud.add(btnofivia);
-        btnofivia.setBounds(850, 130, 220, 40);
+        combotablon.setBounds(460, 120, 110, 30);
 
         jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         tablonsolicitud.add(jLabel23);
@@ -891,119 +913,6 @@ public class PrincipalS extends javax.swing.JFrame {
         
     }//GEN-LAST:event_formWindowOpened
 
-    private void btnconsultartablonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconsultartablonActionPerformed
-        // TODO add your handling code here:
-        if (c == 0) {
-            Consultar();
-            c = 1;
-        } else {
-            s.setVisible(false);
-            Consultar();
-            c = 0;
-        }
-        s.setVisible(true);
-    }//GEN-LAST:event_btnconsultartablonActionPerformed
-
-    private void btnmontotablonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmontotablonActionPerformed
-        // TODO add your handling code here:
-        int k = tablon.getSelectedRow();
-        if (k >= 0) {
-            String folio = tablon.getValueAt(k, 0).toString();
-            try {
-              
-                Statement sentencia = cn.createStatement();
-                String valor = javax.swing.JOptionPane.showInputDialog("Asignar monto");
-
-                if (valor == null) {
-
-                } else {
-                    float monto = Float.parseFloat(valor);
-                    sentencia.executeUpdate("UPDATE oficio_comision SET Monto = " + monto + "WHERE(Folio =" + folio + ")");
-                    javax.swing.JOptionPane.showMessageDialog(null, "Monto Asignado");
-                }
-            } catch (SQLException ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
-
-            } catch (NumberFormatException exp) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Ingresar solo números");
-            }//fin del catch
-
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
-        }
-        int filas = tablon.getRowCount();
-        if (filas != 0) {
-            for (int j = 0; filas > j; j++) {
-                modelo.removeRow(0);
-            }
-        }
-        tablon.setModel(manager_soviaticos.SolicitudA());
-    }//GEN-LAST:event_btnmontotablonActionPerformed
-
-    private void btnaceptartablonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaceptartablonActionPerformed
-        // TODO add your handling code here:
-        int k = tablon.getSelectedRow();
-        if (k >= 0) {
-            int id = Integer.parseInt(tablon.getValueAt(k, 0).toString());
-            Calendar calendar = Calendar.getInstance();
-            try {
-                
-                String total = "";
-                Statement sentencia = cn.createStatement();
-                ResultSet rs0 = sentencia.executeQuery("SELECT COUNT(*) as Folio FROM oficio_comision");
-                while (rs0.next()) {
-                    total = rs0.getString("Folio");
-                }
-                int total1 = Integer.parseInt(total);
-                int folio = 0;
-                String valor = "";
-                if (total1 != 0) {
-                    ResultSet rs = sentencia.executeQuery("SELECT MAX(Folio) AS Folio FROM oficio_comision");
-                    while (rs.next()) {
-                        valor = rs.getString("Folio");
-                    }
-                    int an = Integer.parseInt(valor.substring(0, 4));
-                    if (an == calendar.get(Calendar.YEAR)) {
-                        valor = valor.substring(4);
-                        folio = Integer.parseInt(valor) + 1;
-                        valor = an + "" + folio;
-                        folio = Integer.parseInt(valor);
-                    } else {
-                        valor = calendar.get(Calendar.YEAR) + "1";
-                        folio = Integer.parseInt(valor);
-                    }
-                } else {
-                    valor = calendar.get(Calendar.YEAR) + "1";
-                    folio = Integer.parseInt(valor);
-                }
-                sentencia.execute("INSERT INTO oficio_comision VALUES(" + folio + "," + id + "," + 0.00 + ")");
-                sentencia.executeUpdate("UPDATE solicitud_viatico SET Estado = 'A' WHERE (idSolicitud = '" + id + "')");
-                javax.swing.JOptionPane.showMessageDialog(null, "Solicitud aceptada");
-
-            } catch (SQLException ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta o folio ya asignado");
-
-            }/*catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }*/ //fin del catch
-
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
-        }
-        int filas = tablon.getRowCount();
-        if (filas != 0) {
-            for (int j = 0; filas > j; j++) {
-                modelo.removeRow(0);
-            }
-
-        }
-        if (i == 0) {
-            tablon.setModel(manager_soviaticos.SolicitudP());
-        } else {
-            tablon.setModel(manager_soviaticos.SolicitudC());
-        }
-    }//GEN-LAST:event_btnaceptartablonActionPerformed
-
     private void txtbusquedasoli1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedasoli1KeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtbusquedasoli1KeyPressed
@@ -1017,61 +926,19 @@ public class PrincipalS extends javax.swing.JFrame {
         i = combotablon.getSelectedIndex();
         switch (i) {
             case 0: {
-                btnmontotablon.setVisible(false);
-                btnaceptartablon.setVisible(true);
-                btnoficomi.setVisible(false);
-                btnofivia.setVisible(false);
                 tablon.setModel(manager_soviaticos.SolicitudP());
                 break;
             }
             case 1: {
-                btnaceptartablon.setVisible(false);
-                btnmontotablon.setVisible(true);
-                btnoficomi.setVisible(true);
-                btnofivia.setVisible(true);
                 tablon.setModel(manager_soviaticos.SolicitudA());
                 break;
             }
             case 2: {
-                btnmontotablon.setVisible(false);
-                btnaceptartablon.setVisible(true);
-                btnoficomi.setVisible(false);
-                btnofivia.setVisible(false);
                 tablon.setModel(manager_soviaticos.SolicitudC());
                 break;
             }
         }
     }//GEN-LAST:event_combotablonItemStateChanged
-
-    private void btnofiviaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnofiviaActionPerformed
-        // TODO add your handling code here:
-        int i = tablon.getSelectedRow();
-        if (i >= 0) {
-            String folio = tablon.getValueAt(i, 0).toString();
-            try {
-                pdf.pdfFolio(folio);
-            } catch (DocumentException ex) {
-                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
-        }
-    }//GEN-LAST:event_btnofiviaActionPerformed
-
-    private void btnoficomiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnoficomiActionPerformed
-        // TODO add your handling code here:
-        int i = tablon.getSelectedRow();
-        if (i >= 0) {
-            String folio = tablon.getValueAt(i, 0).toString();
-            try {
-                pdf.oficio_comision(folio);
-            } catch (DocumentException ex) {
-                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
-        }
-    }//GEN-LAST:event_btnoficomiActionPerformed
 
     private void txtbusquedasoli2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedasoli2KeyPressed
         // TODO add your handling code here:
@@ -1309,24 +1176,6 @@ public class PrincipalS extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnregresarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        int fila=-1;
-        limpiar=false;
-        String id=null;
-        try{
-            fila=tablasolic.getSelectedRow();
-            tablasolic.clearSelection();
-            CrearPDF pdf=new CrearPDF();
-            if(fila>=0){
-                id=tablasolic.getValueAt(fila, 0).toString();
-                pdf.generarPDFSolicitud(id);
-            }
-        }catch(Exception e){
-            
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         String nuevo=JOptionPane.showInputDialog("Inserte el nombre del nuevo director general");
@@ -1347,9 +1196,311 @@ public class PrincipalS extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_combotablonActionPerformed
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+    private void tablasolicMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablasolicMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    }//GEN-LAST:event_tablasolicMouseClicked
+
+    private void tablasolicMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablasolicMouseReleased
+        // TODO add your handling code here:
+        if(SwingUtilities.isRightMouseButton(evt)){
+                int r = tablasolic.rowAtPoint(evt.getPoint());
+                if (r >= 0 && r < tablasolic.getRowCount())
+                tablasolic.setRowSelectionInterval(r, r);
+                MenuSolicitudViaticos.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
+    }//GEN-LAST:event_tablasolicMouseReleased
+
+    private void Impri_SolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Impri_SolActionPerformed
+        // TODO add your handling code here:
+        int fila = tablasolic.getSelectedRow();;
+        limpiar=false;
+        String id = null;
+        try{
+            
+            tablasolic.clearSelection();
+            CrearPDF pdf=new CrearPDF();
+            if(fila>=0){
+                id=tablasolic.getValueAt(fila, 0).toString();
+                pdf.generarPDFSolicitud(id);
+            }
+        }catch(Exception e){
+            
+        }
+    }//GEN-LAST:event_Impri_SolActionPerformed
+
+    private void ConsultarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarPActionPerformed
+        // TODO add your handling code here:
+        if (c == 0) {
+            Consultar();
+            c = 1;
+        } else {
+            s.setVisible(false);
+            Consultar();
+            c = 0;
+        }
+        s.setVisible(true);
+    }//GEN-LAST:event_ConsultarPActionPerformed
+
+    private void tablonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablonMouseReleased
+        // TODO add your handling code here:
+        
+        int fila = combotablon.getSelectedIndex();
+        switch (fila) {
+            case 0: {
+                if(SwingUtilities.isRightMouseButton(evt)){
+                    int r = tablon.rowAtPoint(evt.getPoint());
+                    if (r >= 0 && r < tablon.getRowCount())
+                    tablon.setRowSelectionInterval(r, r);
+                    MenuTablonP.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+                }//clic derecho                
+                break;
+            }
+            case 1: {
+                if(SwingUtilities.isRightMouseButton(evt)){
+                    int r = tablon.rowAtPoint(evt.getPoint());
+                    if (r >= 0 && r < tablon.getRowCount())
+                    tablon.setRowSelectionInterval(r, r);
+                    MenuTablonA.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+                }//clic derecho
+                break;
+            }
+            case 2: {
+                if(SwingUtilities.isRightMouseButton(evt)){
+                    int r = tablon.rowAtPoint(evt.getPoint());
+                    if (r >= 0 && r < tablon.getRowCount())
+                    tablon.setRowSelectionInterval(r, r);
+                    MenuTablonC.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+                }//clic derecho
+                break;
+            }
+        }//Switch
+        
+    }//GEN-LAST:event_tablonMouseReleased
+
+    private void ConsultarAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarAActionPerformed
+        // TODO add your handling code here:
+        if (c == 0) {
+            Consultar();
+            c = 1;
+        } else {
+            s.setVisible(false);
+            Consultar();
+            c = 0;
+        }
+        s.setVisible(true);
+    }//GEN-LAST:event_ConsultarAActionPerformed
+
+    private void ConsultarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarCActionPerformed
+        // TODO add your handling code here:
+        if (c == 0) {
+            Consultar();
+            c = 1;
+        } else {
+            s.setVisible(false);
+            Consultar();
+            c = 0;
+        }
+        s.setVisible(true);
+    }//GEN-LAST:event_ConsultarCActionPerformed
+
+    private void OficioComisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OficioComisionActionPerformed
+        // TODO add your handling code here:
+        int i = tablon.getSelectedRow();
+        if (i >= 0) {
+            String folio = tablon.getValueAt(i, 0).toString();
+            try {
+                pdf.oficio_comision(folio);
+            } catch (DocumentException ex) {
+                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        }
+    }//GEN-LAST:event_OficioComisionActionPerformed
+
+    private void OficioViaticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OficioViaticoActionPerformed
+        // TODO add your handling code here:
+        int i = tablon.getSelectedRow();
+        if (i >= 0) {
+            String folio = tablon.getValueAt(i, 0).toString();
+            try {
+                pdf.pdfFolio(folio);
+            } catch (DocumentException ex) {
+                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        }
+    }//GEN-LAST:event_OficioViaticoActionPerformed
+
+    private void AsignarMontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AsignarMontoActionPerformed
+        // TODO add your handling code here:
+        int k = tablon.getSelectedRow();
+        if (k >= 0) {
+            String folio = tablon.getValueAt(k, 0).toString();
+            try {
+              
+                Statement sentencia = cn.createStatement();
+                String valor = javax.swing.JOptionPane.showInputDialog("Asignar monto");
+
+                if (valor == null) {
+
+                } else {
+                    float monto = Float.parseFloat(valor);
+                    sentencia.executeUpdate("UPDATE oficio_comision SET Monto = " + monto + "WHERE(Folio =" + folio + ")");
+                    javax.swing.JOptionPane.showMessageDialog(null, "Monto Asignado");
+                }
+            } catch (SQLException ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+
+            } catch (NumberFormatException exp) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Ingresar solo números");
+            }//fin del catch
+
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        }
+        int filas = tablon.getRowCount();
+        if (filas != 0) {
+            for (int j = 0; filas > j; j++) {
+                modelo.removeRow(0);
+            }
+        }
+        tablon.setModel(manager_soviaticos.SolicitudA());
+    }//GEN-LAST:event_AsignarMontoActionPerformed
+
+    private void AceptarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarPActionPerformed
+        // TODO add your handling code here:
+        int k = tablon.getSelectedRow();
+        if (k >= 0) {
+            int id = Integer.parseInt(tablon.getValueAt(k, 0).toString());
+            Calendar calendar = Calendar.getInstance();
+            try {
+                
+                String total = "";
+                Statement sentencia = cn.createStatement();
+                ResultSet rs0 = sentencia.executeQuery("SELECT COUNT(*) as Folio FROM oficio_comision");
+                while (rs0.next()) {
+                    total = rs0.getString("Folio");
+                }
+                int total1 = Integer.parseInt(total);
+                int folio = 0;
+                String valor = "";
+                if (total1 != 0) {
+                    ResultSet rs = sentencia.executeQuery("SELECT MAX(Folio) AS Folio FROM oficio_comision");
+                    while (rs.next()) {
+                        valor = rs.getString("Folio");
+                    }
+                    int an = Integer.parseInt(valor.substring(0, 4));
+                    if (an == calendar.get(Calendar.YEAR)) {
+                        valor = valor.substring(4);
+                        folio = Integer.parseInt(valor) + 1;
+                        valor = an + "" + folio;
+                        folio = Integer.parseInt(valor);
+                    } else {
+                        valor = calendar.get(Calendar.YEAR) + "1";
+                        folio = Integer.parseInt(valor);
+                    }
+                } else {
+                    valor = calendar.get(Calendar.YEAR) + "1";
+                    folio = Integer.parseInt(valor);
+                }
+                sentencia.execute("INSERT INTO oficio_comision VALUES(" + folio + "," + id + "," + 0.00 + ")");
+                sentencia.executeUpdate("UPDATE solicitud_viatico SET Estado = 'A' WHERE (idSolicitud = '" + id + "')");
+                javax.swing.JOptionPane.showMessageDialog(null, "Solicitud aceptada");
+
+            } catch (SQLException ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta o folio ya asignado");
+
+            }/*catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }*/ //fin del catch
+
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        }
+        int filas = tablon.getRowCount();
+        if (filas != 0) {
+            for (int j = 0; filas > j; j++) {
+                modelo.removeRow(0);
+            }
+
+        }
+        if (i == 0) {
+            tablon.setModel(manager_soviaticos.SolicitudP());
+        } else {
+            tablon.setModel(manager_soviaticos.SolicitudC());
+        }
+    }//GEN-LAST:event_AceptarPActionPerformed
+
+    private void AceptarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarCActionPerformed
+        // TODO add your handling code here:
+        int k = tablon.getSelectedRow();
+        if (k >= 0) {
+            int id = Integer.parseInt(tablon.getValueAt(k, 0).toString());
+            Calendar calendar = Calendar.getInstance();
+            try {
+                
+                String total = "";
+                Statement sentencia = cn.createStatement();
+                ResultSet rs0 = sentencia.executeQuery("SELECT COUNT(*) as Folio FROM oficio_comision");
+                while (rs0.next()) {
+                    total = rs0.getString("Folio");
+                }
+                int total1 = Integer.parseInt(total);
+                int folio = 0;
+                String valor = "";
+                if (total1 != 0) {
+                    ResultSet rs = sentencia.executeQuery("SELECT MAX(Folio) AS Folio FROM oficio_comision");
+                    while (rs.next()) {
+                        valor = rs.getString("Folio");
+                    }
+                    int an = Integer.parseInt(valor.substring(0, 4));
+                    if (an == calendar.get(Calendar.YEAR)) {
+                        valor = valor.substring(4);
+                        folio = Integer.parseInt(valor) + 1;
+                        valor = an + "" + folio;
+                        folio = Integer.parseInt(valor);
+                    } else {
+                        valor = calendar.get(Calendar.YEAR) + "1";
+                        folio = Integer.parseInt(valor);
+                    }
+                } else {
+                    valor = calendar.get(Calendar.YEAR) + "1";
+                    folio = Integer.parseInt(valor);
+                }
+                sentencia.execute("INSERT INTO oficio_comision VALUES(" + folio + "," + id + "," + 0.00 + ")");
+                sentencia.executeUpdate("UPDATE solicitud_viatico SET Estado = 'A' WHERE (idSolicitud = '" + id + "')");
+                javax.swing.JOptionPane.showMessageDialog(null, "Solicitud aceptada");
+
+            } catch (SQLException ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta o folio ya asignado");
+
+            }/*catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }*/ //fin del catch
+
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        }
+        int filas = tablon.getRowCount();
+        if (filas != 0) {
+            for (int j = 0; filas > j; j++) {
+                modelo.removeRow(0);
+            }
+
+        }
+        if (i == 0) {
+            tablon.setModel(manager_soviaticos.SolicitudP());
+        } else {
+            tablon.setModel(manager_soviaticos.SolicitudC());
+        }
+    }//GEN-LAST:event_AceptarCActionPerformed
+
+    private void CancelarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarCActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CancelarCActionPerformed
     public void Consultar() {
         if (i == 1) {
             int i = tablon.getSelectedRow();
@@ -1359,9 +1510,9 @@ public class PrincipalS extends javax.swing.JFrame {
                 try {
                     Statement sentencia = cn.createStatement();
                     ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM oficio_comision WHERE Folio = '" + folio + "'");
-                    while (rs.next()) {
-                        idSolicitud = rs.getString("Solicitud_idSolicitud");
-                    }
+                    rs.next();
+                    idSolicitud = rs.getString("Solicitud_idSolicitud");
+                    
                     s = new visSolicitudViaticos();
                     s.IdUsuario(Integer.parseInt(idSolicitud));
                 } catch (SQLException ex) {
@@ -1385,7 +1536,9 @@ public class PrincipalS extends javax.swing.JFrame {
                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
         }
-    }
+        
+    }//consultar
+    
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1477,20 +1630,30 @@ public class PrincipalS extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem AceptarC;
+    private javax.swing.JMenuItem AceptarP;
+    private javax.swing.JMenuItem AsignarMonto;
+    private javax.swing.JMenuItem CancelarA;
+    private javax.swing.JMenuItem CancelarC;
+    private javax.swing.JMenuItem CancelarP;
+    private javax.swing.JMenuItem ConsultarA;
+    private javax.swing.JMenuItem ConsultarC;
+    private javax.swing.JMenuItem ConsultarP;
+    private javax.swing.JMenuItem Impri_Sol;
     private javax.swing.JMenuItem MenuSolicitud;
+    private javax.swing.JPopupMenu MenuSolicitudViaticos;
+    private javax.swing.JPopupMenu MenuTablonA;
+    private javax.swing.JPopupMenu MenuTablonC;
+    private javax.swing.JPopupMenu MenuTablonP;
+    private javax.swing.JMenuItem OficioComision;
+    private javax.swing.JMenuItem OficioViatico;
     private javax.swing.JButton btnAddInventario;
     private javax.swing.JButton btnAddInventario2;
-    private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnaceptartablon;
     private javax.swing.JButton btnconsultarreporte;
-    private javax.swing.JButton btnconsultartablon;
     private javax.swing.JButton btneliminaractividad;
     private javax.swing.JButton btngenerarreporte;
     private javax.swing.JButton btnguardar;
-    private javax.swing.JButton btnmontotablon;
     private javax.swing.JButton btnnuevaactividad;
-    private javax.swing.JButton btnoficomi;
-    private javax.swing.JButton btnofivia;
     private javax.swing.JButton btnregresar;
     private javax.swing.JComboBox cmbsoliaceptadas;
     private javax.swing.JComboBox combotablon;
@@ -1498,7 +1661,6 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemAnterior;
     private javax.swing.JMenuItem itemSalir;
     private javax.swing.JMenuItem itemSiguiente;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel16;
@@ -1506,7 +1668,6 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
@@ -1520,11 +1681,11 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel19;
-    private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JLabel jlb;
     private javax.swing.JMenu menuOpciones;
@@ -1535,7 +1696,7 @@ public class PrincipalS extends javax.swing.JFrame {
     public static javax.swing.JTabbedPane solicviaticos;
     private javax.swing.JTable tablainfo;
     public static javax.swing.JTable tablasolic;
-    private javax.swing.JTable tablon;
+    public static javax.swing.JTable tablon;
     private javax.swing.JPanel tablonsolicitud;
     private javax.swing.JTextField txtbusquedasoli;
     private javax.swing.JTextField txtbusquedasoli1;

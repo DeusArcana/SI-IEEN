@@ -45,23 +45,13 @@
         <Property name="useNullLayout" type="boolean" value="true"/>
       </Layout>
       <SubComponents>
-        <MenuItem class="javax.swing.JMenuItem" name="Baja">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Solicitar baja"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BajaActionPerformed"/>
-          </Events>
-        </MenuItem>
-        <MenuItem class="javax.swing.JMenuItem" name="Comodato">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Solicitar comodato"/>
-          </Properties>
-        </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="AgregarStock">
           <Properties>
             <Property name="text" type="java.lang.String" value="Actualizar stock"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AgregarStockActionPerformed"/>
+          </Events>
         </MenuItem>
       </SubComponents>
     </Container>

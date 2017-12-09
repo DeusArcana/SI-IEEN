@@ -27,7 +27,7 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
         initComponents();
     }
     public visSolicitudViaticos(){
-        
+        initComponents();
     }
 
     /**
@@ -263,7 +263,7 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
         // TODO add your handling code here:
         try {
             Statement sentencia = cn.createStatement();
-            ResultSet rs = sentencia.executeQuery("SELECT * FROM solicitud WHERE idSolicitud = " + id);
+            ResultSet rs = sentencia.executeQuery("SELECT * FROM solicitud_viatico WHERE idSolicitud = " + id);
             String p = "";
             while (rs.next()) {
                 txt_Nombre.setText(rs.getString("Nombre"));
