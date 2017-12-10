@@ -409,6 +409,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
                             campoMatricula.getText(), campoObservaciones.getText(), ruta)) {
                         //vehiculos.guardarImagen("C:\\Users\\oscar\\OneDrive\\Documentos\\NetBeansProjects\\INE\\src\\Iconos\\asd.png", "asd");
                         JOptionPane.showMessageDialog(null, "Informacion actualizada correctamente!", "Información!", JOptionPane.INFORMATION_MESSAGE);
+                        Principal.tablaVehiculos.setModel(vehiculos.getVehiculos());
                         this.dispose();
                     } else {
                         JOptionPane.showMessageDialog(null, "Error al actualizar!", "Información!", JOptionPane.WARNING_MESSAGE);
