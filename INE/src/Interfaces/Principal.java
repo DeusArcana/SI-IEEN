@@ -101,7 +101,7 @@ public class Principal extends javax.swing.JFrame {
     public static int idPendiente;
     public DefaultTableModel modelotablaMAsignados,modeloRecoleccion,modeloObjetosEntregados;
     public static String Claves[];
-    public static int Cantidad[];
+    public static int Cantidad[],IDVales[];
             
     Vector IPS = new Vector();
     public static DefaultTableModel modeloTablaIP;
@@ -203,6 +203,7 @@ public class Principal extends javax.swing.JFrame {
         EntregarParte = new javax.swing.JMenuItem();
         MenuEntregados = new javax.swing.JPopupMenu();
         UpdateInfo = new javax.swing.JMenuItem();
+        CancelarEntrega = new javax.swing.JMenuItem();
         Grupo1 = new javax.swing.ButtonGroup();
         bg_manejo_inventario = new javax.swing.ButtonGroup();
         bt_tipo_inventario_asignable = new javax.swing.ButtonGroup();
@@ -357,7 +358,7 @@ public class Principal extends javax.swing.JFrame {
         lb_objetos_entregados1 = new javax.swing.JLabel();
         jScrollPane35 = new javax.swing.JScrollPane();
         tablaObjetosEntregados = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
-        btn_generar_vale4 = new javax.swing.JButton();
+        btnGenerarValeR = new javax.swing.JButton();
         btn_cancelar3 = new javax.swing.JButton();
         comboEmpleadoR = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
@@ -514,6 +515,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MenuEntregados.add(UpdateInfo);
+
+        CancelarEntrega.setText("Cancelar");
+        CancelarEntrega.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelarEntregaActionPerformed(evt);
+            }
+        });
+        MenuEntregados.add(CancelarEntrega);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Sistema Integral - Instituto Estatal Electoral de Nayarit");
@@ -1856,18 +1865,17 @@ public class Principal extends javax.swing.JFrame {
         });
         jScrollPane35.setViewportView(tablaObjetosEntregados);
 
-        btn_generar_vale4.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        btn_generar_vale4.setText("Generar Vale");
-        btn_generar_vale4.setEnabled(false);
-        btn_generar_vale4.addActionListener(new java.awt.event.ActionListener() {
+        btnGenerarValeR.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        btnGenerarValeR.setText("Generar Vale");
+        btnGenerarValeR.setEnabled(false);
+        btnGenerarValeR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_generar_vale4ActionPerformed(evt);
+                btnGenerarValeRActionPerformed(evt);
             }
         });
 
         btn_cancelar3.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         btn_cancelar3.setText("Cancelar");
-        btn_cancelar3.setEnabled(false);
         btn_cancelar3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_cancelar3ActionPerformed(evt);
@@ -1904,7 +1912,7 @@ public class Principal extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_recoleccion_inventario1Layout.createSequentialGroup()
                                 .addComponent(btn_cancelar3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_generar_vale4)))
+                                .addComponent(btnGenerarValeR)))
                         .addGap(35, 35, 35))))
         );
         pn_recoleccion_inventario1Layout.setVerticalGroup(
@@ -1926,7 +1934,7 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(jScrollPane35, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_generar_vale4)
+                    .addComponent(btnGenerarValeR)
                     .addComponent(btn_cancelar3))
                 .addContainerGap(183, Short.MAX_VALUE))
         );
@@ -2684,15 +2692,52 @@ public class Principal extends javax.swing.JFrame {
         
     }//limpia la tabla "tablaMAsignados"
     
-    /*--------------------------------------------------------------------------------------------------------------*/
+    /*--------------------------PARA LA RECOLECCION EN LA PESTAÑA DE MANEJADOR  DE INVENTARIO-----------------------*/
+    public boolean existeCodigoTablaObjetosEntregados(String codigo,int cantidad){
+        boolean existe = false;
+        //Buscamos en la tabla si ya existe el codigo
+        for(int fila = 0;fila<tablaObjetosEntregados.getRowCount();fila++){
+            //Si el codigo ya se habia registrado entonces sumamos uno a la cantidad
+            if(tablaObjetosEntregados.getValueAt(fila,1).equals(codigo)){
+                int  valor = Integer.parseInt(tablaObjetosEntregados.getValueAt(fila,5).toString());
+                valor = valor + cantidad;
+                tablaObjetosEntregados.setValueAt(valor,fila,5);
+                existe = true;
+                break;
+            }//if
+            
+        }//for
+        return existe;
+    }//Busca si existen coincidencias en la tabla para sumarlas
+    
+    public void getDatosTablaRecoleccion(){
+        IDVales = new int[tablaObjetosEntregados.getRowCount()];
+        Claves = new String[tablaObjetosEntregados.getRowCount()];
+        Cantidad = new int[tablaObjetosEntregados.getRowCount()];
+        for(int i = 0;i<tablaObjetosEntregados.getRowCount();i++){
+            IDVales[i] = Integer.parseInt(tablaObjetosEntregados.getValueAt(i, 0).toString());//Obtenemos los id de los vales
+            Claves[i] = tablaObjetosEntregados.getValueAt(i, 1).toString();//Obtenemos las claves
+            Cantidad[i] = Integer.parseInt(tablaObjetosEntregados.getValueAt(i, 5).toString());//Obtenemos las cantidades
+        }//Llenar arreglos de los codigos de barras y cantidades
+    }//obtiene los datos de la tabla "tablaMAsignados"
+    
+    public void regresarRecoleccion(){
+        manejador_inventario.regresarRecoleccion(IDVales,Claves,Cantidad);
+    }
     
     public void limpiarTablaRecoleccion(){
         
-        int a = modeloRecoleccion.getRowCount() - 1;
+        int a = modeloObjetosEntregados.getRowCount() - 1;
         for(int i=0; i<=a;i++){
-           modeloRecoleccion.removeRow(0);
+           modeloObjetosEntregados.removeRow(0);
         }
-    }//limpia la tabla "tb_objetos_asignados3"
+        
+        if(comboEmpleadoR.getSelectedIndex() != 0){
+            tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
+        }else{
+            tablaRecoleccion.setModel(modeloRecoleccion);
+        }
+    }//limpia la tabla "tablaMAsignados"
     
     private void CancelarAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarAActionPerformed
         // TODO add your handling code here:
@@ -2736,8 +2781,11 @@ public class Principal extends javax.swing.JFrame {
         String codigo = tablaRecoleccion.getValueAt(fila, 1).toString();
         int cantidad = Integer.parseInt(tablaRecoleccion.getValueAt(fila, 5).toString());
         
-        if(manejador_inventario.recoleccionInventario(vale,codigo,cantidad,0)){
-            modeloObjetosEntregados.addRow(new Object[]{vale,codigo,tablaRecoleccion.getValueAt(fila, 2),tablaRecoleccion.getValueAt(fila, 3),tablaRecoleccion.getValueAt(fila, 4),cantidad});
+        if(manejador_inventario.recoleccionInventario(vale,codigo,cantidad)){
+            btnGenerarValeR.setEnabled(true);
+            if(!(existeCodigoTablaObjetosEntregados(codigo,cantidad))){
+                modeloObjetosEntregados.addRow(new Object[]{vale,codigo,tablaRecoleccion.getValueAt(fila, 2),tablaRecoleccion.getValueAt(fila, 3),tablaRecoleccion.getValueAt(fila, 4),cantidad});
+            }
             tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
         }else{
             JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
@@ -2771,8 +2819,12 @@ public class Principal extends javax.swing.JFrame {
                 try{
                     //Si hace la conversion correctamente entonces no entra en la excepcion y se sale del ciclo
                     resta = Integer.parseInt(cadena);
-                    entero = false;
-
+                    
+                    if(cantidad >= resta){
+                        entero = false;
+                    }else{
+                        JOptionPane.showMessageDialog(null, "La cantidad que quiere recolectar ("+resta+") es mayor a la que tiene asignado("+cantidad+")");
+                    }
                 }catch(NumberFormatException e){
                     JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
                     entero = true;
@@ -2781,9 +2833,13 @@ public class Principal extends javax.swing.JFrame {
         }//while
         if(canceloCantidad){
             
-            if(manejador_inventario.recoleccionInventario(vale,codigo,resta,cantidad-resta)){
-                modeloObjetosEntregados.addRow(new Object[]{vale,codigo,tablaRecoleccion.getValueAt(fila, 2),tablaRecoleccion.getValueAt(fila, 3),tablaRecoleccion.getValueAt(fila, 4),resta});
+            if(manejador_inventario.recoleccionInventario(vale,codigo,resta)){
+                btnGenerarValeR.setEnabled(true);
+                if(!(existeCodigoTablaObjetosEntregados(codigo,resta))){
+                    modeloObjetosEntregados.addRow(new Object[]{vale,codigo,tablaRecoleccion.getValueAt(fila, 2),tablaRecoleccion.getValueAt(fila, 3),tablaRecoleccion.getValueAt(fila, 4),resta});
+                }
                 tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
+                
             }else{
                 JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
             }
@@ -2794,12 +2850,6 @@ public class Principal extends javax.swing.JFrame {
     private void manejo_inventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_manejo_inventarioMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_manejo_inventarioMouseClicked
-
-    private void rb_asignaciones1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_asignaciones1ActionPerformed
-        // TODO add your handling code here:
-        CardLayout c_asignaciones = (CardLayout)pn_contenedor_ventanas1.getLayout();
-        c_asignaciones.show(pn_contenedor_ventanas1,"c_s_asignaciones");
-    }//GEN-LAST:event_rb_asignaciones1ActionPerformed
 
     private void rb_reemplazo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_reemplazo1ActionPerformed
         // TODO add your handling code here:
@@ -2824,18 +2874,30 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(comboEmpleadoR.getSelectedIndex() != 0){
             tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
+            
+            if(tablaObjetosEntregados.getRowCount() > 0){
+                btnGenerarValeR.setEnabled(true);
+            }
+            
         }else{
             tablaRecoleccion.setModel(modeloRecoleccion);
+            btnGenerarValeR.setEnabled(false);
         }
     }//GEN-LAST:event_comboEmpleadoRActionPerformed
 
     private void btn_cancelar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelar3ActionPerformed
         // TODO add your handling code here:
+        getDatosTablaRecoleccion();
+        regresarRecoleccion();
+        limpiarTablaRecoleccion();
+        btnGenerarValeR.setEnabled(false);
+        tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
+        
     }//GEN-LAST:event_btn_cancelar3ActionPerformed
 
-    private void btn_generar_vale4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generar_vale4ActionPerformed
+    private void btnGenerarValeRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarValeRActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_generar_vale4ActionPerformed
+    }//GEN-LAST:event_btnGenerarValeRActionPerformed
 
     private void tablaObjetosEntregadosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaObjetosEntregadosMouseReleased
         // TODO add your handling code here:
@@ -3637,6 +3699,42 @@ public class Principal extends javax.swing.JFrame {
 
         }//if
     }//GEN-LAST:event_tablaInventarioMouseClicked
+
+    private void rb_asignaciones1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_asignaciones1ActionPerformed
+        // TODO add your handling code here:
+        CardLayout c_asignaciones = (CardLayout)pn_contenedor_ventanas1.getLayout();
+        c_asignaciones.show(pn_contenedor_ventanas1,"c_s_asignaciones");
+    }//GEN-LAST:event_rb_asignaciones1ActionPerformed
+
+    private void CancelarEntregaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarEntregaActionPerformed
+        // TODO add your handling code here:
+        IDVales = new int[1];
+        Claves = new String[1];
+        Cantidad = new int[1];
+        //Obtenemos la fila
+        int fila = tablaMAsignados.getSelectedRow();
+        
+        //Obtenemos el idVale, la clave y cantidad
+        IDVales[0] = Integer.parseInt(tablaObjetosEntregados.getValueAt(fila, 0).toString());
+        Claves[0] = tablaObjetosEntregados.getValueAt(fila, 1).toString();
+        Cantidad[0] = Integer.parseInt(tablaObjetosEntregados.getValueAt(fila, 5).toString());
+        
+        //Mostramos mensaje de confirmación para cancelar el producto seleccionado
+        String[] opciones = {"Aceptar", "Cancelar"};
+        int seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar el producto "+Claves[0]+"?","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+        if(seleccion == 0){
+            //Regresamos el producto seleccionado
+            manejador_inventario.regresarRecoleccion(IDVales,Claves,Cantidad);
+            //Eliminamos el registro de la tabla
+            modeloObjetosEntregados.removeRow(fila);
+            JOptionPane.showMessageDialog(null, "Se cancelo la entrega del producto "+Claves[0]+".");
+            //Vemos si queda mas de un producto
+            if(modeloObjetosEntregados.getRowCount() == 0){
+                btnGenerarValeR.setEnabled(false);
+            }
+            tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
+        }//selecciono la opcion "Aceptar"
+    }//GEN-LAST:event_CancelarEntregaActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -3775,6 +3873,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem Autorizar;
     private javax.swing.JMenuItem CambiarContra;
     private javax.swing.JMenuItem CancelarA;
+    private javax.swing.JMenuItem CancelarEntrega;
     private javax.swing.JMenuItem Denegar;
     private javax.swing.JMenuItem Eliminar;
     private javax.swing.JMenuItem EntregarParte;
@@ -3805,10 +3904,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnAñadirResguardo;
     private javax.swing.JButton btnAñadirVehiculo;
     private javax.swing.JButton btnEditar;
-    private javax.swing.JButton btn_cancelar2;
-    private javax.swing.JButton btn_cancelar3;
-    private javax.swing.JButton btn_generar_vale3;
-    private javax.swing.JButton btn_generar_vale4;
+    public javax.swing.JButton btnGenerarValeR;
+    public javax.swing.JButton btn_cancelar2;
+    public javax.swing.JButton btn_cancelar3;
+    public javax.swing.JButton btn_generar_vale3;
     private javax.swing.JButton btn_generar_vale5;
     private javax.swing.JTextArea campoObservaciones;
     private javax.swing.JSpinner campoip1;
@@ -3940,9 +4039,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel pn_tablaUsuarios;
     private javax.swing.JRadioButton rb_asignacion1;
     private javax.swing.JRadioButton rb_asignaciones1;
-    private javax.swing.JRadioButton rb_inventario_granel1;
-    private javax.swing.JRadioButton rb_inventario_normal1;
-    private javax.swing.JRadioButton rb_recoleccion1;
+    public javax.swing.JRadioButton rb_inventario_granel1;
+    public javax.swing.JRadioButton rb_inventario_normal1;
+    public javax.swing.JRadioButton rb_recoleccion1;
     private javax.swing.JRadioButton rb_reemplazo1;
     private javax.swing.JPanel solicitudes;
     private javax.swing.JScrollPane sp_asignacion_inventario1;
@@ -3953,20 +4052,20 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTable tablaBD;
     private javax.swing.JTable tablaIP;
     public static javax.swing.JTable tablaInventario;
-    private javax.swing.JTable tablaMAsignados;
-    private javax.swing.JTable tablaMInventarioA;
-    private javax.swing.JTable tablaObjetosEntregados;
+    public javax.swing.JTable tablaMAsignados;
+    public static javax.swing.JTable tablaMInventarioA;
+    public javax.swing.JTable tablaObjetosEntregados;
     private javax.swing.JTable tablaPermisosPersonales;
-    private javax.swing.JTable tablaRecoleccion;
+    public javax.swing.JTable tablaRecoleccion;
     public static javax.swing.JTable tablaResguardo;
     public static javax.swing.JTable tablaSolicitudes;
-    private javax.swing.JTable tablaSolicitudesPersonal;
+    public static javax.swing.JTable tablaSolicitudesPersonal;
     public static javax.swing.JTable tablaUsuarios;
     public static javax.swing.JTable tablaVehiculos;
     private javax.swing.JTable tb_inventario_granel_asignado1;
     private javax.swing.JTable tb_inventario_normal_asignado1;
     private javax.swing.JTable tb_producto_a_reemplazar1;
-    private javax.swing.JTextField tf_pruducto_reemplazable1;
+    public javax.swing.JTextField tf_pruducto_reemplazable1;
     private javax.swing.JTextField txtBusqueda;
     private javax.swing.JTextField txtBusquedaUsuario;
     private javax.swing.JTextField txtBusquedaVehiculos;

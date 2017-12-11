@@ -332,7 +332,7 @@ public class ManejadorInventario {
 
     }//getInventarioEmpleadoAsignaciones
     
-    public boolean recoleccionInventario(int idVale,String idProducto,int cantidad, int restantes){
+    public boolean recoleccionInventario(int idVale,String idProducto,int cantidad){
         
         try{
                 String sql = "";
@@ -371,16 +371,12 @@ public class ManejadorInventario {
                 }
                 
                 //Actualizamos o eliminamos el registro segun corresponda en la tabla "detalle_vale" 
+                sql = "update detalle_vale set cantidad = cantidad - "+cantidad+" where id_vale = "+idVale+" and id_producto = '"+idProducto+"';";
+                st.executeUpdate(sql);
                 //Si es 0 entonces ya no quedan mas producto por entregar, se elimina de la tabla
-                if(restantes == 0){
-                    sql = "delete from detalle_vale where id_vale = "+idVale+" and id_producto = '"+idProducto+"';";
-                    st.executeUpdate(sql);
-                }
-                //Si es mas de 0 entocnes solo actualizamos la cantidad que le falta
-                else{
-                    sql = "update detalle_vale set cantidad = "+restantes+" where id_vale = "+idVale+" and id_producto = '"+idProducto+"';";
-                    st.executeUpdate(sql);
-                }
+                sql = "delete from detalle_vale where id_vale = "+idVale+" and id_producto = '"+idProducto+"' and cantidad = 0;";
+                st.executeUpdate(sql);                
+                
                 conexion.close();
         } //try  
         catch (SQLException ex) {
@@ -391,5 +387,66 @@ public class ManejadorInventario {
         return true;
         
     }//Regresa los productos a su estado orignal (estatus y/o cantidad)
+    
+    public boolean regresarRecoleccion(int[] IDVales,String[] Claves,int[] Cantidad){
+        
+        try{
+                String sql = "";
+                conexion = db.getConexion();
+                Statement st = conexion.createStatement();
+                ResultSet rs;
+                
+                for(int i = 0; i<Claves.length; i++){
+                    
+                    //Regresamos el producto (Ya sea a inventario o inventario a granel)
+                    sql = "select * from inventario where id_producto = '"+Claves[i]+"';";
+                    rs = st.executeQuery(sql);
+                    //Si entra es a inventario
+                    if(rs.next()){
+                        sql = "update inventario set estatus = 'ASIGNADO' where id_producto = '"+Claves[i]+"';";
+                        st.executeUpdate(sql);
+                    }
+                    //Si no entra es a granel
+                    else{
+                        sql = "update inventario_granel set stock = stock - "+Cantidad[i]+" where id_productoGranel = '"+Claves[i]+"' and stock >= "+Cantidad[i]+";";
+                        st.executeUpdate(sql);
+
+                        sql = "update inventario_granel set estatus = 'AGOTADO' where id_productoGranel = '"+Claves[i]+"' and stock = 0;";
+                        st.executeUpdate(sql);
+                    }
+                    
+                    //Devolvemos la cantidad de la tabla "productosEntregados"
+                    sql = "update productosEntregados set cantidad = cantidad - "+Cantidad[i]+" where id_vale = "+IDVales[i]+" and id_producto = '"+Claves[i]+"';";
+                    st.executeUpdate(sql);
+                    
+                    //Eliminamos el registro si queda en 0
+                    sql = "delete from productosEntregados where id_vale = "+IDVales[i]+" and id_producto = '"+Claves[i]+"' and cantidad = 0;";
+                    st.executeUpdate(sql);
+                    
+                    sql = "select * from detalle_vale where id_vale = "+IDVales[i]+" and id_producto = '"+Claves[i]+"';";
+                    rs = st.executeQuery(sql);
+                    //Si el registro existe entonces solo sumamos la cantidad entregada
+                    if(rs.next()){
+                        sql = "update detalle_vale set cantidad = cantidad + "+Cantidad[i]+" where id_vale = "+IDVales[i]+" and id_producto = '"+Claves[i]+"';";
+                        st.executeUpdate(sql);
+                    }
+                    //Si el registro no existe entonces hacemos el nuevo registro en la tabla "detalle_vale"
+                    else{
+                        sql = "insert into detalle_vale values("+IDVales[i]+",'"+Claves[i]+"',"+Cantidad[i]+");";
+                        st.executeUpdate(sql);
+                    }
+
+                }//for
+                
+                conexion.close();
+        } //try  
+        catch (SQLException ex) {
+            Logger.getLogger(ManagerAsignarEquipo.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        
+        return true;
+        
+    }//Regresa los productos de recoleccion a su estado orignal
     
 }//class
