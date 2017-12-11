@@ -246,7 +246,7 @@ public class ManejadorInventario {
                 
                 for(int i = 0; i < Claves.length; i++){
                     //Insertamos los datos en la tabla "detalle_vale"
-                    sql = "insert into detalle_vale (id_vale,id_producto,cantidad)values("+idVale+",'"+Claves[i]+"',"+Cantidad[i]+");";
+                    sql = "insert into detalle_vale (id_vale,id_producto,cantidad,estado)values("+idVale+",'"+Claves[i]+"',"+Cantidad[i]+",'ASIGNADO');";
                     st.executeUpdate(sql);
                     
                 }//for
@@ -432,7 +432,7 @@ public class ManejadorInventario {
                     }
                     //Si el registro no existe entonces hacemos el nuevo registro en la tabla "detalle_vale"
                     else{
-                        sql = "insert into detalle_vale values("+IDVales[i]+",'"+Claves[i]+"',"+Cantidad[i]+");";
+                        sql = "insert into detalle_vale values("+IDVales[i]+",'"+Claves[i]+"',"+Cantidad[i]+",'ASIGNADO');";
                         st.executeUpdate(sql);
                     }
 
@@ -453,6 +453,7 @@ public class ManejadorInventario {
             DefaultTableModel table = new DefaultTableModel();
 
         try {
+            table.addColumn("Vale");
             table.addColumn("Clave");
             table.addColumn("Producto");
             table.addColumn("Descripción");
@@ -460,20 +461,20 @@ public class ManejadorInventario {
             table.addColumn("Cantidad");
             
             //Obtiene los productos asignados de acuerdo al empleado (Inventario)
-            String sql = "select dv.id_producto, ig.nombre_prod,ig.descripcion,ig.observaciones,dv.cantidad from vales v " +
+            String sql = "select v.id_vale,dv.id_producto, ig.nombre_prod,ig.descripcion,ig.observaciones,dv.cantidad from vales v " +
                          "inner join detalle_vale dv on (dv.id_vale = v.id_vale) " +
                          "inner join inventario_granel ig on (dv.id_producto = ig.id_productoGranel) " +
                          "inner join user u on (u.id_user = v.id_user) " +
                          "where u.id_user = '"+usuario+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
-            Object datos[] = new Object[5];
+            Object datos[] = new Object[6];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
 
-                for(int i = 0;i<5;i++){
+                for(int i = 0;i<6;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -481,7 +482,7 @@ public class ManejadorInventario {
             }//while
             
             //Obtiene los productos asignados de acuerdo al empleado (Inventario a granel)
-            sql = "select dv.id_producto, ig.nombre_prod,ig.descripcion,ig.observaciones,dv.cantidad from vales v " +
+            sql = "select v.id_vale,dv.id_producto, ig.nombre_prod,ig.descripcion,ig.observaciones,dv.cantidad from vales v " +
                          "inner join detalle_vale dv on (dv.id_vale = v.id_vale) " +
                          "inner join inventario ig on (dv.id_producto = ig.id_producto) " +
                          "inner join user u on (u.id_user = v.id_user) " +
@@ -509,5 +510,56 @@ public class ManejadorInventario {
         }
 
     }//getInventarioEmpleadoAsignacionesPersonales
+    
+    public boolean registro_Solicitud(int idVale,String idProd, String tipo,String user,String motivo,int cantidad){
+        
+        try {
+            //Hacemos la conexión
+            conexion = db.getConexion();
+            //Creamos la variable para hacer operaciones CRUD
+            Statement st = conexion.createStatement();
+            //Creamos la variable para guardar el resultado de las consultas
+            ResultSet rs;
+            
+            //Obtenemos la fecha del sistema
+            String sql = "select now();";
+            rs = st.executeQuery(sql);
+            rs.next();
+            String fecha = rs.getString(1); 
+            
+            //Registramos la solicitud
+            sql = "insert into Solicitudes (tipo_solicitud,id_user,motivo,cantidad,fecha_solicitud,estado) "
+                        +"values('"+tipo+"','"+user+"','"+motivo+"',"+cantidad+",'"+fecha+"','SOLICITUD PERSONAL');";
+            st.executeUpdate(sql);
+            
+            //Cambiamos el estatus del equipo seleccionado
+            sql = "update Inventario set estatus = '"+tipo+"' where id_producto = '"+idProd+"';";
+            st.executeUpdate(sql);
+            
+            //Buscamos el id de la solicitud
+            sql = "select id_solicitud from Solicitudes where fecha_solicitud = '"+fecha+"';";
+            rs = st.executeQuery(sql);
+            rs.next();
+            String idSol = rs.getString(1); 
+            
+            //Realizamos el registro de los detalles de la solicitud
+            sql = "insert into Detalle_solicitud values('"+idSol+"','"+idProd+"');";
+            st.executeUpdate(sql);
+            
+            //Actualizamos el estado del producto que esta asignado al empleado
+            sql = "update detalle_vale set estado = 'SOLICITUD' where id_producto = '"+idProd+" and id_vale = "+idVale+"';";
+            st.executeUpdate(sql);
+            
+            //Cerramos la conexión
+            conexion.close();
+            return true;
+            
+        } catch (SQLException ex) {
+            System.out.printf("Error al insertar la solicitud en SQL");
+            Logger.getLogger(ManagerSolicitud.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } 
+        
+    }//registro_solicitud
     
 }//class

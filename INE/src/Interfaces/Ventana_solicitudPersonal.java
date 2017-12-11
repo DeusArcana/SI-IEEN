@@ -7,35 +7,33 @@ package Interfaces;
 
 import Clases.ManagerSolicitud;
 import Clases.ManagerInventario;
+import Clases.ManejadorInventario;
 import Interfaces.Principal;
 import javax.swing.JOptionPane;
 /**
  *
  * @author kevin
  */
-public class Ventana_solicitud extends javax.swing.JDialog {
+public class Ventana_solicitudPersonal extends javax.swing.JDialog {
     
     ManagerSolicitud manager_solicitud;
     ManagerInventario manager_inventario;
+    ManejadorInventario manejador_inventario;
     
     String producto,motivo,tipo,usuario;
     int cantidad;
     /**
      * Creates new form Ventana_solicitudBaja
      */
-    public Ventana_solicitud(java.awt.Dialog parent, boolean modal) {
+    public Ventana_solicitudPersonal(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         
         //Asignamos memoria al objeto
         manager_solicitud = new ManagerSolicitud();
         manager_inventario = new ManagerInventario();
-        if(Principal.banderaSolicitud == 1){
-            txtProducto.setText(tablaDetalleInventario.clave);
-        }else{
-            txtProducto.setText(Ventana_EquipoComputo.Clave);
-        }
-        txtUsuario.setText(Principal.Username);
+        manejador_inventario = new ManejadorInventario();
+        
         this.setLocationRelativeTo(null);
         
     }
@@ -95,7 +93,6 @@ public class Ventana_solicitud extends javax.swing.JDialog {
         lblSolicitud3.setBounds(70, 110, 59, 17);
 
         txtCantidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtCantidad.setText("1");
         txtCantidad.setEnabled(false);
         pn_solicitud.add(txtCantidad);
         txtCantidad.setBounds(140, 110, 200, 23);
@@ -178,11 +175,9 @@ public class Ventana_solicitud extends javax.swing.JDialog {
         //Obtenemos la info
         getInfo();
         //Registramos la solicitud
-        if(manager_solicitud.registro_Solicitud(producto, tipo, usuario, motivo, cantidad)){
+        if(manejador_inventario.registro_Solicitud(Principal.productoIDVale,producto, tipo, usuario, motivo, cantidad)){
             JOptionPane.showMessageDialog(null, "La solicitud ha sido generada");
-            if(Principal.banderaSolicitud == 1){
-                tablaDetalleInventario.tablaCoincidencias.setModel(manager_inventario.getInventarioCoincidencias(Principal.prodInventario));
-            }
+            Principal.tablaAsignacionPersonal.setModel(manejador_inventario.getInventarioEmpleadoAsignacionesPersonales(Principal.Username));
             this.dispose();
         }//registro_solicitud
         else{
@@ -193,11 +188,10 @@ public class Ventana_solicitud extends javax.swing.JDialog {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        if(Principal.banderaSolicitud == 1){
-            txtTipoSolicitud.setText(tablaDetalleInventario.tipoSolicitud);
-        }else{
-            txtTipoSolicitud.setText(Ventana_EquipoComputo.tipo_solicitud);
-        }
+        txtTipoSolicitud.setText("Solicitud Reemplazo");
+        txtProducto.setText(Principal.productoAsignacionReemplazo);
+        txtUsuario.setText(Principal.Username);
+        txtCantidad.setText(""+Principal.productoARCantidad);
     }//GEN-LAST:event_formWindowOpened
 
     private void txtTipoSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTipoSolicitudActionPerformed
@@ -236,21 +230,23 @@ public class Ventana_solicitud extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Ventana_solicitud.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ventana_solicitudPersonal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Ventana_solicitud.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ventana_solicitudPersonal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Ventana_solicitud.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ventana_solicitudPersonal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Ventana_solicitud.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ventana_solicitudPersonal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Ventana_solicitud dialog = new Ventana_solicitud(new javax.swing.JDialog(), true);
+                Ventana_solicitudPersonal dialog = new Ventana_solicitudPersonal(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

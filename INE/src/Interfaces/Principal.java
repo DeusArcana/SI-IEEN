@@ -97,8 +97,8 @@ public class Principal extends javax.swing.JFrame {
     
     
     //VARIABLES GLOBALES
-    public static String usuario = "",prodInventario = "",UserUpdate = "",estadoPendiente = "",Username = "";
-    public static int idPendiente;
+    public static String usuario = "",prodInventario = "",UserUpdate = "",estadoPendiente = "",Username = "",productoAsignacionReemplazo = "";
+    public static int idPendiente,productoARCantidad,productoIDVale;
     public DefaultTableModel modelotablaMAsignados,modeloRecoleccion,modeloObjetosEntregados;
     public static String Claves[];
     public static int Cantidad[],IDVales[];
@@ -2590,8 +2590,7 @@ public class Principal extends javax.swing.JFrame {
                 try{
 
                     int cantidad = Integer.parseInt(cadena);
-                    //Sumamos el stock
-                    
+                    entero = false;                    
 
                 }catch(NumberFormatException e){
                     JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
@@ -3693,6 +3692,14 @@ public class Principal extends javax.swing.JFrame {
 
     private void ReemplazarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReemplazarActionPerformed
         // TODO add your handling code here:
+        int fila = tablaAsignacionPersonal.getSelectedRow();
+        //Obtenemos el id y la cantidad
+        productoIDVale = Integer.parseInt(tablaAsignacionPersonal.getValueAt(fila, 0).toString());
+        productoAsignacionReemplazo = tablaAsignacionPersonal.getValueAt(fila, 1).toString();
+        productoARCantidad = Integer.parseInt(tablaAsignacionPersonal.getValueAt(fila, 5).toString());
+        
+        Ventana_solicitudPersonal ob = new Ventana_solicitudPersonal(this,true);
+        ob.setVisible(true);
     }//GEN-LAST:event_ReemplazarActionPerformed
 
     private void ActualizarAsignacionPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarAsignacionPActionPerformed
@@ -4105,7 +4112,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane sp_asignacion_inventario1;
     private javax.swing.JScrollPane sp_recoleccion_inventario1;
     public static javax.swing.JTabbedPane tabbedPrincipal;
-    private javax.swing.JTable tablaAsignacionPersonal;
+    public static javax.swing.JTable tablaAsignacionPersonal;
     private javax.swing.JTable tablaBD;
     private javax.swing.JTable tablaIP;
     public static javax.swing.JTable tablaInventario;

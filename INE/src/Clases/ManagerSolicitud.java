@@ -203,7 +203,7 @@ public class ManagerSolicitud {
                             "inner join user u on (u.id_user = s.id_user) " +
                             "inner join empleados e on (e.id_empleado = u.id_empleado) " +
                             "inner join inventario i on (i.id_producto = ds.id_producto) "+ 
-                            "where s.estado = 'SOLICITUD' order by s.fecha_solicitud;";
+                            "where s.estado ='SOLICITUD' or s.estado = 'SOLICITUD PERSONAL' order by s.fecha_solicitud;";
                     break;
                 case 13:
                     sql = "select s.id_solicitud,s.tipo_solicitud,concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) as Empleado,i.nombre_prod,s.motivo,date(s.fecha_solicitud) as fecha_solicitud,s.estado from detalle_solicitud ds "
@@ -211,7 +211,7 @@ public class ManagerSolicitud {
                             + "inner join user u on (u.id_user = s.id_user)"
                             + "inner join empleados e on (e.id_empleado = u.id_empleado)"
                             + "inner join inventario i on (i.id_producto = ds.id_producto)"
-                            + "where (s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud donación' or s.tipo_solicitud = 'Solicitud comodato') and s.estado = 'SOLICITUD';";
+                            + "where (s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud donación' or s.tipo_solicitud = 'Solicitud comodato') and s.estado = ''SOLICITUD' or s.estado = 'SOLICITUD PERSONAL';";
                     break; // Había un error de sintaxis SQL aquí :P
                 case 12:
                     sql = "select s.id_solicitud,s.tipo_solicitud,concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) as Empleado,i.nombre_prod,s.motivo,date(s.fecha_solicitud) as fecha_solicitud,s.estado from detalle_solicitud ds"
@@ -219,7 +219,7 @@ public class ManagerSolicitud {
                                 + "inner join user u on (u.id_user = s.id_user)"
                                 + "inner join empleados e on (e.id_empleado = u.id_empleado)"
                                 + "inner join inventario i on (i.id_producto = ds.id_producto)"
-                                + "where (s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud donación' or s.tipo_solicitud = 'Solicitud reemplazo') and s.estado = 'SOLICITUD';";
+                                + "where (s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud donación' or s.tipo_solicitud = 'Solicitud reemplazo') and s.estado = 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL';";
                     break;
                 case 11:
                     sql = "select s.id_solicitud,s.tipo_solicitud,concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) as Empleado,i.nombre_prod,s.motivo,date(s.fecha_solicitud) as fecha_solicitud,s.estado from detalle_solicitud ds " +
@@ -227,7 +227,7 @@ public class ManagerSolicitud {
                             "inner join user u on (u.id_user = s.id_user) " +
                             "inner join empleados e on (e.id_empleado = u.id_empleado) " +
                             "inner join inventario i on (i.id_producto = ds.id_producto)"
-                            + " where (s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud comodato' or s.tipo_solicitud = 'Solicitud reemplazo') and s.estado = 'SOLICITUD' order by s.fecha_solicitud;";
+                            + " where (s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud comodato' or s.tipo_solicitud = 'Solicitud reemplazo') and s.estado ='SOLICITUD' or s.estado = 'SOLICITUD PERSONAL' order by s.fecha_solicitud;";
                     break;
                 case 10:
                     sql = "select s.id_solicitud,s.tipo_solicitud,concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) as Empleado,i.nombre_prod,s.motivo,date(s.fecha_solicitud) as fecha_solicitud,s.estado from detalle_solicitud ds " +
@@ -235,7 +235,7 @@ public class ManagerSolicitud {
                             "inner join user u on (u.id_user = s.id_user) " +
                             "inner join empleados e on (e.id_empleado = u.id_empleado) " +
                             "inner join inventario i on (i.id_producto = ds.id_producto)"
-                            + " where (s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud donación') and s.estado = 'SOLICITUD' order by s.fecha_solicitud;";
+                            + " where (s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud donación') and s.estado ='SOLICITUD' or s.estado = 'SOLICITUD PERSONAL' order by s.fecha_solicitud;";
                     break;
                 case 9:
                     sql = "select s.id_solicitud,s.tipo_solicitud,concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) as Empleado,i.nombre_prod,s.motivo,date(s.fecha_solicitud) as fecha_solicitud,s.estado from detalle_solicitud ds " +
@@ -243,7 +243,7 @@ public class ManagerSolicitud {
                             "inner join user u on (u.id_user = s.id_user) " +
                             "inner join empleados e on (e.id_empleado = u.id_empleado) " +
                             "inner join inventario i on (i.id_producto = ds.id_producto)"
-                            + " where (s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud comodato') and s.estado = 'SOLICITUD' order by s.fecha_solicitud;";
+                            + " where (s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud comodato') and s.estado ='SOLICITUD' or s.estado = 'SOLICITUD PERSONAL' order by s.fecha_solicitud;";
                     break;
                 case 8:
                     sql = "select s.id_solicitud,s.tipo_solicitud,concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) as Empleado,i.nombre_prod,s.motivo,date(s.fecha_solicitud) as fecha_solicitud,s.estado from detalle_solicitud ds " +
@@ -251,7 +251,7 @@ public class ManagerSolicitud {
                             "inner join user u on (u.id_user = s.id_user) " +
                             "inner join empleados e on (e.id_empleado = u.id_empleado) " +
                             "inner join inventario i on (i.id_producto = ds.id_producto)"
-                            + " where (s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud reemplazo') and s.estado = 'SOLICITUD' order by s.fecha_solicitud;";
+                            + " where (s.tipo_solicitud = 'Solicitud baja' or s.tipo_solicitud = 'Solicitud reemplazo') and s.estado = ' 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL' order by s.fecha_solicitud;";
                     break;
                 case 7:
                     sql = "select s.id_solicitud,s.tipo_solicitud,concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) as Empleado,i.nombre_prod,s.motivo,date(s.fecha_solicitud) as fecha_solicitud,s.estado from detalle_solicitud ds " +
@@ -259,7 +259,7 @@ public class ManagerSolicitud {
                             "inner join user u on (u.id_user = s.id_user) " +
                             "inner join empleados e on (e.id_empleado = u.id_empleado) " +
                             "inner join inventario i on (i.id_producto = ds.id_producto) "+
-                            "where (s.tipo_solicitud = 'Solicitud reemplazo' or s.tipo_solicitud = 'Solicitud comodato') and s.estado = 'SOLICITUD' order by s.fecha_solicitud;";
+                            "where (s.tipo_solicitud = 'Solicitud reemplazo' or s.tipo_solicitud = 'Solicitud comodato') and s.estado = ''SOLICITUD' or s.estado = 'SOLICITUD PERSONAL' order by s.fecha_solicitud;";
                     break;
                 case 6:
                     sql = "select s.id_solicitud,s.tipo_solicitud,concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) as Empleado,i.nombre_prod,s.motivo,date(s.fecha_solicitud) as fecha_solicitud,s.estado from detalle_solicitud ds " +
@@ -267,7 +267,7 @@ public class ManagerSolicitud {
                             "inner join user u on (u.id_user = s.id_user) " +
                             "inner join empleados e on (e.id_empleado = u.id_empleado) " +
                             "inner join inventario i on (i.id_producto = ds.id_producto)"
-                            + " where (s.tipo_solicitud = 'Solicitud reemplazo' or s.tipo_solicitud = 'Solicitud donación') and s.estado = 'SOLICITUD' order by s.fecha_solicitud;";
+                            + " where (s.tipo_solicitud = 'Solicitud reemplazo' or s.tipo_solicitud = 'Solicitud donación') and s.estado = ' 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL' order by s.fecha_solicitud;";
                     break;
                 case 5:
                     sql = "select s.id_solicitud,s.tipo_solicitud,concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) as Empleado,i.nombre_prod,s.motivo,date(s.fecha_solicitud) as fecha_solicitud,s.estado from detalle_solicitud ds " +
@@ -275,7 +275,7 @@ public class ManagerSolicitud {
                             "inner join user u on (u.id_user = s.id_user) " +
                             "inner join empleados e on (e.id_empleado = u.id_empleado) " +
                             "inner join inventario i on (i.id_producto = ds.id_producto)"
-                            + " where (s.tipo_solicitud = 'Solicitud comodato or s.tipo_solicitud = 'Solicitud donación') and s.estado = 'SOLICITUD' order by s.fecha_solicitud;";
+                            + " where (s.tipo_solicitud = 'Solicitud comodato or s.tipo_solicitud = 'Solicitud donación') and s.estado = 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL' order by s.fecha_solicitud;";
                     break;
                 case 4:
                     sql = "select s.id_solicitud,s.tipo_solicitud,concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) as Empleado,i.nombre_prod,s.motivo,date(s.fecha_solicitud) as fecha_solicitud,s.estado from detalle_solicitud ds " +
@@ -283,7 +283,7 @@ public class ManagerSolicitud {
                             "inner join user u on (u.id_user = s.id_user) " +
                             "inner join empleados e on (e.id_empleado = u.id_empleado) " +
                             "inner join inventario i on (i.id_producto = ds.id_producto)"
-                            + " where s.tipo_solicitud = 'Solicitud baja' and s.estado = 'SOLICITUD' order by s.fecha_solicitud;";
+                            + " where s.tipo_solicitud = 'Solicitud baja' and s.estado = 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL' order by s.fecha_solicitud;";
                     break;
                 case 3:
                     sql = "select s.id_solicitud,s.tipo_solicitud,concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) as Empleado,i.nombre_prod,s.motivo,date(s.fecha_solicitud) as fecha_solicitud,s.estado from detalle_solicitud ds " +
@@ -291,7 +291,7 @@ public class ManagerSolicitud {
                             "inner join user u on (u.id_user = s.id_user) " +
                             "inner join empleados e on (e.id_empleado = u.id_empleado) " +
                             "inner join inventario i on (i.id_producto = ds.id_producto)"
-                            + " where s.tipo_solicitud = 'Solicitud comodato' and s.estado = 'SOLICITUD' order by s.fecha_solicitud;";
+                            + " where s.tipo_solicitud = 'Solicitud comodato' and s.estado = 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL' order by s.fecha_solicitud;";
                     break;
                 case 2:
                     sql = "select s.id_solicitud,s.tipo_solicitud,concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) as Empleado,i.nombre_prod,s.motivo,date(s.fecha_solicitud) as fecha_solicitud,s.estado from detalle_solicitud ds " +
@@ -299,7 +299,7 @@ public class ManagerSolicitud {
                             "inner join user u on (u.id_user = s.id_user) " +
                             "inner join empleados e on (e.id_empleado = u.id_empleado) " +
                             "inner join inventario i on (i.id_producto = ds.id_producto)"
-                            + " where s.tipo_solicitud = 'Solicitud donación' and s.estado = 'SOLICITUD' order by s.fecha_solicitud;";
+                            + " where s.tipo_solicitud = 'Solicitud donación' and s.estado = 'SOLICITUD' or s.estado = 'SOLICITUD PERSONAL' order by s.fecha_solicitud;";
                     break;
                 case 1:
                     sql = "select s.id_solicitud,s.tipo_solicitud,concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) as Empleado,i.nombre_prod,s.motivo,date(s.fecha_solicitud) as fecha_solicitud,s.estado from detalle_solicitud ds " +
@@ -307,7 +307,7 @@ public class ManagerSolicitud {
                             "inner join user u on (u.id_user = s.id_user) " +
                             "inner join empleados e on (e.id_empleado = u.id_empleado) " +
                             "inner join inventario i on (i.id_producto = ds.id_producto)"
-                            + " where s.tipo_solicitud = 'Solicitud reemplazo' and s.estado = 'SOLICITUD' order by s.fecha_solicitud;";
+                            + " where s.tipo_solicitud = 'Solicitud reemplazo' and s.estado ='SOLICITUD' or s.estado = 'SOLICITUD PERSONAL' order by s.fecha_solicitud;";
                     break;
             }
             conexion = db.getConexion();

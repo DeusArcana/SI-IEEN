@@ -64,7 +64,7 @@ public class ManagerInventario {
         String insert = "insert into inventario (id_producto,nombre_prod,almacen,marca,no_serie,descripcion,observaciones,estatus,tipo_uso,modelo,color,imagen)values(?,?,?,?,?,?,?,?,?,?,?,?);";
         FileInputStream fi = null;
         PreparedStatement ps = null;
-
+        
         try {
             File file = new File(ruta);
             fi = new FileInputStream(file);
@@ -86,6 +86,14 @@ public class ManagerInventario {
 
             ps.executeUpdate();
 
+            //Si es algún CPU o Monitor o Teclado, lo insertamos a su correspondiente tabla para cuando se necesite
+            //asignar a un grupo en la tabla de equipo de computo. Cada componente tenga su propia llave.
+            if(producto.equals("CPU") || producto.equals("Monitor") || producto.equals("Teclado")){
+                String sql = "insert into "+producto+" values('"+clave+"');";
+                Statement st = conexion.createStatement(); 
+                st.executeUpdate(sql);
+            }
+            
             return true;
            
         } catch (Exception ex) {
