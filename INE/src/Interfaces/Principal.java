@@ -97,8 +97,8 @@ public class Principal extends javax.swing.JFrame {
     
     
     //VARIABLES GLOBALES
-    public static String usuario = "",prodInventario = "",UserUpdate = "",estadoPendiente = "",Username = "",productoAsignacionReemplazo = "";
-    public static int idPendiente,productoARCantidad,productoIDVale;
+    public static String usuario = "",prodInventario = "",UserUpdate = "",estadoPendiente = "",estadoSolicitud = "",Username = "",productoAsignacionReemplazo = "",productoAREstado = "",empleadoSolicitud = "";
+    public static int idPendiente,productoIDVale;
     public DefaultTableModel modelotablaMAsignados,modeloRecoleccion,modeloObjetosEntregados;
     public static String Claves[];
     public static int Cantidad[],IDVales[];
@@ -200,6 +200,8 @@ public class Principal extends javax.swing.JFrame {
         MenuAsignacionP = new javax.swing.JPopupMenu();
         Reemplazar = new javax.swing.JMenuItem();
         ActualizarAsignacionP = new javax.swing.JMenuItem();
+        MenuAsignacionPG = new javax.swing.JPopupMenu();
+        ActualizarAsignacionPG = new javax.swing.JMenuItem();
         MenuPendientes = new javax.swing.JPopupMenu();
         Autorizar = new javax.swing.JMenuItem();
         Denegar = new javax.swing.JMenuItem();
@@ -216,6 +218,7 @@ public class Principal extends javax.swing.JFrame {
         Grupo1 = new javax.swing.ButtonGroup();
         bg_manejo_inventario = new javax.swing.ButtonGroup();
         bt_tipo_inventario_asignable = new javax.swing.ButtonGroup();
+        GrupoTipoInventario = new javax.swing.ButtonGroup();
         tabbedPrincipal = new javax.swing.JTabbedPane();
         pestañaInventario = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -269,6 +272,9 @@ public class Principal extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         tablaSolicitudes = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        jPanel10 = new javax.swing.JPanel();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        tablaStockBajo = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel9 = new javax.swing.JLabel();
         empleado = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -301,6 +307,8 @@ public class Principal extends javax.swing.JFrame {
         jLabel24 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
+        radioEquipo = new javax.swing.JRadioButton();
+        radioGranel = new javax.swing.JRadioButton();
         jLabel10 = new javax.swing.JLabel();
         configuracion = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -501,6 +509,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MenuAsignacionP.add(ActualizarAsignacionP);
+
+        ActualizarAsignacionPG.setText("Refrescar tabla");
+        ActualizarAsignacionPG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarAsignacionPGActionPerformed(evt);
+            }
+        });
+        MenuAsignacionPG.add(ActualizarAsignacionPG);
 
         Autorizar.setText("Autorizar");
         Autorizar.addActionListener(new java.awt.event.ActionListener() {
@@ -1067,6 +1083,41 @@ public class Principal extends javax.swing.JFrame {
         jPanel7.add(jPanel8);
         jPanel8.setBounds(20, 20, 1340, 330);
 
+        tablaStockBajo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Clave", "Producto", "Descripción", "Observaciones", "Stock", "Estado"
+            }
+        ));
+        tablaStockBajo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablaStockBajoMouseReleased(evt);
+            }
+        });
+        jScrollPane12.setViewportView(tablaStockBajo);
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 1320, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+
+        jPanel7.add(jPanel10);
+        jPanel10.setBounds(20, 370, 1340, 330);
+
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel7.add(jLabel9);
         jLabel9.setBounds(0, 0, 1367, 769);
@@ -1229,6 +1280,23 @@ public class Principal extends javax.swing.JFrame {
         jLabel27.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel27.setText("Asignacion personal de inventario");
 
+        GrupoTipoInventario.add(radioEquipo);
+        radioEquipo.setText("Equipo de computo");
+        radioEquipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioEquipoActionPerformed(evt);
+            }
+        });
+
+        GrupoTipoInventario.add(radioGranel);
+        radioGranel.setSelected(true);
+        radioGranel.setText("Inventario granel");
+        radioGranel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioGranelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelEmpleadoLayout = new javax.swing.GroupLayout(panelEmpleado);
         panelEmpleado.setLayout(panelEmpleadoLayout);
         panelEmpleadoLayout.setHorizontalGroup(
@@ -1281,13 +1349,16 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(386, 386, 386))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEmpleadoLayout.createSequentialGroup()
                 .addContainerGap(42, Short.MAX_VALUE)
-                .addGroup(panelEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEmpleadoLayout.createSequentialGroup()
-                        .addComponent(jLabel27)
-                        .addGap(536, 536, 536))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEmpleadoLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56))))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEmpleadoLayout.createSequentialGroup()
+                .addGap(134, 134, 134)
+                .addComponent(jLabel27)
+                .addGap(18, 18, 18)
+                .addComponent(radioGranel)
+                .addGap(18, 18, 18)
+                .addComponent(radioEquipo)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelEmpleadoLayout.setVerticalGroup(
             panelEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1337,7 +1408,11 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(btnAñadirResguardo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addComponent(jLabel27)
+                .addGroup(panelEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(radioEquipo)
+                        .addComponent(radioGranel))
+                    .addComponent(jLabel27))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -2128,14 +2203,14 @@ public class Principal extends javax.swing.JFrame {
         tablaResguardo.setModel(manager_complemento.getResguardoPersonal(Username));
         tablaSolicitudesPersonal.setModel(manager_solicitud.tabla_Solicitudes_Personales(Username));
         tablaPermisosPersonales.setModel(manager_permisos.getPermisos(tablaPermisosPersonales,Username));
-        tablaAsignacionPersonal.setModel(manejador_inventario.getInventarioEmpleadoAsignacionesPersonales(Username));
+        tablaAsignacionPersonal.setModel(manejador_inventario.getInventarioEmpleadoAsignacionesPersonalesG(Username));
         
         /*PESTAÑA CONFIGURACIÓN*/
         if(!(manager_permisos.esSuperUsuario(Username))){
             tabbedPrincipal.removeTabAt(5-pestañas);//Eliminamos la pestaña
         }
         
-        /*PESTAÑA DE MANEJADOR KEVIN(TENDRIA QUE SER MANEJADOR INVENTARIO)*/
+        /*PESTAÑA DE MANEJADOR INVENTARIO*/
         //Asignación
         tablaMInventarioA.setModel(manejador_inventario.getInventario());
         comboEmpleado.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
@@ -2464,7 +2539,8 @@ public class Principal extends javax.swing.JFrame {
         idPendiente = Integer.parseInt(tablaSolicitudes.getValueAt(fila, 0).toString());
         //Le quitamos la palabra "Solicitud " y nos quedamos con el estado pendiente al que va a cambiar
         estadoPendiente = solicitud.substring(10, solicitud.length());
-        
+        estadoSolicitud = tablaSolicitudes.getValueAt(fila, 6).toString();
+        empleadoSolicitud = tablaSolicitudes.getValueAt(fila, 1).toString();
         //Abrimos la ventana para atender la solicitud y actualizar la foto del producto solicitado.
         ventana_AtenderSolicitud ob = new ventana_AtenderSolicitud(this,true);
         ob.setVisible(true);
@@ -3696,7 +3772,7 @@ public class Principal extends javax.swing.JFrame {
         //Obtenemos el id y la cantidad
         productoIDVale = Integer.parseInt(tablaAsignacionPersonal.getValueAt(fila, 0).toString());
         productoAsignacionReemplazo = tablaAsignacionPersonal.getValueAt(fila, 1).toString();
-        productoARCantidad = Integer.parseInt(tablaAsignacionPersonal.getValueAt(fila, 5).toString());
+        productoAREstado = tablaAsignacionPersonal.getValueAt(fila, 5).toString();
         
         Ventana_solicitudPersonal ob = new Ventana_solicitudPersonal(this,true);
         ob.setVisible(true);
@@ -3710,12 +3786,21 @@ public class Principal extends javax.swing.JFrame {
     private void tablaAsignacionPersonalMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAsignacionPersonalMouseReleased
         // TODO add your handling code here:
         //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
-        if(SwingUtilities.isRightMouseButton(evt)){
-            int r = tablaAsignacionPersonal.rowAtPoint(evt.getPoint());
-            if (r >= 0 && r < tablaAsignacionPersonal.getRowCount())
-            tablaAsignacionPersonal.setRowSelectionInterval(r, r);
-            MenuAsignacionP.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-        }//clic derecho
+        if(radioEquipo.isSelected()){
+            if(SwingUtilities.isRightMouseButton(evt)){
+                int r = tablaAsignacionPersonal.rowAtPoint(evt.getPoint());
+                if (r >= 0 && r < tablaAsignacionPersonal.getRowCount())
+                tablaAsignacionPersonal.setRowSelectionInterval(r, r);
+                MenuAsignacionP.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+            }//clic derecho
+        }else{
+            if(SwingUtilities.isRightMouseButton(evt)){
+                int r = tablaAsignacionPersonal.rowAtPoint(evt.getPoint());
+                if (r >= 0 && r < tablaAsignacionPersonal.getRowCount())
+                tablaAsignacionPersonal.setRowSelectionInterval(r, r);
+                MenuAsignacionPG.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+            }//clic derecho
+        }
     }//GEN-LAST:event_tablaAsignacionPersonalMouseReleased
 
     private void ActualizarInfoGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoGActionPerformed
@@ -3806,6 +3891,25 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
     }//GEN-LAST:event_ActualizarInfoRecoActionPerformed
+
+    private void radioGranelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioGranelActionPerformed
+        // TODO add your handling code here:
+        tablaAsignacionPersonal.setModel(manejador_inventario.getInventarioEmpleadoAsignacionesPersonalesG(Username));
+    }//GEN-LAST:event_radioGranelActionPerformed
+
+    private void radioEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioEquipoActionPerformed
+        // TODO add your handling code here:
+        tablaAsignacionPersonal.setModel(manejador_inventario.getInventarioEmpleadoAsignacionesPersonales(Username));
+    }//GEN-LAST:event_radioEquipoActionPerformed
+
+    private void ActualizarAsignacionPGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarAsignacionPGActionPerformed
+        // TODO add your handling code here:
+        tablaAsignacionPersonal.setModel(manejador_inventario.getInventarioEmpleadoAsignacionesPersonalesG(Username));
+    }//GEN-LAST:event_ActualizarAsignacionPGActionPerformed
+
+    private void tablaStockBajoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaStockBajoMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaStockBajoMouseReleased
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -3936,6 +4040,7 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Actualizar;
     private javax.swing.JMenuItem ActualizarAsignacionP;
+    private javax.swing.JMenuItem ActualizarAsignacionPG;
     private javax.swing.JMenuItem ActualizarInfo;
     private javax.swing.JMenuItem ActualizarInfoG;
     private javax.swing.JMenuItem ActualizarInfoPP;
@@ -3958,8 +4063,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem EntregarTodo;
     private javax.swing.JMenuItem Equipos;
     private javax.swing.ButtonGroup Grupo1;
+    private javax.swing.ButtonGroup GrupoTipoInventario;
     private javax.swing.JPopupMenu MenuAsginados;
     private javax.swing.JPopupMenu MenuAsignacionP;
+    private javax.swing.JPopupMenu MenuAsignacionPG;
     private javax.swing.JPopupMenu MenuEntregados;
     private javax.swing.JPopupMenu MenuInventario;
     private javax.swing.JPopupMenu MenuPendientes;
@@ -4047,6 +4154,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
@@ -4061,6 +4169,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane31;
@@ -4104,6 +4213,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel pn_contenedor_ventanas1;
     private javax.swing.JPanel pn_recoleccion_inventario1;
     private javax.swing.JPanel pn_tablaUsuarios;
+    private javax.swing.JRadioButton radioEquipo;
+    private javax.swing.JRadioButton radioGranel;
     private javax.swing.JRadioButton rb_asignacion1;
     public javax.swing.JRadioButton rb_inventario_granel1;
     public javax.swing.JRadioButton rb_inventario_normal1;
@@ -4124,6 +4235,7 @@ public class Principal extends javax.swing.JFrame {
     public static javax.swing.JTable tablaResguardo;
     public static javax.swing.JTable tablaSolicitudes;
     public static javax.swing.JTable tablaSolicitudesPersonal;
+    public static javax.swing.JTable tablaStockBajo;
     public static javax.swing.JTable tablaUsuarios;
     public static javax.swing.JTable tablaVehiculos;
     private javax.swing.JTextField txtBusqueda;

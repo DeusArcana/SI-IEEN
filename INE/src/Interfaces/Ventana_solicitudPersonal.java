@@ -93,6 +93,7 @@ public class Ventana_solicitudPersonal extends javax.swing.JDialog {
         lblSolicitud3.setBounds(70, 110, 59, 17);
 
         txtCantidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtCantidad.setText("1");
         txtCantidad.setEnabled(false);
         pn_solicitud.add(txtCantidad);
         txtCantidad.setBounds(140, 110, 200, 23);
@@ -191,7 +192,6 @@ public class Ventana_solicitudPersonal extends javax.swing.JDialog {
         txtTipoSolicitud.setText("Solicitud Reemplazo");
         txtProducto.setText(Principal.productoAsignacionReemplazo);
         txtUsuario.setText(Principal.Username);
-        txtCantidad.setText(""+Principal.productoARCantidad);
     }//GEN-LAST:event_formWindowOpened
 
     private void txtTipoSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTipoSolicitudActionPerformed

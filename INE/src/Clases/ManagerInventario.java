@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -781,5 +782,104 @@ public class ManagerInventario {
         }
         return blob;
     }//leerImagen
+    
+    public Vector infoProductos(String idProducto) {
+        conexion = db.getConexion();
+        Vector v = new Vector();
+        try {
+
+            Statement st = conexion.createStatement();
+            String sql = "select nombre_prod,descripcion,almacen,marca,observaciones,no_serie,tipo_uso,modelo,color from inventario where id_producto = '"+idProducto+"';";
+            ResultSet resultados = st.executeQuery(sql);
+            while (resultados.next()) {
+                String temp = "";
+                temp += "" + resultados.getString("nombre_prod") + "," + resultados.getString("descripcion") + "," + resultados.getString("almacen")
+                         + "," + resultados.getString("marca")+ "," + resultados.getString("observaciones")+ "," + resultados.getString("no_serie")
+                        + "," + resultados.getString("tipo_uso") + "," + resultados.getString("modelo")+ "," + resultados.getString("color");
+                        
+                v.add(temp);
+            }
+
+            conexion.close();
+
+        } //para el ticket
+        catch (SQLException ex) {
+            Logger.getLogger(ManagerVehiculos.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Error producto infoProductos");
+        }
+
+        return v;
+    }//infoVehiculos
+    
+     public boolean actualizarProducto(String clave, String producto, String almacen, String marca,String noserie, String descripcion, String observaciones,String tipo,String modelo,String color,String ruta) {
+        conexion = db.getConexion();
+        
+        String update = "update inventario set nombre_prod = ?,almacen = ?,marca = ?,no_serie = ?,descripcion = ?,observaciones = ?,tipo_uso = ?,modelo = ?,color = ?,imagen = ? where id_producto = '"+clave+"'";
+        FileInputStream fi = null;
+        PreparedStatement ps = null;
+
+        try {
+            File file = new File(ruta);
+            fi = new FileInputStream(file);
+
+             ps = conexion.prepareStatement(update);
+
+            ps.setString(1, producto);
+            ps.setString(2, almacen);
+            ps.setString(3, marca);
+            ps.setString(4, noserie);
+            ps.setString(5, descripcion);
+            ps.setString(6, observaciones);
+            ps.setString(7, tipo);
+            ps.setString(8, modelo);
+            ps.setString(9, color);
+            ps.setBinaryStream(10, fi);
+
+            ps.executeUpdate();
+
+            return true;
+
+        } catch (Exception ex) {
+            System.out.println("Error al actualizar imagen " + ex.getMessage());
+            return false;
+
+        }
+
+    }//guardarImagen
+     
+     
+     public boolean actualizarProductoSinFoto(String clave, String producto, String almacen, String marca,String noserie, String descripcion, String observaciones,String tipo,String modelo,String color) {
+        conexion = db.getConexion();
+        
+        String update = "update inventario set nombre_prod = ?,almacen = ?,marca = ?,no_serie = ?,descripcion = ?,observaciones = ?,tipo_uso = ?,modelo = ?,color = ? where id_producto = '"+clave+"'";
+        FileInputStream fi = null;
+        PreparedStatement ps = null;
+
+        try {
+           
+            ps = conexion.prepareStatement(update);
+
+            ps.setString(1, producto);
+            ps.setString(2, almacen);
+            ps.setString(3, marca);
+            ps.setString(4, noserie);
+            ps.setString(5, descripcion);
+            ps.setString(6, observaciones);
+            ps.setString(7, tipo);
+            ps.setString(8, modelo);
+            ps.setString(9, color);
+
+            ps.executeUpdate();
+
+            return true;
+
+        } catch (Exception ex) {
+            System.out.println("Error al actualizar imagen " + ex.getMessage());
+            return false;
+
+        }
+
+    }//guardarImagen
+    
     
 }//class

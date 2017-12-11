@@ -10,6 +10,7 @@ import Clases.ManagerSolicitud;
 import Clases.ManagerComplemento;
 import Clases.ManagerInventario;
 import Clases.ManagerPermisos;
+import Clases.ManejadorInventario;
 import static Interfaces.Principal.Username;
 import static Interfaces.Principal.tabbedPrincipal;
 import static Interfaces.Principal.tablaSolicitudes;
@@ -31,7 +32,7 @@ public class ventana_AtenderSolicitud extends javax.swing.JDialog {
     ManagerComplemento manager_complemento;
     ManagerPermisos manager_permisos;
     ManagerInventario manager_inventario;
-    
+    ManejadorInventario manejador_inventario;
     String id_Producto;
     
     /**
@@ -45,6 +46,7 @@ public class ventana_AtenderSolicitud extends javax.swing.JDialog {
         manager_complemento = new ManagerComplemento();
         manager_permisos = new ManagerPermisos();
         manager_inventario = new ManagerInventario();
+        manejador_inventario = new ManejadorInventario();
         
         campoRuta.setVisible(false);
         this.setLocationRelativeTo(null);
@@ -146,8 +148,14 @@ public class ventana_AtenderSolicitud extends javax.swing.JDialog {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
+        boolean estado = false;
+        if(Principal.estadoSolicitud.equals("SOLICITUD PERSONAL")){
+            estado = manejador_inventario.actualizar_Solicitud(Principal.idPendiente, Principal.empleadoSolicitud);
+        }else{
+            estado = manager_solicitud.actualizar_Solicitud(Principal.idPendiente, Principal.estadoPendiente);
+        }
         
-        if(manager_solicitud.actualizar_Solicitud(Principal.idPendiente, Principal.estadoPendiente.toUpperCase())){
+        if(estado){
             if(manager_solicitud.guardarImagenSolicitud(id_Producto, campoRuta.getText())){
                 
             }
