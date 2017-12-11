@@ -7,10 +7,6 @@ package Interfaces;
 
 import Clases.ManagerSolicitud;
 import Clases.ManagerPermisos;
-import static Interfaces.Principal.Username;
-import static Interfaces.Principal.tabbedPrincipal;
-import static Interfaces.Principal.tablaSolicitudes;
-import static Interfaces.Principal.temporalSolicitud;
 import javax.swing.JOptionPane;
 /**
  *

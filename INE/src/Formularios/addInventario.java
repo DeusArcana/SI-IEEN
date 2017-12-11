@@ -10,8 +10,12 @@ import Clases.ManagerPermisos;
 import Clases.Validaciones;
 
 import Interfaces.Principal;
+import java.awt.Image;
+import java.io.File;
+import java.net.URL;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 //import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
@@ -22,7 +26,7 @@ public class addInventario extends javax.swing.JDialog {
     ManagerInventario manager_inventario;
     ManagerPermisos manager_permisos;
     
-    String clave,producto,almacen,marca,descripcion,observaciones,noserie,tipo,color,modelo;
+    String clave,producto,almacen,marca,descripcion,observaciones,noserie,tipo,color,modelo,imagen;
     
     /**
      * Creates new form addInventario
@@ -36,9 +40,20 @@ public class addInventario extends javax.swing.JDialog {
         manager_permisos = new ManagerPermisos();
         
         comboProducto.setEditable(true);
-        AutoCompleteDecorator.decorate(this.comboProducto);
+        //AutoCompleteDecorator.decorate(this.comboProducto);
         
+        txtAreaDescripcion.setLineWrap(true);
+        txtAreaObservaciones.setLineWrap(true);
         this.setLocationRelativeTo(null);
+        
+        campoRuta.setVisible(false);
+                
+        campoRuta.setText(cargarNoImage()+"\\src\\Imagenes\\noproducto.png");
+    }
+    
+    public String cargarNoImage() {
+        File f = new File("");
+        return f.getAbsolutePath();
     }
 
     /**
@@ -72,13 +87,22 @@ public class addInventario extends javax.swing.JDialog {
         txtModelo = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         txtColor = new javax.swing.JTextField();
-        comboProducto = new javax.swing.JComboBox<String>();
+        comboProducto = new javax.swing.JComboBox<>();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         cb_almacen = new javax.swing.JComboBox();
+        jPanel1 = new javax.swing.JPanel();
+        btnImagen = new javax.swing.JButton();
+        imagenProducto = new javax.swing.JLabel();
+        campoRuta = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         pn_addInventario.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         pn_addInventario.setLayout(null);
@@ -86,7 +110,7 @@ public class addInventario extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Clave:");
         pn_addInventario.add(jLabel1);
-        jLabel1.setBounds(50, 16, 38, 17);
+        jLabel1.setBounds(50, 10, 38, 17);
 
         txtClave.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtClave.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -95,7 +119,7 @@ public class addInventario extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(txtClave);
-        txtClave.setBounds(106, 13, 215, 23);
+        txtClave.setBounds(110, 10, 215, 30);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Producto:");
@@ -105,17 +129,17 @@ public class addInventario extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Descripción:");
         pn_addInventario.add(jLabel3);
-        jLabel3.setBounds(388, 16, 75, 17);
+        jLabel3.setBounds(420, 320, 75, 17);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Almacén:");
         pn_addInventario.add(jLabel4);
-        jLabel4.setBounds(32, 77, 56, 17);
+        jLabel4.setBounds(30, 90, 56, 17);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Marca:");
         pn_addInventario.add(jLabel5);
-        jLabel5.setBounds(47, 106, 41, 17);
+        jLabel5.setBounds(40, 130, 41, 17);
 
         txtMarca.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtMarca.addActionListener(new java.awt.event.ActionListener() {
@@ -124,7 +148,7 @@ public class addInventario extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(txtMarca);
-        txtMarca.setBounds(106, 100, 215, 23);
+        txtMarca.setBounds(110, 120, 215, 30);
 
         txtAreaDescripcion.setColumns(20);
         txtAreaDescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -132,7 +156,7 @@ public class addInventario extends javax.swing.JDialog {
         jScrollPane1.setViewportView(txtAreaDescripcion);
 
         pn_addInventario.add(jScrollPane1);
-        jScrollPane1.setBounds(467, 13, 358, 110);
+        jScrollPane1.setBounds(420, 340, 400, 110);
 
         txtAreaObservaciones.setColumns(20);
         txtAreaObservaciones.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -140,17 +164,17 @@ public class addInventario extends javax.swing.JDialog {
         jScrollPane2.setViewportView(txtAreaObservaciones);
 
         pn_addInventario.add(jScrollPane2);
-        jScrollPane2.setBounds(467, 144, 358, 104);
+        jScrollPane2.setBounds(20, 340, 390, 110);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Observaciones:");
         pn_addInventario.add(jLabel7);
-        jLabel7.setBounds(369, 144, 94, 17);
+        jLabel7.setBounds(20, 320, 94, 17);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("No serie:");
         pn_addInventario.add(jLabel8);
-        jLabel8.setBounds(35, 136, 53, 17);
+        jLabel8.setBounds(30, 170, 53, 17);
 
         txtNoSerie.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtNoSerie.addActionListener(new java.awt.event.ActionListener() {
@@ -159,7 +183,7 @@ public class addInventario extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(txtNoSerie);
-        txtNoSerie.setBounds(106, 130, 215, 23);
+        txtNoSerie.setBounds(110, 160, 215, 30);
 
         lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_addInventario.add(lblAviso);
@@ -168,7 +192,7 @@ public class addInventario extends javax.swing.JDialog {
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("Tipo de uso:");
         pn_addInventario.add(jLabel9);
-        jLabel9.setBounds(12, 162, 76, 17);
+        jLabel9.setBounds(10, 210, 76, 17);
 
         txtTipoUso.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtTipoUso.addActionListener(new java.awt.event.ActionListener() {
@@ -177,12 +201,12 @@ public class addInventario extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(txtTipoUso);
-        txtTipoUso.setBounds(106, 159, 215, 23);
+        txtTipoUso.setBounds(110, 200, 215, 30);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("Modelo:");
         pn_addInventario.add(jLabel10);
-        jLabel10.setBounds(40, 194, 48, 17);
+        jLabel10.setBounds(40, 250, 48, 17);
 
         txtModelo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtModelo.addActionListener(new java.awt.event.ActionListener() {
@@ -191,12 +215,12 @@ public class addInventario extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(txtModelo);
-        txtModelo.setBounds(106, 188, 215, 23);
+        txtModelo.setBounds(110, 240, 215, 30);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setText("Color:");
         pn_addInventario.add(jLabel11);
-        jLabel11.setBounds(50, 223, 37, 17);
+        jLabel11.setBounds(50, 290, 37, 17);
 
         txtColor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtColor.addActionListener(new java.awt.event.ActionListener() {
@@ -205,12 +229,12 @@ public class addInventario extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(txtColor);
-        txtColor.setBounds(105, 217, 215, 23);
+        txtColor.setBounds(110, 280, 215, 30);
 
         comboProducto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        comboProducto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "CPU", "Monitor", "Teclado" }));
+        comboProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CPU", "Monitor", "Teclado" }));
         pn_addInventario.add(comboProducto);
-        comboProducto.setBounds(110, 42, 90, 23);
+        comboProducto.setBounds(110, 40, 110, 30);
 
         btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
@@ -222,7 +246,7 @@ public class addInventario extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(btnAceptar);
-        btnAceptar.setBounds(279, 300, 150, 33);
+        btnAceptar.setBounds(260, 460, 150, 33);
 
         btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
@@ -234,16 +258,36 @@ public class addInventario extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(btnCancelar);
-        btnCancelar.setBounds(440, 300, 150, 33);
+        btnCancelar.setBounds(420, 460, 150, 33);
 
         cb_almacen.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         cb_almacen.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Informatica", "Administracion", "Bodega" }));
         pn_addInventario.add(cb_almacen);
-        cb_almacen.setBounds(110, 70, 110, 20);
+        cb_almacen.setBounds(110, 80, 110, 30);
+
+        jPanel1.setLayout(null);
+
+        btnImagen.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+        btnImagen.setText("...");
+        btnImagen.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnImagen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImagenActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnImagen);
+        btnImagen.setBounds(360, 210, 30, 20);
+        jPanel1.add(imagenProducto);
+        imagenProducto.setBounds(0, 0, 410, 240);
+
+        pn_addInventario.add(jPanel1);
+        jPanel1.setBounds(410, 50, 410, 240);
+        pn_addInventario.add(campoRuta);
+        campoRuta.setBounds(600, 340, 240, 20);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         pn_addInventario.add(jLabel6);
-        jLabel6.setBounds(0, 0, 860, 340);
+        jLabel6.setBounds(0, 0, 860, 510);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -253,7 +297,7 @@ public class addInventario extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_addInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pn_addInventario, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
         );
 
         pack();
@@ -287,27 +331,30 @@ public class addInventario extends javax.swing.JDialog {
         tipo = txtTipoUso.getText();
         modelo = txtModelo.getText();
         color = txtColor.getText();
+        imagen = campoRuta.getText();
         return true;
     }//getInfo
     
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
         if(getInfo()==false){return;}
-        if(manager_permisos.alta_inventario(Principal.Username)){
-            
-            if(manager_inventario.insertarInventario(clave, producto, almacen, marca, noserie, descripcion, observaciones,tipo,modelo,color)){
-                JOptionPane.showMessageDialog(null,"Se inserto correctamente al inventario");
-                
-                if(manager_permisos.consulta_inventario(Principal.Username)){
+        if (manager_permisos.alta_inventario(Principal.Username)) {
+
+//            if(manager_inventario.insertarInventario(clave, producto, almacen, marca, noserie, descripcion, observaciones,tipo,modelo,color)){
+            if (manager_inventario.guardarImagen(clave, producto, almacen, marca, noserie, descripcion, observaciones, "DISPONIBLE", tipo, modelo, color, imagen)) {
+
+                JOptionPane.showMessageDialog(null, "Se inserto correctamente al inventario");
+
+                if (manager_permisos.consulta_inventario(Principal.Username)) {
                     Principal.tablaInventario.setModel(manager_inventario.getInventario(Principal.comboFiltro.getSelectedIndex()));
                 }
-                
-            }else{
-                JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
             }
-            
-        }else{
-            JOptionPane.showMessageDialog(null,"Le han revocado los permisos para registrar un producto al inventario.");
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Le han revocado los permisos para registrar un producto al inventario.");
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
@@ -353,6 +400,40 @@ public class addInventario extends javax.swing.JDialog {
          // TODO add your handling code here:
          this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+         // TODO add your handling code here:
+        ImageIcon imgThisImg = new ImageIcon(campoRuta.getText());
+        ImageIcon icono = new ImageIcon(imgThisImg.getImage().getScaledInstance(imagenProducto.getWidth(), imagenProducto.getHeight(), Image.SCALE_DEFAULT));
+        imagenProducto.setIcon(icono);
+    }//GEN-LAST:event_formWindowOpened
+
+    private void btnImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImagenActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fc = new JFileChooser();
+
+        //        fc.setFileFilter(new FileNameExtensionFilter(".PNG", ".png"));
+        //        fc.setFileFilter(new FileNameExtensionFilter(".JPG", "Archivos de imagen"));
+        //        fc.setFileFilter(new FileNameExtensionFilter(".BMP", "Archivos de imagen"));
+        //        fc.setFileFilter(new FileNameExtensionFilter(".JPEG", "Archivos de imagen"));
+        int respuesta = fc.showOpenDialog(this);
+        //Comprobar si se ha pulsado Aceptar
+        if (respuesta == JFileChooser.APPROVE_OPTION) {
+            //Mostrar el nombre del archvivo en un campo de texto
+            campoRuta.setText(fc.getSelectedFile().toString());
+
+        }//if
+        String path = campoRuta.getText();
+        URL url = this.getClass().getResource(path);
+        System.err.println("" + path);
+        ImageIcon imagen = new ImageIcon(path);
+        ImageIcon icono = new ImageIcon(imagen.getImage().getScaledInstance(imagenProducto.getWidth(), imagenProducto.getHeight(), Image.SCALE_DEFAULT));
+        imagenProducto.setIcon(icono);
+        //        ImageIcon image = new ImageIcon(i);
+        //        imagenVehiculo.setIcon(image);
+        //        this.repaint();
+
+    }//GEN-LAST:event_btnImagenActionPerformed
 
     /**
      * @param args the command line arguments
@@ -400,8 +481,11 @@ public class addInventario extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnImagen;
+    private javax.swing.JTextField campoRuta;
     private javax.swing.JComboBox cb_almacen;
     private javax.swing.JComboBox<String> comboProducto;
+    private javax.swing.JLabel imagenProducto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -413,6 +497,7 @@ public class addInventario extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblAviso;

@@ -18,7 +18,7 @@ public class Ventana_solicitud extends javax.swing.JDialog {
     ManagerSolicitud manager_solicitud;
     ManagerInventario manager_inventario;
     
-    String solicitud, producto,motivo,tipo,usuario;
+    String producto,motivo,tipo,usuario;
     int cantidad;
     /**
      * Creates new form Ventana_solicitudBaja
@@ -51,8 +51,6 @@ public class Ventana_solicitud extends javax.swing.JDialog {
 
         pn_solicitud = new javax.swing.JPanel();
         lblSolicitud = new javax.swing.JLabel();
-        lblSolicitud1 = new javax.swing.JLabel();
-        txtNoSolicitud = new javax.swing.JTextField();
         txtUsuario = new javax.swing.JTextField();
         lblSolicitud2 = new javax.swing.JLabel();
         lblSolicitud3 = new javax.swing.JLabel();
@@ -79,59 +77,50 @@ public class Ventana_solicitud extends javax.swing.JDialog {
         lblSolicitud.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblSolicitud.setText("Tipo de solicitud:");
         pn_solicitud.add(lblSolicitud);
-        lblSolicitud.setBounds(36, 73, 102, 17);
-
-        lblSolicitud1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lblSolicitud1.setText("No. Solicitud:");
-        pn_solicitud.add(lblSolicitud1);
-        lblSolicitud1.setBounds(58, 44, 80, 17);
-
-        txtNoSolicitud.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        pn_solicitud.add(txtNoSolicitud);
-        txtNoSolicitud.setBounds(150, 40, 200, 23);
+        lblSolicitud.setBounds(30, 20, 102, 17);
 
         txtUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtUsuario.setEnabled(false);
         pn_solicitud.add(txtUsuario);
-        txtUsuario.setBounds(148, 128, 200, 23);
+        txtUsuario.setBounds(140, 80, 200, 23);
 
         lblSolicitud2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblSolicitud2.setText("Usuario que solicita:");
         pn_solicitud.add(lblSolicitud2);
-        lblSolicitud2.setBounds(18, 131, 120, 17);
+        lblSolicitud2.setBounds(10, 80, 120, 17);
 
         lblSolicitud3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblSolicitud3.setText("Cantidad:");
         pn_solicitud.add(lblSolicitud3);
-        lblSolicitud3.setBounds(79, 160, 59, 17);
+        lblSolicitud3.setBounds(70, 110, 59, 17);
 
         txtCantidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtCantidad.setText("1");
         txtCantidad.setEnabled(false);
         pn_solicitud.add(txtCantidad);
-        txtCantidad.setBounds(148, 157, 200, 23);
+        txtCantidad.setBounds(140, 110, 200, 23);
 
         lblSolicitud4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblSolicitud4.setText("Motivo:");
         pn_solicitud.add(lblSolicitud4);
-        lblSolicitud4.setBounds(18, 191, 46, 17);
+        lblSolicitud4.setBounds(10, 140, 46, 17);
 
         txtAMotivo.setColumns(20);
         txtAMotivo.setRows(5);
         jScrollPane1.setViewportView(txtAMotivo);
 
         pn_solicitud.add(jScrollPane1);
-        jScrollPane1.setBounds(18, 214, 330, 171);
+        jScrollPane1.setBounds(10, 160, 330, 220);
 
         lblSolicitud5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblSolicitud5.setText("Clave producto:");
         pn_solicitud.add(lblSolicitud5);
-        lblSolicitud5.setBounds(39, 102, 99, 17);
+        lblSolicitud5.setBounds(30, 50, 99, 17);
 
         txtProducto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtProducto.setEnabled(false);
         pn_solicitud.add(txtProducto);
-        txtProducto.setBounds(148, 99, 200, 23);
+        txtProducto.setBounds(140, 50, 200, 23);
 
         btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
@@ -163,7 +152,7 @@ public class Ventana_solicitud extends javax.swing.JDialog {
             }
         });
         pn_solicitud.add(txtTipoSolicitud);
-        txtTipoSolicitud.setBounds(150, 70, 200, 23);
+        txtTipoSolicitud.setBounds(140, 20, 200, 23);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         pn_solicitud.add(jLabel1);
@@ -189,7 +178,7 @@ public class Ventana_solicitud extends javax.swing.JDialog {
         //Obtenemos la info
         getInfo();
         //Registramos la solicitud
-        if(manager_solicitud.registro_Solicitud(solicitud, producto, tipo, usuario, motivo, cantidad)){
+        if(manager_solicitud.registro_Solicitud(producto, tipo, usuario, motivo, cantidad)){
             JOptionPane.showMessageDialog(null, "La solicitud ha sido generada");
             tablaDetalleInventario.tablaCoincidencias.setModel(manager_inventario.getInventarioCoincidencias(Principal.prodInventario));
             
@@ -221,7 +210,6 @@ public class Ventana_solicitud extends javax.swing.JDialog {
 
     public void getInfo(){
     
-        solicitud = txtNoSolicitud.getText();
         producto = txtProducto.getText();
         tipo = txtTipoSolicitud.getText();
         usuario = txtUsuario.getText();
@@ -279,7 +267,6 @@ public class Ventana_solicitud extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblSolicitud;
-    private javax.swing.JLabel lblSolicitud1;
     private javax.swing.JLabel lblSolicitud2;
     private javax.swing.JLabel lblSolicitud3;
     private javax.swing.JLabel lblSolicitud4;
@@ -287,7 +274,6 @@ public class Ventana_solicitud extends javax.swing.JDialog {
     private javax.swing.JPanel pn_solicitud;
     private javax.swing.JTextArea txtAMotivo;
     private javax.swing.JTextField txtCantidad;
-    private javax.swing.JTextField txtNoSolicitud;
     private javax.swing.JTextField txtProducto;
     private javax.swing.JTextField txtTipoSolicitud;
     private javax.swing.JTextField txtUsuario;

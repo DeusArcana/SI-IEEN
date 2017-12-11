@@ -12,6 +12,10 @@ import Clases.ManagerPermisos;
 import static Interfaces.Principal.Username;
 import static Interfaces.Principal.tabbedPrincipal;
 import static Interfaces.Principal.tablaSolicitudes;
+import java.awt.Image;
+import java.net.URL;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 /**
  *
  * @author kevin
@@ -20,6 +24,9 @@ public class ventana_AtenderSolicitud extends javax.swing.JDialog {
     ManagerSolicitud manager_solicitud;
     ManagerComplemento manager_complemento;
     ManagerPermisos manager_permisos;
+    
+    String id_Producto;
+    
     /**
      * Creates new form ventana_AtenderSolicitud
      */
@@ -30,6 +37,9 @@ public class ventana_AtenderSolicitud extends javax.swing.JDialog {
         manager_solicitud = new ManagerSolicitud();
         manager_complemento = new ManagerComplemento();
         manager_permisos = new ManagerPermisos();
+        
+        campoRuta.setVisible(false);
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -41,71 +51,81 @@ public class ventana_AtenderSolicitud extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnAceptar = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         btnCancelar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        btnAceptar = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        btnImagen = new javax.swing.JButton();
+        imagenProducto = new javax.swing.JLabel();
+        campoRuta = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnAceptar.setText("Aceptar");
-        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAceptarActionPerformed(evt);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
+        jPanel1.setLayout(null);
+
         btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnCancelar.setText("Cancelar");
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
+        btnCancelar.setText("  Cancelar");
+        btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnCancelar);
+        btnCancelar.setBounds(300, 400, 121, 33);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel1.setText("Actualizar la info correspondiente");
+        btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
+        btnAceptar.setText("  Aceptar");
+        btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnAceptar);
+        btnAceptar.setBounds(180, 400, 115, 33);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel2.setText("Cambiar Imagen");
+        jPanel2.setLayout(null);
+
+        btnImagen.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+        btnImagen.setText("...");
+        btnImagen.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnImagen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImagenActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnImagen);
+        btnImagen.setBounds(540, 330, 30, 20);
+        jPanel2.add(imagenProducto);
+        imagenProducto.setBounds(0, 0, 580, 360);
+
+        jPanel1.add(jPanel2);
+        jPanel2.setBounds(20, 20, 580, 360);
+        jPanel1.add(campoRuta);
+        campoRuta.setBounds(460, 400, 150, 20);
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(-20, -20, 670, 490);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(182, 182, 182)
-                        .addComponent(btnAceptar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancelar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(jLabel1)))
-                .addContainerGap(37, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(151, 151, 151)
-                    .addComponent(jLabel2)
-                    .addContainerGap(180, Short.MAX_VALUE)))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(201, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(153, 153, 153)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAceptar)
-                    .addComponent(btnCancelar))
-                .addGap(19, 19, 19))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(149, 149, 149)
-                    .addComponent(jLabel2)
-                    .addContainerGap(249, Short.MAX_VALUE)))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
         );
 
         pack();
@@ -118,7 +138,6 @@ public class ventana_AtenderSolicitud extends javax.swing.JDialog {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        
         if(manager_solicitud.actualizar_Solicitud(Principal.idPendiente, Principal.estadoPendiente.toUpperCase())){
             
             JOptionPane.showMessageDialog(null, "La solicitud "+Principal.idPendiente+" se atendio, paso de solicitud a pendiente "+Principal.estadoPendiente+".");
@@ -133,7 +152,40 @@ public class ventana_AtenderSolicitud extends javax.swing.JDialog {
             this.dispose();
             
         }
+        
     }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void btnImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImagenActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fc = new JFileChooser();
+
+        //        fc.setFileFilter(new FileNameExtensionFilter(".PNG", ".png"));
+        //        fc.setFileFilter(new FileNameExtensionFilter(".JPG", "Archivos de imagen"));
+        //        fc.setFileFilter(new FileNameExtensionFilter(".BMP", "Archivos de imagen"));
+        //        fc.setFileFilter(new FileNameExtensionFilter(".JPEG", "Archivos de imagen"));
+        int respuesta = fc.showOpenDialog(this);
+        //Comprobar si se ha pulsado Aceptar
+        if (respuesta == JFileChooser.APPROVE_OPTION) {
+            //Mostrar el nombre del archvivo en un campo de texto
+            campoRuta.setText(fc.getSelectedFile().toString());
+
+        }//if
+        String path = campoRuta.getText();
+        URL url = this.getClass().getResource(path);
+        System.err.println("" + path);
+        ImageIcon imagen = new ImageIcon(path);
+        ImageIcon icono = new ImageIcon(imagen.getImage().getScaledInstance(imagenProducto.getWidth(), imagenProducto.getHeight(), Image.SCALE_DEFAULT));
+        imagenProducto.setIcon(icono);
+        //        ImageIcon image = new ImageIcon(i);
+        //        imagenVehiculo.setIcon(image);
+        //        this.repaint();
+    }//GEN-LAST:event_btnImagenActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        id_Producto = manager_solicitud.getProductoSolicitud(Principal.idPendiente);
+        
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -180,7 +232,11 @@ public class ventana_AtenderSolicitud extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton btnImagen;
+    private javax.swing.JTextField campoRuta;
+    private javax.swing.JLabel imagenProducto;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }

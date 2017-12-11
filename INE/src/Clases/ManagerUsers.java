@@ -42,7 +42,7 @@ public class ManagerUsers {
             table.addColumn("Área");
             
             //Consulta de los empleados
-            String sql = "select u.id_user,e.nombres,e.apellido_p,e.apellido_m,u.puesto,u.area from user u\n" +
+            String sql = "select u.id_user,e.nombres,e.apellido_p,e.apellido_m,u.puesto,u.area from user u " +
                          "inner join empleados e on (u.id_empleado = e.id_empleado) where u.puesto != 'SuperUsuario' and u.id_user != '"+usuario+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
@@ -120,7 +120,7 @@ public class ManagerUsers {
             table.addColumn("Área");
             
             //Consulta de los empleados
-            String sql = "select u.id_user,e.nombres,e.apellido_p,e.apellido_m,u.puesto,u.area from user u\n" +
+            String sql = "select u.id_user,e.nombres,e.apellido_p,e.apellido_m,u.puesto,u.area from user u " +
                          "inner join empleados e on (u.id_empleado = e.id_empleado) where u.puesto != 'SuperUsuario' "
                     +    "and u.id_user != '"+usuario+"' and "+tipoBusqueda+" like '"+busqueda+"%';";
             conexion = db.getConexion();
@@ -190,7 +190,7 @@ public class ManagerUsers {
 
             }//Buscamos el nombre de la columna con lo que vamos a buscar la coincidencia
             
-            String sql = "select u.id_user,e.nombres,e.apellido_p,e.apellido_m,u.puesto,u.area from user u\n" +
+            String sql = "select u.id_user,e.nombres,e.apellido_p,e.apellido_m,u.puesto,u.area from user u " +
                          "inner join empleados e on (u.id_empleado = e.id_empleado) where u.puesto != 'SuperUsuario' "
                     +    "and u.id_user != '"+usuario+"' and "+tipoBusqueda+" like '"+busqueda+"%';";
             conexion = db.getConexion();

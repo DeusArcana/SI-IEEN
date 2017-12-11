@@ -81,7 +81,7 @@ public class CrearPDF {
         cb.showText("Fecha de salida: ");
         //Fecha de salida de la base de datos
         cb.setFontAndSize(bf,12);
-        datos=conexion.acceder("select fecha_salida from solicitud where idSolicitud=(select max(idSolicitud) from solicitud);");
+        datos=conexion.acceder("select fecha_salida from solicitud_viatico where idSolicitud=(select max(idSolicitud) from solicitud_viatico);");
         cb.setTextMatrix(180,700);
         cb.showText(datos.get(0));
         //Label fecha de llegada
@@ -90,7 +90,7 @@ public class CrearPDF {
         cb.showText("Fecha de llegada: ");
         //Fecha de llegada de la base de datos
         cb.setFontAndSize(bf,12);
-        datos=conexion.acceder("select fecha_llegada from solicitud where idSolicitud=(select max(idSolicitud) from solicitud);");
+        datos=conexion.acceder("select fecha_llegada from solicitud_viatico where idSolicitud=(select max(idSolicitud) from solicitud_viatico);");
         cb.setTextMatrix(400,700);
         cb.showText(datos.get(0));
         //Label nombre
@@ -99,7 +99,7 @@ public class CrearPDF {
         cb.showText("Nombre: ");
         //Nombre base de datos
         cb.setFontAndSize(bf,12);
-        datos=conexion.acceder("select nombre from solicitud where idSolicitud=(select max(idSolicitud) from solicitud);");
+        datos=conexion.acceder("select nombre from solicitud_viatico where idSolicitud=(select max(idSolicitud) from solicitud_viatico);");
         cb.setTextMatrix(130,650);
         cb.showText(datos.get(0));
         //Label lugar
@@ -108,7 +108,7 @@ public class CrearPDF {
         cb.showText("Lugar: ");
         //Lugar base de datos
         cb.setFontAndSize(bf,12);
-        datos=conexion.acceder("select lugar from solicitud where idSolicitud=(select max(idSolicitud) from solicitud);");
+        datos=conexion.acceder("select lugar from solicitud_viatico where idSolicitud=(select max(idSolicitud) from solicitud_viatico);");
         cb.setTextMatrix(370,650);
         cb.showText(datos.get(0));
         //Label actividad
@@ -117,7 +117,7 @@ public class CrearPDF {
         cb.showText("Actividad: ");
         //Actividad base de datos
         cb.setFontAndSize(bf,12);
-        datos=conexion.acceder("select actividad from solicitud where idSolicitud=(select max(idSolicitud) from solicitud);");
+        datos=conexion.acceder("select actividad from solicitud_viatico where idSolicitud=(select max(idSolicitud) from solicitud_viatico);");
         acomodar_Actividad(datos.get(0),cb,bf,575);
         //Label pernoctado
         cb.setFontAndSize(bfNoNegritas,12);
@@ -125,11 +125,11 @@ public class CrearPDF {
         cb.showText("Pernoctado: ");
         //Pernoctado base de datos
         cb.setFontAndSize(bf,12);
-        datos=conexion.acceder("select pernoctado from solicitud where idSolicitud=(select max(idSolicitud) from solicitud);");
+        datos=conexion.acceder("select pernoctado from solicitud_viatico where idSolicitud=(select max(idSolicitud) from solicitud_viatico);");
         cb.setTextMatrix(150,475);
         cb.showText(datos.get(0));
         //Vehiculo
-        datos=conexion.acceder("select vehiculo from solicitud where idSolicitud=(select max(idSolicitud) from solicitud);");
+        datos=conexion.acceder("select vehiculo from solicitud_viatico where idSolicitud=(select max(idSolicitud) from solicitud_viatico);");
         if(!datos.get(0).equals("Seleccione el vehículo")){
             //Label vehiculo
             cb.setFontAndSize(bfNoNegritas,12);
@@ -225,7 +225,7 @@ public class CrearPDF {
         cb.showText("Fecha de llegada: ");
         //Fecha de llegada de la base de datos
         cb.setFontAndSize(bf,12);
-        datos=conexion.acceder("select fecha_llegada from solicitud where idSolicitud="+id);
+        datos=conexion.acceder("select fecha_llegada from solicitud_viatico where idSolicitud="+id);
         cb.setTextMatrix(400,700);
         cb.showText(datos.get(0));
         //Label nombre
@@ -234,7 +234,7 @@ public class CrearPDF {
         cb.showText("Nombre: ");
         //Nombre base de datos
         cb.setFontAndSize(bf,12);
-        datos=conexion.acceder("select nombre from solicitud where idSolicitud="+id);
+        datos=conexion.acceder("select nombre from solicitud_viatico where idSolicitud="+id);
         cb.setTextMatrix(130,650);
         cb.showText(datos.get(0));
         //Label lugar
@@ -243,7 +243,7 @@ public class CrearPDF {
         cb.showText("Lugar: ");
         //Lugar base de datos
         cb.setFontAndSize(bf,12);
-        datos=conexion.acceder("select lugar from solicitud where idSolicitud="+id);
+        datos=conexion.acceder("select lugar from solicitud_viatico where idSolicitud="+id);
         cb.setTextMatrix(370,650);
         cb.showText(datos.get(0));
         //Label actividad
@@ -252,7 +252,7 @@ public class CrearPDF {
         cb.showText("Actividad: ");
         //Actividad base de datos
         cb.setFontAndSize(bf,12);
-        datos=conexion.acceder("select actividad from solicitud where idSolicitud="+id);
+        datos=conexion.acceder("select actividad from solicitud_viatico where idSolicitud="+id);
         acomodar_Actividad(datos.get(0),cb,bf,575);
         //Label pernoctado
         cb.setFontAndSize(bfNoNegritas,12);
@@ -260,11 +260,11 @@ public class CrearPDF {
         cb.showText("Pernoctado: ");
         //Pernoctado base de datos
         cb.setFontAndSize(bf,12);
-        datos=conexion.acceder("select pernoctado from solicitud where idSolicitud="+id);
+        datos=conexion.acceder("select pernoctado from solicitud_viatico where idSolicitud="+id);
         cb.setTextMatrix(150,475);
         cb.showText(datos.get(0));
         //Vehiculo
-        datos=conexion.acceder("select vehiculo from solicitud where idSolicitud="+id);
+        datos=conexion.acceder("select vehiculo from solicitud_viatico where idSolicitud="+id);
         if(!datos.get(0).equals("Seleccione el vehículo")){
             //Label vehiculo
             cb.setFontAndSize(bfNoNegritas,12);
@@ -363,7 +363,7 @@ public class CrearPDF {
         //Nombre base de datos
         cb.setFontAndSize(bf,12);
         cb.setTextMatrix(105,650);
-        datos=conexion.acceder("select S.nombre from solicitud S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
+        datos=conexion.acceder("select S.nombre from solicitud_viatico S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
         cb.showText(datos.get(0));
         //Label puesto
         cb.setFontAndSize(bfNoNegritas, 12);
@@ -372,7 +372,7 @@ public class CrearPDF {
         //Puesto base de datos
         cb.setFontAndSize(bf, 12);
         cb.setTextMatrix(105,600);
-        datos=conexion.acceder("select S.puesto from solicitud S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
+        datos=conexion.acceder("select S.puesto from solicitud_viatico S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
         cb.showText(datos.get(0));
         //Label descripción
         cb.setFontAndSize(bfNoNegritas, 12);
@@ -380,7 +380,7 @@ public class CrearPDF {
         cb.showText("Con base en el oficio de comisión se autoriza la cantidad de: ");
         //Monto base de datos
         cb.setFontAndSize(bf,10);
-        datos=conexion.acceder("select O.monto from solicitud S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
+        datos=conexion.acceder("select O.monto from solicitud_viatico S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
         cb.showText("$"+datos.get(0));
         //Label motivo
         cb.setFontAndSize(bfNoNegritas,12);
@@ -388,7 +388,7 @@ public class CrearPDF {
         cb.showText("Con motivo de: ");
         //Motivo base de datos
         cb.setFontAndSize(bf,12);
-        datos=conexion.acceder("select S.actividad from solicitud S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
+        datos=conexion.acceder("select S.actividad from solicitud_viatico S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
         acomodar_Actividad(datos.get(0),cb,bf,480);
         //Label localidad
         cb.setFontAndSize(bfNoNegritas,12);
@@ -397,10 +397,10 @@ public class CrearPDF {
         //Localidad base de datos
         cb.setFontAndSize(bf,12);
         cb.setTextMatrix(50,380);
-        datos=conexion.acceder("select S.lugar from solicitud S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
+        datos=conexion.acceder("select S.lugar from solicitud_viatico S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
         cb.showText(datos.get(0));
         //Vehiculo
-        datos=conexion.acceder("select S.vehiculo from solicitud S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
+        datos=conexion.acceder("select S.vehiculo from solicitud_viatico S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
         int espacio=0;
         if(!datos.get(0).equals("Seleccione el vehículo")){
             //Label vehiculo
@@ -420,7 +420,7 @@ public class CrearPDF {
         //Fecha salida base de datos
         cb.setFontAndSize(bf,12);
         cb.setTextMatrix(160,330+espacio);
-        datos=conexion.acceder("select S.fecha_salida from solicitud S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
+        datos=conexion.acceder("select S.fecha_salida from solicitud_viatico S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
         cb.showText(datos.get(0));
         //Label al
         cb.setFontAndSize(bfNoNegritas, 12);
@@ -429,7 +429,7 @@ public class CrearPDF {
         //Fecha llegada base de datos
         cb.setFontAndSize(bf, 12);
         cb.setTextMatrix(270,330+espacio);
-        datos=conexion.acceder("select S.fecha_llegada from solicitud S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
+        datos=conexion.acceder("select S.fecha_llegada from solicitud_viatico S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
         cb.showText(datos.get(0));
         //Label pernoctado
         cb.setFontAndSize(bfNoNegritas, 12);
@@ -438,7 +438,7 @@ public class CrearPDF {
         //Pernoctado base de datos
         cb.setFontAndSize(bf, 12);
         cb.setTextMatrix(445,330+espacio);
-        datos=conexion.acceder("select S.pernoctado from solicitud S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
+        datos=conexion.acceder("select S.pernoctado from solicitud_viatico S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
         cb.showText(datos.get(0));
         //Label firma de recibido
         cb.setFontAndSize(bfNoNegritas, 12);
@@ -516,7 +516,7 @@ public class CrearPDF {
             //Nombre base de datos
             cb.setFontAndSize(bf, 12);
             cb.setTextMatrix(120,700);
-            datos=conexion.acceder("select S.nombre from solicitud S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
+            datos=conexion.acceder("select S.nombre from solicitud_viatico S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
             cb.showText(datos.get(0));
             //Label puesto
             cb.setFontAndSize(bfNoNegritas, 12);
@@ -526,7 +526,7 @@ public class CrearPDF {
             int size=12;
             cb.setFontAndSize(bf, 12);
             cb.setTextMatrix(120,675);
-            datos=conexion.acceder("select S.puesto from solicitud S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
+            datos=conexion.acceder("select S.puesto from solicitud_viatico S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
             cb.showText(datos.get(0));
             //Label presente
             cb.setFontAndSize(bfNoNegritas, 16);
@@ -553,7 +553,7 @@ public class CrearPDF {
             //Fecha salida base de datos
             cb.setFontAndSize(bf, size);
             cb.setTextMatrix(160,500);
-            datos=conexion.acceder("select S.fecha_salida from solicitud S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
+            datos=conexion.acceder("select S.fecha_salida from solicitud_viatico S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
             cb.showText(datos.get(0));
             //Label al
             cb.setFontAndSize(bfNoNegritas, size);
@@ -562,7 +562,7 @@ public class CrearPDF {
             //Fecha llegada base de datos
             cb.setFontAndSize(bf, size);
             cb.setTextMatrix(265,500);
-            datos=conexion.acceder("select S.fecha_llegada from solicitud S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
+            datos=conexion.acceder("select S.fecha_llegada from solicitud__viatico S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
             cb.showText(datos.get(0));
             //Label en la localidad de
             cb.setFontAndSize(bfNoNegritas, size);
@@ -571,7 +571,7 @@ public class CrearPDF {
             //Lugar base de datos
             cb.setFontAndSize(bf, size);
             cb.setTextMatrix(185,475);
-            datos=conexion.acceder("select S.lugar from solicitud S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
+            datos=conexion.acceder("select S.lugar from solicitud_viatico S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
             cb.showText(datos.get(0));
             //Label que consiste en:
             cb.setFontAndSize(bfNoNegritas, size);
@@ -580,9 +580,9 @@ public class CrearPDF {
             //Actividad base de datos
             cb.setFontAndSize(bf, size);
             cb.setTextMatrix(180,450);
-            datos=conexion.acceder("select S.actividad from solicitud S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
+            datos=conexion.acceder("select S.actividad from solicitud_viatico S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
             acomodar_Actividad(datos.get(0),cb,bf,425);
-            datos=conexion.acceder("select S.vehiculo from solicitud S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
+            datos=conexion.acceder("select S.vehiculo from solicitud_viatico S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
             //Vehiculo
             int espacio=0;
             if(!datos.get(0).equals("Seleccione el vehículo")){
@@ -656,7 +656,7 @@ public class CrearPDF {
             //Nombre base de datos
             cb.setFontAndSize(bf, size);
             cb.setTextMatrix(120,700);
-            datos=conexion.acceder("select S.nombre from informe I inner join solicitud S on I.Solicitud_idSolicitud =S.idSolicitud;");
+            datos=conexion.acceder("select S.nombre from informe I inner join solicitud_viatico S on I.Solicitud_idSolicitud =S.idSolicitud;");
             cb.showText(datos.get(0));
             //Label puesto
             cb.setFontAndSize(bfNoNegritas, size);
@@ -665,7 +665,7 @@ public class CrearPDF {
             //Puesto base de datos
             cb.setFontAndSize(bf,size);
             cb.setTextMatrix(120,675);
-            datos=conexion.acceder("select S.puesto from informe I inner join solicitud S on I.Solicitud_idSolicitud =S.idSolicitud where I.id_informe="+idInforme);
+            datos=conexion.acceder("select S.puesto from informe I inner join solicitud_viatico S on I.Solicitud_idSolicitud =S.idSolicitud where I.id_informe="+idInforme);
             cb.showText(datos.get(0));
             //Label Folio de oficio
             cb.setFontAndSize(bfNoNegritas, size);
@@ -674,7 +674,7 @@ public class CrearPDF {
             //Folio base de datos
             cb.setFontAndSize(bf, size);
             cb.setTextMatrix(250,650);
-            datos=conexion.acceder("select O.folio from informe I inner join solicitud S on I.Solicitud_idSolicitud =S.idSolicitud inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where I.id_informe="+idInforme);
+            datos=conexion.acceder("select O.folio from informe I inner join solicitud_viatico S on I.Solicitud_idSolicitud =S.idSolicitud inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where I.id_informe="+idInforme);
             cb.showText(datos.get(0));
             //Label fecha
             cb.setFontAndSize(bfNoNegritas, size);
@@ -683,7 +683,7 @@ public class CrearPDF {
             //Fecha base de datos
             cb.setFontAndSize(bf,size);
             cb.setTextMatrix(200,625);
-            datos=conexion.acceder("select S.fecha_salida,S.fecha_llegada from solicitud S inner join informe I on S.idSolicitud=I.Solicitud_idSolicitud where I.id_informe="+idInforme);
+            datos=conexion.acceder("select S.fecha_salida,S.fecha_llegada from solicitud_viatico S inner join informe I on S.idSolicitud=I.Solicitud_idSolicitud where I.id_informe="+idInforme);
             cb.showText(datos.get(0)+" - "+datos.get(1));
             //Label monto
             cb.setFontAndSize(bfNoNegritas, size);
@@ -692,7 +692,7 @@ public class CrearPDF {
             //Monto base de datos
             cb.setFontAndSize(bf, size);
             cb.setTextMatrix(120,600);
-            datos=conexion.acceder("select C.monto from oficio_comision C inner join solicitud S on C.Solicitud_idSolicitud=S.idSolicitud inner join informe I on S.idSolicitud=I.Solicitud_idSolicitud where I.id_informe="+idInforme);
+            datos=conexion.acceder("select C.monto from oficio_comision C inner join solicitud_viatico S on C.Solicitud_idSolicitud=S.idSolicitud inner join informe I on S.idSolicitud=I.Solicitud_idSolicitud where I.id_informe="+idInforme);
             cb.showText(datos.get(0));
             //Observaciones
             cb.setFontAndSize(bfNoNegritas, size);
@@ -702,7 +702,7 @@ public class CrearPDF {
             datos=conexion.acceder("select I.observaciones from informe I where I.id_informe="+idInforme);
             acomodar_Actividad(datos.get(0),cb,bf,550);
             int espacio=0;
-            datos=conexion.acceder("select S.vehiculo from informe I inner join solicitud S on I.Solicitud_idSolicitud=S.idSolicitud where I.id_informe="+idInforme);
+            datos=conexion.acceder("select S.vehiculo from informe I inner join solicitud_viatico S on I.Solicitud_idSolicitud=S.idSolicitud where I.id_informe="+idInforme);
             if(!datos.get(0).equals("Seleccione el vehículo")){
                 espacio=-200;
                 cb.setFontAndSize(bfNoNegritas, size);
@@ -756,7 +756,7 @@ public class CrearPDF {
     public static void main(String[] args){
         CrearPDF a=new CrearPDF();
         try{
-            a.reporte("11");
+            a.generarPDF();
             //a.generarPDF();
         }catch(Exception e){}
     }

@@ -37,10 +37,6 @@ import javax.swing.table.DefaultTableModel;
 
 public class ManagerVehiculos {
 
-    public String DIRECCIONIP = "";
-    public static String IP = "";
-    private static String usuario = "PC70";
-    private static String contra = "";
     private Connection con;
     private Conexion db;
     
@@ -49,61 +45,11 @@ public class ManagerVehiculos {
         db = new Conexion();
     }//Constructor Conexion
     
-     public String leer() {
-        String texto = "";
-        try {
-            //Creamos un archivo FileReader que obtiene lo que tenga el archivo
-            FileReader lector = new FileReader("cnfg.ntw");
-
-            //El contenido de lector se guarda en un BufferedReader
-            BufferedReader contenido = new BufferedReader(lector);
-
-            IP = contenido.readLine();
-            
-            if(IP.equals(InetAddress.getLocalHost().getHostAddress())){
-                DIRECCIONIP = "localhost";
-                usuario = "root";
-                contra = "123456";
-                
-                System.out.println("DATOS "+DIRECCIONIP+" "+usuario+" "+contra);
-            }else{
-                DIRECCIONIP = IP;
-                
-                usuario = "PC70";
-                contra = "";
-                
-                System.out.println("DATOS "+DIRECCIONIP+" "+usuario+" "+contra);
-            }
-            
-        } catch (Exception e) {
-
-        }
-        return texto;
-    }//leer()
-
-    public Connection conectar() {
-        leer();
-         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            //con = DriverManager.getConnection("jdbc:mysql://localhost/vboutique3",usuario, contra);
-            con = DriverManager.getConnection("jdbc:mysql://"+DIRECCIONIP+"/ine",usuario, contra);
-            System.out.println("Conexion Correcta");
-         }catch (ClassNotFoundException ex) {
-            //throw new ClassCastException(ex.getMessage());
-            JOptionPane.showMessageDialog(null,"No hay conexión a la base de datos","ADVERTENCIA CLASS",JOptionPane.WARNING_MESSAGE);
-           
-         }
-        // throw new SQLException(ex);
-        finally{
-             
-             return con;
-         }
-    }//conexion
 
     public boolean guardarImagen(String marca, String linea, String clase, String color, String modelo, String motor,
             String kilomentraje, String matricula, String observaciones, String ruta) {
-        Connection con = conectar();
-        String insert = "insert into vehiculos(marca, linea, clase, color, modelo, motor,kilometraje ,matricula,observaciones,imagen,estado) values(?,?,?,?,?,?,?,?,?,?,?);";
+        con = db.getConexion();
+        String insert = "insert into vehiculos(marca, linea, clase, color, modelo, motor,kilometraje ,matricula,observaciones,imagen) values(?,?,?,?,?,?,?,?,?,?);";
         FileInputStream fi = null;
         PreparedStatement ps = null;
 
@@ -123,7 +69,6 @@ public class ManagerVehiculos {
             ps.setString(8, matricula);
             ps.setString(9, observaciones);
             ps.setBinaryStream(10, fi);
-            ps.setString(11, "DISPONIBLE");
 
             ps.executeUpdate();
 
@@ -138,7 +83,7 @@ public class ManagerVehiculos {
     }//guardarImagen
     
     public Blob leerImagen(String matricula) throws IOException {
-        Connection con = conectar();
+        con = db.getConexion();
         String sSql = "select imagen from vehiculos where matricula = '"+matricula+"';";
         PreparedStatement pst;
         Blob blob = null;
@@ -298,7 +243,7 @@ public class ManagerVehiculos {
     
     public boolean actualizarVehiculo(String marca, String linea, String clase, String color, String modelo, String motor,
             String kilomentraje, String matricula, String observaciones, String ruta) {
-        Connection con = conectar();
+        con = db.getConexion();
         
         String update = "update vehiculos set marca = ?, linea = ?,clase = ?,color = ?,modelo = ?,motor = ?,kilometraje = ?,observaciones = ?,imagen = ? where matricula = '"+matricula+"'";
         FileInputStream fi = null;
@@ -334,7 +279,7 @@ public class ManagerVehiculos {
     
     public boolean actualizarVehiculoSinFoto(String marca, String linea, String clase, String color, String modelo, String motor,
             String kilomentraje, String matricula, String observaciones) {
-        Connection con = conectar();
+        con = db.getConexion();
         
         String update = "update vehiculos set marca = ?, linea = ?,clase = ?,color = ?,modelo = ?,motor = ?,kilometraje = ?,observaciones = ? where matricula = '"+matricula+"'";
         
@@ -371,7 +316,7 @@ public class ManagerVehiculos {
     public void getVehiculosDisponibles(JComboBox combo) {
         try{
            
-            String sql = "select concat(linea,'-',matricula) from vehiculos where estado = 'DISPONIBLE';";
+            String sql = "select concat(linea,'-'matricula,) from Vehiculos;";
             con = db.getConexion();
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -381,7 +326,7 @@ public class ManagerVehiculos {
             
             con.close();
         } catch (SQLException ex) {
-            System.out.printf("Error al obtener los vehiculos para meterlos en el combo SQL");
+            System.out.printf("Error al obtener los vehiculos disponibles para ingresarlos al combo SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } 
         

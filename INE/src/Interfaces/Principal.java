@@ -35,12 +35,8 @@ import Clases.ManagerPermisos;
 import Clases.ManagerSolicitud;
 import Clases.ManagerComplemento;
 import Clases.ManagerVehiculos;
-import Clases.ManagerVales;
 import Clases.ManejadorInventario;
-
-import Clases.MetodosComponentes;
-import static Clases.MetodosComponentes.printContenidoLista;
-import Clases.Tablas;
+import Clases.ManagerAsignarEquipo;
 
 
 //Importamos los formularios
@@ -71,31 +67,9 @@ public class Principal extends javax.swing.JFrame {
     ManagerVehiculos managerVehiculos;
     ManagerSolicitud manager_solicitud;
     ManagerComplemento manager_complemento;
-    ManagerVales manager_vales;
     ManejadorInventario manejador_inventario;
-    //VARIABLES PARA CONTROL INVENTARIO PABLO
-    //PABLO VARIABLES GLOBALES
-    MetodosComponentes metodo;
-    public DefaultTableModel modelo,modelo0,modelotablaMAsignados;
-    public boolean asignacion_botones_activadas[],yaExisteProductoGranel;
-    public int serialVale,stockActualSeleccionado,unidadesAsignadas,unidadesRestantes,unidadesAcumuladas,last_granel_index,last_producto_granel_tabla_id;
-    public String objetos_completos_asignables_asignacion;
-    public String objetos_completos_asignables_asignacion_granel;
-    public String objetos_asignables_asignacion;
-    public String objetos_asignados_asignacion;
-    public String objetos_asignables_asignacion_granel;
-    public String objetos_asignados_asignacion_granel;
-    public String id_inventario,last_id_inventarioGranel;
-    public String encargado,encargado1;
-    public ArrayList<Object[]> l_eliminables_objetos_asignables_asignacion;
-    public ArrayList<Object[]> l_obj_asig;
-    public ArrayList<Object[]> l_obj_entr;
-    public ArrayList<Object[]> l_obj_falt;
-    public ArrayList<Object[]> l_objetos_asignables_asignacion;
-    public ArrayList<Object[]> l_eliminables_objetos_asignables_asignacion_granel;
-    public ArrayList<Object[]> l_objetos_asignables_asignacion_granel; 
-    public ArrayList l_cantidades_pedidas_granel;
-    //DATOS DE VALES
+    ManagerAsignarEquipo manager_asignar;
+    
     public String Responsable,Cargo,Area,Tipo_de_uso,Municipio,Localidad,Responsable1,Cargo1,Area1,Tipo_de_uso1,Municipio1,Localidad1;
     
     
@@ -125,6 +99,9 @@ public class Principal extends javax.swing.JFrame {
     //VARIABLES GLOBALES
     public static String usuario = "",prodInventario = "",UserUpdate = "",estadoPendiente = "",Username = "";
     public static int idPendiente;
+    public DefaultTableModel modelotablaMAsignados,modeloRecoleccion,modeloObjetosEntregados;
+    public static String Claves[];
+    public static int Cantidad[];
             
     Vector IPS = new Vector();
     public static DefaultTableModel modeloTablaIP;
@@ -147,9 +124,8 @@ public class Principal extends javax.swing.JFrame {
         manager_solicitud = new ManagerSolicitud();
         manager_complemento = new ManagerComplemento();
         managerVehiculos = new ManagerVehiculos();
-        manager_vales = new ManagerVales();
         manejador_inventario = new ManejadorInventario();
-        
+        manager_asignar = new ManagerAsignarEquipo();
         //Para obtener el nombre de usuario con el que se logearon
         leer();
         
@@ -166,6 +142,8 @@ public class Principal extends javax.swing.JFrame {
         //Obtenemos el modelo de la tabla 
         modeloTablaIP = (DefaultTableModel) tablaIP.getModel();
         modelotablaMAsignados = (DefaultTableModel) tablaMAsignados.getModel();
+        modeloRecoleccion = (DefaultTableModel) tablaRecoleccion.getModel();
+        modeloObjetosEntregados = (DefaultTableModel) tablaObjetosEntregados.getModel();
         
         campoObservaciones.setLineWrap(true);
         //Quitar editable a spinner
@@ -185,44 +163,8 @@ public class Principal extends javax.swing.JFrame {
         //Aplicamos el autocompletar a los combo
         AutoCompleteDecorator.decorate(this.comboEmpleado);
         
-        
-        
-        /*NUEVO*/
-        stockActualSeleccionado=unidadesAsignadas=unidadesRestantes=unidadesAcumuladas=last_granel_index=last_producto_granel_tabla_id=0;
-        serialVale=0;
-        //serialVale=Integer.parseInt(Archivo.leerContenidoArchivo("serial_vale.vl"));
-        System.out.println("Contenido "+((Archivo.leerContenidoArchivo("serial_vale.vl")).replace("$","")));
-        serialVale=Integer.parseInt((Archivo.leerContenidoArchivo("serial_vale.vl")).replace("$",""));
-     
-        last_id_inventarioGranel="";
-        CardLayout c_recoleccion = (CardLayout)pn_contenedor_ventanas.getLayout();
-        c_recoleccion.show(pn_contenedor_ventanas,"c_s_asignacion");
-        
-        asignacion_botones_activadas=new boolean[9];asignacion_botones_activadas[0]=asignacion_botones_activadas[1]=asignacion_botones_activadas[2]=asignacion_botones_activadas[3]=false;yaExisteProductoGranel=false;
-        asignacion_botones_activadas[4]=true;asignacion_botones_activadas[5]=asignacion_botones_activadas[6]=asignacion_botones_activadas[7]=asignacion_botones_activadas[8]=false;
-        
-        l_eliminables_objetos_asignables_asignacion=new ArrayList();
-        l_objetos_asignables_asignacion=new ArrayList();
-        l_eliminables_objetos_asignables_asignacion_granel=new ArrayList();
-        l_objetos_asignables_asignacion_granel=new ArrayList();
-        l_cantidades_pedidas_granel=new ArrayList();
-        l_obj_asig=new ArrayList();
-        l_obj_entr=new ArrayList();;
-        l_obj_falt=new ArrayList();;
-        metodo=new MetodosComponentes(); 
-        metodo.pointerA=this;
-        metodo.cargarEmpleados(tb_empleado);//cargarEmpleados(tb_empleado);
-        metodo.cargarEmpleados(tb_empleado1);
-        metodo.cargarInventarioGranel(tb_objetos_asignables);metodo.cargarInventario(tb_producto_a_reemplazar);        
-        metodo.copyInventarioGranel(tb_objetos_asignables);
-        metodo.cargarInventarioGlobal(tb_inventario_normal_asignado);metodo.cargarInventarioGlobal(tb_objetos_asignados1);
-        metodo.cargarInventarioGlobalGranel(tb_inventario_granel_asignado);      
-        /*NUEVO*/    
-        
-    }
+    }//Constructor
       
-    
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -254,6 +196,13 @@ public class Principal extends javax.swing.JFrame {
         Autorizar = new javax.swing.JMenuItem();
         Denegar = new javax.swing.JMenuItem();
         InfoPendiente = new javax.swing.JMenuItem();
+        MenuAsginados = new javax.swing.JPopupMenu();
+        CancelarA = new javax.swing.JMenuItem();
+        MenuRecoleccion = new javax.swing.JPopupMenu();
+        EntregarTodo = new javax.swing.JMenuItem();
+        EntregarParte = new javax.swing.JMenuItem();
+        MenuEntregados = new javax.swing.JPopupMenu();
+        UpdateInfo = new javax.swing.JMenuItem();
         Grupo1 = new javax.swing.ButtonGroup();
         bg_manejo_inventario = new javax.swing.ButtonGroup();
         bt_tipo_inventario_asignable = new javax.swing.ButtonGroup();
@@ -358,78 +307,6 @@ public class Principal extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        pn_manejo_inventario = new javax.swing.JPanel();
-        pn_general = new javax.swing.JPanel();
-        pn_acciones = new javax.swing.JPanel();
-        rb_asignacion = new javax.swing.JRadioButton();
-        rb_recoleccion = new javax.swing.JRadioButton();
-        rb_reemplazo = new javax.swing.JRadioButton();
-        rb_asignaciones = new javax.swing.JRadioButton();
-        pn_contenedor_ventanas = new javax.swing.JPanel();
-        sp_asignacion_inventario = new javax.swing.JScrollPane();
-        pn_asignacion_inventario = new javax.swing.JPanel();
-        lb_empleado = new javax.swing.JLabel();
-        tf_empleado = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tb_empleado = new javax.swing.JTable();
-        btn_seleccionar_empleado = new javax.swing.JButton();
-        lb_objetos_asignables = new javax.swing.JLabel();
-        jScrollPane22 = new javax.swing.JScrollPane();
-        tb_objetos_asignados = new javax.swing.JTable();
-        lb_objetos_asignables1 = new javax.swing.JLabel();
-        jScrollPane23 = new javax.swing.JScrollPane();
-        tb_objetos_asignables = new javax.swing.JTable();
-        btn_asignar = new javax.swing.JButton();
-        btn_generar_vale = new javax.swing.JButton();
-        btn_cancelar = new javax.swing.JButton();
-        rb_inventario_normal = new javax.swing.JRadioButton();
-        rb_inventario_granel = new javax.swing.JRadioButton();
-        tf_cantidad = new javax.swing.JTextField();
-        sp_recoleccion_inventario = new javax.swing.JScrollPane();
-        pn_recoleccion_inventario = new javax.swing.JPanel();
-        lb_empleado1 = new javax.swing.JLabel();
-        tf_empleado1 = new javax.swing.JTextField();
-        jScrollPane24 = new javax.swing.JScrollPane();
-        tb_empleado1 = new javax.swing.JTable();
-        btn_seleccionar_empleado1 = new javax.swing.JButton();
-        lb_objetos_asignados = new javax.swing.JLabel();
-        jScrollPane25 = new javax.swing.JScrollPane();
-        tb_objetos_asignados1 = new javax.swing.JTable();
-        lb_objetos_entregados = new javax.swing.JLabel();
-        jScrollPane26 = new javax.swing.JScrollPane();
-        tb_objetos_entregados = new javax.swing.JTable();
-        lb_objetos_faltantes = new javax.swing.JLabel();
-        jScrollPane27 = new javax.swing.JScrollPane();
-        tb_objetos_faltantes = new javax.swing.JTable();
-        btn_generar_vale1 = new javax.swing.JButton();
-        btn_recolectar_producto = new javax.swing.JButton();
-        btn_entregar_objetos = new javax.swing.JButton();
-        btn_cancelar1 = new javax.swing.JButton();
-        sp_reemplazo_inventario = new javax.swing.JScrollPane();
-        pn_reemplazo_inventario = new javax.swing.JPanel();
-        jScrollPane28 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
-        jScrollPane12 = new javax.swing.JScrollPane();
-        tb_producto_a_reemplazar = new javax.swing.JTable();
-        btn_generar_vale2 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        tf_pruducto_reemplazable = new javax.swing.JTextField();
-        sp_asignaciones_inventario = new javax.swing.JScrollPane();
-        pn_asignaciones_inventario = new javax.swing.JPanel();
-        jLabel25 = new javax.swing.JLabel();
-        jScrollPane29 = new javax.swing.JScrollPane();
-        tb_inventario_normal_asignado = new javax.swing.JTable();
-        jComboBox1 = new javax.swing.JComboBox();
-        jLabel26 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jScrollPane30 = new javax.swing.JScrollPane();
-        tb_inventario_granel_asignado = new javax.swing.JTable();
-        jLabel27 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
-        jTextField2 = new javax.swing.JTextField();
-        lb_background = new javax.swing.JLabel();
         manejo_inventario = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         pn_contenedor_ventanas1 = new javax.swing.JPanel();
@@ -474,23 +351,15 @@ public class Principal extends javax.swing.JFrame {
         sp_recoleccion_inventario1 = new javax.swing.JScrollPane();
         pn_recoleccion_inventario1 = new javax.swing.JPanel();
         lb_empleado3 = new javax.swing.JLabel();
-        tf_empleado3 = new javax.swing.JTextField();
-        jScrollPane33 = new javax.swing.JScrollPane();
-        tb_empleado3 = new javax.swing.JTable();
-        btn_seleccionar_empleado3 = new javax.swing.JButton();
         lb_objetos_asignados1 = new javax.swing.JLabel();
         jScrollPane34 = new javax.swing.JScrollPane();
-        tb_objetos_asignados3 = new javax.swing.JTable();
+        tablaRecoleccion = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         lb_objetos_entregados1 = new javax.swing.JLabel();
         jScrollPane35 = new javax.swing.JScrollPane();
-        tb_objetos_entregados1 = new javax.swing.JTable();
-        lb_objetos_faltantes1 = new javax.swing.JLabel();
-        jScrollPane36 = new javax.swing.JScrollPane();
-        tb_objetos_faltantes1 = new javax.swing.JTable();
+        tablaObjetosEntregados = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         btn_generar_vale4 = new javax.swing.JButton();
-        btn_recolectar_producto1 = new javax.swing.JButton();
-        btn_entregar_objetos1 = new javax.swing.JButton();
         btn_cancelar3 = new javax.swing.JButton();
+        comboEmpleadoR = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         pn_acciones1 = new javax.swing.JPanel();
         rb_asignacion1 = new javax.swing.JRadioButton();
@@ -612,6 +481,39 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MenuPendientes.add(InfoPendiente);
+
+        CancelarA.setText("Cancelar");
+        CancelarA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelarAActionPerformed(evt);
+            }
+        });
+        MenuAsginados.add(CancelarA);
+
+        EntregarTodo.setText("Entrega completa");
+        EntregarTodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EntregarTodoActionPerformed(evt);
+            }
+        });
+        MenuRecoleccion.add(EntregarTodo);
+
+        EntregarParte.setText("Entrega parcial");
+        EntregarParte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EntregarParteActionPerformed(evt);
+            }
+        });
+        MenuRecoleccion.add(EntregarParte);
+
+        UpdateInfo.setText("Actualizar");
+        UpdateInfo.setToolTipText("");
+        UpdateInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UpdateInfoActionPerformed(evt);
+            }
+        });
+        MenuEntregados.add(UpdateInfo);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Sistema Integral - Instituto Estatal Electoral de Nayarit");
@@ -1583,643 +1485,6 @@ public class Principal extends javax.swing.JFrame {
 
         tabbedPrincipal.addTab("  Configuración", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), configuracion); // NOI18N
 
-        pn_general.setLayout(null);
-
-        bg_manejo_inventario.add(rb_asignacion);
-        rb_asignacion.setText("Asignación");
-        rb_asignacion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rb_asignacionActionPerformed(evt);
-            }
-        });
-
-        bg_manejo_inventario.add(rb_recoleccion);
-        rb_recoleccion.setText("Recolección");
-        rb_recoleccion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rb_recoleccionActionPerformed(evt);
-            }
-        });
-
-        bg_manejo_inventario.add(rb_reemplazo);
-        rb_reemplazo.setText("Reemplazo");
-        rb_reemplazo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rb_reemplazoActionPerformed(evt);
-            }
-        });
-
-        bg_manejo_inventario.add(rb_asignaciones);
-        rb_asignaciones.setText("Asignaciones");
-        rb_asignaciones.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rb_asignacionesActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pn_accionesLayout = new javax.swing.GroupLayout(pn_acciones);
-        pn_acciones.setLayout(pn_accionesLayout);
-        pn_accionesLayout.setHorizontalGroup(
-            pn_accionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_accionesLayout.createSequentialGroup()
-                .addGap(226, 226, 226)
-                .addComponent(rb_asignacion)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(rb_recoleccion)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(rb_reemplazo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(rb_asignaciones)
-                .addContainerGap(216, Short.MAX_VALUE))
-        );
-        pn_accionesLayout.setVerticalGroup(
-            pn_accionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_accionesLayout.createSequentialGroup()
-                .addGroup(pn_accionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rb_asignacion)
-                    .addComponent(rb_recoleccion)
-                    .addComponent(rb_reemplazo)
-                    .addComponent(rb_asignaciones))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        pn_general.add(pn_acciones);
-        pn_acciones.setBounds(110, 20, 770, 20);
-
-        pn_contenedor_ventanas.setLayout(new java.awt.CardLayout());
-
-        lb_empleado.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lb_empleado.setText("Empleado");
-
-        tf_empleado.setEditable(false);
-        tf_empleado.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        tf_empleado.setPreferredSize(new java.awt.Dimension(59, 30));
-
-        tb_empleado.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tb_empleado.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tb_empleadoMouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(tb_empleado);
-
-        btn_seleccionar_empleado.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        btn_seleccionar_empleado.setText("Seleccionar Empleado");
-        btn_seleccionar_empleado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_seleccionar_empleadoActionPerformed(evt);
-            }
-        });
-
-        lb_objetos_asignables.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lb_objetos_asignables.setText("Objetos Asignables");
-
-        tb_objetos_asignados.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "id", "Nombre", "Descripción", "Almacén", "Observaciones", "no_serie", "modelo", "color"
-            }
-        ));
-        jScrollPane22.setViewportView(tb_objetos_asignados);
-
-        lb_objetos_asignables1.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lb_objetos_asignables1.setText("Objetos Asignados");
-
-        tb_objetos_asignables.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tb_objetos_asignables.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tb_objetos_asignablesMouseClicked(evt);
-            }
-        });
-        jScrollPane23.setViewportView(tb_objetos_asignables);
-
-        btn_asignar.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        btn_asignar.setText("Asignar");
-        btn_asignar.setEnabled(false);
-        btn_asignar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_asignarActionPerformed(evt);
-            }
-        });
-
-        btn_generar_vale.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        btn_generar_vale.setText("Generar Vale");
-        btn_generar_vale.setEnabled(false);
-        btn_generar_vale.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_generar_valeActionPerformed(evt);
-            }
-        });
-
-        btn_cancelar.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        btn_cancelar.setText("Cancelar");
-        btn_cancelar.setEnabled(false);
-        btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_cancelarActionPerformed(evt);
-            }
-        });
-
-        bt_tipo_inventario_asignable.add(rb_inventario_normal);
-        rb_inventario_normal.setText("Normal");
-        rb_inventario_normal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rb_inventario_normalActionPerformed(evt);
-            }
-        });
-
-        bt_tipo_inventario_asignable.add(rb_inventario_granel);
-        rb_inventario_granel.setText("Granel");
-        rb_inventario_granel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                rb_inventario_granelMouseClicked(evt);
-            }
-        });
-        rb_inventario_granel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rb_inventario_granelActionPerformed(evt);
-            }
-        });
-
-        tf_cantidad.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        tf_cantidad.setPreferredSize(new java.awt.Dimension(6, 30));
-
-        javax.swing.GroupLayout pn_asignacion_inventarioLayout = new javax.swing.GroupLayout(pn_asignacion_inventario);
-        pn_asignacion_inventario.setLayout(pn_asignacion_inventarioLayout);
-        pn_asignacion_inventarioLayout.setHorizontalGroup(
-            pn_asignacion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_asignacion_inventarioLayout.createSequentialGroup()
-                .addGap(115, 115, 115)
-                .addGroup(pn_asignacion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pn_asignacion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(lb_objetos_asignables1, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pn_asignacion_inventarioLayout.createSequentialGroup()
-                            .addComponent(lb_empleado)
-                            .addGap(39, 39, 39)
-                            .addComponent(tf_empleado, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
-                        .addComponent(jScrollPane23, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane22, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(pn_asignacion_inventarioLayout.createSequentialGroup()
-                            .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(btn_generar_vale, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(pn_asignacion_inventarioLayout.createSequentialGroup()
-                            .addComponent(tf_cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(btn_asignar, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(pn_asignacion_inventarioLayout.createSequentialGroup()
-                        .addComponent(lb_objetos_asignables)
-                        .addGap(8, 8, 8)
-                        .addGroup(pn_asignacion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pn_asignacion_inventarioLayout.createSequentialGroup()
-                                .addComponent(rb_inventario_normal)
-                                .addGap(10, 10, 10)
-                                .addComponent(rb_inventario_granel))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_asignacion_inventarioLayout.createSequentialGroup()
-                                .addGap(0, 237, Short.MAX_VALUE)
-                                .addComponent(btn_seleccionar_empleado)))))
-                .addContainerGap(126, Short.MAX_VALUE))
-        );
-        pn_asignacion_inventarioLayout.setVerticalGroup(
-            pn_asignacion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_asignacion_inventarioLayout.createSequentialGroup()
-                .addGap(70, 70, 70)
-                .addGroup(pn_asignacion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lb_empleado)
-                    .addComponent(tf_empleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_seleccionar_empleado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pn_asignacion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lb_objetos_asignables)
-                    .addComponent(rb_inventario_normal)
-                    .addComponent(rb_inventario_granel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane23, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pn_asignacion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_asignar)
-                    .addComponent(tf_cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
-                .addComponent(lb_objetos_asignables1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane22, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addGroup(pn_asignacion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_generar_vale, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(254, Short.MAX_VALUE))
-        );
-
-        sp_asignacion_inventario.setViewportView(pn_asignacion_inventario);
-
-        pn_contenedor_ventanas.add(sp_asignacion_inventario, "c_s_asignacion");
-
-        lb_empleado1.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lb_empleado1.setText("Empleado");
-
-        tf_empleado1.setEditable(false);
-        tf_empleado1.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        tf_empleado1.setPreferredSize(new java.awt.Dimension(59, 30));
-
-        tb_empleado1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tb_empleado1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tb_empleado1MouseClicked(evt);
-            }
-        });
-        jScrollPane24.setViewportView(tb_empleado1);
-
-        btn_seleccionar_empleado1.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        btn_seleccionar_empleado1.setText("Seleccionar Empleado");
-        btn_seleccionar_empleado1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_seleccionar_empleado1ActionPerformed(evt);
-            }
-        });
-
-        lb_objetos_asignados.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lb_objetos_asignados.setText("Objetos Asignados");
-
-        tb_objetos_asignados1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane25.setViewportView(tb_objetos_asignados1);
-
-        lb_objetos_entregados.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lb_objetos_entregados.setText("Objetos Entregados");
-
-        tb_objetos_entregados.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane26.setViewportView(tb_objetos_entregados);
-
-        lb_objetos_faltantes.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lb_objetos_faltantes.setText("Objetos Faltantes");
-
-        tb_objetos_faltantes.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane27.setViewportView(tb_objetos_faltantes);
-
-        btn_generar_vale1.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        btn_generar_vale1.setText("Generar Vale");
-        btn_generar_vale1.setEnabled(false);
-        btn_generar_vale1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_generar_vale1ActionPerformed(evt);
-            }
-        });
-
-        btn_recolectar_producto.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        btn_recolectar_producto.setText("Recolectar objeto");
-        btn_recolectar_producto.setEnabled(false);
-        btn_recolectar_producto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_recolectar_productoActionPerformed(evt);
-            }
-        });
-
-        btn_entregar_objetos.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        btn_entregar_objetos.setText("Entregar Objetos");
-        btn_entregar_objetos.setEnabled(false);
-        btn_entregar_objetos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_entregar_objetosActionPerformed(evt);
-            }
-        });
-
-        btn_cancelar1.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        btn_cancelar1.setText("Cancelar");
-        btn_cancelar1.setEnabled(false);
-        btn_cancelar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_cancelar1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pn_recoleccion_inventarioLayout = new javax.swing.GroupLayout(pn_recoleccion_inventario);
-        pn_recoleccion_inventario.setLayout(pn_recoleccion_inventarioLayout);
-        pn_recoleccion_inventarioLayout.setHorizontalGroup(
-            pn_recoleccion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_recoleccion_inventarioLayout.createSequentialGroup()
-                .addGap(138, 138, 138)
-                .addGroup(pn_recoleccion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btn_entregar_objetos)
-                    .addComponent(btn_seleccionar_empleado1)
-                    .addGroup(pn_recoleccion_inventarioLayout.createSequentialGroup()
-                        .addComponent(btn_cancelar1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_generar_vale1))
-                    .addGroup(pn_recoleccion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(lb_objetos_faltantes, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(pn_recoleccion_inventarioLayout.createSequentialGroup()
-                            .addComponent(lb_empleado1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(tf_empleado1, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(lb_objetos_asignados)
-                        .addComponent(lb_objetos_entregados, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jScrollPane24, javax.swing.GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)
-                        .addComponent(jScrollPane25)
-                        .addComponent(jScrollPane26)
-                        .addComponent(jScrollPane27))
-                    .addComponent(btn_recolectar_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(146, Short.MAX_VALUE))
-        );
-        pn_recoleccion_inventarioLayout.setVerticalGroup(
-            pn_recoleccion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_recoleccion_inventarioLayout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addGroup(pn_recoleccion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lb_empleado1)
-                    .addComponent(tf_empleado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane24, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_seleccionar_empleado1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lb_objetos_asignados)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane25, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_recolectar_producto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lb_objetos_entregados)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane26, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_entregar_objetos)
-                .addGap(4, 4, 4)
-                .addComponent(lb_objetos_faltantes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane27, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pn_recoleccion_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_generar_vale1)
-                    .addComponent(btn_cancelar1))
-                .addContainerGap(214, Short.MAX_VALUE))
-        );
-
-        sp_recoleccion_inventario.setViewportView(pn_recoleccion_inventario);
-
-        pn_contenedor_ventanas.add(sp_recoleccion_inventario, "c_s_recoleccion");
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane28.setViewportView(jTextArea1);
-
-        jLabel15.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        jLabel15.setText("Selecciones producto a reemplazar");
-
-        jLabel24.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        jLabel24.setText("Ingrese motivos de reemplazo");
-
-        tb_producto_a_reemplazar.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tb_producto_a_reemplazar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tb_producto_a_reemplazarMouseClicked(evt);
-            }
-        });
-        jScrollPane12.setViewportView(tb_producto_a_reemplazar);
-
-        btn_generar_vale2.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        btn_generar_vale2.setText("Generar Vale");
-        btn_generar_vale2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_generar_vale2ActionPerformed(evt);
-            }
-        });
-
-        jButton6.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        jButton6.setText("Seleccionar");
-
-        javax.swing.GroupLayout pn_reemplazo_inventarioLayout = new javax.swing.GroupLayout(pn_reemplazo_inventario);
-        pn_reemplazo_inventario.setLayout(pn_reemplazo_inventarioLayout);
-        pn_reemplazo_inventarioLayout.setHorizontalGroup(
-            pn_reemplazo_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_reemplazo_inventarioLayout.createSequentialGroup()
-                .addGap(139, 139, 139)
-                .addGroup(pn_reemplazo_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pn_reemplazo_inventarioLayout.createSequentialGroup()
-                        .addGroup(pn_reemplazo_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane12)
-                            .addGroup(pn_reemplazo_inventarioLayout.createSequentialGroup()
-                                .addComponent(tf_pruducto_reemplazable, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton6)))
-                        .addGap(185, 185, 185))
-                    .addGroup(pn_reemplazo_inventarioLayout.createSequentialGroup()
-                        .addGroup(pn_reemplazo_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_generar_vale2)
-                            .addComponent(jScrollPane28, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel24)
-                            .addComponent(jLabel15))
-                        .addContainerGap(202, Short.MAX_VALUE))))
-        );
-        pn_reemplazo_inventarioLayout.setVerticalGroup(
-            pn_reemplazo_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_reemplazo_inventarioLayout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(jLabel15)
-                .addGap(43, 43, 43)
-                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(pn_reemplazo_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tf_pruducto_reemplazable))
-                .addGap(54, 54, 54)
-                .addComponent(jLabel24)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane28, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_generar_vale2)
-                .addContainerGap(261, Short.MAX_VALUE))
-        );
-
-        sp_reemplazo_inventario.setViewportView(pn_reemplazo_inventario);
-
-        pn_contenedor_ventanas.add(sp_reemplazo_inventario, "c_s_reemplazo");
-
-        jLabel25.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        jLabel25.setText("Inventario Normal Asignado");
-
-        tb_inventario_normal_asignado.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "id_vale", "Estado", "Usuario que autorizó", "Fecha", "Tipo de vale", "Usuario"
-            }
-        ));
-        jScrollPane29.setViewportView(tb_inventario_normal_asignado);
-
-        jComboBox1.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nombre", "Objeto", "Vale", "Fecha", "Tipo de vale", "Usuario que Autorizó" }));
-
-        jLabel26.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        jLabel26.setText("Buscar");
-
-        jTextField1.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-
-        tb_inventario_granel_asignado.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "id_vale", "Estado", "Usuario que autorizó", "Fecha", "Tipo de vale", "Usuario"
-            }
-        ));
-        jScrollPane30.setViewportView(tb_inventario_granel_asignado);
-
-        jLabel27.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        jLabel27.setText("Buscar");
-
-        jComboBox2.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nombre", "Objeto", "Vale", "Fecha", "Tipo de vale", "Usuario que Autorizó" }));
-
-        jTextField2.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-
-        javax.swing.GroupLayout pn_asignaciones_inventarioLayout = new javax.swing.GroupLayout(pn_asignaciones_inventario);
-        pn_asignaciones_inventario.setLayout(pn_asignaciones_inventarioLayout);
-        pn_asignaciones_inventarioLayout.setHorizontalGroup(
-            pn_asignaciones_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_asignaciones_inventarioLayout.createSequentialGroup()
-                .addGap(79, 79, 79)
-                .addGroup(pn_asignaciones_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane30, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pn_asignaciones_inventarioLayout.createSequentialGroup()
-                        .addComponent(jLabel26)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pn_asignaciones_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel25)
-                        .addComponent(jScrollPane29, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(16, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_asignaciones_inventarioLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel27)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        pn_asignaciones_inventarioLayout.setVerticalGroup(
-            pn_asignaciones_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_asignaciones_inventarioLayout.createSequentialGroup()
-                .addGap(63, 63, 63)
-                .addComponent(jLabel25)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane29, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pn_asignaciones_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel26)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane30, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pn_asignaciones_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel27)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(285, Short.MAX_VALUE))
-        );
-
-        sp_asignaciones_inventario.setViewportView(pn_asignaciones_inventario);
-
-        pn_contenedor_ventanas.add(sp_asignaciones_inventario, "c_s_asignaciones");
-
-        pn_general.add(pn_contenedor_ventanas);
-        pn_contenedor_ventanas.setBounds(110, 50, 770, 690);
-
-        lb_background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
-        pn_general.add(lb_background);
-        lb_background.setBounds(0, 0, 1367, 769);
-
-        javax.swing.GroupLayout pn_manejo_inventarioLayout = new javax.swing.GroupLayout(pn_manejo_inventario);
-        pn_manejo_inventario.setLayout(pn_manejo_inventarioLayout);
-        pn_manejo_inventarioLayout.setHorizontalGroup(
-            pn_manejo_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_general, javax.swing.GroupLayout.PREFERRED_SIZE, 1367, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        pn_manejo_inventarioLayout.setVerticalGroup(
-            pn_manejo_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_general, javax.swing.GroupLayout.PREFERRED_SIZE, 769, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-
-        tabbedPrincipal.addTab("Manejo de Inventario", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), pn_manejo_inventario); // NOI18N
-
         manejo_inventario.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 manejo_inventarioMouseClicked(evt);
@@ -2241,6 +1506,11 @@ public class Principal extends javax.swing.JFrame {
                 "Clave", "Nombre", "Descripción", "Almacén", "Observaciones", "Cantidad"
             }
         ));
+        tablaMAsignados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablaMAsignadosMouseReleased(evt);
+            }
+        });
         jScrollPane31.setViewportView(tablaMAsignados);
 
         lb_objetos_asignables3.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
@@ -2272,7 +1542,6 @@ public class Principal extends javax.swing.JFrame {
 
         btn_cancelar2.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         btn_cancelar2.setText("Cancelar");
-        btn_cancelar2.setEnabled(false);
         btn_cancelar2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_cancelar2ActionPerformed(evt);
@@ -2280,7 +1549,6 @@ public class Principal extends javax.swing.JFrame {
         });
 
         bt_tipo_inventario_asignable.add(rb_inventario_normal1);
-        rb_inventario_normal1.setSelected(true);
         rb_inventario_normal1.setText("Normal");
         rb_inventario_normal1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2317,32 +1585,30 @@ public class Principal extends javax.swing.JFrame {
         pn_asignacion_inventario1Layout.setHorizontalGroup(
             pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_asignacion_inventario1Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
                 .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pn_asignacion_inventario1Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pn_asignacion_inventario1Layout.createSequentialGroup()
-                                .addComponent(lb_objetos_asignables4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(comboEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pn_asignacion_inventario1Layout.createSequentialGroup()
-                                .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(pn_asignacion_inventario1Layout.createSequentialGroup()
-                                        .addComponent(lb_objetos_asignables2)
-                                        .addGap(8, 8, 8)
-                                        .addComponent(rb_inventario_normal1)
-                                        .addGap(10, 10, 10)
-                                        .addComponent(rb_inventario_granel1))
-                                    .addComponent(jScrollPane32, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(29, 29, 29)
-                                .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane31, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lb_objetos_asignables3)))))
-                    .addGroup(pn_asignacion_inventario1Layout.createSequentialGroup()
-                        .addGap(533, 533, 533)
-                        .addComponent(btn_cancelar2, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_generar_vale3, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lb_objetos_asignables4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(pn_asignacion_inventario1Layout.createSequentialGroup()
+                            .addComponent(btn_cancelar2, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(btn_generar_vale3, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pn_asignacion_inventario1Layout.createSequentialGroup()
+                            .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(pn_asignacion_inventario1Layout.createSequentialGroup()
+                                    .addComponent(lb_objetos_asignables2)
+                                    .addGap(8, 8, 8)
+                                    .addComponent(rb_inventario_normal1)
+                                    .addGap(10, 10, 10)
+                                    .addComponent(rb_inventario_granel1))
+                                .addComponent(jScrollPane32, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(29, 29, 29)
+                            .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jScrollPane31, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lb_objetos_asignables3)))))
                 .addContainerGap(1174, Short.MAX_VALUE))
         );
         pn_asignacion_inventario1Layout.setVerticalGroup(
@@ -2360,14 +1626,14 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(rb_inventario_granel1))
                     .addComponent(lb_objetos_asignables3))
                 .addGap(10, 10, 10)
-                .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane31, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
-                    .addComponent(jScrollPane32, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane31, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
+                    .addComponent(jScrollPane32, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_generar_vale3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_cancelar2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(556, 556, 556))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         sp_asignacion_inventario1.setViewportView(pn_asignacion_inventario1);
@@ -2552,85 +1818,43 @@ public class Principal extends javax.swing.JFrame {
         pn_contenedor_ventanas1.add(sp_reemplazo_inventario1, "c_s_reemplazo");
 
         lb_empleado3.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lb_empleado3.setText("Empleado");
-
-        tf_empleado3.setEditable(false);
-        tf_empleado3.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        tf_empleado3.setPreferredSize(new java.awt.Dimension(59, 30));
-
-        tb_empleado3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tb_empleado3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tb_empleado3MouseClicked(evt);
-            }
-        });
-        jScrollPane33.setViewportView(tb_empleado3);
-
-        btn_seleccionar_empleado3.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        btn_seleccionar_empleado3.setText("Seleccionar Empleado");
-        btn_seleccionar_empleado3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_seleccionar_empleado3ActionPerformed(evt);
-            }
-        });
+        lb_empleado3.setText("Empleado:");
 
         lb_objetos_asignados1.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lb_objetos_asignados1.setText("Objetos Asignados");
 
-        tb_objetos_asignados3.setModel(new javax.swing.table.DefaultTableModel(
+        tablaRecoleccion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Vale", "Clave", "Producto", "Descripción", "Observaciones", "Cantidad"
             }
         ));
-        jScrollPane34.setViewportView(tb_objetos_asignados3);
+        tablaRecoleccion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablaRecoleccionMouseReleased(evt);
+            }
+        });
+        jScrollPane34.setViewportView(tablaRecoleccion);
 
         lb_objetos_entregados1.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lb_objetos_entregados1.setText("Objetos Entregados");
 
-        tb_objetos_entregados1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaObjetosEntregados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Vale", "Clave", "Producto", "Descripción", "Observaciones", "Cantidad"
             }
         ));
-        jScrollPane35.setViewportView(tb_objetos_entregados1);
-
-        lb_objetos_faltantes1.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        lb_objetos_faltantes1.setText("Objetos Faltantes");
-
-        tb_objetos_faltantes1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        tablaObjetosEntregados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablaObjetosEntregadosMouseReleased(evt);
             }
-        ));
-        jScrollPane36.setViewportView(tb_objetos_faltantes1);
+        });
+        jScrollPane35.setViewportView(tablaObjetosEntregados);
 
         btn_generar_vale4.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         btn_generar_vale4.setText("Generar Vale");
@@ -2638,24 +1862,6 @@ public class Principal extends javax.swing.JFrame {
         btn_generar_vale4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_generar_vale4ActionPerformed(evt);
-            }
-        });
-
-        btn_recolectar_producto1.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        btn_recolectar_producto1.setText("Recolectar objeto");
-        btn_recolectar_producto1.setEnabled(false);
-        btn_recolectar_producto1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_recolectar_producto1ActionPerformed(evt);
-            }
-        });
-
-        btn_entregar_objetos1.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        btn_entregar_objetos1.setText("Entregar Objetos");
-        btn_entregar_objetos1.setEnabled(false);
-        btn_entregar_objetos1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_entregar_objetos1ActionPerformed(evt);
             }
         });
 
@@ -2668,66 +1874,61 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        comboEmpleadoR.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboEmpleadoR.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboEmpleadoR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboEmpleadoRActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pn_recoleccion_inventario1Layout = new javax.swing.GroupLayout(pn_recoleccion_inventario1);
         pn_recoleccion_inventario1.setLayout(pn_recoleccion_inventario1Layout);
         pn_recoleccion_inventario1Layout.setHorizontalGroup(
             pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_recoleccion_inventario1Layout.createSequentialGroup()
-                .addGap(138, 138, 138)
-                .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btn_entregar_objetos1)
-                    .addComponent(btn_seleccionar_empleado3)
+                .addGap(18, 18, 18)
+                .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pn_recoleccion_inventario1Layout.createSequentialGroup()
-                        .addComponent(btn_cancelar3)
+                        .addComponent(lb_empleado3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_generar_vale4))
-                    .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(lb_objetos_faltantes1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(pn_recoleccion_inventario1Layout.createSequentialGroup()
-                            .addComponent(lb_empleado3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(tf_empleado3, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(lb_objetos_asignados1)
-                        .addComponent(lb_objetos_entregados1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jScrollPane33, javax.swing.GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)
-                        .addComponent(jScrollPane34)
-                        .addComponent(jScrollPane35)
-                        .addComponent(jScrollPane36))
-                    .addComponent(btn_recolectar_producto1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(666, Short.MAX_VALUE))
+                        .addComponent(comboEmpleadoR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pn_recoleccion_inventario1Layout.createSequentialGroup()
+                        .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lb_objetos_asignados1)
+                            .addComponent(jScrollPane34, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                        .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lb_objetos_entregados1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane35, javax.swing.GroupLayout.PREFERRED_SIZE, 651, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_recoleccion_inventario1Layout.createSequentialGroup()
+                                .addComponent(btn_cancelar3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_generar_vale4)))
+                        .addGap(35, 35, 35))))
         );
         pn_recoleccion_inventario1Layout.setVerticalGroup(
             pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_recoleccion_inventario1Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(33, 33, 33)
                 .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lb_empleado3)
-                    .addComponent(tf_empleado3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane33, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_seleccionar_empleado3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lb_objetos_asignados1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane34, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_recolectar_producto1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lb_objetos_entregados1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane35, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_entregar_objetos1)
-                .addGap(4, 4, 4)
-                .addComponent(lb_objetos_faltantes1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane36, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(comboEmpleadoR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pn_recoleccion_inventario1Layout.createSequentialGroup()
+                        .addComponent(lb_objetos_asignados1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane34, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pn_recoleccion_inventario1Layout.createSequentialGroup()
+                        .addComponent(lb_objetos_entregados1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane35, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
                 .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_generar_vale4)
                     .addComponent(btn_cancelar3))
-                .addContainerGap(214, Short.MAX_VALUE))
+                .addContainerGap(183, Short.MAX_VALUE))
         );
 
         sp_recoleccion_inventario1.setViewportView(pn_recoleccion_inventario1);
@@ -3041,11 +2242,15 @@ public class Principal extends javax.swing.JFrame {
         }
         
         /*PESTAÑA DE MANEJADOR KEVIN(TENDRIA QUE SER MANEJADOR INVENTARIO)*/
+        //Asignación
         tablaMInventarioA.setModel(manejador_inventario.getInventario());
         comboEmpleado.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboEmpleado.addItem("Seleccione al empleado...");
         manager_users.getNombresEmpleados(comboEmpleado);
-        
+        //Recolección
+        comboEmpleadoR.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        comboEmpleadoR.addItem("Seleccione al empleado...");
+        manejador_inventario.getEmpleadosAsignacion(comboEmpleadoR);
         
     }//GEN-LAST:event_formWindowOpened
     
@@ -3065,40 +2270,6 @@ public class Principal extends javax.swing.JFrame {
         lblArea.setText("Área: "+separador[13]);
     }
     
-    private void tablaUsuariosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseReleased
-        // TODO add your handling code here:
-        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
-        if(SwingUtilities.isRightMouseButton(evt)){
-            int r = tablaUsuarios.rowAtPoint(evt.getPoint());
-            if (r >= 0 && r < tablaUsuarios.getRowCount())
-            tablaUsuarios.setRowSelectionInterval(r, r);
-            MenuUsuarios.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-        }//clic derecho
-        
-    }//GEN-LAST:event_tablaUsuariosMouseReleased
-
-    private void btnAddEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmpleadoActionPerformed
-        // TODO add your handling code here:
-        //Llamamos el forumulario para añadir un nuevo empleado
-        banderaUser = 1;
-        if(manager_permisos.alta_user(Username)){
-            try {
-                for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                    if ("Nimbus".equals(info.getName())) {
-                        UIManager.setLookAndFeel(info.getClassName());
-                        break;
-                    }
-                }
-            } catch (Exception e) {
-                // If Nimbus is not available, you can set the GUI to another look and feel.
-            }
-            addEmpleados ob = new addEmpleados(this, true);
-            ob.setVisible(true);
-        }else{
-            JOptionPane.showMessageDialog(null, "No tienes permiso para registrar nuevos empleados");
-        }
-    }//GEN-LAST:event_btnAddEmpleadoActionPerformed
-
     private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
         // TODO add your handling code here:
         
@@ -3230,131 +2401,7 @@ public class Principal extends javax.swing.JFrame {
         }//if verTablaSolicitudes
         
     }//GEN-LAST:event_formWindowActivated
-
-    private void btnAddInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddInventarioActionPerformed
-        // TODO add your handling code here:
-        
-        //Llamamos el forumulario para registrar un producto al inventario
-        /*
-        1 -> Inventario
-        2 -> Inventario a granel
-        */
-        if(banderaInventario == 1){
-            
-            if(manager_permisos.alta_inventario(Username)){
-                addInventario ob = new addInventario(this, true);
-                ob.setVisible(true);
-            }else{
-                JOptionPane.showMessageDialog(null, "No cuenta con los permisos para registrar nuevos productos al inventario.");
-            }//else
-            
-        }else{
-            
-            if(manager_permisos.alta_inventario(Username)){
-                addInventarioGranel ob = new addInventarioGranel(this, true);
-                ob.setVisible(true);
-            }else{
-                JOptionPane.showMessageDialog(null,"No cuenta con los permisos para registrar productos nuevos a granel.");
-            }//else
-            
-        }//else
-        
-    }//GEN-LAST:event_btnAddInventarioActionPerformed
-
-    private void tablaBDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaBDMouseClicked
-        // TODO add your handling code here:
-        tablaIP.clearSelection();
-    }//GEN-LAST:event_tablaBDMouseClicked
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        //System.out.println(tablaIP.getValueAt(tablaIP.getSelectedRow(),0)+" "+tablaIP.getValueAt(tablaIP.getSelectedRow(),1));
-                //System.out.println(tablaIP.getValueAt(tablaIP.getSelectedRow(),0)+" "+tablaIP.getValueAt(tablaIP.getSelectedRow(),1));
-        try {
-            if (manajerMySQL.quitarUsuarioBD(tablaBD.getValueAt(tablaBD.getSelectedRow(), 0).toString(), tablaBD.getValueAt(tablaBD.getSelectedRow(), 1).toString())) {
-                //regresar los datos a la tabla de ip
-
-                manajerMySQL.borrarPrivilegios(tablaBD.getValueAt(tablaBD.getSelectedRow(), 1).toString());
-                //regresar los datos al modelo de ip para poder reasignar
-                modeloTablaIP.addRow(new Object[]{""+tablaBD.getValueAt(tablaBD.getSelectedRow(), 0).toString(),
-                    ""+tablaBD.getValueAt(tablaBD.getSelectedRow(), 1).toString(),"Conectado"});
-                
-                JOptionPane.showMessageDialog(null, "Permisos retirados con exito!", "Información!", JOptionPane.INFORMATION_MESSAGE);
-            }else{
-                JOptionPane.showMessageDialog(null, "Error al retirar Permisos","Advertencia!",JOptionPane.WARNING_MESSAGE);
-            }
-        }catch(java.lang.ArrayIndexOutOfBoundsException e){
-           // JOptionPane.showMessageDialog(null,"Seleccione una dirección!","Información!",JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        // TODO add your handling code here:
-        try{
-            System.out.println(tablaIP.getValueAt(tablaIP.getSelectedRow(),0)+" "+tablaIP.getValueAt(tablaIP.getSelectedRow(),1));
-            if(manajerMySQL.insertarUsuarioBD("PC70", tablaIP.getValueAt(tablaIP.getSelectedRow(),1).toString())){
-                JOptionPane.showMessageDialog(null,"Permisos creados con exito!","Información!",JOptionPane.INFORMATION_MESSAGE);
-                
-                manajerMySQL.insertarPrivilegios(
-                    tablaIP.getValueAt(tablaIP.getSelectedRow(),0).toString(),
-                    tablaIP.getValueAt(tablaIP.getSelectedRow(),1).toString(),
-                    tablaIP.getValueAt(tablaIP.getSelectedRow(),2).toString());
-                modeloTablaIP.removeRow(tablaIP.getSelectedRow());
-            }else{
-                JOptionPane.showMessageDialog(null, "Error al asignar Permisos","Advertencia!",JOptionPane.WARNING_MESSAGE);
-            }//else
-        }catch(java.lang.ArrayIndexOutOfBoundsException e){
-            //JOptionPane.showMessageDialog(null,"Seleccione una dirección!","Información!",JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_jButton3ActionPerformed
     
-    private void tablaIPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaIPMouseClicked
-        // TODO add your handling code here:
-        tablaBD.clearSelection();
-    }//GEN-LAST:event_tablaIPMouseClicked
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-       // int limite = Integer.parseInt(campoHasta.getText());
-        
-        String sub1 = campoip1.getValue().toString();
-        String sub2 = campoip2.getValue().toString();
-        String sub3 = campoip3.getValue().toString();
-        int limite = Integer.parseInt(campoip4.getValue().toString());
-        try {
-            // TODO add your handling code here:
-
-            checkHostsReScan(sub1,sub2,sub3, limite);
-        } catch (IOException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-
-       // int limite = Integer.parseInt(campoHasta.getText());
-        
-        String sub1 = campoip1.getValue().toString();
-        String sub2 = campoip2.getValue().toString();
-        String sub3 = campoip3.getValue().toString();
-        int limite = Integer.parseInt(campoip4.getValue().toString());
-        try {
-            // TODO add your handling code here:
-
-            checkHosts(sub1,sub2,sub3, limite);
-        } catch (IOException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void configuracionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_configuracionMouseClicked
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_configuracionMouseClicked
-
     private void itemAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAnteriorActionPerformed
         // TODO add your handling code here:
         if (tabbedPrincipal.getSelectedIndex() == 0) {
@@ -3413,209 +2460,6 @@ public class Principal extends javax.swing.JFrame {
             tablaSolicitudes.setModel(manager_solicitud.tabla_Solicitudes(manager_permisos.verTablaSolicitudes(Username)));
         }
     }//GEN-LAST:event_ActualizarInfoActionPerformed
-
-    private void tablaSolicitudesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaSolicitudesMouseReleased
-        // TODO add your handling code here:
-        
-        if(!(manager_permisos.esPresidencia(Username))){
-
-            //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
-            if(SwingUtilities.isRightMouseButton(evt)){
-                int r = tablaSolicitudes.rowAtPoint(evt.getPoint());
-                if (r >= 0 && r < tablaSolicitudes.getRowCount())
-                tablaSolicitudes.setRowSelectionInterval(r, r);
-                MenuSolicitudes.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-            }//clic derecho
-            
-        }else{
-            if(SwingUtilities.isRightMouseButton(evt)){
-                int r = tablaSolicitudes.rowAtPoint(evt.getPoint());
-                if (r >= 0 && r < tablaSolicitudes.getRowCount())
-                tablaSolicitudes.setRowSelectionInterval(r, r);
-                MenuPendientes.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-            }//clic derecho
-        }
-    }//GEN-LAST:event_tablaSolicitudesMouseReleased
-
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-    // TODO add your handling code here:
-    banderaUser = 3;
-        try {
-                for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                    if ("Nimbus".equals(info.getName())) {
-                        UIManager.setLookAndFeel(info.getClassName());
-                        break;
-                    }
-                }
-            } catch (Exception e) {
-                // If Nimbus is not available, you can set the GUI to another look and feel.
-            }
-            //Llamamos el forumulario para actuaizar un empleado
-            addEmpleados ob = new addEmpleados(this, true);
-            ob.setVisible(true);
-    }//GEN-LAST:event_btnEditarActionPerformed
-
-    private void btnAñadirResguardoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirResguardoActionPerformed
-        // TODO add your handling code here:
-        addResguardo ob = new addResguardo(this,true);
-        ob.setVisible(true);
-    }//GEN-LAST:event_btnAñadirResguardoActionPerformed
-
-    private void tablaSolicitudesPersonalMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaSolicitudesPersonalMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tablaSolicitudesPersonalMouseReleased
-
-    private void comboInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboInventarioActionPerformed
-        // TODO add your handling code here:
-        int filtro = comboFiltro.getSelectedIndex();
-        if(manager_permisos.consulta_inventario(Username)){
-            
-            if(comboInventario.getSelectedItem().toString().equals("Inventario")){
-                tablaInventario.setModel(manager_inventario.getInventario(filtro));
-                banderaInventario = 1;
-                
-                comboFiltro.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-                comboFiltro.addItem("Producto");
-                comboFiltro.addItem("Almacén");
-                comboFiltro.addItem("Marca");
-                
-            }else{
-                tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
-                banderaInventario = 2;
-                
-                comboFiltro.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-                comboFiltro.addItem("Clave");
-                comboFiltro.addItem("Producto");
-                comboFiltro.addItem("Descripción");
-                comboFiltro.addItem("Almacén");
-                comboFiltro.addItem("Marca");
-                comboFiltro.addItem("Observaciones");
-                
-            }
-            
-        }else{
-            JOptionPane.showMessageDialog(null, "No tiene permisos para consultar el inventario.");
-        }
-    }//GEN-LAST:event_comboInventarioActionPerformed
-
-    private void tablaInventarioMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaInventarioMouseReleased
-        // TODO add your handling code here:
-        if(banderaInventario == 2){
-        
-            //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
-            if(SwingUtilities.isRightMouseButton(evt)){
-                int r = tablaUsuarios.rowAtPoint(evt.getPoint());
-                if (r >= 0 && r < tablaUsuarios.getRowCount())
-                tablaInventario.setRowSelectionInterval(r, r);
-                MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-            }//clic derecho
-        
-        }//if
-        
-    }//GEN-LAST:event_tablaInventarioMouseReleased
-
-    private void tablaInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaInventarioMouseClicked
-        // TODO add your handling code here:
-        if(banderaInventario == 1){
-        
-            if(evt.getClickCount() == 2){
-                //Obtenemos la fila donde está nuestro nombre del producto que queremos obtener
-                int fila = tablaInventario.getSelectedRow();
-                //Guardamos nuestro criterio de busqueda para la tabla de coincidencias
-                prodInventario = tablaInventario.getValueAt(fila, 0).toString();
-                //Mandamos a llamar la ventana de las coincidencias
-                tablaDetalleInventario ob = new tablaDetalleInventario(this,true);
-                ob.setVisible(true);
-            }//getClickCount
-        
-        }//if
-    }//GEN-LAST:event_tablaInventarioMouseClicked
-
-    private void comboFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroActionPerformed
-        // TODO add your handling code here:
-               //Llenamos la tabla del inventario
-        int filtro = comboFiltro.getSelectedIndex();
-        String inventario = comboInventario.getSelectedItem().toString();
-        String busqueda = txtBusqueda.getText();
-
-        //Si no hay nada en el campo entonces buscamos todos los productos del inventario o inventario a granel
-        if(busqueda.equals("")){
-
-            if(inventario.equals("Inventario")){
-                tablaInventario.setModel(manager_inventario.getInventario(filtro));
-            }
-            else{
-                tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
-            }
-        }//if
-
-        else{
-            
-            //Si hay coincidencias entonces muestra
-            if(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario)){
-                tablaInventario.setModel(manager_inventario.getInventarioEspecifico(filtro, busqueda, inventario));
-            }//if
-            
-            //Si no hay coincidecnias entonces mostramos el inventario o el inventario a granel
-            else{
-
-                if(inventario.equals("Inventario")){
-                    tablaInventario.setModel(manager_inventario.getInventario(filtro));
-                }
-                else{
-                    tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
-                }
-
-            }//Segundo else
-
-        }//Primer else
-    }//GEN-LAST:event_comboFiltroActionPerformed
-
-    private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
-        // TODO add your handling code here:
-        //Llenamos la tabla del inventario
-        int filtro = comboFiltro.getSelectedIndex();
-        String inventario = comboInventario.getSelectedItem().toString();
-        String busqueda = txtBusqueda.getText();
-
-        //Si no hay nada en el campo entonces buscamos todos los productos del inventario o inventario a granel
-        if(busqueda.equals("")){
-
-            if(inventario.equals("Inventario")){
-                tablaInventario.setModel(manager_inventario.getInventario(filtro));
-            }
-            else{
-                tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
-            }
-        }//if
-
-        else{
-            
-            //Si hay coincidencias entonces muestra
-            if(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario)){
-                tablaInventario.setModel(manager_inventario.getInventarioEspecifico(filtro, busqueda, inventario));
-            }//if
-            
-            //Si no hay coincidecnias entonces mostramos el inventario o el inventario a granel
-            else{
-
-                if(inventario.equals("Inventario")){
-                    tablaInventario.setModel(manager_inventario.getInventario(filtro));
-                }
-                else{
-                    tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
-                }
-
-            }//Segundo else
-
-        }//Primer else
-    }//GEN-LAST:event_txtBusquedaKeyReleased
-
-    private void tablaVehiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaVehiculosMouseClicked
-         // TODO add your handling code here:
-
-        metodoVehiculos();
-    }//GEN-LAST:event_tablaVehiculosMouseClicked
     public void metodoVehiculos(){
         int fila = tablaVehiculos.getSelectedRow();
         Vector vVehiculos = managerVehiculos.infoVehiculos(tablaVehiculos.getValueAt(fila, 4).toString());
@@ -3645,42 +2489,10 @@ public class Principal extends javax.swing.JFrame {
         campoObservaciones.setVisible(true);
         zoom.setVisible(true);
     }
-    private void btnAñadirVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirVehiculoActionPerformed
-        // TODO add your handling code here:
-        if(manager_permisos.alta_vehiculos(Username)){
-            ventana_añadir_vehiculo añadirVehiculo = new ventana_añadir_vehiculo(this, true);
-            añadirVehiculo.setVisible(true);
-        }else{
-            JOptionPane.showMessageDialog(null, "No tienes permisos para dar de alta nuevos vehiculos.");
-        }
-    }//GEN-LAST:event_btnAñadirVehiculoActionPerformed
-
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
          // TODO add your handling code here:
     }//GEN-LAST:event_formWindowClosed
-
-    private void tablaVehiculosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tablaVehiculosPropertyChange
-         // TODO add your handling code here:
         
-    }//GEN-LAST:event_tablaVehiculosPropertyChange
-
-    private void tablaVehiculosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaVehiculosKeyReleased
-         // TODO add your handling code here:
-         metodoVehiculos();
-    }//GEN-LAST:event_tablaVehiculosKeyReleased
-
-    private void zoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zoomActionPerformed
-         // TODO add your handling code here:
-        ventanaZoom ob = new ventanaZoom(this, true);
-        ob.setVisible(true);
-    }//GEN-LAST:event_zoomActionPerformed
-    
-    private void vehiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_vehiculosMouseClicked
-         // TODO add your handling code here:
-         
-        
-    }//GEN-LAST:event_vehiculosMouseClicked
-    
     private void AsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AsignarActionPerformed
          // TODO add your handling code here:
         if(manager_permisos.alta_asignacion(Username)){
@@ -3701,19 +2513,6 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_EquiposActionPerformed
 
-    private void tablaVehiculosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaVehiculosMouseReleased
-        // TODO add your handling code here:
-        
-        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
-        if(SwingUtilities.isRightMouseButton(evt)){
-            int r = tablaVehiculos.rowAtPoint(evt.getPoint());
-            if (r >= 0 && r < tablaVehiculos.getRowCount())
-            tablaVehiculos.setRowSelectionInterval(r, r);
-            MenuVehiculos.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-        }//clic derecho
-        
-    }//GEN-LAST:event_tablaVehiculosMouseReleased
-
     private void ActualizarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarVActionPerformed
         // TODO add your handling code here:
         if(manager_permisos.update_vehiculos(Username)){
@@ -3723,364 +2522,6 @@ public class Principal extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_ActualizarVActionPerformed
-
-    private void rb_asignacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_asignacionActionPerformed
-        CardLayout c_asignacion = (CardLayout)pn_contenedor_ventanas.getLayout();
-        c_asignacion.show(pn_contenedor_ventanas,"c_s_asignacion");
-    }//GEN-LAST:event_rb_asignacionActionPerformed
-
-    private void rb_recoleccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_recoleccionActionPerformed
-        CardLayout c_recoleccion = (CardLayout)pn_contenedor_ventanas.getLayout();
-        c_recoleccion.show(pn_contenedor_ventanas,"c_s_recoleccion");
-        l_eliminables_objetos_asignables_asignacion.clear();
-        l_objetos_asignables_asignacion.clear();
-        l_eliminables_objetos_asignables_asignacion_granel.clear();
-        l_objetos_asignables_asignacion_granel.clear();
-        l_cantidades_pedidas_granel.clear();
-    }//GEN-LAST:event_rb_recoleccionActionPerformed
-
-    private void rb_reemplazoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_reemplazoActionPerformed
-        CardLayout c_reemplazo = (CardLayout)pn_contenedor_ventanas.getLayout();
-        c_reemplazo.show(pn_contenedor_ventanas,"c_s_reemplazo");
-    }//GEN-LAST:event_rb_reemplazoActionPerformed
-
-    private void rb_asignacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_asignacionesActionPerformed
-        CardLayout c_asignaciones = (CardLayout)pn_contenedor_ventanas.getLayout();
-        c_asignaciones.show(pn_contenedor_ventanas,"c_s_asignaciones");
-    }//GEN-LAST:event_rb_asignacionesActionPerformed
-
-    private void tb_empleadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_empleadoMouseClicked
-        try {
-            asignacion_botones_activadas[0]=true;
-            metodo.cargarNombreEmpleado_Asignacion();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_tb_empleadoMouseClicked
-
-    private void btn_seleccionar_empleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_seleccionar_empleadoActionPerformed
-        if(tb_objetos_asignables.getRowCount()==0){
-            JOptionPane.showMessageDialog(null,"No existen objetos libres en el inventario");
-            return;
-        }
-        if(asignacion_botones_activadas[0]==true){tb_empleado.setEnabled(false);asignacion_botones_activadas[0]=false;
-            asignacion_botones_activadas[1]=asignacion_botones_activadas[2]=asignacion_botones_activadas[3]=true;
-            metodo.activarObjetosAsignables();}
-    }//GEN-LAST:event_btn_seleccionar_empleadoActionPerformed
-
-    private void tb_objetos_asignablesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_objetos_asignablesMouseClicked
-        int changed_id_tabla=tb_objetos_asignables.getSelectedRow();
-        if(changed_id_tabla!=last_producto_granel_tabla_id){
-            unidadesRestantes=unidadesAcumuladas=stockActualSeleccionado=unidadesAsignadas=0;
-        }
-    }//GEN-LAST:event_tb_objetos_asignablesMouseClicked
-
-    private void btn_asignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_asignarActionPerformed
-        last_producto_granel_tabla_id=tb_objetos_asignables.getSelectedRow();
-        try {
-            if(tf_cantidad.getText().isEmpty()&& rb_inventario_granel.isSelected()){JOptionPane.showMessageDialog(null,"Debe ingresar una cantidad");return;}
-            if(tb_objetos_asignables.getRowCount()!=0 && rb_inventario_normal.isSelected()){
-                objetos_asignables_asignacion=Tablas.retornarCadenaFila(tb_objetos_asignables,tb_objetos_asignables.getSelectedRow());
-                l_eliminables_objetos_asignables_asignacion.add(objetos_asignables_asignacion.split(","));
-                metodo.renovarInventarioAsignable(tb_objetos_asignables);
-                metodo.cargarInventarioAsignado(tb_objetos_asignados);
-            }
-            if(tb_objetos_asignables.getRowCount()!=0 && rb_inventario_granel.isSelected()){
-                stockActualSeleccionado=Integer.parseInt((String)tb_objetos_asignables.getValueAt(tb_objetos_asignables.getSelectedRow(),7));
-                unidadesAsignadas=Integer.parseInt(tf_cantidad.getText());
-                if(stockActualSeleccionado<unidadesAsignadas||(stockActualSeleccionado-unidadesAsignadas)<Integer.parseInt((String)tb_objetos_asignables.getValueAt(tb_objetos_asignables.getSelectedRow(),6))){
-                    showMessageDialog(null,"Se estan pidiendo más productos de los que hay, o más del mínimo de reserva!");return;
-                }
-                l_eliminables_objetos_asignables_asignacion_granel.add(metodo.getExistenciaGranelArray(Tablas.retornarContenidoFila(tb_objetos_asignables, tb_objetos_asignables.getSelectedRow())));
-                metodo.insertarDatosinventario_granel_objetos_asignados();
-                metodo.cargarInventarioGranelAuxiliar(tb_objetos_asignados);
-            }
-        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btn_asignarActionPerformed
-
-    private void btn_generar_valeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generar_valeActionPerformed
-        String datosInventarioAsignado="";
-        try {
-            tb_empleado.setEnabled(true);
-            asignacion_botones_activadas[0]=true;
-            asignacion_botones_activadas[1]=asignacion_botones_activadas[2]=asignacion_botones_activadas[3]=false;
-            metodo.activarObjetosAsignables();
-
-            for(int i=0;i<tb_objetos_asignados.getRowCount();i++){
-                datosInventarioAsignado+=Tablas.retornarCadenaFila(tb_objetos_asignados, i)+";"+"\n";
-            }
-            Archivo.createArchivo("", "vale_resguardo_configsA.txt",
-                tf_empleado.getText()+","+"\n"+Cargo+","+Area+","+Tipo_de_uso+","+
-                Municipio+","+Localidad
-            );
-            Archivo.createArchivo("", "vale_resguardo_configsB.txt",datosInventarioAsignado
-            );
-            metodo.actualizarEstatusInventarioAsignado();
-            metodo.actualizarEstatusInventarioGranelAsignado();
-            metodo.insertarDatosValeAsignacion();
-            if(rb_inventario_normal.isSelected()){
-
-                metodo.insertarDatosDetalleValeAsignacion();
-            }else{
-                metodo.insertarDatosDetalleValeGranelAsignacion();
-                metodo.actualizarExistenciasInventarioGranel();
-            }
-
-            metodo.cargarInventarioGlobal(tb_inventario_normal_asignado);
-            metodo.cargarInventarioGlobalGranel(tb_inventario_granel_asignado);
-            metodo.resetObjetosAsignablesYAsignados();
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException | IOException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        try {
-            metodo.borrarDatosTabla("inventario_granel_objetos_asignados");
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        fr_Generacion_Vale_Resguardo_Bienes vale;
-        try {
-            vale = new fr_Generacion_Vale_Resguardo_Bienes();
-            vale.setVisible(true);
-        } catch (ClassNotFoundException | IOException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }//GEN-LAST:event_btn_generar_valeActionPerformed
-
-    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
-        try {
-            metodo.borrarDatosTabla("inventario_granel_objetos_asignados");
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        tb_empleado.setEnabled(true);
-        unidadesRestantes=unidadesAcumuladas=stockActualSeleccionado=unidadesAsignadas=0;
-        asignacion_botones_activadas[0]=true;
-        asignacion_botones_activadas[1]=asignacion_botones_activadas[2]=asignacion_botones_activadas[3]=false;
-        metodo.activarObjetosAsignables();
-        try {
-            metodo.resetObjetosAsignablesYAsignados();
-
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btn_cancelarActionPerformed
-
-    private void rb_inventario_normalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_inventario_normalActionPerformed
-        tf_cantidad.setVisible(false);
-        try {
-
-            metodo.resetObjetosAsignablesYAsignados();
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_rb_inventario_normalActionPerformed
-
-    private void rb_inventario_granelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rb_inventario_granelMouseClicked
-        tf_cantidad.setVisible(true);
-    }//GEN-LAST:event_rb_inventario_granelMouseClicked
-
-    private void rb_inventario_granelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_inventario_granelActionPerformed
-        tf_cantidad.setVisible(true);
-        try {
-            metodo.copyInventarioGranel(tb_objetos_asignables);
-            metodo.resetObjetosAsignablesYAsignados();
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_rb_inventario_granelActionPerformed
-
-    private void tb_empleado1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_empleado1MouseClicked
-        try {
-            if(tb_empleado1.isEnabled()){
-                metodo.cargarNombreEmpleado_Asignacion1();
-                metodo.cargarObjetosAsignados_Recoleccion();
-            }
-            
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_tb_empleado1MouseClicked
-
-    private void btn_seleccionar_empleado1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_seleccionar_empleado1ActionPerformed
-        if(tb_objetos_asignados1.getRowCount()!=0){
-            asignacion_botones_activadas[5]=asignacion_botones_activadas[7]=true;tb_empleado1.setEnabled(false);
-            metodo.activarObjetosAsignables();
-        }
-        
-    }//GEN-LAST:event_btn_seleccionar_empleado1ActionPerformed
-
-    private void btn_generar_vale1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generar_vale1ActionPerformed
-        String datosInventarioRecolectado="";
-        String datosInventarioFaltante="";
-        try {
-            tb_empleado.setEnabled(true);
-            asignacion_botones_activadas[4]=true;
-            asignacion_botones_activadas[5]=asignacion_botones_activadas[6]=asignacion_botones_activadas[7]=asignacion_botones_activadas[8]=false;
-            metodo.activarObjetosAsignables();
-            
-            Archivo.createArchivo("", "vale_recoleccion_configs.txt",
-                tf_empleado1.getText()+","+"\n"+Cargo1+","+Area1+","+Tipo_de_uso1+","+
-                Municipio1+","+Localidad1
-            );
-            for(int i=0;i<tb_objetos_entregados.getRowCount();i++){
-                datosInventarioRecolectado+=Tablas.retornarCadenaFila(tb_objetos_entregados, i)+";"+"\n";
-                System.out.println(datosInventarioRecolectado+"\n");
-            }
-            Archivo.createArchivo("", "vale_recoleccion_configsA.txt",datosInventarioRecolectado
-            );
-            for(int i=0;i<tb_objetos_faltantes.getRowCount();i++){
-                datosInventarioFaltante+=Tablas.retornarCadenaFila(tb_objetos_faltantes, i)+";"+"\n";
-            }
-            Archivo.createArchivo("", "vale_recoleccion_configsB.txt",datosInventarioFaltante
-            );
-            
-            metodo.insertarDatosValeRecoleccion();
-            metodo.insertarDatosDetalleRecoleccion();
-            metodo.setInventarioDisponible(tb_objetos_entregados);
-            metodo.cargarInventarioGlobal(tb_inventario_normal_asignado);
-            
-            
-        } catch (Exception ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        fr_Generacion_Vale_Recoleccion_Bienes vale;
-        try {
-            vale = new fr_Generacion_Vale_Recoleccion_Bienes();
-            vale.setVisible(true);
-        } catch (IOException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btn_generar_vale1ActionPerformed
-
-    private void btn_recolectar_productoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_recolectar_productoActionPerformed
-        try {
-            asignacion_botones_activadas[6]=true;
-            metodo.activarObjetosAsignables();
-            if(tb_objetos_asignados1.getRowCount()!=0){
-                l_obj_asig=metodo.transformContentTableIntoArrayList(this.tb_objetos_asignados1);
-
-                l_obj_entr.add(Tablas.retornarContenidoFila(tb_objetos_asignados1, tb_objetos_asignados1.getSelectedRow()));
-                printContenidoLista(l_obj_asig,"l_obj_asig");
-                printContenidoLista(l_obj_entr,"l_obj_entr");
-                metodo.renovarInventarioRecoleccion(tb_objetos_asignados1,tb_objetos_entregados);
-            }
-
-        }
-        catch (Exception ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btn_recolectar_productoActionPerformed
-
-    private void btn_entregar_objetosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_entregar_objetosActionPerformed
-        asignacion_botones_activadas[8]=true;asignacion_botones_activadas[6]=asignacion_botones_activadas[5]=asignacion_botones_activadas[4]=false;
-        metodo.activarObjetosAsignables();
-        if(tb_objetos_asignados1.getRowCount()!=0){
-            metodo.copyContentTabla(tb_objetos_asignados1,tb_objetos_faltantes);
-        }
-    }//GEN-LAST:event_btn_entregar_objetosActionPerformed
-
-    private void btn_cancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelar1ActionPerformed
-        asignacion_botones_activadas[6]=false;
-        asignacion_botones_activadas[8]=true;
-        metodo.activarObjetosAsignables();
-
-        tb_empleado1.setEnabled(true);
-
-        asignacion_botones_activadas[4]=true;
-        asignacion_botones_activadas[5]=asignacion_botones_activadas[6]=asignacion_botones_activadas[7]=asignacion_botones_activadas[8]=false;
-        metodo.activarObjetosAsignables();
-        try {
-            metodo.resetObjetosAsignablesYAsignados();
-
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btn_cancelar1ActionPerformed
-
-    private void tb_producto_a_reemplazarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_producto_a_reemplazarMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tb_producto_a_reemplazarMouseClicked
-
-    private void btn_generar_vale2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generar_vale2ActionPerformed
-        fr_Generacion_Vale_Salida_Almacen vale=new fr_Generacion_Vale_Salida_Almacen();
-        vale.setVisible(true);
-    }//GEN-LAST:event_btn_generar_vale2ActionPerformed
-
-    private void txtBusquedaUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaUsuarioKeyReleased
-        // TODO add your handling code here:
-        int filtro = comboFiltroUsuario.getSelectedIndex();
-        String busqueda = txtBusquedaUsuario.getText();
-        
-        //Si no hay nada en el campo entonces mostramos todos los empleados
-        if(busqueda.equals("")){
-            tablaUsuarios.setModel(manager_users.getEmpleados(Username));
-        }//if
-
-        else{
-            
-            //Si hay coincidencias entonces los muestra
-            if(manager_users.existeEmpleado(filtro, busqueda, Username)){
-                tablaUsuarios.setModel(manager_users.getEmpleadosCoincidencia(Username,filtro,busqueda));
-            }//if
-            
-            //Si no hay coincidecnias entonces mostramos todos los empleados
-            else{
-                tablaUsuarios.setModel(manager_users.getEmpleados(Username));
-            }//Segundo else
-
-        }//Primer else
-        
-    }//GEN-LAST:event_txtBusquedaUsuarioKeyReleased
-
-    private void comboFiltroUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroUsuarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comboFiltroUsuarioActionPerformed
-
-    private void txtBusquedaVehiculosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaVehiculosKeyReleased
-        // TODO add your handling code here:
-        String filtro = comboFiltroVehiculos.getSelectedItem().toString();
-        String busqueda = txtBusquedaVehiculos.getText();
-        
-        //Si no hay nada en el campo entonces mostramos todos los empleados
-        if(busqueda.equals("")){
-            tablaVehiculos.setModel(managerVehiculos.getVehiculos());
-        }//if
-
-        else{
-            
-            //Si hay coincidencias entonces los muestra
-            if(managerVehiculos.existeVehiculo(filtro, busqueda)){
-                tablaVehiculos.setModel(managerVehiculos.getVehiculosEspecificos(filtro,busqueda));
-            }//if
-            
-            //Si no hay coincidecnias entonces mostramos todos los vehiculos
-            else{
-                tablaVehiculos.setModel(managerVehiculos.getVehiculos());
-            }//Segundo else
-
-        }//Primer else
-    }//GEN-LAST:event_txtBusquedaVehiculosKeyReleased
-
-    private void comboFiltroVehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroVehiculosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comboFiltroVehiculosActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-         // TODO add your handling code here:
-         try {
-            ventana_modificar_vehiculo ob = new ventana_modificar_vehiculo(this, true);
-            campo.setText(tablaVehiculos.getValueAt(tablaVehiculos.getSelectedRow(), 4).toString());
-            ob.setVisible(true);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Seleccione un vehiculo!","Información",JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void AtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtenderActionPerformed
         // TODO add your handling code here:
@@ -4197,28 +2638,162 @@ public class Principal extends javax.swing.JFrame {
         }//while
         
     }//GEN-LAST:event_AgregarStockActionPerformed
+    /*-------------------------------PARA LA ASIGNACION EN LA PESTAÑA DE MANEJADOR KEVIN------------------------------------------------*/
+    public boolean existeCodigoTablaMAsignados(String codigo,int cantidad){
+        boolean existe = false;
+        //Buscamos en la tabla si ya existe el codigo
+        for(int fila = 0;fila<tablaMAsignados.getRowCount();fila++){
+            //Si el codigo ya se habia registrado entonces sumamos uno a la cantidad
+            if(tablaMAsignados.getValueAt(fila,0).equals(codigo)){
+                int  valor = Integer.parseInt(tablaMAsignados.getValueAt(fila,5).toString());
+                valor = valor + cantidad;
+                tablaMAsignados.setValueAt(valor,fila,5);
+                existe = true;
+                break;
+            }//if
+            
+        }//for
+        return existe;
+    }//Busca si existen coincidencias en la tabla para sumarlas
+    
+    public void getDatosTablaAsignados(){
+        Claves = new String[tablaMAsignados.getRowCount()];
+        Cantidad = new int[tablaMAsignados.getRowCount()];
+        for(int i = 0;i<tablaMAsignados.getRowCount();i++){
+            Claves[i] = tablaMAsignados.getValueAt(i, 0).toString();//Obtenemos las claves
+            Cantidad[i] = Integer.parseInt(tablaMAsignados.getValueAt(i, 5).toString());//Obtenemos las cantidades
+        }//Llenar vector de los codigos de barras
+    }//obtiene los datos de la tabla "tablaMAsignados"
+    
+    public void regresarInventario(){
+        manejador_inventario.regresarInventario(Claves,Cantidad);
+    }
+    
+    public void limpiarTablaMAsignados(){
+        
+        int a = modelotablaMAsignados.getRowCount() - 1;
+        for(int i=0; i<=a;i++){
+           modelotablaMAsignados.removeRow(0);
+        }
+        
+        if(rb_inventario_normal1.isSelected()){
+            tablaMInventarioA.setModel(manejador_inventario.getInventario());
+        }else{
+            tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+        }
+        
+    }//limpia la tabla "tablaMAsignados"
+    
+    /*--------------------------------------------------------------------------------------------------------------*/
+    
+    public void limpiarTablaRecoleccion(){
+        
+        int a = modeloRecoleccion.getRowCount() - 1;
+        for(int i=0; i<=a;i++){
+           modeloRecoleccion.removeRow(0);
+        }
+    }//limpia la tabla "tb_objetos_asignados3"
+    
+    private void CancelarAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarAActionPerformed
+        // TODO add your handling code here:
+        Claves = new String[1];
+        Cantidad = new int[1];
+        //Obtenemos la fila
+        int fila = tablaMAsignados.getSelectedRow();
+        
+        //Obtenemos la clave y cantidad
+        Claves[0] = tablaMAsignados.getValueAt(fila, 0).toString();
+        Cantidad[0] = Integer.parseInt(tablaMAsignados.getValueAt(fila, 5).toString());
+        
+        //Mostramos mensaje de confirmación para cancelar el producto seleccionado
+        String[] opciones = {"Aceptar", "Cancelar"};
+        int seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar el producto "+Claves[0]+"?","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+        if(seleccion == 0){
+            //Regresamos el producto seleccionado
+            manejador_inventario.regresarInventario(Claves,Cantidad);
+            //Eliminamos el registro de la tabla
+            modelotablaMAsignados.removeRow(fila);
+            JOptionPane.showMessageDialog(null, "Se regreso al inventario el producto cancelado.");
+            //Actualizamos la tabla de acuerdo al radiobutton seleccionado
+            if(rb_inventario_normal1.isSelected()){
+                tablaMInventarioA.setModel(manejador_inventario.getInventario());
+            }else{
+                tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+            }//else
+            //Vemos si queda mas de un producto
+            if(modelotablaMAsignados.getRowCount() == 0){
+                btn_generar_vale3.setEnabled(false);
+            }
+            
+        }//selecciono la opcion "Aceptar"
+    }//GEN-LAST:event_CancelarAActionPerformed
+
+    private void EntregarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EntregarTodoActionPerformed
+        // TODO add your handling code here:
+        int fila = tablaRecoleccion.getSelectedRow();
+        //Obtenemos el idvale,el codigo del producto y la cantidad
+        int vale = Integer.parseInt(tablaRecoleccion.getValueAt(fila, 0).toString());
+        String codigo = tablaRecoleccion.getValueAt(fila, 1).toString();
+        int cantidad = Integer.parseInt(tablaRecoleccion.getValueAt(fila, 5).toString());
+        
+        if(manejador_inventario.recoleccionInventario(vale,codigo,cantidad,0)){
+            modeloObjetosEntregados.addRow(new Object[]{vale,codigo,tablaRecoleccion.getValueAt(fila, 2),tablaRecoleccion.getValueAt(fila, 3),tablaRecoleccion.getValueAt(fila, 4),cantidad});
+            tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
+        }else{
+            JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+        }
+        
+    }//GEN-LAST:event_EntregarTodoActionPerformed
+
+    private void UpdateInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateInfoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_UpdateInfoActionPerformed
+
+    private void EntregarParteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EntregarParteActionPerformed
+        // TODO add your handling code here:
+        int fila = tablaRecoleccion.getSelectedRow();
+        //Obtenemos el idvale,el codigo del producto y la cantidad
+        int vale = Integer.parseInt(tablaRecoleccion.getValueAt(fila, 0).toString());
+        String codigo = tablaRecoleccion.getValueAt(fila, 1).toString();
+        int cantidad = Integer.parseInt(tablaRecoleccion.getValueAt(fila, 5).toString());
+        
+        boolean entero = true;
+        boolean canceloCantidad = true;
+        int resta = 0;
+        while(entero){    
+
+            String cadena = JOptionPane.showInputDialog("Ingrese la cantidad que va a recolectar");
+            //Cancelo la solicitud de asignacion
+            if(cadena == null){
+                entero = false;
+                canceloCantidad = false;
+            }else{
+                try{
+                    //Si hace la conversion correctamente entonces no entra en la excepcion y se sale del ciclo
+                    resta = Integer.parseInt(cadena);
+                    entero = false;
+
+                }catch(NumberFormatException e){
+                    JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
+                    entero = true;
+                }//try catch
+            }
+        }//while
+        if(canceloCantidad){
+            
+            if(manejador_inventario.recoleccionInventario(vale,codigo,resta,cantidad-resta)){
+                modeloObjetosEntregados.addRow(new Object[]{vale,codigo,tablaRecoleccion.getValueAt(fila, 2),tablaRecoleccion.getValueAt(fila, 3),tablaRecoleccion.getValueAt(fila, 4),resta});
+                tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
+            }else{
+                JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+            }
+            
+        }//canceloCantidad
+    }//GEN-LAST:event_EntregarParteActionPerformed
 
     private void manejo_inventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_manejo_inventarioMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_manejo_inventarioMouseClicked
-
-    private void rb_asignacion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_asignacion1ActionPerformed
-        // TODO add your handling code here:
-        CardLayout c_asignacion = (CardLayout)pn_contenedor_ventanas1.getLayout();
-        c_asignacion.show(pn_contenedor_ventanas1,"c_s_asignacion");
-    }//GEN-LAST:event_rb_asignacion1ActionPerformed
-
-    private void rb_recoleccion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_recoleccion1ActionPerformed
-        // TODO add your handling code here:
-        CardLayout c_recoleccion = (CardLayout)pn_contenedor_ventanas1.getLayout();
-        c_recoleccion.show(pn_contenedor_ventanas1,"c_s_recoleccion");
-    }//GEN-LAST:event_rb_recoleccion1ActionPerformed
-
-    private void rb_reemplazo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_reemplazo1ActionPerformed
-        // TODO add your handling code here:
-        CardLayout c_reemplazo = (CardLayout)pn_contenedor_ventanas1.getLayout();
-        c_reemplazo.show(pn_contenedor_ventanas1,"c_s_reemplazo");
-    }//GEN-LAST:event_rb_reemplazo1ActionPerformed
 
     private void rb_asignaciones1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_asignaciones1ActionPerformed
         // TODO add your handling code here:
@@ -4226,25 +2801,149 @@ public class Principal extends javax.swing.JFrame {
         c_asignaciones.show(pn_contenedor_ventanas1,"c_s_asignaciones");
     }//GEN-LAST:event_rb_asignaciones1ActionPerformed
 
+    private void rb_reemplazo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_reemplazo1ActionPerformed
+        // TODO add your handling code here:
+        CardLayout c_reemplazo = (CardLayout)pn_contenedor_ventanas1.getLayout();
+        c_reemplazo.show(pn_contenedor_ventanas1,"c_s_reemplazo");
+    }//GEN-LAST:event_rb_reemplazo1ActionPerformed
+
+    private void rb_recoleccion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_recoleccion1ActionPerformed
+        // TODO add your handling code here:
+        CardLayout c_recoleccion = (CardLayout)pn_contenedor_ventanas1.getLayout();
+        c_recoleccion.show(pn_contenedor_ventanas1,"c_s_recoleccion");
+
+    }//GEN-LAST:event_rb_recoleccion1ActionPerformed
+
+    private void rb_asignacion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_asignacion1ActionPerformed
+        // TODO add your handling code here:
+        CardLayout c_asignacion = (CardLayout)pn_contenedor_ventanas1.getLayout();
+        c_asignacion.show(pn_contenedor_ventanas1,"c_s_asignacion");
+    }//GEN-LAST:event_rb_asignacion1ActionPerformed
+
+    private void comboEmpleadoRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpleadoRActionPerformed
+        // TODO add your handling code here:
+        if(comboEmpleadoR.getSelectedIndex() != 0){
+            tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
+        }else{
+            tablaRecoleccion.setModel(modeloRecoleccion);
+        }
+    }//GEN-LAST:event_comboEmpleadoRActionPerformed
+
+    private void btn_cancelar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelar3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_cancelar3ActionPerformed
+
+    private void btn_generar_vale4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generar_vale4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_generar_vale4ActionPerformed
+
+    private void tablaObjetosEntregadosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaObjetosEntregadosMouseReleased
+        // TODO add your handling code here:
+        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+        if(SwingUtilities.isRightMouseButton(evt)){
+            int r = tablaObjetosEntregados.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablaObjetosEntregados.getRowCount())
+            tablaObjetosEntregados.setRowSelectionInterval(r, r);
+            MenuEntregados.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
+    }//GEN-LAST:event_tablaObjetosEntregadosMouseReleased
+
+    private void tablaRecoleccionMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaRecoleccionMouseReleased
+        // TODO add your handling code here:
+        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+        if(SwingUtilities.isRightMouseButton(evt)){
+            int r = tablaRecoleccion.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablaRecoleccion.getRowCount())
+            tablaRecoleccion.setRowSelectionInterval(r, r);
+            MenuRecoleccion.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
+    }//GEN-LAST:event_tablaRecoleccionMouseReleased
+
+    private void btn_generar_vale5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generar_vale5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_generar_vale5ActionPerformed
+
+    private void tb_producto_a_reemplazar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_producto_a_reemplazar1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tb_producto_a_reemplazar1MouseClicked
+
+    private void comboEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpleadoActionPerformed
+        // TODO add your handling code here:
+        //si es diferente de 0 entonces ya selecciono un empleado
+        if(comboEmpleado.getSelectedIndex() != 0){
+            empleadoSeleccionado = true;
+        }else{
+            empleadoSeleccionado = false;
+            btn_generar_vale3.setEnabled(false);
+        }
+
+    }//GEN-LAST:event_comboEmpleadoActionPerformed
+
+    private void rb_inventario_granel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_inventario_granel1ActionPerformed
+        // TODO add your handling code here:
+        tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+        esGranel = true;
+    }//GEN-LAST:event_rb_inventario_granel1ActionPerformed
+
+    private void rb_inventario_granel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rb_inventario_granel1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rb_inventario_granel1MouseClicked
+
+    private void rb_inventario_normal1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_inventario_normal1ActionPerformed
+        // TODO add your handling code here:
+        tablaMInventarioA.setModel(manejador_inventario.getInventario());
+        esGranel = false;
+    }//GEN-LAST:event_rb_inventario_normal1ActionPerformed
+
+    private void btn_cancelar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelar2ActionPerformed
+        // TODO add your handling code here:
+        getDatosTablaAsignados();
+        regresarInventario();
+        limpiarTablaMAsignados();
+        comboEmpleado.setSelectedIndex(0);
+        btn_generar_vale3.setEnabled(false);
+    }//GEN-LAST:event_btn_cancelar2ActionPerformed
+
+    private void btn_generar_vale3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generar_vale3ActionPerformed
+        // TODO add your handling code here:
+        getDatosTablaAsignados();
+        if(manejador_inventario.asignarInventario(Claves, Cantidad, comboEmpleado.getSelectedItem().toString())){
+            JOptionPane.showMessageDialog(null, "Se han asignado correctamente.");
+            limpiarTablaMAsignados();
+            btn_generar_vale3.setEnabled(false);
+            comboEmpleado.setSelectedIndex(0);
+            //Actualizamos el combo de los empleados de recolección
+            comboEmpleadoR.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+            comboEmpleadoR.addItem("Seleccione al empleado...");
+            manejador_inventario.getEmpleadosAsignacion(comboEmpleadoR);
+
+        }else{
+            JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");
+        }
+
+    }//GEN-LAST:event_btn_generar_vale3ActionPerformed
+
     private void tablaMInventarioAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMInventarioAMouseClicked
         // TODO add your handling code here:
         if(evt.getClickCount() == 2){
-            
+
             int fila = tablaMInventarioA.getSelectedRow();
+            //Obtenemos la clave del producto
+            String idProducto = tablaMInventarioA.getValueAt(fila, 0).toString();
             if(empleadoSeleccionado){
-                JOptionPane.showMessageDialog(null, "Empleado seleccionado");
-                
                 if(esGranel){
                     int cantidad = 0;
-                    //Esto es para validar que ingrese solo numeros y mientras no lo haga, seguira preguntado hasta que 
+                    //Esto es para validar que ingrese solo numeros y mientras no lo haga, seguira preguntado hasta que
                     //solo teclee numeros o cancele el movimiento
                     boolean entero = true;
-                    while(entero){    
+                    boolean canceloCantidad = true;
+                    while(entero){
 
                         String cadena = JOptionPane.showInputDialog("Ingrese la cantidad que desea asignar");
                         //Cancelo la solicitud de asignacion
                         if(cadena == null){
                             entero = false;
+                            canceloCantidad = false;
                         }else{
                             try{
                                 //Si hace la conversion correctamente entonces no entra en la excepcion y se sale del ciclo
@@ -4257,169 +2956,687 @@ public class Principal extends javax.swing.JFrame {
                             }//try catch
                         }
                     }//while
-                    
-                    //Obtenemos la clave del producto a granel
-                    String idProducto = tablaMInventarioA.getValueAt(fila, 0).toString();
-                    //Obtenemos la cantidad directamente de la BD por si se ha actualizado la cantidad 
-                    int stock = manejador_inventario.cantidadInventarioG(idProducto);
-                    
-                    //1.- Significa que hubo error al querer hacer la consulta
-                    if(stock == -1){
-                        JOptionPane.showMessageDialog(null, "Verificar con el distribuidor. -1");
-                    }//stock == -1
-                    
-                    //2.- Se agotaron existencias, entonces alguien mas asigno dichas existencias a alguien más
-                    else if(stock == 0){
-                        JOptionPane.showMessageDialog(null, "Se han agotado las existencias de ese producto, ya han sido asignadas");
-                        tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
-                    }//stock == 0
-                    
-                    //3.- Las existencias son mayores a lo que se solicita, entonces se realiza la asignacion sin problema
-                    else if(stock > cantidad){
-                        int comprobar = manejador_inventario.productosSuficientesInventarioG(idProducto, cantidad);
-                        
-                        //Si es mayor entonces si se realizo exitosamente la actualización del inventario
-                        if(stock > comprobar){
-                            //Se pasa el registro a la otra tabla (0,1,2,3,5,cantidad)
-                            modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),cantidad});
-                            tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
-                        }//stock > comprobar
-                        
-                        //No se realizo la condición anterior porque el stock dejo de ser mayor que la cantidad que se solicita
-                        //Comprobamos si se agotaron las exitencias
-                        else if(comprobar == 0){
+                    if(canceloCantidad){
+                        btn_generar_vale3.setEnabled(true);
+                        //Obtenemos la cantidad directamente de la BD por si se ha actualizado la cantidad
+                        int stock = manejador_inventario.cantidadInventarioG(idProducto);
+
+                        //1.- Significa que hubo error al querer hacer la consulta
+                        if(stock == -1){
+                            JOptionPane.showMessageDialog(null, "Verificar con el distribuidor. -1");
+                        }//stock == -1
+
+                        //2.- Se agotaron existencias, entonces alguien mas asigno dichas existencias a alguien más
+                        else if(stock == 0){
                             JOptionPane.showMessageDialog(null, "Se han agotado las existencias de ese producto, ya han sido asignadas");
                             tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
-                        }
-                        
-                        //No se cumplio la de 0 existencias, entonces comprobamos si es igual de la cantidad que se solicita, 
+                        }//stock == 0
+                        //3.- Las existencias son mayores a lo que se solicita, entonces se realiza la asignacion sin problema
+                        else if(stock > cantidad){
+                            int comprobar = manejador_inventario.productosSuficientesInventarioG(idProducto, cantidad);
+
+                            //Si es mayor entonces si se realizo exitosamente la actualización del inventario
+                            if(stock > comprobar){
+                                //Se pasa el registro a la otra tabla (0,1,2,3,5,cantidad)
+                                if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
+                                    modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),cantidad});
+                                    System.out.println("Entro a agregar el registro cuando el stock entro como si nada(parte 1)");
+                                }
+                                tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                            }//stock > comprobar
+
+                            //No se realizo la condición anterior porque el stock dejo de ser mayor que la cantidad que se solicita
+                            //Comprobamos si se agotaron las exitencias
+                            else if(comprobar == 0){
+                                JOptionPane.showMessageDialog(null, "Se han agotado las existencias de ese producto, ya han sido asignadas");
+                                tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                            }
+
+                            //No se cumplio la de 0 existencias, entonces comprobamos si es igual de la cantidad que se solicita,
+                            //si no, será menor.
+                            else if(cantidad == comprobar){
+                                //Se pasa el registro a la otra tabla y cambia el estado del producto a agotado(comprobación)
+                                int comprobar2 = manejador_inventario.productosIgualesInventarioG(idProducto, cantidad);
+
+                                //Comprobamos si se agotaron las exitencias
+                                if(comprobar2 == 0){
+                                    //Si es 0 entonces se cambia sin problemas y el estado cambia a agotado
+                                    if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
+                                        modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),cantidad});
+                                    }
+                                    tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                                }
+
+                                else if(cantidad > comprobar2){
+                                    tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+
+                                    //Preguntara si quiere lo que hay en existencia
+                                    String[] opciones = {"Aceptar", "Cancelar"};
+                                    int seleccion = JOptionPane.showOptionDialog(null, "Solo se cuenta con "+comprobar2+" de exitencias para el producto "+idProducto+".\nUsted esta solicitando "+cantidad+", ¿Desea aceptar las existencias restantes o esperar a que las agreguen al inventario?","¿Acepta las exitencias restantes?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+                                    if(seleccion == 0){
+                                        manejador_inventario.productosIgualesInventarioG(idProducto, comprobar2);
+                                        if(!(existeCodigoTablaMAsignados(idProducto,comprobar2))){
+                                            modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),comprobar2});
+                                        }
+                                    }//Dio clic en la opcion aceptar
+
+                                    tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                                }//cantidad > comprobar2
+
+                                //Si no entro a ninguna de las 2 de arriba, entonces se actualizo el stock agregando mas
+                                //existencias, entonces se realiza el registro normalmente
+                                else{
+                                    manejador_inventario.productosSuficientesInventarioG(idProducto, cantidad);
+                                    if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
+                                        modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),cantidad});
+                                    }
+                                    tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+
+                                }//else
+
+                            }//cantidad == comprobar
+
+                            //La solicitud es mayor a la nueva actualización del stock, entonces pregunta si quiere los
+                            //de este producto que superan a lo que se está solicitando, entonces preguntará que solo se cuentan con cierta
+                            //cantitidad de exitencias y si desea aceptarla
+                            else if(cantidad > comprobar){
+                                //Se pregunta si se quieren los productos que se encuentran, en caso de quererlos
+                                //se asignan las existencias restantes y cambia a agotado, si no las quiere
+                                //entonces no sucede nada
+                                tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                                //Preguntara si quiere lo que hay en existencia
+                                String[] opciones = {"Aceptar", "Cancelar"};
+                                int seleccion = JOptionPane.showOptionDialog(null, "Solo se cuenta con "+comprobar+" de exitencias para el producto "+idProducto+".\nUsted esta solicitando "+cantidad+", ¿Desea aceptar las existencias restantes o esperar a que las agreguen al inventario?","¿Acepta las exitencias restantes?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+                                if(seleccion == 0){
+                                    manejador_inventario.productosIgualesInventarioG(idProducto, comprobar);
+                                    if(!(existeCodigoTablaMAsignados(idProducto,comprobar))){
+                                        modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),comprobar});
+                                    }
+                                }//Dio clic en aceptar
+
+                                tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                            }
+                            //Si no entro a ninguna de las 3 de arriba, entonces se actualizo el stock agregando mas
+                            //existencias, entonces se realiza el registro normalmente
+                            else{
+                                manejador_inventario.productosSuficientesInventarioG(idProducto, cantidad);
+                                if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
+                                    modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),cantidad});
+                                }
+                                tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                            }//else
+
+                        }//stock > cantidad
+
+                        //No se cumplio la de 0 existencias, entonces comprobamos si es igual de la cantidad que se solicita,
                         //si no, será menor.
-                        else if(cantidad == comprobar){
+                        else if(stock == cantidad){
                             //Se pasa el registro a la otra tabla y cambia el estado del producto a agotado(comprobación)
                             int comprobar2 = manejador_inventario.productosIgualesInventarioG(idProducto, cantidad);
-                            
+
                             //Comprobamos si se agotaron las exitencias
                             if(comprobar2 == 0){
                                 //Si es 0 entonces se cambia sin problemas y el estado cambia a agotado
-                                modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),cantidad});
+                                if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
+                                    modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),cantidad});
+                                }
                                 tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
                             }
-                            
+
                             else if(cantidad > comprobar2){
-                                //Preugntara si quiere lo que hay en existencia
-                                ///////////////////////////////
+
                                 tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
-                            }
+                                //Preguntara si quiere lo que hay en existencia
+                                String[] opciones = {"Aceptar", "Cancelar"};
+                                int seleccion = JOptionPane.showOptionDialog(null, "Solo se cuenta con "+comprobar2+" de exitencias para el producto "+idProducto+".\nUsted esta solicitando "+cantidad+", ¿Desea aceptar las existencias restantes o esperar a que las agreguen al inventario?","¿Acepta las exitencias restantes?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+                                if(seleccion == 0){
+                                    manejador_inventario.productosIgualesInventarioG(idProducto, comprobar2);
+                                    if(!(existeCodigoTablaMAsignados(idProducto,comprobar2))){
+                                        modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),comprobar2});
+                                    }
+                                }//Dio clic en aceptar
+
+                                tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                            }//cantidad > stock
                             //Si no entro a ninguna de las 2 de arriba, entonces se actualizo el stock agregando mas
                             //existencias, entonces se realiza el registro normalmente
                             else{
                                 manejador_inventario.productosSuficientesInventarioG(idProducto, cantidad);
-                                modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),cantidad});
+                                if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
+                                    modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),cantidad});
+                                }
                                 tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
-                                
-                            }
-                        }//cantidad == comprobar
-                        
-                        //La solicitud es mayor a la nueva actualización del stock, entonces pregunta si quiere los 
-                        //de este producto que superan a lo que se está solicitando, entonces preguntará que solo se cuentan con cierta 
-                        //cantitidad de exitencias y si desea aceptarla
-                        else if(cantidad > comprobar){
-                            //Se pregunta si se quieren los productos que se encuentran, en caso de quererlos 
-                            //se asignan las existencias restantes y cambia a agotado, si no las quiere 
-                            //entonces no sucede nada
-                        }
-                        //Si no entro a ninguna de las 3 de arriba, entonces se actualizo el stock agregando mas
-                        //existencias, entonces se realiza el registro normalmente
-                        else{
-                            manejador_inventario.productosSuficientesInventarioG(idProducto, cantidad);
-                            modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),cantidad});
+
+                            }//else
+                        }// stock == cantidad
+                        else if (stock < cantidad){
                             tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
-                        }//else
-                        
-                    }//stock > cantidad
-                    
-                    //No se cumplio la de 0 existencias, entonces comprobamos si es igual de la cantidad que se solicita, 
-                    //si no, será menor.
-                    else if(stock == cantidad){
-                        //Se pasa el registro a la otra tabla y cambia el estado del producto a agotado(comprobación)
-                        int comprobar2 = manejador_inventario.productosIgualesInventarioG(idProducto, cantidad);
-                    }
-                    
+                            //Preguntara si quiere lo que hay en existencia
+                            String[] opciones = {"Aceptar", "Cancelar"};
+                            int seleccion = JOptionPane.showOptionDialog(null, "Solo se cuenta con "+stock+" de exitencias para el producto "+idProducto+".\nUsted esta solicitando "+cantidad+", ¿Desea aceptar las existencias restantes o esperar a que las agreguen al inventario?","¿Acepta las exitencias restantes?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+                            if(seleccion == 0){
+                                manejador_inventario.productosIgualesInventarioG(idProducto, stock);
+                                if(!(existeCodigoTablaMAsignados(idProducto,stock))){
+                                    modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),stock});
+                                }
+                            }//Dio clic en la opcion aceptar
+
+                            tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                        }//stock < cantidad
+                    }//canceloSolicitud
                 }//esGranel
                 else{
-                    JOptionPane.showMessageDialog(null, "Solo es inventario");
-                }
-                
-                
+                    //Obtenemos el estado del producto
+                    String estado = manager_solicitud.estadoProducto(idProducto);
+                    //Si esta disponible entonces lo asignamos
+                    if(estado.equals("DISPONIBLE")){
+
+                        if(manager_asignar.asignarEquipo(idProducto)){
+                            btn_generar_vale3.setEnabled(true);
+                            modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 6),1});
+                            tablaMInventarioA.setModel(manejador_inventario.getInventario());
+                        }//asignarEquipo
+
+                    }//estado.equals("DISPONIBLE")
+
+                    //No estaba disponible entonces le avisamos al usuario y actualizamos la tabla
+                    else{
+                        JOptionPane.showMessageDialog(null, "El equipo ya no se encuentra disponible");
+                        tablaMInventarioA.setModel(manejador_inventario.getInventario());
+                    }//else
+
+                }//else
+
             }else{
                 JOptionPane.showMessageDialog(null, "Antes de asignar inventario es necesario seleccionar al responsable.");
             }
-            
+
         }//doble clic
     }//GEN-LAST:event_tablaMInventarioAMouseClicked
 
-    private void btn_generar_vale3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generar_vale3ActionPerformed
+    private void tablaMAsignadosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMAsignadosMouseReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_generar_vale3ActionPerformed
+        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+        if(SwingUtilities.isRightMouseButton(evt)){
+            int r = tablaMAsignados.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablaMAsignados.getRowCount())
+            tablaMAsignados.setRowSelectionInterval(r, r);
+            MenuAsginados.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
+    }//GEN-LAST:event_tablaMAsignadosMouseReleased
 
-    private void btn_cancelar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelar2ActionPerformed
+    private void configuracionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_configuracionMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_cancelar2ActionPerformed
+    }//GEN-LAST:event_configuracionMouseClicked
 
-    private void rb_inventario_normal1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_inventario_normal1ActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        tablaMInventarioA.setModel(manejador_inventario.getInventario());
-        esGranel = false;
-    }//GEN-LAST:event_rb_inventario_normal1ActionPerformed
 
-    private void rb_inventario_granel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rb_inventario_granel1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rb_inventario_granel1MouseClicked
+        // int limite = Integer.parseInt(campoHasta.getText());
 
-    private void rb_inventario_granel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_inventario_granel1ActionPerformed
-        // TODO add your handling code here:
-        tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
-        esGranel = true;
-    }//GEN-LAST:event_rb_inventario_granel1ActionPerformed
+        String sub1 = campoip1.getValue().toString();
+        String sub2 = campoip2.getValue().toString();
+        String sub3 = campoip3.getValue().toString();
+        int limite = Integer.parseInt(campoip4.getValue().toString());
+        try {
+            // TODO add your handling code here:
 
-    private void tb_empleado3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_empleado3MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tb_empleado3MouseClicked
+            checkHosts(sub1,sub2,sub3, limite);
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void btn_seleccionar_empleado3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_seleccionar_empleado3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_seleccionar_empleado3ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-    private void btn_generar_vale4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generar_vale4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_generar_vale4ActionPerformed
+        // int limite = Integer.parseInt(campoHasta.getText());
 
-    private void btn_recolectar_producto1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_recolectar_producto1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_recolectar_producto1ActionPerformed
+        String sub1 = campoip1.getValue().toString();
+        String sub2 = campoip2.getValue().toString();
+        String sub3 = campoip3.getValue().toString();
+        int limite = Integer.parseInt(campoip4.getValue().toString());
+        try {
+            // TODO add your handling code here:
 
-    private void btn_entregar_objetos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_entregar_objetos1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_entregar_objetos1ActionPerformed
+            checkHostsReScan(sub1,sub2,sub3, limite);
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void btn_cancelar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelar3ActionPerformed
+    private void tablaIPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaIPMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_cancelar3ActionPerformed
+        tablaBD.clearSelection();
+    }//GEN-LAST:event_tablaIPMouseClicked
 
-    private void tb_producto_a_reemplazar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_producto_a_reemplazar1MouseClicked
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tb_producto_a_reemplazar1MouseClicked
+        // TODO add your handling code here:
+        try{
+            System.out.println(tablaIP.getValueAt(tablaIP.getSelectedRow(),0)+" "+tablaIP.getValueAt(tablaIP.getSelectedRow(),1));
+            if(manajerMySQL.insertarUsuarioBD("PC70", tablaIP.getValueAt(tablaIP.getSelectedRow(),1).toString())){
+                JOptionPane.showMessageDialog(null,"Permisos creados con exito!","Información!",JOptionPane.INFORMATION_MESSAGE);
 
-    private void btn_generar_vale5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generar_vale5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_generar_vale5ActionPerformed
+                manajerMySQL.insertarPrivilegios(
+                    tablaIP.getValueAt(tablaIP.getSelectedRow(),0).toString(),
+                    tablaIP.getValueAt(tablaIP.getSelectedRow(),1).toString(),
+                    tablaIP.getValueAt(tablaIP.getSelectedRow(),2).toString());
+                modeloTablaIP.removeRow(tablaIP.getSelectedRow());
+            }else{
+                JOptionPane.showMessageDialog(null, "Error al asignar Permisos","Advertencia!",JOptionPane.WARNING_MESSAGE);
+            }//else
+        }catch(java.lang.ArrayIndexOutOfBoundsException e){
+            //JOptionPane.showMessageDialog(null,"Seleccione una dirección!","Información!",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void comboEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpleadoActionPerformed
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        //si es diferente de 0 entonces ya selecciono un empleado
-        empleadoSeleccionado = comboEmpleado.getSelectedIndex() != 0;
-        
-    }//GEN-LAST:event_comboEmpleadoActionPerformed
+        //System.out.println(tablaIP.getValueAt(tablaIP.getSelectedRow(),0)+" "+tablaIP.getValueAt(tablaIP.getSelectedRow(),1));
+        //System.out.println(tablaIP.getValueAt(tablaIP.getSelectedRow(),0)+" "+tablaIP.getValueAt(tablaIP.getSelectedRow(),1));
+        try {
+            if (manajerMySQL.quitarUsuarioBD(tablaBD.getValueAt(tablaBD.getSelectedRow(), 0).toString(), tablaBD.getValueAt(tablaBD.getSelectedRow(), 1).toString())) {
+                //regresar los datos a la tabla de ip
+
+                manajerMySQL.borrarPrivilegios(tablaBD.getValueAt(tablaBD.getSelectedRow(), 1).toString());
+                //regresar los datos al modelo de ip para poder reasignar
+                modeloTablaIP.addRow(new Object[]{""+tablaBD.getValueAt(tablaBD.getSelectedRow(), 0).toString(),
+                    ""+tablaBD.getValueAt(tablaBD.getSelectedRow(), 1).toString(),"Conectado"});
+
+            JOptionPane.showMessageDialog(null, "Permisos retirados con exito!", "Información!", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(null, "Error al retirar Permisos","Advertencia!",JOptionPane.WARNING_MESSAGE);
+        }
+        }catch(java.lang.ArrayIndexOutOfBoundsException e){
+            // JOptionPane.showMessageDialog(null,"Seleccione una dirección!","Información!",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void tablaBDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaBDMouseClicked
+        // TODO add your handling code here:
+        tablaIP.clearSelection();
+    }//GEN-LAST:event_tablaBDMouseClicked
+
+    private void tablaSolicitudesPersonalMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaSolicitudesPersonalMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaSolicitudesPersonalMouseReleased
+
+    private void btnAñadirResguardoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirResguardoActionPerformed
+        // TODO add your handling code here:
+        addResguardo ob = new addResguardo(this,true);
+        ob.setVisible(true);
+    }//GEN-LAST:event_btnAñadirResguardoActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+        banderaUser = 3;
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            // If Nimbus is not available, you can set the GUI to another look and feel.
+        }
+        //Llamamos el forumulario para actuaizar un empleado
+        addEmpleados ob = new addEmpleados(this, true);
+        ob.setVisible(true);
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void tablaSolicitudesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaSolicitudesMouseReleased
+        // TODO add your handling code here:
+
+        if(!(manager_permisos.esPresidencia(Username))){
+
+            //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+            if(SwingUtilities.isRightMouseButton(evt)){
+                int r = tablaSolicitudes.rowAtPoint(evt.getPoint());
+                if (r >= 0 && r < tablaSolicitudes.getRowCount())
+                tablaSolicitudes.setRowSelectionInterval(r, r);
+                MenuSolicitudes.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+            }//clic derecho
+
+        }else{
+            if(SwingUtilities.isRightMouseButton(evt)){
+                int r = tablaSolicitudes.rowAtPoint(evt.getPoint());
+                if (r >= 0 && r < tablaSolicitudes.getRowCount())
+                tablaSolicitudes.setRowSelectionInterval(r, r);
+                MenuPendientes.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+            }//clic derecho
+        }
+    }//GEN-LAST:event_tablaSolicitudesMouseReleased
+
+    private void vehiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_vehiculosMouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_vehiculosMouseClicked
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        try {
+            ventana_modificar_vehiculo ob = new ventana_modificar_vehiculo(this, true);
+            campo.setText(tablaVehiculos.getValueAt(tablaVehiculos.getSelectedRow(), 4).toString());
+            ob.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Seleccione un vehiculo!","Información",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void txtBusquedaVehiculosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaVehiculosKeyReleased
+        // TODO add your handling code here:
+        String filtro = comboFiltroVehiculos.getSelectedItem().toString();
+        String busqueda = txtBusquedaVehiculos.getText();
+
+        //Si no hay nada en el campo entonces mostramos todos los empleados
+        if(busqueda.equals("")){
+            tablaVehiculos.setModel(managerVehiculos.getVehiculos());
+        }//if
+
+        else{
+
+            //Si hay coincidencias entonces los muestra
+            if(managerVehiculos.existeVehiculo(filtro, busqueda)){
+                tablaVehiculos.setModel(managerVehiculos.getVehiculosEspecificos(filtro,busqueda));
+            }//if
+
+            //Si no hay coincidecnias entonces mostramos todos los vehiculos
+            else{
+                tablaVehiculos.setModel(managerVehiculos.getVehiculos());
+            }//Segundo else
+
+        }//Primer else
+    }//GEN-LAST:event_txtBusquedaVehiculosKeyReleased
+
+    private void comboFiltroVehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroVehiculosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboFiltroVehiculosActionPerformed
+
+    private void btnAñadirVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirVehiculoActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.alta_vehiculos(Username)){
+            ventana_añadir_vehiculo añadirVehiculo = new ventana_añadir_vehiculo(this, true);
+            añadirVehiculo.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "No tienes permisos para dar de alta nuevos vehiculos.");
+        }
+    }//GEN-LAST:event_btnAñadirVehiculoActionPerformed
+
+    private void zoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zoomActionPerformed
+        // TODO add your handling code here:
+        ventanaZoom ob = new ventanaZoom(this, true);
+        ob.setVisible(true);
+    }//GEN-LAST:event_zoomActionPerformed
+
+    private void tablaVehiculosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaVehiculosKeyReleased
+        // TODO add your handling code here:
+        metodoVehiculos();
+    }//GEN-LAST:event_tablaVehiculosKeyReleased
+
+    private void tablaVehiculosPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tablaVehiculosPropertyChange
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_tablaVehiculosPropertyChange
+
+    private void tablaVehiculosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaVehiculosMouseReleased
+        // TODO add your handling code here:
+
+        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+        if(SwingUtilities.isRightMouseButton(evt)){
+            int r = tablaVehiculos.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablaVehiculos.getRowCount())
+            tablaVehiculos.setRowSelectionInterval(r, r);
+            MenuVehiculos.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
+
+    }//GEN-LAST:event_tablaVehiculosMouseReleased
+
+    private void tablaVehiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaVehiculosMouseClicked
+        // TODO add your handling code here:
+
+        metodoVehiculos();
+    }//GEN-LAST:event_tablaVehiculosMouseClicked
+
+    private void comboFiltroUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboFiltroUsuarioActionPerformed
+
+    private void txtBusquedaUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaUsuarioKeyReleased
+        // TODO add your handling code here:
+        int filtro = comboFiltroUsuario.getSelectedIndex();
+        String busqueda = txtBusquedaUsuario.getText();
+
+        //Si no hay nada en el campo entonces mostramos todos los empleados
+        if(busqueda.equals("")){
+            tablaUsuarios.setModel(manager_users.getEmpleados(Username));
+        }//if
+
+        else{
+
+            //Si hay coincidencias entonces los muestra
+            if(manager_users.existeEmpleado(filtro, busqueda, Username)){
+                tablaUsuarios.setModel(manager_users.getEmpleadosCoincidencia(Username,filtro,busqueda));
+            }//if
+
+            //Si no hay coincidecnias entonces mostramos todos los empleados
+            else{
+                tablaUsuarios.setModel(manager_users.getEmpleados(Username));
+            }//Segundo else
+
+        }//Primer else
+
+    }//GEN-LAST:event_txtBusquedaUsuarioKeyReleased
+
+    private void btnAddEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmpleadoActionPerformed
+        // TODO add your handling code here:
+        //Llamamos el forumulario para añadir un nuevo empleado
+        banderaUser = 1;
+        if(manager_permisos.alta_user(Username)){
+            try {
+                for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                    if ("Nimbus".equals(info.getName())) {
+                        UIManager.setLookAndFeel(info.getClassName());
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                // If Nimbus is not available, you can set the GUI to another look and feel.
+            }
+            addEmpleados ob = new addEmpleados(this, true);
+            ob.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "No tienes permiso para registrar nuevos empleados");
+        }
+    }//GEN-LAST:event_btnAddEmpleadoActionPerformed
+
+    private void tablaUsuariosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseReleased
+        // TODO add your handling code here:
+        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+        if(SwingUtilities.isRightMouseButton(evt)){
+            int r = tablaUsuarios.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablaUsuarios.getRowCount())
+            tablaUsuarios.setRowSelectionInterval(r, r);
+            MenuUsuarios.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
+
+    }//GEN-LAST:event_tablaUsuariosMouseReleased
+
+    private void comboFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroActionPerformed
+        // TODO add your handling code here:
+        //Llenamos la tabla del inventario
+        int filtro = comboFiltro.getSelectedIndex();
+        String inventario = comboInventario.getSelectedItem().toString();
+        String busqueda = txtBusqueda.getText();
+
+        //Si no hay nada en el campo entonces buscamos todos los productos del inventario o inventario a granel
+        if(busqueda.equals("")){
+
+            if(inventario.equals("Inventario")){
+                tablaInventario.setModel(manager_inventario.getInventario(filtro));
+            }
+            else{
+                tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
+            }
+        }//if
+
+        else{
+
+            //Si hay coincidencias entonces muestra
+            if(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario)){
+                tablaInventario.setModel(manager_inventario.getInventarioEspecifico(filtro, busqueda, inventario));
+            }//if
+
+            //Si no hay coincidecnias entonces mostramos el inventario o el inventario a granel
+            else{
+
+                if(inventario.equals("Inventario")){
+                    tablaInventario.setModel(manager_inventario.getInventario(filtro));
+                }
+                else{
+                    tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
+                }
+
+            }//Segundo else
+
+        }//Primer else
+    }//GEN-LAST:event_comboFiltroActionPerformed
+
+    private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
+        // TODO add your handling code here:
+        //Llenamos la tabla del inventario
+        int filtro = comboFiltro.getSelectedIndex();
+        String inventario = comboInventario.getSelectedItem().toString();
+        String busqueda = txtBusqueda.getText();
+
+        //Si no hay nada en el campo entonces buscamos todos los productos del inventario o inventario a granel
+        if(busqueda.equals("")){
+
+            if(inventario.equals("Inventario")){
+                tablaInventario.setModel(manager_inventario.getInventario(filtro));
+            }
+            else{
+                tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
+            }
+        }//if
+
+        else{
+
+            //Si hay coincidencias entonces muestra
+            if(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario)){
+                tablaInventario.setModel(manager_inventario.getInventarioEspecifico(filtro, busqueda, inventario));
+            }//if
+
+            //Si no hay coincidecnias entonces mostramos el inventario o el inventario a granel
+            else{
+
+                if(inventario.equals("Inventario")){
+                    tablaInventario.setModel(manager_inventario.getInventario(filtro));
+                }
+                else{
+                    tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
+                }
+
+            }//Segundo else
+
+        }//Primer else
+    }//GEN-LAST:event_txtBusquedaKeyReleased
+
+    private void comboInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboInventarioActionPerformed
+        // TODO add your handling code here:
+        int filtro = comboFiltro.getSelectedIndex();
+        if(manager_permisos.consulta_inventario(Username)){
+
+            if(comboInventario.getSelectedItem().toString().equals("Inventario")){
+                tablaInventario.setModel(manager_inventario.getInventario(filtro));
+                banderaInventario = 1;
+
+                comboFiltro.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+                comboFiltro.addItem("Producto");
+                comboFiltro.addItem("Almacén");
+                comboFiltro.addItem("Marca");
+
+            }else{
+                tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
+                banderaInventario = 2;
+
+                comboFiltro.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+                comboFiltro.addItem("Clave");
+                comboFiltro.addItem("Producto");
+                comboFiltro.addItem("Descripción");
+                comboFiltro.addItem("Almacén");
+                comboFiltro.addItem("Marca");
+                comboFiltro.addItem("Observaciones");
+
+            }
+
+        }else{
+            JOptionPane.showMessageDialog(null, "No tiene permisos para consultar el inventario.");
+        }
+    }//GEN-LAST:event_comboInventarioActionPerformed
+
+    private void btnAddInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddInventarioActionPerformed
+        // TODO add your handling code here:
+
+        //Llamamos el forumulario para registrar un producto al inventario
+        /*
+        1 -> Inventario
+        2 -> Inventario a granel
+        */
+        if(banderaInventario == 1){
+
+            if(manager_permisos.alta_inventario(Username)){
+                addInventario ob = new addInventario(this, true);
+                ob.setVisible(true);
+            }else{
+                JOptionPane.showMessageDialog(null, "No cuenta con los permisos para registrar nuevos productos al inventario.");
+            }//else
+
+        }else{
+
+            if(manager_permisos.alta_inventario(Username)){
+                addInventarioGranel ob = new addInventarioGranel(this, true);
+                ob.setVisible(true);
+            }else{
+                JOptionPane.showMessageDialog(null,"No cuenta con los permisos para registrar productos nuevos a granel.");
+            }//else
+
+        }//else
+
+    }//GEN-LAST:event_btnAddInventarioActionPerformed
+
+    private void tablaInventarioMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaInventarioMouseReleased
+        // TODO add your handling code here:
+        if(banderaInventario == 2){
+
+            //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+            if(SwingUtilities.isRightMouseButton(evt)){
+                int r = tablaUsuarios.rowAtPoint(evt.getPoint());
+                if (r >= 0 && r < tablaUsuarios.getRowCount())
+                tablaInventario.setRowSelectionInterval(r, r);
+                MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+            }//clic derecho
+
+        }//if
+
+    }//GEN-LAST:event_tablaInventarioMouseReleased
+
+    private void tablaInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaInventarioMouseClicked
+        // TODO add your handling code here:
+        if(banderaInventario == 1){
+
+            if(evt.getClickCount() == 2){
+                //Obtenemos la fila donde está nuestro nombre del producto que queremos obtener
+                int fila = tablaInventario.getSelectedRow();
+                //Guardamos nuestro criterio de busqueda para la tabla de coincidencias
+                prodInventario = tablaInventario.getValueAt(fila, 0).toString();
+                //Mandamos a llamar la ventana de las coincidencias
+                tablaDetalleInventario ob = new tablaDetalleInventario(this,true);
+                ob.setVisible(true);
+            }//getClickCount
+
+        }//if
+    }//GEN-LAST:event_tablaInventarioMouseClicked
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -4557,14 +3774,20 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem Atender;
     private javax.swing.JMenuItem Autorizar;
     private javax.swing.JMenuItem CambiarContra;
+    private javax.swing.JMenuItem CancelarA;
     private javax.swing.JMenuItem Denegar;
     private javax.swing.JMenuItem Eliminar;
+    private javax.swing.JMenuItem EntregarParte;
+    private javax.swing.JMenuItem EntregarTodo;
     private javax.swing.JMenuItem Equipos;
     private javax.swing.ButtonGroup Grupo1;
     private javax.swing.JMenuItem InfoPendiente;
+    private javax.swing.JPopupMenu MenuAsginados;
+    private javax.swing.JPopupMenu MenuEntregados;
     private javax.swing.JPopupMenu MenuInventario;
     private javax.swing.JPopupMenu MenuPendientes;
     private javax.swing.JPopupMenu MenuPersonal;
+    private javax.swing.JPopupMenu MenuRecoleccion;
     private javax.swing.JMenuItem MenuSolicitud;
     private javax.swing.JPopupMenu MenuSolicitudes;
     private javax.swing.JPopupMenu MenuUsuarios;
@@ -4574,6 +3797,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem Servicio;
     private javax.swing.JMenuItem SolicitarBaja;
     private javax.swing.JMenu SolictarMas;
+    private javax.swing.JMenuItem UpdateInfo;
     private javax.swing.ButtonGroup bg_manejo_inventario;
     private javax.swing.ButtonGroup bt_tipo_inventario_asignable;
     private javax.swing.JButton btnAddEmpleado;
@@ -4581,30 +3805,18 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnAñadirResguardo;
     private javax.swing.JButton btnAñadirVehiculo;
     private javax.swing.JButton btnEditar;
-    public javax.swing.JButton btn_asignar;
-    public javax.swing.JButton btn_cancelar;
-    public javax.swing.JButton btn_cancelar1;
-    public javax.swing.JButton btn_cancelar2;
-    public javax.swing.JButton btn_cancelar3;
-    public javax.swing.JButton btn_entregar_objetos;
-    public javax.swing.JButton btn_entregar_objetos1;
-    public javax.swing.JButton btn_generar_vale;
-    public javax.swing.JButton btn_generar_vale1;
-    private javax.swing.JButton btn_generar_vale2;
-    public javax.swing.JButton btn_generar_vale3;
-    public javax.swing.JButton btn_generar_vale4;
+    private javax.swing.JButton btn_cancelar2;
+    private javax.swing.JButton btn_cancelar3;
+    private javax.swing.JButton btn_generar_vale3;
+    private javax.swing.JButton btn_generar_vale4;
     private javax.swing.JButton btn_generar_vale5;
-    public javax.swing.JButton btn_recolectar_producto;
-    public javax.swing.JButton btn_recolectar_producto1;
-    public javax.swing.JButton btn_seleccionar_empleado;
-    public javax.swing.JButton btn_seleccionar_empleado1;
-    public javax.swing.JButton btn_seleccionar_empleado3;
     private javax.swing.JTextArea campoObservaciones;
     private javax.swing.JSpinner campoip1;
     private javax.swing.JSpinner campoip2;
     private javax.swing.JSpinner campoip3;
     private javax.swing.JSpinner campoip4;
     private javax.swing.JComboBox<String> comboEmpleado;
+    private javax.swing.JComboBox<String> comboEmpleadoR;
     public static javax.swing.JComboBox<String> comboFiltro;
     private javax.swing.JComboBox<String> comboFiltroUsuario;
     private javax.swing.JComboBox<String> comboFiltroVehiculos;
@@ -4627,10 +3839,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JComboBox jComboBox3;
     private javax.swing.JComboBox jComboBox4;
     private javax.swing.JLabel jLabel1;
@@ -4639,7 +3848,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
@@ -4647,10 +3855,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
@@ -4684,25 +3888,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
-    private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane14;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane22;
-    private javax.swing.JScrollPane jScrollPane23;
-    private javax.swing.JScrollPane jScrollPane24;
-    private javax.swing.JScrollPane jScrollPane25;
-    private javax.swing.JScrollPane jScrollPane26;
-    private javax.swing.JScrollPane jScrollPane27;
-    private javax.swing.JScrollPane jScrollPane28;
-    private javax.swing.JScrollPane jScrollPane29;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane30;
     private javax.swing.JScrollPane jScrollPane31;
     private javax.swing.JScrollPane jScrollPane32;
-    private javax.swing.JScrollPane jScrollPane33;
     private javax.swing.JScrollPane jScrollPane34;
     private javax.swing.JScrollPane jScrollPane35;
-    private javax.swing.JScrollPane jScrollPane36;
     private javax.swing.JScrollPane jScrollPane37;
     private javax.swing.JScrollPane jScrollPane38;
     private javax.swing.JScrollPane jScrollPane39;
@@ -4713,27 +3904,15 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
-    private javax.swing.JLabel lb_background;
-    private javax.swing.JLabel lb_empleado;
-    private javax.swing.JLabel lb_empleado1;
     private javax.swing.JLabel lb_empleado3;
-    private javax.swing.JLabel lb_objetos_asignables;
-    private javax.swing.JLabel lb_objetos_asignables1;
     private javax.swing.JLabel lb_objetos_asignables2;
     private javax.swing.JLabel lb_objetos_asignables3;
     private javax.swing.JLabel lb_objetos_asignables4;
-    private javax.swing.JLabel lb_objetos_asignados;
     private javax.swing.JLabel lb_objetos_asignados1;
-    private javax.swing.JLabel lb_objetos_entregados;
     private javax.swing.JLabel lb_objetos_entregados1;
-    private javax.swing.JLabel lb_objetos_faltantes;
-    private javax.swing.JLabel lb_objetos_faltantes1;
     private javax.swing.JLabel lblArea;
     private javax.swing.JLabel lblCargo;
     private javax.swing.JLabel lblCodigo;
@@ -4752,77 +3931,42 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuPuestoArea;
     private javax.swing.JMenuItem mi_viaticos;
     private javax.swing.JPanel pestañaInventario;
-    private javax.swing.JPanel pn_acciones;
     private javax.swing.JPanel pn_acciones1;
-    private javax.swing.JPanel pn_asignacion_inventario;
     private javax.swing.JPanel pn_asignacion_inventario1;
-    private javax.swing.JPanel pn_asignaciones_inventario;
     private javax.swing.JPanel pn_asignaciones_inventario1;
-    private javax.swing.JPanel pn_contenedor_ventanas;
     private javax.swing.JPanel pn_contenedor_ventanas1;
-    private javax.swing.JPanel pn_general;
-    private javax.swing.JPanel pn_manejo_inventario;
-    private javax.swing.JPanel pn_recoleccion_inventario;
     private javax.swing.JPanel pn_recoleccion_inventario1;
-    private javax.swing.JPanel pn_reemplazo_inventario;
     private javax.swing.JPanel pn_reemplazo_inventario1;
     private javax.swing.JPanel pn_tablaUsuarios;
-    private javax.swing.JRadioButton rb_asignacion;
     private javax.swing.JRadioButton rb_asignacion1;
-    private javax.swing.JRadioButton rb_asignaciones;
     private javax.swing.JRadioButton rb_asignaciones1;
-    public javax.swing.JRadioButton rb_inventario_granel;
-    public javax.swing.JRadioButton rb_inventario_granel1;
-    public javax.swing.JRadioButton rb_inventario_normal;
-    public javax.swing.JRadioButton rb_inventario_normal1;
-    public javax.swing.JRadioButton rb_recoleccion;
-    public javax.swing.JRadioButton rb_recoleccion1;
-    private javax.swing.JRadioButton rb_reemplazo;
+    private javax.swing.JRadioButton rb_inventario_granel1;
+    private javax.swing.JRadioButton rb_inventario_normal1;
+    private javax.swing.JRadioButton rb_recoleccion1;
     private javax.swing.JRadioButton rb_reemplazo1;
     private javax.swing.JPanel solicitudes;
-    private javax.swing.JScrollPane sp_asignacion_inventario;
     private javax.swing.JScrollPane sp_asignacion_inventario1;
-    private javax.swing.JScrollPane sp_asignaciones_inventario;
     private javax.swing.JScrollPane sp_asignaciones_inventario1;
-    private javax.swing.JScrollPane sp_recoleccion_inventario;
     private javax.swing.JScrollPane sp_recoleccion_inventario1;
-    private javax.swing.JScrollPane sp_reemplazo_inventario;
     private javax.swing.JScrollPane sp_reemplazo_inventario1;
     public static javax.swing.JTabbedPane tabbedPrincipal;
     private javax.swing.JTable tablaBD;
     private javax.swing.JTable tablaIP;
     public static javax.swing.JTable tablaInventario;
-    public javax.swing.JTable tablaMAsignados;
-    public static javax.swing.JTable tablaMInventarioA;
+    private javax.swing.JTable tablaMAsignados;
+    private javax.swing.JTable tablaMInventarioA;
+    private javax.swing.JTable tablaObjetosEntregados;
     private javax.swing.JTable tablaPermisosPersonales;
+    private javax.swing.JTable tablaRecoleccion;
     public static javax.swing.JTable tablaResguardo;
     public static javax.swing.JTable tablaSolicitudes;
-    public static javax.swing.JTable tablaSolicitudesPersonal;
+    private javax.swing.JTable tablaSolicitudesPersonal;
     public static javax.swing.JTable tablaUsuarios;
     public static javax.swing.JTable tablaVehiculos;
-    public javax.swing.JTable tb_empleado;
-    public javax.swing.JTable tb_empleado1;
-    public javax.swing.JTable tb_empleado3;
-    private javax.swing.JTable tb_inventario_granel_asignado;
     private javax.swing.JTable tb_inventario_granel_asignado1;
-    private javax.swing.JTable tb_inventario_normal_asignado;
     private javax.swing.JTable tb_inventario_normal_asignado1;
-    public javax.swing.JTable tb_objetos_asignables;
-    public javax.swing.JTable tb_objetos_asignados;
-    public javax.swing.JTable tb_objetos_asignados1;
-    public javax.swing.JTable tb_objetos_asignados3;
-    public javax.swing.JTable tb_objetos_entregados;
-    public javax.swing.JTable tb_objetos_entregados1;
-    public javax.swing.JTable tb_objetos_faltantes;
-    public javax.swing.JTable tb_objetos_faltantes1;
-    private javax.swing.JTable tb_producto_a_reemplazar;
     private javax.swing.JTable tb_producto_a_reemplazar1;
-    public javax.swing.JTextField tf_cantidad;
-    public javax.swing.JTextField tf_empleado;
-    public javax.swing.JTextField tf_empleado1;
-    public javax.swing.JTextField tf_empleado3;
-    public javax.swing.JTextField tf_pruducto_reemplazable;
-    public javax.swing.JTextField tf_pruducto_reemplazable1;
+    private javax.swing.JTextField tf_pruducto_reemplazable1;
     private javax.swing.JTextField txtBusqueda;
     private javax.swing.JTextField txtBusquedaUsuario;
     private javax.swing.JTextField txtBusquedaVehiculos;

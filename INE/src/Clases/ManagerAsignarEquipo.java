@@ -37,8 +37,8 @@ public class ManagerAsignarEquipo {
             table.addColumn("Modelo");
             
             //Consulta de los empleados
-            String sql = "select id_producto, nombre_prod, no_serie, modelo from inventario\n" +
-                         "where (nombre_prod = 'CPU' or nombre_prod = 'Monitor' or nombre_prod = 'Teclado')\n" +
+            String sql = "select id_producto, nombre_prod, no_serie, modelo from inventario " +
+                         "where (nombre_prod = 'CPU' or nombre_prod = 'Monitor' or nombre_prod = 'Teclado') " +
                          "and estatus = 'DISPONIBLE' order by nombre_prod;";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
@@ -77,10 +77,10 @@ public class ManagerAsignarEquipo {
             table.addColumn("Responsable");
             
             //Consulta de los equipos de computo
-            String sql = "select de_c.id_equipo,ic.id_producto,im.id_producto,it.id_producto,ec.ubicacion from detalles_equipo_computo de_c\n" +
-                         "inner join inventario ic on(ic.id_producto = de_c.id_cpu)\n" +
-                         "inner join inventario it on(it.id_producto = de_c.id_teclado)\n" +
-                         "inner join inventario im on(im.id_producto = de_c.id_monitor)\n" +
+            String sql = "select de_c.id_equipo,ic.id_producto,im.id_producto,it.id_producto,ec.ubicacion from detalles_equipo_computo de_c " +
+                         "inner join inventario ic on(ic.id_producto = de_c.id_cpu) " +
+                         "inner join inventario it on(it.id_producto = de_c.id_teclado) " +
+                         "inner join inventario im on(im.id_producto = de_c.id_monitor) " +
                          "inner join equipo_computo ec on(ec.id_equipo = de_c.id_equipo);";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
@@ -119,11 +119,11 @@ public class ManagerAsignarEquipo {
             table.addColumn("Responsable");
             
             //Consulta de los equipos de computo
-            String sql = "select de_c.id_equipo,ic.id_producto,im.id_producto,it.id_producto,ec.ubicacion from detalles_equipo_computo de_c\n" +
-                         "inner join inventario ic on(ic.id_producto = de_c.id_cpu)\n" +
-                         "inner join inventario it on(it.id_producto = de_c.id_teclado)\n" +
-                         "inner join inventario im on(im.id_producto = de_c.id_monitor)\n" +
-                         "inner join equipo_computo ec on(ec.id_equipo = de_c.id_equipo)\n" +
+            String sql = "select de_c.id_equipo,ic.id_producto,im.id_producto,it.id_producto,ec.ubicacion from detalles_equipo_computo de_c " +
+                         "inner join inventario ic on(ic.id_producto = de_c.id_cpu) " +
+                         "inner join inventario it on(it.id_producto = de_c.id_teclado) " +
+                         "inner join inventario im on(im.id_producto = de_c.id_monitor) " +
+                         "inner join equipo_computo ec on(ec.id_equipo = de_c.id_equipo) " +
                          "where ic.estatus = 'REEMPLAZO AUTORIZADO' or im.estatus = 'REEMPLAZO AUTORIZADO' or it.estatus = 'REEMPLAZO AUTORIZADO';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
@@ -165,7 +165,7 @@ public class ManagerAsignarEquipo {
             Object datos[] = new Object[4];
             
             //Obtenemos la info del CPU
-            String sql = "select id_producto, nombre_prod, no_serie, modelo from inventario\n" +
+            String sql = "select id_producto, nombre_prod, no_serie, modelo from inventario " +
                          "where id_producto = '"+Claves[0]+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
@@ -175,7 +175,7 @@ public class ManagerAsignarEquipo {
             table.addRow(datos);//Añadimos la fila del CPU
             
             //Obtenemos la info del Monitor
-            sql = "select id_producto, nombre_prod, no_serie, modelo from inventario\n" +
+            sql = "select id_producto, nombre_prod, no_serie, modelo from inventario " +
                          "where id_producto = '"+Claves[1]+"';";
             rs = st.executeQuery(sql);
             rs.next();
@@ -185,7 +185,7 @@ public class ManagerAsignarEquipo {
             table.addRow(datos);//Añadimos la fila del Monitor
             
             //Obtenemos la info del Teclado
-            sql = "select id_producto, nombre_prod, no_serie, modelo from inventario\n" +
+            sql = "select id_producto, nombre_prod, no_serie, modelo from inventario " +
                          "where id_producto = '"+Claves[2]+"';";
             rs = st.executeQuery(sql);
             rs.next();
@@ -360,7 +360,7 @@ public class ManagerAsignarEquipo {
             ResultSet rs;
 
             //Cambiamos el estatus del equipo seleccionado
-            String sql = "select id_producto, nombre_prod, no_serie, modelo from inventario\n" +
+            String sql = "select id_producto, nombre_prod, no_serie, modelo from inventario " +
                          "where id_producto = '"+clave+"';";
             rs = st.executeQuery(sql);
             rs.next();

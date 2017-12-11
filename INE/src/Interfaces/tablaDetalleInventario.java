@@ -8,9 +8,13 @@ package Interfaces;
 import javax.swing.JTable;
 import Clases.ManagerInventario;
 import Clases.ManagerSolicitud;
-import Clases.ManagerPermisos;
-
-import Interfaces.Principal;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -22,7 +26,6 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
     
     ManagerInventario manager_inventario;
     ManagerSolicitud manager_solicitud;
-    ManagerPermisos manager_permisos;
     
     public static String clave,producto,tipoSolicitud;
     
@@ -36,13 +39,15 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
         //Asignamos memoria al objeto
         manager_inventario = new ManagerInventario();
         manager_solicitud = new ManagerSolicitud();
-        manager_permisos = new ManagerPermisos();
         
         //Deshabilitamos el movimiento de los encabezados
         tablaCoincidencias.getTableHeader().setReorderingAllowed(false);
+        this.setLocationRelativeTo(null);
+        
         
     }
-
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,6 +70,9 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
         jLabel12 = new javax.swing.JLabel();
         txtBusquedaInventario = new javax.swing.JTextField();
         comboFiltroInventario = new javax.swing.JComboBox<>();
+        jPanel1 = new javax.swing.JPanel();
+        imagenProducto = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         Asignar.setText("Asignar...");
         Asignar.addActionListener(new java.awt.event.ActionListener() {
@@ -118,6 +126,8 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
             }
         });
 
+        pn_tablaCoincidencias.setLayout(null);
+
         tablaCoincidencias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -127,14 +137,27 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
             }
         ));
         tablaCoincidencias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaCoincidenciasMouseClicked(evt);
+            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tablaCoincidenciasMouseReleased(evt);
             }
         });
+        tablaCoincidencias.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tablaCoincidenciasKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaCoincidencias);
+
+        pn_tablaCoincidencias.add(jScrollPane1);
+        jScrollPane1.setBounds(10, 262, 847, 230);
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel12.setText("Busqueda por ");
+        pn_tablaCoincidencias.add(jLabel12);
+        jLabel12.setBounds(20, 10, 115, 22);
 
         txtBusquedaInventario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtBusquedaInventario.addActionListener(new java.awt.event.ActionListener() {
@@ -147,6 +170,8 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
                 txtBusquedaInventarioKeyReleased(evt);
             }
         });
+        pn_tablaCoincidencias.add(txtBusquedaInventario);
+        txtBusquedaInventario.setBounds(370, 10, 490, 30);
 
         comboFiltroInventario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboFiltroInventario.addActionListener(new java.awt.event.ActionListener() {
@@ -154,51 +179,39 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
                 comboFiltroInventarioActionPerformed(evt);
             }
         });
+        pn_tablaCoincidencias.add(comboFiltroInventario);
+        comboFiltroInventario.setBounds(140, 10, 210, 28);
 
-        javax.swing.GroupLayout pn_tablaCoincidenciasLayout = new javax.swing.GroupLayout(pn_tablaCoincidencias);
-        pn_tablaCoincidencias.setLayout(pn_tablaCoincidenciasLayout);
-        pn_tablaCoincidenciasLayout.setHorizontalGroup(
-            pn_tablaCoincidenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_tablaCoincidenciasLayout.createSequentialGroup()
-                .addGroup(pn_tablaCoincidenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pn_tablaCoincidenciasLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboFiltroInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtBusquedaInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 236, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
-                .addContainerGap())
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(imagenProducto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
         );
-        pn_tablaCoincidenciasLayout.setVerticalGroup(
-            pn_tablaCoincidenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_tablaCoincidenciasLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pn_tablaCoincidenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBusquedaInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12)
-                    .addComponent(comboFiltroInventario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(imagenProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
         );
+
+        pn_tablaCoincidencias.add(jPanel1);
+        jPanel1.setBounds(270, 50, 370, 200);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
+        pn_tablaCoincidencias.add(jLabel1);
+        jLabel1.setBounds(0, 0, 870, 510);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pn_tablaCoincidencias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(pn_tablaCoincidencias, javax.swing.GroupLayout.PREFERRED_SIZE, 870, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pn_tablaCoincidencias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(pn_tablaCoincidencias, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
         );
 
         pack();
@@ -220,6 +233,8 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
         comboFiltroInventario.addItem("Estatus");
         
         tablaCoincidencias.setModel(manager_inventario.getInventarioCoincidencias(Principal.prodInventario));
+        
+        
     }//GEN-LAST:event_formWindowOpened
 
     private void tablaCoincidenciasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCoincidenciasMouseReleased
@@ -234,26 +249,39 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
 
     private void AsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AsignarActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.update_asignacion(Principal.Username)){
-            int fila = tablaCoincidencias.getSelectedRow();
-
-            clave = tablaCoincidencias.getValueAt(fila, 0).toString();
-            String estado = manager_solicitud.estadoProducto(clave);
-
-            if(estado.equals("DISPONIBLE")){
-
-                producto = tablaCoincidencias.getValueAt(fila, 1).toString();
-                Ventana_EquipoComputo2 ob = new Ventana_EquipoComputo2(this,true);
-                ob.setVisible(true);
-
-            }else{
-                JOptionPane.showMessageDialog(null, "El producto se encuentra "+estado);
-            }
+        int fila = tablaCoincidencias.getSelectedRow();
+        
+        clave = tablaCoincidencias.getValueAt(fila, 0).toString();
+        String estado = manager_solicitud.estadoProducto(clave);
+        
+        if(estado.equals("DISPONIBLE")){
+            
+            producto = tablaCoincidencias.getValueAt(fila, 1).toString();
+            Ventana_EquipoComputo2 ob = new Ventana_EquipoComputo2(this,true);
+            ob.setVisible(true);
+            
         }else{
-            JOptionPane.showMessageDialog(null, "No tiene permisos para asignar un equipo");
+            JOptionPane.showMessageDialog(null, "El producto se encuentra "+estado);
         }
     }//GEN-LAST:event_AsignarActionPerformed
+    public void cargarImagen(String producto) throws IOException, SQLException {
+        
+        Image i = null;
+        i = javax.imageio.ImageIO.read(manager_inventario.leerImagen(producto).getBinaryStream());
+//        ImageIcon image = new ImageIcon(i);
+//        imagenVehiculo.setIcon(image);
+//        this.repaint();
+        try {
+            ImageIcon fot = new ImageIcon(i);
+            ImageIcon icono = new ImageIcon(fot.getImage().getScaledInstance(imagenProducto.getWidth(), imagenProducto.getHeight(), Image.SCALE_DEFAULT));
+            imagenProducto.setIcon(icono);
+            this.repaint();
+        } catch (java.lang.NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener la imagen del producto!", "Información!", JOptionPane.WARNING_MESSAGE);
 
+        }//catch
+               
+    }
     private void BajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BajaActionPerformed
         // TODO add your handling code here:
         
@@ -365,6 +393,26 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_ReemplazoActionPerformed
 
+    private void tablaCoincidenciasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCoincidenciasMouseClicked
+         // TODO add your handling code here:
+        metodoImagen();
+    }//GEN-LAST:event_tablaCoincidenciasMouseClicked
+
+    private void tablaCoincidenciasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaCoincidenciasKeyReleased
+        // TODO add your handling code here:
+        metodoImagen();
+    }//GEN-LAST:event_tablaCoincidenciasKeyReleased
+    public void metodoImagen() {
+        int fila = tablaCoincidencias.getSelectedRow();
+        System.err.println("" + tablaCoincidencias.getValueAt(fila, 0).toString());
+        try {
+            cargarImagen(tablaCoincidencias.getValueAt(fila, 0).toString());
+        } catch (IOException ex) {
+            Logger.getLogger(tablaDetalleInventario.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(tablaDetalleInventario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -419,7 +467,10 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
     private javax.swing.JMenuItem Reemplazo;
     private javax.swing.JMenu Solicitar;
     private javax.swing.JComboBox<String> comboFiltroInventario;
+    private javax.swing.JLabel imagenProducto;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pn_tablaCoincidencias;
     public static javax.swing.JTable tablaCoincidencias;

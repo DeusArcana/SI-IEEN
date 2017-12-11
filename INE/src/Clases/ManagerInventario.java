@@ -5,7 +5,12 @@
  */
 package Clases;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.sql.Blob;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -53,6 +58,42 @@ public class ManagerInventario {
         } 
         
     }//insertarEmpleado
+    
+    public boolean guardarImagen(String clave, String producto, String almacen, String marca,String noserie, String descripcion, String observaciones,String estatus,String tipo,String modelo,String color,String ruta) {
+        conexion = db.getConexion();
+        String insert = "insert into inventario (id_producto,nombre_prod,almacen,marca,no_serie,descripcion,observaciones,estatus,tipo_uso,modelo,color,imagen)values(?,?,?,?,?,?,?,?,?,?,?,?);";
+        FileInputStream fi = null;
+        PreparedStatement ps = null;
+
+        try {
+            File file = new File(ruta);
+            fi = new FileInputStream(file);
+
+            ps = conexion.prepareStatement(insert);
+
+            ps.setString(1, clave);
+            ps.setString(2, producto);
+            ps.setString(3, almacen);
+            ps.setString(4, marca);
+            ps.setString(5, noserie);
+            ps.setString(6, descripcion);
+            ps.setString(7, observaciones);
+            ps.setString(8, estatus);
+            ps.setString(9, tipo);
+            ps.setString(10, modelo);
+            ps.setString(11, color);
+            ps.setBinaryStream(12, fi);
+
+            ps.executeUpdate();
+
+            return true;
+           
+        } catch (Exception ex) {
+            System.out.println("Error al guardar Imagen " + ex.getMessage());
+            return false;
+
+        }
+    }
     
     public boolean existeInventarioG(String id_producto) {
 
@@ -478,7 +519,7 @@ public class ManagerInventario {
                     
                     //BUSQUEDA POR PRODUCTO
                     case 0:
-                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario\n" +
+                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario " +
                                 "where nombre_prod like '"+busqueda+"%' group by nombre_prod,marca;";
                         rs = st.executeQuery(sql);
                         estado = rs.next();
@@ -486,7 +527,7 @@ public class ManagerInventario {
 
                     //BUSQUEDA POR ALMACEN
                     case 1:
-                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario\n" +
+                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario " +
                                 "where almacen like '"+busqueda+"%' group by nombre_prod,marca;";
                         rs = st.executeQuery(sql);
                         estado = rs.next();
@@ -494,7 +535,7 @@ public class ManagerInventario {
                         
                     //BUSQUEDA POR MARCA
                     case 2:
-                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario\n" +
+                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario " +
                                 "where marca like '"+busqueda+"%' group by nombre_prod,marca;";
                         rs = st.executeQuery(sql);
                         estado = rs.next();
@@ -617,19 +658,19 @@ public class ManagerInventario {
                     
                     //BUSQUEDA POR PRODUCTO
                     case 0:
-                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario\n" +
+                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario " +
                                 "where nombre_prod like '"+busqueda+"%' group by nombre_prod,marca;";
                         break;
 
                     //BUSQUEDA POR ALMACEN
                     case 1:
-                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario\n" +
+                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario " +
                                 "where almacen like '"+busqueda+"%' group by nombre_prod,marca;";
                         break;
                         
                     //BUSQUEDA POR MARCA
                     case 2:
-                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario\n" +
+                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario " +
                                 "where marca like '"+busqueda+"%' group by nombre_prod,marca;";
                         break;
                 
@@ -711,5 +752,26 @@ public class ManagerInventario {
         }
 
     }//getInventario
+    
+    public Blob leerImagen(String idProducto) throws IOException {
+        conexion = db.getConexion();
+        //String sSql = "select imagen from inventario where id_producto = '"+idProducto+"';";
+        String sSql = "select imagen from inventario where id_producto = '"+idProducto+"';";
+        
+        PreparedStatement pst;
+        Blob blob = null;
+        try {
+            pst = conexion.prepareStatement(sSql);
+            ResultSet res = pst.executeQuery();
+            if (res.next()) {
+
+                blob = res.getBlob("imagen");
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerVehiculos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return blob;
+    }//leerImagen
     
 }//class
