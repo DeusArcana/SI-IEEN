@@ -1558,6 +1558,7 @@ public class Principal extends javax.swing.JFrame {
         });
 
         bt_tipo_inventario_asignable.add(rb_inventario_normal1);
+        rb_inventario_normal1.setSelected(true);
         rb_inventario_normal1.setText("Normal");
         rb_inventario_normal1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2027,7 +2028,7 @@ public class Principal extends javax.swing.JFrame {
             .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, 791, Short.MAX_VALUE)
         );
 
-        tabbedPrincipal.addTab("Manejo Kevin", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), manejo_inventario); // NOI18N
+        tabbedPrincipal.addTab("Manejador de inventario", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), manejo_inventario); // NOI18N
 
         jMenu1.setText("Archivo");
 
@@ -3712,7 +3713,7 @@ public class Principal extends javax.swing.JFrame {
         Claves = new String[1];
         Cantidad = new int[1];
         //Obtenemos la fila
-        int fila = tablaMAsignados.getSelectedRow();
+        int fila = tablaObjetosEntregados.getSelectedRow();
         
         //Obtenemos el idVale, la clave y cantidad
         IDVales[0] = Integer.parseInt(tablaObjetosEntregados.getValueAt(fila, 0).toString());
@@ -3727,12 +3728,12 @@ public class Principal extends javax.swing.JFrame {
             manejador_inventario.regresarRecoleccion(IDVales,Claves,Cantidad);
             //Eliminamos el registro de la tabla
             modeloObjetosEntregados.removeRow(fila);
+            tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
             JOptionPane.showMessageDialog(null, "Se cancelo la entrega del producto "+Claves[0]+".");
             //Vemos si queda mas de un producto
             if(modeloObjetosEntregados.getRowCount() == 0){
                 btnGenerarValeR.setEnabled(false);
             }
-            tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
         }//selecciono la opcion "Aceptar"
     }//GEN-LAST:event_CancelarEntregaActionPerformed
        

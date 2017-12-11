@@ -2319,8 +2319,8 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Manejo Kevin">
-                <Property name="tabTitle" type="java.lang.String" value="Manejo Kevin"/>
+              <JTabbedPaneConstraints tabName="Manejador de inventario">
+                <Property name="tabTitle" type="java.lang.String" value="Manejador de inventario"/>
                 <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Iconos/configuracion.png"/>
                 </Property>
@@ -2611,6 +2611,7 @@
                                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                                   <ComponentRef name="bt_tipo_inventario_asignable"/>
                                 </Property>
+                                <Property name="selected" type="boolean" value="true"/>
                                 <Property name="text" type="java.lang.String" value="Normal"/>
                               </Properties>
                               <Events>
