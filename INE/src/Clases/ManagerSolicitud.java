@@ -5,7 +5,10 @@
  */
 package Clases;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -475,5 +478,31 @@ public class ManagerSolicitud {
         } 
         return idProducto;
     }//Obtiene el estado del producto
+    
+    public boolean guardarImagenSolicitud(String idProducto, String ruta) {
+        conexion = db.getConexion();
+        String update = "update inventario set imagen = ? where id_producto = '"+idProducto+"'";
+       // String insert = "insert into inventario (id_producto,nombre_prod,almacen,marca,no_serie,descripcion,observaciones,estatus,tipo_uso,modelo,color,imagen)values(?,?,?,?,?,?,?,?,?,?,?,?);";
+        FileInputStream fi = null;
+        PreparedStatement ps = null;
+
+        try {
+            File file = new File(ruta);
+            fi = new FileInputStream(file);
+
+            ps = conexion.prepareStatement(update);
+
+            ps.setBinaryStream(1, fi);
+
+            ps.executeUpdate();
+
+            return true;
+           
+        } catch (Exception ex) {
+            System.out.println("Error al guardar Imagen " + ex.getMessage());
+            return false;
+
+        }
+    }
     
 }//class 

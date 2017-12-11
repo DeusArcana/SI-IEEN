@@ -8,12 +8,18 @@ package Interfaces;
 import javax.swing.JOptionPane;
 import Clases.ManagerSolicitud;
 import Clases.ManagerComplemento;
+import Clases.ManagerInventario;
 import Clases.ManagerPermisos;
 import static Interfaces.Principal.Username;
 import static Interfaces.Principal.tabbedPrincipal;
 import static Interfaces.Principal.tablaSolicitudes;
+import static Interfaces.tablaDetalleInventario.tablaCoincidencias;
 import java.awt.Image;
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 /**
@@ -24,6 +30,7 @@ public class ventana_AtenderSolicitud extends javax.swing.JDialog {
     ManagerSolicitud manager_solicitud;
     ManagerComplemento manager_complemento;
     ManagerPermisos manager_permisos;
+    ManagerInventario manager_inventario;
     
     String id_Producto;
     
@@ -37,6 +44,7 @@ public class ventana_AtenderSolicitud extends javax.swing.JDialog {
         manager_solicitud = new ManagerSolicitud();
         manager_complemento = new ManagerComplemento();
         manager_permisos = new ManagerPermisos();
+        manager_inventario = new ManagerInventario();
         
         campoRuta.setVisible(false);
         this.setLocationRelativeTo(null);
@@ -138,8 +146,11 @@ public class ventana_AtenderSolicitud extends javax.swing.JDialog {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
+        
         if(manager_solicitud.actualizar_Solicitud(Principal.idPendiente, Principal.estadoPendiente.toUpperCase())){
-            
+            if(manager_solicitud.guardarImagenSolicitud(id_Producto, campoRuta.getText())){
+                
+            }
             JOptionPane.showMessageDialog(null, "La solicitud "+Principal.idPendiente+" se atendio, paso de solicitud a pendiente "+Principal.estadoPendiente+".");
             tablaSolicitudes.setModel(manager_solicitud.tabla_Solicitudes(manager_permisos.verTablaSolicitudes(Username)));
                 int solicitud = manager_complemento.cantidadSolicitudes(manager_permisos.verTablaSolicitudes(Username));
@@ -185,8 +196,40 @@ public class ventana_AtenderSolicitud extends javax.swing.JDialog {
         // TODO add your handling code here:
         id_Producto = manager_solicitud.getProductoSolicitud(Principal.idPendiente);
         
+        
+        try {
+            metodoImagen();
+        } catch (IOException ex) {
+            Logger.getLogger(ventana_AtenderSolicitud.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ventana_AtenderSolicitud.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
     }//GEN-LAST:event_formWindowOpened
+    
+    public void metodoImagen() throws IOException, SQLException {
+        cargarImagen(id_Producto);
+    }
+    
+    public void cargarImagen(String producto) throws IOException, SQLException {
 
+        Image i = null;
+        i = javax.imageio.ImageIO.read(manager_inventario.leerImagen(producto).getBinaryStream());
+//        ImageIcon image = new ImageIcon(i);
+//        imagenVehiculo.setIcon(image);
+//        this.repaint();
+        try {
+            ImageIcon fot = new ImageIcon(i);
+            ImageIcon icono = new ImageIcon(fot.getImage().getScaledInstance(imagenProducto.getWidth(), imagenProducto.getHeight(), Image.SCALE_DEFAULT));
+            imagenProducto.setIcon(icono);
+            this.repaint();
+        } catch (java.lang.NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener la imagen del producto!", "Información!", JOptionPane.WARNING_MESSAGE);
+
+        }//catch
+
+    }
     /**
      * @param args the command line arguments
      */
