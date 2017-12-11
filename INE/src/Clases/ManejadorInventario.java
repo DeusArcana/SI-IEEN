@@ -449,4 +449,65 @@ public class ManejadorInventario {
         
     }//Regresa los productos de recoleccion a su estado orignal
     
+    public DefaultTableModel getInventarioEmpleadoAsignacionesPersonales(String usuario) {
+            DefaultTableModel table = new DefaultTableModel();
+
+        try {
+            table.addColumn("Clave");
+            table.addColumn("Producto");
+            table.addColumn("Descripción");
+            table.addColumn("Observaciones");
+            table.addColumn("Cantidad");
+            
+            //Obtiene los productos asignados de acuerdo al empleado (Inventario)
+            String sql = "select dv.id_producto, ig.nombre_prod,ig.descripcion,ig.observaciones,dv.cantidad from vales v " +
+                         "inner join detalle_vale dv on (dv.id_vale = v.id_vale) " +
+                         "inner join inventario_granel ig on (dv.id_producto = ig.id_productoGranel) " +
+                         "inner join user u on (u.id_user = v.id_user) " +
+                         "where u.id_user = '"+usuario+"';";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            Object datos[] = new Object[5];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<5;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+            }//while
+            
+            //Obtiene los productos asignados de acuerdo al empleado (Inventario a granel)
+            sql = "select dv.id_producto, ig.nombre_prod,ig.descripcion,ig.observaciones,dv.cantidad from vales v " +
+                         "inner join detalle_vale dv on (dv.id_vale = v.id_vale) " +
+                         "inner join inventario ig on (dv.id_producto = ig.id_producto) " +
+                         "inner join user u on (u.id_user = v.id_user) " +
+                         "where u.id_user = '"+usuario+"';";
+            conexion = db.getConexion();
+            rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<6;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+           }//while
+            
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error getTabla Inventario SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//getInventarioEmpleadoAsignacionesPersonales
+    
 }//class

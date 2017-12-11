@@ -25,6 +25,7 @@ import java.sql.Statement;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -47,6 +48,7 @@ public class PrincipalS extends javax.swing.JFrame {
      */
     public PrincipalS() {
         initComponents();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         //tablasolic.setModel(manager_soviaticos.getTasol()); 
         tablasolic.getTableHeader().setReorderingAllowed(false);
