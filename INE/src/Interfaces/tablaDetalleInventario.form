@@ -10,11 +10,17 @@
       <SubComponents>
         <MenuItem class="javax.swing.JMenuItem" name="Asignar">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Asignar..."/>
+            <Property name="text" type="java.lang.String" value="Reemplazar a un equipo de conjunto"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AsignarActionPerformed"/>
           </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="AsignarP">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Reemplazar una asignaci&#xf3;n personal"/>
+          </Properties>
         </MenuItem>
         <Menu class="javax.swing.JMenu" name="Solicitar">
           <Properties>

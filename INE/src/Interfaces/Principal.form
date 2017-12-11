@@ -37,6 +37,14 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PermisosActionPerformed"/>
           </Events>
         </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="ActualizarInfoU">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Refrescar tabla"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ActualizarInfoUActionPerformed"/>
+          </Events>
+        </MenuItem>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPopupMenu" name="MenuInventario">
@@ -51,6 +59,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AgregarStockActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="ActualizarInfoG">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Refrescar tabla"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ActualizarInfoGActionPerformed"/>
           </Events>
         </MenuItem>
       </SubComponents>
@@ -71,7 +87,7 @@
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="ActualizarInfo">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Actualizar informaci&#xf3;n"/>
+            <Property name="text" type="java.lang.String" value="Refrescar tabla"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ActualizarInfoActionPerformed"/>
@@ -115,18 +131,70 @@
             </MenuItem>
           </SubComponents>
         </Menu>
+        <MenuItem class="javax.swing.JMenuItem" name="ActualizarInfoV">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Refrescar tabla"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ActualizarInfoVActionPerformed"/>
+          </Events>
+        </MenuItem>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPopupMenu" name="MenuPersonal">
+    <Container class="javax.swing.JPopupMenu" name="MenuSolicitudesP">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
         <Property name="useNullLayout" type="boolean" value="true"/>
       </Layout>
       <SubComponents>
-        <MenuItem class="javax.swing.JMenuItem" name="CambiarContra">
+        <MenuItem class="javax.swing.JMenuItem" name="ActualizarInfoSP">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cambiar contrase&#xf1;a"/>
+            <Property name="text" type="java.lang.String" value="Refrescar tabla"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ActualizarInfoSPActionPerformed"/>
+          </Events>
+        </MenuItem>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPopupMenu" name="MenuPermisosP">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <MenuItem class="javax.swing.JMenuItem" name="ActualizarInfoPP">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Refrescar tabla"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ActualizarInfoPPActionPerformed"/>
+          </Events>
+        </MenuItem>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPopupMenu" name="MenuAsignacionP">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <MenuItem class="javax.swing.JMenuItem" name="Reemplazar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Solicitar reemplazo"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ReemplazarActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="ActualizarAsignacionP">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Refrescar tabla"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ActualizarAsignacionPActionPerformed"/>
+          </Events>
         </MenuItem>
       </SubComponents>
     </Container>
@@ -152,12 +220,12 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DenegarActionPerformed"/>
           </Events>
         </MenuItem>
-        <MenuItem class="javax.swing.JMenuItem" name="InfoPendiente">
+        <MenuItem class="javax.swing.JMenuItem" name="ActualizarPendientes">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Actualizar informaci&#xf3;n"/>
+            <Property name="text" type="java.lang.String" value="Refrescar tabla"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="InfoPendienteActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ActualizarPendientesActionPerformed"/>
           </Events>
         </MenuItem>
       </SubComponents>
@@ -200,6 +268,14 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EntregarParteActionPerformed"/>
           </Events>
         </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="ActualizarInfoReco">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Refrescar tabla"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ActualizarInfoRecoActionPerformed"/>
+          </Events>
+        </MenuItem>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPopupMenu" name="MenuEntregados">
@@ -233,31 +309,6 @@
     </Component>
     <Component class="javax.swing.ButtonGroup" name="bt_tipo_inventario_asignable">
     </Component>
-    <Container class="javax.swing.JPopupMenu" name="MenuAsignacionP">
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
-        <Property name="useNullLayout" type="boolean" value="true"/>
-      </Layout>
-      <SubComponents>
-        <MenuItem class="javax.swing.JMenuItem" name="Reemplazar">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Solicitar reemplazo"/>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ReemplazarActionPerformed"/>
-          </Events>
-        </MenuItem>
-        <MenuItem class="javax.swing.JMenuItem" name="ActualizarTabla">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Actualizar informaci&#xf3;n"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ActualizarTablaActionPerformed"/>
-          </Events>
-        </MenuItem>
-      </SubComponents>
-    </Container>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jMenu1">
@@ -1477,7 +1528,7 @@
         <Container class="javax.swing.JPanel" name="empleado">
           <Properties>
             <Property name="componentPopupMenu" type="javax.swing.JPopupMenu" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="MenuPersonal"/>
+              <ComponentRef name="MenuSolicitudesP"/>
             </Property>
           </Properties>
           <Constraints>
@@ -1945,6 +1996,9 @@
                                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                                 </Property>
                               </Properties>
+                              <Events>
+                                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaPermisosPersonalesMouseReleased"/>
+                              </Events>
                               <AuxValues>
                                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){return false; }  };"/>
                               </AuxValues>

@@ -59,6 +59,7 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
 
         MenuCoincidencias = new javax.swing.JPopupMenu();
         Asignar = new javax.swing.JMenuItem();
+        AsignarP = new javax.swing.JMenuItem();
         Solicitar = new javax.swing.JMenu();
         Baja = new javax.swing.JMenuItem();
         Comodato = new javax.swing.JMenuItem();
@@ -74,13 +75,17 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
         imagenProducto = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
-        Asignar.setText("Asignar...");
+        Asignar.setText("Reemplazar a un equipo de conjunto");
+        Asignar.setToolTipText("");
         Asignar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AsignarActionPerformed(evt);
             }
         });
         MenuCoincidencias.add(Asignar);
+
+        AsignarP.setText("Reemplazar una asignación personal");
+        MenuCoincidencias.add(AsignarP);
 
         Solicitar.setText("Solicitar...");
 
@@ -460,6 +465,7 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Asignar;
+    private javax.swing.JMenuItem AsignarP;
     private javax.swing.JMenuItem Baja;
     private javax.swing.JMenuItem Comodato;
     private javax.swing.JMenuItem Donación;

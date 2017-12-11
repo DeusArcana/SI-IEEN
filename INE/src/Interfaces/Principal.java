@@ -179,8 +179,10 @@ public class Principal extends javax.swing.JFrame {
         Actualizar = new javax.swing.JMenuItem();
         Promover = new javax.swing.JMenuItem();
         Permisos = new javax.swing.JMenuItem();
+        ActualizarInfoU = new javax.swing.JMenuItem();
         MenuInventario = new javax.swing.JPopupMenu();
         AgregarStock = new javax.swing.JMenuItem();
+        ActualizarInfoG = new javax.swing.JMenuItem();
         MenuSolicitudes = new javax.swing.JPopupMenu();
         Atender = new javax.swing.JMenuItem();
         ActualizarInfo = new javax.swing.JMenuItem();
@@ -190,26 +192,30 @@ public class Principal extends javax.swing.JFrame {
         SolictarMas = new javax.swing.JMenu();
         SolicitarBaja = new javax.swing.JMenuItem();
         Servicio = new javax.swing.JMenuItem();
-        MenuPersonal = new javax.swing.JPopupMenu();
-        CambiarContra = new javax.swing.JMenuItem();
+        ActualizarInfoV = new javax.swing.JMenuItem();
+        MenuSolicitudesP = new javax.swing.JPopupMenu();
+        ActualizarInfoSP = new javax.swing.JMenuItem();
+        MenuPermisosP = new javax.swing.JPopupMenu();
+        ActualizarInfoPP = new javax.swing.JMenuItem();
+        MenuAsignacionP = new javax.swing.JPopupMenu();
+        Reemplazar = new javax.swing.JMenuItem();
+        ActualizarAsignacionP = new javax.swing.JMenuItem();
         MenuPendientes = new javax.swing.JPopupMenu();
         Autorizar = new javax.swing.JMenuItem();
         Denegar = new javax.swing.JMenuItem();
-        InfoPendiente = new javax.swing.JMenuItem();
+        ActualizarPendientes = new javax.swing.JMenuItem();
         MenuAsginados = new javax.swing.JPopupMenu();
         CancelarA = new javax.swing.JMenuItem();
         MenuRecoleccion = new javax.swing.JPopupMenu();
         EntregarTodo = new javax.swing.JMenuItem();
         EntregarParte = new javax.swing.JMenuItem();
+        ActualizarInfoReco = new javax.swing.JMenuItem();
         MenuEntregados = new javax.swing.JPopupMenu();
         UpdateInfo = new javax.swing.JMenuItem();
         CancelarEntrega = new javax.swing.JMenuItem();
         Grupo1 = new javax.swing.ButtonGroup();
         bg_manejo_inventario = new javax.swing.ButtonGroup();
         bt_tipo_inventario_asignable = new javax.swing.ButtonGroup();
-        MenuAsignacionP = new javax.swing.JPopupMenu();
-        Reemplazar = new javax.swing.JMenuItem();
-        ActualizarTabla = new javax.swing.JMenuItem();
         tabbedPrincipal = new javax.swing.JTabbedPane();
         pestañaInventario = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -394,6 +400,14 @@ public class Principal extends javax.swing.JFrame {
         });
         MenuUsuarios.add(Permisos);
 
+        ActualizarInfoU.setText("Refrescar tabla");
+        ActualizarInfoU.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarInfoUActionPerformed(evt);
+            }
+        });
+        MenuUsuarios.add(ActualizarInfoU);
+
         AgregarStock.setText("Actualizar stock");
         AgregarStock.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -401,6 +415,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MenuInventario.add(AgregarStock);
+
+        ActualizarInfoG.setText("Refrescar tabla");
+        ActualizarInfoG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarInfoGActionPerformed(evt);
+            }
+        });
+        MenuInventario.add(ActualizarInfoG);
 
         Atender.setText("Atender...");
         Atender.addActionListener(new java.awt.event.ActionListener() {
@@ -410,7 +432,7 @@ public class Principal extends javax.swing.JFrame {
         });
         MenuSolicitudes.add(Atender);
 
-        ActualizarInfo.setText("Actualizar información");
+        ActualizarInfo.setText("Refrescar tabla");
         ActualizarInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ActualizarInfoActionPerformed(evt);
@@ -439,8 +461,46 @@ public class Principal extends javax.swing.JFrame {
 
         MenuVehiculos.add(SolictarMas);
 
-        CambiarContra.setText("Cambiar contraseña");
-        MenuPersonal.add(CambiarContra);
+        ActualizarInfoV.setText("Refrescar tabla");
+        ActualizarInfoV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarInfoVActionPerformed(evt);
+            }
+        });
+        MenuVehiculos.add(ActualizarInfoV);
+
+        ActualizarInfoSP.setText("Refrescar tabla");
+        ActualizarInfoSP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarInfoSPActionPerformed(evt);
+            }
+        });
+        MenuSolicitudesP.add(ActualizarInfoSP);
+
+        ActualizarInfoPP.setText("Refrescar tabla");
+        ActualizarInfoPP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarInfoPPActionPerformed(evt);
+            }
+        });
+        MenuPermisosP.add(ActualizarInfoPP);
+
+        Reemplazar.setText("Solicitar reemplazo");
+        Reemplazar.setToolTipText("");
+        Reemplazar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReemplazarActionPerformed(evt);
+            }
+        });
+        MenuAsignacionP.add(Reemplazar);
+
+        ActualizarAsignacionP.setText("Refrescar tabla");
+        ActualizarAsignacionP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarAsignacionPActionPerformed(evt);
+            }
+        });
+        MenuAsignacionP.add(ActualizarAsignacionP);
 
         Autorizar.setText("Autorizar");
         Autorizar.addActionListener(new java.awt.event.ActionListener() {
@@ -458,13 +518,13 @@ public class Principal extends javax.swing.JFrame {
         });
         MenuPendientes.add(Denegar);
 
-        InfoPendiente.setText("Actualizar información");
-        InfoPendiente.addActionListener(new java.awt.event.ActionListener() {
+        ActualizarPendientes.setText("Refrescar tabla");
+        ActualizarPendientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InfoPendienteActionPerformed(evt);
+                ActualizarPendientesActionPerformed(evt);
             }
         });
-        MenuPendientes.add(InfoPendiente);
+        MenuPendientes.add(ActualizarPendientes);
 
         CancelarA.setText("Cancelar");
         CancelarA.addActionListener(new java.awt.event.ActionListener() {
@@ -490,6 +550,14 @@ public class Principal extends javax.swing.JFrame {
         });
         MenuRecoleccion.add(EntregarParte);
 
+        ActualizarInfoReco.setText("Refrescar tabla");
+        ActualizarInfoReco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarInfoRecoActionPerformed(evt);
+            }
+        });
+        MenuRecoleccion.add(ActualizarInfoReco);
+
         UpdateInfo.setText("Actualizar");
         UpdateInfo.setToolTipText("");
         UpdateInfo.addActionListener(new java.awt.event.ActionListener() {
@@ -506,23 +574,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MenuEntregados.add(CancelarEntrega);
-
-        Reemplazar.setText("Solicitar reemplazo");
-        Reemplazar.setToolTipText("");
-        Reemplazar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ReemplazarActionPerformed(evt);
-            }
-        });
-        MenuAsignacionP.add(Reemplazar);
-
-        ActualizarTabla.setText("Actualizar información");
-        ActualizarTabla.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarTablaActionPerformed(evt);
-            }
-        });
-        MenuAsignacionP.add(ActualizarTabla);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Sistema Integral - Instituto Estatal Electoral de Nayarit");
@@ -1033,7 +1084,7 @@ public class Principal extends javax.swing.JFrame {
 
         tabbedPrincipal.addTab("Solicitudes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/vehiculos.png")), solicitudes); // NOI18N
 
-        empleado.setComponentPopupMenu(MenuPersonal);
+        empleado.setComponentPopupMenu(MenuSolicitudesP);
 
         jPanel9.setLayout(null);
 
@@ -1145,6 +1196,11 @@ public class Principal extends javax.swing.JFrame {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        tablaPermisosPersonales.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablaPermisosPersonalesMouseReleased(evt);
             }
         });
         jScrollPane9.setViewportView(tablaPermisosPersonales);
@@ -2292,10 +2348,46 @@ public class Principal extends javax.swing.JFrame {
 
     private void ActualizarInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoActionPerformed
         // TODO add your handling code here:
+        /*
+            14 -> todos los tipos de solicitud
+            13 -> baja, donación y comodato
+            12 -> baja, donación y reemplazo
+            11 -> baja, comodato y reemplazo
+            10 -> baja y donación 
+            9 -> baja y comodato
+            8 -> baja y reemplazo
+            7 -> reemplazo y comodato
+            6 -> reemplazo y donación
+            5 -> comodato y donación
+            4 -> baja
+            3 -> comodato
+            2 -> donación
+            1 -> reemplazo
+            0 -> ningun permiso
+        */
+        
         if(manager_permisos.verTablaSolicitudes(Username) == 0){
-                tabbedPrincipal.removeTabAt(3);//Eliminamos la pestaña 
+                tabbedPrincipal.removeTabAt(3);//Eliminamos la pestaña
+                pestañas++;
         }else{
-            tablaSolicitudes.setModel(manager_solicitud.tabla_Solicitudes(manager_permisos.verTablaSolicitudes(Username)));
+            if(!(manager_permisos.esPresidencia(Username))){
+                
+                tablaSolicitudes.setModel(manager_solicitud.tabla_Solicitudes(manager_permisos.verTablaSolicitudes(Username)));
+                int solicitud = manager_complemento.cantidadSolicitudes(manager_permisos.verTablaSolicitudes(Username));
+                if(solicitud > 0){
+                    tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
+                }//if cantidad
+                
+            }//if esPresidencia
+            else{
+                tabbedPrincipal.setTitleAt(3, "Pendientes");//Le damos el nombre a esa pestaña
+                tablaSolicitudes.setModel(manager_solicitud.tabla_Pendientes());
+                int pendientes = manager_complemento.cantidadPendientes();
+                if(pendientes > 0){
+                    tabbedPrincipal.setTitleAt(3, "Pendientes ("+pendientes+")");//Le damos el nombre a esa pestaña
+                }//if cantidad
+                
+            }
         }
     }//GEN-LAST:event_ActualizarInfoActionPerformed
     public void metodoVehiculos(){
@@ -2387,16 +2479,50 @@ public class Principal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_mi_viaticosActionPerformed
 
-    private void InfoPendienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InfoPendienteActionPerformed
+    private void ActualizarPendientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarPendientesActionPerformed
         // TODO add your handling code here:
+        /*
+            14 -> todos los tipos de solicitud
+            13 -> baja, donación y comodato
+            12 -> baja, donación y reemplazo
+            11 -> baja, comodato y reemplazo
+            10 -> baja y donación 
+            9 -> baja y comodato
+            8 -> baja y reemplazo
+            7 -> reemplazo y comodato
+            6 -> reemplazo y donación
+            5 -> comodato y donación
+            4 -> baja
+            3 -> comodato
+            2 -> donación
+            1 -> reemplazo
+            0 -> ningun permiso
+        */
         
-        tablaSolicitudes.setModel(manager_solicitud.tabla_Pendientes());
-        int pendientes = manager_complemento.cantidadPendientes();
-        if(pendientes > 0){
-            tabbedPrincipal.setTitleAt(3, "Pendientes ("+pendientes+")");//Le damos el nombre a esa pestaña
-        }//if cantidad
-        
-    }//GEN-LAST:event_InfoPendienteActionPerformed
+        if(manager_permisos.verTablaSolicitudes(Username) == 0){
+                tabbedPrincipal.removeTabAt(3);//Eliminamos la pestaña
+                pestañas++;
+        }else{
+            if(!(manager_permisos.esPresidencia(Username))){
+                
+                tablaSolicitudes.setModel(manager_solicitud.tabla_Solicitudes(manager_permisos.verTablaSolicitudes(Username)));
+                int solicitud = manager_complemento.cantidadSolicitudes(manager_permisos.verTablaSolicitudes(Username));
+                if(solicitud > 0){
+                    tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
+                }//if cantidad
+                
+            }//if esPresidencia
+            else{
+                tabbedPrincipal.setTitleAt(3, "Pendientes");//Le damos el nombre a esa pestaña
+                tablaSolicitudes.setModel(manager_solicitud.tabla_Pendientes());
+                int pendientes = manager_complemento.cantidadPendientes();
+                if(pendientes > 0){
+                    tabbedPrincipal.setTitleAt(3, "Pendientes ("+pendientes+")");//Le damos el nombre a esa pestaña
+                }//if cantidad
+                
+            }
+        }        
+    }//GEN-LAST:event_ActualizarPendientesActionPerformed
 
     private void AutorizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AutorizarActionPerformed
         // TODO add your handling code here:
@@ -3140,6 +3266,13 @@ public class Principal extends javax.swing.JFrame {
 
     private void tablaSolicitudesPersonalMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaSolicitudesPersonalMouseReleased
         // TODO add your handling code here:
+        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+        if(SwingUtilities.isRightMouseButton(evt)){
+            int r = tablaSolicitudesPersonal.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablaSolicitudesPersonal.getRowCount())
+            tablaSolicitudesPersonal.setRowSelectionInterval(r, r);
+            MenuSolicitudesP.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
     }//GEN-LAST:event_tablaSolicitudesPersonalMouseReleased
 
     private void btnAñadirResguardoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirResguardoActionPerformed
@@ -3385,31 +3518,14 @@ public class Principal extends javax.swing.JFrame {
 
     private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
         // TODO add your handling code here:
-        //Llenamos la tabla del inventario
-        int filtro = comboFiltro.getSelectedIndex();
-        String inventario = comboInventario.getSelectedItem().toString();
-        String busqueda = txtBusqueda.getText();
+        if(manager_permisos.consulta_inventario(Username)){
+            //Llenamos la tabla del inventario
+            int filtro = comboFiltro.getSelectedIndex();
+            String inventario = comboInventario.getSelectedItem().toString();
+            String busqueda = txtBusqueda.getText();
 
-        //Si no hay nada en el campo entonces buscamos todos los productos del inventario o inventario a granel
-        if(busqueda.equals("")){
-
-            if(inventario.equals("Inventario")){
-                tablaInventario.setModel(manager_inventario.getInventario(filtro));
-            }
-            else{
-                tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
-            }
-        }//if
-
-        else{
-
-            //Si hay coincidencias entonces muestra
-            if(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario)){
-                tablaInventario.setModel(manager_inventario.getInventarioEspecifico(filtro, busqueda, inventario));
-            }//if
-
-            //Si no hay coincidecnias entonces mostramos el inventario o el inventario a granel
-            else{
+            //Si no hay nada en el campo entonces buscamos todos los productos del inventario o inventario a granel
+            if(busqueda.equals("")){
 
                 if(inventario.equals("Inventario")){
                     tablaInventario.setModel(manager_inventario.getInventario(filtro));
@@ -3417,10 +3533,32 @@ public class Principal extends javax.swing.JFrame {
                 else{
                     tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
                 }
+            }//if
 
-            }//Segundo else
+            else{
 
-        }//Primer else
+                //Si hay coincidencias entonces muestra
+                if(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario)){
+                    tablaInventario.setModel(manager_inventario.getInventarioEspecifico(filtro, busqueda, inventario));
+                }//if
+
+                //Si no hay coincidecnias entonces mostramos el inventario o el inventario a granel
+                else{
+
+                    if(inventario.equals("Inventario")){
+                        tablaInventario.setModel(manager_inventario.getInventario(filtro));
+                    }
+                    else{
+                        tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
+                    }
+
+                }//Segundo else
+
+            }//Primer else
+        }//if de consulta de inventario
+        else{
+        
+        }
     }//GEN-LAST:event_txtBusquedaKeyReleased
 
     private void comboInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboInventarioActionPerformed
@@ -3557,9 +3695,10 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ReemplazarActionPerformed
 
-    private void ActualizarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarTablaActionPerformed
+    private void ActualizarAsignacionPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarAsignacionPActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ActualizarTablaActionPerformed
+        tablaAsignacionPersonal.setModel(manejador_inventario.getInventarioEmpleadoAsignacionesPersonales(Username));
+    }//GEN-LAST:event_ActualizarAsignacionPActionPerformed
 
     private void tablaAsignacionPersonalMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAsignacionPersonalMouseReleased
         // TODO add your handling code here:
@@ -3571,6 +3710,95 @@ public class Principal extends javax.swing.JFrame {
             MenuAsignacionP.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
         }//clic derecho
     }//GEN-LAST:event_tablaAsignacionPersonalMouseReleased
+
+    private void ActualizarInfoGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoGActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.consulta_inventario(Username)){
+            //Llenamos la tabla del inventario
+            int filtro = comboFiltro.getSelectedIndex();
+            String inventario = comboInventario.getSelectedItem().toString();
+            String busqueda = txtBusqueda.getText();
+
+            //Si no hay nada en el campo entonces buscamos todos los productos del inventario o inventario a granel
+            if(busqueda.equals("")){
+
+                if(inventario.equals("Inventario")){
+                    tablaInventario.setModel(manager_inventario.getInventario(filtro));
+                }
+                else{
+                    tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
+                }
+            }//if
+
+            else{
+
+                //Si hay coincidencias entonces muestra
+                if(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario)){
+                    tablaInventario.setModel(manager_inventario.getInventarioEspecifico(filtro, busqueda, inventario));
+                }//if
+
+                //Si no hay coincidecnias entonces mostramos el inventario o el inventario a granel
+                else{
+
+                    if(inventario.equals("Inventario")){
+                        tablaInventario.setModel(manager_inventario.getInventario(filtro));
+                    }
+                    else{
+                        tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
+                    }
+
+                }//Segundo else
+
+            }//Primer else
+        }//if de la consulta de inventario
+        else{
+        
+        }
+    }//GEN-LAST:event_ActualizarInfoGActionPerformed
+
+    private void ActualizarInfoUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoUActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.consulta_user(Username)){
+            tablaUsuarios.setModel(manager_users.getEmpleados(Username));
+        }else{
+            JOptionPane.showMessageDialog(null, "Te han revocado los permisos para la consulta de empleados");
+        }
+    }//GEN-LAST:event_ActualizarInfoUActionPerformed
+
+    private void ActualizarInfoVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoVActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.consulta_vehiculos(Username)){
+            tablaVehiculos.setModel(managerVehiculos.getVehiculos());
+        }else{
+            JOptionPane.showMessageDialog(null, "Te han revocado los permisos para la consulta de vehiculos");
+        }
+    }//GEN-LAST:event_ActualizarInfoVActionPerformed
+
+    private void ActualizarInfoSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoSPActionPerformed
+        // TODO add your handling code here:
+        tablaSolicitudesPersonal.setModel(manager_solicitud.tabla_Solicitudes_Personales(Username));
+    }//GEN-LAST:event_ActualizarInfoSPActionPerformed
+
+    private void ActualizarInfoPPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoPPActionPerformed
+        // TODO add your handling code here:
+        tablaPermisosPersonales.setModel(manager_permisos.getPermisos(tablaPermisosPersonales,Username));
+    }//GEN-LAST:event_ActualizarInfoPPActionPerformed
+
+    private void tablaPermisosPersonalesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPermisosPersonalesMouseReleased
+        // TODO add your handling code here:
+        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+        if(SwingUtilities.isRightMouseButton(evt)){
+            int r = tablaPermisosPersonales.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablaPermisosPersonales.getRowCount())
+            tablaPermisosPersonales.setRowSelectionInterval(r, r);
+            MenuPermisosP.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
+    }//GEN-LAST:event_tablaPermisosPersonalesMouseReleased
+
+    private void ActualizarInfoRecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoRecoActionPerformed
+        // TODO add your handling code here:
+        tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
+    }//GEN-LAST:event_ActualizarInfoRecoActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -3700,15 +3928,21 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Actualizar;
+    private javax.swing.JMenuItem ActualizarAsignacionP;
     private javax.swing.JMenuItem ActualizarInfo;
-    private javax.swing.JMenuItem ActualizarTabla;
+    private javax.swing.JMenuItem ActualizarInfoG;
+    private javax.swing.JMenuItem ActualizarInfoPP;
+    private javax.swing.JMenuItem ActualizarInfoReco;
+    private javax.swing.JMenuItem ActualizarInfoSP;
+    private javax.swing.JMenuItem ActualizarInfoU;
+    private javax.swing.JMenuItem ActualizarInfoV;
+    private javax.swing.JMenuItem ActualizarPendientes;
     private javax.swing.JMenuItem ActualizarV;
     private javax.swing.JMenuItem AgregarStock;
     private javax.swing.JMenuItem Asignar;
     private javax.swing.JMenuItem AsignarV;
     private javax.swing.JMenuItem Atender;
     private javax.swing.JMenuItem Autorizar;
-    private javax.swing.JMenuItem CambiarContra;
     private javax.swing.JMenuItem CancelarA;
     private javax.swing.JMenuItem CancelarEntrega;
     private javax.swing.JMenuItem Denegar;
@@ -3717,16 +3951,16 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem EntregarTodo;
     private javax.swing.JMenuItem Equipos;
     private javax.swing.ButtonGroup Grupo1;
-    private javax.swing.JMenuItem InfoPendiente;
     private javax.swing.JPopupMenu MenuAsginados;
     private javax.swing.JPopupMenu MenuAsignacionP;
     private javax.swing.JPopupMenu MenuEntregados;
     private javax.swing.JPopupMenu MenuInventario;
     private javax.swing.JPopupMenu MenuPendientes;
-    private javax.swing.JPopupMenu MenuPersonal;
+    private javax.swing.JPopupMenu MenuPermisosP;
     private javax.swing.JPopupMenu MenuRecoleccion;
     private javax.swing.JMenuItem MenuSolicitud;
     private javax.swing.JPopupMenu MenuSolicitudes;
+    private javax.swing.JPopupMenu MenuSolicitudesP;
     private javax.swing.JPopupMenu MenuUsuarios;
     private javax.swing.JPopupMenu MenuVehiculos;
     private javax.swing.JMenuItem Permisos;
