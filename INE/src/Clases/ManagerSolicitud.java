@@ -165,6 +165,25 @@ public class ManagerSolicitud {
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } 
         
+    }//Obtiene todas los tipos de solicitud y las mete al combobox
+    
+    public void getComboVale(JComboBox combo) {
+        try{
+           
+            String sql = "select * from tipovale;";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                combo.addItem(rs.getObject(1).toString());
+            }
+            
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los puestos para ingresarlos al combo SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
     }//Obtiene todas los puestos y las mete al combobox
     
     public DefaultTableModel tabla_Solicitudes(int permiso) {
@@ -363,7 +382,7 @@ public class ManagerSolicitud {
                             "inner join user u on (u.id_user = s.id_user) " +
                             "inner join empleados e on (e.id_empleado = u.id_empleado) " +
                             "inner join inventario i on (i.id_producto = ds.id_producto) "+ 
-                            "where s.estado = 'PENDIENTE' order by s.fecha_solicitud;";
+                            "where s.estado = 'PENDIENTE' or s.estado = 'PENDIENTE PERSONAL' order by s.fecha_solicitud;";
             Statement st = conexion.createStatement();
             Object datos[] = new Object[7];
             ResultSet rs = st.executeQuery(sql);

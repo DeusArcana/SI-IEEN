@@ -10,6 +10,7 @@ import Clases.ManagerPermisos;
 import Clases.Validaciones;
 
 import Interfaces.Principal;
+import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
 import java.net.URL;
@@ -87,7 +88,7 @@ public class addInventario extends javax.swing.JDialog {
         txtModelo = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         txtColor = new javax.swing.JTextField();
-        comboProducto = new javax.swing.JComboBox<>();
+        comboProducto = new javax.swing.JComboBox<String>();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         cb_almacen = new javax.swing.JComboBox();
@@ -113,9 +114,15 @@ public class addInventario extends javax.swing.JDialog {
         jLabel1.setBounds(50, 10, 38, 17);
 
         txtClave.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtClave.setToolTipText("Ejemplo CMP00000001");
         txtClave.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtClaveFocusLost(evt);
+            }
+        });
+        txtClave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtClaveActionPerformed(evt);
             }
         });
         pn_addInventario.add(txtClave);
@@ -142,6 +149,7 @@ public class addInventario extends javax.swing.JDialog {
         jLabel5.setBounds(40, 130, 41, 17);
 
         txtMarca.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtMarca.setToolTipText("Ingrese marca en forma alfanumérica. Ejemplo: Dell, Toshiba, etc");
         txtMarca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMarcaActionPerformed(evt);
@@ -153,6 +161,7 @@ public class addInventario extends javax.swing.JDialog {
         txtAreaDescripcion.setColumns(20);
         txtAreaDescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtAreaDescripcion.setRows(5);
+        txtAreaDescripcion.setToolTipText("Ejemplo: Producto con propiedades termodinámicas.");
         jScrollPane1.setViewportView(txtAreaDescripcion);
 
         pn_addInventario.add(jScrollPane1);
@@ -161,6 +170,7 @@ public class addInventario extends javax.swing.JDialog {
         txtAreaObservaciones.setColumns(20);
         txtAreaObservaciones.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtAreaObservaciones.setRows(5);
+        txtAreaObservaciones.setToolTipText("Ejemplo: Ninguna");
         jScrollPane2.setViewportView(txtAreaObservaciones);
 
         pn_addInventario.add(jScrollPane2);
@@ -177,6 +187,7 @@ public class addInventario extends javax.swing.JDialog {
         jLabel8.setBounds(30, 170, 53, 17);
 
         txtNoSerie.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtNoSerie.setToolTipText("Ejemplo 55ACD612");
         txtNoSerie.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNoSerieActionPerformed(evt);
@@ -195,6 +206,7 @@ public class addInventario extends javax.swing.JDialog {
         jLabel9.setBounds(10, 210, 76, 17);
 
         txtTipoUso.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtTipoUso.setToolTipText("Ingrese tipo de uso de forma alfanimérica, no deje sin datos");
         txtTipoUso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTipoUsoActionPerformed(evt);
@@ -209,6 +221,7 @@ public class addInventario extends javax.swing.JDialog {
         jLabel10.setBounds(40, 250, 48, 17);
 
         txtModelo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtModelo.setText("Ingrese modelo de forma alfanumérica, no dejar en blanco. Ejemplo: Pavilion DV6");
         txtModelo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtModeloActionPerformed(evt);
@@ -223,6 +236,7 @@ public class addInventario extends javax.swing.JDialog {
         jLabel11.setBounds(50, 290, 37, 17);
 
         txtColor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtColor.setText("Ingrese color de forma alfanumérica. Ejemplo: Rojo");
         txtColor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtColorActionPerformed(evt);
@@ -232,7 +246,7 @@ public class addInventario extends javax.swing.JDialog {
         txtColor.setBounds(110, 280, 215, 30);
 
         comboProducto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        comboProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CPU", "Monitor", "Teclado" }));
+        comboProducto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "CPU", "Monitor", "Teclado" }));
         pn_addInventario.add(comboProducto);
         comboProducto.setBounds(110, 40, 110, 30);
 
@@ -312,28 +326,34 @@ public class addInventario extends javax.swing.JDialog {
     }//GEN-LAST:event_txtNoSerieActionPerformed
 
     public boolean getInfo(){
-        //if(Validaciones.validarClave_añadirInventarioNormal(txtClave.getText())){
-        clave = txtClave.getText();
-    //}else{JOptionPane.showMessageDialog(null, "Clave no cumple con requerimientos.");return false;}
-        producto = comboProducto.getSelectedItem().toString();
-        almacen = cb_almacen.getSelectedItem().toString();
-        marca = txtMarca.getText();
-        
-        //if(Validaciones.validarLongitudCadenaAlfanumerica(txtNoSerie.getText(), 8)){
-            noserie = txtNoSerie.getText();
-        //}else{
-        //    JOptionPane.showMessageDialog(null, "No Serie no cumple con requerimientos.");
-        //    return false;
-        //}
-        
-        descripcion = txtAreaDescripcion.getText();
-        observaciones = txtAreaObservaciones.getText();
-        tipo = txtTipoUso.getText();
-        modelo = txtModelo.getText();
-        color = txtColor.getText();
+        int caracteres_faltantes=0;
+        caracteres_faltantes=(txtClave.getText().length());
+        if(Validaciones.validateClaveInventario(txtClave.getText())){clave = txtClave.getText();}else{JOptionPane.showMessageDialog(null, "Clave no cumple con requerimientos faltan "+(11-caracteres_faltantes)+" caracteres\n Formato: CMP00000001");return false;}
+        if(Validaciones.validateAlphanumeric(comboProducto.getSelectedItem().toString(), 1, 49)){producto = comboProducto.getSelectedItem().toString();}else{JOptionPane.showMessageDialog(null, "Nombre de producto incorrecto.");return false;}
+        cb_almacen.getSelectedItem().toString();
+        if(!txtMarca.getText().isEmpty()){marca = txtMarca.getText();}else{JOptionPane.showMessageDialog(null, "Nombre de marca incorrecto.");return false;}
+        caracteres_faltantes=txtNoSerie.getText().length();
+        if(Validaciones.validateAlphanumeric(txtNoSerie.getText(), 8, 25)){noserie = txtNoSerie.getText();}else{JOptionPane.showMessageDialog(null, "Numero de serie incorrecto se necesitan a menos 8 digits fatan "+(8-caracteres_faltantes)+" caracteres\n Formato: 55ACD612");return false;}
+        if(Validaciones.validateAlphanumericWithSpacing(txtTipoUso.getText(),1,99)){tipo = txtTipoUso.getText();}else{JOptionPane.showMessageDialog(null, "Tipo de uso serie incorrecto.");return false;}
+        if(Validaciones.validateAlphanumericWithSpacing(txtModelo.getText(),1,99)){modelo = txtModelo.getText();}else{JOptionPane.showMessageDialog(null, "Modelo mal capturado.");return false;}
+        if(Validaciones.validateAlphanumeric(txtColor.getText(), 1, 29)){color = txtColor.getText();}else{JOptionPane.showMessageDialog(null, "Color mal capturado.");return false;}
+        if(Validaciones.validateAlphanumericWithSpacing(txtAreaObservaciones.getText(), 0, 299)){observaciones = txtAreaObservaciones.getText();}else{JOptionPane.showMessageDialog(null, "Descripcion no cumple los criterios.");return false;}
+        if(Validaciones.validateAlphanumericWithSpacing(txtAreaDescripcion.getText(),0,499)){descripcion = txtAreaDescripcion.getText();}else{JOptionPane.showMessageDialog(null, "Observaciones no cumple los criterios.");return false;}
         imagen = campoRuta.getText();
         return true;
     }//getInfo
+    
+    public void clearCampos(){
+        txtClave.setText("");
+        txtClave.setBackground(Color.white);
+        txtMarca.setText("");
+        txtNoSerie.setText("");
+        txtTipoUso.setText("");
+        txtModelo.setText("");
+        txtAreaDescripcion.setText("");
+        txtAreaObservaciones.setText("");
+        txtColor.setText("");
+    }
     
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
@@ -356,6 +376,7 @@ public class addInventario extends javax.swing.JDialog {
         } else {
             JOptionPane.showMessageDialog(null, "Le han revocado los permisos para registrar un producto al inventario.");
         }
+        clearCampos();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void txtClaveFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtClaveFocusLost
@@ -434,6 +455,10 @@ public class addInventario extends javax.swing.JDialog {
         //        this.repaint();
 
     }//GEN-LAST:event_btnImagenActionPerformed
+
+    private void txtClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClaveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtClaveActionPerformed
 
     /**
      * @param args the command line arguments

@@ -263,7 +263,7 @@ public class ManagerUsers {
             }//for
             
             //Ahora le damos los permisos de acuerdo al cargo que tiene
-            manager_permisos.asignarPermisos_Puesto(puesto, usuario);
+            manager_permisos.asignarPermisos_Puesto(puesto, usuario,area);
             //Cerramos la conexión
             conexion.close();
             return true;
@@ -294,7 +294,7 @@ public class ManagerUsers {
                   + "where id_empleado = "+empleado+";";
             st.executeUpdate(sql);
             
-            manager_permisos.asignarPermisos_Puesto(puesto, usuario);
+            //manager_permisos.asignarPermisos_Puesto(puesto, usuario,area);
             
             conexion.close();
             return true;

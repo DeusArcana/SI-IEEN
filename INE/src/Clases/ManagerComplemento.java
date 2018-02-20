@@ -353,7 +353,7 @@ public class ManagerComplemento {
                             "inner join user u on (u.id_user = s.id_user) " +
                             "inner join empleados e on (e.id_empleado = u.id_empleado) " +
                             "inner join inventario i on (i.id_producto = ds.id_producto) "+ 
-                            "where s.estado = 'PENDIENTE';";
+                            "where s.estado = 'PENDIENTE' or s.estado = 'PENDIENTE PERSONAL';";
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
             rs.next();

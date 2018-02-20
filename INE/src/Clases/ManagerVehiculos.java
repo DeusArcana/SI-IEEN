@@ -316,7 +316,7 @@ public class ManagerVehiculos {
     public void getVehiculosDisponibles(JComboBox combo) {
         try{
            
-            String sql = "select concat(linea,'-'matricula,) from Vehiculos;";
+            String sql = "select concat(linea,'-'matricula) from Vehiculos;";
             con = db.getConexion();
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);

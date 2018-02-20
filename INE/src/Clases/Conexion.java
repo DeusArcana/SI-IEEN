@@ -47,7 +47,7 @@ public class Conexion {
             if (IP.equals(InetAddress.getLocalHost().getHostAddress())) {
                 DIRECCIONIP = "localhost";
                 usuario = "root";
-                contra = "Cisco123";
+                contra = "123456";
                 //  System.out.println("DATOS "+DIRECCIONIP+" "+usuario+" "+contra);
             } else {
                 DIRECCIONIP = IP;
@@ -88,8 +88,8 @@ public class Conexion {
 
     public Connection getPreConexion() {
 
-        usuario = "Cisco";
-        contra = "123";
+        usuario = "root";
+        contra = "123456";
 
         try {
 
@@ -110,10 +110,10 @@ public class Conexion {
         }
     }//conexion
 
-    public static ResultSet getTabla(String consulta,Connection conn) throws SQLException {
+    public  ResultSet getTabla(String consulta,Connection conn) throws SQLException {
         // Connection cn=getConectivity();
         //con = DriverManager.getConnection("jdbc:mysql://" + DIRECCIONIP + ":3306/ine", usuario, contra);
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ine", usuario, contra);
+        conn = DriverManager.getConnection("jdbc:mysql://"+DIRECCIONIP+":3306/ine", usuario, contra);
         Statement st;
         ResultSet datos = null;
         try {

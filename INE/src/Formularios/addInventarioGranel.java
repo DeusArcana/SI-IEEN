@@ -7,8 +7,10 @@ package Formularios;
 
 import Clases.ManagerInventario;
 import Clases.ManagerPermisos;
+import Clases.Validaciones;
 
 import Interfaces.Principal;
+import java.awt.Color;
 import javax.swing.JOptionPane;
 /**
  *
@@ -50,7 +52,6 @@ public class addInventarioGranel extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtAlmacen = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtMarca = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -67,6 +68,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         lblAviso = new javax.swing.JLabel();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        cb_almacen = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -80,6 +82,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         jLabel1.setBounds(50, 16, 38, 17);
 
         txtClave.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtClave.setToolTipText("Ejemplo: GMP00000001");
         txtClave.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtClaveFocusLost(evt);
@@ -89,6 +92,11 @@ public class addInventarioGranel extends javax.swing.JDialog {
         txtClave.setBounds(106, 13, 215, 23);
 
         txtProducto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtProductoActionPerformed(evt);
+            }
+        });
         pn_addInventario.add(txtProducto);
         txtProducto.setBounds(106, 42, 215, 23);
 
@@ -107,15 +115,6 @@ public class addInventarioGranel extends javax.swing.JDialog {
         pn_addInventario.add(jLabel4);
         jLabel4.setBounds(32, 77, 56, 17);
 
-        txtAlmacen.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtAlmacen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAlmacenActionPerformed(evt);
-            }
-        });
-        pn_addInventario.add(txtAlmacen);
-        txtAlmacen.setBounds(106, 71, 215, 23);
-
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Marca:");
         pn_addInventario.add(jLabel5);
@@ -133,6 +132,8 @@ public class addInventarioGranel extends javax.swing.JDialog {
         txtAreaDescripcion.setColumns(20);
         txtAreaDescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtAreaDescripcion.setRows(5);
+        txtAreaDescripcion.setToolTipText("Ejemplo: Producto derivado de petroleo");
+        txtAreaDescripcion.setWrapStyleWord(true);
         jScrollPane1.setViewportView(txtAreaDescripcion);
 
         pn_addInventario.add(jScrollPane1);
@@ -141,6 +142,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         txtAreaObservaciones.setColumns(20);
         txtAreaObservaciones.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtAreaObservaciones.setRows(5);
+        txtAreaObservaciones.setText("Ejemplo: Falta una hoja en el paquete.");
         jScrollPane2.setViewportView(txtAreaObservaciones);
 
         pn_addInventario.add(jScrollPane2);
@@ -157,6 +159,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         jLabel8.setBounds(22, 170, 66, 17);
 
         txtStockMin.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtStockMin.setToolTipText("Ingrese cantidad numérica entera ejemplo: 10");
         txtStockMin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtStockMinActionPerformed(evt);
@@ -166,6 +169,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         txtStockMin.setBounds(106, 164, 215, 23);
 
         txtStock.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtStock.setToolTipText("Ingrese cantidad numérica entera ejemplo: 10");
         txtStock.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtStockActionPerformed(evt);
@@ -185,6 +189,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         jLabel10.setBounds(12, 136, 76, 17);
 
         txtTipoUso.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtTipoUso.setToolTipText("Ingrese tipo de uso de forma alfanimérica, no deje sin datos");
         txtTipoUso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTipoUsoActionPerformed(evt);
@@ -221,6 +226,10 @@ public class addInventarioGranel extends javax.swing.JDialog {
         pn_addInventario.add(btnCancelar);
         btnCancelar.setBounds(420, 280, 150, 33);
 
+        cb_almacen.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Informatica", "Administracion", "Bodega" }));
+        pn_addInventario.add(cb_almacen);
+        cb_almacen.setBounds(110, 70, 210, 20);
+
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         pn_addInventario.add(jLabel6);
         jLabel6.setBounds(0, 0, 850, 330);
@@ -239,10 +248,6 @@ public class addInventarioGranel extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtAlmacenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAlmacenActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtAlmacenActionPerformed
-
     private void txtMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMarcaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMarcaActionPerformed
@@ -255,23 +260,36 @@ public class addInventarioGranel extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtStockActionPerformed
 
-    public void getInfo(){
-    
-        clave = txtClave.getText();
-        producto = txtProducto.getText();
-        almacen = txtAlmacen.getText();
-        marca = txtMarca.getText();
-        stockmin = Integer.parseInt(txtStockMin.getText());
-        stock = Integer.parseInt(txtStock.getText());
-        descripcion = txtAreaDescripcion.getText();
-        observaciones = txtAreaObservaciones.getText();
-        tipo = txtTipoUso.getText();
-        
+    public boolean getInfo(){
+        int caracteres_faltantes=0;
+        caracteres_faltantes=(txtClave.getText().length());
+        if(Validaciones.validateClaveInventarioGranel(txtClave.getText())){clave = txtClave.getText();}else{JOptionPane.showMessageDialog(null, "Clave no cumple con requerimientos faltan "+(11-caracteres_faltantes)+" caracteres\n Formato: GMP00000001");return false;}
+        if(Validaciones.validateAlphanumericWithSpacing(txtProducto.getText(), 1, 30)){producto = txtProducto.getText();}else{JOptionPane.showMessageDialog(null, "Nombre de producto no cumple con requerimientos.");return false;}
+        cb_almacen.getSelectedItem().toString();
+        if(Validaciones.validateAlphanumericWithSpacing(txtMarca.getText(), 1, 49)){marca = txtMarca.getText();}else{JOptionPane.showMessageDialog(null, "Nombre de producto no cumple con requerimientos.");return false;}
+        if(Validaciones.validateAlphanumericWithSpacing(txtTipoUso.getText(), 1, 100)){tipo = txtTipoUso.getText();}
+        if(Validaciones.validateInteger((txtStockMin.getText()), 1, 11)){stockmin = Integer.parseInt(txtStockMin.getText());}else{JOptionPane.showMessageDialog(null, "Cantidad de Stock minimo no valida.");return false;}
+        if(Validaciones.validateInteger(txtStock.getText(),1,11)){stock = Integer.parseInt(txtStock.getText());}else{JOptionPane.showMessageDialog(null, "Cantidad de Stock minimo no valida.");return false;}
+        if(Validaciones.validateAlphanumericWithSpacing(txtAreaDescripcion.getText(), 1, 99)){descripcion = txtAreaDescripcion.getText();}else{JOptionPane.showMessageDialog(null, "Cantidad de Stock minimo no valida.");return false;}
+        if(Validaciones.validateAlphanumericWithSpacing(txtAreaObservaciones.getText(), 1, 299)){observaciones = txtAreaObservaciones.getText();}else{JOptionPane.showMessageDialog(null, "Cantidad de Stock no valida.");return false;}
+        return true;
     }//getInfo
+    
+    public void clearCampos(){
+        txtClave.setText("");
+        txtProducto.setText("");
+        txtMarca.setText("");
+        txtTipoUso.setText("");
+        txtStockMin.setText("");
+        txtStock.setText("");
+        txtAreaDescripcion.setText("");
+        txtAreaObservaciones.setText("");
+        txtClave.setBackground(Color.white);
+    }
     
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        getInfo();
+        if(getInfo())
         if(manager_permisos.alta_inventario(Principal.Username)){
             
             if(manager_inventario.insertarInventarioG(clave, producto, almacen, marca, stockmin, stock, descripcion, observaciones,tipo)){
@@ -288,6 +306,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         }else{
             JOptionPane.showMessageDialog(null,"Le han revocado los permisos para registrar un producto a granel en el inventario.");
         }
+        clearCampos();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void txtClaveFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtClaveFocusLost
@@ -324,6 +343,10 @@ public class addInventarioGranel extends javax.swing.JDialog {
          // TODO add your handling code here:
          this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProductoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtProductoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -371,6 +394,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JComboBox cb_almacen;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -385,7 +409,6 @@ public class addInventarioGranel extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblAviso;
     private javax.swing.JPanel pn_addInventario;
-    private javax.swing.JTextField txtAlmacen;
     private javax.swing.JTextArea txtAreaDescripcion;
     private javax.swing.JTextArea txtAreaObservaciones;
     private javax.swing.JTextField txtClave;

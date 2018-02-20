@@ -181,7 +181,6 @@ public class Principal extends javax.swing.JFrame {
         Permisos = new javax.swing.JMenuItem();
         ActualizarInfoU = new javax.swing.JMenuItem();
         MenuInventario = new javax.swing.JPopupMenu();
-        AgregarStock = new javax.swing.JMenuItem();
         ActualizarInfoG = new javax.swing.JMenuItem();
         MenuSolicitudes = new javax.swing.JPopupMenu();
         Atender = new javax.swing.JMenuItem();
@@ -215,6 +214,9 @@ public class Principal extends javax.swing.JFrame {
         MenuEntregados = new javax.swing.JPopupMenu();
         UpdateInfo = new javax.swing.JMenuItem();
         CancelarEntrega = new javax.swing.JMenuItem();
+        MenuStockMin = new javax.swing.JPopupMenu();
+        AgregarStock = new javax.swing.JMenuItem();
+        ActualizarInfoSM = new javax.swing.JMenuItem();
         Grupo1 = new javax.swing.ButtonGroup();
         bg_manejo_inventario = new javax.swing.ButtonGroup();
         bt_tipo_inventario_asignable = new javax.swing.ButtonGroup();
@@ -274,7 +276,7 @@ public class Principal extends javax.swing.JFrame {
         tablaSolicitudes = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jPanel10 = new javax.swing.JPanel();
         jScrollPane12 = new javax.swing.JScrollPane();
-        tablaStockBajo = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        tablaStockMin = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel9 = new javax.swing.JLabel();
         empleado = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -415,14 +417,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MenuUsuarios.add(ActualizarInfoU);
-
-        AgregarStock.setText("Actualizar stock");
-        AgregarStock.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AgregarStockActionPerformed(evt);
-            }
-        });
-        MenuInventario.add(AgregarStock);
 
         ActualizarInfoG.setText("Refrescar tabla");
         ActualizarInfoG.addActionListener(new java.awt.event.ActionListener() {
@@ -590,6 +584,22 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MenuEntregados.add(CancelarEntrega);
+
+        AgregarStock.setText("Actualizar stock");
+        AgregarStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AgregarStockActionPerformed(evt);
+            }
+        });
+        MenuStockMin.add(AgregarStock);
+
+        ActualizarInfoSM.setText("Refrescar tabla");
+        ActualizarInfoSM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarInfoSMActionPerformed(evt);
+            }
+        });
+        MenuStockMin.add(ActualizarInfoSM);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Sistema Integral - Instituto Estatal Electoral de Nayarit");
@@ -1083,7 +1093,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel7.add(jPanel8);
         jPanel8.setBounds(20, 20, 1340, 330);
 
-        tablaStockBajo.setModel(new javax.swing.table.DefaultTableModel(
+        tablaStockMin.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -1091,12 +1101,12 @@ public class Principal extends javax.swing.JFrame {
                 "Clave", "Producto", "Descripción", "Observaciones", "Stock", "Estado"
             }
         ));
-        tablaStockBajo.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaStockMin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablaStockBajoMouseReleased(evt);
+                tablaStockMinMouseReleased(evt);
             }
         });
-        jScrollPane12.setViewportView(tablaStockBajo);
+        jScrollPane12.setViewportView(tablaStockMin);
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -2055,7 +2065,7 @@ public class Principal extends javax.swing.JFrame {
         });
         menuOpciones.add(menuPuestoArea);
 
-        MenuSolicitud.setText("Permisos solicitud");
+        MenuSolicitud.setText("Permisos solicitud/vale");
         MenuSolicitud.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MenuSolicitudActionPerformed(evt);
@@ -2198,6 +2208,8 @@ public class Principal extends javax.swing.JFrame {
             }
         }
         
+        tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
+        
         /*PESTAÑA DE EMPLEADO*/
         tabbedPrincipal.setTitleAt(4-pestañas, Username.toUpperCase());//Le damos el nombre a esa pestaña
         tablaResguardo.setModel(manager_complemento.getResguardoPersonal(Username));
@@ -2208,18 +2220,45 @@ public class Principal extends javax.swing.JFrame {
         /*PESTAÑA CONFIGURACIÓN*/
         if(!(manager_permisos.esSuperUsuario(Username))){
             tabbedPrincipal.removeTabAt(5-pestañas);//Eliminamos la pestaña
+            pestañas++;
         }
         
-        /*PESTAÑA DE MANEJADOR INVENTARIO*/
-        //Asignación
-        tablaMInventarioA.setModel(manejador_inventario.getInventario());
         comboEmpleado.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboEmpleado.addItem("Seleccione al empleado...");
-        manager_users.getNombresEmpleados(comboEmpleado);
-        //Recolección
+        
         comboEmpleadoR.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboEmpleadoR.addItem("Seleccione al empleado...");
-        manejador_inventario.getEmpleadosAsignacion(comboEmpleadoR);
+        
+        /*PESTAÑA DE MANEJADOR INVENTARIO*/
+        if(manager_permisos.permisoPorVale(Username, "Vale de asignación")){
+            //Asignación
+            tablaMInventarioA.setModel(manejador_inventario.getInventario());
+            manager_users.getNombresEmpleados(comboEmpleado);
+        }else{
+            //Bloqueamos el uso de la asignacion
+            comboEmpleado.setEnabled(false);
+            rb_inventario_normal1.setEnabled(false);
+            rb_inventario_granel1.setEnabled(false);
+            tablaMInventarioA.setEnabled(false);
+            btn_generar_vale3.setEnabled(false);
+            btn_cancelar2.setEnabled(false);
+        }
+        
+        if(manager_permisos.permisoPorVale(Username, "Vale de recolección")){
+            //Recolección
+            manejador_inventario.getEmpleadosAsignacion(comboEmpleadoR);
+        }else{
+            //Bloqueamos el uso de la asignacion
+            comboEmpleadoR.setEnabled(false);
+            tablaRecoleccion.setEnabled(false);
+            btnGenerarValeR.setEnabled(false);
+            btn_cancelar3.setEnabled(false);
+        }
+        
+        //Si no tiene ningun permiso de vale entonces le borramos la pestaña
+        if(!(manager_permisos.permisoPorVale(Username, "Vale de asignación") || manager_permisos.permisoPorVale(Username, "Vale de recolección"))){
+            tabbedPrincipal.removeTabAt(6-pestañas);//Eliminamos la pestaña
+        }
         
     }//GEN-LAST:event_formWindowOpened
     
@@ -2540,7 +2579,7 @@ public class Principal extends javax.swing.JFrame {
         //Le quitamos la palabra "Solicitud " y nos quedamos con el estado pendiente al que va a cambiar
         estadoPendiente = solicitud.substring(10, solicitud.length());
         estadoSolicitud = tablaSolicitudes.getValueAt(fila, 6).toString();
-        empleadoSolicitud = tablaSolicitudes.getValueAt(fila, 1).toString();
+        empleadoSolicitud = tablaSolicitudes.getValueAt(fila, 2).toString();
         //Abrimos la ventana para atender la solicitud y actualizar la foto del producto solicitado.
         ventana_AtenderSolicitud ob = new ventana_AtenderSolicitud(this,true);
         ob.setVisible(true);
@@ -2650,33 +2689,6 @@ public class Principal extends javax.swing.JFrame {
          
         }//Acepto la autorización
     }//GEN-LAST:event_DenegarActionPerformed
-
-    private void AgregarStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarStockActionPerformed
-        // TODO add your handling code here:
-        
-        boolean entero = true;
-        while(entero){    
-            
-            String cadena = JOptionPane.showInputDialog("Ingrese la cantidad de stock a agregar");
-            
-            if(cadena == null){
-                entero = true;
-            }else{
-            
-                try{
-
-                    int cantidad = Integer.parseInt(cadena);
-                    entero = false;                    
-
-                }catch(NumberFormatException e){
-                    JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
-                }//try catch
-                
-            }//else
-            
-        }//while
-        
-    }//GEN-LAST:event_AgregarStockActionPerformed
     /*-------------------------------PARA LA ASIGNACION EN LA PESTAÑA DE MANEJADOR KEVIN------------------------------------------------*/
     public boolean existeCodigoTablaMAsignados(String codigo,int cantidad){
         boolean existe = false;
@@ -2826,6 +2838,17 @@ public class Principal extends javax.swing.JFrame {
 
     private void UpdateInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateInfoActionPerformed
         // TODO add your handling code here:
+        int fila = tablaObjetosEntregados.getSelectedRow();
+        /*
+        try {
+            modificar_addInventario ob = new modificar_addInventario(this, true);
+
+            modificar_addInventario.txtClave.setText(fila, 1).toString();
+            ob.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Seleccione un vehiculo!", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+        */
     }//GEN-LAST:event_UpdateInfoActionPerformed
 
     private void EntregarParteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EntregarParteActionPerformed
@@ -2886,13 +2909,58 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         CardLayout c_recoleccion = (CardLayout)pn_contenedor_ventanas1.getLayout();
         c_recoleccion.show(pn_contenedor_ventanas1,"c_s_recoleccion");
-
+        if(manager_permisos.permisoPorVale(Username, "Vale de recolección")){
+            comboEmpleadoR.setEnabled(true);
+            tablaRecoleccion.setEnabled(true);
+            btn_cancelar3.setEnabled(true);
+            comboEmpleadoR.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+            comboEmpleadoR.addItem("Seleccione al empleado...");
+            manejador_inventario.getEmpleadosAsignacion(comboEmpleadoR);
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "No tienes permisos para realizar vales de recolección");
+            //Bloqueamos el uso de la asignacion
+            comboEmpleadoR.setEnabled(false);
+            tablaRecoleccion.setEnabled(false);
+            btnGenerarValeR.setEnabled(false);
+            btn_cancelar3.setEnabled(false);
+            
+            //Devolvemos los productos al estado anterior
+            getDatosTablaRecoleccion();
+            regresarRecoleccion();
+            limpiarTablaRecoleccion();
+            comboEmpleadoR.setSelectedIndex(0);
+        }
     }//GEN-LAST:event_rb_recoleccion1ActionPerformed
 
     private void rb_asignacion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_asignacion1ActionPerformed
         // TODO add your handling code here:
         CardLayout c_asignacion = (CardLayout)pn_contenedor_ventanas1.getLayout();
         c_asignacion.show(pn_contenedor_ventanas1,"c_s_asignacion");
+            
+        if(manager_permisos.permisoPorVale(Username, "Vale de asignación")){
+            comboEmpleado.setEnabled(true);
+            rb_inventario_normal1.setEnabled(true);
+            rb_inventario_granel1.setEnabled(true);
+            tablaMInventarioA.setEnabled(true);
+            btn_cancelar2.setEnabled(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "No tienes permisos para realizar vales de asignación");
+            //Bloqueamos el uso de la asignacion
+            comboEmpleado.setEnabled(false);
+            rb_inventario_normal1.setEnabled(false);
+            rb_inventario_granel1.setEnabled(false);
+            tablaMInventarioA.setEnabled(false);
+            btn_generar_vale3.setEnabled(false);
+            btn_cancelar2.setEnabled(false);
+            
+            //Regresamos los productos si es que selecciono alguno
+            getDatosTablaAsignados();
+            regresarInventario();
+            limpiarTablaMAsignados();
+            comboEmpleado.setSelectedIndex(0);
+            
+        }
     }//GEN-LAST:event_rb_asignacion1ActionPerformed
 
     private void comboEmpleadoRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpleadoRActionPerformed
@@ -3907,9 +3975,67 @@ public class Principal extends javax.swing.JFrame {
         tablaAsignacionPersonal.setModel(manejador_inventario.getInventarioEmpleadoAsignacionesPersonalesG(Username));
     }//GEN-LAST:event_ActualizarAsignacionPGActionPerformed
 
-    private void tablaStockBajoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaStockBajoMouseReleased
+    private void tablaStockMinMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaStockMinMouseReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_tablaStockBajoMouseReleased
+        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+            if(SwingUtilities.isRightMouseButton(evt)){
+                int r = tablaStockMin.rowAtPoint(evt.getPoint());
+                if (r >= 0 && r < tablaStockMin.getRowCount())
+                tablaStockMin.setRowSelectionInterval(r, r);
+                MenuStockMin.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+            }//clic derecho
+    }//GEN-LAST:event_tablaStockMinMouseReleased
+
+    private void AgregarStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarStockActionPerformed
+        // TODO add your handling code here:
+        boolean entero = true;
+        boolean canceloStockMin = true;
+        int cantidad = 0;
+        int fila = tablaStockMin.getSelectedRow();
+        while(entero){    
+            
+            String cadena = JOptionPane.showInputDialog("Ingrese la cantidad de stock a agregar");
+            
+            if(cadena == null){
+                entero = false;
+                canceloStockMin = false;
+            }else{
+            
+                try{
+
+                    cantidad = Integer.parseInt(cadena);
+                    
+                    if(cantidad > 0){
+                        entero = false;                    
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Solo ingrese numeros positivos");
+                    }
+                }catch(NumberFormatException e){
+                    JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
+                }//try catch
+                
+            }//else
+            
+            if(canceloStockMin){
+                
+                String codigo = tablaStockMin.getValueAt(fila, 0).toString();//Obtenemos el codigo del producto
+                
+                if(manejador_inventario.actualizarStock(codigo, cantidad)){
+                    tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
+                    JOptionPane.showMessageDialog(null, "El inventario se actualizo exitosamente");
+                }else{
+                    JOptionPane.showMessageDialog(null, "Verificar con el distribuidor");
+                }
+                
+            }//canceloStockMin
+            
+        }//while
+    }//GEN-LAST:event_AgregarStockActionPerformed
+
+    private void ActualizarInfoSMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoSMActionPerformed
+        // TODO add your handling code here:
+        tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
+    }//GEN-LAST:event_ActualizarInfoSMActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -4045,6 +4171,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem ActualizarInfoG;
     private javax.swing.JMenuItem ActualizarInfoPP;
     private javax.swing.JMenuItem ActualizarInfoReco;
+    private javax.swing.JMenuItem ActualizarInfoSM;
     private javax.swing.JMenuItem ActualizarInfoSP;
     private javax.swing.JMenuItem ActualizarInfoU;
     private javax.swing.JMenuItem ActualizarInfoV;
@@ -4075,6 +4202,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem MenuSolicitud;
     private javax.swing.JPopupMenu MenuSolicitudes;
     private javax.swing.JPopupMenu MenuSolicitudesP;
+    private javax.swing.JPopupMenu MenuStockMin;
     private javax.swing.JPopupMenu MenuUsuarios;
     private javax.swing.JPopupMenu MenuVehiculos;
     private javax.swing.JMenuItem Permisos;
@@ -4235,7 +4363,7 @@ public class Principal extends javax.swing.JFrame {
     public static javax.swing.JTable tablaResguardo;
     public static javax.swing.JTable tablaSolicitudes;
     public static javax.swing.JTable tablaSolicitudesPersonal;
-    public static javax.swing.JTable tablaStockBajo;
+    public static javax.swing.JTable tablaStockMin;
     public static javax.swing.JTable tablaUsuarios;
     public static javax.swing.JTable tablaVehiculos;
     private javax.swing.JTextField txtBusqueda;

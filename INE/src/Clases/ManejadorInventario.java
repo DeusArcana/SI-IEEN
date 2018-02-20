@@ -509,7 +509,7 @@ public class ManejadorInventario {
 
     }//getInventarioEmpleadoAsignacionesPersonales
     
-        public DefaultTableModel getInventarioEmpleadoAsignacionesPersonalesG(String usuario) {
+    public DefaultTableModel getInventarioEmpleadoAsignacionesPersonalesG(String usuario) {
             DefaultTableModel table = new DefaultTableModel();
 
         try {
@@ -612,7 +612,7 @@ public class ManejadorInventario {
             st.executeUpdate(sql);
             
             //Obtenemos el id del producto
-            sql = "select ds.id_producto from detalle_solicitud ds where id_solicitud = "+idSol+";";
+            sql = "select id_producto from detalle_solicitud where id_solicitud = "+idSol+";";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             String idProd = rs.getString(1);
@@ -645,5 +645,71 @@ public class ManejadorInventario {
         } 
         
     }//actualizar_Solicitud
+    
+    public DefaultTableModel getInventarioStockMin() {
+            DefaultTableModel table = new DefaultTableModel();
+
+        try {
+            table.addColumn("Clave");
+            table.addColumn("Producto");
+            table.addColumn("Descripción");
+            table.addColumn("Observaciones");
+            table.addColumn("Cantidad");
+            table.addColumn("Estado");
+            
+            //Obtiene los productos que tienen su stock menor o igual que el stock minimo
+            String sql = "select id_productoGranel,nombre_prod,descripcion,observaciones,stock,estatus from inventario_granel where stock_min >= stock;";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            Object datos[] = new Object[6];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<6;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+            }//while
+            
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error getTabla Inventario SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//getInventarioEmpleadoAsignacionesPersonales
+    
+    public boolean actualizarStock(String codigo,int cantidad){
+        
+        try{
+        
+            //Hacemos la conexión
+            conexion = db.getConexion();
+            //Creamos la variable para hacer operaciones CRUD
+            Statement st = conexion.createStatement();
+            
+            //Actualizamos el stock y el estado si el stock es igual a 0
+            String sql = "update inventario_granel set stock = stock + "+cantidad+" where id_productoGranel = '"+codigo+"' and stock > 0;";
+            st.executeUpdate(sql);
+            
+            //Actualizamos el stock y el estado si el stock es igual a 0
+            sql = "update inventario_granel set stock = "+cantidad+", estatus = 'DISPONIBLE' where id_productoGranel = '"+codigo+"' and stock = 0;";
+            st.executeUpdate(sql);
+            
+            conexion.close();
+            return true;
+        }catch(SQLException ex){
+            System.out.printf("Error al querer actualizar el stock SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        
+    }//actualizarStock
     
 }//class

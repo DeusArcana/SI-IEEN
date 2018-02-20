@@ -37,6 +37,7 @@ public class Ventana_permisosSolicitud extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        GrupoValeSolicitud = new javax.swing.ButtonGroup();
         pn_solicitudes = new javax.swing.JPanel();
         comboTipoSolicitud = new javax.swing.JComboBox<>();
         radioJefeDepa = new javax.swing.JRadioButton();
@@ -45,8 +46,9 @@ public class Ventana_permisosSolicitud extends javax.swing.JDialog {
         radioAdministracion = new javax.swing.JRadioButton();
         btnAceptar = new javax.swing.JButton();
         btnAceptar1 = new javax.swing.JButton();
-        radioPresidencia = new javax.swing.JRadioButton();
         radioOrganizacion = new javax.swing.JRadioButton();
+        checkVale = new javax.swing.JCheckBox();
+        checkSolicitud = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -95,11 +97,25 @@ public class Ventana_permisosSolicitud extends javax.swing.JDialog {
             }
         });
 
-        radioPresidencia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        radioPresidencia.setText("Presidencia");
-
         radioOrganizacion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         radioOrganizacion.setText("Organización");
+
+        GrupoValeSolicitud.add(checkVale);
+        checkVale.setText("Vale");
+        checkVale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkValeActionPerformed(evt);
+            }
+        });
+
+        GrupoValeSolicitud.add(checkSolicitud);
+        checkSolicitud.setSelected(true);
+        checkSolicitud.setText("Solicitud");
+        checkSolicitud.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkSolicitudActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pn_solicitudesLayout = new javax.swing.GroupLayout(pn_solicitudes);
         pn_solicitudes.setLayout(pn_solicitudesLayout);
@@ -114,6 +130,10 @@ public class Ventana_permisosSolicitud extends javax.swing.JDialog {
             .addGroup(pn_solicitudesLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(pn_solicitudesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pn_solicitudesLayout.createSequentialGroup()
+                        .addComponent(checkSolicitud)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(checkVale))
                     .addComponent(comboTipoSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pn_solicitudesLayout.createSequentialGroup()
                         .addGroup(pn_solicitudesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -122,7 +142,6 @@ public class Ventana_permisosSolicitud extends javax.swing.JDialog {
                             .addComponent(radioOrganizacion))
                         .addGap(18, 18, 18)
                         .addGroup(pn_solicitudesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(radioPresidencia)
                             .addComponent(radioJefeDepa)
                             .addComponent(radioUsuario))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -130,7 +149,11 @@ public class Ventana_permisosSolicitud extends javax.swing.JDialog {
         pn_solicitudesLayout.setVerticalGroup(
             pn_solicitudesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_solicitudesLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(11, 11, 11)
+                .addGroup(pn_solicitudesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(checkVale)
+                    .addComponent(checkSolicitud))
+                .addGap(18, 18, 18)
                 .addComponent(comboTipoSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addGroup(pn_solicitudesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -141,10 +164,8 @@ public class Ventana_permisosSolicitud extends javax.swing.JDialog {
                     .addComponent(radioAuxiliar)
                     .addComponent(radioUsuario))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pn_solicitudesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(radioOrganizacion)
-                    .addComponent(radioPresidencia))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
+                .addComponent(radioOrganizacion)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addGroup(pn_solicitudesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar1)
                     .addComponent(btnAceptar))
@@ -184,7 +205,6 @@ public class Ventana_permisosSolicitud extends javax.swing.JDialog {
             radioJefeDepa.setEnabled(false);
             radioAdministracion.setEnabled(false);
             radioOrganizacion.setEnabled(false);
-            radioPresidencia.setEnabled(false);
             btnAceptar.setVisible(false);
         }
         
@@ -192,9 +212,17 @@ public class Ventana_permisosSolicitud extends javax.swing.JDialog {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
+        boolean permisos = false;
+        if(checkSolicitud.isSelected()){
+            permisos = manager_permisos.permisosSolicitud(comboTipoSolicitud.getSelectedItem().toString(), radioUsuario.isSelected(), 
+                radioAuxiliar.isSelected(), radioJefeDepa.isSelected(), radioAdministracion.isSelected(),radioOrganizacion.isSelected());
+        }else{
+            permisos = manager_permisos.permisosVale(comboTipoSolicitud.getSelectedItem().toString(), radioUsuario.isSelected(), 
+                radioAuxiliar.isSelected(), radioJefeDepa.isSelected(), radioAdministracion.isSelected(),radioOrganizacion.isSelected());
+        }
         
-        if(manager_permisos.permisosSolicitud(comboTipoSolicitud.getSelectedItem().toString(), radioUsuario.isSelected(), 
-                radioAuxiliar.isSelected(), radioJefeDepa.isSelected(), radioAdministracion.isSelected(),radioOrganizacion.isSelected(), radioPresidencia.isSelected())){
+        
+        if(permisos){
         
             JOptionPane.showMessageDialog(null,"Se guardaron los cambios satisfactoriamente.");
             
@@ -211,15 +239,21 @@ public class Ventana_permisosSolicitud extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAceptar1ActionPerformed
 
     public void colocarRadios(){
-    
-        String tipo = comboTipoSolicitud.getSelectedItem().toString();
-        radioUsuario.setSelected(manager_permisos.usuario_Solicitud(tipo));
-        radioAuxiliar.setSelected(manager_permisos.auxiliar_Solicitud(tipo));
-        radioJefeDepa.setSelected(manager_permisos.jefe_Solicitud(tipo));
-        radioAdministracion.setSelected(manager_permisos.administracion_Solicitud(tipo));
-        radioOrganizacion.setSelected(manager_permisos.organizacion_Solicitud(tipo));
-        radioPresidencia.setSelected(manager_permisos.presidencia_Solicitud(tipo));
-        
+        if(checkSolicitud.isSelected()){
+            String tipo = comboTipoSolicitud.getSelectedItem().toString();
+            radioUsuario.setSelected(manager_permisos.usuario_Solicitud(tipo));
+            radioAuxiliar.setSelected(manager_permisos.auxiliar_Solicitud(tipo));
+            radioJefeDepa.setSelected(manager_permisos.jefe_Solicitud(tipo));
+            radioAdministracion.setSelected(manager_permisos.administracion_Solicitud(tipo));
+            radioOrganizacion.setSelected(manager_permisos.organizacion_Solicitud(tipo));
+        }else{
+            String tipo = comboTipoSolicitud.getSelectedItem().toString();
+            radioUsuario.setSelected(manager_permisos.usuario_Vale(tipo));
+            radioAuxiliar.setSelected(manager_permisos.auxiliar_Vale(tipo));
+            radioJefeDepa.setSelected(manager_permisos.jefe_Vale(tipo));
+            radioAdministracion.setSelected(manager_permisos.administracion_Vale(tipo));
+            radioOrganizacion.setSelected(manager_permisos.organizacion_Vale(tipo));
+        }
     }//colocarRadios
     
     private void comboTipoSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTipoSolicitudActionPerformed
@@ -230,6 +264,23 @@ public class Ventana_permisosSolicitud extends javax.swing.JDialog {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
     }//GEN-LAST:event_formWindowClosing
+
+    private void checkSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkSolicitudActionPerformed
+        // TODO add your handling code here:
+        comboTipoSolicitud.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        manager_solicitud.getComboSolicitud(comboTipoSolicitud);
+        
+        colocarRadios();
+        
+    }//GEN-LAST:event_checkSolicitudActionPerformed
+
+    private void checkValeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkValeActionPerformed
+        // TODO add your handling code here:
+        comboTipoSolicitud.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        manager_solicitud.getComboVale(comboTipoSolicitud);
+        
+        colocarRadios();
+    }//GEN-LAST:event_checkValeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -277,15 +328,17 @@ public class Ventana_permisosSolicitud extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup GrupoValeSolicitud;
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnAceptar1;
+    private javax.swing.JCheckBox checkSolicitud;
+    private javax.swing.JCheckBox checkVale;
     private javax.swing.JComboBox<String> comboTipoSolicitud;
     private javax.swing.JPanel pn_solicitudes;
     private javax.swing.JRadioButton radioAdministracion;
     private javax.swing.JRadioButton radioAuxiliar;
     private javax.swing.JRadioButton radioJefeDepa;
     private javax.swing.JRadioButton radioOrganizacion;
-    private javax.swing.JRadioButton radioPresidencia;
     private javax.swing.JRadioButton radioUsuario;
     // End of variables declaration//GEN-END:variables
 }

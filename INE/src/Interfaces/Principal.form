@@ -53,14 +53,6 @@
         <Property name="useNullLayout" type="boolean" value="true"/>
       </Layout>
       <SubComponents>
-        <MenuItem class="javax.swing.JMenuItem" name="AgregarStock">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Actualizar stock"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AgregarStockActionPerformed"/>
-          </Events>
-        </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="ActualizarInfoG">
           <Properties>
             <Property name="text" type="java.lang.String" value="Refrescar tabla"/>
@@ -319,6 +311,30 @@
         </MenuItem>
       </SubComponents>
     </Container>
+    <Container class="javax.swing.JPopupMenu" name="MenuStockMin">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <MenuItem class="javax.swing.JMenuItem" name="AgregarStock">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Actualizar stock"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AgregarStockActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="ActualizarInfoSM">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Refrescar tabla"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ActualizarInfoSMActionPerformed"/>
+          </Events>
+        </MenuItem>
+      </SubComponents>
+    </Container>
     <Component class="javax.swing.ButtonGroup" name="Grupo1">
     </Component>
     <Component class="javax.swing.ButtonGroup" name="bg_manejo_inventario">
@@ -422,7 +438,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="MenuSolicitud">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Permisos solicitud"/>
+                <Property name="text" type="java.lang.String" value="Permisos solicitud/vale"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MenuSolicitudActionPerformed"/>
@@ -1562,7 +1578,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                       <SubComponents>
-                        <Component class="javax.swing.JTable" name="tablaStockBajo">
+                        <Component class="javax.swing.JTable" name="tablaStockMin">
                           <Properties>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                               <Table columnCount="6" rowCount="0">
@@ -1613,7 +1629,7 @@
                             </Property>
                           </Properties>
                           <Events>
-                            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaStockBajoMouseReleased"/>
+                            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaStockMinMouseReleased"/>
                           </Events>
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };"/>
@@ -2971,7 +2987,7 @@
                                                   <Component id="lb_objetos_asignados1" min="-2" max="-2" attributes="0"/>
                                                   <Component id="jScrollPane34" min="-2" pref="610" max="-2" attributes="0"/>
                                               </Group>
-                                              <EmptySpace pref="47" max="32767" attributes="0"/>
+                                              <EmptySpace pref="1168" max="32767" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
                                                   <Component id="lb_objetos_entregados1" min="-2" pref="173" max="-2" attributes="0"/>
                                                   <Component id="jScrollPane35" min="-2" pref="651" max="-2" attributes="0"/>

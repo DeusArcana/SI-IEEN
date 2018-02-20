@@ -8,6 +8,9 @@ package Interfaces;
 import javax.swing.JTable;
 import Clases.ManagerInventario;
 import Clases.ManagerSolicitud;
+import Formularios.modificar_addInventario;
+import static Interfaces.Principal.tablaVehiculos;
+import static Interfaces.ventana_modificar_vehiculo.campo;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -65,6 +68,8 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
         Comodato = new javax.swing.JMenuItem();
         Donación = new javax.swing.JMenuItem();
         Reemplazo = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        Modificar = new javax.swing.JMenuItem();
         pn_tablaCoincidencias = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaCoincidencias = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
@@ -123,6 +128,15 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
         Solicitar.add(Reemplazo);
 
         MenuCoincidencias.add(Solicitar);
+        MenuCoincidencias.add(jSeparator1);
+
+        Modificar.setText("Modificar información");
+        Modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModificarActionPerformed(evt);
+            }
+        });
+        MenuCoincidencias.add(Modificar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -407,6 +421,18 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
         // TODO add your handling code here:
         metodoImagen();
     }//GEN-LAST:event_tablaCoincidenciasKeyReleased
+
+    private void ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarActionPerformed
+        // TODO add your handling code here:
+        try {
+            modificar_addInventario ob = new modificar_addInventario(this, true);
+
+            modificar_addInventario.txtClave.setText(tablaCoincidencias.getValueAt(tablaCoincidencias.getSelectedRow(), 0).toString());
+            ob.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Seleccione un vehiculo!", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_ModificarActionPerformed
     public void metodoImagen() {
         int fila = tablaCoincidencias.getSelectedRow();
         System.err.println("" + tablaCoincidencias.getValueAt(fila, 0).toString());
@@ -470,6 +496,7 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
     private javax.swing.JMenuItem Comodato;
     private javax.swing.JMenuItem Donación;
     private javax.swing.JPopupMenu MenuCoincidencias;
+    private javax.swing.JMenuItem Modificar;
     private javax.swing.JMenuItem Reemplazo;
     private javax.swing.JMenu Solicitar;
     private javax.swing.JComboBox<String> comboFiltroInventario;
@@ -478,6 +505,7 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPanel pn_tablaCoincidencias;
     public static javax.swing.JTable tablaCoincidencias;
     private javax.swing.JTextField txtBusquedaInventario;

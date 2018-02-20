@@ -29,7 +29,7 @@ public class Validaciones {
     * @return TRUE si la cadena es alfanumérica, FALSE caso contrario
     */
     public static boolean validateAlphanumeric(String txt, int MIN, int MAX){
-        return Pattern.compile("([A-Z0-9]){" + MIN + "," + MAX + "}").matcher(txt).matches();
+        return Pattern.compile("([A-Za-z0-9]){" + MIN + "," + MAX + "}").matcher(txt).matches();
     }
 
     /**
@@ -162,6 +162,20 @@ public class Validaciones {
     public static boolean validateClaveInventario(String txt){
         return Pattern.compile( "CMP([0-9]{8})").matcher(txt).matches();
     }
+    /**
+    * <h1>validateClaveInventarioGranel</h1>
+    * 
+    * Verifica si la cadena contiene el formato para 
+    * el ID del inventario normal, el cual consiste en 
+    * todas las cadenas que empiecen con CMP seguidas
+    * de 8 números
+    * 
+    * @param txt Cadena a validar
+    * @return TRUE si la cadena solo contiene el formato especificado, FALSE caso contrario
+    */
+    public static boolean validateClaveInventarioGranel(String txt){
+        return Pattern.compile( "GMP([0-9]{8})").matcher(txt).matches();
+    }
     
     /**
     * <h1>validateNoSerieInventario</h1>
@@ -179,6 +193,20 @@ public class Validaciones {
     
     public static boolean validarNombres_añadirUsuario(String txt){
         return Pattern.compile("[A-Z]([a-z]{1,9})\u0020[A-Z]([a-z]{1,9})|[A-Z]([a-z]{1,19})").matcher(txt).matches();
+    }
+    
+    /**
+    * <h1>validateAlphanumericWithSpacing</h1>
+    * 
+    * Verifica si la cadena contiene el formato para 
+    * el número de serie con el formato especificado
+    * que son n caracteres alfanuméricos incluyendo espacio
+    * 
+    * @param txt Cadena a validar
+    * @return TRUE si la cadena solo contiene el formato especificado, FALSE caso contrario
+    */
+    public static boolean validateAlphanumericWithSpacing(String txt,int MIN,int MAX){
+        return Pattern.compile("([a-zA-Z0-9]|\u0020){" + MIN + "," + MAX + "}").matcher(txt).matches();
     }
 
 }

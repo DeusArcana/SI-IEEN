@@ -158,7 +158,7 @@ public class ManagerPermisos {
 
     }//actualizar permisos estaticos de acuerdo al puesto
 
-    public boolean asignarPermisos_Puesto(String puesto,String usuario) {
+    public boolean asignarPermisos_Puesto(String puesto,String usuario,String area) {
 
         conexion = db.getConexion();
         
@@ -188,7 +188,7 @@ public class ManagerPermisos {
             
             //Llenamos los arreglos con su permiso correspondiente
             for(int i = 0; i<tamaño; i++){
-                sql = "select alta,baja,actualizar,consulta from permisos_puesto where modulo = '"+modulo[i]+"'and puesto = '"+puesto+"';";
+                sql = "select alta,baja,actualizar,consulta from permisos_puesto where modulo = '"+modulo[i]+"' and puesto = '"+puesto+"' and area = '"+area+"';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 alta[i] = rs.getBoolean(1);
@@ -232,7 +232,7 @@ public class ManagerPermisos {
 
 //---------------------------------PUESTOS QUE TIENEN PERMISO PARA REVISAR SOLICITUDES BAJA O COMODATO O DONACIÓN O REEMPLAZO---------------------------------------//
     
-    public boolean permisosSolicitud(String tipo, boolean usuario, boolean auxiliar, boolean jefe, boolean administracion, boolean organizacion, boolean presidencia){
+    public boolean permisosSolicitud(String tipo, boolean usuario, boolean auxiliar, boolean jefe, boolean administracion, boolean organizacion){
     
         conexion = db.getConexion();
         
@@ -258,10 +258,6 @@ public class ManagerPermisos {
             sql = "update permisos_solicitud set permiso = "+organizacion+" where puesto = 'Organización' and tipo_solicitud = '"+tipo+"';";
             st.executeUpdate(sql);
             System.out.println("Se actualizo la organización");
-            
-            sql = "update permisos_solicitud set permiso = "+presidencia+" where puesto = 'Presidencia' and tipo_solicitud = '"+tipo+"';";
-            st.executeUpdate(sql);
-            System.out.println("Se actualizo la presidencia");
             
             conexion.close();
             return true;
@@ -388,32 +384,9 @@ public class ManagerPermisos {
         return estado;
     }//organizacion_solicitud
     
-    public boolean presidencia_Solicitud(String tipo){
-        boolean estado;
-        conexion = db.getConexion();
-        
-        try {
-            Statement st = conexion.createStatement();
-            //Obtenemos la respuesta de permiso para la secretaria de acuerdo al tipo de solicitud
-            String sql = "select permiso from permisos_solicitud where tipo_solicitud = '"+tipo+"' and puesto = 'Presidencia';";
-            ResultSet rs = st.executeQuery(sql);
-            rs.next();
-            estado = rs.getBoolean(1);
-            
-            conexion.close();
-        } //try  
-        
-        catch (SQLException ex) {
-            Logger.getLogger(ManagerPermisos.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }//Catch//Catch//Catch//Catch
-        
-        return estado;
-    }//presidencia_solicitud
-    
- //---------------------------------------------------------------------------------------------------------------------//   
+    //---------------------------------------------------------------------------------------------------------------------//   
     public int verTablaSolicitudes(String user){
-        int baja = 0,comodato = 0,donacion = 0,reemplazo = 0;
+        boolean baja = false,comodato = false,donacion = false,reemplazo = false;
         String puesto;
         conexion = db.getConexion();
         try {
@@ -428,25 +401,25 @@ public class ManagerPermisos {
             sql = "select permiso from permisos_solicitud where tipo_solicitud = 'Solicitud Baja' and puesto = '"+puesto+"';";
             rs = st.executeQuery(sql);
             if(rs.next()){
-                if(rs.getBoolean(1)){baja = 1;}
+                baja = rs.getBoolean(1);
             }
             //Obtenemos la respuesta de permiso para el puesto de la persona que se logeo de la solicitud comodato
             sql = "select permiso from permisos_solicitud where tipo_solicitud = 'Solicitud Comodato' and puesto = '"+puesto+"';";
             rs = st.executeQuery(sql);
             if(rs.next()){
-                if(rs.getBoolean(1)){comodato = 1;}
+                comodato = rs.getBoolean(1);
             }
             //Obtenemos la respuesta de permiso para el puesto de la persona que se logeo de la solicitud donación
             sql = "select permiso from permisos_solicitud where tipo_solicitud = 'Solicitud Donación' and puesto = '"+puesto+"';";
             rs = st.executeQuery(sql);
             if(rs.next()){
-                if(rs.getBoolean(1)){donacion = 1;}
+                donacion = rs.getBoolean(1);
             }
             //Obtenemos la respuesta de permiso para el puesto de la persona que se logeo de la solicitud reemplazo
             sql = "select permiso from permisos_solicitud where tipo_solicitud = 'Solicitud Reemplazo' and puesto = '"+puesto+"';";
             rs = st.executeQuery(sql);
             if(rs.next()){
-                if(rs.getBoolean(1)){reemplazo = 1;}
+                reemplazo = rs.getBoolean(1);
             }
             rs.close();
             st.close();
@@ -470,52 +443,52 @@ public class ManagerPermisos {
            */
             
 //------------------PERMISO PARA LOS 4 TIPOS DE SOLICITUDES------------------------//
-            if(baja == donacion && baja == comodato && baja == reemplazo && baja == 1){
+            if(baja == donacion && baja == comodato && baja == reemplazo && baja){
                 return 14; //Tiene permiso para ver todos los tipos de solicitud
             }
             
 //------------------PERMISO PARA 3 TIPOS DE SOLICITUDES------------------------//
-            if(baja == donacion && baja == comodato && baja == 1){
+            if(baja == donacion && baja == comodato && baja){
                 return 13; //Tiene permiso para ver baja,donacion y comodato
             }
-            if(baja == donacion && baja == reemplazo && baja == 1){
+            if(baja == donacion && baja == reemplazo && baja){
                 return 12; //Tiene permiso para ver baja, donacion y reemplazo
             }
-            if(baja == comodato && baja == reemplazo && baja == 1){
+            if(baja == comodato && baja == reemplazo && baja){
                 return 11; //Tiene permiso para ver baja, comodato y reemplazo
             }
             
 //------------------PERIMSO PARA 2 TIPOS DE SOLICITUDES------------------------//
-            if(baja == donacion && baja == 1){
+            if(baja == donacion && baja){
                 return 10; //Tiene permiso para ver baja y donacion
             }
-            if(baja == comodato && baja == 1){
+            if(baja == comodato && baja){
                 return 9; //Tiene permiso para ver baja y comodato
             }
-            if(baja == reemplazo && baja == 1){
+            if(baja == reemplazo && baja){
                 return 8; //Tiene permiso para ver baja y reemplazo
             }
-            if(reemplazo == comodato && baja == 1){
+            if(reemplazo == comodato && baja){
                 return 7; //Tiene permiso para ver reemplazo y comodato
             }
-            if(reemplazo == donacion && baja == 1){
+            if(reemplazo == donacion && baja){
                 return 6; //Tiene permiso para ver reemplazo y donacion
             }
-            if(comodato == donacion && comodato == 1){
+            if(comodato == donacion && comodato){
                 return 5;//Tiene permiso para ver comodato y donacion
             }
 
 //------------------PERIMSO PARA 1 TIPO DE SOLICITUDES------------------------// 
-            if(baja == 1){
+            if(baja){
                 return 4;
             }
-            if(comodato == 1){
+            if(comodato){
                 return 3;
             }
-            if(donacion == 1){
+            if(donacion){
                 return 2;
             }
-            if(reemplazo == 1){
+            if(reemplazo){
                 return 1;
             }
             
@@ -1252,5 +1225,180 @@ public class ManagerPermisos {
         
         return estado;
     }//esPresidencia
+    
+    public boolean permisosVale(String tipo, boolean usuario, boolean auxiliar, boolean jefe, boolean administracion, boolean organizacion){
+    
+        conexion = db.getConexion();
+        
+        try {
+            Statement st = conexion.createStatement();
+            //Realizamos los nuevos cambios para los permisos de atender la solicitudes de baja o comodato o donación
+            String sql = "update permiso_vale set permiso = "+usuario+" where puesto = 'Usuario Depto.' and tipo_vale = '"+tipo+"';";
+            st.executeUpdate(sql);
+            System.out.println("Se actualizo la secretaria");
+            
+            sql = "update permiso_vale set permiso = "+auxiliar+" where puesto = 'Auxiliar' and tipo_vale = '"+tipo+"';";
+            st.executeUpdate(sql);
+            System.out.println("Se actualizo el auxiliar");
+            
+            sql = "update permiso_vale set permiso = "+administracion+" where puesto = 'Administración' and tipo_vale = '"+tipo+"';";
+            st.executeUpdate(sql);
+            System.out.println("Se actualizo el supervisor");
+            
+            sql = "update permiso_vale set permiso = "+jefe+" where puesto = 'Jefe de departamento' and tipo_vale = '"+tipo+"';";
+            st.executeUpdate(sql);
+            System.out.println("Se actualizo el jefe");
+            
+            sql = "update permiso_vale set permiso = "+organizacion+" where puesto = 'Organización' and tipo_vale = '"+tipo+"';";
+            st.executeUpdate(sql);
+            System.out.println("Se actualizo la organización");
+            
+            conexion.close();
+            return true;
+        } //try  
+        
+        catch (SQLException ex) {
+            Logger.getLogger(ManagerPermisos.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }//Catch//Catch//Catch//Catch
+        
+    }//permisosSolicitud
+    
+    public boolean usuario_Vale(String tipo){
+        boolean estado;
+        conexion = db.getConexion();
+        
+        try {
+            Statement st = conexion.createStatement();
+            //Obtenemos la respuesta de permiso para la secretaria de acuerdo al tipo de solicitud
+            String sql = "select permiso from permiso_vale where tipo_vale = '"+tipo+"' and puesto = 'Usuario Depto.';";
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            estado = rs.getBoolean(1);
+            
+            conexion.close();
+        } //try  
+        
+        catch (SQLException ex) {
+            Logger.getLogger(ManagerPermisos.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }//Catch//Catch//Catch//Catch
+        
+        return estado;
+    }//secretaria_solicitud
+    
+    public boolean auxiliar_Vale(String tipo){
+        boolean estado;
+        conexion = db.getConexion();
+        
+        try {
+            Statement st = conexion.createStatement();
+            //Obtenemos la respuesta de permiso para la secretaria de acuerdo al tipo de solicitud
+            String sql = "select permiso from permiso_vale where tipo_vale = '"+tipo+"' and puesto = 'Auxiliar';";
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            estado = rs.getBoolean(1);
+            
+            conexion.close();
+        } //try  
+        
+        catch (SQLException ex) {
+            Logger.getLogger(ManagerPermisos.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }//Catch//Catch//Catch//Catch
+        
+        return estado;
+    }//auxiliar_solicitud
+    
+    public boolean administracion_Vale(String tipo){
+        boolean estado;
+        conexion = db.getConexion();
+        
+        try {
+            Statement st = conexion.createStatement();
+            //Obtenemos la respuesta de permiso para la secretaria de acuerdo al tipo de solicitud
+            String sql = "select permiso from permiso_vale where tipo_vale = '"+tipo+"' and puesto = 'Administración';";
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            estado = rs.getBoolean(1);
+            conexion.close();
+        } //try  
+        
+        catch (SQLException ex) {
+            Logger.getLogger(ManagerPermisos.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }//Catch//Catch//Catch//Catch
+        
+        return estado;
+    }//supevisor_solicitud
+    
+    public boolean jefe_Vale(String tipo){
+        boolean estado;
+        conexion = db.getConexion();
+        
+        try {
+            Statement st = conexion.createStatement();
+            //Obtenemos la respuesta de permiso para la secretaria de acuerdo al tipo de solicitud
+            String sql = "select permiso from permiso_vale where tipo_vale = '"+tipo+"' and puesto = 'Jefe de departamento';";
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            estado = rs.getBoolean(1);
+            
+            conexion.close();
+        } //try  
+        
+        catch (SQLException ex) {
+            Logger.getLogger(ManagerPermisos.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }//Catch//Catch//Catch//Catch
+        
+        return estado;
+    }//jefe_solicitud
+    
+    public boolean organizacion_Vale(String tipo){
+        boolean estado;
+        conexion = db.getConexion();
+        
+        try {
+            Statement st = conexion.createStatement();
+            //Obtenemos la respuesta de permiso para la secretaria de acuerdo al tipo de solicitud
+            String sql = "select permiso from permiso_vale where tipo_vale = '"+tipo+"' and puesto = 'Organización';";
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            estado = rs.getBoolean(1);
+            
+            conexion.close();
+        } //try  
+        
+        catch (SQLException ex) {
+            Logger.getLogger(ManagerPermisos.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }//Catch//Catch//Catch//Catch
+        
+        return estado;
+    }//organizacion_solicitud
+    
+    public boolean permisoPorVale(String usuario,String tipo){
+        boolean estado;
+        conexion = db.getConexion();
+        
+        try {
+            Statement st = conexion.createStatement();
+            //Obtenemos la respuesta de permiso para la secretaria de acuerdo al tipo de solicitud
+            String sql = "select permiso from permiso_vale pv inner join user u on (u.puesto = pv.puesto) where u.id_user = '"+usuario+"' and tipo_vale = '"+tipo+"';";
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            estado = rs.getBoolean(1);
+            
+            conexion.close();
+        } //try  
+        
+        catch (SQLException ex) {
+            Logger.getLogger(ManagerPermisos.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }//Catch//Catch//Catch//Catch
+        
+        return estado;
+    }//permisoPorVale
     
 }//class
