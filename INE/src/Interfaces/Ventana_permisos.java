@@ -70,7 +70,7 @@ public class Ventana_permisos extends javax.swing.JDialog {
             }
         });
         jPanel1.add(btnCancelar);
-        btnCancelar.setBounds(400, 380, 118, 33);
+        btnCancelar.setBounds(400, 310, 118, 33);
 
         btnGuardarCambios.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         btnGuardarCambios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
@@ -83,7 +83,7 @@ public class Ventana_permisos extends javax.swing.JDialog {
             }
         });
         jPanel1.add(btnGuardarCambios);
-        btnGuardarCambios.setBounds(260, 380, 119, 34);
+        btnGuardarCambios.setBounds(260, 310, 119, 34);
 
         tablaPermisos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -104,7 +104,7 @@ public class Ventana_permisos extends javax.swing.JDialog {
         jScrollPane1.setViewportView(tablaPermisos);
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(20, 60, 731, 308);
+        jScrollPane1.setBounds(20, 60, 731, 230);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baner Permisos.png"))); // NOI18N
         jPanel1.add(jLabel1);
@@ -113,7 +113,7 @@ public class Ventana_permisos extends javax.swing.JDialog {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         jLabel2.setText("jLabel2");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(-10, 0, 820, 430);
+        jLabel2.setBounds(-10, 0, 820, 370);
 
         lblUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jPanel1.add(lblUsuario);
@@ -127,7 +127,7 @@ public class Ventana_permisos extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
         );
 
         pack();

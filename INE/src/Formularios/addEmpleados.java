@@ -39,21 +39,8 @@ public class addEmpleados extends javax.swing.JDialog {
         manager_complemento = new ManagerComplemento();
         manager_permisos = new ManagerPermisos();
         
-        if(Principal.banderaUser != 1){
-            
-            if(Principal.banderaUser == 2){
-                txtUsuario.setText(Principal.UserUpdate);
-            }else{
-                txtUsuario.setText(Principal.Username);
-            }
-            txtUsuario.setEnabled(false);
-            txtContraseña.setEnabled(false);
-            checkDocumentacion.setEnabled(false);
-            llenarCampos();
-            txtContraseña.setText("**********");
-            btnAceptar.setText("Actualizar");
-        }//if(banderaUser)
         this.setLocationRelativeTo(null);
+        this.setTitle("Registro de nuevo empleado");
         
     }
 
@@ -91,19 +78,8 @@ public class addEmpleados extends javax.swing.JDialog {
         txtMunicipio = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         txtLocalidad = new javax.swing.JTextField();
-        pn_usuario = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        txtUsuario = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
-        txtContraseña = new javax.swing.JPasswordField();
-        checkDocumentacion = new javax.swing.JCheckBox();
-        jLabel13 = new javax.swing.JLabel();
-        comboCargo = new javax.swing.JComboBox<>();
-        jLabel14 = new javax.swing.JLabel();
-        comboArea = new javax.swing.JComboBox<>();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        lblAviso = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -221,36 +197,6 @@ public class addEmpleados extends javax.swing.JDialog {
         pn_empleado.add(txtLocalidad);
         txtLocalidad.setBounds(118, 185, 202, 23);
 
-        pn_usuario.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel11.setText("Usuario:");
-
-        txtUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtUsuario.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtUsuarioFocusLost(evt);
-            }
-        });
-
-        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel12.setText("Contraseña:");
-
-        txtContraseña.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        checkDocumentacion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        checkDocumentacion.setText("Documentación");
-
-        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel13.setText("Cargo:");
-
-        comboCargo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel14.setText("Área:");
-
-        comboArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
         btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnAceptar.setText("Aceptar");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -258,6 +204,8 @@ public class addEmpleados extends javax.swing.JDialog {
                 btnAceptarActionPerformed(evt);
             }
         });
+        pn_empleado.add(btnAceptar);
+        btnAceptar.setBounds(220, 240, 121, 25);
 
         btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
@@ -266,84 +214,12 @@ public class addEmpleados extends javax.swing.JDialog {
                 btnCancelarActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout pn_usuarioLayout = new javax.swing.GroupLayout(pn_usuario);
-        pn_usuario.setLayout(pn_usuarioLayout);
-        pn_usuarioLayout.setHorizontalGroup(
-            pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_usuarioLayout.createSequentialGroup()
-                .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pn_usuarioLayout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(lblAviso))
-                    .addGroup(pn_usuarioLayout.createSequentialGroup()
-                        .addGap(241, 241, 241)
-                        .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pn_usuarioLayout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(pn_usuarioLayout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pn_usuarioLayout.createSequentialGroup()
-                                .addComponent(jLabel12)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(40, 40, 40)
-                        .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(pn_usuarioLayout.createSequentialGroup()
-                                .addComponent(checkDocumentacion)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel13))
-                            .addComponent(jLabel14))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboCargo, 0, 150, Short.MAX_VALUE)
-                            .addComponent(comboArea, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
-        );
-        pn_usuarioLayout.setVerticalGroup(
-            pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_usuarioLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pn_usuarioLayout.createSequentialGroup()
-                        .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(checkDocumentacion)
-                            .addGroup(pn_usuarioLayout.createSequentialGroup()
-                                .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel11))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel12)
-                                    .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(12, 12, 12)
-                        .addComponent(lblAviso))
-                    .addGroup(pn_usuarioLayout.createSequentialGroup()
-                        .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel13)
-                            .addComponent(comboCargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel14))))
-                .addGap(18, 18, 18)
-                .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAceptar)
-                    .addComponent(btnCancelar))
-                .addGap(60, 60, 60))
-        );
-
-        pn_empleado.add(pn_usuario);
-        pn_usuario.setBounds(0, 214, 699, 136);
+        pn_empleado.add(btnCancelar);
+        btnCancelar.setBounds(390, 240, 121, 25);
 
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         pn_empleado.add(jLabel17);
-        jLabel17.setBounds(0, 0, 720, 400);
+        jLabel17.setBounds(0, 0, 720, 290);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -353,34 +229,11 @@ public class addEmpleados extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_empleado, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
+            .addComponent(pn_empleado, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    private void llenarCampos(){
-        String cadena = manager_users.infoEmpleado(txtUsuario.getText());
-        String separador [] = cadena.split(",");
-        txtNombre.setText(separador[0]);
-        txtApellidoP.setText(separador[1]);
-        txtApellidoM.setText(separador[2]);
-        txtCalle.setText(separador[3]);
-        txtColonia.setText(separador[4]);
-        txtTelefono.setText(separador[5]);
-        txtCodigo.setText(separador[6]);
-        txtFecha.setDateFormatString(separador[7]);
-        txtCurp.setText(separador[8]);
-        txtRfc.setText(separador[9]);
-        txtMunicipio.setText(separador[10]);
-        txtLocalidad.setText(separador[11]);
-        comboCargo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-        comboCargo.addItem(separador[12]);
-        comboCargo.setEditable(false);
-        comboArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-        comboArea.addItem(separador[13]);
-        comboArea.setEditable(false);
-    }//Llenar campos
     
     private void getInfo(){
         nombres = txtNombre.getText();
@@ -390,12 +243,8 @@ public class addEmpleados extends javax.swing.JDialog {
         colonia = txtColonia.getText();
         telefono = txtTelefono.getText();
         codigoP = txtCodigo.getText();
-        contraseña = txtContraseña.getText();
         curp = txtCurp.getText();
         rfc = txtRfc.getText();
-        usuario = txtUsuario.getText();
-        puesto = comboCargo.getSelectedItem().toString();
-        area = comboArea.getSelectedItem().toString();
         municipio = txtMunicipio.getText();
         localidad = txtLocalidad.getText();
     }//getInfo()
@@ -410,137 +259,50 @@ public class addEmpleados extends javax.swing.JDialog {
         if(txtApellidoM.getText().isEmpty()){
             return 3;
         }
-        if(txtUsuario.getText().isEmpty()){
-            return 4;
-        }
-        if(txtContraseña.getText().isEmpty()){
-            return 5;
-        }
         return 0;
     }//validar()
     
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
         int res = validar();
-        if(Principal.banderaUser == 1){
-            if(manager_permisos.alta_user(Principal.Username)){
-                switch(res){
-                    case 0:
-                        getInfo();
-                        boolean insertar = manager_users.insertarEmpleado(nombres, apellido_p, apellido_m, telefono, calle, colonia, curp, rfc, "1980-04-25", codigoP, checkDocumentacion.isSelected(),municipio,localidad);
-                        if(insertar){
-                            JOptionPane.showMessageDialog(null, "El empleado "+nombres+ " "+apellido_p+ "ha sido registrado en la base de datos exitosamente.");
-                            if(manager_permisos.consulta_user(Principal.Username)){
-                                Principal.tablaUsuarios.setModel(manager_users.getEmpleados());
-                            }
-                            this.dispose();
-                        }else{
-                                JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
-                                this.dispose();
-                        }
-                        break;
-                    case 1:
-                        JOptionPane.showMessageDialog(null, "Por favor ingresa el nombre del nuevo empleado");
-                        txtNombre.requestFocus();
-                        break;
-                    case 2:
-                        JOptionPane.showMessageDialog(null, "Por favor ingresa el apellido paterno del nuevo empleado");
-                        txtApellidoP.requestFocus();
-                        break;
-                    case 3:
-                        JOptionPane.showMessageDialog(null, "Por favor ingresa el apellido materno del nuevo empleado");
-                        txtApellidoM.requestFocus();
-                        break;    
-                    case 4:
-                        JOptionPane.showMessageDialog(null, "Por favor ingresa el nombre de usuario del nuevo empleado");
-                        txtUsuario.requestFocus();
-                        break;    
-                    case 5:
-                        JOptionPane.showMessageDialog(null, "Por favor ingresa la contraseña del nuevo empleado");
-                        txtContraseña.requestFocus();
-                        break;
-                }//switch
-            }else{
-                JOptionPane.showMessageDialog(null, "Te han revocado los permisos para registrar nuevos empleados.");
-            }
-        }//if para dar de alta
-        else{
+        if(manager_permisos.alta_user(Principal.Username)){
             switch(res){
-                    case 0:
-                        getInfo();
-                        boolean actualizar = manager_users.actualizarEmpleado(usuario, nombres, apellido_p, apellido_m, calle, colonia, telefono, codigoP, "1995-08-01", curp, rfc, municipio, localidad,puesto);
-                        if(actualizar){
-                            JOptionPane.showMessageDialog(null, "La información del usuario "+usuario+" ha sido actualizada exitosamente.");
-                            if(manager_permisos.consulta_user(Principal.Username)){
-                                Principal.tablaUsuarios.setModel(manager_users.getEmpleados());
-                            }
-                            this.dispose();
-                        }else{
-                                JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
-                                this.dispose();
+                case 0:
+                    getInfo();
+                    boolean insertar = manager_users.insertarEmpleado(nombres, apellido_p, apellido_m, telefono, calle, colonia, curp, rfc, "1980-04-25", codigoP, municipio,localidad);
+                    if(insertar){
+                        JOptionPane.showMessageDialog(null, "El empleado "+nombres+ " "+apellido_p+ "ha sido registrado en la base de datos exitosamente.");
+                        if(manager_permisos.consulta_user(Principal.Username)){
+                            Principal.tablaUsuarios.setModel(manager_users.getEmpleados());
                         }
-                        break;
-                    case 1:
-                        JOptionPane.showMessageDialog(null, "Por favor ingresa el nombre del empleado");
-                        txtNombre.requestFocus();
-                        break;
-                    case 2:
-                        JOptionPane.showMessageDialog(null, "Por favor ingresa el apellido paterno del empleado");
-                        txtApellidoP.requestFocus();
-                        break;
-                    case 3:
-                        JOptionPane.showMessageDialog(null, "Por favor ingresa el apellido materno del empleado");
-                        txtApellidoM.requestFocus();
-                        break;    
-                    case 4:
-                        JOptionPane.showMessageDialog(null, "Por favor ingresa el nombre de usuario del empleado");
-                        txtUsuario.requestFocus();
-                        break;    
-                    case 5:
-                        JOptionPane.showMessageDialog(null, "Por favor ingresa la contraseña del empleado");
-                        txtContraseña.requestFocus();
-                        break;
-                }//switch
+                        this.dispose();
+                    }else{
+                            JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+                            this.dispose();
+                    }
+                    break;
+                case 1:
+                    JOptionPane.showMessageDialog(null, "Por favor ingresa el nombre del nuevo empleado");
+                    txtNombre.requestFocus();
+                    break;
+                case 2:
+                    JOptionPane.showMessageDialog(null, "Por favor ingresa el apellido paterno del nuevo empleado");
+                    txtApellidoP.requestFocus();
+                    break;
+                case 3:
+                    JOptionPane.showMessageDialog(null, "Por favor ingresa el apellido materno del nuevo empleado");
+                    txtApellidoM.requestFocus();
+                    break;
+            }//switch
+        }else{
+            JOptionPane.showMessageDialog(null, "Te han revocado los permisos para registrar nuevos empleados.");
         }
+        
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        //Llenamos los combobox
-        if(Principal.banderaUser == 1){
-            comboCargo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-            manager_complemento.getComboPuestos(comboCargo);
-
-            comboArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-            manager_complemento.getComboAreas(comboArea);
-        }
     }//GEN-LAST:event_formWindowOpened
-
-    private void txtUsuarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsuarioFocusLost
-        // TODO add your handling code here:
-        if(!(txtUsuario.getText().isEmpty())){
-            
-            //Comparamos si existe o no
-            if(manager_users.existeUsuario(txtUsuario.getText())){
-                //Existe, entonces pintamos en rojo los TextField
-                txtUsuario.setBackground(java.awt.Color.RED);
-                btnAceptar.setEnabled(false);
-                lblAviso.setText("El nombre de usuario ya se encuentra registrado.");
-                
-            }else{
-                //Si no existe, entonces pintamos de verde los TextField
-                txtUsuario.setBackground(java.awt.Color.GREEN);
-                btnAceptar.setEnabled(true);
-                lblAviso.setText("");
-            }
-            
-        }//Buscar si existe o no
-        else{
-            txtUsuario.setBackground(java.awt.Color.WHITE);
-            btnAceptar.setEnabled(true);
-            lblAviso.setText("");
-        }
-    }//GEN-LAST:event_txtUsuarioFocusLost
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
          // TODO add your handling code here:
@@ -593,15 +355,8 @@ public class addEmpleados extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JCheckBox checkDocumentacion;
-    private javax.swing.JComboBox<String> comboArea;
-    private javax.swing.JComboBox<String> comboCargo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -613,15 +368,12 @@ public class addEmpleados extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel lblAviso;
     private javax.swing.JPanel pn_empleado;
-    private javax.swing.JPanel pn_usuario;
     private javax.swing.JTextField txtApellidoM;
     private javax.swing.JTextField txtApellidoP;
     private javax.swing.JTextField txtCalle;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtColonia;
-    private javax.swing.JPasswordField txtContraseña;
     private javax.swing.JTextField txtCurp;
     private com.toedter.calendar.JDateChooser txtFecha;
     private javax.swing.JTextField txtLocalidad;
@@ -629,6 +381,5 @@ public class addEmpleados extends javax.swing.JDialog {
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtRfc;
     private javax.swing.JTextField txtTelefono;
-    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

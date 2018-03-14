@@ -44,6 +44,7 @@ import Formularios.addEmpleados;
 import Formularios.addInventario;
 import Formularios.addInventarioGranel;
 import Formularios.addResguardo;
+import Formularios.addUsuarios;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Image;
@@ -423,6 +424,11 @@ public class Principal extends javax.swing.JFrame {
         MenuEmpleados.add(ActualizarInfoU);
 
         Asignar_usuario.setText("Asignar usuario");
+        Asignar_usuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Asignar_usuarioActionPerformed(evt);
+            }
+        });
         MenuEmpleados.add(Asignar_usuario);
 
         ActualizarInfoG.setText("Refrescar tabla");
@@ -4123,6 +4129,32 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No tiene permisos para consultar empleados/usuarios.");
         }
     }//GEN-LAST:event_comboEmpUsuActionPerformed
+
+    private void Asignar_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Asignar_usuarioActionPerformed
+        // TODO add your handling code here:
+        
+        if(manager_permisos.alta_user(Username)){
+            try {
+                for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                    if ("Nimbus".equals(info.getName())) {
+                        UIManager.setLookAndFeel(info.getClassName());
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                // If Nimbus is not available, you can set the GUI to another look and feel.
+            }
+            
+            int fila = tablaUsuarios.getSelectedRow();
+            int id = Integer.parseInt(tablaUsuarios.getValueAt(fila, 0).toString());
+            
+            addUsuarios ob = new addUsuarios(this, true,id);
+            ob.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "No tienes permiso para asignar usuarios");
+        }
+        
+    }//GEN-LAST:event_Asignar_usuarioActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         

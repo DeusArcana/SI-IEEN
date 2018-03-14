@@ -295,12 +295,7 @@ public class ManagerUsers {
     }//Buscar si existe el empleado
     
     public boolean insertarEmpleado(String nombres, String apellidoP, String apellidoM, String telefono,String calle, String colonia, 
-                                    String curp,String rfc,String fecha,String codigoP,boolean documentacion,String municipio,String localidad) {
-        /*
-        public boolean insertarEmpleado(String usuario, String nombres, String apellidoP, String apellidoM, String telefono, String pass,String calle, String colonia, 
-                                    String curp,String rfc,String fecha,String codigoP,String puesto, String area,boolean documentacion,String municipio,String localidad) {
-        */
-        
+                                    String curp,String rfc,String fecha,String codigoP,String municipio,String localidad) {
         try {
             //Hacemos la conexión
             conexion = db.getConexion();
@@ -314,17 +309,29 @@ public class ManagerUsers {
                          +"values('"+nombres+"','"+apellidoP+"','"+apellidoM+"','"+calle+"','"+colonia+"','"
                          +telefono+"','"+codigoP+"','"+fecha+"','"+curp+"','"+rfc+"','"+municipio+"','"+localidad+"');";
             st.executeUpdate(sql);
-            /*
-            //Una vez insertado, obtendremos el ID del empleado
-            sql = "select id_empleado from empleados where nombres = '"+nombres+"' and apellido_p = '"+apellidoP+"' and apellido_m = '"+apellidoM
-                  +"'and calle = '"+calle+"' and colonia = '"+colonia+"' and telefono = '"+telefono+"' and codigo_postal = '"+codigoP
-                  +"'and fecha_nacimiento = '"+fecha+"' and curp = '"+curp+"' and rfc = '"+rfc+"' and municipio = '"+municipio+"' and localidad = '"+localidad+"';";
-            rs = st.executeQuery(sql);
-            rs.next();
-            id_empleado = rs.getInt(1);
+            
+            return true;
+        } catch (SQLException ex) {
+            System.out.printf("Error al insertar el empleado en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } 
+        
+    }//insertarEmpleado
+    
+    
+    public boolean asignarUsuario(int id_empleado,String usuario, String pass,String puesto, String area) {
+        
+        try {
+            //Hacemos la conexión,
+            conexion = db.getConexion();
+            //Creamos la variable para hacer operaciones CRUD
+            Statement st = conexion.createStatement();
+            //Creamos la variable para guardar el resultado de las consultas
+            ResultSet rs;
             
             //Ya se realizo la inserción y se encontro el ID de ese nuevo registro, ahora insertamos el usuario y ligamos el ID, su cargo y su área
-            sql = "insert into user values('"+usuario+"',"+id_empleado+","+documentacion+",'"+pass+"','"+puesto+"','"+area+"');";
+            String sql = "insert into user values('"+usuario+"',"+id_empleado+",true,'"+pass+"','"+puesto+"','"+area+"');";
             st.executeUpdate(sql);
             
             //Registramos el nuevo usuario en la tabla de permisos(por el momento no tendra ningún permiso, ya que solo es el registro)
@@ -357,15 +364,13 @@ public class ManagerUsers {
             //Cerramos la conexión
             conexion.close();
             return true;
-            */
-            return true;
         } catch (SQLException ex) {
             System.out.printf("Error al insertar el empleado en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         } 
         
-    }//insertarEmpleado
+    }//asignarUsuario
     
     public boolean actualizarEmpleado(String usuario, String nombres, String apellidoP, String apellidoM,String calle,String colonia, String telefono,String codigoP,String fecha,String curp,String rfc,String municipio,String localidad,String puesto) {
 

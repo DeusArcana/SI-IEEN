@@ -58,6 +58,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Asignar usuario"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Asignar_usuarioActionPerformed"/>
+          </Events>
         </MenuItem>
       </SubComponents>
     </Container>
