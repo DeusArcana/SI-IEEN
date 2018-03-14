@@ -427,11 +427,11 @@ public class addEmpleados extends javax.swing.JDialog {
                 switch(res){
                     case 0:
                         getInfo();
-                        boolean insertar = manager_users.insertarEmpleado(usuario, nombres, apellido_p, apellido_m, telefono, contraseña, calle, colonia, curp, rfc, "1980-04-25", codigoP, puesto, area, checkDocumentacion.isSelected(),municipio,localidad);
+                        boolean insertar = manager_users.insertarEmpleado(nombres, apellido_p, apellido_m, telefono, calle, colonia, curp, rfc, "1980-04-25", codigoP, checkDocumentacion.isSelected(),municipio,localidad);
                         if(insertar){
-                            JOptionPane.showMessageDialog(null, "El usuario "+usuario+" ha sido registrado en la base de datos exitosamente.");
+                            JOptionPane.showMessageDialog(null, "El empleado "+nombres+ " "+apellido_p+ "ha sido registrado en la base de datos exitosamente.");
                             if(manager_permisos.consulta_user(Principal.Username)){
-                                Principal.tablaUsuarios.setModel(manager_users.getEmpleados(Principal.Username));
+                                Principal.tablaUsuarios.setModel(manager_users.getEmpleados());
                             }
                             this.dispose();
                         }else{
@@ -472,7 +472,7 @@ public class addEmpleados extends javax.swing.JDialog {
                         if(actualizar){
                             JOptionPane.showMessageDialog(null, "La información del usuario "+usuario+" ha sido actualizada exitosamente.");
                             if(manager_permisos.consulta_user(Principal.Username)){
-                                Principal.tablaUsuarios.setModel(manager_users.getEmpleados(Principal.Username));
+                                Principal.tablaUsuarios.setModel(manager_users.getEmpleados());
                             }
                             this.dispose();
                         }else{

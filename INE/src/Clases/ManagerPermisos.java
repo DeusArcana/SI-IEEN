@@ -158,7 +158,7 @@ public class ManagerPermisos {
 
     }//actualizar permisos estaticos de acuerdo al puesto
 
-    public boolean asignarPermisos_Puesto(String puesto,String usuario,String area) {
+    public boolean asignarPermisos_Puesto(String puesto,String usuario) {
 
         conexion = db.getConexion();
         
@@ -188,7 +188,7 @@ public class ManagerPermisos {
             
             //Llenamos los arreglos con su permiso correspondiente
             for(int i = 0; i<tamaño; i++){
-                sql = "select alta,baja,actualizar,consulta from permisos_puesto where modulo = '"+modulo[i]+"' and puesto = '"+puesto+"' and area = '"+area+"';";
+                sql = "select alta,baja,actualizar,consulta from permisos_puesto where modulo = '"+modulo[i]+"' and puesto = '"+puesto+"';";
                 rs = st.executeQuery(sql);
                 rs.next();
                 alta[i] = rs.getBoolean(1);

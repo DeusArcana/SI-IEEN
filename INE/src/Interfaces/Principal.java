@@ -175,11 +175,13 @@ public class Principal extends javax.swing.JFrame {
     private void initComponents() {
 
         MenuUsuarios = new javax.swing.JPopupMenu();
-        Eliminar = new javax.swing.JMenuItem();
-        Actualizar = new javax.swing.JMenuItem();
         Promover = new javax.swing.JMenuItem();
         Permisos = new javax.swing.JMenuItem();
+        MenuEmpleados = new javax.swing.JPopupMenu();
+        dar_baja = new javax.swing.JMenuItem();
+        Actualizar = new javax.swing.JMenuItem();
         ActualizarInfoU = new javax.swing.JMenuItem();
+        Asignar_usuario = new javax.swing.JMenuItem();
         MenuInventario = new javax.swing.JPopupMenu();
         ActualizarInfoG = new javax.swing.JMenuItem();
         MenuSolicitudes = new javax.swing.JPopupMenu();
@@ -245,6 +247,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         txtBusquedaUsuario = new javax.swing.JTextField();
         comboFiltroUsuario = new javax.swing.JComboBox<>();
+        comboEmpUsu = new javax.swing.JComboBox<>();
         fondo = new javax.swing.JLabel();
         vehiculos = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -383,22 +386,6 @@ public class Principal extends javax.swing.JFrame {
         Asignar = new javax.swing.JMenuItem();
         Equipos = new javax.swing.JMenuItem();
 
-        Eliminar.setText("Eliminar");
-        Eliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EliminarActionPerformed(evt);
-            }
-        });
-        MenuUsuarios.add(Eliminar);
-
-        Actualizar.setText("Actualizar");
-        Actualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarActionPerformed(evt);
-            }
-        });
-        MenuUsuarios.add(Actualizar);
-
         Promover.setText("Promover");
         MenuUsuarios.add(Promover);
 
@@ -410,13 +397,33 @@ public class Principal extends javax.swing.JFrame {
         });
         MenuUsuarios.add(Permisos);
 
+        dar_baja.setText("Eliminar");
+        dar_baja.setActionCommand("Dar de baja");
+        dar_baja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dar_bajaActionPerformed(evt);
+            }
+        });
+        MenuEmpleados.add(dar_baja);
+
+        Actualizar.setText("Actualizar");
+        Actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarActionPerformed(evt);
+            }
+        });
+        MenuEmpleados.add(Actualizar);
+
         ActualizarInfoU.setText("Refrescar tabla");
         ActualizarInfoU.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ActualizarInfoUActionPerformed(evt);
             }
         });
-        MenuUsuarios.add(ActualizarInfoU);
+        MenuEmpleados.add(ActualizarInfoU);
+
+        Asignar_usuario.setText("Asignar usuario");
+        MenuEmpleados.add(Asignar_usuario);
 
         ActualizarInfoG.setText("Refrescar tabla");
         ActualizarInfoG.addActionListener(new java.awt.event.ActionListener() {
@@ -755,7 +762,7 @@ public class Principal extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Usuario", "Nombre(s)", "Apellido Paterno", "Apellido Materno", "Cargo", "Área"
+                "ID", "Nombre(s)", "Apellido Paterno", "Apellido Materno", "Cargo", "Área"
             }
         ));
         tablaUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -822,6 +829,15 @@ public class Principal extends javax.swing.JFrame {
         });
         jPanel5.add(comboFiltroUsuario);
         comboFiltroUsuario.setBounds(150, 100, 210, 28);
+
+        comboEmpUsu.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        comboEmpUsu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboEmpUsuActionPerformed(evt);
+            }
+        });
+        jPanel5.add(comboEmpUsu);
+        comboEmpUsu.setBounds(750, 100, 210, 28);
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel5.add(fondo);
@@ -1897,7 +1913,7 @@ public class Principal extends javax.swing.JFrame {
                         .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lb_objetos_asignados1)
                             .addComponent(jScrollPane34, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1168, Short.MAX_VALUE)
                         .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lb_objetos_entregados1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane35, javax.swing.GroupLayout.PREFERRED_SIZE, 651, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2147,6 +2163,11 @@ public class Principal extends javax.swing.JFrame {
         comboFiltroUsuario.addItem("Cargo");
         comboFiltroUsuario.addItem("Área");
         
+        //COMBOEMPUSU
+        comboEmpUsu.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        comboEmpUsu.addItem("Empleados");
+        comboEmpUsu.addItem("Usuarios");
+        
         //COMBOFILTROVEHICULOS
         comboFiltroVehiculos.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboFiltroVehiculos.addItem("Marca");
@@ -2157,7 +2178,7 @@ public class Principal extends javax.swing.JFrame {
         
         //Llenado de tablas
         if(manager_permisos.consulta_user(Username)){
-            tablaUsuarios.setModel(manager_users.getEmpleados(Username));
+            tablaUsuarios.setModel(manager_users.getEmpleados());
         }
         if(manager_permisos.consulta_vehiculos(Username)){
             tablaVehiculos.setModel(managerVehiculos.getVehiculos());
@@ -2278,7 +2299,7 @@ public class Principal extends javax.swing.JFrame {
         lblArea.setText("Área: "+separador[13]);
     }
     
-    private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
+    private void dar_bajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dar_bajaActionPerformed
         // TODO add your handling code here:
         
         if(manager_permisos.baja_user(Username)){
@@ -2295,7 +2316,7 @@ public class Principal extends javax.swing.JFrame {
 
                 if(manager_users.eliminarEmpleado(usuario)){
                     JOptionPane.showMessageDialog(null, "El usuario a sido eliminado exisitosamente.");
-                    tablaUsuarios.setModel(manager_users.getEmpleados(Username));
+                    tablaUsuarios.setModel(manager_users.getEmpleados());
                 }//if(eliminarEmpleado())
                 else{
                         JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
@@ -2306,7 +2327,7 @@ public class Principal extends javax.swing.JFrame {
         }
         
         
-    }//GEN-LAST:event_EliminarActionPerformed
+    }//GEN-LAST:event_dar_bajaActionPerformed
 
     private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
         // TODO add your handling code here:
@@ -3563,25 +3584,45 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         int filtro = comboFiltroUsuario.getSelectedIndex();
         String busqueda = txtBusquedaUsuario.getText();
+        
+        if(manager_permisos.consulta_user(Username)){
 
-        //Si no hay nada en el campo entonces mostramos todos los empleados
-        if(busqueda.equals("")){
-            tablaUsuarios.setModel(manager_users.getEmpleados(Username));
-        }//if
+            if(comboEmpUsu.getSelectedItem().toString().equals("Empleados")){
+                
+                //Si no hay nada en el campo entonces mostramos todos los empleados
+                if(busqueda.equals("")){
+                    tablaUsuarios.setModel(manager_users.getEmpleados());
+                }//if
+                else{
+                    //Si hay coincidencias entonces los muestra
+                    if(manager_users.existeEmpleado(filtro, busqueda, Username)){
+                        tablaUsuarios.setModel(manager_users.getEmpleadosCoincidencia(Username,filtro,busqueda));
+                    }//if
 
-        else{
+                    //Si no hay coincidecnias entonces mostramos todos los empleados
+                    else{
+                        tablaUsuarios.setModel(manager_users.getEmpleados());
+                    }//Segundo else
 
-            //Si hay coincidencias entonces los muestra
-            if(manager_users.existeEmpleado(filtro, busqueda, Username)){
-                tablaUsuarios.setModel(manager_users.getEmpleadosCoincidencia(Username,filtro,busqueda));
-            }//if
+                }//Primer else
+                
+            }else{
+                tablaUsuarios.setModel(manager_users.getUsuarios(Username));
+                
+                //COMBOFILTROUSUARIO
+                comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+                comboFiltroUsuario.addItem("Usuario");
+                comboFiltroUsuario.addItem("Nombre");
+                comboFiltroUsuario.addItem("Apellido P");
+                comboFiltroUsuario.addItem("Apellido M");
+                comboFiltroUsuario.addItem("Cargo");
+                comboFiltroUsuario.addItem("Área");
+                
+            }
 
-            //Si no hay coincidecnias entonces mostramos todos los empleados
-            else{
-                tablaUsuarios.setModel(manager_users.getEmpleados(Username));
-            }//Segundo else
-
-        }//Primer else
+        }else{
+            JOptionPane.showMessageDialog(null, "No tiene permisos para consultar empleados/usuarios.");
+        }
 
     }//GEN-LAST:event_txtBusquedaUsuarioKeyReleased
 
@@ -3609,13 +3650,27 @@ public class Principal extends javax.swing.JFrame {
 
     private void tablaUsuariosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseReleased
         // TODO add your handling code here:
-        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
-        if(SwingUtilities.isRightMouseButton(evt)){
-            int r = tablaUsuarios.rowAtPoint(evt.getPoint());
-            if (r >= 0 && r < tablaUsuarios.getRowCount())
-            tablaUsuarios.setRowSelectionInterval(r, r);
-            MenuUsuarios.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-        }//clic derecho
+        
+        if(comboEmpUsu.getSelectedItem().toString().equals("Empleados")){
+            //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+            if(SwingUtilities.isRightMouseButton(evt)){
+                int r = tablaUsuarios.rowAtPoint(evt.getPoint());
+                if (r >= 0 && r < tablaUsuarios.getRowCount())
+                tablaUsuarios.setRowSelectionInterval(r, r);
+                MenuEmpleados.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+            }//clic derecho    
+        }else{
+            //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+            if(SwingUtilities.isRightMouseButton(evt)){
+                int r = tablaUsuarios.rowAtPoint(evt.getPoint());
+                if (r >= 0 && r < tablaUsuarios.getRowCount())
+                tablaUsuarios.setRowSelectionInterval(r, r);
+                MenuUsuarios.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+            }//clic derecho
+
+        }
+        
+        
 
     }//GEN-LAST:event_tablaUsuariosMouseReleased
 
@@ -3919,7 +3974,7 @@ public class Principal extends javax.swing.JFrame {
     private void ActualizarInfoUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoUActionPerformed
         // TODO add your handling code here:
         if(manager_permisos.consulta_user(Username)){
-            tablaUsuarios.setModel(manager_users.getEmpleados(Username));
+            tablaUsuarios.setModel(manager_users.getEmpleados());
         }else{
             JOptionPane.showMessageDialog(null, "Te han revocado los permisos para la consulta de empleados");
         }
@@ -4036,6 +4091,38 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
     }//GEN-LAST:event_ActualizarInfoSMActionPerformed
+
+    private void comboEmpUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpUsuActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.consulta_user(Username)){
+
+            if(comboEmpUsu.getSelectedItem().toString().equals("Empleados")){
+                tablaUsuarios.setModel(manager_users.getEmpleados());
+                
+                //COMBOFILTROUSUARIO
+                comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+                comboFiltroUsuario.addItem("Nombre");
+                comboFiltroUsuario.addItem("Apellido P");
+                comboFiltroUsuario.addItem("Apellido M");
+                
+            }else{
+                tablaUsuarios.setModel(manager_users.getUsuarios(Username));
+                
+                //COMBOFILTROUSUARIO
+                comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+                comboFiltroUsuario.addItem("Usuario");
+                comboFiltroUsuario.addItem("Nombre");
+                comboFiltroUsuario.addItem("Apellido P");
+                comboFiltroUsuario.addItem("Apellido M");
+                comboFiltroUsuario.addItem("Cargo");
+                comboFiltroUsuario.addItem("Área");
+                
+            }
+
+        }else{
+            JOptionPane.showMessageDialog(null, "No tiene permisos para consultar empleados/usuarios.");
+        }
+    }//GEN-LAST:event_comboEmpUsuActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -4180,12 +4267,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem AgregarStock;
     private javax.swing.JMenuItem Asignar;
     private javax.swing.JMenuItem AsignarV;
+    private javax.swing.JMenuItem Asignar_usuario;
     private javax.swing.JMenuItem Atender;
     private javax.swing.JMenuItem Autorizar;
     private javax.swing.JMenuItem CancelarA;
     private javax.swing.JMenuItem CancelarEntrega;
     private javax.swing.JMenuItem Denegar;
-    private javax.swing.JMenuItem Eliminar;
     private javax.swing.JMenuItem EntregarParte;
     private javax.swing.JMenuItem EntregarTodo;
     private javax.swing.JMenuItem Equipos;
@@ -4194,6 +4281,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu MenuAsginados;
     private javax.swing.JPopupMenu MenuAsignacionP;
     private javax.swing.JPopupMenu MenuAsignacionPG;
+    private javax.swing.JPopupMenu MenuEmpleados;
     private javax.swing.JPopupMenu MenuEntregados;
     private javax.swing.JPopupMenu MenuInventario;
     private javax.swing.JPopupMenu MenuPendientes;
@@ -4230,6 +4318,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JSpinner campoip2;
     private javax.swing.JSpinner campoip3;
     private javax.swing.JSpinner campoip4;
+    private javax.swing.JComboBox<String> comboEmpUsu;
     private javax.swing.JComboBox<String> comboEmpleado;
     private javax.swing.JComboBox<String> comboEmpleadoR;
     public static javax.swing.JComboBox<String> comboFiltro;
@@ -4237,6 +4326,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboFiltroVehiculos;
     private javax.swing.JComboBox<String> comboInventario;
     private javax.swing.JPanel configuracion;
+    private javax.swing.JMenuItem dar_baja;
     private javax.swing.JPanel empleado;
     private javax.swing.JLabel etiquetaAño;
     private javax.swing.JLabel etiquetaEstado;

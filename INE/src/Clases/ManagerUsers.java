@@ -29,7 +29,45 @@ public class ManagerUsers {
         
     }//constructor
     
-    public DefaultTableModel getEmpleados(String usuario) {
+    public DefaultTableModel getEmpleados() {
+
+        DefaultTableModel table = new DefaultTableModel();
+
+        try {
+            table.addColumn("ID");
+            table.addColumn("Nombre(s)");
+            table.addColumn("Apellido Paterno");
+            table.addColumn("Apellido Materno");
+            table.addColumn("Telefono");
+            
+            //Consulta de los empleados
+            String sql = "select id_empleado,nombres,apellido_p,apellido_m,telefono from empleados where id_empleado not in (select id_empleado from user);";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            Object datos[] = new Object[5];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<5;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+           }//while
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error getTabla Inventario SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//getEmpleados
+    
+    public DefaultTableModel getUsuarios(String usuario) {
 
         DefaultTableModel table = new DefaultTableModel();
 
@@ -38,10 +76,12 @@ public class ManagerUsers {
             table.addColumn("Nombre(s)");
             table.addColumn("Apellido Paterno");
             table.addColumn("Apellido Materno");
-            table.addColumn("Cargo");
+            table.addColumn("Puesto");
             table.addColumn("Área");
             
-            //Consulta de los empleados
+            
+            
+            //Consulta de los usuarios
             String sql = "select u.id_user,e.nombres,e.apellido_p,e.apellido_m,u.puesto,u.area from user u " +
                          "inner join empleados e on (u.id_empleado = e.id_empleado) where u.puesto != 'SuperUsuario' and u.id_user != '"+usuario+"';";
             conexion = db.getConexion();
@@ -67,9 +107,71 @@ public class ManagerUsers {
             return table;
         }
 
-    }//getEmpleados
+    }//getUsuarios
     
     public DefaultTableModel getEmpleadosCoincidencia(String usuario,int filtro,String busqueda) {
+
+        DefaultTableModel table = new DefaultTableModel();
+        String tipoBusqueda = "";
+        try{
+            
+            /*
+            filtro = 0; Nombres
+            filtro = 1; Apellido P
+            filtro = 2; Apellido M
+            */
+            
+            switch(filtro){
+
+                case 0:
+                    tipoBusqueda = "nombres";
+                    break;
+
+                case 1:
+                    tipoBusqueda = "apellido_p";
+                    break;
+
+                case 2:
+                    tipoBusqueda = "apellido_m";
+                    break;    
+
+            }//Buscamos el nombre de la columna con lo que vamos a buscar la coincidencia
+
+            table.addColumn("ID");
+            table.addColumn("Nombre(s)");
+            table.addColumn("Apellido Paterno");
+            table.addColumn("Apellido Materno");
+            table.addColumn("Telefono");
+            
+            //Consulta de los empleados
+            String sql = "select id_empleado,nombres,apellido_p,apellido_m,telefono from empleados " +
+                         "where "+tipoBusqueda+" like '"+busqueda+"%' and id_empleado not in (select id_empleado from user);";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            Object datos[] = new Object[5];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<5;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+           }//while
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error getTabla Inventario SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//getEmpleadosCoincidencia
+    
+    public DefaultTableModel getUsuariosCoincidencia(String usuario,int filtro,String busqueda) {
 
         DefaultTableModel table = new DefaultTableModel();
         String tipoBusqueda = "";
@@ -146,7 +248,7 @@ public class ManagerUsers {
             return table;
         }
 
-    }//getEmpleadosCoincidencia
+    }//getUsuariosCoincidencia
 
     public boolean existeEmpleado(int filtro, String busqueda,String usuario){
         boolean estado = false;
@@ -154,45 +256,29 @@ public class ManagerUsers {
         try{
             
             /*
-            filtro = 0; Usuario
-            filtro = 1; Nombres
-            filtro = 2; Apellido P
-            filtro = 3; Apellido M
-            filtro = 4; Cargo
-            filtro = 5; Área
+            filtro = 0; Nombres
+            filtro = 1; Apellido P
+            filtro = 2; Apellido M
             */
             
             switch(filtro){
 
                 case 0:
-                    tipoBusqueda = "u.id_user";
+                    tipoBusqueda = "nombres";
                     break;
 
                 case 1:
-                    tipoBusqueda = "e.nombres";
+                    tipoBusqueda = "apellido_p";
                     break;
 
                 case 2:
-                    tipoBusqueda = "e.apellido_p";
-                    break;
-
-                case 3:
-                    tipoBusqueda = "e.apellido_m";
-                    break;
-
-                case 4:
-                    tipoBusqueda = "u.puesto";
-                    break;
-
-                case 5:
-                    tipoBusqueda = "u.area";
+                    tipoBusqueda = "apellido_m";
                     break;    
 
             }//Buscamos el nombre de la columna con lo que vamos a buscar la coincidencia
             
-            String sql = "select u.id_user,e.nombres,e.apellido_p,e.apellido_m,u.puesto,u.area from user u " +
-                         "inner join empleados e on (u.id_empleado = e.id_empleado) where u.puesto != 'SuperUsuario' "
-                    +    "and u.id_user != '"+usuario+"' and "+tipoBusqueda+" like '"+busqueda+"%';";
+            String sql = "select id_empleado,nombres,apellido_p,apellido_m,telefono from empleados " +
+                         "where "+tipoBusqueda+" like '"+busqueda+"%' and id_empleado not in (select id_empleado from user);";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -208,9 +294,13 @@ public class ManagerUsers {
         
     }//Buscar si existe el empleado
     
-    public boolean insertarEmpleado(String usuario, String nombres, String apellidoP, String apellidoM, String telefono, String pass,String calle, String colonia, 
+    public boolean insertarEmpleado(String nombres, String apellidoP, String apellidoM, String telefono,String calle, String colonia, 
+                                    String curp,String rfc,String fecha,String codigoP,boolean documentacion,String municipio,String localidad) {
+        /*
+        public boolean insertarEmpleado(String usuario, String nombres, String apellidoP, String apellidoM, String telefono, String pass,String calle, String colonia, 
                                     String curp,String rfc,String fecha,String codigoP,String puesto, String area,boolean documentacion,String municipio,String localidad) {
-        int id_empleado;
+        */
+        
         try {
             //Hacemos la conexión
             conexion = db.getConexion();
@@ -224,7 +314,7 @@ public class ManagerUsers {
                          +"values('"+nombres+"','"+apellidoP+"','"+apellidoM+"','"+calle+"','"+colonia+"','"
                          +telefono+"','"+codigoP+"','"+fecha+"','"+curp+"','"+rfc+"','"+municipio+"','"+localidad+"');";
             st.executeUpdate(sql);
-            
+            /*
             //Una vez insertado, obtendremos el ID del empleado
             sql = "select id_empleado from empleados where nombres = '"+nombres+"' and apellido_p = '"+apellidoP+"' and apellido_m = '"+apellidoM
                   +"'and calle = '"+calle+"' and colonia = '"+colonia+"' and telefono = '"+telefono+"' and codigo_postal = '"+codigoP
@@ -263,11 +353,12 @@ public class ManagerUsers {
             }//for
             
             //Ahora le damos los permisos de acuerdo al cargo que tiene
-            manager_permisos.asignarPermisos_Puesto(puesto, usuario,area);
+            manager_permisos.asignarPermisos_Puesto(puesto, usuario);
             //Cerramos la conexión
             conexion.close();
             return true;
-            
+            */
+            return true;
         } catch (SQLException ex) {
             System.out.printf("Error al insertar el empleado en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
