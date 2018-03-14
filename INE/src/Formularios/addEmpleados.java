@@ -11,6 +11,7 @@ import Clases.ManagerPermisos;
 
 import Interfaces.Principal;
 import com.alee.laf.WebLookAndFeel;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -247,6 +248,10 @@ public class addEmpleados extends javax.swing.JDialog {
         rfc = txtRfc.getText();
         municipio = txtMunicipio.getText();
         localidad = txtLocalidad.getText();
+        
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        fecha = formato.format(txtFecha.getDate());
+        
     }//getInfo()
     
     private int validar(){
@@ -269,7 +274,7 @@ public class addEmpleados extends javax.swing.JDialog {
             switch(res){
                 case 0:
                     getInfo();
-                    boolean insertar = manager_users.insertarEmpleado(nombres, apellido_p, apellido_m, telefono, calle, colonia, curp, rfc, "1980-04-25", codigoP, municipio,localidad);
+                    boolean insertar = manager_users.insertarEmpleado(nombres, apellido_p, apellido_m, telefono, calle, colonia, curp, rfc, fecha, codigoP, municipio,localidad);
                     if(insertar){
                         JOptionPane.showMessageDialog(null, "El empleado "+nombres+ " "+apellido_p+ "ha sido registrado en la base de datos exitosamente.");
                         if(manager_permisos.consulta_user(Principal.Username)){
