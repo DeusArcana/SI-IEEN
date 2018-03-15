@@ -402,6 +402,45 @@ public class ManagerUsers {
         
     }//actualizarEmpleado
     
+    public boolean passwordEquals(String usuario, String pass) {
+        boolean coincidencia = false;
+        try {
+            //Actualizamos la contraseña
+            String sql = "select password from user where id_user = '"+usuario+"' and password = '"+pass+"';";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            coincidencia = rs.next();
+            
+            conexion.close();
+            return coincidencia;
+        } catch (SQLException ex) {
+            System.out.printf("Error al insertar el empleado en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } 
+        
+    }//changePass
+    
+    public boolean changePass(String usuario, String antigüa, String nueva) {
+
+        try {
+            //Actualizamos la contraseña
+            String sql = "update user set password = '"+nueva+"' where id_user = '"+usuario+"' and password = '"+antigüa+"';";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            st.executeUpdate(sql);
+            
+            conexion.close();
+            return true;
+        } catch (SQLException ex) {
+            System.out.printf("Error al insertar el empleado en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } 
+        
+    }//changePass
+    
     public boolean eliminarEmpleado(String usuario) {
 
         int id_empleado;

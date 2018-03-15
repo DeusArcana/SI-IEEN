@@ -45,6 +45,7 @@ import Formularios.addInventario;
 import Formularios.addInventarioGranel;
 import Formularios.addResguardo;
 import Formularios.addUsuarios;
+import Formularios.changePassword;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Image;
@@ -3893,6 +3894,19 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnEditar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditar1ActionPerformed
         // TODO add your handling code here:
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            // If Nimbus is not available, you can set the GUI to another look and feel.
+        }
+        
+        changePassword ob = new changePassword(this, true,Username);
+        ob.setVisible(true);
     }//GEN-LAST:event_btnEditar1ActionPerformed
 
     private void ReemplazarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReemplazarActionPerformed
