@@ -48,6 +48,8 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         initComponents();
         JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) date_Salida.getDateEditor();
         JTextFieldDateEditor date_Llegada_Editor=(JTextFieldDateEditor) date_Llegada.getDateEditor();
+        date_Salida.getJCalendar().setMinSelectableDate(new Date()); // sets today as minimum selectable date
+        date_Llegada.getJCalendar().setMinSelectableDate(new Date());
         date_Salida_Editor.setEditable(false);
         date_Llegada_Editor.setEditable(false);
         //maxid();

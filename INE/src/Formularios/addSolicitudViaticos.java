@@ -50,6 +50,8 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         JTextFieldDateEditor date_Llegada_Editor=(JTextFieldDateEditor) date_Llegada.getDateEditor();
         date_Salida_Editor.setEditable(false);
         date_Llegada_Editor.setEditable(false);
+        date_Salida.getJCalendar().setMinSelectableDate(new Date()); // sets today as minimum selectable date
+        date_Llegada.getJCalendar().setMinSelectableDate(new Date());
         //maxid();
         //txtid.setText(varida[0]+1+"");
         manager_viaticos = new ManagerSoViaticos();
