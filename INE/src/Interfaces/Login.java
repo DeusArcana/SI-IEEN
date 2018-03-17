@@ -297,17 +297,8 @@ public void escribir(String usuario) throws IOException {
                     tf_campoUsuario.requestFocus();
                     return false;
                 }//
-                //NO ES NECESARIO-----------------------------------------------------------------
-                if (resultado == 2) {
-
-                    JOptionPane.showMessageDialog(this, "El usuario no es administrador");
-                    tf_campoContraseña.setText("");
-                    tf_campoContraseña.requestFocus();
-                    return false;
-                }//
-
                 if (resultado == 1) {
-                    JOptionPane.showMessageDialog(this, "Contraseña incorrecta!","Información",JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "La contraseña puede ser incorrecta o que este dado de baja","Información",JOptionPane.WARNING_MESSAGE);
                     tf_campoContraseña.setText("");
                     tf_campoContraseña.requestFocus();
                     return false;

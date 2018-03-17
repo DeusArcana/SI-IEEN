@@ -45,32 +45,32 @@ public class ManagerLogin {
 //            return 2;
 //        }
 
-        if (coincidencia(user, password) == false) {
-            return 1;
-        }
-
-        return 3;
-
+        return coincidencia(user, password);
+            
     }//iniciarsesion | Verificar que el usuario logeado sea administrador y que coincida su id con el password
 
-    private boolean coincidencia(String user, String password) {
-        boolean res = false;
+    private int coincidencia(String user, String password) {
         try {
             
-            String sql = "select * from User where id_user = '" + user + "' and password = '" + password + "';";
+            String sql = "select * from User where id_user = '" + user + "' and password = '" + password + "' and estatus = 'Activo';";
             conexion = db.getConexion(); //obtenemos conexion 
             Statement st = conexion.createStatement(); //crear obteno de consulta
             ResultSet rs = st.executeQuery(sql); //ejecutar consulta
-            res = rs.next(); //Guardamos el resultado de la busqueda (True or false)
-            conexion.close();
+            if(rs.next()){
+                conexion.close();
+                return 3;
+            }else{
+                conexion.close();
+                return 1;
+            }
         }//try
         catch(SQLException ex){
             Logger.getLogger(ManagerLogin.class.getName()).log(Level.SEVERE, null, ex);
+            return 1;
         }catch (Exception e){
             //JOptionPane.showMessageDialog(null, "No Hay Conexion a la Base de Datos");
+            return 1;
         }
-
-        return res;
     }//coincidencia
 
     private boolean existe(String user) {
