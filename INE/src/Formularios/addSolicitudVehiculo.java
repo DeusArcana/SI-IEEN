@@ -21,8 +21,8 @@ import Clases.ManagerSoViaticos;
 import Interfaces.PrincipalS;
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.util.Calendar;
-import java.util.Vector;
 import java.util.Date;
+import java.util.Vector;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -31,7 +31,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
  *
  * @author usuario
  */
-public class addSolicitudViaticos extends javax.swing.JDialog {
+public class addSolicitudVehiculo extends javax.swing.JDialog {
     ManagerSoViaticos manager_viaticos;
     ManagerUsers manager_users;
     ManagerVehiculos manager_vehiculo;
@@ -43,7 +43,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     /**
      * Creates new form addSolicitudViaticos
      */
-    public addSolicitudViaticos(java.awt.Frame parent, boolean modal) {
+    public addSolicitudVehiculo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) date_Salida.getDateEditor();
@@ -98,12 +98,12 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         txtADescripcion = new javax.swing.JTextArea();
         Date date=new Date();
-        SpinnerDateModel sdm=new SpinnerDateModel(date,null
-            ,null,Calendar.HOUR_OF_DAY);
-        hora_Salida = new javax.swing.JSpinner(sdm);
         SpinnerDateModel sdm2=new SpinnerDateModel(date,null
             ,null,Calendar.HOUR_OF_DAY);
         hora_Llegada = new javax.swing.JSpinner(sdm2);
+        SpinnerDateModel sdm=new SpinnerDateModel(date,null
+            ,null,Calendar.HOUR_OF_DAY);
+        hora_Salida = new javax.swing.JSpinner(sdm);
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -280,14 +280,14 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                                     .addComponent(jLabel2)
                                     .addGap(18, 18, 18)
                                     .addComponent(txt_Puesto, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(hora_Salida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(hora_Llegada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(pn_addInventarioLayout.createSequentialGroup()
                         .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
                             .addGroup(pn_addInventarioLayout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(0, 289, Short.MAX_VALUE)))
@@ -317,12 +317,13 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                         .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txt_Puesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
-                        .addGap(8, 8, 8)
-                        .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(date_Salida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(hora_Salida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(9, 9, 9)
+                        .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel4)
+                                .addComponent(date_Salida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(hora_Salida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(8, 8, 8)
                         .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jLabel5)
@@ -355,10 +356,10 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                         .addContainerGap())))
         );
 
-        JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "h:mm:ss a");
-        hora_Salida.setEditor(de);
         JSpinner.DateEditor de2 = new JSpinner.DateEditor(hora_Llegada, "h:mm:ss a");
         hora_Llegada.setEditor(de2);
+        JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "h:mm:ss a");
+        hora_Salida.setEditor(de);
 
         getContentPane().add(pn_addInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, 500));
 
@@ -583,14 +584,18 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(addSolicitudViaticos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addSolicitudVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(addSolicitudViaticos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addSolicitudVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(addSolicitudViaticos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addSolicitudVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(addSolicitudViaticos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addSolicitudVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -599,7 +604,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                addSolicitudViaticos dialog = new addSolicitudViaticos(new javax.swing.JFrame(), true);
+                addSolicitudVehiculo dialog = new addSolicitudVehiculo(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

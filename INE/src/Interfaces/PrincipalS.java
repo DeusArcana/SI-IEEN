@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 import Clases.ManagerSoViaticos;
 import Clases.CrearPDF;
+import Formularios.addSolicitudVehiculo;
 
 import Formularios.addSolicitudViaticos;
 import Formularios.visSolicitudViaticos;
@@ -98,6 +99,7 @@ public class PrincipalS extends javax.swing.JFrame {
         btnAddInventario = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        btnSolicitarVehiculo = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
         tablonsolicitud = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
@@ -147,7 +149,7 @@ public class PrincipalS extends javax.swing.JFrame {
         btnAddInventario2.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         btnAddInventario2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar.png"))); // NOI18N
         btnAddInventario2.setText("Nueva solicitud");
-        btnAddInventario2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAddInventario2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnAddInventario2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddInventario2ActionPerformed(evt);
@@ -342,7 +344,7 @@ public class PrincipalS extends javax.swing.JFrame {
         btnAddInventario.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         btnAddInventario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar.png"))); // NOI18N
         btnAddInventario.setText("Añadir");
-        btnAddInventario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAddInventario.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnAddInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddInventarioActionPerformed(evt);
@@ -359,6 +361,13 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
 
+        btnSolicitarVehiculo.setText("Solicitar Vehiculo");
+        btnSolicitarVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSolicitarVehiculoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -368,9 +377,11 @@ public class PrincipalS extends javax.swing.JFrame {
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAddInventario, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAddInventario, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE))
+                    .addComponent(btnSolicitarVehiculo))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -382,7 +393,9 @@ public class PrincipalS extends javax.swing.JFrame {
                 .addComponent(btnAddInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(287, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSolicitarVehiculo)
+                .addContainerGap(252, Short.MAX_VALUE))
         );
 
         solicitudviaticos1.add(jPanel1);
@@ -516,11 +529,11 @@ public class PrincipalS extends javax.swing.JFrame {
 
         jLabel1.setText("Observaciones Viaticos");
         jPanel21.add(jLabel1);
-        jLabel1.setBounds(660, 30, 110, 14);
+        jLabel1.setBounds(660, 30, 159, 17);
 
         jLabel2.setText("Observaciones Vehículo");
         jPanel21.add(jLabel2);
-        jLabel2.setBounds(650, 210, 113, 14);
+        jLabel2.setBounds(650, 210, 166, 17);
 
         informe.add(jPanel21);
         jPanel21.setBounds(20, 180, 1020, 410);
@@ -1503,6 +1516,22 @@ public class PrincipalS extends javax.swing.JFrame {
     private void CancelarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarCActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CancelarCActionPerformed
+
+    private void btnSolicitarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarVehiculoActionPerformed
+        // TODO add your handling code here:
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            // If Nimbus is not available, you can set the GUI to another look and feel.
+        }
+        addSolicitudVehiculo asv = new addSolicitudVehiculo(this, true);
+        asv.setVisible(true);
+    }//GEN-LAST:event_btnSolicitarVehiculoActionPerformed
     public void Consultar() {
         if (i == 1) {
             int i = tablon.getSelectedRow();
@@ -1651,6 +1680,7 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JMenuItem OficioViatico;
     private javax.swing.JButton btnAddInventario;
     private javax.swing.JButton btnAddInventario2;
+    private javax.swing.JButton btnSolicitarVehiculo;
     private javax.swing.JButton btnconsultarreporte;
     private javax.swing.JButton btneliminaractividad;
     private javax.swing.JButton btngenerarreporte;
