@@ -203,9 +203,11 @@ public class Validaciones {
     * que son n caracteres alfanuméricos incluyendo espacio
     * 
     * @param txt Cadena a validar
+    * @param MIN Rango mínimo de la cadena
+    * @param MAX Rángo máximo de la cadena
     * @return TRUE si la cadena solo contiene el formato especificado, FALSE caso contrario
     */
-    public static boolean validateAlphanumericWithSpacing(String txt,int MIN,int MAX){
+    public static boolean validateAlphanumericWithSpacing(String txt,int MIN, int MAX){
         return Pattern.compile("([a-zA-Z0-9]|\u0020){" + MIN + "," + MAX + "}").matcher(txt).matches();
     }
 
