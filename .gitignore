@@ -1,3 +1,4 @@
+INE/build/
 # Compiled class file
 *.class
 
@@ -25,16 +26,16 @@
 # NetBeans Configuration files
 *.properties
 *.xml
-./INE/build/built-jar.properties
-./INE/nbproject/private/private.properties
-./INE/nbproject/private/private.xml
+INE/build/built-jar.properties
+INE/nbproject/private/private.properties
+INE/nbproject/private/private.xml
 
 # Configuration Files Running
-./INE/cnfg.cfg
-./INE/cnfg.init
-./INE/cnfg.ntw
-./INE/vale_resguardo_configsA.txt
-./INE/vale_resguardo_configsB.txtg
+INE/cnfg.cfg
+INE/cnfg.init
+INE/cnfg.ntw
+INE/vale_resguardo_configsA.txt
+INE/vale_resguardo_configsB.txtg
 
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
@@ -47,7 +48,7 @@ INE/src/Clases/Conexion.java
 INE/build/built-jar.properties
 INE/nbproject/private/private.xml
 INE/src/Clases/Conexion.java
-/INE/dist/
+INE/dist/
 INE/build/built-jar.properties
 INE/dist/INE.jar
 INE/dist/README.TXT
