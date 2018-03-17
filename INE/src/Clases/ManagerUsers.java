@@ -78,21 +78,22 @@ public class ManagerUsers {
             table.addColumn("Apellido Materno");
             table.addColumn("Puesto");
             table.addColumn("Área");
+            table.addColumn("Estatus");
             
             
             
             //Consulta de los usuarios
-            String sql = "select u.id_user,e.nombres,e.apellido_p,e.apellido_m,u.puesto,u.area from user u " +
+            String sql = "select u.id_user,e.nombres,e.apellido_p,e.apellido_m,u.puesto,u.area,u.estatus from user u " +
                          "inner join empleados e on (u.id_empleado = e.id_empleado) where u.puesto != 'SuperUsuario' and u.id_user != '"+usuario+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
-            Object datos[] = new Object[6];
+            Object datos[] = new Object[7];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
 
-                for(int i = 0;i<6;i++){
+                for(int i = 0;i<7;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -220,20 +221,21 @@ public class ManagerUsers {
             table.addColumn("Apellido Materno");
             table.addColumn("Cargo");
             table.addColumn("Área");
+            table.addColumn("Estatus");
             
             //Consulta de los empleados
-            String sql = "select u.id_user,e.nombres,e.apellido_p,e.apellido_m,u.puesto,u.area from user u " +
+            String sql = "select u.id_user,e.nombres,e.apellido_p,e.apellido_m,u.puesto,u.area.u.estatus from user u " +
                          "inner join empleados e on (u.id_empleado = e.id_empleado) where u.puesto != 'SuperUsuario' "
                     +    "and u.id_user != '"+usuario+"' and "+tipoBusqueda+" like '"+busqueda+"%';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
-            Object datos[] = new Object[6];
+            Object datos[] = new Object[7];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
 
-                for(int i = 0;i<6;i++){
+                for(int i = 0;i<7;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -331,7 +333,7 @@ public class ManagerUsers {
             ResultSet rs;
             
             //Ya se realizo la inserción y se encontro el ID de ese nuevo registro, ahora insertamos el usuario y ligamos el ID, su cargo y su área
-            String sql = "insert into user values('"+usuario+"',"+id_empleado+",true,'"+pass+"','"+puesto+"','"+area+"');";
+            String sql = "insert into user values('"+usuario+"',"+id_empleado+",true,'"+pass+"','"+puesto+"','"+area+"','Activo');";
             st.executeUpdate(sql);
             
             //Registramos el nuevo usuario en la tabla de permisos(por el momento no tendra ningún permiso, ya que solo es el registro)
@@ -441,39 +443,19 @@ public class ManagerUsers {
         
     }//changePass
     
-    public boolean eliminarEmpleado(String usuario) {
-
-        int id_empleado;
-        
+    public boolean estatusUsuario(String usuario,String estatus) {
         try {
+            //Actualizamos el estatus del usuario
+            String sql = "update user set estatus = '"+estatus+"' where id_user = '"+usuario+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs;
-            
-            //Para poder eliminar al usuario, primero será necesario borrar los registros de otras tablas donde este
-            //ligado su llave foraneá y comenzaremos por eliminar los registros de los permisos
-            String sql = "delete from permisos where id_user = '"+usuario+"';";
-            st.executeUpdate(sql);
-            
-            //Antes de eliminar al usuario, primero obtenemos el id del empleado
-            sql = "select id_empleado from user where id_user = '"+usuario+"';";
-            rs = st.executeQuery(sql);
-            rs.next();
-            id_empleado = rs.getInt(1);
-            
-            //Ahora eliminamos el registro que contenia dicho usuario
-            sql = "delete from user where id_user = '"+usuario+"';";
-            st.executeUpdate(sql);
-            
-            //Y ahora eliminamos el registro del empleado
-            sql = "delete from empleados where id_empleado = "+id_empleado+";";
             st.executeUpdate(sql);
             
             //Cerramos la conexión
             conexion.close();
             return true;
         } catch (SQLException ex) {
-            System.out.printf("Error al insertar el empleado en SQL");
+            System.out.printf("Error al intentar dar el estatus de "+estatus+" al usuario en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }

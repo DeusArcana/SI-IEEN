@@ -8,6 +8,24 @@
         <Property name="useNullLayout" type="boolean" value="true"/>
       </Layout>
       <SubComponents>
+        <MenuItem class="javax.swing.JMenuItem" name="dar_baja">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Baja de usuario"/>
+            <Property name="actionCommand" type="java.lang.String" value="Baja de usuario"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dar_bajaActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="activar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Activar usuario"/>
+            <Property name="actionCommand" type="java.lang.String" value="Activar usuario"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="activarActionPerformed"/>
+          </Events>
+        </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="Promover">
           <Properties>
             <Property name="text" type="java.lang.String" value="Promover"/>
@@ -29,15 +47,6 @@
         <Property name="useNullLayout" type="boolean" value="true"/>
       </Layout>
       <SubComponents>
-        <MenuItem class="javax.swing.JMenuItem" name="dar_baja">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Eliminar"/>
-            <Property name="actionCommand" type="java.lang.String" value="Dar de baja"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dar_bajaActionPerformed"/>
-          </Events>
-        </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="Actualizar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Actualizar"/>

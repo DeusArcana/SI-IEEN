@@ -177,10 +177,11 @@ public class Principal extends javax.swing.JFrame {
     private void initComponents() {
 
         MenuUsuarios = new javax.swing.JPopupMenu();
+        dar_baja = new javax.swing.JMenuItem();
+        activar = new javax.swing.JMenuItem();
         Promover = new javax.swing.JMenuItem();
         Permisos = new javax.swing.JMenuItem();
         MenuEmpleados = new javax.swing.JPopupMenu();
-        dar_baja = new javax.swing.JMenuItem();
         Actualizar = new javax.swing.JMenuItem();
         ActualizarInfoU = new javax.swing.JMenuItem();
         Asignar_usuario = new javax.swing.JMenuItem();
@@ -388,6 +389,24 @@ public class Principal extends javax.swing.JFrame {
         Asignar = new javax.swing.JMenuItem();
         Equipos = new javax.swing.JMenuItem();
 
+        dar_baja.setText("Baja de usuario");
+        dar_baja.setActionCommand("Baja de usuario");
+        dar_baja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dar_bajaActionPerformed(evt);
+            }
+        });
+        MenuUsuarios.add(dar_baja);
+
+        activar.setText("Activar usuario");
+        activar.setActionCommand("Activar usuario");
+        activar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                activarActionPerformed(evt);
+            }
+        });
+        MenuUsuarios.add(activar);
+
         Promover.setText("Promover");
         MenuUsuarios.add(Promover);
 
@@ -398,15 +417,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MenuUsuarios.add(Permisos);
-
-        dar_baja.setText("Eliminar");
-        dar_baja.setActionCommand("Dar de baja");
-        dar_baja.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dar_bajaActionPerformed(evt);
-            }
-        });
-        MenuEmpleados.add(dar_baja);
 
         Actualizar.setText("Actualizar");
         Actualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -2184,9 +2194,13 @@ public class Principal extends javax.swing.JFrame {
         comboFiltroVehiculos.addItem("Matricula");
         
         //Llenado de tablas
+        //USUARIOS/EMPLEADOS
         if(manager_permisos.consulta_user(Username)){
             tablaUsuarios.setModel(manager_users.getEmpleados());
+        }else{
+            JOptionPane.showMessageDialog(null, "No tiene permisos para consultar empleados/usuarios.");
         }
+        //VEHICULOS
         if(manager_permisos.consulta_vehiculos(Username)){
             tablaVehiculos.setModel(managerVehiculos.getVehiculos());
         }
@@ -2315,22 +2329,22 @@ public class Principal extends javax.swing.JFrame {
             usuario = tablaUsuarios.getValueAt(fila, 0).toString();
             //Creamos un cuadro de dialogo para que confirme la eliminación del usuario o la cancele
             Object[] botones = {"Confirmar","Cancelar"};
-            int opcion = JOptionPane.showOptionDialog(this,"¿Eliminar al usuario "+usuario+"?", "Confirmación",
+            int opcion = JOptionPane.showOptionDialog(this,"¿Dar baja al usuario "+usuario+"?", "Confirmación",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
 
             //Acepta eliminar al usuario
             if(opcion == 0){
 
-                if(manager_users.eliminarEmpleado(usuario)){
-                    JOptionPane.showMessageDialog(null, "El usuario a sido eliminado exisitosamente.");
-                    tablaUsuarios.setModel(manager_users.getEmpleados());
+                if(manager_users.estatusUsuario(usuario,"Baja")){
+                    JOptionPane.showMessageDialog(null, "El usuario se a dado de baja exisitosamente.");
+                    tablaUsuarios.setModel(manager_users.getUsuarios(Username));
                 }//if(eliminarEmpleado())
                 else{
                         JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
                 }
             }//if(opcion == 0)
         }else{
-            JOptionPane.showMessageDialog(null, "Usted no cuenta con el permiso para eliminar usuarios.");
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con el permiso para dar de baja usuarios.");
         }
         
         
@@ -4118,7 +4132,7 @@ public class Principal extends javax.swing.JFrame {
 
             if(comboEmpUsu.getSelectedItem().toString().equals("Empleados")){
                 tablaUsuarios.setModel(manager_users.getEmpleados());
-                
+                tabbedPrincipal.setTitleAt(1, "Empleados");
                 //COMBOFILTROUSUARIO
                 comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
                 comboFiltroUsuario.addItem("Nombre");
@@ -4127,7 +4141,7 @@ public class Principal extends javax.swing.JFrame {
                 
             }else{
                 tablaUsuarios.setModel(manager_users.getUsuarios(Username));
-                
+                tabbedPrincipal.setTitleAt(1, "Usuarios");
                 //COMBOFILTROUSUARIO
                 comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
                 comboFiltroUsuario.addItem("Usuario");
@@ -4169,6 +4183,33 @@ public class Principal extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_Asignar_usuarioActionPerformed
+
+    private void activarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activarActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.alta_user(Username)){
+            //Obtenemos la fila y con dicha fila obtenemos el usuario
+            int fila = tablaUsuarios.getSelectedRow();
+            usuario = tablaUsuarios.getValueAt(fila, 0).toString();
+            //Creamos un cuadro de dialogo para que confirme la eliminación del usuario o la cancele
+            Object[] botones = {"Confirmar","Cancelar"};
+            int opcion = JOptionPane.showOptionDialog(this,"¿Activar al usuario "+usuario+"?", "Confirmación",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+
+            //Acepta eliminar al usuario
+            if(opcion == 0){
+
+                if(manager_users.estatusUsuario(usuario,"Activo")){
+                    JOptionPane.showMessageDialog(null, "El usuario se encuentra activo nuevamente.");
+                    tablaUsuarios.setModel(manager_users.getUsuarios(Username));
+                }//if(eliminarEmpleado())
+                else{
+                        JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+                }
+            }//if(opcion == 0)
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con el permiso para activar usuarios.");
+        }
+    }//GEN-LAST:event_activarActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -4347,6 +4388,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem SolicitarBaja;
     private javax.swing.JMenu SolictarMas;
     private javax.swing.JMenuItem UpdateInfo;
+    private javax.swing.JMenuItem activar;
     private javax.swing.ButtonGroup bg_manejo_inventario;
     private javax.swing.ButtonGroup bt_tipo_inventario_asignable;
     private javax.swing.JButton btnAddEmpleado;
