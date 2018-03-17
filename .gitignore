@@ -36,9 +36,6 @@
 ./INE/vale_resguardo_configsA.txt
 ./INE/vale_resguardo_configsB.txtg
 
-# Images
-*.png
-*.jpg
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
@@ -56,4 +53,7 @@ INE/dist/INE.jar
 INE/dist/README.TXT
 INE/nbproject/private/private.xml
 INE/nbproject/project.properties
-INE/src/Clases/Conexion.java
+INE/build/built-jar.properties
+INE/cnfg.cfg
+INE/nbproject/private/private.properties
+INE/nbproject/private/private.xml
