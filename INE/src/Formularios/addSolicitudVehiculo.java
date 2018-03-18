@@ -20,6 +20,8 @@ import Clases.ManagerSoViaticos;
 
 import Interfaces.PrincipalS;
 import com.toedter.calendar.JTextFieldDateEditor;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
@@ -52,6 +54,8 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         date_Llegada.getJCalendar().setMinSelectableDate(new Date());
         date_Salida_Editor.setEditable(false);
         date_Llegada_Editor.setEditable(false);
+        
+        
         //maxid();
         //txtid.setText(varida[0]+1+"");
         manager_viaticos = new ManagerSoViaticos();
@@ -285,8 +289,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(hora_Salida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(hora_Llegada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(hora_Llegada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pn_addInventarioLayout.createSequentialGroup()
                         .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
@@ -358,18 +361,27 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
                         .addContainerGap())))
         );
 
-        JSpinner.DateEditor de2 = new JSpinner.DateEditor(hora_Llegada, "h:mm:ss a");
-        hora_Llegada.setEditor(de2);
-        JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "h:mm:ss a");
-        hora_Salida.setEditor(de);
+        date_Salida.getDateEditor().addPropertyChangeListener(
+            new java.beans.PropertyChangeListener() {
+                @Override
+                public void propertyChange(java.beans.PropertyChangeEvent e) {
+                    if(e.getPropertyName().equals("date")) {
+                        date_Llegada.getJCalendar().setMinSelectableDate(date_Salida.getDate());
+                    }
+                }
+            });
+            JSpinner.DateEditor de2 = new JSpinner.DateEditor(hora_Llegada, "h:mm:ss a");
+            hora_Llegada.setEditor(de2);
+            JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "h:mm:ss a");
+            hora_Salida.setEditor(de);
 
-        getContentPane().add(pn_addInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, 500));
+            getContentPane().add(pn_addInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, 500));
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 330));
+            jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
+            getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 330));
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+            pack();
+        }// </editor-fold>//GEN-END:initComponents
     public void maxid(){
         String sql="Select max(idSolicitud) from solicitud_viatico";
         int datos[]=new int[1];

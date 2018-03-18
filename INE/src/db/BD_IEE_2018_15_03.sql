@@ -480,6 +480,8 @@ CREATE TABLE IF NOT EXISTS `INE`.`Solicitud_viatico` (
   `Estado` VARCHAR(45) NULL,
   `Reporte` VARCHAR(1) NULL,
   `Motivo` VARCHAR(500) NULL,
+  `Hora_Salida` varchar(20) NULL,
+  `Hora_Llegada` varchar(20) NULL,
   PRIMARY KEY (`idSolicitud`))
 ENGINE = InnoDB;
 

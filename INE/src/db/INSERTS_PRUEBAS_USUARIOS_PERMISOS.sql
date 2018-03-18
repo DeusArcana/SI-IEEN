@@ -182,9 +182,9 @@ INSERT INTO `INE`.`Permiso_Vale`
 	;
 
 DELETE FROM `INE`.`User` WHERE 1;    
-INSERT INTO `INE`.`User`  (`id_user`, `id_empleado`, `documentacion`, `password`, `puesto`, `area`)
+INSERT INTO `INE`.`User`  (`id_user`, `id_empleado`, `documentacion`, `password`, `puesto`, `area`,`estatus`)
 	VALUES
-		('Mendez26', 1, true, '123', 'SuperUsuario', 'Administración');/*,
+		('Mendez26', 1, true, '123', 'SuperUsuario', 'Administración','Activo');/*,
         ('Larry', 2, true, '123', 'Organización', 'Administración'),
         ('Leiva', 3, true, '123', 'Auxiliar', 'Almacén'),
         ('Quiñones', 4, true, '123', 'Auxiliar', 'Informática'),

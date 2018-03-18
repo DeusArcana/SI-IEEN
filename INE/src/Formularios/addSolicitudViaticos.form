@@ -90,7 +90,6 @@
                               <Component id="hora_Salida" min="-2" max="-2" attributes="0"/>
                               <Component id="hora_Llegada" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -288,6 +287,9 @@
           </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="date_Salida">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="date_Salida.getDateEditor().addPropertyChangeListener(&#xa;    new java.beans.PropertyChangeListener() {&#xa;        @Override&#xa;        public void propertyChange(java.beans.PropertyChangeEvent e) {&#xa;            if(e.getPropertyName().equals(&quot;date&quot;)) {&#xa;                date_Llegada.getJCalendar().setMinSelectableDate(date_Salida.getDate());   &#xa;            }&#xa;        }&#xa;    });"/>
+          </AuxValues>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="date_Llegada">
         </Component>

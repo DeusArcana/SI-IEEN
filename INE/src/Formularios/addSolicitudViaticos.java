@@ -285,8 +285,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(hora_Salida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(hora_Llegada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(hora_Llegada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pn_addInventarioLayout.createSequentialGroup()
                         .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
@@ -357,18 +356,27 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                         .addContainerGap())))
         );
 
-        JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "h:mm:ss a");
-        hora_Salida.setEditor(de);
-        JSpinner.DateEditor de2 = new JSpinner.DateEditor(hora_Llegada, "h:mm:ss a");
-        hora_Llegada.setEditor(de2);
+        date_Salida.getDateEditor().addPropertyChangeListener(
+            new java.beans.PropertyChangeListener() {
+                @Override
+                public void propertyChange(java.beans.PropertyChangeEvent e) {
+                    if(e.getPropertyName().equals("date")) {
+                        date_Llegada.getJCalendar().setMinSelectableDate(date_Salida.getDate());
+                    }
+                }
+            });
+            JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "h:mm:ss a");
+            hora_Salida.setEditor(de);
+            JSpinner.DateEditor de2 = new JSpinner.DateEditor(hora_Llegada, "h:mm:ss a");
+            hora_Llegada.setEditor(de2);
 
-        getContentPane().add(pn_addInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, 500));
+            getContentPane().add(pn_addInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, 500));
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 330));
+            jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
+            getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 330));
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+            pack();
+        }// </editor-fold>//GEN-END:initComponents
     public void maxid(){
         String sql="Select max(idSolicitud) from solicitud_viatico";
         int datos[]=new int[1];
@@ -477,10 +485,11 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                 imprimirSolicitud = true;
                 
             }//ConCarro
-            
-            boolean insersion = insersion=conexion.ejecutar("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte) values('"+fecha_Salida+"','"+txt_Lugar.getText()+"'"
+            conexion.getConexion();
+            SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
+            boolean insersion = insersion=conexion.ejecutar("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+txt_Lugar.getText()+"'"
                 + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+carro+"'"
-                + ",'"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0')");
+                + ",'"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"')");
             
             if(insersion){
                 JOptionPane.showMessageDialog(this, "Insersión correcta");
@@ -490,7 +499,16 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Error al insertar pero no excepción");
             }
         }catch(Exception e){
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+            String carro = "Sin vehiculo";
+            
+            String pernoctado="No";
+            SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
+            String fecha_Salida=sdf.format(date_Salida.getDate().getTime());
+            String fecha_Llegada=sdf.format(date_Llegada.getDate().getTime());
+            System.out.print("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+txt_Lugar.getText()+"'"
+                + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+carro+"'"
+                + ",'"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"')");
         }
     }
     //Función para validar los datos que se insertan en el formulario.
