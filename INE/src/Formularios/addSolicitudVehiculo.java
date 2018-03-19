@@ -22,9 +22,14 @@ import Interfaces.PrincipalS;
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -61,6 +66,9 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         manager_viaticos = new ManagerSoViaticos();
         manager_users = new ManagerUsers();
         manager_vehiculo = new ManagerVehiculos();
+          
+        
+        
         
         AutoCompleteDecorator.decorate(this.comboEmpleados);
         AutoCompleteDecorator.decorate(this.cmb_Vehiculo);
@@ -432,7 +440,23 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         
         cmb_Vehiculo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         cmb_Vehiculo.addItem("Selecione vehiculo...");
-        manager_vehiculo.getVehiculosDisponibles(cmb_Vehiculo);
+        //manager_vehiculo.getVehiculosDisponibles(cmb_Vehiculo);
+        ResultSet res;
+        try{
+            Connection cn=cbd.getConexion();
+            res=cbd.getTabla("select marca,linea,clase,matricula from vehiculos where Estado='Disponible'",cn);
+            List<String> autos=new ArrayList<String>();
+            while(res.next()){
+                String aux=res.getString("marca")+"-"+res.getString("linea")+"-"+res.getString("clase")+"-"+res.getString("matricula");
+                System.out.println(aux);
+                autos.add(aux);
+            }
+            for(int i=0;i<autos.size();i++){
+                cmb_Vehiculo.addItem(autos.get(i));
+            }
+        }catch(SQLException e){
+            
+        } 
     }//GEN-LAST:event_formWindowOpened
 
     private void comboEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpleadosActionPerformed
@@ -450,12 +474,18 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         // TODO add your handling code here:
         if(cmb_Vehiculo.getSelectedIndex() != 0){
             String separador [] = cmb_Vehiculo.getSelectedItem().toString().split("-");
-            Vector vVehiculos = manager_vehiculo.infoVehiculos(separador[1]);
-            
-            String temporal[] = vVehiculos.get(0).toString().split(",");
-            txtKilometraje.setText(temporal[3]);
-            txtADescripcion.setEnabled(true);
-            
+            try {
+                ResultSet res=cbd.getTabla("select kilometraje from vehiculo_usado where vehiculos_Matricula='"+separador[3]+"'", cn);
+                System.out.println("select kilometraje from vehiculo_usado where vehiculos_Matricula='"+separador[3]+"'");
+                res.next();
+                txtKilometraje.setText(res.getString("kilometraje"));
+                
+                res=cbd.getTabla("select observaciones from vehiculos where Matricula='"+separador[3]+"'", cn);
+                res.next();
+                txtADescripcion.setText(res.getString("observaciones"));
+            } catch (SQLException ex) {
+                Logger.getLogger(addSolicitudVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }else{
             txtKilometraje.setText("");
             txtADescripcion.setEnabled(false);
@@ -470,39 +500,36 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             String fecha_Llegada=sdf.format(date_Llegada.getDate().getTime());
             Conexion conexion=new Conexion();
             //conexion.getConexion();
-            String carro = "Sin vehiculo";
             
             String pernoctado="No";
             if(chb_Pernoctado.isSelected()){
                 pernoctado="Si";
             }
+            cn=cbd.getConexion();
+            String[] arr=cmb_Vehiculo.getSelectedItem().toString().split("-");
+            ResultSet res=cbd.getTabla("select idvehiculo_usado from vehiculo_usado where vehiculo_usado.vehiculos_Matricula='"+arr[3]+"';", cn);
+            System.out.println("select idvehiculo_usado from vehiculo_usado where vehiculo_usado.vehiculos_Matricula='"+arr[3]+"';");
+            res.next();
+            String idVehiculo_usado=res.getString("idvehiculo_usado");
             //Inserción de solicitud
-            //Con carro
-            if(ConCarro != 0){
-                //Obtenemos la matricula
-                String separador [] = cmb_Vehiculo.getSelectedItem().toString().split("-");
-                carro = separador[1];
-                //Insertamos la información adicional del vehiculo
-                conexion.getConexion();
-                float kil=Float.parseFloat(txtKilometraje.getText());
-                String query="insert into viaticos_vehiculos (kilometraje,descripcion,fecha,vehiculos_matricula)values('"+kil+"','"+txtADescripcion.getText()+"',date(now()),'"+carro+"');";
-                conexion.ejecutar(query);
-                imprimirSolicitud = true;
-                
-            }//ConCarro
-            
-            boolean insersion = insersion=conexion.ejecutar("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte) values('"+fecha_Salida+"','"+txt_Lugar.getText()+"'"
-                + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+carro+"'"
-                + ",'"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0')");
+            SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
+            conexion.getConexion();
+            boolean insersion = insersion=conexion.ejecutar("insert into Solicitud_vehiculo (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida,vehiculo_usado_idvehiculo_usado) values('"+fecha_Salida+"','"+txt_Lugar.getText()+"'"
+                + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+cmb_Vehiculo.getSelectedItem().toString()+"'"
+                + ",'"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"',"+idVehiculo_usado+")");
             
             if(insersion){
                 JOptionPane.showMessageDialog(this, "Insersión correcta");
                 PrincipalS.tablasolic.setModel(manager_viaticos.getTasol());
                 this.setVisible(false);
             }else{
+                System.out.println("insert into Solicitud_vehiculo (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida,vehiculo_usado_idvehiculo_usado) values('"+fecha_Salida+"','"+txt_Lugar.getText()+"'"
+                + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+cmb_Vehiculo.getSelectedItem().toString()+"'"
+                + ",'"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"',"+idVehiculo_usado+")");
                 JOptionPane.showMessageDialog(this, "Error al insertar pero no excepción");
             }
         }catch(Exception e){
+            
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
@@ -571,6 +598,14 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             }
             else{
                 cad+="\n-No se ha insertado el puesto del empleado, escriba el nombre del empleado y vuelva a intentarlo";
+            }
+        }
+        if(cmb_Vehiculo.getSelectedIndex()==0){
+            if(cad.equals("")){
+                cad+="-No se ha seleccionado vehiculo, seleccione uno y vuelva a intentarlo";
+            }
+            else{
+                cad+="\n-No se ha seleccionado vehiculo, seleccione uno y vuelva a intentarlo";
             }
         }
         if(!cad.equals("")){

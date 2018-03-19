@@ -621,6 +621,53 @@ CREATE TABLE IF NOT EXISTS `INE`.`productosEntregados` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `ine`.`vehiculo_usado`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ine`.`vehiculo_usado` (
+  `idvehiculo_usado` INT NOT NULL AUTO_INCREMENT,
+  `kilometraje` VARCHAR(45) NULL,
+  `vehiculos_Matricula` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idvehiculo_usado`),
+  INDEX `fk_vehiculo_usado_vehiculos_idx` (`vehiculos_Matricula` ASC),
+  CONSTRAINT `fk_vehiculo_usado_vehiculos`
+    FOREIGN KEY (`vehiculos_Matricula`)
+    REFERENCES `ine`.`vehiculos` (`Matricula`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ine`.`solicitud_vehiculo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ine`.`solicitud_vehiculo` (
+  `idsolicitud_vehiculo` INT NOT NULL AUTO_INCREMENT,
+  `Nombre` VARCHAR(100) NULL,
+  `Fecha_Salida` DATE NULL,
+  `Fecha_Llegada` DATE NULL,
+  `Lugar` VARCHAR(100) NULL,
+  `Pernoctado` VARCHAR(10) NULL,
+  `Puesto` VARCHAR(50) NULL,
+  `Estado` VARCHAR(45) NULL,
+  `Reporte` VARCHAR(1) NULL,
+  `Motivo` VARCHAR(500) NULL,
+  `Hora_Salida` VARCHAR(20) NULL,
+  `Hora_Llegada` VARCHAR(20) NULL,
+  `vehiculo_usado_idvehiculo_usado` INT NOT NULL,
+  `Actividad` VARCHAR(500) NULL,
+  `Vehiculo` VARCHAR(100) NULL,
+  PRIMARY KEY (`idsolicitud_vehiculo`),
+  INDEX `fk_solicitud_vehiculo_vehiculo_usado1_idx` (`vehiculo_usado_idvehiculo_usado` ASC),
+  CONSTRAINT `fk_solicitud_vehiculo_vehiculo_usado1`
+    FOREIGN KEY (`vehiculo_usado_idvehiculo_usado`)
+    REFERENCES `ine`.`vehiculo_usado` (`idvehiculo_usado`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
