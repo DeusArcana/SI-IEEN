@@ -1,0 +1,2908 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<!DOCTYPE html>
+<html lang='en' xmlns='http://www.w3.org/1999/xhtml' >
+<head>
+<title>Default Layout</title>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<!--<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>-->
+<link rel="shortcut icon" href="https://www.dbschema.com/images/favicon.ico">
+<style type='text/css'>
+body {
+    font-family: 'Segoe UI', 'Lucida sans', Dialog;
+    font-size: 13px;
+    background-color:#f5f5f5;
+    margin: 10px;
+}
+</style>
+</head>
+
+<body>
+<div class='svg-container'>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'   width='1860' height='1520' viewBox='0 0 1860 1520' >
+  <script type='text/ecmascript'>
+  <![CDATA[
+  function hghl(el) { for ( var i in el ){ var elem = document.getElementById(el[i]); if ( elem != null ) elem.setAttribute('class','highlight');  }  }
+  function uhghl(el) { for ( var i in el ){ var elem = document.getElementById(el[i]); if ( elem != null ) elem.setAttribute('class','scene'); }  } 
+  ]]>
+  </script> 
+
+<style type='text/css'>
+  text                { fill:#000000; font-family: Tahoma, 'Trebuchet MS', Dialog; font-size:11px; }
+  a text:hover        { fill:#94025f; text-shadow: 0px 0px 6px #d0ce00; font-size:13px; }
+  text.highlight      { fill:#94025f; text-shadow: 0px 0px 4px #eac533; font-size:13px; }
+  text.colType        { fill:#b3b3b3; }
+  text.relName        { fill:#b09c7c; }
+  path                { stroke:#5c554f; stroke-width:1.15; fill:none; }
+  path                { stroke:#5c554f; stroke-width:1.15; fill:none;}
+  path.virtual        { stroke:#b7642d; }
+  path.logo           { fill:#fbeac0;fill-opacity:1;stroke-width:0.3;stroke:#222222; }
+  path.dotted         { stroke-dasharray:4,2; }
+  path.scene          { stroke-width:10; opacity:0;}
+  path.highlight      { stroke-width:5; stroke:#c1a662; opacity:0.6;}
+  rect.entity         { fill:#ffffff; stroke:#aaa; stroke-width:1;shape-rendering:crispEdges;filter:url(#shadow); }
+  line.delim          { stroke-width:1; shape-rendering:crispEdges; }
+  text.callout        { fill:#000000; font-family: Tahoma, 'Trebuchet MS', Dialog; font-size:12px; }
+  rect.callout        { fill:url(#calloutGradient); stroke:#bebdbd; stroke-width:0.5; filter: url(#shadow);}
+  rect.grp            { stroke:#b1b1b1; stroke-width:1.7; opacity:0.8; }
+  path.st0            { fill:#ececec;fill-opacity:1;stroke-width:0.6;stroke:#aaaaaa; }
+</style>
+<defs>
+  <pattern id='layoutBgA' patternUnits='userSpaceOnUse'  width='10' height='20' x='0' y='0' viewBox='0 0 5 10'>  
+     <line x1='-2' y1='1' x2='7' y2='10' stroke='#f3f3f3' stroke-width='.5'/>  
+     <line x1='-2' y1='6' x2='7' y2='15' stroke='#f3f3f3' stroke-width='.5'/>  
+     <line x1='-2' y1='-4' x2='7' y2='5' stroke='#f3f3f3' stroke-width='.5'/>  
+  </pattern>  
+  <radialGradient id='layoutBgB' gradientUnits='userSpaceOnUse' cx='50%' cy='50%' r='75%' fx='46%' fy='22%'>
+     <stop offset='0%' stop-opacity='.2' stop-color='#f5f5f5' />  
+     <stop offset='100%' stop-color='#efefef' />  
+  </radialGradient>
+  <pattern id='layoutBgTr' patternUnits='userSpaceOnUse'  width='300' height='300' x='0' y='0' viewBox='0 0 300 300'>  
+  <path class='st0' d='m 62.011835,91.267143 c 3.536475,3.175214 2.262669,8.705999 -1.637711,11.015197 -3.594697,5.8423 -6.34682,-2.892623 -9.715478,-4.653898 -5.609222,-2.838926 2.050802,-6.680123 4.77004,-8.319046 2.334696,-0.724067 4.935143,0.312302 6.583149,1.957747 z m -2.720492,2.538595 c -2.698397,-3.517732 -9.282815,1.269287 -3.69635,3.568637 2.765331,5.605665 7.052809,-0.56184 3.69635,-3.568637 z' />
+  <path class='st0' d='m 72.25864,84.624638 c 4.108046,3.143003 -0.737059,6.895259 -1.994918,8.323564 -3.586718,5.561143 -6.495079,-4.197379 -10.07759,-5.582178 -4.443422,-1.088878 1.349298,-7.249213 2.503526,-2.503449 2.464639,4.517161 2.304019,-3.70697 6.291113,-1.995914 1.280083,0.137865 2.410691,0.864819 3.277869,1.757977 z m -2.646109,2.323242 c -4.797162,-3.078383 -2.810517,6.305507 0.515161,1.990646 0.296432,-0.688582 0.01209,-1.493412 -0.515161,-1.990646 z' />
+  <path class='st0' d='m 78.230641,79.436735 c 4.142121,3.027466 -2.020102,10.435276 -3.450543,5.477315 3.306312,-5.248112 -9.186019,-2.220094 -5.805994,-8.77679 -0.544141,-3.93011 6.797826,-2.102227 3.386015,0.245477 -0.181085,2.915838 4.637371,1.019311 5.870522,3.053982 z' />
+  <path class='st0' d='m 82.744502,72.597397 c -4.901605,1.926521 1.146497,6.285555 2.559694,2.225783 6.21817,3.539297 -6.640186,8.416664 -7.590325,1.997457 -2.24365,-2.914883 4.026676,-10.148618 5.030631,-4.22324 z' />
+  <path class='st0' d='m 90.727458,64.259158 c 1.583987,1.690029 3.321317,3.2696 4.81267,5.026353 -2.535706,6.849794 -6.445583,-5.918773 -8.388458,-0.167017 0.782768,2.03426 5.877405,3.752079 2.670979,5.711199 -3.315119,1.519161 -5.782422,-5.157931 -8.858893,-6.780537 -4.229842,-1.139816 1.510134,-7.074128 2.586227,-2.385939 3.141198,5.495193 1.840537,-5.598295 7.177489,-1.404062 z' />
+  <path class='st0' d='m 99.622027,58.374253 c 1.493293,1.9548 -6.281936,7.024659 -0.885258,4.740447 0.386238,-4.434477 6.131941,-1.133173 2.175851,1.618005 -4.421491,6.12739 -13.666659,-3.151506 -7.058299,-7.136537 1.785129,-1.119329 4.348209,-0.743179 5.767706,0.778085 z m -2.900824,1.89746 c -3.608188,-2.208543 -2.280489,5.00803 -0.12563,0.329531 z' />
+  <path class='st0' d='m 115.18023,50.570441 c -1.61703,5.201678 -4.6204,-0.364502 -7.01598,-1.749619 -4.40977,2.122562 4.89641,4.913939 1.89606,7.018157 -2.48061,3.877635 -4.11404,-4.060614 -7.01192,-2.6391 -1.76318,3.107252 7.28394,6.252304 0.87346,7.876177 -1.74515,-2.956649 -9.055498,-5.610518 -3.950378,-8.66062 1.696478,1.897023 1.770418,-5.43503 5.347308,-3.072411 -0.44014,-5.474701 6.11995,-4.950882 7.7846,-0.815355 0.69076,0.682329 1.39587,1.351469 2.07685,2.042771 z' />
+  <path class='st0' d='m 120.54891,39.417125 c 2.50681,1.334124 4.80466,4.941837 0.75044,5.297362 -0.46414,1.89865 -5.25369,5.602652 -8.01742,1.815475 -3.87345,-2.809139 -0.0676,-7.603869 2.3036,-8.133924 1.6795,-3.853018 3.16703,-1.199465 4.96338,1.021087 z m -2.2464,2.175828 c -4.8049,-2.992167 -3.08987,6.380358 0.42374,2.036159 0.33052,-0.677508 0.12099,-1.525836 -0.42374,-2.036159 z' />
+  <path class='st0' d='m 128.50836,24.06821 c -5.10403,3.035506 3.20535,6.383175 5.05938,9.450276 -0.91853,2.95886 -4.06493,3.650723 -5.34691,0.265618 -2.25715,-2.089033 -4.65672,-6.948595 -7.07024,-2.584686 -4.71758,-3.764394 3.81217,-5.812054 5.12382,-9.226328 0.75738,0.677487 1.38637,1.498638 2.23389,2.095175 z' />
+  <path class='st0' d='m 137.14366,22.299812 c -3.09615,2.259885 0.71537,4.412454 1.99042,6.435866 -3.08975,5.080354 -5.91384,-2.98648 -8.92144,-4.094939 1.44369,-3.219573 3.3497,-1.335928 4.27156,-4.41058 0.97822,-0.894325 1.75044,1.871047 2.65946,2.069653 z' />
+  <path class='st0' d='m 136.85093,14.890174 c 2.31562,5.283511 -7.17975,1.771993 -1.29675,-0.475107 l 0.7108,0.08973 z m 4.867,5.317354 c 2.56912,1.439678 4.26517,4.725219 0.30678,5.233637 -1.56592,-3.098864 -9.51683,-5.749448 -3.64502,-8.633714 1.17746,0.325095 2.15375,2.591149 3.33824,3.400077 z' />
+  <path class='st0' d='m 149.95578,11.976423 c 2.50679,1.334142 4.80455,4.94192 0.75041,5.297394 -0.4641,1.898604 -5.25368,5.602645 -8.0174,1.81545 -3.87347,-2.80918 -0.0676,-7.603844 2.30366,-8.133968 1.67949,-3.8530525 3.16695,-1.1993573 4.96333,1.021124 z m -2.24641,2.175828 c -4.80489,-2.992177 -3.08986,6.380343 0.42374,2.036167 0.33055,-0.677518 0.121,-1.52585 -0.42374,-2.036167 z' />
+  <path class='st0' d='m 153.26135,7.538431 c 2.60497,1.5799548 6.03999,5.944272 1.08117,6.050232 -2.53319,-3.231828 -7.20316,-6.4304525 -8.84748,-9.4582682 1.89121,-2.8664883 3.78452,-2.247699 5.38514,0.8929426 0.78017,0.8503859 1.57195,1.6911437 2.38118,2.5150667 z' />
+  </pattern>  
+  <linearGradient id='groupUnderTitleLine' x1='0%' y1='0%' x2='100%' y2='0%' >
+          <stop offset='0%' stop-color='#999999' stop-opacity='0.7'/> 
+          <stop offset='100%' stop-color='#999999' stop-opacity='0' /> 
+   </linearGradient>
+  <radialGradient id='calloutGradient' cx='25%' cy='20%' r='80%' fx='10%' fy='10%'>
+	   <stop offset='0%' stop-color='#ffffff' />
+    <stop offset='100%' stop-color='#f8f6d1' />
+  </radialGradient>
+  <filter id='shadow' width='120%' height='120%'> 
+      <feOffset result='offOut' in='SourceGraphic' dx='1' dy='1' /> 
+      <feColorMatrix result='matrixOut' in='offOut' type='matrix' 
+      values='0.1 0 0 0 0 0 0.4 0 0 0 0 0 0.6 0 0 0 0 0 0.3 0' /> 
+      <feGaussianBlur result='blurOut' in='matrixOut' stdDeviation='3' /> 
+      <feBlend in='SourceGraphic' in2='blurOut' mode='normal' /> 
+    </filter> 
+  <filter id='fkShadow' height='130%'> 
+    <feGaussianBlur in='SourceAlpha' stdDeviation='1.5'/> <!-- stdDeviation is how much to blur -->
+    <feOffset dx='1.2' dy='1.2' result='offsetblur'/> <!-- how much to offset -->
+    <feMerge>
+    <feMergeNode/> <!-- this contains the offset blurred image -->
+    <feMergeNode in='SourceGraphic'/> <!-- this contains the element that the filter is applied to -->
+    </feMerge>
+  </filter>
+  <radialGradient id='legendGradient' fx='5%' fy='5%' r='75%' spreadMethod='pad'>
+          <stop offset='0%' stop-color='#eefbf2' stop-opacity='1'/> 
+          <stop offset='100%' stop-color='#cff9cb' stop-opacity='1' /> 
+   </radialGradient>
+  <symbol id='calloutArrowDown' overflow='visible' >
+      <path d='M 0,0 L 7,11 L 15,0 z' style='fill:#f8f6d1;stroke:none; filter: url(#shadow);' />
+      <path d='M 0,0 L 7,11 L 15,0' style='stroke:#bebdbd; stroke-width:0.5;' />
+  </symbol>
+  <symbol id='calloutArrowUp' overflow='visible' >
+      <path d='M 0,15 L 7,3 L 15,15 z' style='fill:#ffffff; stroke:none; filter: url(#shadow);' />
+      <path d='M 0,15 L 7,3 L 15,15' style='stroke:#bebdbd; stroke-width:0.5;' />
+  </symbol>
+  <symbol id='pk' overflow='visible' >
+    <g transform='scale(0.99)'>
+     <path style='fill:#fffa7d;stroke:#765f03;stroke-width:0.6;stroke-linecap:round;stroke-linejoin:round;'
+        d='M 9.3678877,3.5695485 C 9.1030218,3.2729386 9.0796382,2.7628519 9.3396185,2.4517097 9.5449651,2.1956495 9.9040386,2.0980533 10.199638,2.2169415 10.533525,2.3415459 10.775153,2.706942 10.750675,3.0842709 10.737029,3.3980003 10.541153,3.699122 10.258248,3.8066067 9.966649,3.9250429 9.6169668,3.8418805 9.4008073,3.6062324 9.3894892,3.5943518 9.3785264,3.582104 9.3678886,3.5695487 z M 11.226617,6.9916004 C 11.888137,6.3548946 12.293488,5.4172188 12.311087,4.442353 12.378144,2.7379364 11.248678,1.0541269 9.7322318,0.44767357 8.3887112,-0.1280313 6.7865012,0.26822889 5.8918395,1.4007929 5.080823,2.3839145 4.9336815,3.8452096 5.3635544,5.101615 L 4.3670905,5.315913 C 4.0664984,5.3682645 4.0967703,5.6316724 4.2574957,5.8208829 L 4.9124,6.5655244 4.1543436,7.2512357 3.2136002,7.2163506 3.1674775,8.5586827 2.0406832,8.5086512 1.5965306,8.9299953 1.5471661,10.179833 0.75616674,10.195223 0.2112857,10.758575 0.15354288,11.735988 0.07199052,12.765553 c 0.36440953,0.238225 0.79006967,0.195492 1.44938278,-0.02675 L 6.3033562,8.1282037 6.8217102,8.6765688 C 6.9985465,8.8799427 7.3003699,8.7497574 7.358381,8.5016252 L 7.4938877,7.5084164 c 0.8537488,0.3985387 1.8303125,0.4711541 2.6851793,0.1427713 0.393927,-0.1407258 0.746858,-0.3701772 1.04755,-0.6595873 z'/>
+     <path d='M 6.8014948,6.3102123 0.15369063,13.024481 0.21560535,12.141962 6.0062342,6.2683782 z'
+        style='fill:#ffe5a5;fill-opacity:1;stroke:#854e31;stroke-width:0.06912433;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:3.00300009'/>
+    </g>
+  </symbol>
+  <symbol id='dist' overflow='visible' >
+    <g transform='scale(0.99)'>
+      <path style='fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;' d='M 0.177,11.431 12.28,11.449'/>
+      <path style='fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;' d='m 6.124,3.954 0.066,7.154 v 0'/>
+      <rect width='11.78' height='3.40' x='0.40' y='0.44' style='fill:#fffa7d;stroke:#765f03;stroke-width:0.6;' ry='0.83'/>
+      <rect width='11.78' height='3.40' x='0.40' y='5.609' style='fill:#fffa7d;stroke:#765f03;stroke-width:0.6;' ry='0.832'/>
+    </g>
+  </symbol>
+  <symbol id='unq' overflow='visible' >
+    <g transform='scale(0.99)'>
+      <rect style='fill:#fbea8e;stroke:#7e4d31;stroke-width:0.71934468;stroke-linecap:round;stroke-linejoin:round;'
+         width='2.29' height='8.43' x='7.48' y='-0.76' ry='1.14' transform='matrix(0.701,0.713,-0.727,0.685,0,0)' />
+      <path style='fill:white;stroke:#858585;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;'
+         d='m 26.04,8.64 a 4.13,4.13 0 1 1 -8.26,0 4.13,4.13 0 1 1 8.26,0 z'
+         transform='matrix(1.025,0,0,0.987,-14.690,-3.862)' />
+      <text x='5.8' y='7.4' style='font-size:7px;fill:#8a8a8a;'>1</text>
+    </g>
+  </symbol>
+  <symbol id='idx' overflow='visible' >
+    <g transform='scale(0.99)'>
+      <rect style='fill:#fbea8e;stroke:#7e4d31;stroke-width:0.71934468;stroke-linecap:round;stroke-linejoin:round;'
+         width='2.29' height='8.43' x='7.48' y='-0.76' ry='1.14' transform='matrix(0.701,0.713,-0.727,0.685,0,0)' />
+      <path style='fill:white;stroke:#858585;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;'
+         d='m 26.04,8.64 a 4.13,4.13 0 1 1 -8.26,0 4.13,4.13 0 1 1 8.26,0 z'
+         transform='matrix(1.025,0,0,0.987,-14.690,-3.862)' />
+    </g>
+  </symbol>
+  <symbol id='fk' overflow='visible' >
+    <g transform='scale(0.87)'>
+      <path style='fill:#f3e1b7;stroke:#7e471f;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+      d='M 12.48,0.33 7.07,0.89 9.067,2.974 0.329,11.731 1.073,12.597 9.811,3.841 11.77,5.78 z' />
+    </g>
+  </symbol>
+  <symbol id='ref' overflow='visible' >
+    <g transform='scale(0.87)'>
+      <path style='fill:#f3e1b7;stroke:#7e471f;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+          d='M 0.10,12.70 5.31,12.15 3.40,10.06 11.82,1.32 11.11,0.45 2.68,9.19 0.80,7.24 z'/>
+    </g>
+  </symbol>
+  <symbol id='flag0' overflow='visible' >
+    <g transform='scale(0.92)'>
+      <path style='fill:#b7d0f6;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+          d='M 0.12,12.67 0.16,7.22 C 2.59,7.22 4.13,8.78 9.22,4.22 5.68,4.98 2.53,4.50 0.09,1.80 z'/>
+    </g>
+  </symbol>
+  <symbol id='flag1' overflow='visible' >
+    <g transform='scale(0.92)'>
+      <path style='fill:#f4a393;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+          d='M 0.12,12.67 0.16,7.22 C 2.59,7.22 4.13,8.78 9.22,4.22 5.68,4.98 2.53,4.50 0.09,1.80 z'/>
+    </g>
+  </symbol>
+  <symbol id='flag2' overflow='visible' >
+    <g transform='scale(0.92)'>
+      <path style='fill:#77ec8b;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+          d='M 0.12,12.67 0.16,7.22 C 2.59,7.22 4.13,8.78 9.22,4.22 5.68,4.98 2.53,4.50 0.09,1.80 z'/>
+    </g>
+  </symbol>
+  <symbol id='nn' overflow='visible' >
+  <path style='stroke:#9b3e50;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+          d='M 0,0 3,3 M 0,3 3,0 z'/>
+  </symbol>
+  <symbol id='view' overflow='visible' >
+    <g transform='scale(0.99)'>
+     <line x1='12' y1='6' x2='19' y2='0' stroke='black' stroke-width='0.5' />
+     <line x1='0' y1='6' x2='7' y2='0' stroke='black' stroke-width='0.5' />
+     <circle cx='3' cy='6' r='3' fill='#f9ebbc' stroke='black' stroke-width='0.5'/>
+     <circle cx='10' cy='6' r='3' fill='#f9ebbc' stroke='black' stroke-width='0.5'/>
+    </g>
+  </symbol>
+  <marker id='arrow01' viewBox='0 0 15.00 7.50' refX='7.50' refY='3.75' markerUnits='strokeWidth' markerWidth='15.00' markerHeight='7.50' orient='auto'>
+    <path d='M 7.500,3.750 L 15.000,3.750 L 7.500,0.000 L 15.000,3.750 L 7.500,7.500' />
+  </marker>
+  <marker id='arrow1' viewBox='0 0 15.00 7.50' refX='7.50' refY='3.75' markerUnits='strokeWidth' markerWidth='15.00' markerHeight='7.50' orient='auto'>
+    <path d='M 7.500,3.750 L 15.000,3.750 L 7.500,0.000 L 15.000,3.750 L 7.500,7.500' />
+  </marker>
+  <marker id='foot01' viewBox='0 0 15.00 7.50' refX='7.50' refY='3.75' markerUnits='strokeWidth' markerWidth='15.00' markerHeight='7.50' orient='auto'>
+    <path d='M 0.00,3.75 L 15.00,3.75 z' />
+    <circle cx='11.25' cy='3.75' r='2.50' style='fill:white;stroke:#5e554d;' />
+    <path d='M 3.75,0.00 L 3.75, 7.50 z' />
+  </marker>
+  <marker id='foot0p' viewBox='0 0 15.00 7.50' refX='7.50' refY='3.75' markerUnits='strokeWidth' markerWidth='15.00' markerHeight='7.50' orient='auto'>
+    <path d='M 0.00,3.75 L 15.00,3.75 z' />
+    <circle cx='11.25' cy='3.75' r='2.50' style='fill:white;stroke:#5e554d;' />
+    <path d='M 0.00,0.00 L 7.50,3.75 L 0.00,7.50' />
+  </marker>
+  <marker id='foot1' viewBox='0 0 15.00 7.50' refX='7.50' refY='3.75' markerUnits='strokeWidth' markerWidth='15.00' markerHeight='7.50' orient='auto'>
+    <path d='M 0.00,3.75 L 15.00,3.75 z' />
+    <path d='M 7.50,0.00 L 7.50, 7.50 z' />
+    <path d='M 3.75,0.00 L 3.75, 7.50 z' />
+  </marker>
+  <marker id='foot1p' viewBox='0 0 15.00 7.50' refX='7.50' refY='3.75' markerUnits='strokeWidth' markerWidth='15.00' markerHeight='7.50' orient='auto'>
+    <path d='M 0.00,3.75 L 15.00,3.75 z' />
+    <path d='M 7.50,0.00 L 7.50, 7.50 z' />
+    <path d='M 0.00,0.00 L 7.50,3.75 L 0.00,7.50' />
+  </marker>
+  <linearGradient id='tbg_bfd4f5' x1='0%' y1='0%' x2='0%' y2='100%' >
+     <stop offset='0%' stop-color='#496ba1' /> 
+     <stop offset='100%' stop-color='#1f4682' /> 
+  </linearGradient>
+  <linearGradient id='tbg_f5ddbf' x1='0%' y1='0%' x2='0%' y2='100%' >
+     <stop offset='0%' stop-color='#a17a49' /> 
+     <stop offset='100%' stop-color='#82561f' /> 
+  </linearGradient>
+  <linearGradient id='tbg_c8f5bf' x1='0%' y1='0%' x2='0%' y2='100%' >
+     <stop offset='0%' stop-color='#58a149' /> 
+     <stop offset='100%' stop-color='#30821f' /> 
+  </linearGradient>
+  <linearGradient id='tbg_d2bff5' x1='0%' y1='0%' x2='0%' y2='100%' >
+     <stop offset='0%' stop-color='#6849a1' /> 
+     <stop offset='100%' stop-color='#421f82' /> 
+  </linearGradient>
+  <linearGradient id='tbg_bfbff5' x1='0%' y1='0%' x2='0%' y2='100%' >
+     <stop offset='0%' stop-color='#4949a1' /> 
+     <stop offset='100%' stop-color='#1f1f82' /> 
+  </linearGradient>
+</defs>
+
+<!-- == Desktop == -->
+<rect x='1' y='1' width='1858' height='1518' rx='7' ry='7' style='fill:url(#layoutBgB); stroke:#777777; stroke-width:0.5;' />
+<rect x='1' y='1' width='1858' height='1518' rx='7' ry='7' style='fill:url(#layoutBgA); stroke:#777777; stroke-width:0.5;' />
+
+<!-- == Legend == -->
+<g transform='translate(10,10)'>
+  <rect x='10' y='10' width='330' height='56' rx='6' ry='6' style='fill:url(#legendGradient);filter:url(#shadow);'/> 
+  <text x='20' y='43'>Default Layout</text> 
+  <text x='20' y='57' style='fill:#aaaaaa; font-size:11px;'><tspan>Move the mouse over tables &amp; columns to read the comments.</tspan></text> 
+<a xlink:href='https://www.dbschema.com'> <path class='logo' d='m 32.309685,20.963194 c 0.411708,4.732616 -4.298055,7.925636 -8.723583,6.970196 -6.616967,1.8448 -2.656457,-6.434594 -3.911969,-10.01566 -2.15469,-5.89407 6.06247,-3.508505 9.167655,-2.863689 2.199228,1.054873 3.389343,3.582089 3.467897,5.909153 z m -3.720955,0.01451 c 0.434195,-4.414565 -7.644142,-5.37533 -5.137307,0.107342 -1.812268,5.992146 5.532698,4.379388 5.137307,-0.107342 z' /> <path class='logo' d='m 44.329732,23.050637 c 0.850982,5.097305 -5.250434,4.558924 -7.144836,4.752415 -6.418993,1.64391 -1.872992,-7.49274 -3.541914,-10.942842 -2.499646,-3.817859 5.939283,-4.402698 3.538545,-0.13612 -1.287874,4.989123 4.215411,-1.154796 5.956717,2.809584 0.840273,0.970849 1.168829,2.272413 1.191488,3.516963 z m -3.519477,-0.09299 c -1.398216,-5.518069 -6.361061,2.717467 -0.984368,1.810718 0.686994,-0.30388 1.029454,-1.087638 0.984368,-1.810718 z' /> <path class='logo' d='m 52.234961,23.301163 c 0.954818,5.035675 -8.606408,6.284861 -6.262292,1.674914 6.000358,-1.604717 -5.188764,-7.870044 1.75972,-10.384908 2.288682,-3.253567 6.399287,3.075831 2.304111,2.48058 -2.124941,2.016587 2.688777,3.89858 2.198472,6.229403 z' /> <path class='logo' d='m 60.204336,21.349224 c -4.894917,-1.916474 -3.458707,5.391212 0.347494,3.37231 2.120589,6.821713 -10.599623,1.664746 -6.906229,-3.691132 0.354172,-3.663246 9.875349,-4.711252 6.558735,0.318822 z' /> <path class='logo' d='m 71.730617,20.654299 c 0.0013,2.316285 0.190131,4.655698 0.07825,6.958009 -6.532419,3.303565 -0.660423,-8.722256 -6.009639,-5.821653 -0.818815,2.024533 1.726403,6.746337 -1.95327,6.005484 -3.458346,-1.137537 -0.696275,-7.713407 -1.833252,-10.994208 -2.308916,-3.710131 5.93704,-4.164951 3.518609,0.0063 -1.462376,6.166445 5.169629,-2.857523 6.19931,3.846079 z' /> <path class='logo' d='m 82.245738,22.378957 c -0.24581,2.448954 -9.386766,0.8867 -3.885979,2.877055 3.312576,-2.99157 5.250902,3.334514 0.482647,2.665545 -7.415384,1.492275 -7.823196,-11.597641 -0.275476,-10.032117 2.068161,0.391458 3.682204,2.408824 3.678808,4.489517 z m -3.414436,-0.578473 c -1.124703,-4.072004 -5.087405,2.125488 -0.316922,0.156453 z' /> <path class='logo' d='m 98.936899,27.222794 c -4.73541,2.718339 -3.1239,-3.406557 -3.92611,-6.050494 -4.66985,-1.438471 0.21621,6.932413 -3.41219,6.438039 -4.46096,1.160054 -0.22824,-5.774711 -3.31526,-6.700429 -3.410722,1.082173 1.04451,9.536575 -4.745091,6.372895 0.746632,-3.355214 -2.776394,-10.269232 3.034971,-9.038963 -0.058,2.544602 5.00686,-2.785359 6.00342,1.37844 3.42021,-4.316316 7.851251,0.524966 6.24018,4.690538 0.0379,0.969988 0.0954,1.940046 0.12008,2.909974 z' /> <path class='logo' d='m 110.47859,22.686058 c 0.91826,2.682088 0.13016,6.890551 -3.0725,4.397004 -1.63641,1.077877 -7.664291,0.541832 -7.09365,-4.114836 -0.907891,-4.692933 5.14729,-5.625578 7.24058,-4.40354 3.85932,-1.686263 3.13176,1.271515 2.92557,4.121372 z m -3.12695,0.0704 c -1.46278,-5.460062 -6.61615,2.5826 -1.08221,1.782003 0.70431,-0.272594 1.13111,-1.037444 1.08221,-1.782003 z' /> </a>
+</g>
+
+<g transform='translate(0,110)'>
+<!-- == Fk 'cpu_fk_CPU_Inventario1' == -->
+<path id='cpu_fk_CPU_Inventario1'  onmouseover="hghl(['cpu_fk_CPU_Inventario1','ine.cpu.id_cpu','ine.inventario.id_producto'])" onmouseout="uhghl(['cpu_fk_CPU_Inventario1','ine.cpu.id_cpu','ine.inventario.id_producto'])" transform='translate(7,0)' class='scene' d='M 1410 630 L 1515,630' >
+	<title>Fk fk_CPU_Inventario1
+cpu ref inventario ( id_cpu -&gt; id_producto )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1)' marker-end='url(#arrow1)'    d='M 1410 630 L 1515,630' ></path>
+<text x='1417' y='625' transform='rotate(0 1417,625)' title='Fk fk_CPU_Inventario1
+cpu ref inventario ( id_cpu -&gt; id_producto )' class='relName' style='fill:#6b9f5f'>id_cpu</text>
+<!-- == Fk 'detalle_solicitud_fk_Detalle_solicitud_Inventario1' == -->
+<path id='detalle_solicitud_fk_Detalle_solicitud_Inventario1'  onmouseover="hghl(['detalle_solicitud_fk_Detalle_solicitud_Inventario1','ine.detalle_solicitud.id_producto','ine.inventario.id_producto'])" onmouseout="uhghl(['detalle_solicitud_fk_Detalle_solicitud_Inventario1','ine.detalle_solicitud.id_producto','ine.inventario.id_producto'])" transform='translate(7,0)' class='scene' d='M 1680 465 L 1635,465' >
+	<title>Fk fk_Detalle_solicitud_Inventario1
+detalle_solicitud ref inventario ( id_producto )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 1680 465 L 1635,465' ></path>
+<text x='1630' y='460' transform='rotate(0 1630,460)' title='Fk fk_Detalle_solicitud_Inventario1
+detalle_solicitud ref inventario ( id_producto )' class='relName' style='fill:#6b9f5f'>id_producto</text>
+<!-- == Fk 'detalle_solicitud_fk_Detalle_solicitud_Solicitudes1' == -->
+<path id='detalle_solicitud_fk_Detalle_solicitud_Solicitudes1'  onmouseover="hghl(['detalle_solicitud_fk_Detalle_solicitud_Solicitudes1','ine.detalle_solicitud.id_solicitud','ine.solicitudes.id_solicitud'])" onmouseout="uhghl(['detalle_solicitud_fk_Detalle_solicitud_Solicitudes1','ine.detalle_solicitud.id_solicitud','ine.solicitudes.id_solicitud'])" transform='translate(7,0)' class='scene' d='M 1710 525 L 1710,577 Q 1710,585 1702,585 L 1657,585 Q 1650,585 1650,592 L 1650,772 Q 1650,780 1642,780 L 832,780 Q 825,780 825,787 L 825,795' >
+	<title>Fk fk_Detalle_solicitud_Solicitudes1
+detalle_solicitud ref solicitudes ( id_solicitud )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 1710 525 L 1710,577 Q 1710,585 1702,585 L 1657,585 Q 1650,585 1650,592 L 1650,772 Q 1650,780 1642,780 L 832,780 Q 825,780 825,787 L 825,795' ></path>
+<text x='1723' y='525' transform='rotate(90 1723,525)' title='Fk fk_Detalle_solicitud_Solicitudes1
+detalle_solicitud ref solicitudes ( id_solicitud )' class='relName' style='fill:#6b9f5f'>id_solicitud</text>
+<!-- == Fk 'detalle_vale_fk_Detalle_vale_Vales1' == -->
+<path id='detalle_vale_fk_Detalle_vale_Vales1'  onmouseover="hghl(['detalle_vale_fk_Detalle_vale_Vales1','ine.detalle_vale.id_vale','ine.vales.id_vale'])" onmouseout="uhghl(['detalle_vale_fk_Detalle_vale_Vales1','ine.detalle_vale.id_vale','ine.vales.id_vale'])" transform='translate(7,0)' class='scene' d='M 1350 1260 L 1327,1260 Q 1320,1260 1320,1252 L 1320,1192 Q 1320,1185 1312,1185 L 1305,1185' >
+	<title>Fk fk_Detalle_vale_Vales1
+detalle_vale ref vales ( id_vale )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 1350 1260 L 1327,1260 Q 1320,1260 1320,1252 L 1320,1192 Q 1320,1185 1312,1185 L 1305,1185' ></path>
+<text x='1323' y='1255' transform='rotate(0 1323,1255)' title='Fk fk_Detalle_vale_Vales1
+detalle_vale ref vales ( id_vale )' class='relName' style='fill:#9f825f'>id_vale</text>
+<!-- == Fk 'detalles_equipo_computo_fk_Detalles_equipo_computo_CPU1' == -->
+<path id='detalles_equipo_computo_fk_Detalles_equipo_computo_CPU1'  onmouseover="hghl(['detalles_equipo_computo_fk_Detalles_equipo_computo_CPU1','ine.detalles_equipo_computo.id_cpu','ine.cpu.id_cpu'])" onmouseout="uhghl(['detalles_equipo_computo_fk_Detalles_equipo_computo_CPU1','ine.detalles_equipo_computo.id_cpu','ine.cpu.id_cpu'])" transform='translate(7,0)' class='scene' d='M 1350 555 L 1350,600' >
+	<title>Fk fk_Detalles_equipo_computo_CPU1
+detalles_equipo_computo ref cpu ( id_cpu )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 1350 555 L 1350,600' ></path>
+<text x='1363' y='555' transform='rotate(90 1363,555)' title='Fk fk_Detalles_equipo_computo_CPU1
+detalles_equipo_computo ref cpu ( id_cpu )' class='relName' style='fill:#6b9f5f'>id_cpu</text>
+<!-- == Fk 'detalles_equipo_computo_fk_Detalles_equipo_computo_Equipo_computo1' == -->
+<path id='detalles_equipo_computo_fk_Detalles_equipo_computo_Equipo_computo1'  onmouseover="hghl(['detalles_equipo_computo_fk_Detalles_equipo_computo_Equipo_computo1','ine.detalles_equipo_computo.id_equipo','ine.equipo_computo.id_equipo'])" onmouseout="uhghl(['detalles_equipo_computo_fk_Detalles_equipo_computo_Equipo_computo1','ine.detalles_equipo_computo.id_equipo','ine.equipo_computo.id_equipo'])" transform='translate(7,0)' class='scene' d='M 1320 495 L 1275,495' >
+	<title>Fk fk_Detalles_equipo_computo_Equipo_computo1
+detalles_equipo_computo ref equipo_computo ( id_equipo )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 1320 495 L 1275,495' ></path>
+<text x='1281' y='490' transform='rotate(0 1281,490)' title='Fk fk_Detalles_equipo_computo_Equipo_computo1
+detalles_equipo_computo ref equipo_computo ( id_equipo )' class='relName' style='fill:#6b9f5f'>id_equipo</text>
+<!-- == Fk 'detalles_equipo_computo_fk_Detalles_equipo_computo_Monitor1' == -->
+<path id='detalles_equipo_computo_fk_Detalles_equipo_computo_Monitor1'  onmouseover="hghl(['detalles_equipo_computo_fk_Detalles_equipo_computo_Monitor1','ine.detalles_equipo_computo.id_monitor','ine.monitor.id_monitor'])" onmouseout="uhghl(['detalles_equipo_computo_fk_Detalles_equipo_computo_Monitor1','ine.detalles_equipo_computo.id_monitor','ine.monitor.id_monitor'])" transform='translate(7,0)' class='scene' d='M 1320 525 L 1297,525 Q 1290,525 1290,532 L 1290,622 Q 1290,630 1282,630 L 1275,630' >
+	<title>Fk fk_Detalles_equipo_computo_Monitor1
+detalles_equipo_computo ref monitor ( id_monitor )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 1320 525 L 1297,525 Q 1290,525 1290,532 L 1290,622 Q 1290,630 1282,630 L 1275,630' ></path>
+<text x='1277' y='520' transform='rotate(0 1277,520)' title='Fk fk_Detalles_equipo_computo_Monitor1
+detalles_equipo_computo ref monitor ( id_monitor )' class='relName' style='fill:#6b9f5f'>id_monitor</text>
+<!-- == Fk 'detalles_equipo_computo_fk_Detalles_equipo_computo_Teclado1' == -->
+<path id='detalles_equipo_computo_fk_Detalles_equipo_computo_Teclado1'  onmouseover="hghl(['detalles_equipo_computo_fk_Detalles_equipo_computo_Teclado1','ine.detalles_equipo_computo.id_teclado','ine.teclado.id_teclado'])" onmouseout="uhghl(['detalles_equipo_computo_fk_Detalles_equipo_computo_Teclado1','ine.detalles_equipo_computo.id_teclado','ine.teclado.id_teclado'])" transform='translate(7,0)' class='scene' d='M 1455 555 L 1455,682 Q 1455,690 1462,690 L 1702,690 Q 1710,690 1710,682 L 1710,675' >
+	<title>Fk fk_Detalles_equipo_computo_Teclado1
+detalles_equipo_computo ref teclado ( id_teclado )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 1455 555 L 1455,682 Q 1455,690 1462,690 L 1702,690 Q 1710,690 1710,682 L 1710,675' ></path>
+<text x='1468' y='555' transform='rotate(90 1468,555)' title='Fk fk_Detalles_equipo_computo_Teclado1
+detalles_equipo_computo ref teclado ( id_teclado )' class='relName' style='fill:#6b9f5f'>id_teclado</text>
+<!-- == Fk 'informe_fk_Informe_Solicitud_viatico1' == -->
+<path id='informe_fk_Informe_Solicitud_viatico1'  onmouseover="hghl(['informe_fk_Informe_Solicitud_viatico1','ine.informe.Solicitud_idSolicitud','ine.solicitud_viatico.idSolicitud'])" onmouseout="uhghl(['informe_fk_Informe_Solicitud_viatico1','ine.informe.Solicitud_idSolicitud','ine.solicitud_viatico.idSolicitud'])" transform='translate(7,0)' class='scene' d='M 735 1110 L 780,1110' >
+	<title>Fk fk_Informe_Solicitud_viatico1
+informe ref solicitud_viatico ( Solicitud_idSolicitud -&gt; idSolicitud )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 735 1110 L 780,1110' ></path>
+<text x='742' y='1105' transform='rotate(0 742,1105)' title='Fk fk_Informe_Solicitud_viatico1
+informe ref solicitud_viatico ( Solicitud_idSolicitud -&gt; idSolicitud )' class='relName' style='fill:#5f5f9f'>Solicitud_idSolicitud</text>
+<!-- == Fk 'informe_gastos_fk_Informe_Gastos_Gastos1' == -->
+<path id='informe_gastos_fk_Informe_Gastos_Gastos1'  onmouseover="hghl(['informe_gastos_fk_Informe_Gastos_Gastos1','ine.informe_gastos.Gastos_Id_Gastos','ine.gastos.Id_Gastos'])" onmouseout="uhghl(['informe_gastos_fk_Informe_Gastos_Gastos1','ine.informe_gastos.Gastos_Id_Gastos','ine.gastos.Id_Gastos'])" transform='translate(7,0)' class='scene' d='M 405 1170 L 405,1215' >
+	<title>Fk fk_Informe_Gastos_Gastos1
+informe_gastos ref gastos ( Gastos_Id_Gastos -&gt; Id_Gastos )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 405 1170 L 405,1215' ></path>
+<text x='418' y='1170' transform='rotate(90 418,1170)' title='Fk fk_Informe_Gastos_Gastos1
+informe_gastos ref gastos ( Gastos_Id_Gastos -&gt; Id_Gastos )' class='relName' style='fill:#5f5f9f'>Gastos_Id_Gastos</text>
+<!-- == Fk 'informe_gastos_fk_Informe_Gastos_Informe1' == -->
+<path id='informe_gastos_fk_Informe_Gastos_Informe1'  onmouseover="hghl(['informe_gastos_fk_Informe_Gastos_Informe1','ine.informe_gastos.Informe_Id_Informe','ine.informe.Id_Informe'])" onmouseout="uhghl(['informe_gastos_fk_Informe_Gastos_Informe1','ine.informe_gastos.Informe_Id_Informe','ine.informe.Id_Informe'])" transform='translate(7,0)' class='scene' d='M 525 1110 L 570,1110' >
+	<title>Fk fk_Informe_Gastos_Informe1
+informe_gastos ref informe ( Informe_Id_Informe -&gt; Id_Informe )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 525 1110 L 570,1110' ></path>
+<text x='532' y='1105' transform='rotate(0 532,1105)' title='Fk fk_Informe_Gastos_Informe1
+informe_gastos ref informe ( Informe_Id_Informe -&gt; Id_Informe )' class='relName' style='fill:#5f5f9f'>Informe_Id_Informe</text>
+<!-- == Fk 'monitor_fk_CPU_Inventario11' == -->
+<path id='monitor_fk_CPU_Inventario11'  onmouseover="hghl(['monitor_fk_CPU_Inventario11','ine.monitor.id_monitor','ine.inventario.id_producto'])" onmouseout="uhghl(['monitor_fk_CPU_Inventario11','ine.monitor.id_monitor','ine.inventario.id_producto'])" transform='translate(7,0)' class='scene' d='M 1260 600 L 1260,592 Q 1260,585 1267,585 L 1515,585' >
+	<title>Fk fk_CPU_Inventario11
+monitor ref inventario ( id_monitor -&gt; id_producto )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1)' marker-end='url(#arrow1)'    d='M 1260 600 L 1260,592 Q 1260,585 1267,585 L 1515,585' ></path>
+<text x='1262' y='595' transform='rotate(270 1262,595)' title='Fk fk_CPU_Inventario11
+monitor ref inventario ( id_monitor -&gt; id_producto )' class='relName' style='fill:#6b9f5f'>id_monitor</text>
+<!-- == Fk 'oficio_comision_fk_Oficio_comision_Solicitud_viatico1' == -->
+<path id='oficio_comision_fk_Oficio_comision_Solicitud_viatico1'  onmouseover="hghl(['oficio_comision_fk_Oficio_comision_Solicitud_viatico1','ine.oficio_comision.Solicitud_idSolicitud','ine.solicitud_viatico.idSolicitud'])" onmouseout="uhghl(['oficio_comision_fk_Oficio_comision_Solicitud_viatico1','ine.oficio_comision.Solicitud_idSolicitud','ine.solicitud_viatico.idSolicitud'])" transform='translate(7,0)' class='scene' d='M 945 1110 L 900,1110' >
+	<title>Fk fk_Oficio_comision_Solicitud_viatico1
+oficio_comision ref solicitud_viatico ( Solicitud_idSolicitud -&gt; idSolicitud )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 945 1110 L 900,1110' ></path>
+<text x='860' y='1105' transform='rotate(0 860,1105)' title='Fk fk_Oficio_comision_Solicitud_viatico1
+oficio_comision ref solicitud_viatico ( Solicitud_idSolicitud -&gt; idSolicitud )' class='relName' style='fill:#5f5f9f'>Solicitud_idSolicitud</text>
+<!-- == Fk 'permiso_vale_fk_Detalle_tipoVale_Puestos1' == -->
+<path id='permiso_vale_fk_Detalle_tipoVale_Puestos1'  onmouseover="hghl(['permiso_vale_fk_Detalle_tipoVale_Puestos1','ine.permiso_vale.puesto','ine.puestos.puesto'])" onmouseout="uhghl(['permiso_vale_fk_Detalle_tipoVale_Puestos1','ine.permiso_vale.puesto','ine.puestos.puesto'])" transform='translate(7,0)' class='scene' d='M 1485 1095 L 1462,1095 Q 1455,1095 1455,1087 L 1455,757 Q 1455,750 1447,750 L 787,750 Q 780,750 780,742 L 780,660' >
+	<title>Fk fk_Detalle_tipoVale_Puestos1
+permiso_vale ref puestos ( puesto )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 1485 1095 L 1462,1095 Q 1455,1095 1455,1087 L 1455,757 Q 1455,750 1447,750 L 787,750 Q 780,750 780,742 L 780,660' ></path>
+<text x='1459' y='1090' transform='rotate(0 1459,1090)' title='Fk fk_Detalle_tipoVale_Puestos1
+permiso_vale ref puestos ( puesto )' class='relName' style='fill:#9f825f'>puesto</text>
+<!-- == Fk 'permiso_vale_fk_Detalle_tipoVale_tipoVale1' == -->
+<path id='permiso_vale_fk_Detalle_tipoVale_tipoVale1'  onmouseover="hghl(['permiso_vale_fk_Detalle_tipoVale_tipoVale1','ine.permiso_vale.tipo_vale','ine.tipovale.tipo_vale'])" onmouseout="uhghl(['permiso_vale_fk_Detalle_tipoVale_tipoVale1','ine.permiso_vale.tipo_vale','ine.tipovale.tipo_vale'])" transform='translate(7,0)' class='scene' d='M 1485 1110 L 1440,1110' >
+	<title>Fk fk_Detalle_tipoVale_tipoVale1
+permiso_vale ref tipovale ( tipo_vale )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 1485 1110 L 1440,1110' ></path>
+<text x='1448' y='1105' transform='rotate(0 1448,1105)' title='Fk fk_Detalle_tipoVale_tipoVale1
+permiso_vale ref tipovale ( tipo_vale )' class='relName' style='fill:#9f825f'>tipo_vale</text>
+<!-- == Fk 'permisos_fk_Permisos_Modulos1' == -->
+<path id='permisos_fk_Permisos_Modulos1'  onmouseover="hghl(['permisos_fk_Permisos_Modulos1','ine.permisos.modulo','ine.modulos.modulo'])" onmouseout="uhghl(['permisos_fk_Permisos_Modulos1','ine.permisos.modulo','ine.modulos.modulo'])" transform='translate(7,0)' class='scene' d='M 630 795 L 630,772 Q 630,765 637,765 L 682,765 Q 690,765 690,757 L 690,577 Q 690,570 697,570 L 1027,570 Q 1035,570 1035,577 L 1035,585' >
+	<title>Fk fk_Permisos_Modulos1
+permisos ref modulos ( modulo )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 630 795 L 630,772 Q 630,765 637,765 L 682,765 Q 690,765 690,757 L 690,577 Q 690,570 697,570 L 1027,570 Q 1035,570 1035,577 L 1035,585' ></path>
+<text x='632' y='790' transform='rotate(270 632,790)' title='Fk fk_Permisos_Modulos1
+permisos ref modulos ( modulo )' class='relName' style='fill:#5f789f'>modulo</text>
+<!-- == Fk 'permisos_fk_Permisos_User1' == -->
+<path id='permisos_fk_Permisos_User1'  onmouseover="hghl(['permisos_fk_Permisos_User1','ine.permisos.id_user','ine.user.id_user'])" onmouseout="uhghl(['permisos_fk_Permisos_User1','ine.permisos.id_user','ine.user.id_user'])" transform='translate(7,0)' class='scene' d='M 570 795 L 570,750' >
+	<title>Fk fk_Permisos_User1
+permisos ref user ( id_user )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 570 795 L 570,750' ></path>
+<text x='572' y='790' transform='rotate(270 572,790)' title='Fk fk_Permisos_User1
+permisos ref user ( id_user )' class='relName' style='fill:#5f789f'>id_user</text>
+<!-- == Fk 'permisos_puesto_fk_Permisos_puesto_Modulos1' == -->
+<path id='permisos_puesto_fk_Permisos_puesto_Modulos1'  onmouseover="hghl(['permisos_puesto_fk_Permisos_puesto_Modulos1','ine.permisos_puesto.modulo','ine.modulos.modulo'])" onmouseout="uhghl(['permisos_puesto_fk_Permisos_puesto_Modulos1','ine.permisos_puesto.modulo','ine.modulos.modulo'])" transform='translate(7,0)' class='scene' d='M 960 615 L 1005,615' >
+	<title>Fk fk_Permisos_puesto_Modulos1
+permisos_puesto ref modulos ( modulo )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 960 615 L 1005,615' ></path>
+<text x='967' y='610' transform='rotate(0 967,610)' title='Fk fk_Permisos_puesto_Modulos1
+permisos_puesto ref modulos ( modulo )' class='relName' style='fill:#5f789f'>modulo</text>
+<!-- == Fk 'permisos_puesto_fk_Permisos_puesto_Puestos1' == -->
+<path id='permisos_puesto_fk_Permisos_puesto_Puestos1'  onmouseover="hghl(['permisos_puesto_fk_Permisos_puesto_Puestos1','ine.permisos_puesto.puesto','ine.puestos.puesto'])" onmouseout="uhghl(['permisos_puesto_fk_Permisos_puesto_Puestos1','ine.permisos_puesto.puesto','ine.puestos.puesto'])" transform='translate(7,0)' class='scene' d='M 840 615 L 795,615' >
+	<title>Fk fk_Permisos_puesto_Puestos1
+permisos_puesto ref puestos ( puesto )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 840 615 L 795,615' ></path>
+<text x='814' y='610' transform='rotate(0 814,610)' title='Fk fk_Permisos_puesto_Puestos1
+permisos_puesto ref puestos ( puesto )' class='relName' style='fill:#5f789f'>puesto</text>
+<!-- == Fk 'permisos_solicitud_fk_Detalle_tipoSolicitud_Puestos1' == -->
+<path id='permisos_solicitud_fk_Detalle_tipoSolicitud_Puestos1'  onmouseover="hghl(['permisos_solicitud_fk_Detalle_tipoSolicitud_Puestos1','ine.permisos_solicitud.puesto','ine.puestos.puesto'])" onmouseout="uhghl(['permisos_solicitud_fk_Detalle_tipoSolicitud_Puestos1','ine.permisos_solicitud.puesto','ine.puestos.puesto'])" transform='translate(7,0)' class='scene' d='M 645 540 L 645,547 Q 645,555 652,555 L 727,555 Q 735,555 735,562 L 735,585' >
+	<title>Fk fk_Detalle_tipoSolicitud_Puestos1
+permisos_solicitud ref puestos ( puesto )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 645 540 L 645,547 Q 645,555 652,555 L 727,555 Q 735,555 735,562 L 735,585' ></path>
+<text x='658' y='540' transform='rotate(90 658,540)' title='Fk fk_Detalle_tipoSolicitud_Puestos1
+permisos_solicitud ref puestos ( puesto )' class='relName' style='fill:#5f789f'>puesto</text>
+<!-- == Fk 'permisos_solicitud_fk_Detalle_tipoSolicitud_TipoSolicitud1' == -->
+<path id='permisos_solicitud_fk_Detalle_tipoSolicitud_TipoSolicitud1'  onmouseover="hghl(['permisos_solicitud_fk_Detalle_tipoSolicitud_TipoSolicitud1','ine.permisos_solicitud.tipo_solicitud','ine.tiposolicitud.tipo_solicitud'])" onmouseout="uhghl(['permisos_solicitud_fk_Detalle_tipoSolicitud_TipoSolicitud1','ine.permisos_solicitud.tipo_solicitud','ine.tiposolicitud.tipo_solicitud'])" transform='translate(7,0)' class='scene' d='M 660 525 L 967,525 Q 975,525 975,532 L 975,795' >
+	<title>Fk fk_Detalle_tipoSolicitud_TipoSolicitud1
+permisos_solicitud ref tiposolicitud ( tipo_solicitud )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 660 525 L 967,525 Q 975,525 975,532 L 975,795' ></path>
+<text x='667' y='520' transform='rotate(0 667,520)' title='Fk fk_Detalle_tipoSolicitud_TipoSolicitud1
+permisos_solicitud ref tiposolicitud ( tipo_solicitud )' class='relName' style='fill:#5f789f'>tipo_solicitud</text>
+<!-- == Fk 'productosentregados_fk_Detalle_vale_Vales10' == -->
+<path id='productosentregados_fk_Detalle_vale_Vales10'  onmouseover="hghl(['productosentregados_fk_Detalle_vale_Vales10','ine.productosentregados.id_vale','ine.vales.id_vale'])" onmouseout="uhghl(['productosentregados_fk_Detalle_vale_Vales10','ine.productosentregados.id_vale','ine.vales.id_vale'])" transform='translate(7,0)' class='scene' d='M 1230 1245 L 1230,1200' >
+	<title>Fk fk_Detalle_vale_Vales10
+productosentregados ref vales ( id_vale )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 1230 1245 L 1230,1200' ></path>
+<text x='1232' y='1240' transform='rotate(270 1232,1240)' title='Fk fk_Detalle_vale_Vales10
+productosentregados ref vales ( id_vale )' class='relName' style='fill:#9f825f'>id_vale</text>
+<!-- == Fk 'resguardo_personal_fk_Resguardo_personal_User1' == -->
+<path id='resguardo_personal_fk_Resguardo_personal_User1'  onmouseover="hghl(['resguardo_personal_fk_Resguardo_personal_User1','ine.resguardo_personal.id_user','ine.user.id_user'])" onmouseout="uhghl(['resguardo_personal_fk_Resguardo_personal_User1','ine.resguardo_personal.id_user','ine.user.id_user'])" transform='translate(7,0)' class='scene' d='M 330 555 L 330,592 Q 330,600 337,600 L 540,600' >
+	<title>Fk fk_Resguardo_personal_User1
+resguardo_personal ref user ( id_user )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1)' marker-end='url(#arrow1)'    d='M 330 555 L 330,592 Q 330,600 337,600 L 540,600' ></path>
+<text x='343' y='555' transform='rotate(90 343,555)' title='Fk fk_Resguardo_personal_User1
+resguardo_personal ref user ( id_user )' class='relName' style='fill:#5f789f'>id_user</text>
+<!-- == Fk 'solicitudes_fk_Solicitudes_TipoSolicitud1' == -->
+<path id='solicitudes_fk_Solicitudes_TipoSolicitud1'  onmouseover="hghl(['solicitudes_fk_Solicitudes_TipoSolicitud1','ine.solicitudes.tipo_solicitud','ine.tiposolicitud.tipo_solicitud'])" onmouseout="uhghl(['solicitudes_fk_Solicitudes_TipoSolicitud1','ine.solicitudes.tipo_solicitud','ine.tiposolicitud.tipo_solicitud'])" transform='translate(7,0)' class='scene' d='M 840 825 L 885,825' >
+	<title>Fk fk_Solicitudes_TipoSolicitud1
+solicitudes ref tiposolicitud ( tipo_solicitud )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 840 825 L 885,825' ></path>
+<text x='847' y='820' transform='rotate(0 847,820)' title='Fk fk_Solicitudes_TipoSolicitud1
+solicitudes ref tiposolicitud ( tipo_solicitud )' class='relName' style='fill:#5f789f'>tipo_solicitud</text>
+<!-- == Fk 'solicitudes_fk_Solicitudes_User1' == -->
+<path id='solicitudes_fk_Solicitudes_User1'  onmouseover="hghl(['solicitudes_fk_Solicitudes_User1','ine.solicitudes.id_user','ine.user.id_user'])" onmouseout="uhghl(['solicitudes_fk_Solicitudes_User1','ine.solicitudes.id_user','ine.user.id_user'])" transform='translate(7,0)' class='scene' d='M 705 810 L 682,810 Q 675,810 675,802 L 675,742 Q 675,735 667,735 L 660,735' >
+	<title>Fk fk_Solicitudes_User1
+solicitudes ref user ( id_user )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 705 810 L 682,810 Q 675,810 675,802 L 675,742 Q 675,735 667,735 L 660,735' ></path>
+<text x='677' y='805' transform='rotate(0 677,805)' title='Fk fk_Solicitudes_User1
+solicitudes ref user ( id_user )' class='relName' style='fill:#5f789f'>id_user</text>
+<!-- == Fk 'teclado_fk_CPU_Inventario10' == -->
+<path id='teclado_fk_CPU_Inventario10'  onmouseover="hghl(['teclado_fk_CPU_Inventario10','ine.teclado.id_teclado','ine.inventario.id_producto'])" onmouseout="uhghl(['teclado_fk_CPU_Inventario10','ine.teclado.id_teclado','ine.inventario.id_producto'])" transform='translate(7,0)' class='scene' d='M 1680 615 L 1635,615' >
+	<title>Fk fk_CPU_Inventario10
+teclado ref inventario ( id_teclado -&gt; id_producto )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1)' marker-end='url(#arrow1)'    d='M 1680 615 L 1635,615' ></path>
+<text x='1638' y='610' transform='rotate(0 1638,610)' title='Fk fk_CPU_Inventario10
+teclado ref inventario ( id_teclado -&gt; id_producto )' class='relName' style='fill:#6b9f5f'>id_teclado</text>
+<!-- == Fk 'user_fk_User_Area1' == -->
+<path id='user_fk_User_Area1'  onmouseover="hghl(['user_fk_User_Area1','ine.user.area','ine.area.area'])" onmouseout="uhghl(['user_fk_User_Area1','ine.user.area','ine.area.area'])" transform='translate(7,0)' class='scene' d='M 540 705 L 487,705 Q 480,705 480,712 L 480,795' >
+	<title>Fk fk_User_Area1
+user ref area ( area )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 540 705 L 487,705 Q 480,705 480,712 L 480,795' ></path>
+<text x='525' y='700' transform='rotate(0 525,700)' title='Fk fk_User_Area1
+user ref area ( area )' class='relName' style='fill:#5f789f'>area</text>
+<!-- == Fk 'user_fk_User_Empleados1' == -->
+<path id='user_fk_User_Empleados1'  onmouseover="hghl(['user_fk_User_Empleados1','ine.user.id_empleado','ine.empleados.id_empleado'])" onmouseout="uhghl(['user_fk_User_Empleados1','ine.user.id_empleado','ine.empleados.id_empleado'])" transform='translate(7,0)' class='scene' d='M 540 615 L 202,615 Q 195,615 195,607 L 195,322 Q 195,315 202,315 L 210,315' >
+	<title>Fk fk_User_Empleados1
+user ref empleados ( id_empleado )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 540 615 L 202,615 Q 195,615 195,607 L 195,322 Q 195,315 202,315 L 210,315' ></path>
+<text x='487' y='610' transform='rotate(0 487,610)' title='Fk fk_User_Empleados1
+user ref empleados ( id_empleado )' class='relName' style='fill:#5f789f'>id_empleado</text>
+<!-- == Fk 'user_fk_User_Puestos1' == -->
+<path id='user_fk_User_Puestos1'  onmouseover="hghl(['user_fk_User_Puestos1','ine.user.puesto','ine.puestos.puesto'])" onmouseout="uhghl(['user_fk_User_Puestos1','ine.user.puesto','ine.puestos.puesto'])" transform='translate(7,0)' class='scene' d='M 660 615 L 705,615' >
+	<title>Fk fk_User_Puestos1
+user ref puestos ( puesto )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 660 615 L 705,615' ></path>
+<text x='667' y='610' transform='rotate(0 667,610)' title='Fk fk_User_Puestos1
+user ref puestos ( puesto )' class='relName' style='fill:#5f789f'>puesto</text>
+<!-- == Fk 'vales_fk_Vales_tipoVale1' == -->
+<path id='vales_fk_Vales_tipoVale1'  onmouseover="hghl(['vales_fk_Vales_tipoVale1','ine.vales.tipo_vale','ine.tipovale.tipo_vale'])" onmouseout="uhghl(['vales_fk_Vales_tipoVale1','ine.vales.tipo_vale','ine.tipovale.tipo_vale'])" transform='translate(7,0)' class='scene' d='M 1305 1110 L 1350,1110' >
+	<title>Fk fk_Vales_tipoVale1
+vales ref tipovale ( tipo_vale )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 1305 1110 L 1350,1110' ></path>
+<text x='1312' y='1105' transform='rotate(0 1312,1105)' title='Fk fk_Vales_tipoVale1
+vales ref tipovale ( tipo_vale )' class='relName' style='fill:#9f825f'>tipo_vale</text>
+<!-- == Fk 'vales_fk_Vales_User1' == -->
+<path id='vales_fk_Vales_User1'  onmouseover="hghl(['vales_fk_Vales_User1','ine.vales.id_user','ine.user.id_user'])" onmouseout="uhghl(['vales_fk_Vales_User1','ine.vales.id_user','ine.user.id_user'])" transform='translate(7,0)' class='scene' d='M 1200 1095 L 1117,1095 Q 1110,1095 1110,1087 L 1110,1012 Q 1110,1005 1102,1005 L 532,1005 Q 525,1005 525,997 L 525,727 Q 525,720 532,720 L 540,720' >
+	<title>Fk fk_Vales_User1
+vales ref user ( id_user )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 1200 1095 L 1117,1095 Q 1110,1095 1110,1087 L 1110,1012 Q 1110,1005 1102,1005 L 532,1005 Q 525,1005 525,997 L 525,727 Q 525,720 532,720 L 540,720' ></path>
+<text x='1172' y='1090' transform='rotate(0 1172,1090)' title='Fk fk_Vales_User1
+vales ref user ( id_user )' class='relName' style='fill:#9f825f'>id_user</text>
+<!-- == Fk 'viaticos_vehiculos_fk_viaticos_vehiculos_Vehiculos1' == -->
+<path id='viaticos_vehiculos_fk_viaticos_vehiculos_Vehiculos1'  onmouseover="hghl(['viaticos_vehiculos_fk_viaticos_vehiculos_Vehiculos1','ine.viaticos_vehiculos.Vehiculos_Matricula','ine.vehiculos.Matricula'])" onmouseout="uhghl(['viaticos_vehiculos_fk_viaticos_vehiculos_Vehiculos1','ine.viaticos_vehiculos.Vehiculos_Matricula','ine.vehiculos.Matricula'])" transform='translate(7,0)' class='scene' d='M 195 795 L 150,795' >
+	<title>Fk fk_viaticos_vehiculos_Vehiculos1
+viaticos_vehiculos ref vehiculos ( Vehiculos_Matricula -&gt; Matricula )</title>
+</path>
+<path transform='translate(7,0)' marker-start='url(#foot1p)' marker-end='url(#arrow1)'    d='M 195 795 L 150,795' ></path>
+<text x='109' y='790' transform='rotate(0 109,790)' title='Fk fk_viaticos_vehiculos_Vehiculos1
+viaticos_vehiculos ref vehiculos ( Vehiculos_Matricula -&gt; Matricula )' class='relName' style='fill:#6b9f5f'>Vehiculos_Matricula</text>
+<!-- == Table 'area' == -->
+<rect class='entity' x='435' y='803' width='60' height='60' rx='7' ry='7' style='stroke:none'/>
+<path d='M 435 829 L 435 810 Q 435 803 442 803 L 488 803 Q 495 803 495 810 L 495 829 L435 829 ' style='fill:url(#tbg_bfd4f5);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='435' y='803' width='60' height='60' rx='7' ry='7' style='fill:none;stroke:#5f656e'/>
+<line class='delim' x1='435' y1='829' x2='495' y2='829' style='stroke:#5f656e'/>
+<line class='delim' x1='450' y1='829' x2='450' y2='863' style='stroke:#5f656e'/>
+<line class='delim' x1='484' y1='829' x2='484' y2='863' style='stroke:#5f656e'/>
+<a xlink:href='#area'><text x='451' y='821'>area</text><title>Table ine.area</title></a>
+  <use id='nn' x='437' y='837' xlink:href='#nn'/><a xlink:href='#area.area'><use id='pk' x='437' y='836' xlink:href='#pk'/><title>Pk pk_area ( area ) </title></a>
+<a xlink:href='#area.area'><text id='ine.area.area' x='453' y='846' onmouseover="hghl(['user_fk_User_Area1','ine.user.area'])" onmouseout="uhghl(['user_fk_User_Area1','ine.user.area'])">area</text><title>area
+* varchar(50)</title></a>
+<a xlink:href='#area.area'><use id='ref' x='484' y='836' xlink:href='#ref'/><title>Referred by user ( area ) </title></a>
+
+<!-- == Table 'bitacora_inventario' == -->
+<rect class='entity' x='435' y='38' width='120' height='135' rx='7' ry='7' style='stroke:none'/>
+<path d='M 435 64 L 435 45 Q 435 38 442 38 L 548 38 Q 555 38 555 45 L 555 64 L435 64 ' style='fill:url(#tbg_f5ddbf);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='435' y='38' width='120' height='135' rx='7' ry='7' style='fill:none;stroke:#6e675f'/>
+<line class='delim' x1='435' y1='64' x2='555' y2='64' style='stroke:#6e675f'/>
+<line class='delim' x1='450' y1='64' x2='450' y2='173' style='stroke:#6e675f'/>
+<line class='delim' x1='544' y1='64' x2='544' y2='173' style='stroke:#6e675f'/>
+<a xlink:href='#bitacora_inventario'><text x='445' y='56'>bitacora_inventario</text><title>Table ine.bitacora_inventario</title></a>
+  <a xlink:href='#bitacora_inventario.nombre_prod'><text id='ine.bitacora_inventario.nombre_prod' x='453' y='81'>nombre_prod</text><title>nombre_prod
+varchar(50)</title></a>
+<text x='552' y='78' text-anchor='end' class='colType'>t</text>  <a xlink:href='#bitacora_inventario.movimiento'><text id='ine.bitacora_inventario.movimiento' x='453' y='96'>movimiento</text><title>movimiento
+varchar(35)</title></a>
+<text x='552' y='93' text-anchor='end' class='colType'>t</text>  <a xlink:href='#bitacora_inventario.cantidad'><text id='ine.bitacora_inventario.cantidad' x='453' y='111'>cantidad</text><title>cantidad
+int</title></a>
+<text x='552' y='108' text-anchor='end' class='colType'>#</text>  <a xlink:href='#bitacora_inventario.user'><text id='ine.bitacora_inventario.user' x='453' y='126'>user</text><title>user
+varchar(100)</title></a>
+<text x='552' y='123' text-anchor='end' class='colType'>t</text>  <a xlink:href='#bitacora_inventario.fecha_movimiento'><text id='ine.bitacora_inventario.fecha_movimiento' x='453' y='141'>fecha_movimiento</text><title>fecha_movimiento
+datetime</title></a>
+<text x='552' y='138' text-anchor='end' class='colType'>d</text>  <a xlink:href='#bitacora_inventario.observaciones'><text id='ine.bitacora_inventario.observaciones' x='453' y='156'>observaciones</text><title>observaciones
+varchar(300)</title></a>
+<text x='552' y='153' text-anchor='end' class='colType'>t</text>
+<!-- == Table 'cpu' == -->
+<rect class='entity' x='1335' y='608' width='75' height='60' rx='7' ry='7' style='stroke:none'/>
+<path d='M 1335 634 L 1335 615 Q 1335 608 1342 608 L 1403 608 Q 1410 608 1410 615 L 1410 634 L1335 634 ' style='fill:url(#tbg_c8f5bf);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='1335' y='608' width='75' height='60' rx='7' ry='7' style='fill:none;stroke:#626e5f'/>
+<line class='delim' x1='1335' y1='634' x2='1410' y2='634' style='stroke:#626e5f'/>
+<line class='delim' x1='1350' y1='634' x2='1350' y2='668' style='stroke:#626e5f'/>
+<line class='delim' x1='1399' y1='634' x2='1399' y2='668' style='stroke:#626e5f'/>
+<a xlink:href='#cpu'><text x='1361' y='626'>cpu</text><title>Table ine.cpu</title></a>
+  <use id='nn' x='1337' y='642' xlink:href='#nn'/><a xlink:href='#cpu.id_cpu'><use id='pk' x='1337' y='641' xlink:href='#pk'/><title>Pk pk_cpu ( id_cpu ) </title></a>
+<a xlink:href='#cpu.id_cpu'><text id='ine.cpu.id_cpu' x='1353' y='651' onmouseover="hghl(['cpu_fk_CPU_Inventario1','ine.inventario.id_producto','detalles_equipo_computo_fk_Detalles_equipo_computo_CPU1','ine.detalles_equipo_computo.id_cpu'])" onmouseout="uhghl(['cpu_fk_CPU_Inventario1','ine.inventario.id_producto','detalles_equipo_computo_fk_Detalles_equipo_computo_CPU1','ine.detalles_equipo_computo.id_cpu'])">id_cpu</text><title>id_cpu
+* varchar(30)</title></a>
+<a xlink:href='#cpu.id_cpu'><use id='fk' x='1399' y='641' xlink:href='#fk'/><title>References inventario ( id_cpu -&gt; id_producto ) 
+Referred by detalles_equipo_computo ( id_cpu ) </title></a>
+
+<!-- == Table 'detalle_solicitud' == -->
+<rect class='entity' x='1695' y='443' width='90' height='75' rx='7' ry='7' style='stroke:none'/>
+<path d='M 1695 469 L 1695 450 Q 1695 443 1702 443 L 1778 443 Q 1785 443 1785 450 L 1785 469 L1695 469 ' style='fill:url(#tbg_c8f5bf);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='1695' y='443' width='90' height='75' rx='7' ry='7' style='fill:none;stroke:#626e5f'/>
+<line class='delim' x1='1695' y1='469' x2='1785' y2='469' style='stroke:#626e5f'/>
+<line class='delim' x1='1710' y1='469' x2='1710' y2='518' style='stroke:#626e5f'/>
+<line class='delim' x1='1774' y1='469' x2='1774' y2='518' style='stroke:#626e5f'/>
+<a xlink:href='#detalle_solicitud'><text x='1699' y='461'>detalle_solicitud</text><title>Table ine.detalle_solicitud</title></a>
+  <use id='nn' x='1697' y='477' xlink:href='#nn'/><a xlink:href='#detalle_solicitud.id_solicitud'><use id='pk' x='1697' y='476' xlink:href='#pk'/><title>Pk pk_detalle_solicitud ( id_solicitud, id_producto ) </title></a>
+<a xlink:href='#detalle_solicitud.id_solicitud'><text id='ine.detalle_solicitud.id_solicitud' x='1713' y='486' onmouseover="hghl(['detalle_solicitud_fk_Detalle_solicitud_Solicitudes1','ine.solicitudes.id_solicitud'])" onmouseout="uhghl(['detalle_solicitud_fk_Detalle_solicitud_Solicitudes1','ine.solicitudes.id_solicitud'])">id_solicitud</text><title>id_solicitud
+* int</title></a>
+<a xlink:href='#detalle_solicitud.id_solicitud'><use id='fk' x='1774' y='476' xlink:href='#fk'/><title>References solicitudes ( id_solicitud ) </title></a>
+  <use id='nn' x='1697' y='492' xlink:href='#nn'/><a xlink:href='#detalle_solicitud.id_producto'><use id='pk' x='1697' y='491' xlink:href='#pk'/><title>Pk pk_detalle_solicitud ( id_solicitud, id_producto ) fk_Detalle_solicitud_Inventario1_idx ( id_producto ) </title></a>
+<a xlink:href='#detalle_solicitud.id_producto'><text id='ine.detalle_solicitud.id_producto' x='1713' y='501' onmouseover="hghl(['detalle_solicitud_fk_Detalle_solicitud_Inventario1','ine.inventario.id_producto'])" onmouseout="uhghl(['detalle_solicitud_fk_Detalle_solicitud_Inventario1','ine.inventario.id_producto'])">id_producto</text><title>id_producto
+* varchar(30)</title></a>
+<a xlink:href='#detalle_solicitud.id_producto'><use id='fk' x='1774' y='491' xlink:href='#fk'/><title>References inventario ( id_producto ) </title></a>
+
+<!-- == Table 'detalle_vale' == -->
+<rect class='entity' x='1365' y='1253' width='90' height='105' rx='7' ry='7' style='stroke:none'/>
+<path d='M 1365 1279 L 1365 1260 Q 1365 1253 1372 1253 L 1448 1253 Q 1455 1253 1455 1260 L 1455 1279 L1365 1279 ' style='fill:url(#tbg_f5ddbf);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='1365' y='1253' width='90' height='105' rx='7' ry='7' style='fill:none;stroke:#6e675f'/>
+<line class='delim' x1='1365' y1='1279' x2='1455' y2='1279' style='stroke:#6e675f'/>
+<line class='delim' x1='1380' y1='1279' x2='1380' y2='1358' style='stroke:#6e675f'/>
+<line class='delim' x1='1444' y1='1279' x2='1444' y2='1358' style='stroke:#6e675f'/>
+<a xlink:href='#detalle_vale'><text x='1378' y='1271'>detalle_vale</text><title>Table ine.detalle_vale</title></a>
+  <use id='nn' x='1367' y='1287' xlink:href='#nn'/><a xlink:href='#detalle_vale.id_vale'><use id='idx' x='1367' y='1286' xlink:href='#idx'/><title>fk_Detalle_vale_Vales1 ( id_vale ) </title></a>
+<a xlink:href='#detalle_vale.id_vale'><text id='ine.detalle_vale.id_vale' x='1383' y='1296' onmouseover="hghl(['detalle_vale_fk_Detalle_vale_Vales1','ine.vales.id_vale'])" onmouseout="uhghl(['detalle_vale_fk_Detalle_vale_Vales1','ine.vales.id_vale'])">id_vale</text><title>id_vale
+* int</title></a>
+<a xlink:href='#detalle_vale.id_vale'><use id='fk' x='1444' y='1286' xlink:href='#fk'/><title>References vales ( id_vale ) </title></a>
+  <a xlink:href='#detalle_vale.id_producto'><text id='ine.detalle_vale.id_producto' x='1383' y='1311'>id_producto</text><title>id_producto
+varchar(45)</title></a>
+<text x='1452' y='1308' text-anchor='end' class='colType'>t</text>  <a xlink:href='#detalle_vale.cantidad'><text id='ine.detalle_vale.cantidad' x='1383' y='1326'>cantidad</text><title>cantidad
+int</title></a>
+<text x='1452' y='1323' text-anchor='end' class='colType'>#</text>  <a xlink:href='#detalle_vale.estado'><text id='ine.detalle_vale.estado' x='1383' y='1341'>estado</text><title>estado
+varchar(25)</title></a>
+<text x='1452' y='1338' text-anchor='end' class='colType'>t</text>
+<!-- == Table 'detalles_equipo_computo' == -->
+<rect class='entity' x='1335' y='443' width='135' height='105' rx='7' ry='7' style='stroke:none'/>
+<path d='M 1335 469 L 1335 450 Q 1335 443 1342 443 L 1463 443 Q 1470 443 1470 450 L 1470 469 L1335 469 ' style='fill:url(#tbg_c8f5bf);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='1335' y='443' width='135' height='105' rx='7' ry='7' style='fill:none;stroke:#626e5f'/>
+<line class='delim' x1='1335' y1='469' x2='1470' y2='469' style='stroke:#626e5f'/>
+<line class='delim' x1='1350' y1='469' x2='1350' y2='548' style='stroke:#626e5f'/>
+<line class='delim' x1='1459' y1='469' x2='1459' y2='548' style='stroke:#626e5f'/>
+<a xlink:href='#detalles_equipo_computo'><text x='1338' y='461'>detalles_equipo_computo</text><title>Table ine.detalles_equipo_computo</title></a>
+  <use id='nn' x='1337' y='477' xlink:href='#nn'/><a xlink:href='#detalles_equipo_computo.id_equipo'><use id='pk' x='1337' y='476' xlink:href='#pk'/><title>Pk pk_detalles_equipo_computo ( id_equipo, id_teclado, id_cpu, id_monitor ) </title></a>
+<a xlink:href='#detalles_equipo_computo.id_equipo'><text id='ine.detalles_equipo_computo.id_equipo' x='1353' y='486' onmouseover="hghl(['detalles_equipo_computo_fk_Detalles_equipo_computo_Equipo_computo1','ine.equipo_computo.id_equipo'])" onmouseout="uhghl(['detalles_equipo_computo_fk_Detalles_equipo_computo_Equipo_computo1','ine.equipo_computo.id_equipo'])">id_equipo</text><title>id_equipo
+* varchar(20)</title></a>
+<a xlink:href='#detalles_equipo_computo.id_equipo'><use id='fk' x='1459' y='476' xlink:href='#fk'/><title>References equipo_computo ( id_equipo ) </title></a>
+  <use id='nn' x='1337' y='492' xlink:href='#nn'/><a xlink:href='#detalles_equipo_computo.id_teclado'><use id='pk' x='1337' y='491' xlink:href='#pk'/><title>Pk pk_detalles_equipo_computo ( id_equipo, id_teclado, id_cpu, id_monitor ) fk_Detalles_equipo_computo_Teclado1_idx ( id_teclado ) </title></a>
+<a xlink:href='#detalles_equipo_computo.id_teclado'><text id='ine.detalles_equipo_computo.id_teclado' x='1353' y='501' onmouseover="hghl(['detalles_equipo_computo_fk_Detalles_equipo_computo_Teclado1','ine.teclado.id_teclado'])" onmouseout="uhghl(['detalles_equipo_computo_fk_Detalles_equipo_computo_Teclado1','ine.teclado.id_teclado'])">id_teclado</text><title>id_teclado
+* varchar(30)</title></a>
+<a xlink:href='#detalles_equipo_computo.id_teclado'><use id='fk' x='1459' y='491' xlink:href='#fk'/><title>References teclado ( id_teclado ) </title></a>
+  <use id='nn' x='1337' y='507' xlink:href='#nn'/><a xlink:href='#detalles_equipo_computo.id_cpu'><use id='pk' x='1337' y='506' xlink:href='#pk'/><title>Pk pk_detalles_equipo_computo ( id_equipo, id_teclado, id_cpu, id_monitor ) fk_Detalles_equipo_computo_CPU1_idx ( id_cpu ) </title></a>
+<a xlink:href='#detalles_equipo_computo.id_cpu'><text id='ine.detalles_equipo_computo.id_cpu' x='1353' y='516' onmouseover="hghl(['detalles_equipo_computo_fk_Detalles_equipo_computo_CPU1','ine.cpu.id_cpu'])" onmouseout="uhghl(['detalles_equipo_computo_fk_Detalles_equipo_computo_CPU1','ine.cpu.id_cpu'])">id_cpu</text><title>id_cpu
+* varchar(30)</title></a>
+<a xlink:href='#detalles_equipo_computo.id_cpu'><use id='fk' x='1459' y='506' xlink:href='#fk'/><title>References cpu ( id_cpu ) </title></a>
+  <use id='nn' x='1337' y='522' xlink:href='#nn'/><a xlink:href='#detalles_equipo_computo.id_monitor'><use id='pk' x='1337' y='521' xlink:href='#pk'/><title>Pk pk_detalles_equipo_computo ( id_equipo, id_teclado, id_cpu, id_monitor ) fk_Detalles_equipo_computo_Monitor1_idx ( id_monitor ) </title></a>
+<a xlink:href='#detalles_equipo_computo.id_monitor'><text id='ine.detalles_equipo_computo.id_monitor' x='1353' y='531' onmouseover="hghl(['detalles_equipo_computo_fk_Detalles_equipo_computo_Monitor1','ine.monitor.id_monitor'])" onmouseout="uhghl(['detalles_equipo_computo_fk_Detalles_equipo_computo_Monitor1','ine.monitor.id_monitor'])">id_monitor</text><title>id_monitor
+* varchar(30)</title></a>
+<a xlink:href='#detalles_equipo_computo.id_monitor'><use id='fk' x='1459' y='521' xlink:href='#fk'/><title>References monitor ( id_monitor ) </title></a>
+
+<!-- == Table 'director_general' == -->
+<rect class='entity' x='615' y='38' width='90' height='60' rx='7' ry='7' style='stroke:none'/>
+<path d='M 615 64 L 615 45 Q 615 38 622 38 L 698 38 Q 705 38 705 45 L 705 64 L615 64 ' style='fill:url(#tbg_f5ddbf);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='615' y='38' width='90' height='60' rx='7' ry='7' style='fill:none;stroke:#6e675f'/>
+<line class='delim' x1='615' y1='64' x2='705' y2='64' style='stroke:#6e675f'/>
+<line class='delim' x1='630' y1='64' x2='630' y2='98' style='stroke:#6e675f'/>
+<line class='delim' x1='694' y1='64' x2='694' y2='98' style='stroke:#6e675f'/>
+<a xlink:href='#director_general'><text x='617' y='56'>director_general</text><title>Table ine.director_general</title></a>
+  <use id='nn' x='617' y='72' xlink:href='#nn'/><a xlink:href='#director_general.Nombre'><text id='ine.director_general.Nombre' x='633' y='81'>Nombre</text><title>Nombre
+* varchar(45)</title></a>
+<text x='702' y='78' text-anchor='end' class='colType'>t</text>
+<!-- == Table 'empleados' == -->
+<rect class='entity' x='225' y='98' width='120' height='240' rx='7' ry='7' style='stroke:none'/>
+<path d='M 225 124 L 225 105 Q 225 98 232 98 L 338 98 Q 345 98 345 105 L 345 124 L225 124 ' style='fill:url(#tbg_d2bff5);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='225' y='98' width='120' height='240' rx='7' ry='7' style='fill:none;stroke:#645f6e'/>
+<line class='delim' x1='225' y1='124' x2='345' y2='124' style='stroke:#645f6e'/>
+<line class='delim' x1='240' y1='124' x2='240' y2='338' style='stroke:#645f6e'/>
+<line class='delim' x1='334' y1='124' x2='334' y2='338' style='stroke:#645f6e'/>
+<a xlink:href='#empleados'><text x='256' y='116'>empleados</text><title>Table ine.empleados</title></a>
+  <use id='nn' x='227' y='132' xlink:href='#nn'/><a xlink:href='#empleados.id_empleado'><use id='pk' x='227' y='131' xlink:href='#pk'/><title>Pk pk_empleados ( id_empleado ) </title></a>
+<a xlink:href='#empleados.id_empleado'><text id='ine.empleados.id_empleado' x='243' y='141' onmouseover="hghl(['user_fk_User_Empleados1','ine.user.id_empleado'])" onmouseout="uhghl(['user_fk_User_Empleados1','ine.user.id_empleado'])">id_empleado</text><title>id_empleado
+* int</title></a>
+<a xlink:href='#empleados.id_empleado'><use id='ref' x='334' y='131' xlink:href='#ref'/><title>Referred by user ( id_empleado ) </title></a>
+  <a xlink:href='#empleados.nombres'><text id='ine.empleados.nombres' x='243' y='156'>nombres</text><title>nombres
+varchar(60)</title></a>
+<text x='342' y='153' text-anchor='end' class='colType'>t</text>  <a xlink:href='#empleados.apellido_p'><text id='ine.empleados.apellido_p' x='243' y='171'>apellido_p</text><title>apellido_p
+varchar(30)</title></a>
+<text x='342' y='168' text-anchor='end' class='colType'>t</text>  <a xlink:href='#empleados.apellido_m'><text id='ine.empleados.apellido_m' x='243' y='186'>apellido_m</text><title>apellido_m
+varchar(30)</title></a>
+<text x='342' y='183' text-anchor='end' class='colType'>t</text>  <a xlink:href='#empleados.calle'><text id='ine.empleados.calle' x='243' y='201'>calle</text><title>calle
+varchar(100)</title></a>
+<text x='342' y='198' text-anchor='end' class='colType'>t</text>  <a xlink:href='#empleados.colonia'><text id='ine.empleados.colonia' x='243' y='216'>colonia</text><title>colonia
+varchar(30)</title></a>
+<text x='342' y='213' text-anchor='end' class='colType'>t</text>  <a xlink:href='#empleados.telefono'><text id='ine.empleados.telefono' x='243' y='231'>telefono</text><title>telefono
+varchar(18)</title></a>
+<text x='342' y='228' text-anchor='end' class='colType'>t</text>  <a xlink:href='#empleados.codigo_postal'><text id='ine.empleados.codigo_postal' x='243' y='246'>codigo_postal</text><title>codigo_postal
+varchar(8)</title></a>
+<text x='342' y='243' text-anchor='end' class='colType'>t</text>  <a xlink:href='#empleados.fecha_nacimiento'><text id='ine.empleados.fecha_nacimiento' x='243' y='261'>fecha_nacimiento</text><title>fecha_nacimiento
+date</title></a>
+<text x='342' y='258' text-anchor='end' class='colType'>d</text>  <a xlink:href='#empleados.curp'><text id='ine.empleados.curp' x='243' y='276'>curp</text><title>curp
+varchar(20)</title></a>
+<text x='342' y='273' text-anchor='end' class='colType'>t</text>  <a xlink:href='#empleados.rfc'><text id='ine.empleados.rfc' x='243' y='291'>rfc</text><title>rfc
+varchar(13)</title></a>
+<text x='342' y='288' text-anchor='end' class='colType'>t</text>  <a xlink:href='#empleados.municipio'><text id='ine.empleados.municipio' x='243' y='306'>municipio</text><title>municipio
+varchar(30)</title></a>
+<text x='342' y='303' text-anchor='end' class='colType'>t</text>  <a xlink:href='#empleados.localidad'><text id='ine.empleados.localidad' x='243' y='321'>localidad</text><title>localidad
+varchar(50)</title></a>
+<text x='342' y='318' text-anchor='end' class='colType'>t</text>
+<!-- == Table 'equipo_computo' == -->
+<rect class='entity' x='1185' y='473' width='90' height='75' rx='7' ry='7' style='stroke:none'/>
+<path d='M 1185 499 L 1185 480 Q 1185 473 1192 473 L 1268 473 Q 1275 473 1275 480 L 1275 499 L1185 499 ' style='fill:url(#tbg_c8f5bf);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='1185' y='473' width='90' height='75' rx='7' ry='7' style='fill:none;stroke:#626e5f'/>
+<line class='delim' x1='1185' y1='499' x2='1275' y2='499' style='stroke:#626e5f'/>
+<line class='delim' x1='1200' y1='499' x2='1200' y2='548' style='stroke:#626e5f'/>
+<line class='delim' x1='1264' y1='499' x2='1264' y2='548' style='stroke:#626e5f'/>
+<a xlink:href='#equipo_computo'><text x='1187' y='491'>equipo_computo</text><title>Table ine.equipo_computo</title></a>
+  <use id='nn' x='1187' y='507' xlink:href='#nn'/><a xlink:href='#equipo_computo.id_equipo'><use id='pk' x='1187' y='506' xlink:href='#pk'/><title>Pk pk_equipo_computo ( id_equipo ) </title></a>
+<a xlink:href='#equipo_computo.id_equipo'><text id='ine.equipo_computo.id_equipo' x='1203' y='516' onmouseover="hghl(['detalles_equipo_computo_fk_Detalles_equipo_computo_Equipo_computo1','ine.detalles_equipo_computo.id_equipo'])" onmouseout="uhghl(['detalles_equipo_computo_fk_Detalles_equipo_computo_Equipo_computo1','ine.detalles_equipo_computo.id_equipo'])">id_equipo</text><title>id_equipo
+* varchar(20)</title></a>
+<a xlink:href='#equipo_computo.id_equipo'><use id='ref' x='1264' y='506' xlink:href='#ref'/><title>Referred by detalles_equipo_computo ( id_equipo ) </title></a>
+  <a xlink:href='#equipo_computo.ubicacion'><text id='ine.equipo_computo.ubicacion' x='1203' y='531'>ubicacion</text><title>ubicacion
+varchar(100)</title></a>
+<text x='1272' y='528' text-anchor='end' class='colType'>t</text>
+<!-- == Table 'gastos' == -->
+<rect class='entity' x='390' y='1223' width='90' height='90' rx='7' ry='7' style='stroke:none'/>
+<path d='M 390 1249 L 390 1230 Q 390 1223 397 1223 L 473 1223 Q 480 1223 480 1230 L 480 1249 L390 1249 ' style='fill:url(#tbg_bfbff5);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='390' y='1223' width='90' height='90' rx='7' ry='7' style='fill:none;stroke:#5f5f6e'/>
+<line class='delim' x1='390' y1='1249' x2='480' y2='1249' style='stroke:#5f5f6e'/>
+<line class='delim' x1='405' y1='1249' x2='405' y2='1313' style='stroke:#5f5f6e'/>
+<line class='delim' x1='469' y1='1249' x2='469' y2='1313' style='stroke:#5f5f6e'/>
+<a xlink:href='#gastos'><text x='416' y='1241'>gastos</text><title>Table ine.gastos</title></a>
+  <use id='nn' x='392' y='1257' xlink:href='#nn'/><a xlink:href='#gastos.Id_Gastos'><use id='pk' x='392' y='1256' xlink:href='#pk'/><title>Pk pk_gastos ( Id_Gastos ) </title></a>
+<a xlink:href='#gastos.Id_Gastos'><text id='ine.gastos.Id_Gastos' x='408' y='1266' onmouseover="hghl(['informe_gastos_fk_Informe_Gastos_Gastos1','ine.informe_gastos.Gastos_Id_Gastos'])" onmouseout="uhghl(['informe_gastos_fk_Informe_Gastos_Gastos1','ine.informe_gastos.Gastos_Id_Gastos'])">Id_Gastos</text><title>Id_Gastos
+* int</title></a>
+<a xlink:href='#gastos.Id_Gastos'><use id='ref' x='469' y='1256' xlink:href='#ref'/><title>Referred by informe_gastos ( Gastos_Id_Gastos -&gt; Id_Gastos ) </title></a>
+  <a xlink:href='#gastos.Precio'><text id='ine.gastos.Precio' x='408' y='1281'>Precio</text><title>Precio
+varchar(20)</title></a>
+<text x='477' y='1278' text-anchor='end' class='colType'>t</text>  <a xlink:href='#gastos.Descripcion'><text id='ine.gastos.Descripcion' x='408' y='1296'>Descripcion</text><title>Descripcion
+varchar(200)</title></a>
+<text x='477' y='1293' text-anchor='end' class='colType'>t</text>
+<!-- == Table 'informe' == -->
+<rect class='entity' x='585' y='1088' width='150' height='105' rx='7' ry='7' style='stroke:none'/>
+<path d='M 585 1114 L 585 1095 Q 585 1088 592 1088 L 728 1088 Q 735 1088 735 1095 L 735 1114 L585 1114 ' style='fill:url(#tbg_bfbff5);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='585' y='1088' width='150' height='105' rx='7' ry='7' style='fill:none;stroke:#5f5f6e'/>
+<line class='delim' x1='585' y1='1114' x2='735' y2='1114' style='stroke:#5f5f6e'/>
+<line class='delim' x1='600' y1='1114' x2='600' y2='1193' style='stroke:#5f5f6e'/>
+<line class='delim' x1='724' y1='1114' x2='724' y2='1193' style='stroke:#5f5f6e'/>
+<a xlink:href='#informe'><text x='639' y='1106'>informe</text><title>Table ine.informe</title></a>
+  <use id='nn' x='587' y='1122' xlink:href='#nn'/><a xlink:href='#informe.Id_Informe'><use id='pk' x='587' y='1121' xlink:href='#pk'/><title>Pk pk_informe ( Id_Informe ) </title></a>
+<a xlink:href='#informe.Id_Informe'><text id='ine.informe.Id_Informe' x='603' y='1131' onmouseover="hghl(['informe_gastos_fk_Informe_Gastos_Informe1','ine.informe_gastos.Informe_Id_Informe'])" onmouseout="uhghl(['informe_gastos_fk_Informe_Gastos_Informe1','ine.informe_gastos.Informe_Id_Informe'])">Id_Informe</text><title>Id_Informe
+* int</title></a>
+<a xlink:href='#informe.Id_Informe'><use id='ref' x='724' y='1121' xlink:href='#ref'/><title>Referred by informe_gastos ( Informe_Id_Informe -&gt; Id_Informe ) </title></a>
+  <a xlink:href='#informe.Observaciones'><text id='ine.informe.Observaciones' x='603' y='1146'>Observaciones</text><title>Observaciones
+varchar(200)</title></a>
+<text x='732' y='1143' text-anchor='end' class='colType'>t</text>  <a xlink:href='#informe.Observaciones_Vehiculo'><text id='ine.informe.Observaciones_Vehiculo' x='603' y='1161'>Observaciones_Vehiculo</text><title>Observaciones_Vehiculo
+varchar(200)</title></a>
+<text x='732' y='1158' text-anchor='end' class='colType'>t</text>  <use id='nn' x='587' y='1167' xlink:href='#nn'/><a xlink:href='#informe.Solicitud_idSolicitud'><use id='idx' x='587' y='1166' xlink:href='#idx'/><title>fk_Informe_Solicitud_viatico1_idx ( Solicitud_idSolicitud ) </title></a>
+<a xlink:href='#informe.Solicitud_idSolicitud'><text id='ine.informe.Solicitud_idSolicitud' x='603' y='1176' onmouseover="hghl(['informe_fk_Informe_Solicitud_viatico1','ine.solicitud_viatico.idSolicitud'])" onmouseout="uhghl(['informe_fk_Informe_Solicitud_viatico1','ine.solicitud_viatico.idSolicitud'])">Solicitud_idSolicitud</text><title>Solicitud_idSolicitud
+* int</title></a>
+<a xlink:href='#informe.Solicitud_idSolicitud'><use id='fk' x='724' y='1166' xlink:href='#fk'/><title>References solicitud_viatico ( Solicitud_idSolicitud -&gt; idSolicitud ) </title></a>
+
+<!-- == Table 'informe_gastos' == -->
+<rect class='entity' x='390' y='1088' width='135' height='75' rx='7' ry='7' style='stroke:none'/>
+<path d='M 390 1114 L 390 1095 Q 390 1088 397 1088 L 518 1088 Q 525 1088 525 1095 L 525 1114 L390 1114 ' style='fill:url(#tbg_bfbff5);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='390' y='1088' width='135' height='75' rx='7' ry='7' style='fill:none;stroke:#5f5f6e'/>
+<line class='delim' x1='390' y1='1114' x2='525' y2='1114' style='stroke:#5f5f6e'/>
+<line class='delim' x1='405' y1='1114' x2='405' y2='1163' style='stroke:#5f5f6e'/>
+<line class='delim' x1='514' y1='1114' x2='514' y2='1163' style='stroke:#5f5f6e'/>
+<a xlink:href='#informe_gastos'><text x='417' y='1106'>informe_gastos</text><title>Table ine.informe_gastos</title></a>
+  <use id='nn' x='392' y='1122' xlink:href='#nn'/><a xlink:href='#informe_gastos.Gastos_Id_Gastos'><use id='idx' x='392' y='1121' xlink:href='#idx'/><title>fk_Informe_Gastos_Gastos1_idx ( Gastos_Id_Gastos ) </title></a>
+<a xlink:href='#informe_gastos.Gastos_Id_Gastos'><text id='ine.informe_gastos.Gastos_Id_Gastos' x='408' y='1131' onmouseover="hghl(['informe_gastos_fk_Informe_Gastos_Gastos1','ine.gastos.Id_Gastos'])" onmouseout="uhghl(['informe_gastos_fk_Informe_Gastos_Gastos1','ine.gastos.Id_Gastos'])">Gastos_Id_Gastos</text><title>Gastos_Id_Gastos
+* int</title></a>
+<a xlink:href='#informe_gastos.Gastos_Id_Gastos'><use id='fk' x='514' y='1121' xlink:href='#fk'/><title>References gastos ( Gastos_Id_Gastos -&gt; Id_Gastos ) </title></a>
+  <use id='nn' x='392' y='1137' xlink:href='#nn'/><a xlink:href='#informe_gastos.Informe_Id_Informe'><use id='idx' x='392' y='1136' xlink:href='#idx'/><title>fk_Informe_Gastos_Informe1_idx ( Informe_Id_Informe ) </title></a>
+<a xlink:href='#informe_gastos.Informe_Id_Informe'><text id='ine.informe_gastos.Informe_Id_Informe' x='408' y='1146' onmouseover="hghl(['informe_gastos_fk_Informe_Gastos_Informe1','ine.informe.Id_Informe'])" onmouseout="uhghl(['informe_gastos_fk_Informe_Gastos_Informe1','ine.informe.Id_Informe'])">Informe_Id_Informe</text><title>Informe_Id_Informe
+* int</title></a>
+<a xlink:href='#informe_gastos.Informe_Id_Informe'><use id='fk' x='514' y='1136' xlink:href='#fk'/><title>References informe ( Informe_Id_Informe -&gt; Id_Informe ) </title></a>
+
+<!-- == Table 'inicio' == -->
+<rect class='entity' x='615' y='233' width='90' height='105' rx='7' ry='7' style='stroke:none'/>
+<path d='M 615 259 L 615 240 Q 615 233 622 233 L 698 233 Q 705 233 705 240 L 705 259 L615 259 ' style='fill:url(#tbg_f5ddbf);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='615' y='233' width='90' height='105' rx='7' ry='7' style='fill:none;stroke:#6e675f'/>
+<line class='delim' x1='615' y1='259' x2='705' y2='259' style='stroke:#6e675f'/>
+<line class='delim' x1='630' y1='259' x2='630' y2='338' style='stroke:#6e675f'/>
+<line class='delim' x1='694' y1='259' x2='694' y2='338' style='stroke:#6e675f'/>
+<a xlink:href='#inicio'><text x='645' y='251'>inicio</text><title>Table ine.inicio</title></a>
+  <a xlink:href='#inicio.usuario'><text id='ine.inicio.usuario' x='633' y='276'>usuario</text><title>usuario
+varchar(45)</title></a>
+<text x='702' y='273' text-anchor='end' class='colType'>t</text>  <a xlink:href='#inicio.ip'><text id='ine.inicio.ip' x='633' y='291'>ip</text><title>ip
+varchar(45)</title></a>
+<text x='702' y='288' text-anchor='end' class='colType'>t</text>  <a xlink:href='#inicio.password'><text id='ine.inicio.password' x='633' y='306'>password</text><title>password
+varchar(45)</title></a>
+<text x='702' y='303' text-anchor='end' class='colType'>t</text>  <a xlink:href='#inicio.bandera'><text id='ine.inicio.bandera' x='633' y='321'>bandera</text><title>bandera
+varchar(45)</title></a>
+<text x='702' y='318' text-anchor='end' class='colType'>t</text>
+<!-- == Table 'inventario' == -->
+<rect class='entity' x='1530' y='443' width='105' height='225' rx='7' ry='7' style='stroke:none'/>
+<path d='M 1530 469 L 1530 450 Q 1530 443 1537 443 L 1628 443 Q 1635 443 1635 450 L 1635 469 L1530 469 ' style='fill:url(#tbg_c8f5bf);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='1530' y='443' width='105' height='225' rx='7' ry='7' style='fill:none;stroke:#626e5f'/>
+<line class='delim' x1='1530' y1='469' x2='1635' y2='469' style='stroke:#626e5f'/>
+<line class='delim' x1='1545' y1='469' x2='1545' y2='668' style='stroke:#626e5f'/>
+<line class='delim' x1='1624' y1='469' x2='1624' y2='668' style='stroke:#626e5f'/>
+<a xlink:href='#inventario'><text x='1555' y='461'>inventario</text><title>Table ine.inventario</title></a>
+  <use id='nn' x='1532' y='477' xlink:href='#nn'/><a xlink:href='#inventario.id_producto'><use id='pk' x='1532' y='476' xlink:href='#pk'/><title>Pk pk_inventario ( id_producto ) </title></a>
+<a xlink:href='#inventario.id_producto'><text id='ine.inventario.id_producto' x='1548' y='486' onmouseover="hghl(['cpu_fk_CPU_Inventario1','ine.cpu.id_cpu','teclado_fk_CPU_Inventario10','ine.teclado.id_teclado','monitor_fk_CPU_Inventario11','ine.monitor.id_monitor','detalle_solicitud_fk_Detalle_solicitud_Inventario1','ine.detalle_solicitud.id_producto'])" onmouseout="uhghl(['cpu_fk_CPU_Inventario1','ine.cpu.id_cpu','teclado_fk_CPU_Inventario10','ine.teclado.id_teclado','monitor_fk_CPU_Inventario11','ine.monitor.id_monitor','detalle_solicitud_fk_Detalle_solicitud_Inventario1','ine.detalle_solicitud.id_producto'])">id_producto</text><title>id_producto
+* varchar(30)</title></a>
+<a xlink:href='#inventario.id_producto'><use id='ref' x='1624' y='476' xlink:href='#ref'/><title>Referred by cpu ( id_cpu -&gt; id_producto ) 
+Referred by teclado ( id_teclado -&gt; id_producto ) 
+Referred by monitor ( id_monitor -&gt; id_producto ) 
+Referred by detalle_solicitud ( id_producto ) </title></a>
+  <a xlink:href='#inventario.nombre_prod'><text id='ine.inventario.nombre_prod' x='1548' y='501'>nombre_prod</text><title>nombre_prod
+varchar(50)</title></a>
+<text x='1632' y='498' text-anchor='end' class='colType'>t</text>  <a xlink:href='#inventario.descripcion'><text id='ine.inventario.descripcion' x='1548' y='516'>descripcion</text><title>descripcion
+varchar(500)</title></a>
+<text x='1632' y='513' text-anchor='end' class='colType'>t</text>  <a xlink:href='#inventario.almacen'><text id='ine.inventario.almacen' x='1548' y='531'>almacen</text><title>almacen
+varchar(50)</title></a>
+<text x='1632' y='528' text-anchor='end' class='colType'>t</text>  <a xlink:href='#inventario.estatus'><text id='ine.inventario.estatus' x='1548' y='546'>estatus</text><title>estatus
+varchar(35)</title></a>
+<text x='1632' y='543' text-anchor='end' class='colType'>t</text>  <a xlink:href='#inventario.marca'><text id='ine.inventario.marca' x='1548' y='561'>marca</text><title>marca
+varchar(50)</title></a>
+<text x='1632' y='558' text-anchor='end' class='colType'>t</text>  <a xlink:href='#inventario.observaciones'><text id='ine.inventario.observaciones' x='1548' y='576'>observaciones</text><title>observaciones
+varchar(300)</title></a>
+<text x='1632' y='573' text-anchor='end' class='colType'>t</text>  <a xlink:href='#inventario.no_serie'><text id='ine.inventario.no_serie' x='1548' y='591'>no_serie</text><title>no_serie
+varchar(45)</title></a>
+<text x='1632' y='588' text-anchor='end' class='colType'>t</text>  <a xlink:href='#inventario.tipo_uso'><text id='ine.inventario.tipo_uso' x='1548' y='606'>tipo_uso</text><title>tipo_uso
+varchar(100)</title></a>
+<text x='1632' y='603' text-anchor='end' class='colType'>t</text>  <a xlink:href='#inventario.modelo'><text id='ine.inventario.modelo' x='1548' y='621'>modelo</text><title>modelo
+varchar(100)</title></a>
+<text x='1632' y='618' text-anchor='end' class='colType'>t</text>  <a xlink:href='#inventario.color'><text id='ine.inventario.color' x='1548' y='636'>color</text><title>color
+varchar(30)</title></a>
+<text x='1632' y='633' text-anchor='end' class='colType'>t</text>  <a xlink:href='#inventario.imagen'><text id='ine.inventario.imagen' x='1548' y='651'>imagen</text><title>imagen
+longblob</title></a>
+<text x='1632' y='648' text-anchor='end' class='colType'>~</text>
+<!-- == Table 'inventario_granel' == -->
+<rect class='entity' x='1695' y='728' width='120' height='195' rx='7' ry='7' style='stroke:none'/>
+<path d='M 1695 754 L 1695 735 Q 1695 728 1702 728 L 1808 728 Q 1815 728 1815 735 L 1815 754 L1695 754 ' style='fill:url(#tbg_c8f5bf);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='1695' y='728' width='120' height='195' rx='7' ry='7' style='fill:none;stroke:#626e5f'/>
+<line class='delim' x1='1695' y1='754' x2='1815' y2='754' style='stroke:#626e5f'/>
+<line class='delim' x1='1710' y1='754' x2='1710' y2='923' style='stroke:#626e5f'/>
+<line class='delim' x1='1804' y1='754' x2='1804' y2='923' style='stroke:#626e5f'/>
+<a xlink:href='#inventario_granel'><text x='1710' y='746'>inventario_granel</text><title>Table ine.inventario_granel</title></a>
+  <use id='nn' x='1697' y='762' xlink:href='#nn'/><a xlink:href='#inventario_granel.id_productoGranel'><use id='pk' x='1697' y='761' xlink:href='#pk'/><title>Pk pk_inventario_granel ( id_productoGranel ) </title></a>
+<a xlink:href='#inventario_granel.id_productoGranel'><text id='ine.inventario_granel.id_productoGranel' x='1713' y='771'>id_productoGranel</text><title>id_productoGranel
+* varchar(30)</title></a>
+<text x='1812' y='768' text-anchor='end' class='colType'>t</text>  <a xlink:href='#inventario_granel.nombre_prod'><text id='ine.inventario_granel.nombre_prod' x='1713' y='786'>nombre_prod</text><title>nombre_prod
+varchar(50)</title></a>
+<text x='1812' y='783' text-anchor='end' class='colType'>t</text>  <a xlink:href='#inventario_granel.descripcion'><text id='ine.inventario_granel.descripcion' x='1713' y='801'>descripcion</text><title>descripcion
+varchar(100)</title></a>
+<text x='1812' y='798' text-anchor='end' class='colType'>t</text>  <a xlink:href='#inventario_granel.almacen'><text id='ine.inventario_granel.almacen' x='1713' y='816'>almacen</text><title>almacen
+varchar(50)</title></a>
+<text x='1812' y='813' text-anchor='end' class='colType'>t</text>  <a xlink:href='#inventario_granel.estatus'><text id='ine.inventario_granel.estatus' x='1713' y='831'>estatus</text><title>estatus
+varchar(35)</title></a>
+<text x='1812' y='828' text-anchor='end' class='colType'>t</text>  <a xlink:href='#inventario_granel.marca'><text id='ine.inventario_granel.marca' x='1713' y='846'>marca</text><title>marca
+varchar(50)</title></a>
+<text x='1812' y='843' text-anchor='end' class='colType'>t</text>  <a xlink:href='#inventario_granel.observaciones'><text id='ine.inventario_granel.observaciones' x='1713' y='861'>observaciones</text><title>observaciones
+varchar(300)</title></a>
+<text x='1812' y='858' text-anchor='end' class='colType'>t</text>  <a xlink:href='#inventario_granel.stock_min'><text id='ine.inventario_granel.stock_min' x='1713' y='876'>stock_min</text><title>stock_min
+int</title></a>
+<text x='1812' y='873' text-anchor='end' class='colType'>#</text>  <a xlink:href='#inventario_granel.stock'><text id='ine.inventario_granel.stock' x='1713' y='891'>stock</text><title>stock
+int</title></a>
+<text x='1812' y='888' text-anchor='end' class='colType'>#</text>  <a xlink:href='#inventario_granel.tipo_uso'><text id='ine.inventario_granel.tipo_uso' x='1713' y='906'>tipo_uso</text><title>tipo_uso
+varchar(100)</title></a>
+<text x='1812' y='903' text-anchor='end' class='colType'>t</text>
+<!-- == Table 'modulos' == -->
+<rect class='entity' x='1020' y='593' width='75' height='60' rx='7' ry='7' style='stroke:none'/>
+<path d='M 1020 619 L 1020 600 Q 1020 593 1027 593 L 1088 593 Q 1095 593 1095 600 L 1095 619 L1020 619 ' style='fill:url(#tbg_bfd4f5);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='1020' y='593' width='75' height='60' rx='7' ry='7' style='fill:none;stroke:#5f656e'/>
+<line class='delim' x1='1020' y1='619' x2='1095' y2='619' style='stroke:#5f656e'/>
+<line class='delim' x1='1035' y1='619' x2='1035' y2='653' style='stroke:#5f656e'/>
+<line class='delim' x1='1084' y1='619' x2='1084' y2='653' style='stroke:#5f656e'/>
+<a xlink:href='#modulos'><text x='1035' y='611'>modulos</text><title>Table ine.modulos</title></a>
+  <use id='nn' x='1022' y='627' xlink:href='#nn'/><a xlink:href='#modulos.modulo'><use id='pk' x='1022' y='626' xlink:href='#pk'/><title>Pk pk_modulos ( modulo ) </title></a>
+<a xlink:href='#modulos.modulo'><text id='ine.modulos.modulo' x='1038' y='636' onmouseover="hghl(['permisos_fk_Permisos_Modulos1','ine.permisos.modulo','permisos_puesto_fk_Permisos_puesto_Modulos1','ine.permisos_puesto.modulo'])" onmouseout="uhghl(['permisos_fk_Permisos_Modulos1','ine.permisos.modulo','permisos_puesto_fk_Permisos_puesto_Modulos1','ine.permisos_puesto.modulo'])">modulo</text><title>modulo
+* varchar(100)</title></a>
+<a xlink:href='#modulos.modulo'><use id='ref' x='1084' y='626' xlink:href='#ref'/><title>Referred by permisos ( modulo ) 
+Referred by permisos_puesto ( modulo ) </title></a>
+
+<!-- == Table 'monitor' == -->
+<rect class='entity' x='1185' y='608' width='90' height='60' rx='7' ry='7' style='stroke:none'/>
+<path d='M 1185 634 L 1185 615 Q 1185 608 1192 608 L 1268 608 Q 1275 608 1275 615 L 1275 634 L1185 634 ' style='fill:url(#tbg_c8f5bf);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='1185' y='608' width='90' height='60' rx='7' ry='7' style='fill:none;stroke:#626e5f'/>
+<line class='delim' x1='1185' y1='634' x2='1275' y2='634' style='stroke:#626e5f'/>
+<line class='delim' x1='1200' y1='634' x2='1200' y2='668' style='stroke:#626e5f'/>
+<line class='delim' x1='1264' y1='634' x2='1264' y2='668' style='stroke:#626e5f'/>
+<a xlink:href='#monitor'><text x='1209' y='626'>monitor</text><title>Table ine.monitor</title></a>
+  <use id='nn' x='1187' y='642' xlink:href='#nn'/><a xlink:href='#monitor.id_monitor'><use id='pk' x='1187' y='641' xlink:href='#pk'/><title>Pk pk_monitor ( id_monitor ) </title></a>
+<a xlink:href='#monitor.id_monitor'><text id='ine.monitor.id_monitor' x='1203' y='651' onmouseover="hghl(['monitor_fk_CPU_Inventario11','ine.inventario.id_producto','detalles_equipo_computo_fk_Detalles_equipo_computo_Monitor1','ine.detalles_equipo_computo.id_monitor'])" onmouseout="uhghl(['monitor_fk_CPU_Inventario11','ine.inventario.id_producto','detalles_equipo_computo_fk_Detalles_equipo_computo_Monitor1','ine.detalles_equipo_computo.id_monitor'])">id_monitor</text><title>id_monitor
+* varchar(30)</title></a>
+<a xlink:href='#monitor.id_monitor'><use id='fk' x='1264' y='641' xlink:href='#fk'/><title>References inventario ( id_monitor -&gt; id_producto ) 
+Referred by detalles_equipo_computo ( id_monitor ) </title></a>
+
+<!-- == Table 'oficio_comision' == -->
+<rect class='entity' x='960' y='1088' width='135' height='90' rx='7' ry='7' style='stroke:none'/>
+<path d='M 960 1114 L 960 1095 Q 960 1088 967 1088 L 1088 1088 Q 1095 1088 1095 1095 L 1095 1114 L960 1114 ' style='fill:url(#tbg_bfbff5);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='960' y='1088' width='135' height='90' rx='7' ry='7' style='fill:none;stroke:#5f5f6e'/>
+<line class='delim' x1='960' y1='1114' x2='1095' y2='1114' style='stroke:#5f5f6e'/>
+<line class='delim' x1='975' y1='1114' x2='975' y2='1178' style='stroke:#5f5f6e'/>
+<line class='delim' x1='1084' y1='1114' x2='1084' y2='1178' style='stroke:#5f5f6e'/>
+<a xlink:href='#oficio_comision'><text x='989' y='1106'>oficio_comision</text><title>Table ine.oficio_comision</title></a>
+  <use id='nn' x='962' y='1122' xlink:href='#nn'/><a xlink:href='#oficio_comision.Folio'><use id='pk' x='962' y='1121' xlink:href='#pk'/><title>Pk pk_oficio_comision ( Folio ) </title></a>
+<a xlink:href='#oficio_comision.Folio'><text id='ine.oficio_comision.Folio' x='978' y='1131'>Folio</text><title>Folio
+* int</title></a>
+<text x='1092' y='1128' text-anchor='end' class='colType'>#</text>  <use id='nn' x='962' y='1137' xlink:href='#nn'/><a xlink:href='#oficio_comision.Solicitud_idSolicitud'><use id='idx' x='962' y='1136' xlink:href='#idx'/><title>fk_Oficio_comision_Solicitud_viatico1_idx ( Solicitud_idSolicitud ) </title></a>
+<a xlink:href='#oficio_comision.Solicitud_idSolicitud'><text id='ine.oficio_comision.Solicitud_idSolicitud' x='978' y='1146' onmouseover="hghl(['oficio_comision_fk_Oficio_comision_Solicitud_viatico1','ine.solicitud_viatico.idSolicitud'])" onmouseout="uhghl(['oficio_comision_fk_Oficio_comision_Solicitud_viatico1','ine.solicitud_viatico.idSolicitud'])">Solicitud_idSolicitud</text><title>Solicitud_idSolicitud
+* int</title></a>
+<a xlink:href='#oficio_comision.Solicitud_idSolicitud'><use id='fk' x='1084' y='1136' xlink:href='#fk'/><title>References solicitud_viatico ( Solicitud_idSolicitud -&gt; idSolicitud ) </title></a>
+  <a xlink:href='#oficio_comision.Monto'><text id='ine.oficio_comision.Monto' x='978' y='1161'>Monto</text><title>Monto
+float(12,0)</title></a>
+<text x='1092' y='1158' text-anchor='end' class='colType'>#</text>
+<!-- == Table 'permiso_vale' == -->
+<rect class='entity' x='1500' y='1088' width='75' height='90' rx='7' ry='7' style='stroke:none'/>
+<path d='M 1500 1114 L 1500 1095 Q 1500 1088 1507 1088 L 1568 1088 Q 1575 1088 1575 1095 L 1575 1114 L1500 1114 ' style='fill:url(#tbg_f5ddbf);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='1500' y='1088' width='75' height='90' rx='7' ry='7' style='fill:none;stroke:#6e675f'/>
+<line class='delim' x1='1500' y1='1114' x2='1575' y2='1114' style='stroke:#6e675f'/>
+<line class='delim' x1='1515' y1='1114' x2='1515' y2='1178' style='stroke:#6e675f'/>
+<line class='delim' x1='1564' y1='1114' x2='1564' y2='1178' style='stroke:#6e675f'/>
+<a xlink:href='#permiso_vale'><text x='1503' y='1106'>permiso_vale</text><title>Table ine.permiso_vale</title></a>
+  <use id='nn' x='1502' y='1122' xlink:href='#nn'/><a xlink:href='#permiso_vale.tipo_vale'><use id='pk' x='1502' y='1121' xlink:href='#pk'/><title>Pk pk_permiso_vale ( tipo_vale, puesto ) </title></a>
+<a xlink:href='#permiso_vale.tipo_vale'><text id='ine.permiso_vale.tipo_vale' x='1518' y='1131' onmouseover="hghl(['permiso_vale_fk_Detalle_tipoVale_tipoVale1','ine.tipovale.tipo_vale'])" onmouseout="uhghl(['permiso_vale_fk_Detalle_tipoVale_tipoVale1','ine.tipovale.tipo_vale'])">tipo_vale</text><title>tipo_vale
+* varchar(30)</title></a>
+<a xlink:href='#permiso_vale.tipo_vale'><use id='fk' x='1564' y='1121' xlink:href='#fk'/><title>References tipovale ( tipo_vale ) </title></a>
+  <use id='nn' x='1502' y='1137' xlink:href='#nn'/><a xlink:href='#permiso_vale.puesto'><use id='pk' x='1502' y='1136' xlink:href='#pk'/><title>Pk pk_permiso_vale ( tipo_vale, puesto ) fk_Detalle_tipoVale_Puestos1_idx ( puesto ) </title></a>
+<a xlink:href='#permiso_vale.puesto'><text id='ine.permiso_vale.puesto' x='1518' y='1146' onmouseover="hghl(['permiso_vale_fk_Detalle_tipoVale_Puestos1','ine.puestos.puesto'])" onmouseout="uhghl(['permiso_vale_fk_Detalle_tipoVale_Puestos1','ine.puestos.puesto'])">puesto</text><title>puesto
+* varchar(50)</title></a>
+<a xlink:href='#permiso_vale.puesto'><use id='fk' x='1564' y='1136' xlink:href='#fk'/><title>References puestos ( puesto ) </title></a>
+  <a xlink:href='#permiso_vale.permiso'><text id='ine.permiso_vale.permiso' x='1518' y='1161'>permiso</text><title>permiso
+boolean</title></a>
+<text x='1572' y='1158' text-anchor='end' class='colType'>b</text>
+<!-- == Table 'permisos' == -->
+<rect class='entity' x='555' y='803' width='90' height='135' rx='7' ry='7' style='stroke:none'/>
+<path d='M 555 829 L 555 810 Q 555 803 562 803 L 638 803 Q 645 803 645 810 L 645 829 L555 829 ' style='fill:url(#tbg_bfd4f5);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='555' y='803' width='90' height='135' rx='7' ry='7' style='fill:none;stroke:#5f656e'/>
+<line class='delim' x1='555' y1='829' x2='645' y2='829' style='stroke:#5f656e'/>
+<line class='delim' x1='570' y1='829' x2='570' y2='938' style='stroke:#5f656e'/>
+<line class='delim' x1='634' y1='829' x2='634' y2='938' style='stroke:#5f656e'/>
+<a xlink:href='#permisos'><text x='576' y='821'>permisos</text><title>Table ine.permisos</title></a>
+  <use id='nn' x='557' y='837' xlink:href='#nn'/><a xlink:href='#permisos.id_user'><use id='pk' x='557' y='836' xlink:href='#pk'/><title>Pk pk_permisos ( id_user, modulo ) </title></a>
+<a xlink:href='#permisos.id_user'><text id='ine.permisos.id_user' x='573' y='846' onmouseover="hghl(['permisos_fk_Permisos_User1','ine.user.id_user'])" onmouseout="uhghl(['permisos_fk_Permisos_User1','ine.user.id_user'])">id_user</text><title>id_user
+* varchar(20)</title></a>
+<a xlink:href='#permisos.id_user'><use id='fk' x='634' y='836' xlink:href='#fk'/><title>References user ( id_user ) </title></a>
+  <use id='nn' x='557' y='852' xlink:href='#nn'/><a xlink:href='#permisos.modulo'><use id='pk' x='557' y='851' xlink:href='#pk'/><title>Pk pk_permisos ( id_user, modulo ) fk_Permisos_Modulos1_idx ( modulo ) </title></a>
+<a xlink:href='#permisos.modulo'><text id='ine.permisos.modulo' x='573' y='861' onmouseover="hghl(['permisos_fk_Permisos_Modulos1','ine.modulos.modulo'])" onmouseout="uhghl(['permisos_fk_Permisos_Modulos1','ine.modulos.modulo'])">modulo</text><title>modulo
+* varchar(100)</title></a>
+<a xlink:href='#permisos.modulo'><use id='fk' x='634' y='851' xlink:href='#fk'/><title>References modulos ( modulo ) </title></a>
+  <a xlink:href='#permisos.alta'><text id='ine.permisos.alta' x='573' y='876'>alta</text><title>alta
+boolean</title></a>
+<text x='642' y='873' text-anchor='end' class='colType'>b</text>  <a xlink:href='#permisos.baja'><text id='ine.permisos.baja' x='573' y='891'>baja</text><title>baja
+boolean</title></a>
+<text x='642' y='888' text-anchor='end' class='colType'>b</text>  <a xlink:href='#permisos.actualizar'><text id='ine.permisos.actualizar' x='573' y='906'>actualizar</text><title>actualizar
+boolean</title></a>
+<text x='642' y='903' text-anchor='end' class='colType'>b</text>  <a xlink:href='#permisos.consulta'><text id='ine.permisos.consulta' x='573' y='921'>consulta</text><title>consulta
+boolean</title></a>
+<text x='642' y='918' text-anchor='end' class='colType'>b</text>
+<!-- == Table 'permisos_puesto' == -->
+<rect class='entity' x='855' y='593' width='105' height='135' rx='7' ry='7' style='stroke:none'/>
+<path d='M 855 619 L 855 600 Q 855 593 862 593 L 953 593 Q 960 593 960 600 L 960 619 L855 619 ' style='fill:url(#tbg_bfd4f5);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='855' y='593' width='105' height='135' rx='7' ry='7' style='fill:none;stroke:#5f656e'/>
+<line class='delim' x1='855' y1='619' x2='960' y2='619' style='stroke:#5f656e'/>
+<line class='delim' x1='870' y1='619' x2='870' y2='728' style='stroke:#5f656e'/>
+<line class='delim' x1='949' y1='619' x2='949' y2='728' style='stroke:#5f656e'/>
+<a xlink:href='#permisos_puesto'><text x='864' y='611'>permisos_puesto</text><title>Table ine.permisos_puesto</title></a>
+  <use id='nn' x='857' y='627' xlink:href='#nn'/><a xlink:href='#permisos_puesto.puesto'><use id='pk' x='857' y='626' xlink:href='#pk'/><title>Pk pk_permisos_puesto ( puesto, modulo ) fk_Permisos_puesto_Puestos1_idx ( puesto ) </title></a>
+<a xlink:href='#permisos_puesto.puesto'><text id='ine.permisos_puesto.puesto' x='873' y='636' onmouseover="hghl(['permisos_puesto_fk_Permisos_puesto_Puestos1','ine.puestos.puesto'])" onmouseout="uhghl(['permisos_puesto_fk_Permisos_puesto_Puestos1','ine.puestos.puesto'])">puesto</text><title>puesto
+* varchar(50)</title></a>
+<a xlink:href='#permisos_puesto.puesto'><use id='fk' x='949' y='626' xlink:href='#fk'/><title>References puestos ( puesto ) </title></a>
+  <use id='nn' x='857' y='642' xlink:href='#nn'/><a xlink:href='#permisos_puesto.modulo'><use id='pk' x='857' y='641' xlink:href='#pk'/><title>Pk pk_permisos_puesto ( puesto, modulo ) fk_Permisos_puesto_Modulos1_idx ( modulo ) </title></a>
+<a xlink:href='#permisos_puesto.modulo'><text id='ine.permisos_puesto.modulo' x='873' y='651' onmouseover="hghl(['permisos_puesto_fk_Permisos_puesto_Modulos1','ine.modulos.modulo'])" onmouseout="uhghl(['permisos_puesto_fk_Permisos_puesto_Modulos1','ine.modulos.modulo'])">modulo</text><title>modulo
+* varchar(100)</title></a>
+<a xlink:href='#permisos_puesto.modulo'><use id='fk' x='949' y='641' xlink:href='#fk'/><title>References modulos ( modulo ) </title></a>
+  <a xlink:href='#permisos_puesto.alta'><text id='ine.permisos_puesto.alta' x='873' y='666'>alta</text><title>alta
+boolean</title></a>
+<text x='957' y='663' text-anchor='end' class='colType'>b</text>  <a xlink:href='#permisos_puesto.baja'><text id='ine.permisos_puesto.baja' x='873' y='681'>baja</text><title>baja
+boolean</title></a>
+<text x='957' y='678' text-anchor='end' class='colType'>b</text>  <a xlink:href='#permisos_puesto.actualizar'><text id='ine.permisos_puesto.actualizar' x='873' y='696'>actualizar</text><title>actualizar
+boolean</title></a>
+<text x='957' y='693' text-anchor='end' class='colType'>b</text>  <a xlink:href='#permisos_puesto.consulta'><text id='ine.permisos_puesto.consulta' x='873' y='711'>consulta</text><title>consulta
+boolean</title></a>
+<text x='957' y='708' text-anchor='end' class='colType'>b</text>
+<!-- == Table 'permisos_solicitud' == -->
+<rect class='entity' x='555' y='443' width='105' height='90' rx='7' ry='7' style='stroke:none'/>
+<path d='M 555 469 L 555 450 Q 555 443 562 443 L 653 443 Q 660 443 660 450 L 660 469 L555 469 ' style='fill:url(#tbg_bfd4f5);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='555' y='443' width='105' height='90' rx='7' ry='7' style='fill:none;stroke:#5f656e'/>
+<line class='delim' x1='555' y1='469' x2='660' y2='469' style='stroke:#5f656e'/>
+<line class='delim' x1='570' y1='469' x2='570' y2='533' style='stroke:#5f656e'/>
+<line class='delim' x1='649' y1='469' x2='649' y2='533' style='stroke:#5f656e'/>
+<a xlink:href='#permisos_solicitud'><text x='561' y='461'>permisos_solicitud</text><title>Table ine.permisos_solicitud</title></a>
+  <use id='nn' x='557' y='477' xlink:href='#nn'/><a xlink:href='#permisos_solicitud.tipo_solicitud'><use id='pk' x='557' y='476' xlink:href='#pk'/><title>Pk pk_permisos_solicitud ( tipo_solicitud, puesto ) </title></a>
+<a xlink:href='#permisos_solicitud.tipo_solicitud'><text id='ine.permisos_solicitud.tipo_solicitud' x='573' y='486' onmouseover="hghl(['permisos_solicitud_fk_Detalle_tipoSolicitud_TipoSolicitud1','ine.tiposolicitud.tipo_solicitud'])" onmouseout="uhghl(['permisos_solicitud_fk_Detalle_tipoSolicitud_TipoSolicitud1','ine.tiposolicitud.tipo_solicitud'])">tipo_solicitud</text><title>tipo_solicitud
+* varchar(50)</title></a>
+<a xlink:href='#permisos_solicitud.tipo_solicitud'><use id='fk' x='649' y='476' xlink:href='#fk'/><title>References tiposolicitud ( tipo_solicitud ) </title></a>
+  <use id='nn' x='557' y='492' xlink:href='#nn'/><a xlink:href='#permisos_solicitud.puesto'><use id='pk' x='557' y='491' xlink:href='#pk'/><title>Pk pk_permisos_solicitud ( tipo_solicitud, puesto ) fk_Detalle_tipoSolicitud_Puestos1_idx ( puesto ) </title></a>
+<a xlink:href='#permisos_solicitud.puesto'><text id='ine.permisos_solicitud.puesto' x='573' y='501' onmouseover="hghl(['permisos_solicitud_fk_Detalle_tipoSolicitud_Puestos1','ine.puestos.puesto'])" onmouseout="uhghl(['permisos_solicitud_fk_Detalle_tipoSolicitud_Puestos1','ine.puestos.puesto'])">puesto</text><title>puesto
+* varchar(50)</title></a>
+<a xlink:href='#permisos_solicitud.puesto'><use id='fk' x='649' y='491' xlink:href='#fk'/><title>References puestos ( puesto ) </title></a>
+  <a xlink:href='#permisos_solicitud.permiso'><text id='ine.permisos_solicitud.permiso' x='573' y='516'>permiso</text><title>permiso
+boolean</title></a>
+<text x='657' y='513' text-anchor='end' class='colType'>b</text>
+<!-- == Table 'privilegios' == -->
+<rect class='entity' x='435' y='233' width='75' height='105' rx='7' ry='7' style='stroke:none'/>
+<path d='M 435 259 L 435 240 Q 435 233 442 233 L 503 233 Q 510 233 510 240 L 510 259 L435 259 ' style='fill:url(#tbg_f5ddbf);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='435' y='233' width='75' height='105' rx='7' ry='7' style='fill:none;stroke:#6e675f'/>
+<line class='delim' x1='435' y1='259' x2='510' y2='259' style='stroke:#6e675f'/>
+<line class='delim' x1='450' y1='259' x2='450' y2='338' style='stroke:#6e675f'/>
+<line class='delim' x1='499' y1='259' x2='499' y2='338' style='stroke:#6e675f'/>
+<a xlink:href='#privilegios'><text x='446' y='251'>privilegios</text><title>Table ine.privilegios</title></a>
+  <a xlink:href='#privilegios.PC'><text id='ine.privilegios.PC' x='453' y='276'>PC</text><title>PC
+varchar(50)</title></a>
+<text x='507' y='273' text-anchor='end' class='colType'>t</text>  <a xlink:href='#privilegios.IP'><text id='ine.privilegios.IP' x='453' y='291'>IP</text><title>IP
+varchar(50)</title></a>
+<text x='507' y='288' text-anchor='end' class='colType'>t</text>  <a xlink:href='#privilegios.Estado'><text id='ine.privilegios.Estado' x='453' y='306'>Estado</text><title>Estado
+varchar(50)</title></a>
+<text x='507' y='303' text-anchor='end' class='colType'>t</text>  <a xlink:href='#privilegios.Permiso'><text id='ine.privilegios.Permiso' x='453' y='321'>Permiso</text><title>Permiso
+varchar(50)</title></a>
+<text x='507' y='318' text-anchor='end' class='colType'>t</text>
+<!-- == Table 'productosentregados' == -->
+<rect class='entity' x='1185' y='1253' width='120' height='90' rx='7' ry='7' style='stroke:none'/>
+<path d='M 1185 1279 L 1185 1260 Q 1185 1253 1192 1253 L 1298 1253 Q 1305 1253 1305 1260 L 1305 1279 L1185 1279 ' style='fill:url(#tbg_f5ddbf);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='1185' y='1253' width='120' height='90' rx='7' ry='7' style='fill:none;stroke:#6e675f'/>
+<line class='delim' x1='1185' y1='1279' x2='1305' y2='1279' style='stroke:#6e675f'/>
+<line class='delim' x1='1200' y1='1279' x2='1200' y2='1343' style='stroke:#6e675f'/>
+<line class='delim' x1='1294' y1='1279' x2='1294' y2='1343' style='stroke:#6e675f'/>
+<a xlink:href='#productosentregados'><text x='1190' y='1271'>productosentregados</text><title>Table ine.productosentregados</title></a>
+  <use id='nn' x='1187' y='1287' xlink:href='#nn'/><a xlink:href='#productosentregados.id_vale'><use id='idx' x='1187' y='1286' xlink:href='#idx'/><title>fk_Detalle_vale_Vales10 ( id_vale ) </title></a>
+<a xlink:href='#productosentregados.id_vale'><text id='ine.productosentregados.id_vale' x='1203' y='1296' onmouseover="hghl(['productosentregados_fk_Detalle_vale_Vales10','ine.vales.id_vale'])" onmouseout="uhghl(['productosentregados_fk_Detalle_vale_Vales10','ine.vales.id_vale'])">id_vale</text><title>id_vale
+* int</title></a>
+<a xlink:href='#productosentregados.id_vale'><use id='fk' x='1294' y='1286' xlink:href='#fk'/><title>References vales ( id_vale ) </title></a>
+  <a xlink:href='#productosentregados.id_producto'><text id='ine.productosentregados.id_producto' x='1203' y='1311'>id_producto</text><title>id_producto
+varchar(45)</title></a>
+<text x='1302' y='1308' text-anchor='end' class='colType'>t</text>  <a xlink:href='#productosentregados.cantidad'><text id='ine.productosentregados.cantidad' x='1203' y='1326'>cantidad</text><title>cantidad
+int</title></a>
+<text x='1302' y='1323' text-anchor='end' class='colType'>#</text>
+<!-- == Table 'puestos' == -->
+<rect class='entity' x='720' y='593' width='75' height='60' rx='7' ry='7' style='stroke:none'/>
+<path d='M 720 619 L 720 600 Q 720 593 727 593 L 788 593 Q 795 593 795 600 L 795 619 L720 619 ' style='fill:url(#tbg_bfd4f5);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='720' y='593' width='75' height='60' rx='7' ry='7' style='fill:none;stroke:#5f656e'/>
+<line class='delim' x1='720' y1='619' x2='795' y2='619' style='stroke:#5f656e'/>
+<line class='delim' x1='735' y1='619' x2='735' y2='653' style='stroke:#5f656e'/>
+<line class='delim' x1='784' y1='619' x2='784' y2='653' style='stroke:#5f656e'/>
+<a xlink:href='#puestos'><text x='735' y='611'>puestos</text><title>Table ine.puestos</title></a>
+  <use id='nn' x='722' y='627' xlink:href='#nn'/><a xlink:href='#puestos.puesto'><use id='pk' x='722' y='626' xlink:href='#pk'/><title>Pk pk_puestos ( puesto ) </title></a>
+<a xlink:href='#puestos.puesto'><text id='ine.puestos.puesto' x='738' y='636' onmouseover="hghl(['permisos_solicitud_fk_Detalle_tipoSolicitud_Puestos1','ine.permisos_solicitud.puesto','permiso_vale_fk_Detalle_tipoVale_Puestos1','ine.permiso_vale.puesto','permisos_puesto_fk_Permisos_puesto_Puestos1','ine.permisos_puesto.puesto','user_fk_User_Puestos1','ine.user.puesto'])" onmouseout="uhghl(['permisos_solicitud_fk_Detalle_tipoSolicitud_Puestos1','ine.permisos_solicitud.puesto','permiso_vale_fk_Detalle_tipoVale_Puestos1','ine.permiso_vale.puesto','permisos_puesto_fk_Permisos_puesto_Puestos1','ine.permisos_puesto.puesto','user_fk_User_Puestos1','ine.user.puesto'])">puesto</text><title>puesto
+* varchar(50)</title></a>
+<a xlink:href='#puestos.puesto'><use id='ref' x='784' y='626' xlink:href='#ref'/><title>Referred by permisos_solicitud ( puesto ) 
+Referred by permiso_vale ( puesto ) 
+Referred by permisos_puesto ( puesto ) 
+Referred by user ( puesto ) </title></a>
+
+<!-- == Table 'resguardo_personal' == -->
+<rect class='entity' x='225' y='443' width='120' height='105' rx='7' ry='7' style='stroke:none'/>
+<path d='M 225 469 L 225 450 Q 225 443 232 443 L 338 443 Q 345 443 345 450 L 345 469 L225 469 ' style='fill:url(#tbg_bfd4f5);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='225' y='443' width='120' height='105' rx='7' ry='7' style='fill:none;stroke:#5f656e'/>
+<line class='delim' x1='225' y1='469' x2='345' y2='469' style='stroke:#5f656e'/>
+<line class='delim' x1='240' y1='469' x2='240' y2='548' style='stroke:#5f656e'/>
+<line class='delim' x1='334' y1='469' x2='334' y2='548' style='stroke:#5f656e'/>
+<a xlink:href='#resguardo_personal'><text x='234' y='461'>resguardo_personal</text><title>Table ine.resguardo_personal</title></a>
+  <use id='nn' x='227' y='477' xlink:href='#nn'/><a xlink:href='#resguardo_personal.id_user'><use id='pk' x='227' y='476' xlink:href='#pk'/><title>Pk pk_resguardo_personal ( id_user ) </title></a>
+<a xlink:href='#resguardo_personal.id_user'><text id='ine.resguardo_personal.id_user' x='243' y='486' onmouseover="hghl(['resguardo_personal_fk_Resguardo_personal_User1','ine.user.id_user'])" onmouseout="uhghl(['resguardo_personal_fk_Resguardo_personal_User1','ine.user.id_user'])">id_user</text><title>id_user
+* varchar(20)</title></a>
+<a xlink:href='#resguardo_personal.id_user'><use id='fk' x='334' y='476' xlink:href='#fk'/><title>References user ( id_user ) </title></a>
+  <a xlink:href='#resguardo_personal.nombre_prod'><text id='ine.resguardo_personal.nombre_prod' x='243' y='501'>nombre_prod</text><title>nombre_prod
+varchar(50)</title></a>
+<text x='342' y='498' text-anchor='end' class='colType'>t</text>  <a xlink:href='#resguardo_personal.fecha_alta'><text id='ine.resguardo_personal.fecha_alta' x='243' y='516'>fecha_alta</text><title>fecha_alta
+datetime</title></a>
+<text x='342' y='513' text-anchor='end' class='colType'>d</text>  <a xlink:href='#resguardo_personal.observaciones'><text id='ine.resguardo_personal.observaciones' x='243' y='531'>observaciones</text><title>observaciones
+varchar(300)</title></a>
+<text x='342' y='528' text-anchor='end' class='colType'>t</text>
+<!-- == Table 'solicitud_viatico' == -->
+<rect class='entity' x='795' y='1088' width='105' height='225' rx='7' ry='7' style='stroke:none'/>
+<path d='M 795 1114 L 795 1095 Q 795 1088 802 1088 L 893 1088 Q 900 1088 900 1095 L 900 1114 L795 1114 ' style='fill:url(#tbg_bfbff5);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='795' y='1088' width='105' height='225' rx='7' ry='7' style='fill:none;stroke:#5f5f6e'/>
+<line class='delim' x1='795' y1='1114' x2='900' y2='1114' style='stroke:#5f5f6e'/>
+<line class='delim' x1='810' y1='1114' x2='810' y2='1313' style='stroke:#5f5f6e'/>
+<line class='delim' x1='889' y1='1114' x2='889' y2='1313' style='stroke:#5f5f6e'/>
+<a xlink:href='#solicitud_viatico'><text x='807' y='1106'>solicitud_viatico</text><title>Table ine.solicitud_viatico</title></a>
+  <use id='nn' x='797' y='1122' xlink:href='#nn'/><a xlink:href='#solicitud_viatico.idSolicitud'><use id='pk' x='797' y='1121' xlink:href='#pk'/><title>Pk pk_solicitud_viatico ( idSolicitud ) </title></a>
+<a xlink:href='#solicitud_viatico.idSolicitud'><text id='ine.solicitud_viatico.idSolicitud' x='813' y='1131' onmouseover="hghl(['informe_fk_Informe_Solicitud_viatico1','ine.informe.Solicitud_idSolicitud','oficio_comision_fk_Oficio_comision_Solicitud_viatico1','ine.oficio_comision.Solicitud_idSolicitud'])" onmouseout="uhghl(['informe_fk_Informe_Solicitud_viatico1','ine.informe.Solicitud_idSolicitud','oficio_comision_fk_Oficio_comision_Solicitud_viatico1','ine.oficio_comision.Solicitud_idSolicitud'])">idSolicitud</text><title>idSolicitud
+* int</title></a>
+<a xlink:href='#solicitud_viatico.idSolicitud'><use id='ref' x='889' y='1121' xlink:href='#ref'/><title>Referred by informe ( Solicitud_idSolicitud -&gt; idSolicitud ) 
+Referred by oficio_comision ( Solicitud_idSolicitud -&gt; idSolicitud ) </title></a>
+  <a xlink:href='#solicitud_viatico.Fecha_salida'><text id='ine.solicitud_viatico.Fecha_salida' x='813' y='1146'>Fecha_salida</text><title>Fecha_salida
+date</title></a>
+<text x='897' y='1143' text-anchor='end' class='colType'>d</text>  <a xlink:href='#solicitud_viatico.Lugar'><text id='ine.solicitud_viatico.Lugar' x='813' y='1161'>Lugar</text><title>Lugar
+varchar(100)</title></a>
+<text x='897' y='1158' text-anchor='end' class='colType'>t</text>  <a xlink:href='#solicitud_viatico.Nombre'><text id='ine.solicitud_viatico.Nombre' x='813' y='1176'>Nombre</text><title>Nombre
+varchar(100)</title></a>
+<text x='897' y='1173' text-anchor='end' class='colType'>t</text>  <a xlink:href='#solicitud_viatico.Actividad'><text id='ine.solicitud_viatico.Actividad' x='813' y='1191'>Actividad</text><title>Actividad
+varchar(500)</title></a>
+<text x='897' y='1188' text-anchor='end' class='colType'>t</text>  <a xlink:href='#solicitud_viatico.Pernoctado'><text id='ine.solicitud_viatico.Pernoctado' x='813' y='1206'>Pernoctado</text><title>Pernoctado
+varchar(10)</title></a>
+<text x='897' y='1203' text-anchor='end' class='colType'>t</text>  <a xlink:href='#solicitud_viatico.Vehiculo'><text id='ine.solicitud_viatico.Vehiculo' x='813' y='1221'>Vehiculo</text><title>Vehiculo
+varchar(100)</title></a>
+<text x='897' y='1218' text-anchor='end' class='colType'>t</text>  <a xlink:href='#solicitud_viatico.Puesto'><text id='ine.solicitud_viatico.Puesto' x='813' y='1236'>Puesto</text><title>Puesto
+varchar(50)</title></a>
+<text x='897' y='1233' text-anchor='end' class='colType'>t</text>  <a xlink:href='#solicitud_viatico.Fecha_llegada'><text id='ine.solicitud_viatico.Fecha_llegada' x='813' y='1251'>Fecha_llegada</text><title>Fecha_llegada
+date</title></a>
+<text x='897' y='1248' text-anchor='end' class='colType'>d</text>  <a xlink:href='#solicitud_viatico.Estado'><text id='ine.solicitud_viatico.Estado' x='813' y='1266'>Estado</text><title>Estado
+varchar(45)</title></a>
+<text x='897' y='1263' text-anchor='end' class='colType'>t</text>  <a xlink:href='#solicitud_viatico.Reporte'><text id='ine.solicitud_viatico.Reporte' x='813' y='1281'>Reporte</text><title>Reporte
+varchar(1)</title></a>
+<text x='897' y='1278' text-anchor='end' class='colType'>t</text>  <a xlink:href='#solicitud_viatico.Motivo'><text id='ine.solicitud_viatico.Motivo' x='813' y='1296'>Motivo</text><title>Motivo
+varchar(500)</title></a>
+<text x='897' y='1293' text-anchor='end' class='colType'>t</text>
+<!-- == Table 'solicitudes' == -->
+<rect class='entity' x='720' y='803' width='120' height='180' rx='7' ry='7' style='stroke:none'/>
+<path d='M 720 829 L 720 810 Q 720 803 727 803 L 833 803 Q 840 803 840 810 L 840 829 L720 829 ' style='fill:url(#tbg_bfd4f5);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='720' y='803' width='120' height='180' rx='7' ry='7' style='fill:none;stroke:#5f656e'/>
+<line class='delim' x1='720' y1='829' x2='840' y2='829' style='stroke:#5f656e'/>
+<line class='delim' x1='735' y1='829' x2='735' y2='983' style='stroke:#5f656e'/>
+<line class='delim' x1='829' y1='829' x2='829' y2='983' style='stroke:#5f656e'/>
+<a xlink:href='#solicitudes'><text x='752' y='821'>solicitudes</text><title>Table ine.solicitudes</title></a>
+  <use id='nn' x='722' y='837' xlink:href='#nn'/><a xlink:href='#solicitudes.id_solicitud'><use id='pk' x='722' y='836' xlink:href='#pk'/><title>Pk pk_solicitudes ( id_solicitud, tipo_solicitud, id_user ) </title></a>
+<a xlink:href='#solicitudes.id_solicitud'><text id='ine.solicitudes.id_solicitud' x='738' y='846' onmouseover="hghl(['detalle_solicitud_fk_Detalle_solicitud_Solicitudes1','ine.detalle_solicitud.id_solicitud'])" onmouseout="uhghl(['detalle_solicitud_fk_Detalle_solicitud_Solicitudes1','ine.detalle_solicitud.id_solicitud'])">id_solicitud</text><title>id_solicitud
+* int</title></a>
+<a xlink:href='#solicitudes.id_solicitud'><use id='ref' x='829' y='836' xlink:href='#ref'/><title>Referred by detalle_solicitud ( id_solicitud ) </title></a>
+  <use id='nn' x='722' y='852' xlink:href='#nn'/><a xlink:href='#solicitudes.tipo_solicitud'><use id='pk' x='722' y='851' xlink:href='#pk'/><title>Pk pk_solicitudes ( id_solicitud, tipo_solicitud, id_user ) fk_Solicitudes_TipoSolicitud1_idx ( tipo_solicitud ) </title></a>
+<a xlink:href='#solicitudes.tipo_solicitud'><text id='ine.solicitudes.tipo_solicitud' x='738' y='861' onmouseover="hghl(['solicitudes_fk_Solicitudes_TipoSolicitud1','ine.tiposolicitud.tipo_solicitud'])" onmouseout="uhghl(['solicitudes_fk_Solicitudes_TipoSolicitud1','ine.tiposolicitud.tipo_solicitud'])">tipo_solicitud</text><title>tipo_solicitud
+* varchar(50)</title></a>
+<a xlink:href='#solicitudes.tipo_solicitud'><use id='fk' x='829' y='851' xlink:href='#fk'/><title>References tiposolicitud ( tipo_solicitud ) </title></a>
+  <use id='nn' x='722' y='867' xlink:href='#nn'/><a xlink:href='#solicitudes.id_user'><use id='pk' x='722' y='866' xlink:href='#pk'/><title>Pk pk_solicitudes ( id_solicitud, tipo_solicitud, id_user ) fk_Solicitudes_User1_idx ( id_user ) </title></a>
+<a xlink:href='#solicitudes.id_user'><text id='ine.solicitudes.id_user' x='738' y='876' onmouseover="hghl(['solicitudes_fk_Solicitudes_User1','ine.user.id_user'])" onmouseout="uhghl(['solicitudes_fk_Solicitudes_User1','ine.user.id_user'])">id_user</text><title>id_user
+* varchar(20)</title></a>
+<a xlink:href='#solicitudes.id_user'><use id='fk' x='829' y='866' xlink:href='#fk'/><title>References user ( id_user ) </title></a>
+  <a xlink:href='#solicitudes.estado'><text id='ine.solicitudes.estado' x='738' y='891'>estado</text><title>estado
+varchar(25)</title></a>
+<text x='837' y='888' text-anchor='end' class='colType'>t</text>  <a xlink:href='#solicitudes.user_autorizo'><text id='ine.solicitudes.user_autorizo' x='738' y='906'>user_autorizo</text><title>user_autorizo
+varchar(100)</title></a>
+<text x='837' y='903' text-anchor='end' class='colType'>t</text>  <a xlink:href='#solicitudes.motivo'><text id='ine.solicitudes.motivo' x='738' y='921'>motivo</text><title>motivo
+varchar(100)</title></a>
+<text x='837' y='918' text-anchor='end' class='colType'>t</text>  <a xlink:href='#solicitudes.cantidad'><text id='ine.solicitudes.cantidad' x='738' y='936'>cantidad</text><title>cantidad
+int</title></a>
+<text x='837' y='933' text-anchor='end' class='colType'>#</text>  <a xlink:href='#solicitudes.fecha_solicitud'><text id='ine.solicitudes.fecha_solicitud' x='738' y='951'>fecha_solicitud</text><title>fecha_solicitud
+datetime</title></a>
+<text x='837' y='948' text-anchor='end' class='colType'>d</text>  <a xlink:href='#solicitudes.fecha_respuesta'><text id='ine.solicitudes.fecha_respuesta' x='738' y='966'>fecha_respuesta</text><title>fecha_respuesta
+datetime</title></a>
+<text x='837' y='963' text-anchor='end' class='colType'>d</text>
+<!-- == Table 'teclado' == -->
+<rect class='entity' x='1695' y='608' width='90' height='60' rx='7' ry='7' style='stroke:none'/>
+<path d='M 1695 634 L 1695 615 Q 1695 608 1702 608 L 1778 608 Q 1785 608 1785 615 L 1785 634 L1695 634 ' style='fill:url(#tbg_c8f5bf);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='1695' y='608' width='90' height='60' rx='7' ry='7' style='fill:none;stroke:#626e5f'/>
+<line class='delim' x1='1695' y1='634' x2='1785' y2='634' style='stroke:#626e5f'/>
+<line class='delim' x1='1710' y1='634' x2='1710' y2='668' style='stroke:#626e5f'/>
+<line class='delim' x1='1774' y1='634' x2='1774' y2='668' style='stroke:#626e5f'/>
+<a xlink:href='#teclado'><text x='1719' y='626'>teclado</text><title>Table ine.teclado</title></a>
+  <use id='nn' x='1697' y='642' xlink:href='#nn'/><a xlink:href='#teclado.id_teclado'><use id='pk' x='1697' y='641' xlink:href='#pk'/><title>Pk pk_teclado ( id_teclado ) </title></a>
+<a xlink:href='#teclado.id_teclado'><text id='ine.teclado.id_teclado' x='1713' y='651' onmouseover="hghl(['teclado_fk_CPU_Inventario10','ine.inventario.id_producto','detalles_equipo_computo_fk_Detalles_equipo_computo_Teclado1','ine.detalles_equipo_computo.id_teclado'])" onmouseout="uhghl(['teclado_fk_CPU_Inventario10','ine.inventario.id_producto','detalles_equipo_computo_fk_Detalles_equipo_computo_Teclado1','ine.detalles_equipo_computo.id_teclado'])">id_teclado</text><title>id_teclado
+* varchar(30)</title></a>
+<a xlink:href='#teclado.id_teclado'><use id='fk' x='1774' y='641' xlink:href='#fk'/><title>References inventario ( id_teclado -&gt; id_producto ) 
+Referred by detalles_equipo_computo ( id_teclado ) </title></a>
+
+<!-- == Table 'tiposolicitud' == -->
+<rect class='entity' x='900' y='803' width='105' height='60' rx='7' ry='7' style='stroke:none'/>
+<path d='M 900 829 L 900 810 Q 900 803 907 803 L 998 803 Q 1005 803 1005 810 L 1005 829 L900 829 ' style='fill:url(#tbg_bfd4f5);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='900' y='803' width='105' height='60' rx='7' ry='7' style='fill:none;stroke:#5f656e'/>
+<line class='delim' x1='900' y1='829' x2='1005' y2='829' style='stroke:#5f656e'/>
+<line class='delim' x1='915' y1='829' x2='915' y2='863' style='stroke:#5f656e'/>
+<line class='delim' x1='994' y1='829' x2='994' y2='863' style='stroke:#5f656e'/>
+<a xlink:href='#tiposolicitud'><text x='921' y='821'>tiposolicitud</text><title>Table ine.tiposolicitud</title></a>
+  <use id='nn' x='902' y='837' xlink:href='#nn'/><a xlink:href='#tiposolicitud.tipo_solicitud'><use id='pk' x='902' y='836' xlink:href='#pk'/><title>Pk pk_tiposolicitud ( tipo_solicitud ) </title></a>
+<a xlink:href='#tiposolicitud.tipo_solicitud'><text id='ine.tiposolicitud.tipo_solicitud' x='918' y='846' onmouseover="hghl(['permisos_solicitud_fk_Detalle_tipoSolicitud_TipoSolicitud1','ine.permisos_solicitud.tipo_solicitud','solicitudes_fk_Solicitudes_TipoSolicitud1','ine.solicitudes.tipo_solicitud'])" onmouseout="uhghl(['permisos_solicitud_fk_Detalle_tipoSolicitud_TipoSolicitud1','ine.permisos_solicitud.tipo_solicitud','solicitudes_fk_Solicitudes_TipoSolicitud1','ine.solicitudes.tipo_solicitud'])">tipo_solicitud</text><title>tipo_solicitud
+* varchar(50)</title></a>
+<a xlink:href='#tiposolicitud.tipo_solicitud'><use id='ref' x='994' y='836' xlink:href='#ref'/><title>Referred by permisos_solicitud ( tipo_solicitud ) 
+Referred by solicitudes ( tipo_solicitud ) </title></a>
+
+<!-- == Table 'tipovale' == -->
+<rect class='entity' x='1365' y='1088' width='75' height='60' rx='7' ry='7' style='stroke:none'/>
+<path d='M 1365 1114 L 1365 1095 Q 1365 1088 1372 1088 L 1433 1088 Q 1440 1088 1440 1095 L 1440 1114 L1365 1114 ' style='fill:url(#tbg_f5ddbf);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='1365' y='1088' width='75' height='60' rx='7' ry='7' style='fill:none;stroke:#6e675f'/>
+<line class='delim' x1='1365' y1='1114' x2='1440' y2='1114' style='stroke:#6e675f'/>
+<line class='delim' x1='1380' y1='1114' x2='1380' y2='1148' style='stroke:#6e675f'/>
+<line class='delim' x1='1429' y1='1114' x2='1429' y2='1148' style='stroke:#6e675f'/>
+<a xlink:href='#tipovale'><text x='1380' y='1106'>tipovale</text><title>Table ine.tipovale</title></a>
+  <use id='nn' x='1367' y='1122' xlink:href='#nn'/><a xlink:href='#tipovale.tipo_vale'><use id='pk' x='1367' y='1121' xlink:href='#pk'/><title>Pk pk_tipovale ( tipo_vale ) </title></a>
+<a xlink:href='#tipovale.tipo_vale'><text id='ine.tipovale.tipo_vale' x='1383' y='1131' onmouseover="hghl(['permiso_vale_fk_Detalle_tipoVale_tipoVale1','ine.permiso_vale.tipo_vale','vales_fk_Vales_tipoVale1','ine.vales.tipo_vale'])" onmouseout="uhghl(['permiso_vale_fk_Detalle_tipoVale_tipoVale1','ine.permiso_vale.tipo_vale','vales_fk_Vales_tipoVale1','ine.vales.tipo_vale'])">tipo_vale</text><title>tipo_vale
+* varchar(30)</title></a>
+<a xlink:href='#tipovale.tipo_vale'><use id='ref' x='1429' y='1121' xlink:href='#ref'/><title>Referred by permiso_vale ( tipo_vale ) 
+Referred by vales ( tipo_vale ) </title></a>
+
+<!-- == Table 'user' == -->
+<rect class='entity' x='555' y='593' width='105' height='150' rx='7' ry='7' style='stroke:none'/>
+<path d='M 555 619 L 555 600 Q 555 593 562 593 L 653 593 Q 660 593 660 600 L 660 619 L555 619 ' style='fill:url(#tbg_bfd4f5);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='555' y='593' width='105' height='150' rx='7' ry='7' style='fill:none;stroke:#5f656e'/>
+<line class='delim' x1='555' y1='619' x2='660' y2='619' style='stroke:#5f656e'/>
+<line class='delim' x1='570' y1='619' x2='570' y2='743' style='stroke:#5f656e'/>
+<line class='delim' x1='649' y1='619' x2='649' y2='743' style='stroke:#5f656e'/>
+<a xlink:href='#user'><text x='594' y='611'>user</text><title>Table ine.user</title></a>
+  <use id='nn' x='557' y='627' xlink:href='#nn'/><a xlink:href='#user.id_user'><use id='pk' x='557' y='626' xlink:href='#pk'/><title>Pk pk_user ( id_user, id_empleado, puesto, area ) </title></a>
+<a xlink:href='#user.id_user'><text id='ine.user.id_user' x='573' y='636' onmouseover="hghl(['permisos_fk_Permisos_User1','ine.permisos.id_user','resguardo_personal_fk_Resguardo_personal_User1','ine.resguardo_personal.id_user','solicitudes_fk_Solicitudes_User1','ine.solicitudes.id_user','vales_fk_Vales_User1','ine.vales.id_user'])" onmouseout="uhghl(['permisos_fk_Permisos_User1','ine.permisos.id_user','resguardo_personal_fk_Resguardo_personal_User1','ine.resguardo_personal.id_user','solicitudes_fk_Solicitudes_User1','ine.solicitudes.id_user','vales_fk_Vales_User1','ine.vales.id_user'])">id_user</text><title>id_user
+* varchar(20)</title></a>
+<a xlink:href='#user.id_user'><use id='ref' x='649' y='626' xlink:href='#ref'/><title>Referred by permisos ( id_user ) 
+Referred by resguardo_personal ( id_user ) 
+Referred by solicitudes ( id_user ) 
+Referred by vales ( id_user ) </title></a>
+  <use id='nn' x='557' y='642' xlink:href='#nn'/><a xlink:href='#user.id_empleado'><use id='pk' x='557' y='641' xlink:href='#pk'/><title>Pk pk_user ( id_user, id_empleado, puesto, area ) fk_User_Empleados1_idx ( id_empleado ) </title></a>
+<a xlink:href='#user.id_empleado'><text id='ine.user.id_empleado' x='573' y='651' onmouseover="hghl(['user_fk_User_Empleados1','ine.empleados.id_empleado'])" onmouseout="uhghl(['user_fk_User_Empleados1','ine.empleados.id_empleado'])">id_empleado</text><title>id_empleado
+* int</title></a>
+<a xlink:href='#user.id_empleado'><use id='fk' x='649' y='641' xlink:href='#fk'/><title>References empleados ( id_empleado ) </title></a>
+  <use id='nn' x='557' y='657' xlink:href='#nn'/><a xlink:href='#user.puesto'><use id='pk' x='557' y='656' xlink:href='#pk'/><title>Pk pk_user ( id_user, id_empleado, puesto, area ) fk_User_Puestos1_idx ( puesto ) </title></a>
+<a xlink:href='#user.puesto'><text id='ine.user.puesto' x='573' y='666' onmouseover="hghl(['user_fk_User_Puestos1','ine.puestos.puesto'])" onmouseout="uhghl(['user_fk_User_Puestos1','ine.puestos.puesto'])">puesto</text><title>puesto
+* varchar(50)</title></a>
+<a xlink:href='#user.puesto'><use id='fk' x='649' y='656' xlink:href='#fk'/><title>References puestos ( puesto ) </title></a>
+  <use id='nn' x='557' y='672' xlink:href='#nn'/><a xlink:href='#user.area'><use id='pk' x='557' y='671' xlink:href='#pk'/><title>Pk pk_user ( id_user, id_empleado, puesto, area ) fk_User_Area1_idx ( area ) </title></a>
+<a xlink:href='#user.area'><text id='ine.user.area' x='573' y='681' onmouseover="hghl(['user_fk_User_Area1','ine.area.area'])" onmouseout="uhghl(['user_fk_User_Area1','ine.area.area'])">area</text><title>area
+* varchar(50)</title></a>
+<a xlink:href='#user.area'><use id='fk' x='649' y='671' xlink:href='#fk'/><title>References area ( area ) </title></a>
+  <a xlink:href='#user.documentacion'><text id='ine.user.documentacion' x='573' y='696'>documentacion</text><title>documentacion
+boolean</title></a>
+<text x='657' y='693' text-anchor='end' class='colType'>b</text>  <a xlink:href='#user.password'><text id='ine.user.password' x='573' y='711'>password</text><title>password
+varchar(15)</title></a>
+<text x='657' y='708' text-anchor='end' class='colType'>t</text>  <use id='nn' x='557' y='717' xlink:href='#nn'/><a xlink:href='#user.estatus'><text id='ine.user.estatus' x='573' y='726'>estatus</text><title>estatus
+* varchar(20)</title></a>
+<text x='657' y='723' text-anchor='end' class='colType'>t</text>
+<!-- == Table 'vales' == -->
+<rect class='entity' x='1215' y='1088' width='90' height='105' rx='7' ry='7' style='stroke:none'/>
+<path d='M 1215 1114 L 1215 1095 Q 1215 1088 1222 1088 L 1298 1088 Q 1305 1088 1305 1095 L 1305 1114 L1215 1114 ' style='fill:url(#tbg_f5ddbf);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='1215' y='1088' width='90' height='105' rx='7' ry='7' style='fill:none;stroke:#6e675f'/>
+<line class='delim' x1='1215' y1='1114' x2='1305' y2='1114' style='stroke:#6e675f'/>
+<line class='delim' x1='1230' y1='1114' x2='1230' y2='1193' style='stroke:#6e675f'/>
+<line class='delim' x1='1294' y1='1114' x2='1294' y2='1193' style='stroke:#6e675f'/>
+<a xlink:href='#vales'><text x='1244' y='1106'>vales</text><title>Table ine.vales</title></a>
+  <use id='nn' x='1217' y='1122' xlink:href='#nn'/><a xlink:href='#vales.id_vale'><use id='pk' x='1217' y='1121' xlink:href='#pk'/><title>Pk pk_vales ( id_vale, tipo_vale, id_user ) </title></a>
+<a xlink:href='#vales.id_vale'><text id='ine.vales.id_vale' x='1233' y='1131' onmouseover="hghl(['detalle_vale_fk_Detalle_vale_Vales1','ine.detalle_vale.id_vale','productosentregados_fk_Detalle_vale_Vales10','ine.productosentregados.id_vale'])" onmouseout="uhghl(['detalle_vale_fk_Detalle_vale_Vales1','ine.detalle_vale.id_vale','productosentregados_fk_Detalle_vale_Vales10','ine.productosentregados.id_vale'])">id_vale</text><title>id_vale
+* int</title></a>
+<a xlink:href='#vales.id_vale'><use id='ref' x='1294' y='1121' xlink:href='#ref'/><title>Referred by detalle_vale ( id_vale ) 
+Referred by productosentregados ( id_vale ) </title></a>
+  <use id='nn' x='1217' y='1137' xlink:href='#nn'/><a xlink:href='#vales.tipo_vale'><use id='pk' x='1217' y='1136' xlink:href='#pk'/><title>Pk pk_vales ( id_vale, tipo_vale, id_user ) fk_Vales_tipoVale1_idx ( tipo_vale ) </title></a>
+<a xlink:href='#vales.tipo_vale'><text id='ine.vales.tipo_vale' x='1233' y='1146' onmouseover="hghl(['vales_fk_Vales_tipoVale1','ine.tipovale.tipo_vale'])" onmouseout="uhghl(['vales_fk_Vales_tipoVale1','ine.tipovale.tipo_vale'])">tipo_vale</text><title>tipo_vale
+* varchar(30)</title></a>
+<a xlink:href='#vales.tipo_vale'><use id='fk' x='1294' y='1136' xlink:href='#fk'/><title>References tipovale ( tipo_vale ) </title></a>
+  <use id='nn' x='1217' y='1152' xlink:href='#nn'/><a xlink:href='#vales.id_user'><use id='pk' x='1217' y='1151' xlink:href='#pk'/><title>Pk pk_vales ( id_vale, tipo_vale, id_user ) fk_Vales_User1_idx ( id_user ) </title></a>
+<a xlink:href='#vales.id_user'><text id='ine.vales.id_user' x='1233' y='1161' onmouseover="hghl(['vales_fk_Vales_User1','ine.user.id_user'])" onmouseout="uhghl(['vales_fk_Vales_User1','ine.user.id_user'])">id_user</text><title>id_user
+* varchar(20)</title></a>
+<a xlink:href='#vales.id_user'><use id='fk' x='1294' y='1151' xlink:href='#fk'/><title>References user ( id_user ) </title></a>
+  <a xlink:href='#vales.fecha_vale'><text id='ine.vales.fecha_vale' x='1233' y='1176'>fecha_vale</text><title>fecha_vale
+datetime</title></a>
+<text x='1302' y='1173' text-anchor='end' class='colType'>d</text>
+<!-- == Table 'vehiculos' == -->
+<rect class='entity' x='45' y='773' width='105' height='210' rx='7' ry='7' style='stroke:none'/>
+<path d='M 45 799 L 45 780 Q 45 773 52 773 L 143 773 Q 150 773 150 780 L 150 799 L45 799 ' style='fill:url(#tbg_c8f5bf);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='45' y='773' width='105' height='210' rx='7' ry='7' style='fill:none;stroke:#626e5f'/>
+<line class='delim' x1='45' y1='799' x2='150' y2='799' style='stroke:#626e5f'/>
+<line class='delim' x1='60' y1='799' x2='60' y2='983' style='stroke:#626e5f'/>
+<line class='delim' x1='139' y1='799' x2='139' y2='983' style='stroke:#626e5f'/>
+<a xlink:href='#vehiculos'><text x='72' y='791'>vehiculos</text><title>Table ine.vehiculos</title></a>
+  <use id='nn' x='47' y='807' xlink:href='#nn'/><a xlink:href='#vehiculos.Matricula'><use id='pk' x='47' y='806' xlink:href='#pk'/><title>Pk pk_vehiculos ( Matricula ) </title></a>
+<a xlink:href='#vehiculos.Matricula'><text id='ine.vehiculos.Matricula' x='63' y='816' onmouseover="hghl(['viaticos_vehiculos_fk_viaticos_vehiculos_Vehiculos1','ine.viaticos_vehiculos.Vehiculos_Matricula'])" onmouseout="uhghl(['viaticos_vehiculos_fk_viaticos_vehiculos_Vehiculos1','ine.viaticos_vehiculos.Vehiculos_Matricula'])">Matricula</text><title>Matricula
+* varchar(45)</title></a>
+<a xlink:href='#vehiculos.Matricula'><use id='ref' x='139' y='806' xlink:href='#ref'/><title>Referred by viaticos_vehiculos ( Vehiculos_Matricula -&gt; Matricula ) </title></a>
+  <a xlink:href='#vehiculos.Marca'><text id='ine.vehiculos.Marca' x='63' y='831'>Marca</text><title>Marca
+varchar(45)</title></a>
+<text x='147' y='828' text-anchor='end' class='colType'>t</text>  <a xlink:href='#vehiculos.Linea'><text id='ine.vehiculos.Linea' x='63' y='846'>Linea</text><title>Linea
+varchar(45)</title></a>
+<text x='147' y='843' text-anchor='end' class='colType'>t</text>  <a xlink:href='#vehiculos.Clase'><text id='ine.vehiculos.Clase' x='63' y='861'>Clase</text><title>Clase
+varchar(45)</title></a>
+<text x='147' y='858' text-anchor='end' class='colType'>t</text>  <a xlink:href='#vehiculos.Kilometraje'><text id='ine.vehiculos.Kilometraje' x='63' y='876'>Kilometraje</text><title>Kilometraje
+varchar(45)</title></a>
+<text x='147' y='873' text-anchor='end' class='colType'>t</text>  <a xlink:href='#vehiculos.Modelo'><text id='ine.vehiculos.Modelo' x='63' y='891'>Modelo</text><title>Modelo
+varchar(45)</title></a>
+<text x='147' y='888' text-anchor='end' class='colType'>t</text>  <a xlink:href='#vehiculos.Color'><text id='ine.vehiculos.Color' x='63' y='906'>Color</text><title>Color
+varchar(45)</title></a>
+<text x='147' y='903' text-anchor='end' class='colType'>t</text>  <a xlink:href='#vehiculos.Motor'><text id='ine.vehiculos.Motor' x='63' y='921'>Motor</text><title>Motor
+varchar(45)</title></a>
+<text x='147' y='918' text-anchor='end' class='colType'>t</text>  <a xlink:href='#vehiculos.Observaciones'><text id='ine.vehiculos.Observaciones' x='63' y='936'>Observaciones</text><title>Observaciones
+varchar(1000)</title></a>
+<text x='147' y='933' text-anchor='end' class='colType'>t</text>  <a xlink:href='#vehiculos.Imagen'><text id='ine.vehiculos.Imagen' x='63' y='951'>Imagen</text><title>Imagen
+longblob</title></a>
+<text x='147' y='948' text-anchor='end' class='colType'>~</text>  <a xlink:href='#vehiculos.Estado'><text id='ine.vehiculos.Estado' x='63' y='966'>Estado</text><title>Estado
+varchar(100)</title></a>
+<text x='147' y='963' text-anchor='end' class='colType'>t</text>
+<!-- == Table 'viaticos_vehiculos' == -->
+<rect class='entity' x='210' y='773' width='135' height='120' rx='7' ry='7' style='stroke:none'/>
+<path d='M 210 799 L 210 780 Q 210 773 217 773 L 338 773 Q 345 773 345 780 L 345 799 L210 799 ' style='fill:url(#tbg_c8f5bf);stroke:1;stroke-opacity:0.1;' />
+<rect class='entity' x='210' y='773' width='135' height='120' rx='7' ry='7' style='fill:none;stroke:#626e5f'/>
+<line class='delim' x1='210' y1='799' x2='345' y2='799' style='stroke:#626e5f'/>
+<line class='delim' x1='225' y1='799' x2='225' y2='893' style='stroke:#626e5f'/>
+<line class='delim' x1='334' y1='799' x2='334' y2='893' style='stroke:#626e5f'/>
+<a xlink:href='#viaticos_vehiculos'><text x='231' y='791'>viaticos_vehiculos</text><title>Table ine.viaticos_vehiculos</title></a>
+  <use id='nn' x='212' y='807' xlink:href='#nn'/><a xlink:href='#viaticos_vehiculos.idviaticos_vehiculos'><use id='pk' x='212' y='806' xlink:href='#pk'/><title>Pk pk_viaticos_vehiculos ( idviaticos_vehiculos, Vehiculos_Matricula ) </title></a>
+<a xlink:href='#viaticos_vehiculos.idviaticos_vehiculos'><text id='ine.viaticos_vehiculos.idviaticos_vehiculos' x='228' y='816'>idviaticos_vehiculos</text><title>idviaticos_vehiculos
+* int</title></a>
+<text x='342' y='813' text-anchor='end' class='colType'>#</text>  <use id='nn' x='212' y='822' xlink:href='#nn'/><a xlink:href='#viaticos_vehiculos.Vehiculos_Matricula'><use id='pk' x='212' y='821' xlink:href='#pk'/><title>Pk pk_viaticos_vehiculos ( idviaticos_vehiculos, Vehiculos_Matricula ) fk_viaticos_vehiculos_Vehiculos1_idx ( Vehiculos_Matricula ) </title></a>
+<a xlink:href='#viaticos_vehiculos.Vehiculos_Matricula'><text id='ine.viaticos_vehiculos.Vehiculos_Matricula' x='228' y='831' onmouseover="hghl(['viaticos_vehiculos_fk_viaticos_vehiculos_Vehiculos1','ine.vehiculos.Matricula'])" onmouseout="uhghl(['viaticos_vehiculos_fk_viaticos_vehiculos_Vehiculos1','ine.vehiculos.Matricula'])">Vehiculos_Matricula</text><title>Vehiculos_Matricula
+* varchar(45)</title></a>
+<a xlink:href='#viaticos_vehiculos.Vehiculos_Matricula'><use id='fk' x='334' y='821' xlink:href='#fk'/><title>References vehiculos ( Vehiculos_Matricula -&gt; Matricula ) </title></a>
+  <a xlink:href='#viaticos_vehiculos.Kilometraje'><text id='ine.viaticos_vehiculos.Kilometraje' x='228' y='846'>Kilometraje</text><title>Kilometraje
+varchar(45)</title></a>
+<text x='342' y='843' text-anchor='end' class='colType'>t</text>  <a xlink:href='#viaticos_vehiculos.Descripcion'><text id='ine.viaticos_vehiculos.Descripcion' x='228' y='861'>Descripcion</text><title>Descripcion
+varchar(300)</title></a>
+<text x='342' y='858' text-anchor='end' class='colType'>t</text>  <a xlink:href='#viaticos_vehiculos.Fecha'><text id='ine.viaticos_vehiculos.Fecha' x='228' y='876'>Fecha</text><title>Fecha
+date</title></a>
+<text x='342' y='873' text-anchor='end' class='colType'>d</text>
+</g></svg></div>
+
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='area' onclick='window.scrollTo(235, 810);return false;' style='cursor:pointer;'><h4 class='card-title'>Table area</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#ref'/></svg></td>
+		<td><a name='area.area'>area</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;area</td>
+		<td> ON area</td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='bitacora_inventario' onclick='window.scrollTo(235, 45);return false;' style='cursor:pointer;'><h4 class='card-title'>Table bitacora_inventario</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='bitacora_inventario.nombre_prod'>nombre&#95;prod</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='bitacora_inventario.movimiento'>movimiento</a></td>
+		<td> varchar&#40; 35 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='bitacora_inventario.cantidad'>cantidad</a></td>
+		<td> int   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='bitacora_inventario.user'>user</a></td>
+		<td> varchar&#40; 100 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='bitacora_inventario.fecha_movimiento'>fecha&#95;movimiento</a></td>
+		<td> datetime   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='bitacora_inventario.observaciones'>observaciones</a></td>
+		<td> varchar&#40; 300 &#41;   </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='cpu' onclick='window.scrollTo(1135, 615);return false;' style='cursor:pointer;'><h4 class='card-title'>Table cpu</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='cpu.id_cpu'>id&#95;cpu</a></td>
+		<td> varchar&#40; 30 &#41;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;cpu</td>
+		<td> ON id&#95;cpu</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Foreign Keys</th></tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_CPU_Inventario1</td>
+		<td > ( id&#95;cpu ) ref <a href='#inventario'>inventario</a> (id&#95;producto) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='detalle_solicitud' onclick='window.scrollTo(1495, 450);return false;' style='cursor:pointer;'><h4 class='card-title'>Table detalle_solicitud</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='detalle_solicitud.id_solicitud'>id&#95;solicitud</a></td>
+		<td> int   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='detalle_solicitud.id_producto'>id&#95;producto</a></td>
+		<td> varchar&#40; 30 &#41;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;detalle&#95;solicitud</td>
+		<td> ON id&#95;solicitud&#44; id&#95;producto</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;Detalle&#95;solicitud&#95;Inventario1&#95;idx</td>
+		<td> ON id&#95;producto</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Foreign Keys</th></tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Detalle_solicitud_Inventario1</td>
+		<td > ( id&#95;producto ) ref <a href='#inventario'>inventario</a> (id&#95;producto) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Detalle_solicitud_Solicitudes1</td>
+		<td > ( id&#95;solicitud ) ref <a href='#solicitudes'>solicitudes</a> (id&#95;solicitud) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='detalle_vale' onclick='window.scrollTo(1165, 1260);return false;' style='cursor:pointer;'><h4 class='card-title'>Table detalle_vale</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#idx'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='detalle_vale.id_vale'>id&#95;vale</a></td>
+		<td> int   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='detalle_vale.id_producto'>id&#95;producto</a></td>
+		<td> varchar&#40; 45 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='detalle_vale.cantidad'>cantidad</a></td>
+		<td> int   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='detalle_vale.estado'>estado</a></td>
+		<td> varchar&#40; 25 &#41;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;Detalle&#95;vale&#95;Vales1</td>
+		<td> ON id&#95;vale</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Foreign Keys</th></tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Detalle_vale_Vales1</td>
+		<td > ( id&#95;vale ) ref <a href='#vales'>vales</a> (id&#95;vale) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='detalles_equipo_computo' onclick='window.scrollTo(1135, 450);return false;' style='cursor:pointer;'><h4 class='card-title'>Table detalles_equipo_computo</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='detalles_equipo_computo.id_equipo'>id&#95;equipo</a></td>
+		<td> varchar&#40; 20 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='detalles_equipo_computo.id_teclado'>id&#95;teclado</a></td>
+		<td> varchar&#40; 30 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='detalles_equipo_computo.id_cpu'>id&#95;cpu</a></td>
+		<td> varchar&#40; 30 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='detalles_equipo_computo.id_monitor'>id&#95;monitor</a></td>
+		<td> varchar&#40; 30 &#41;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;detalles&#95;equipo&#95;computo</td>
+		<td> ON id&#95;equipo&#44; id&#95;teclado&#44; id&#95;cpu&#44; id&#95;monitor</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;Detalles&#95;equipo&#95;computo&#95;CPU1&#95;idx</td>
+		<td> ON id&#95;cpu</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;Detalles&#95;equipo&#95;computo&#95;Monitor1&#95;idx</td>
+		<td> ON id&#95;monitor</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;Detalles&#95;equipo&#95;computo&#95;Teclado1&#95;idx</td>
+		<td> ON id&#95;teclado</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Foreign Keys</th></tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Detalles_equipo_computo_CPU1</td>
+		<td > ( id&#95;cpu ) ref <a href='#cpu'>cpu</a> (id&#95;cpu) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Detalles_equipo_computo_Equipo_computo1</td>
+		<td > ( id&#95;equipo ) ref <a href='#equipo&#95;computo'>equipo&#95;computo</a> (id&#95;equipo) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Detalles_equipo_computo_Monitor1</td>
+		<td > ( id&#95;monitor ) ref <a href='#monitor'>monitor</a> (id&#95;monitor) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Detalles_equipo_computo_Teclado1</td>
+		<td > ( id&#95;teclado ) ref <a href='#teclado'>teclado</a> (id&#95;teclado) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='director_general' onclick='window.scrollTo(415, 45);return false;' style='cursor:pointer;'><h4 class='card-title'>Table director_general</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*</td>
+		<td><a name='director_general.Nombre'>Nombre</a></td>
+		<td> varchar&#40; 45 &#41;   </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='empleados' onclick='window.scrollTo(60, 105);return false;' style='cursor:pointer;'><h4 class='card-title'>Table empleados</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#ref'/></svg></td>
+		<td><a name='empleados.id_empleado'>id&#95;empleado</a></td>
+		<td> int  AUTOINCREMENT  </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='empleados.nombres'>nombres</a></td>
+		<td> varchar&#40; 60 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='empleados.apellido_p'>apellido&#95;p</a></td>
+		<td> varchar&#40; 30 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='empleados.apellido_m'>apellido&#95;m</a></td>
+		<td> varchar&#40; 30 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='empleados.calle'>calle</a></td>
+		<td> varchar&#40; 100 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='empleados.colonia'>colonia</a></td>
+		<td> varchar&#40; 30 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='empleados.telefono'>telefono</a></td>
+		<td> varchar&#40; 18 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='empleados.codigo_postal'>codigo&#95;postal</a></td>
+		<td> varchar&#40; 8 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='empleados.fecha_nacimiento'>fecha&#95;nacimiento</a></td>
+		<td> date   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='empleados.curp'>curp</a></td>
+		<td> varchar&#40; 20 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='empleados.rfc'>rfc</a></td>
+		<td> varchar&#40; 13 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='empleados.municipio'>municipio</a></td>
+		<td> varchar&#40; 30 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='empleados.localidad'>localidad</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;empleados</td>
+		<td> ON id&#95;empleado</td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='equipo_computo' onclick='window.scrollTo(985, 480);return false;' style='cursor:pointer;'><h4 class='card-title'>Table equipo_computo</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#ref'/></svg></td>
+		<td><a name='equipo_computo.id_equipo'>id&#95;equipo</a></td>
+		<td> varchar&#40; 20 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='equipo_computo.ubicacion'>ubicacion</a></td>
+		<td> varchar&#40; 100 &#41;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;equipo&#95;computo</td>
+		<td> ON id&#95;equipo</td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='gastos' onclick='window.scrollTo(190, 1230);return false;' style='cursor:pointer;'><h4 class='card-title'>Table gastos</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#ref'/></svg></td>
+		<td><a name='gastos.Id_Gastos'>Id&#95;Gastos</a></td>
+		<td> int  AUTOINCREMENT  </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='gastos.Precio'>Precio</a></td>
+		<td> varchar&#40; 20 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='gastos.Descripcion'>Descripcion</a></td>
+		<td> varchar&#40; 200 &#41;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;gastos</td>
+		<td> ON Id&#95;Gastos</td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='informe' onclick='window.scrollTo(385, 1095);return false;' style='cursor:pointer;'><h4 class='card-title'>Table informe</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#ref'/></svg></td>
+		<td><a name='informe.Id_Informe'>Id&#95;Informe</a></td>
+		<td> int  AUTOINCREMENT  </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='informe.Observaciones'>Observaciones</a></td>
+		<td> varchar&#40; 200 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='informe.Observaciones_Vehiculo'>Observaciones&#95;Vehiculo</a></td>
+		<td> varchar&#40; 200 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#idx'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='informe.Solicitud_idSolicitud'>Solicitud&#95;idSolicitud</a></td>
+		<td> int   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;informe</td>
+		<td> ON Id&#95;Informe</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;Informe&#95;Solicitud&#95;viatico1&#95;idx</td>
+		<td> ON Solicitud&#95;idSolicitud</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Foreign Keys</th></tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Informe_Solicitud_viatico1</td>
+		<td > ( Solicitud&#95;idSolicitud ) ref <a href='#solicitud&#95;viatico'>solicitud&#95;viatico</a> (idSolicitud) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='informe_gastos' onclick='window.scrollTo(190, 1095);return false;' style='cursor:pointer;'><h4 class='card-title'>Table informe_gastos</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#idx'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='informe_gastos.Gastos_Id_Gastos'>Gastos&#95;Id&#95;Gastos</a></td>
+		<td> int   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#idx'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='informe_gastos.Informe_Id_Informe'>Informe&#95;Id&#95;Informe</a></td>
+		<td> int   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;Informe&#95;Gastos&#95;Gastos1&#95;idx</td>
+		<td> ON Gastos&#95;Id&#95;Gastos</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;Informe&#95;Gastos&#95;Informe1&#95;idx</td>
+		<td> ON Informe&#95;Id&#95;Informe</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Foreign Keys</th></tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Informe_Gastos_Gastos1</td>
+		<td > ( Gastos&#95;Id&#95;Gastos ) ref <a href='#gastos'>gastos</a> (Id&#95;Gastos) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Informe_Gastos_Informe1</td>
+		<td > ( Informe&#95;Id&#95;Informe ) ref <a href='#informe'>informe</a> (Id&#95;Informe) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='inicio' onclick='window.scrollTo(415, 240);return false;' style='cursor:pointer;'><h4 class='card-title'>Table inicio</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inicio.usuario'>usuario</a></td>
+		<td> varchar&#40; 45 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inicio.ip'>ip</a></td>
+		<td> varchar&#40; 45 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inicio.password'>password</a></td>
+		<td> varchar&#40; 45 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inicio.bandera'>bandera</a></td>
+		<td> varchar&#40; 45 &#41;   </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='inventario' onclick='window.scrollTo(1330, 450);return false;' style='cursor:pointer;'><h4 class='card-title'>Table inventario</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#ref'/></svg></td>
+		<td><a name='inventario.id_producto'>id&#95;producto</a></td>
+		<td> varchar&#40; 30 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inventario.nombre_prod'>nombre&#95;prod</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inventario.descripcion'>descripcion</a></td>
+		<td> varchar&#40; 500 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inventario.almacen'>almacen</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inventario.estatus'>estatus</a></td>
+		<td> varchar&#40; 35 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inventario.marca'>marca</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inventario.observaciones'>observaciones</a></td>
+		<td> varchar&#40; 300 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inventario.no_serie'>no&#95;serie</a></td>
+		<td> varchar&#40; 45 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inventario.tipo_uso'>tipo&#95;uso</a></td>
+		<td> varchar&#40; 100 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inventario.modelo'>modelo</a></td>
+		<td> varchar&#40; 100 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inventario.color'>color</a></td>
+		<td> varchar&#40; 30 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inventario.imagen'>imagen</a></td>
+		<td> longblob   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;inventario</td>
+		<td> ON id&#95;producto</td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='inventario_granel' onclick='window.scrollTo(1495, 735);return false;' style='cursor:pointer;'><h4 class='card-title'>Table inventario_granel</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg></td>
+		<td><a name='inventario_granel.id_productoGranel'>id&#95;productoGranel</a></td>
+		<td> varchar&#40; 30 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inventario_granel.nombre_prod'>nombre&#95;prod</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inventario_granel.descripcion'>descripcion</a></td>
+		<td> varchar&#40; 100 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inventario_granel.almacen'>almacen</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inventario_granel.estatus'>estatus</a></td>
+		<td> varchar&#40; 35 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inventario_granel.marca'>marca</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inventario_granel.observaciones'>observaciones</a></td>
+		<td> varchar&#40; 300 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inventario_granel.stock_min'>stock&#95;min</a></td>
+		<td> int   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inventario_granel.stock'>stock</a></td>
+		<td> int   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='inventario_granel.tipo_uso'>tipo&#95;uso</a></td>
+		<td> varchar&#40; 100 &#41;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;inventario&#95;granel</td>
+		<td> ON id&#95;productoGranel</td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='modulos' onclick='window.scrollTo(820, 600);return false;' style='cursor:pointer;'><h4 class='card-title'>Table modulos</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#ref'/></svg></td>
+		<td><a name='modulos.modulo'>modulo</a></td>
+		<td> varchar&#40; 100 &#41;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;modulos</td>
+		<td> ON modulo</td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='monitor' onclick='window.scrollTo(985, 615);return false;' style='cursor:pointer;'><h4 class='card-title'>Table monitor</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='monitor.id_monitor'>id&#95;monitor</a></td>
+		<td> varchar&#40; 30 &#41;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;monitor</td>
+		<td> ON id&#95;monitor</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Foreign Keys</th></tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_CPU_Inventario11</td>
+		<td > ( id&#95;monitor ) ref <a href='#inventario'>inventario</a> (id&#95;producto) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='oficio_comision' onclick='window.scrollTo(760, 1095);return false;' style='cursor:pointer;'><h4 class='card-title'>Table oficio_comision</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg></td>
+		<td><a name='oficio_comision.Folio'>Folio</a></td>
+		<td> int   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#idx'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='oficio_comision.Solicitud_idSolicitud'>Solicitud&#95;idSolicitud</a></td>
+		<td> int   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='oficio_comision.Monto'>Monto</a></td>
+		<td> float&#40; 12&#44; 0 &#41;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;oficio&#95;comision</td>
+		<td> ON Folio</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;Oficio&#95;comision&#95;Solicitud&#95;viatico1&#95;idx</td>
+		<td> ON Solicitud&#95;idSolicitud</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Foreign Keys</th></tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Oficio_comision_Solicitud_viatico1</td>
+		<td > ( Solicitud&#95;idSolicitud ) ref <a href='#solicitud&#95;viatico'>solicitud&#95;viatico</a> (idSolicitud) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='permiso_vale' onclick='window.scrollTo(1300, 1095);return false;' style='cursor:pointer;'><h4 class='card-title'>Table permiso_vale</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='permiso_vale.tipo_vale'>tipo&#95;vale</a></td>
+		<td> varchar&#40; 30 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='permiso_vale.puesto'>puesto</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='permiso_vale.permiso'>permiso</a></td>
+		<td> boolean   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;permiso&#95;vale</td>
+		<td> ON tipo&#95;vale&#44; puesto</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;Detalle&#95;tipoVale&#95;Puestos1&#95;idx</td>
+		<td> ON puesto</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Foreign Keys</th></tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Detalle_tipoVale_Puestos1</td>
+		<td > ( puesto ) ref <a href='#puestos'>puestos</a> (puesto) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Detalle_tipoVale_tipoVale1</td>
+		<td > ( tipo&#95;vale ) ref <a href='#tipovale'>tipovale</a> (tipo&#95;vale) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='permisos' onclick='window.scrollTo(355, 810);return false;' style='cursor:pointer;'><h4 class='card-title'>Table permisos</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='permisos.id_user'>id&#95;user</a></td>
+		<td> varchar&#40; 20 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='permisos.modulo'>modulo</a></td>
+		<td> varchar&#40; 100 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='permisos.alta'>alta</a></td>
+		<td> boolean   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='permisos.baja'>baja</a></td>
+		<td> boolean   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='permisos.actualizar'>actualizar</a></td>
+		<td> boolean   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='permisos.consulta'>consulta</a></td>
+		<td> boolean   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;permisos</td>
+		<td> ON id&#95;user&#44; modulo</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;Permisos&#95;Modulos1&#95;idx</td>
+		<td> ON modulo</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Foreign Keys</th></tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Permisos_Modulos1</td>
+		<td > ( modulo ) ref <a href='#modulos'>modulos</a> (modulo) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Permisos_User1</td>
+		<td > ( id&#95;user ) ref <a href='#user'>user</a> (id&#95;user) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='permisos_puesto' onclick='window.scrollTo(655, 600);return false;' style='cursor:pointer;'><h4 class='card-title'>Table permisos_puesto</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='permisos_puesto.puesto'>puesto</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='permisos_puesto.modulo'>modulo</a></td>
+		<td> varchar&#40; 100 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='permisos_puesto.alta'>alta</a></td>
+		<td> boolean   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='permisos_puesto.baja'>baja</a></td>
+		<td> boolean   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='permisos_puesto.actualizar'>actualizar</a></td>
+		<td> boolean   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='permisos_puesto.consulta'>consulta</a></td>
+		<td> boolean   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;permisos&#95;puesto</td>
+		<td> ON puesto&#44; modulo</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;Permisos&#95;puesto&#95;Modulos1&#95;idx</td>
+		<td> ON modulo</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;Permisos&#95;puesto&#95;Puestos1&#95;idx</td>
+		<td> ON puesto</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Foreign Keys</th></tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Permisos_puesto_Modulos1</td>
+		<td > ( modulo ) ref <a href='#modulos'>modulos</a> (modulo) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Permisos_puesto_Puestos1</td>
+		<td > ( puesto ) ref <a href='#puestos'>puestos</a> (puesto) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='permisos_solicitud' onclick='window.scrollTo(355, 450);return false;' style='cursor:pointer;'><h4 class='card-title'>Table permisos_solicitud</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='permisos_solicitud.tipo_solicitud'>tipo&#95;solicitud</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='permisos_solicitud.puesto'>puesto</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='permisos_solicitud.permiso'>permiso</a></td>
+		<td> boolean   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;permisos&#95;solicitud</td>
+		<td> ON tipo&#95;solicitud&#44; puesto</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;Detalle&#95;tipoSolicitud&#95;Puestos1&#95;idx</td>
+		<td> ON puesto</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Foreign Keys</th></tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Detalle_tipoSolicitud_Puestos1</td>
+		<td > ( puesto ) ref <a href='#puestos'>puestos</a> (puesto) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Detalle_tipoSolicitud_TipoSolicitud1</td>
+		<td > ( tipo&#95;solicitud ) ref <a href='#tiposolicitud'>tiposolicitud</a> (tipo&#95;solicitud) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='privilegios' onclick='window.scrollTo(235, 240);return false;' style='cursor:pointer;'><h4 class='card-title'>Table privilegios</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='privilegios.PC'>PC</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='privilegios.IP'>IP</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='privilegios.Estado'>Estado</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='privilegios.Permiso'>Permiso</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='productosentregados' onclick='window.scrollTo(985, 1260);return false;' style='cursor:pointer;'><h4 class='card-title'>Table productosentregados</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#idx'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='productosentregados.id_vale'>id&#95;vale</a></td>
+		<td> int   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='productosentregados.id_producto'>id&#95;producto</a></td>
+		<td> varchar&#40; 45 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='productosentregados.cantidad'>cantidad</a></td>
+		<td> int   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;Detalle&#95;vale&#95;Vales10</td>
+		<td> ON id&#95;vale</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Foreign Keys</th></tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Detalle_vale_Vales10</td>
+		<td > ( id&#95;vale ) ref <a href='#vales'>vales</a> (id&#95;vale) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='puestos' onclick='window.scrollTo(520, 600);return false;' style='cursor:pointer;'><h4 class='card-title'>Table puestos</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#ref'/></svg></td>
+		<td><a name='puestos.puesto'>puesto</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;puestos</td>
+		<td> ON puesto</td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='resguardo_personal' onclick='window.scrollTo(60, 450);return false;' style='cursor:pointer;'><h4 class='card-title'>Table resguardo_personal</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='resguardo_personal.id_user'>id&#95;user</a></td>
+		<td> varchar&#40; 20 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='resguardo_personal.nombre_prod'>nombre&#95;prod</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='resguardo_personal.fecha_alta'>fecha&#95;alta</a></td>
+		<td> datetime   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='resguardo_personal.observaciones'>observaciones</a></td>
+		<td> varchar&#40; 300 &#41;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;resguardo&#95;personal</td>
+		<td> ON id&#95;user</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Foreign Keys</th></tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Resguardo_personal_User1</td>
+		<td > ( id&#95;user ) ref <a href='#user'>user</a> (id&#95;user) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='solicitud_viatico' onclick='window.scrollTo(595, 1095);return false;' style='cursor:pointer;'><h4 class='card-title'>Table solicitud_viatico</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#ref'/></svg></td>
+		<td><a name='solicitud_viatico.idSolicitud'>idSolicitud</a></td>
+		<td> int  AUTOINCREMENT  </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='solicitud_viatico.Fecha_salida'>Fecha&#95;salida</a></td>
+		<td> date   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='solicitud_viatico.Lugar'>Lugar</a></td>
+		<td> varchar&#40; 100 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='solicitud_viatico.Nombre'>Nombre</a></td>
+		<td> varchar&#40; 100 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='solicitud_viatico.Actividad'>Actividad</a></td>
+		<td> varchar&#40; 500 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='solicitud_viatico.Pernoctado'>Pernoctado</a></td>
+		<td> varchar&#40; 10 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='solicitud_viatico.Vehiculo'>Vehiculo</a></td>
+		<td> varchar&#40; 100 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='solicitud_viatico.Puesto'>Puesto</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='solicitud_viatico.Fecha_llegada'>Fecha&#95;llegada</a></td>
+		<td> date   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='solicitud_viatico.Estado'>Estado</a></td>
+		<td> varchar&#40; 45 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='solicitud_viatico.Reporte'>Reporte</a></td>
+		<td> varchar&#40; 1 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='solicitud_viatico.Motivo'>Motivo</a></td>
+		<td> varchar&#40; 500 &#41;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;solicitud&#95;viatico</td>
+		<td> ON idSolicitud</td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='solicitudes' onclick='window.scrollTo(520, 810);return false;' style='cursor:pointer;'><h4 class='card-title'>Table solicitudes</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#ref'/></svg></td>
+		<td><a name='solicitudes.id_solicitud'>id&#95;solicitud</a></td>
+		<td> int  AUTOINCREMENT  </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='solicitudes.tipo_solicitud'>tipo&#95;solicitud</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='solicitudes.id_user'>id&#95;user</a></td>
+		<td> varchar&#40; 20 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='solicitudes.estado'>estado</a></td>
+		<td> varchar&#40; 25 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='solicitudes.user_autorizo'>user&#95;autorizo</a></td>
+		<td> varchar&#40; 100 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='solicitudes.motivo'>motivo</a></td>
+		<td> varchar&#40; 100 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='solicitudes.cantidad'>cantidad</a></td>
+		<td> int   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='solicitudes.fecha_solicitud'>fecha&#95;solicitud</a></td>
+		<td> datetime   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='solicitudes.fecha_respuesta'>fecha&#95;respuesta</a></td>
+		<td> datetime   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;solicitudes</td>
+		<td> ON id&#95;solicitud&#44; tipo&#95;solicitud&#44; id&#95;user</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;Solicitudes&#95;TipoSolicitud1&#95;idx</td>
+		<td> ON tipo&#95;solicitud</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;Solicitudes&#95;User1&#95;idx</td>
+		<td> ON id&#95;user</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Foreign Keys</th></tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Solicitudes_TipoSolicitud1</td>
+		<td > ( tipo&#95;solicitud ) ref <a href='#tiposolicitud'>tiposolicitud</a> (tipo&#95;solicitud) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Solicitudes_User1</td>
+		<td > ( id&#95;user ) ref <a href='#user'>user</a> (id&#95;user) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='teclado' onclick='window.scrollTo(1495, 615);return false;' style='cursor:pointer;'><h4 class='card-title'>Table teclado</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='teclado.id_teclado'>id&#95;teclado</a></td>
+		<td> varchar&#40; 30 &#41;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;teclado</td>
+		<td> ON id&#95;teclado</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Foreign Keys</th></tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_CPU_Inventario10</td>
+		<td > ( id&#95;teclado ) ref <a href='#inventario'>inventario</a> (id&#95;producto) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='tiposolicitud' onclick='window.scrollTo(700, 810);return false;' style='cursor:pointer;'><h4 class='card-title'>Table tiposolicitud</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#ref'/></svg></td>
+		<td><a name='tiposolicitud.tipo_solicitud'>tipo&#95;solicitud</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;tiposolicitud</td>
+		<td> ON tipo&#95;solicitud</td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='tipovale' onclick='window.scrollTo(1165, 1095);return false;' style='cursor:pointer;'><h4 class='card-title'>Table tipovale</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#ref'/></svg></td>
+		<td><a name='tipovale.tipo_vale'>tipo&#95;vale</a></td>
+		<td> varchar&#40; 30 &#41;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;tipovale</td>
+		<td> ON tipo&#95;vale</td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='user' onclick='window.scrollTo(355, 600);return false;' style='cursor:pointer;'><h4 class='card-title'>Table user</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#ref'/></svg></td>
+		<td><a name='user.id_user'>id&#95;user</a></td>
+		<td> varchar&#40; 20 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='user.id_empleado'>id&#95;empleado</a></td>
+		<td> int   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='user.puesto'>puesto</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='user.area'>area</a></td>
+		<td> varchar&#40; 50 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='user.documentacion'>documentacion</a></td>
+		<td> boolean   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='user.password'>password</a></td>
+		<td> varchar&#40; 15 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='user.estatus'>estatus</a></td>
+		<td> varchar&#40; 20 &#41;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;user</td>
+		<td> ON id&#95;user&#44; id&#95;empleado&#44; puesto&#44; area</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;User&#95;Area1&#95;idx</td>
+		<td> ON area</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;User&#95;Empleados1&#95;idx</td>
+		<td> ON id&#95;empleado</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;User&#95;Puestos1&#95;idx</td>
+		<td> ON puesto</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Foreign Keys</th></tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_User_Area1</td>
+		<td > ( area ) ref <a href='#area'>area</a> (area) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_User_Empleados1</td>
+		<td > ( id&#95;empleado ) ref <a href='#empleados'>empleados</a> (id&#95;empleado) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_User_Puestos1</td>
+		<td > ( puesto ) ref <a href='#puestos'>puestos</a> (puesto) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='vales' onclick='window.scrollTo(1015, 1095);return false;' style='cursor:pointer;'><h4 class='card-title'>Table vales</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#ref'/></svg></td>
+		<td><a name='vales.id_vale'>id&#95;vale</a></td>
+		<td> int  AUTOINCREMENT  </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='vales.tipo_vale'>tipo&#95;vale</a></td>
+		<td> varchar&#40; 30 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='vales.id_user'>id&#95;user</a></td>
+		<td> varchar&#40; 20 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='vales.fecha_vale'>fecha&#95;vale</a></td>
+		<td> datetime   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;vales</td>
+		<td> ON id&#95;vale&#44; tipo&#95;vale&#44; id&#95;user</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;Vales&#95;tipoVale1&#95;idx</td>
+		<td> ON tipo&#95;vale</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;Vales&#95;User1&#95;idx</td>
+		<td> ON id&#95;user</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Foreign Keys</th></tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Vales_tipoVale1</td>
+		<td > ( tipo&#95;vale ) ref <a href='#tipovale'>tipovale</a> (tipo&#95;vale) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_Vales_User1</td>
+		<td > ( id&#95;user ) ref <a href='#user'>user</a> (id&#95;user) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='vehiculos' onclick='window.scrollTo(60, 780);return false;' style='cursor:pointer;'><h4 class='card-title'>Table vehiculos</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#ref'/></svg></td>
+		<td><a name='vehiculos.Matricula'>Matricula</a></td>
+		<td> varchar&#40; 45 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='vehiculos.Marca'>Marca</a></td>
+		<td> varchar&#40; 45 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='vehiculos.Linea'>Linea</a></td>
+		<td> varchar&#40; 45 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='vehiculos.Clase'>Clase</a></td>
+		<td> varchar&#40; 45 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='vehiculos.Kilometraje'>Kilometraje</a></td>
+		<td> varchar&#40; 45 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='vehiculos.Modelo'>Modelo</a></td>
+		<td> varchar&#40; 45 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='vehiculos.Color'>Color</a></td>
+		<td> varchar&#40; 45 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='vehiculos.Motor'>Motor</a></td>
+		<td> varchar&#40; 45 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='vehiculos.Observaciones'>Observaciones</a></td>
+		<td> varchar&#40; 1000 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='vehiculos.Imagen'>Imagen</a></td>
+		<td> longblob   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='vehiculos.Estado'>Estado</a></td>
+		<td> varchar&#40; 100 &#41;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;vehiculos</td>
+		<td> ON Matricula</td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<br/><br/>
+<div class='card'><div class='card-block'><a name='viaticos_vehiculos' onclick='window.scrollTo(60, 780);return false;' style='cursor:pointer;'><h4 class='card-title'>Table viaticos_vehiculos</h4></a>
+<table class='table-sm table-bordered'>
+<thead>
+<tr><th>Indexes</th><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+<tbody>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg></td>
+		<td><a name='viaticos_vehiculos.idviaticos_vehiculos'>idviaticos&#95;vehiculos</a></td>
+		<td> int  AUTOINCREMENT  </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*<svg width='14' height='14'><use xlink:href='#pk'/></svg><svg width='14' height='14'><use xlink:href='#fk'/></svg></td>
+		<td><a name='viaticos_vehiculos.Vehiculos_Matricula'>Vehiculos&#95;Matricula</a></td>
+		<td> varchar&#40; 45 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='viaticos_vehiculos.Kilometraje'>Kilometraje</a></td>
+		<td> varchar&#40; 45 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='viaticos_vehiculos.Descripcion'>Descripcion</a></td>
+		<td> varchar&#40; 300 &#41;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='viaticos_vehiculos.Fecha'>Fecha</a></td>
+		<td> date   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Indexes</th></tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#pk'/></svg></td><td>pk&#95;viaticos&#95;vehiculos</td>
+		<td> ON idviaticos&#95;vehiculos&#44; Vehiculos&#95;Matricula</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td><svg width='14' height='14'><use xlink:href='#idx'/></svg></td><td>fk&#95;viaticos&#95;vehiculos&#95;Vehiculos1&#95;idx</td>
+		<td> ON Vehiculos&#95;Matricula</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'>Foreign Keys</th></tr>
+	<tr>
+		<td><svg width='14' height='14'><use xlink:href='#fk'/></svg></td><td>fk_viaticos_vehiculos_Vehiculos1</td>
+		<td > ( Vehiculos&#95;Matricula ) ref <a href='#vehiculos'>vehiculos</a> (Matricula) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table></div></div>
+
+<p align='right'><a href='https://www.dbschema.com' style='color:#aaa'>Powered by DbSchema</a></p></body></html>

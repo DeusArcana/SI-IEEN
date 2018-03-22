@@ -54,10 +54,10 @@ DROP PROCEDURE IF EXISTS `sp_get_userObjetos`;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_userObjetos`()
 BEGIN
-	SELECT `Inventario`.`id_producto`, `Inventario`.`nombre_prod`, `Inventario`.`estatus`, `Vales`.`id_vale`, `Vales`.`tipo_vale`, 
-			CONCAT(`Empleados`.`nombres`, " " , `Empleados`.`apellido_p`, " " , `Empleados`.`apellido_m`) AS 'nombre'
+	SELECT `Inventario`.`ID_Producto`, `Inventario`.`nombre_prod`, `Inventario`.`estatus`, `Vales`.`id_vale`, `Vales`.`tipo_vale`, 
+			CONCAT(`Empleados`.`nombres`, ' ' , `Empleados`.`apellido_p`, ' ' , `Empleados`.`apellido_m`) AS 'Nombre'
 		FROM `INE`.`Detalle_Vale`
-		INNER JOIN `INE`.`inventario`	ON `Detalle_Vale`.`id_producto`	= `Inventario`.`id_producto`
+		INNER JOIN `INE`.`inventario`	ON `Detalle_Vale`.`ID_Producto`	= `Inventario`.`ID_Producto`
 		INNER JOIN `INE`.`Vales`		ON `Detalle_Vale`.`id_vale`		= `Vales`.`id_vale`
 		INNER JOIN `INE`.`User`			ON `Vales`.`id_user`			= `User`.`id_user`
 		INNER JOIN `INE`.`Empleados`	ON `User`.`id_empleado`			= `Empleados`.`id_empleado`
@@ -78,10 +78,10 @@ DROP PROCEDURE IF EXISTS `sp_get_userObjetosAsignados`;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_userObjetosAsignados`(IN `Value` VARCHAR(15))
 BEGIN
-	SELECT `Inventario`.`id_producto`, `Inventario`.`nombre_prod`, `Inventario`.`estatus`, `Vales`.`id_vale`, `Vales`.`tipo_vale`, 
-			CONCAT(`Empleados`.`nombres`, " " , `Empleados`.`apellido_p`, " " , `Empleados`.`apellido_m`) AS 'nombre'
+	SELECT `Inventario`.`ID_Producto`, `Inventario`.`nombre_prod`, `Inventario`.`estatus`, `Vales`.`id_vale`, `Vales`.`tipo_vale`, 
+			CONCAT(`Empleados`.`nombres`, ' ' , `Empleados`.`apellido_p`, ' ' , `Empleados`.`apellido_m`) AS 'Nombre'
 		FROM `INE`.`Detalle_Vale`
-		INNER JOIN `INE`.`inventario`	ON `Detalle_Vale`.`id_producto`	= `Inventario`.`id_producto`
+		INNER JOIN `INE`.`inventario`	ON `Detalle_Vale`.`ID_Producto`	= `Inventario`.`ID_Producto`
 		INNER JOIN `INE`.`Vales`		ON `Detalle_Vale`.`id_vale`		= `Vales`.`id_vale`
 		INNER JOIN `INE`.`User`			ON `Vales`.`id_user`			= `User`.`id_user`
 		INNER JOIN `INE`.`Empleados`	ON `User`.`id_empleado`			= `Empleados`.`id_empleado`
@@ -246,6 +246,72 @@ BEGIN
 		VALUES
 			(?, ?, ?, ?, ?, ?)
 		;
+
 END$$
 DELIMITER ;
 */
+
+DROP PROCEDURE IF EXISTS `sp_get_conjuntosEquipo`;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_conjuntosEquipo`()
+BEGIN
+
+	SELECT `Detalles_Equipo_Computo`.`ID_Equipo` AS 'Equipo', 
+			`Inv_CPU`.`ID_Producto`  			 AS 'CPU', 
+			`Inv_TEC`.`ID_Producto`				 AS 'Teclado', 
+			`Inv_MON`.`ID_Producto`				 AS 'Monitor', 
+			`Eq_COMP`.`Ubicacion` 				 AS 'Ubicacion'
+		FROM `Detalles_Equipo_Computo`
+			INNER JOIN `Inventario` 	`Inv_CPU`	ON (`Inv_CPU`.`ID_Producto` 	= `Detalles_Equipo_Computo`.`ID_CPU`)
+			INNER JOIN `Inventario` 	`Inv_TEC`	ON (`Inv_TEC`.`ID_Producto` 	= `Detalles_Equipo_Computo`.`ID_Teclado`)
+			INNER JOIN `Inventario` 	`Inv_MON` 	ON (`Inv_MON`.`ID_Producto` 	= `Detalles_Equipo_Computo`.`ID_Monitor`)
+			INNER JOIN `Equipo_Computo` `Eq_COMP` 	ON (`Eq_COMP`.`ID_Equipo` 		= `Detalles_Equipo_Computo`.`ID_Equipo`);
+
+END$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `sp_get_conjuntosEquipoReemplazo`;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_conjuntosEquipoReemplazo`(IN `Query` VARCHAR(25))
+BEGIN
+
+	SELECT `Detalles_Equipo_Computo`.`ID_Equipo` AS 'Equipo', 
+			`Inv_CPU`.`ID_Producto`  			 AS 'CPU', 
+			`Inv_TEC`.`ID_Producto`				 AS 'Teclado', 
+			`Inv_MON`.`ID_Producto`				 AS 'Monitor', 
+			`Eq_COMP`.`Ubicacion` 				 AS 'Ubicacion'
+		FROM `Detalles_Equipo_Computo`
+			INNER JOIN `Inventario` 	`Inv_CPU`	ON (`Inv_CPU`.`ID_Producto` 	= `Detalles_Equipo_Computo`.`ID_CPU`)
+			INNER JOIN `Inventario` 	`Inv_TEC`	ON (`Inv_TEC`.`ID_Producto` 	= `Detalles_Equipo_Computo`.`ID_Teclado`)
+			INNER JOIN `Inventario` 	`Inv_MON` 	ON (`Inv_MON`.`ID_Producto` 	= `Detalles_Equipo_Computo`.`ID_Monitor`)
+			INNER JOIN `Equipo_Computo` `Eq_COMP` 	ON (`Eq_COMP`.`ID_Equipo` 		= `Detalles_Equipo_Computo`.`ID_Equipo`)
+				WHERE  `Inv_CPU`.`Estatus` = `Query` 
+					OR `Inv_TEC`.`Estatus` = `Query` 
+					OR `Inv_MON`.`Estatus` = `Query`;
+
+END$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `sp_get_detallesEquipo`;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_detallesEquipo`(IN `Query` VARCHAR(25))
+BEGIN
+
+	SELECT `Inventario`.`ID_Producto`, `Inventario`.`Nombre_Prod`, `Inventario`.`NO_Serie`, `Inventario`.`Modelo` 
+		FROM `INE`.`Inventario`
+			WHERE `ID_Producto` = `Query`;
+
+END$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `sp_update_asignarEquipo`;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_asignarEquipo`(IN `Query` VARCHAR(25))
+BEGIN
+	
+	UPDATE `INE`.`Inventario` 
+		SET `Inventario`.`Estatus` = 'ASIGNADO' 
+			WHERE `Inventario`.`ID_Producto` = `Query`;
+
+END$$
+DELIMITER ;

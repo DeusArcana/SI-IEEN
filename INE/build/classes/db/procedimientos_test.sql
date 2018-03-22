@@ -17,6 +17,7 @@ UPDATE inicio
 		WHERE `Usuario` = 'root';
 */
 
-DELETE FROM inicio WHERE `Usuario` = 'root';
+DELETE FROM inicio WHERE `Usuario` = 'localhost';
+INSERT INTO inicio values ("","","deuspass","");
 select * from User;
 SELECT * FROM inicio;

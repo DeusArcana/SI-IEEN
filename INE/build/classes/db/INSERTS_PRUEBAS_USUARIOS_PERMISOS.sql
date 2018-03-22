@@ -181,21 +181,6 @@ INSERT INTO `INE`.`Permiso_Vale`
         ('Vale de reemplazo',	'Secretaria', 			false)
 	;
 
--- -----------------------------------------------------------------------------
---					INSERTS `INE`.`Folio`
--- ------------------------------------------------------------------------------
-INSERT INTO `Folio`(`Folio`.`ID_Folio`, `Folio`.`descripcion`) VALUES
-	('EY-01', 'Mobiliario y Equipo de Oficina'),
-	('EY-02', 'Equipo de Computo'),
-	('EY-03', 'Equipo de Fotografía y Video'),
-	('EY-04', 'Aire Acondicionado'),
-	('EY-05', 'Equipo de Computación'),
-	('EY-06', 'Equipos y Aparatos Audiovisuales'),
-	('EY-07', 'Equipo Diverso'),
-	('EY-10', 'Equipo de Transporte')
-;
-
-
 DELETE FROM `INE`.`User` WHERE 1;    
 INSERT INTO `INE`.`User`  (`id_user`, `id_empleado`, `documentacion`, `password`, `puesto`, `area`, `estatus`)
 	VALUES

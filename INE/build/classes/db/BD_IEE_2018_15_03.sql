@@ -1,5 +1,5 @@
 -- MySQL Workbench Forward Engineering
-DROP DATABASE `INE`;
+drop database ine;
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
@@ -48,9 +48,8 @@ ENGINE = InnoDB;
 -- Table `INE`.`Area`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `INE`.`Area` (
-  `ID_Area` VARCHAR(5) NOT NULL,
-  `Descripcion` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`ID_Area`))
+  `area` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`area`))
 ENGINE = InnoDB;
 
 
@@ -63,10 +62,12 @@ CREATE TABLE IF NOT EXISTS `INE`.`User` (
   `documentacion` TINYINT(1) NULL,
   `password` VARCHAR(15) NULL,
   `puesto` VARCHAR(50) NOT NULL,
+  `area` VARCHAR(50) NOT NULL,
   `estatus` VARCHAR(20) NOT NULL,
-  PRIMARY KEY (`id_user`, `id_empleado`, `puesto`),
+  PRIMARY KEY (`id_user`, `id_empleado`, `puesto`, `area`),
   INDEX `fk_User_Empleados1_idx` (`id_empleado` ASC),
   INDEX `fk_User_Puestos1_idx` (`puesto` ASC),
+  INDEX `fk_User_Area1_idx` (`area` ASC),
   CONSTRAINT `fk_User_Empleados1`
     FOREIGN KEY (`id_empleado`)
     REFERENCES `INE`.`Empleados` (`id_empleado`)
@@ -75,6 +76,11 @@ CREATE TABLE IF NOT EXISTS `INE`.`User` (
   CONSTRAINT `fk_User_Puestos1`
     FOREIGN KEY (`puesto`)
     REFERENCES `INE`.`Puestos` (`puesto`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_User_Area1`
+    FOREIGN KEY (`area`)
+    REFERENCES `INE`.`Area` (`area`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -113,46 +119,113 @@ CREATE TABLE IF NOT EXISTS `INE`.`Permisos` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
--- -----------------------------------------------------
--- Table `INE`.`Folio`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Folio` (
-  `ID_Folio` CHAR(5) NOT NULL,
-  `Descripcion` VARCHAR(255),
-  PRIMARY KEY `pk_ID_Folio`(`ID_Folio`)
-) ENGINE = InnoDB;
-
-
 
 -- -----------------------------------------------------
 -- Table `INE`.`Inventario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `INE`.`Inventario` (
-  `Folio` 			CHAR(5) NOT NULL,
-  `Numero` 			INT NOT NULL,
-  `Extension` 		CHAR(1) NULL,
-  `nombre_prod` 	VARCHAR(50) NULL,
-  `descripcion` 	VARCHAR(500) NULL,
-  `almacen` 		VARCHAR(50) NULL,
-  `estatus` 		VARCHAR(35) NULL,
-  `marca` 			VARCHAR(50) NULL,
-  `observaciones` 	VARCHAR(300) NULL,
-  `no_serie` 		VARCHAR(45) NULL,
-  `tipo_uso` 		VARCHAR(100) NULL,
-  `modelo` 			VARCHAR(100) NULL,
-  `color` 			VARCHAR(30) NULL,
-  `imagen` 			LONGBLOB NULL,
-  `Fecha_Compra` 	DATE NOT NULL,
-  `Factura` 		VARCHAR(20),
-  `Importe` 		FLOAT
-  ) ENGINE = InnoDB;
+  `id_producto` VARCHAR(30) NOT NULL,
+  `nombre_prod` VARCHAR(50) NULL,
+  `descripcion` VARCHAR(500) NULL,
+  `almacen` VARCHAR(50) NULL,
+  `estatus` VARCHAR(35) NULL,
+  `marca` VARCHAR(50) NULL,
+  `observaciones` VARCHAR(300) NULL,
+  `no_serie` VARCHAR(45) NULL,
+  `tipo_uso` VARCHAR(100) NULL,
+  `modelo` VARCHAR(100) NULL,
+  `color` VARCHAR(30) NULL,
+  `imagen` LONGBLOB NULL,
+  PRIMARY KEY (`id_producto`))
+ENGINE = InnoDB;
 
-ALTER TABLE `Inventario`
-ADD CONSTRAINT `fk_Inventario_Folio`
-  FOREIGN KEY (`Folio`)
-  REFERENCES `Folio` (`ID_Folio`)
-  ON DELETE NO ACTION
-  ON UPDATE CASCADE;
+
+-- -----------------------------------------------------
+-- Table `INE`.`Equipo_computo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `INE`.`Equipo_computo` (
+  `id_equipo` VARCHAR(20) NOT NULL,
+  `ubicacion` VARCHAR(100) NULL,
+  PRIMARY KEY (`id_equipo`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `INE`.`CPU`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `INE`.`CPU` (
+  `id_cpu` VARCHAR(30) NOT NULL,
+  PRIMARY KEY (`id_cpu`),
+  CONSTRAINT `fk_CPU_Inventario1`
+    FOREIGN KEY (`id_cpu`)
+    REFERENCES `INE`.`Inventario` (`id_producto`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `INE`.`Teclado`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `INE`.`Teclado` (
+  `id_teclado` VARCHAR(30) NOT NULL,
+  PRIMARY KEY (`id_teclado`),
+  CONSTRAINT `fk_CPU_Inventario10`
+    FOREIGN KEY (`id_teclado`)
+    REFERENCES `INE`.`Inventario` (`id_producto`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `INE`.`Monitor`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `INE`.`Monitor` (
+  `id_monitor` VARCHAR(30) NOT NULL,
+  PRIMARY KEY (`id_monitor`),
+  CONSTRAINT `fk_CPU_Inventario11`
+    FOREIGN KEY (`id_monitor`)
+    REFERENCES `INE`.`Inventario` (`id_producto`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `INE`.`Detalles_equipo_computo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `INE`.`Detalles_equipo_computo` (
+  `id_equipo` VARCHAR(20) NOT NULL,
+  `id_teclado` VARCHAR(30) NOT NULL,
+  `id_cpu` VARCHAR(30) NOT NULL,
+  `id_monitor` VARCHAR(30) NOT NULL,
+  PRIMARY KEY (`id_equipo`, `id_teclado`, `id_cpu`, `id_monitor`),
+  INDEX `fk_Detalles_equipo_computo_CPU1_idx` (`id_cpu` ASC),
+  INDEX `fk_Detalles_equipo_computo_Teclado1_idx` (`id_teclado` ASC),
+  INDEX `fk_Detalles_equipo_computo_Monitor1_idx` (`id_monitor` ASC),
+  CONSTRAINT `fk_Detalles_equipo_computo_Equipo_computo1`
+    FOREIGN KEY (`id_equipo`)
+    REFERENCES `INE`.`Equipo_computo` (`id_equipo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Detalles_equipo_computo_CPU1`
+    FOREIGN KEY (`id_cpu`)
+    REFERENCES `INE`.`CPU` (`id_cpu`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Detalles_equipo_computo_Teclado1`
+    FOREIGN KEY (`id_teclado`)
+    REFERENCES `INE`.`Teclado` (`id_teclado`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Detalles_equipo_computo_Monitor1`
+    FOREIGN KEY (`id_monitor`)
+    REFERENCES `INE`.`Monitor` (`id_monitor`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `INE`.`Resguardo_personal`
@@ -287,11 +360,16 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `INE`.`Detalle_solicitud` (
   `id_solicitud` INT NOT NULL,
   `id_producto` VARCHAR(30) NOT NULL,
-  PRIMARY KEY (`id_solicitud`),
+  PRIMARY KEY (`id_solicitud`, `id_producto`),
   INDEX `fk_Detalle_solicitud_Inventario1_idx` (`id_producto` ASC),
   CONSTRAINT `fk_Detalle_solicitud_Solicitudes1`
     FOREIGN KEY (`id_solicitud`)
     REFERENCES `INE`.`Solicitudes` (`id_solicitud`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Detalle_solicitud_Inventario1`
+    FOREIGN KEY (`id_producto`)
+    REFERENCES `INE`.`Inventario` (`id_producto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

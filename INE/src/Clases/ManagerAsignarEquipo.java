@@ -5,6 +5,7 @@
  */
 package Clases;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,31 +36,24 @@ public class ManagerAsignarEquipo {
             table.addColumn("Producto");
             table.addColumn("No. serie");
             table.addColumn("Modelo");
-            
-            //Consulta de los empleados
-            String sql = "select id_producto, nombre_prod, no_serie, modelo from inventario " +
-                         "where (nombre_prod = 'CPU' or nombre_prod = 'Monitor' or nombre_prod = 'Teclado') " +
-                         "and estatus = 'DISPONIBLE' order by nombre_prod;";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
+                       
+            CallableStatement st = db.getConexion()
+                                    .prepareCall("{CALL `ine`.`sp_get_equiposComputo`(?)}");
+            st.setString(0, "DISPONIBLE");
             Object datos[] = new Object[4];
-            ResultSet rs = st.executeQuery(sql);
-
+            ResultSet rs = st.executeQuery();          
             //Llenar tabla
             while (rs.next()) {
-
                 for(int i = 0;i<4;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
-
                 table.addRow(datos);//Añadimos la fila
            }//while
             conexion.close();
         } catch (SQLException ex) {
-            System.out.printf("Error getTabla Asignar equipo SQL");
+            System.err.printf("Error getTabla Asignar equipo SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-
             return table;
         }
 
@@ -76,29 +70,20 @@ public class ManagerAsignarEquipo {
             table.addColumn("Teclado");
             table.addColumn("Responsable");
             
-            //Consulta de los equipos de computo
-            String sql = "select de_c.id_equipo,ic.id_producto,im.id_producto,it.id_producto,ec.ubicacion from detalles_equipo_computo de_c " +
-                         "inner join inventario ic on(ic.id_producto = de_c.id_cpu) " +
-                         "inner join inventario it on(it.id_producto = de_c.id_teclado) " +
-                         "inner join inventario im on(im.id_producto = de_c.id_monitor) " +
-                         "inner join equipo_computo ec on(ec.id_equipo = de_c.id_equipo);";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
             Object datos[] = new Object[5];
-            ResultSet rs = st.executeQuery(sql);
-
+            ResultSet rs = db.getConexion()
+                            .prepareCall("CALL `ine`.`sp_get_conjuntosEquipo`();")
+                            .executeQuery();
             //Llenar tabla
             while (rs.next()) {
-
                 for(int i = 0;i<5;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
-
                 table.addRow(datos);//Añadimos la fila
            }//while
             conexion.close();
         } catch (SQLException ex) {
-            System.out.printf("Error getTabla Detalles Equipo Computo SQL");
+            System.err.printf("Error getTabla Detalles Equipo Computo SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
 
@@ -118,21 +103,13 @@ public class ManagerAsignarEquipo {
             table.addColumn("Teclado");
             table.addColumn("Responsable");
             
-            //Consulta de los equipos de computo
-            String sql = "select de_c.id_equipo,ic.id_producto,im.id_producto,it.id_producto,ec.ubicacion from detalles_equipo_computo de_c " +
-                         "inner join inventario ic on(ic.id_producto = de_c.id_cpu) " +
-                         "inner join inventario it on(it.id_producto = de_c.id_teclado) " +
-                         "inner join inventario im on(im.id_producto = de_c.id_monitor) " +
-                         "inner join equipo_computo ec on(ec.id_equipo = de_c.id_equipo) " +
-                         "where ic.estatus = 'REEMPLAZO AUTORIZADO' or im.estatus = 'REEMPLAZO AUTORIZADO' or it.estatus = 'REEMPLAZO AUTORIZADO';";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
+            CallableStatement st = db.getConexion().prepareCall("{CALL `ine`.`sp_get_conjuntosEquipoReemplazo`(?);}");
+            st.setString(0, "REEMPLAZO AUTORIZADO");
             Object datos[] = new Object[5];
-            ResultSet rs = st.executeQuery(sql);
-
+            ResultSet rs = st.executeQuery();
+            
             //Llenar tabla
             while (rs.next()) {
-
                 for(int i = 0;i<5;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
@@ -144,7 +121,6 @@ public class ManagerAsignarEquipo {
             System.out.printf("Error getTabla Detalles Equipo Computo SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-
             return table;
         }
 
@@ -161,34 +137,35 @@ public class ManagerAsignarEquipo {
             table.addColumn("Modelo");
             
             conexion = db.getConexion();
-            Statement st = conexion.createStatement();
             Object datos[] = new Object[4];
+            CallableStatement sp = db.getConexion().prepareCall("{CALL `ine`.`sp_get_detallesEquipo`(?);}");
             
-            //Obtenemos la info del CPU
-            String sql = "select id_producto, nombre_prod, no_serie, modelo from inventario " +
-                         "where id_producto = '"+Claves[0]+"';";
-            ResultSet rs = st.executeQuery(sql);
+            sp.setString(0, Claves[0]);
+            ResultSet rs = sp.executeQuery();
             rs.next();
+            
             for(int i = 0;i<4;i++){
                 datos[i] = rs.getObject(i+1);
             }//Llenamos las columnas por registro
             table.addRow(datos);//Añadimos la fila del CPU
             
             //Obtenemos la info del Monitor
-            sql = "select id_producto, nombre_prod, no_serie, modelo from inventario " +
-                         "where id_producto = '"+Claves[1]+"';";
-            rs = st.executeQuery(sql);
+            sp.clearParameters();
+            sp.setString(0, Claves[1]);
+            rs = sp.executeQuery();
             rs.next();
+            
             for(int i = 0;i<4;i++){
                 datos[i] = rs.getObject(i+1);
             }//Llenamos las columnas por registro
             table.addRow(datos);//Añadimos la fila del Monitor
             
             //Obtenemos la info del Teclado
-            sql = "select id_producto, nombre_prod, no_serie, modelo from inventario " +
-                         "where id_producto = '"+Claves[2]+"';";
-            rs = st.executeQuery(sql);
+            sp.clearParameters();
+            sp.setString(0, Claves[2]);
+            rs = sp.executeQuery();
             rs.next();
+            
             for(int i = 0;i<4;i++){
                 datos[i] = rs.getObject(i+1);
             }//Llenamos las columnas por registro
@@ -196,7 +173,7 @@ public class ManagerAsignarEquipo {
             
             conexion.close();
         } catch (SQLException ex) {
-            System.out.printf("Error getTabla Detalles Equipo Computo SQL");
+            System.err.printf("Error getTabla Detalles Equipo Computo SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
 
@@ -206,30 +183,20 @@ public class ManagerAsignarEquipo {
     }//getDetallesEquipoComputo
     
     public boolean asignarEquipo(String clave){
-        
-        try {
-            //Hacemos la conexión
-            conexion = db.getConexion();
-            //Creamos la variable para hacer operaciones CRUD
-            Statement st = conexion.createStatement();
-            //Creamos la variable para guardar el resultado de las consultas
-            ResultSet rs;
-
-            //Cambiamos el estatus del equipo seleccionado
-            String sql = "update Inventario set estatus = 'ASIGNADO' where id_producto = '"+clave+"';";
-            st.executeUpdate(sql);
-            
-            //Cerramos la conexión
-            conexion.close();
-            return true;
-            
+        try { 
+            // Preparamos el procedimiento almacenado
+            CallableStatement st = db.getConexion().prepareCall("{CALL `ine`.`sp_update_asignarEquipo`(?);}");
+            // Asignamos el parametro
+            st.setString(0, clave);
+            // executeUpdate retorna el numero de filas modificadas
+            return st.executeUpdate() == 1;
         } catch (SQLException ex) {
-            System.out.printf("Error al insertar la solicitud en SQL");
+            System.err.printf("Error al insertar la solicitud en SQL");
             Logger.getLogger(ManagerSolicitud.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         } 
-        
     }//AsingarEquipo
+    
     
     public boolean cambioAsignacionEquipo(String claveA,String claveN,String tipoEquipo,String claveEquipo){
         
