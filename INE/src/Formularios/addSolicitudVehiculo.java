@@ -20,9 +20,16 @@ import Clases.ManagerSoViaticos;
 
 import Interfaces.PrincipalS;
 import com.toedter.calendar.JTextFieldDateEditor;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Vector;
 import java.util.Date;
+import java.util.List;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -31,7 +38,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
  *
  * @author usuario
  */
-public class addSolicitudViaticos extends javax.swing.JDialog {
+public class addSolicitudVehiculo extends javax.swing.JDialog {
     ManagerSoViaticos manager_viaticos;
     ManagerUsers manager_users;
     ManagerVehiculos manager_vehiculo;
@@ -43,20 +50,25 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     /**
      * Creates new form addSolicitudViaticos
      */
-    public addSolicitudViaticos(java.awt.Frame parent, boolean modal) {
+    public addSolicitudVehiculo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) date_Salida.getDateEditor();
         JTextFieldDateEditor date_Llegada_Editor=(JTextFieldDateEditor) date_Llegada.getDateEditor();
-        date_Salida_Editor.setEditable(false);
-        date_Llegada_Editor.setEditable(false);
         date_Salida.getJCalendar().setMinSelectableDate(new Date()); // sets today as minimum selectable date
         date_Llegada.getJCalendar().setMinSelectableDate(new Date());
+        date_Salida_Editor.setEditable(false);
+        date_Llegada_Editor.setEditable(false);
+        
+        
         //maxid();
         //txtid.setText(varida[0]+1+"");
         manager_viaticos = new ManagerSoViaticos();
         manager_users = new ManagerUsers();
         manager_vehiculo = new ManagerVehiculos();
+          
+        
+        
         
         AutoCompleteDecorator.decorate(this.comboEmpleados);
         AutoCompleteDecorator.decorate(this.cmb_Vehiculo);
@@ -100,12 +112,12 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         txtADescripcion = new javax.swing.JTextArea();
         Date date=new Date();
-        SpinnerDateModel sdm=new SpinnerDateModel(date,null
-            ,null,Calendar.HOUR_OF_DAY);
-        hora_Salida = new javax.swing.JSpinner(sdm);
         SpinnerDateModel sdm2=new SpinnerDateModel(date,null
             ,null,Calendar.HOUR_OF_DAY);
         hora_Llegada = new javax.swing.JSpinner(sdm2);
+        SpinnerDateModel sdm=new SpinnerDateModel(date,null
+            ,null,Calendar.HOUR_OF_DAY);
+        hora_Salida = new javax.swing.JSpinner(sdm);
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -282,16 +294,16 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                                     .addComponent(jLabel2)
                                     .addGap(18, 18, 18)
                                     .addComponent(txt_Puesto, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(hora_Salida, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                            .addComponent(hora_Llegada)))
+                        .addGap(18, 18, 18)
+                        .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(hora_Salida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(hora_Llegada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pn_addInventarioLayout.createSequentialGroup()
                         .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
                             .addGroup(pn_addInventarioLayout.createSequentialGroup()
                                 .addComponent(jLabel3)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(0, 289, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblAviso, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -318,12 +330,13 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                         .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txt_Puesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
-                        .addGap(8, 8, 8)
-                        .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(date_Salida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(hora_Salida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(9, 9, 9)
+                        .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel4)
+                                .addComponent(date_Salida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(hora_Salida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(8, 8, 8)
                         .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jLabel5)
@@ -365,10 +378,10 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                     }
                 }
             });
-            JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "h:mm:ss a");
-            hora_Salida.setEditor(de);
             JSpinner.DateEditor de2 = new JSpinner.DateEditor(hora_Llegada, "h:mm:ss a");
             hora_Llegada.setEditor(de2);
+            JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "h:mm:ss a");
+            hora_Salida.setEditor(de);
 
             getContentPane().add(pn_addInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, 500));
 
@@ -427,7 +440,23 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         
         cmb_Vehiculo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         cmb_Vehiculo.addItem("Selecione vehiculo...");
-        manager_vehiculo.getVehiculosDisponibles(cmb_Vehiculo);
+        //manager_vehiculo.getVehiculosDisponibles(cmb_Vehiculo);
+        ResultSet res;
+        try{
+            Connection cn=cbd.getConexion();
+            res=cbd.getTabla("select marca,linea,clase,matricula from vehiculos where Estado='Disponible'",cn);
+            List<String> autos=new ArrayList<String>();
+            while(res.next()){
+                String aux=res.getString("marca")+"-"+res.getString("linea")+"-"+res.getString("clase")+"-"+res.getString("matricula");
+                System.out.println(aux);
+                autos.add(aux);
+            }
+            for(int i=0;i<autos.size();i++){
+                cmb_Vehiculo.addItem(autos.get(i));
+            }
+        }catch(SQLException e){
+            
+        } 
     }//GEN-LAST:event_formWindowOpened
 
     private void comboEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpleadosActionPerformed
@@ -445,12 +474,18 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         // TODO add your handling code here:
         if(cmb_Vehiculo.getSelectedIndex() != 0){
             String separador [] = cmb_Vehiculo.getSelectedItem().toString().split("-");
-            Vector vVehiculos = manager_vehiculo.infoVehiculos(separador[1]);
-            
-            String temporal[] = vVehiculos.get(0).toString().split(",");
-            txtKilometraje.setText(temporal[3]);
-            txtADescripcion.setEnabled(true);
-            
+            try {
+                ResultSet res=cbd.getTabla("select kilometraje from vehiculo_usado where vehiculos_Matricula='"+separador[3]+"'", cn);
+                System.out.println("select kilometraje from vehiculo_usado where vehiculos_Matricula='"+separador[3]+"'");
+                res.next();
+                txtKilometraje.setText(res.getString("kilometraje"));
+                
+                res=cbd.getTabla("select observaciones from vehiculos where Matricula='"+separador[3]+"'", cn);
+                res.next();
+                txtADescripcion.setText(res.getString("observaciones"));
+            } catch (SQLException ex) {
+                Logger.getLogger(addSolicitudVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }else{
             txtKilometraje.setText("");
             txtADescripcion.setEnabled(false);
@@ -465,50 +500,37 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             String fecha_Llegada=sdf.format(date_Llegada.getDate().getTime());
             Conexion conexion=new Conexion();
             //conexion.getConexion();
-            String carro = "Sin vehiculo";
             
             String pernoctado="No";
             if(chb_Pernoctado.isSelected()){
                 pernoctado="Si";
             }
+            cn=cbd.getConexion();
+            String[] arr=cmb_Vehiculo.getSelectedItem().toString().split("-");
+            ResultSet res=cbd.getTabla("select idvehiculo_usado from vehiculo_usado where vehiculo_usado.vehiculos_Matricula='"+arr[3]+"';", cn);
+            System.out.println("select idvehiculo_usado from vehiculo_usado where vehiculo_usado.vehiculos_Matricula='"+arr[3]+"';");
+            res.next();
+            String idVehiculo_usado=res.getString("idvehiculo_usado");
             //Inserción de solicitud
-            //Con carro
-            if(ConCarro != 0){
-                //Obtenemos la matricula
-                String separador [] = cmb_Vehiculo.getSelectedItem().toString().split("-");
-                carro = separador[1];
-                //Insertamos la información adicional del vehiculo
-                conexion.getConexion();
-                float kil=Float.parseFloat(txtKilometraje.getText());
-                String query="insert into viaticos_vehiculos (kilometraje,descripcion,fecha,vehiculos_matricula)values('"+kil+"','"+txtADescripcion.getText()+"',date(now()),'"+carro+"');";
-                conexion.ejecutar(query);
-                imprimirSolicitud = true;
-                
-            }//ConCarro
-            conexion.getConexion();
             SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
-            boolean insersion = insersion=conexion.ejecutar("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+txt_Lugar.getText()+"'"
-                + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+carro+"'"
-                + ",'"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"')");
+            conexion.getConexion();
+            boolean insersion = insersion=conexion.ejecutar("insert into Solicitud_vehiculo (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida,vehiculo_usado_idvehiculo_usado) values('"+fecha_Salida+"','"+txt_Lugar.getText()+"'"
+                + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+cmb_Vehiculo.getSelectedItem().toString()+"'"
+                + ",'"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"',"+idVehiculo_usado+")");
             
             if(insersion){
                 JOptionPane.showMessageDialog(this, "Insersión correcta");
                 PrincipalS.tablasolic.setModel(manager_viaticos.getTasol());
                 this.setVisible(false);
             }else{
+                System.out.println("insert into Solicitud_vehiculo (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida,vehiculo_usado_idvehiculo_usado) values('"+fecha_Salida+"','"+txt_Lugar.getText()+"'"
+                + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+cmb_Vehiculo.getSelectedItem().toString()+"'"
+                + ",'"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"',"+idVehiculo_usado+")");
                 JOptionPane.showMessageDialog(this, "Error al insertar pero no excepción");
             }
         }catch(Exception e){
-            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-            String carro = "Sin vehiculo";
             
-            String pernoctado="No";
-            SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
-            String fecha_Salida=sdf.format(date_Salida.getDate().getTime());
-            String fecha_Llegada=sdf.format(date_Llegada.getDate().getTime());
-            System.out.print("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+txt_Lugar.getText()+"'"
-                + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+carro+"'"
-                + ",'"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"')");
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
     //Función para validar los datos que se insertan en el formulario.
@@ -578,6 +600,14 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                 cad+="\n-No se ha insertado el puesto del empleado, escriba el nombre del empleado y vuelva a intentarlo";
             }
         }
+        if(cmb_Vehiculo.getSelectedIndex()==0){
+            if(cad.equals("")){
+                cad+="-No se ha seleccionado vehiculo, seleccione uno y vuelva a intentarlo";
+            }
+            else{
+                cad+="\n-No se ha seleccionado vehiculo, seleccione uno y vuelva a intentarlo";
+            }
+        }
         if(!cad.equals("")){
             throw new ExceptionDatosIncompletos(cad);
         }else{
@@ -603,14 +633,18 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(addSolicitudViaticos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addSolicitudVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(addSolicitudViaticos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addSolicitudVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(addSolicitudViaticos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addSolicitudVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(addSolicitudViaticos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(addSolicitudVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -619,7 +653,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                addSolicitudViaticos dialog = new addSolicitudViaticos(new javax.swing.JFrame(), true);
+                addSolicitudVehiculo dialog = new addSolicitudVehiculo(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
