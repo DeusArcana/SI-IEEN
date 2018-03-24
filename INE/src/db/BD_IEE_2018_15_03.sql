@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS `INE`.`Empleados` (
   `nombres` VARCHAR(60) NULL,
   `apellido_p` VARCHAR(30) NULL,
   `apellido_m` VARCHAR(30) NULL,
+  `area` VARCHAR(255) NULL,
   `calle` VARCHAR(100) NULL,
   `colonia` VARCHAR(30) NULL,
   `telefono` VARCHAR(18) NULL,
@@ -48,9 +49,8 @@ ENGINE = InnoDB;
 -- Table `INE`.`Area`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `INE`.`Area` (
-  `ID_Area` VARCHAR(5) NOT NULL,
-  `Descripcion` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`ID_Area`))
+  `Area` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`Area`))
 ENGINE = InnoDB;
 
 
@@ -122,7 +122,13 @@ CREATE TABLE IF NOT EXISTS `Folio` (
   PRIMARY KEY `pk_ID_Folio`(`ID_Folio`)
 ) ENGINE = InnoDB;
 
-
+-- -----------------------------------------------------
+-- Table `INE`.`Bodegas`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `INE`.`Bodegas` (
+  `Nom_Bodega` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`Nom_Bodega`))
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `INE`.`Inventario`
@@ -133,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `INE`.`Inventario` (
   `Extension` 		CHAR(1) NULL,
   `nombre_prod` 	VARCHAR(50) NULL,
   `descripcion` 	VARCHAR(500) NULL,
-  `almacen` 		VARCHAR(50) NULL,
+  `ubicacion` 		VARCHAR(50) NULL,
   `estatus` 		VARCHAR(35) NULL,
   `marca` 			VARCHAR(50) NULL,
   `observaciones` 	VARCHAR(300) NULL,

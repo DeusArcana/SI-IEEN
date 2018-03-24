@@ -22,7 +22,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @author kevin
  */
 public class addEmpleados extends javax.swing.JDialog {
-    String nombres,apellido_p,apellido_m,telefono,curp,rfc,calle,colonia,fecha,usuario,contraseña,codigoP,area,puesto,municipio,localidad;
+    String nombres,apellido_p,apellido_m,telefono,curp,rfc,calle,colonia,fecha,codigoP,area,municipio,localidad;
     boolean documentacion;
     
     ManagerUsers manager_users;
@@ -81,6 +81,8 @@ public class addEmpleados extends javax.swing.JDialog {
         txtLocalidad = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        comboArea = new javax.swing.JComboBox<>();
+        jLabel14 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -218,6 +220,20 @@ public class addEmpleados extends javax.swing.JDialog {
         pn_empleado.add(btnCancelar);
         btnCancelar.setBounds(390, 240, 121, 25);
 
+        comboArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboAreaActionPerformed(evt);
+            }
+        });
+        pn_empleado.add(comboArea);
+        comboArea.setBounds(490, 170, 190, 23);
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel14.setText("Área:");
+        pn_empleado.add(jLabel14);
+        jLabel14.setBounds(450, 170, 32, 17);
+
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         pn_empleado.add(jLabel17);
         jLabel17.setBounds(0, 0, 720, 290);
@@ -248,6 +264,7 @@ public class addEmpleados extends javax.swing.JDialog {
         rfc = txtRfc.getText();
         municipio = txtMunicipio.getText();
         localidad = txtLocalidad.getText();
+        area = comboArea.getSelectedItem().toString();
         
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         fecha = formato.format(txtFecha.getDate());
@@ -274,7 +291,7 @@ public class addEmpleados extends javax.swing.JDialog {
             switch(res){
                 case 0:
                     getInfo();
-                    boolean insertar = manager_users.insertarEmpleado(nombres, apellido_p, apellido_m, telefono, calle, colonia, curp, rfc, fecha, codigoP, municipio,localidad);
+                    boolean insertar = manager_users.insertarEmpleado(nombres, apellido_p, apellido_m, telefono, calle, colonia, curp, rfc, fecha, codigoP, municipio,localidad,area);
                     if(insertar){
                         JOptionPane.showMessageDialog(null, "El empleado "+nombres+ " "+apellido_p+ "ha sido registrado en la base de datos exitosamente.");
                         if(manager_permisos.consulta_user(Principal.Username)){
@@ -307,6 +324,8 @@ public class addEmpleados extends javax.swing.JDialog {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
+        comboArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        manager_complemento.getComboAreas(comboArea);
     }//GEN-LAST:event_formWindowOpened
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -314,6 +333,10 @@ public class addEmpleados extends javax.swing.JDialog {
          this.dispose();
         
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void comboAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAreaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboAreaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -360,8 +383,10 @@ public class addEmpleados extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JComboBox<String> comboArea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;

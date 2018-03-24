@@ -21,14 +21,31 @@ SET FOREIGN_KEY_CHECKS=0;
 -- `municipio` 		VARCHAR(30) NULL,
 -- `localidad` 		VARCHAR(50) NULL,
 
+DELETE FROM `INE`.`Area` WHERE 1;
+INSERT INTO `INE`.`Area` 
+	VALUES 
+		('Presidencia'),
+		('Secretaría General'),
+        ('Dirección Administrativa'),
+        ('Organo Interno de Control'),
+		('Unidad de Transparencia'),
+        ('Dirección Jurídica'),
+        ('Direccion de Organización y Capacitación Electoral'),
+		('Unidad Técnica de Informática y Estadística'),
+        ('Comunicación Social'),
+        ('Oficialía de Partes'),
+		('Oficialía Electoral'),
+        ('Consejos Municipales')
+	;
+    
 -- Vacia la tabla
 DELETE FROM `INE`.`Empleados` WHERE 1;
 -- Repara el contador
 ALTER TABLE `INE`.`Empleados` AUTO_INCREMENT = 1;
 INSERT INTO `INE`.`Empleados`(`nombres`, `apellido_p`, `apellido_m`, `calle`, `colonia`, `telefono`, `codigo_postal`, `fecha_nacimiento`,
-									`curp`, `rfc`, `municipio`, `localidad`) 
+									`curp`, `rfc`, `municipio`, `localidad`,`area`) 
 	VALUES 
-		('Kevin Alejandro','Méndez','Santana','Udine #18','Fracc. Bonaterra','311-162-16-71','63194','1995-09-26','MESK950926HNTNNV08','123456QWEASD','Tepic','Tepic')
+		('Kevin Alejandro','Méndez','Santana','Udine #18','Fracc. Bonaterra','311-162-16-71','63194','1995-09-26','MESK950926HNTNNV08','123456QWEASD','Tepic','Tepic','Dirección Administrativa')
 	;
 /*
 INSERT INTO `INE`.`Empleados` (`nombres`, `apellido_p`, `apellido_m`, `calle`, `colonia`, `telefono`, `codigo_postal`, `fecha_nacimiento`,
@@ -92,14 +109,7 @@ INSERT INTO `INE`.`Puestos`
         ('Presidencia'),
         ('Secretaria')
 	;
-					
-DELETE FROM `INE`.`Area` WHERE 1;
-INSERT INTO `INE`.`Area` 
-	VALUES 
-		('Administración'),
-		('Informática'),
-        ('Almacén')
-	;
+    
 DELETE FROM `INE`.`TipoSolicitud` WHERE 1;
 INSERT INTO `INE`.`TipoSolicitud` 
 	VALUES
@@ -181,10 +191,31 @@ INSERT INTO `INE`.`Permiso_Vale`
         ('Vale de reemplazo',	'Secretaria', 			false)
 	;
 
+-- -----------------------------------------------------------------------------
+--					INSERTS `INE`.`Folio`
+-- ------------------------------------------------------------------------------
+INSERT INTO `Folio`(`Folio`.`ID_Folio`, `Folio`.`descripcion`) VALUES
+	('EY-01', 'Mobiliario y Equipo de Oficina'),
+	('EY-02', 'Equipo de Computo'),
+	('EY-03', 'Equipo de Fotografía y Video'),
+	('EY-04', 'Aire Acondicionado'),
+	('EY-05', 'Equipo de Computación'),
+	('EY-06', 'Equipos y Aparatos Audiovisuales'),
+	('EY-07', 'Equipo Diverso'),
+	('EY-10', 'Equipo de Transporte')
+;
+
+INSERT INTO `Bodegas`(`Bodegas`.`Nom_Bodega`) VALUES
+	('Bodega UTIE'),
+	('Bodega DOyCE'),
+	('Bodega Admon')
+;
+
+
 DELETE FROM `INE`.`User` WHERE 1;    
-INSERT INTO `INE`.`User`  (`id_user`, `id_empleado`, `documentacion`, `password`, `puesto`, `area`, `estatus`)
+INSERT INTO `INE`.`User`  (`id_user`, `id_empleado`, `documentacion`, `password`, `puesto`, `estatus`)
 	VALUES
-		('Mendez26', 1, true, '123', 'SuperUsuario', 'Administración', 'ACTIVO');/*,
+		('Mendez26', 1, true, '123', 'SuperUsuario', 'ACTIVO');/*,
         ('Larry', 2, true, '123', 'Organización', 'Administración'),
         ('Leiva', 3, true, '123', 'Auxiliar', 'Almacén'),
         ('Quiñones', 4, true, '123', 'Auxiliar', 'Informática'),
@@ -289,6 +320,5 @@ INSERT INTO `INE`.`Permisos_Puesto`
         ('Secretaria',			'Vehiculos',	false,false,false,false),
         ('Secretaria',			'Asignación',	false,false,false,false),
         ('Secretaria',		'Respuesta Viaticos',	false,false,false,false),
-        ('Secretaria',		'Solicitud Viaticos',	true,true,true,true)
+        ('Secretaria',		'Solicitud Viaticos',	true,true,true,true);
         
-	;

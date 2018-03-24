@@ -66,8 +66,6 @@ public class addUsuarios extends javax.swing.JDialog {
         txtContraseña = new javax.swing.JPasswordField();
         jLabel13 = new javax.swing.JLabel();
         comboCargo = new javax.swing.JComboBox<>();
-        jLabel14 = new javax.swing.JLabel();
-        comboArea = new javax.swing.JComboBox<>();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         lblAviso = new javax.swing.JLabel();
@@ -104,11 +102,6 @@ public class addUsuarios extends javax.swing.JDialog {
         jLabel13.setText("Cargo:");
 
         comboCargo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel14.setText("Área:");
-
-        comboArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnAceptar.setText("Aceptar");
@@ -147,13 +140,9 @@ public class addUsuarios extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(39, 39, 39)
-                        .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel14))
+                        .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboCargo, 0, 161, Short.MAX_VALUE)
-                            .addComponent(comboArea, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(comboCargo, 0, 161, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(pn_usuarioLayout.createSequentialGroup()
                 .addGap(195, 195, 195)
@@ -177,14 +166,9 @@ public class addUsuarios extends javax.swing.JDialog {
                             .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(12, 12, 12)
                         .addComponent(lblAviso))
-                    .addGroup(pn_usuarioLayout.createSequentialGroup()
-                        .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel13)
-                            .addComponent(comboCargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel14))))
+                    .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel13)
+                        .addComponent(comboCargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
@@ -223,7 +207,6 @@ public class addUsuarios extends javax.swing.JDialog {
         usuario = txtUsuario.getText();
         contraseña = txtContraseña.getText();
         puesto = comboCargo.getSelectedItem().toString();
-        area = comboArea.getSelectedItem().toString();
         
     }//getInfo()
     
@@ -244,7 +227,7 @@ public class addUsuarios extends javax.swing.JDialog {
             switch(res){
                 case 0:
                     getInfo();
-                    boolean insertar = manager_users.asignarUsuario(id,usuario,contraseña,puesto,area);
+                    boolean insertar = manager_users.asignarUsuario(id,usuario,contraseña,puesto);
                     if(insertar){
                         JOptionPane.showMessageDialog(null, "El usuario "+usuario+ "ha sido registrado en la base de datos exitosamente.");
                         if(manager_permisos.consulta_user(Principal.Username)){
@@ -273,14 +256,9 @@ public class addUsuarios extends javax.swing.JDialog {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        //Llenamos los combobox
-        if(Principal.banderaUser == 1){
-            comboCargo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-            manager_complemento.getComboPuestos(comboCargo);
+        comboCargo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        manager_complemento.getComboPuestos(comboCargo);
 
-            comboArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-            manager_complemento.getComboAreas(comboArea);
-        }
     }//GEN-LAST:event_formWindowOpened
 
     private void txtUsuarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsuarioFocusLost
@@ -361,13 +339,11 @@ public class addUsuarios extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JComboBox<String> comboArea;
     private javax.swing.JComboBox<String> comboCargo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel lblAviso;
     private javax.swing.JPanel pn_empleado;

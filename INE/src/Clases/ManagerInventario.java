@@ -193,17 +193,22 @@ public class ManagerInventario {
         DefaultTableModel table = new DefaultTableModel();
 
         try {
+            table.addColumn("Clave");
             table.addColumn("Producto");
-            table.addColumn("Almacén");
+            table.addColumn("Descripción");
+            table.addColumn("No. Serie");
+            table.addColumn("Modelo");
             table.addColumn("Marca");
-            table.addColumn("Stock");
+            table.addColumn("Ubicación");
+            table.addColumn("Factura");
+            table.addColumn("Estatus");
             
             switch(filtro){
                 case 0:
                     orden = "order by nombre_prod";
                     break;
                 case 1:
-                    orden = "order by almacen";
+                    orden = "order by ubicacion";
                     break;
                 case 2:
                     orden = "order by marca";
@@ -211,16 +216,16 @@ public class ManagerInventario {
             }
             
             //Consulta de los empleados
-            String sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario group by nombre_prod,marca "+orden+";";
+            String sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,no_serie,modelo,marca,ubicacion,factura,estatus from inventario "+orden+";";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
-            Object datos[] = new Object[4];
+            Object datos[] = new Object[9];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
 
-                for(int i = 0;i<4;i++){
+                for(int i = 0;i<9;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -243,7 +248,7 @@ public class ManagerInventario {
         
         try {
             //Consulta para saber si existe o no dicho producto
-            String sql = "select * from inventario where id_producto = '"+id_producto+"';";
+            String sql = "select * from inventario where concat(Folio,'-',Numero,Extension) = '"+id_producto+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);

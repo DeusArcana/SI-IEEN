@@ -390,7 +390,6 @@ public class Principal extends javax.swing.JFrame {
         Equipos = new javax.swing.JMenuItem();
 
         dar_baja.setText("Baja de usuario");
-        dar_baja.setActionCommand("Baja de usuario");
         dar_baja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dar_bajaActionPerformed(evt);
@@ -399,7 +398,6 @@ public class Principal extends javax.swing.JFrame {
         MenuUsuarios.add(dar_baja);
 
         activar.setText("Activar usuario");
-        activar.setActionCommand("Activar usuario");
         activar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 activarActionPerformed(evt);
@@ -659,7 +657,7 @@ public class Principal extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Producto", "Almacén", "Marca", "Stock"
+                "Clave", "Producto", "Descripción", "Ubicación", "Marca", "Estatus", "No. Serie", "Modelo", "Factura"
             }
         ));
         tablaInventario.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -760,7 +758,7 @@ public class Principal extends javax.swing.JFrame {
         pestañaInventario.setLayout(pestañaInventarioLayout);
         pestañaInventarioLayout.setHorizontalGroup(
             pestañaInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 1417, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 1397, Short.MAX_VALUE)
         );
         pestañaInventarioLayout.setVerticalGroup(
             pestañaInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -779,7 +777,7 @@ public class Principal extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Nombre(s)", "Apellido Paterno", "Apellido Materno", "Cargo", "Área"
+                "ID", "Nombre(s)", "Apellido Paterno", "Apellido Materno", "Área"
             }
         ));
         tablaUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -864,7 +862,7 @@ public class Principal extends javax.swing.JFrame {
         usuarios.setLayout(usuariosLayout);
         usuariosLayout.setHorizontalGroup(
             usuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 1417, Short.MAX_VALUE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 1397, Short.MAX_VALUE)
         );
         usuariosLayout.setVerticalGroup(
             usuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1077,7 +1075,7 @@ public class Principal extends javax.swing.JFrame {
         vehiculos.setLayout(vehiculosLayout);
         vehiculosLayout.setHorizontalGroup(
             vehiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 1417, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 1397, Short.MAX_VALUE)
         );
         vehiculosLayout.setVerticalGroup(
             vehiculosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1169,7 +1167,7 @@ public class Principal extends javax.swing.JFrame {
         solicitudes.setLayout(solicitudesLayout);
         solicitudesLayout.setHorizontalGroup(
             solicitudesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 1417, Short.MAX_VALUE)
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 1397, Short.MAX_VALUE)
         );
         solicitudesLayout.setVerticalGroup(
             solicitudesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1473,7 +1471,7 @@ public class Principal extends javax.swing.JFrame {
         empleado.setLayout(empleadoLayout);
         empleadoLayout.setHorizontalGroup(
             empleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 1417, Short.MAX_VALUE)
+            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 1397, Short.MAX_VALUE)
         );
         empleadoLayout.setVerticalGroup(
             empleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1687,7 +1685,7 @@ public class Principal extends javax.swing.JFrame {
         configuracion.setLayout(configuracionLayout);
         configuracionLayout.setHorizontalGroup(
             configuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 1417, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 1397, Short.MAX_VALUE)
         );
         configuracionLayout.setVerticalGroup(
             configuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2023,7 +2021,7 @@ public class Principal extends javax.swing.JFrame {
         manejo_inventario.setLayout(manejo_inventarioLayout);
         manejo_inventarioLayout.setHorizontalGroup(
             manejo_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, 1417, Short.MAX_VALUE)
+            .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, 1397, Short.MAX_VALUE)
         );
         manejo_inventarioLayout.setVerticalGroup(
             manejo_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2134,7 +2132,10 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabbedPrincipal)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(tabbedPrincipal)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2225,7 +2226,7 @@ public class Principal extends javax.swing.JFrame {
             1 -> reemplazo
             0 -> ningun permiso
         */
-        
+        /*
         if(manager_permisos.verTablaSolicitudes(Username) == 0){
                 tabbedPrincipal.removeTabAt(3);//Eliminamos la pestaña
                 pestañas++;
@@ -2248,14 +2249,14 @@ public class Principal extends javax.swing.JFrame {
                 }//if cantidad
                 
             }
-        }
+        }*/
         
         tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
         
         /*PESTAÑA DE EMPLEADO*/
         tabbedPrincipal.setTitleAt(4-pestañas, Username.toUpperCase());//Le damos el nombre a esa pestaña
         tablaResguardo.setModel(manager_complemento.getResguardoPersonal(Username));
-        tablaSolicitudesPersonal.setModel(manager_solicitud.tabla_Solicitudes_Personales(Username));
+        //tablaSolicitudesPersonal.setModel(manager_solicitud.tabla_Solicitudes_Personales(Username));
         tablaPermisosPersonales.setModel(manager_permisos.getPermisos(tablaPermisosPersonales,Username));
         tablaAsignacionPersonal.setModel(manejador_inventario.getInventarioEmpleadoAsignacionesPersonalesG(Username));
         
@@ -2274,7 +2275,7 @@ public class Principal extends javax.swing.JFrame {
         /*PESTAÑA DE MANEJADOR INVENTARIO*/
         if(manager_permisos.permisoPorVale(Username, "Vale de asignación")){
             //Asignación
-            tablaMInventarioA.setModel(manejador_inventario.getInventario());
+            //tablaMInventarioA.setModel(manejador_inventario.getInventario());
             manager_users.getNombresEmpleados(comboEmpleado);
         }else{
             //Bloqueamos el uso de la asignacion
@@ -2288,7 +2289,7 @@ public class Principal extends javax.swing.JFrame {
         
         if(manager_permisos.permisoPorVale(Username, "Vale de recolección")){
             //Recolección
-            manejador_inventario.getEmpleadosAsignacion(comboEmpleadoR);
+            //manejador_inventario.getEmpleadosAsignacion(comboEmpleadoR);
         }else{
             //Bloqueamos el uso de la asignacion
             comboEmpleadoR.setEnabled(false);
@@ -2426,7 +2427,7 @@ public class Principal extends javax.swing.JFrame {
         
         tablaBD.setModel(manajerMySQL.getPermisosMySQL());
         infoEmpleado();
-        
+        /*
         if(manager_permisos.verTablaSolicitudes(Username) > 0){
             
             if(!(manager_permisos.esPresidencia(Username))){
@@ -2449,7 +2450,7 @@ public class Principal extends javax.swing.JFrame {
             }
             
         }//if verTablaSolicitudes
-        
+        */
     }//GEN-LAST:event_formWindowActivated
     
     private void itemAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAnteriorActionPerformed
@@ -2957,7 +2958,7 @@ public class Principal extends javax.swing.JFrame {
             btn_cancelar3.setEnabled(true);
             comboEmpleadoR.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
             comboEmpleadoR.addItem("Seleccione al empleado...");
-            manejador_inventario.getEmpleadosAsignacion(comboEmpleadoR);
+            //manejador_inventario.getEmpleadosAsignacion(comboEmpleadoR);
             
         }else{
             JOptionPane.showMessageDialog(null, "No tienes permisos para realizar vales de recolección");
@@ -3107,7 +3108,7 @@ public class Principal extends javax.swing.JFrame {
             //Actualizamos el combo de los empleados de recolección
             comboEmpleadoR.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
             comboEmpleadoR.addItem("Seleccione al empleado...");
-            manejador_inventario.getEmpleadosAsignacion(comboEmpleadoR);
+            //manejador_inventario.getEmpleadosAsignacion(comboEmpleadoR);
 
         }else{
             JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");

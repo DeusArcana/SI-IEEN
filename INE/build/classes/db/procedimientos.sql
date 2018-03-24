@@ -304,6 +304,7 @@ BEGIN
 END$$
 DELIMITER ;
 
+
 DROP PROCEDURE IF EXISTS `sp_update_asignarEquipo`;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_asignarEquipo`(IN `Query` VARCHAR(25))
@@ -313,5 +314,54 @@ BEGIN
 		SET `Inventario`.`Estatus` = 'ASIGNADO' 
 			WHERE `Inventario`.`ID_Producto` = `Query`;
 
+END$$
+DELIMITER ;
+
+
+-- PROCEDIMIENTOS
+
+-- 	1. Retornar los registros de Folio
+--  2. Retornar el numero de Inventario
+-- 	3. INSERT para inventario validando que no exista el registro
+
+-- ====================================================================
+-- Author:      Javier Pazos
+-- Create date: 21 / 03 / 2018
+-- Description: Realiza una consulta SELECT en la tabla Folio
+--
+-- Parameters:
+--  NULL 
+-- Returns:     Los registros de la tabla Folio
+-- ====================================================================
+DROP PROCEDURE IF EXISTS `sp_get_registrosFolio`;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_registrosFolio`()
+BEGIN
+
+	SELECT `Folio`.`ID_Folio`, `Folio`.`Descripcion`
+		FROM `INE`.`Folio`
+			WHERE 1;
+
+END$$
+DELIMITER ;
+
+-- ====================================================================
+-- Author:      Javier Pazos
+-- Create date: 21 / 03 / 2018
+-- Description: Obtiene el campo `Numero` del ultimo registro insertado en Inventario
+--
+-- Parameters:
+--  NULL
+-- Returns:     El ultimo `Numero` insertado
+-- ====================================================================
+DROP PROCEDURE IF EXISTS `sp_get_ultimoSerie`;
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_ultimoSerie`()
+BEGIN
+
+	SELECT `Inventario`.`Numero` 
+			FROM `INE`.`Inventario` 
+				ORDER BY `Inventario`.`Numero` DESC LIMIT 1;
+				
 END$$
 DELIMITER ;
