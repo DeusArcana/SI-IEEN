@@ -17,6 +17,7 @@ import java.sql.Statement;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -60,9 +61,9 @@ public class ManagerInventario {
         
     }//insertarEmpleado
     
-    public boolean guardarImagen(String clave, String producto, String almacen, String marca,String noserie, String descripcion, String observaciones,String estatus,String tipo,String modelo,String color,String ruta) {
+    public boolean guardarImagen(String folio,int numero,String extension, String producto, String descripcion, String ubicacion,String estatus, String marca, String observaciones,String no_serie,String modelo,String color,String fecha_compra,String factura, float importe,String ruta) {
         conexion = db.getConexion();
-        String insert = "insert into inventario (id_producto,nombre_prod,almacen,marca,no_serie,descripcion,observaciones,estatus,tipo_uso,modelo,color,imagen)values(?,?,?,?,?,?,?,?,?,?,?,?);";
+        String insert = "insert into inventario (Folio,Numero,Extension,nombre_prod,descripcion,ubicacion,estatus,marca,observaciones,no_serie,tipo_uso,modelo,color,imagen,Fecha_Compra,Factura,Importe)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
         FileInputStream fi = null;
         PreparedStatement ps = null;
         
@@ -72,28 +73,25 @@ public class ManagerInventario {
 
             ps = conexion.prepareStatement(insert);
 
-            ps.setString(1, clave);
-            ps.setString(2, producto);
-            ps.setString(3, almacen);
-            ps.setString(4, marca);
-            ps.setString(5, noserie);
-            ps.setString(6, descripcion);
-            ps.setString(7, observaciones);
-            ps.setString(8, estatus);
-            ps.setString(9, tipo);
-            ps.setString(10, modelo);
-            ps.setString(11, color);
-            ps.setBinaryStream(12, fi);
+            ps.setString(1, folio);
+            ps.setInt(2, numero);
+            ps.setString(3, extension);
+            ps.setString(4, producto);
+            ps.setString(5, descripcion);
+            ps.setString(6, ubicacion);
+            ps.setString(7, estatus);
+            ps.setString(8, marca);
+            ps.setString(9, observaciones);
+            ps.setString(10, no_serie);
+            ps.setString(11, "Sin asignación");
+            ps.setString(12, modelo);
+            ps.setString(13, color);
+            ps.setBinaryStream(14, fi);
+            ps.setString(15, fecha_compra);
+            ps.setString(16, factura);
+            ps.setFloat(17, importe);
 
             ps.executeUpdate();
-
-            //Si es algún CPU o Monitor o Teclado, lo insertamos a su correspondiente tabla para cuando se necesite
-            //asignar a un grupo en la tabla de equipo de computo. Cada componente tenga su propia llave.
-            if(producto.equals("CPU") || producto.equals("Monitor") || producto.equals("Teclado")){
-                String sql = "insert into "+producto+" values('"+clave+"');";
-                Statement st = conexion.createStatement(); 
-                st.executeUpdate(sql);
-            }
             
             return true;
            
@@ -151,7 +149,7 @@ public class ManagerInventario {
                     orden = "order by descripcion";
                     break;    
                 case 3:
-                    orden = "order by almacen";
+                    orden = "order by ubicacion";
                     break;
                 case 4:
                     orden = "order by marca";
@@ -263,6 +261,54 @@ public class ManagerInventario {
             return estado;
 
     }//existeInventario
+    
+    public String nomeclaturaFolio() {
+
+        String lista = "";
+        
+        try {
+            
+            String sql = "select ID_Folio,Descripcion from Folio;";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            
+            rs.next();
+            lista = rs.getString(1)+","+rs.getString(2);
+            
+            while(rs.next()){
+                lista += ","+rs.getString(1)+","+rs.getString(2);
+            }
+            
+            conexion.close();
+            
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los folios en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        } 
+            return lista;
+
+    }//nomeclaturaFolio
+    
+    public void getBodegas(JComboBox combo) {
+        try{
+           
+            String sql = "select Nom_Bodega from Bodegas;";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                combo.addItem(rs.getObject(1).toString());
+            }
+            
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener las bodegas para ingresarlos al combo SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+    }//getBodegas
     
     public boolean insertarInventario(String clave, String producto, String almacen, String marca,String noserie, String descripcion, String observaciones,String tipo,String modelo,String color) {
         try {

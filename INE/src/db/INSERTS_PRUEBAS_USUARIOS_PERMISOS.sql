@@ -199,7 +199,7 @@ INSERT INTO `Folio`(`Folio`.`ID_Folio`, `Folio`.`descripcion`) VALUES
 	('EY-02', 'Equipo de Computo'),
 	('EY-03', 'Equipo de Fotografía y Video'),
 	('EY-04', 'Aire Acondicionado'),
-	('EY-05', 'Equipo de Computación'),
+	('EY-05', 'Equipo de Comunicación'),
 	('EY-06', 'Equipos y Aparatos Audiovisuales'),
 	('EY-07', 'Equipo Diverso'),
 	('EY-10', 'Equipo de Transporte')

@@ -721,11 +721,11 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(comboInventario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(btnAddInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(330, Short.MAX_VALUE))
+                .addContainerGap(290, Short.MAX_VALUE))
         );
 
         jPanel3.add(jPanel1);
-        jPanel1.setBounds(1150, 90, 200, 540);
+        jPanel1.setBounds(1150, 130, 200, 500);
 
         txtBusqueda.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -869,7 +869,7 @@ public class Principal extends javax.swing.JFrame {
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 1180, Short.MAX_VALUE)
         );
 
-        tabbedPrincipal.addTab("Usuarios", new javax.swing.ImageIcon(getClass().getResource("/Iconos/usuarios.png")), usuarios); // NOI18N
+        tabbedPrincipal.addTab("Empleados", new javax.swing.ImageIcon(getClass().getResource("/Iconos/usuarios.png")), usuarios); // NOI18N
 
         vehiculos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -3825,6 +3825,18 @@ public class Principal extends javax.swing.JFrame {
         if(banderaInventario == 1){
 
             if(manager_permisos.alta_inventario(Username)){
+                
+                try {
+                    for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                        if ("Nimbus".equals(info.getName())) {
+                            UIManager.setLookAndFeel(info.getClassName());
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    // If Nimbus is not available, you can set the GUI to another look and feel.
+                }
+                
                 addInventario ob = new addInventario(this, true);
                 ob.setVisible(true);
             }else{
@@ -3834,6 +3846,16 @@ public class Principal extends javax.swing.JFrame {
         }else{
 
             if(manager_permisos.alta_inventario(Username)){
+                try {
+                    for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                        if ("Nimbus".equals(info.getName())) {
+                            UIManager.setLookAndFeel(info.getClassName());
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    // If Nimbus is not available, you can set the GUI to another look and feel.
+                }
                 addInventarioGranel ob = new addInventarioGranel(this, true);
                 ob.setVisible(true);
             }else{
