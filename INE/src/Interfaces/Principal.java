@@ -229,6 +229,7 @@ public class Principal extends javax.swing.JFrame {
         tabbedPrincipal = new javax.swing.JTabbedPane();
         pestañaInventario = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
+        comboFiltro = new javax.swing.JComboBox<>();
         comboEstatus = new javax.swing.JComboBox<>();
         comboFolio = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
@@ -240,7 +241,6 @@ public class Principal extends javax.swing.JFrame {
         comboInventario = new javax.swing.JComboBox<>();
         txtBusqueda = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        comboFiltro = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         usuarios = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -649,6 +649,15 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel3.setLayout(null);
 
+        comboFiltro.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboFiltroActionPerformed(evt);
+            }
+        });
+        jPanel3.add(comboFiltro);
+        comboFiltro.setBounds(150, 90, 220, 30);
+
         comboEstatus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Disponible", "para baja", "para donación", "para comodato", "Baja", "Donación", "Comodato", "Reparación/Garantía" }));
         comboEstatus.addActionListener(new java.awt.event.ActionListener() {
@@ -761,15 +770,6 @@ public class Principal extends javax.swing.JFrame {
         jLabel12.setText("Busqueda por ");
         jPanel3.add(jLabel12);
         jLabel12.setBounds(30, 90, 130, 22);
-
-        comboFiltro.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        comboFiltro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboFiltroActionPerformed(evt);
-            }
-        });
-        jPanel3.add(comboFiltro);
-        comboFiltro.setBounds(150, 90, 210, 28);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel3.add(jLabel1);
@@ -1178,7 +1178,7 @@ public class Principal extends javax.swing.JFrame {
         );
 
         jPanel7.add(jPanel10);
-        jPanel10.setBounds(20, 370, 1340, 330);
+        jPanel10.setBounds(20, 370, 0, 0);
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel7.add(jLabel9);
@@ -3730,93 +3730,28 @@ public class Principal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_tablaUsuariosMouseReleased
 
-    private void comboFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroActionPerformed
-        // TODO add your handling code here:
-        //Llenamos la tabla del inventario
-        /*
-        int filtro = comboFiltro.getSelectedIndex();
-        String inventario = comboInventario.getSelectedItem().toString();
-        String busqueda = txtBusqueda.getText();
-
-        //Si no hay nada en el campo entonces buscamos todos los productos del inventario o inventario a granel
-        if(busqueda.equals("")){
-
-            if(inventario.equals("Inventario")){
-                tablaInventario.setModel(manager_inventario.getInventario(filtro));
-            }
-            else{
-                tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
-            }
-        }//if
-
-        else{
-
-            //Si hay coincidencias entonces muestra
-            if(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario)){
-                tablaInventario.setModel(manager_inventario.getInventarioEspecifico(filtro, busqueda, inventario));
-            }//if
-
-            //Si no hay coincidecnias entonces mostramos el inventario o el inventario a granel
-            else{
-
-                if(inventario.equals("Inventario")){
-                    tablaInventario.setModel(manager_inventario.getInventario(filtro));
-                }
-                else{
-                    tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
-                }
-
-            }//Segundo else
-
-        }//Primer else
-        */
-    }//GEN-LAST:event_comboFiltroActionPerformed
-
     private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
         // TODO add your handling code here:
-        /*
         if(manager_permisos.consulta_inventario(Username)){
-            //Llenamos la tabla del inventario
+            int folio = comboFolio.getSelectedIndex();
+            String estatus = comboEstatus.getSelectedItem().toString();
+            String nomeclatura = "";
             int filtro = comboFiltro.getSelectedIndex();
             String inventario = comboInventario.getSelectedItem().toString();
             String busqueda = txtBusqueda.getText();
+            //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+            if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
 
-            //Si no hay nada en el campo entonces buscamos todos los productos del inventario o inventario a granel
-            if(busqueda.equals("")){
-
-                if(inventario.equals("Inventario")){
-                    tablaInventario.setModel(manager_inventario.getInventario(filtro));
-                }
-                else{
-                    tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
-                }
-            }//if
-
-            else{
-
-                //Si hay coincidencias entonces muestra
-                if(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario)){
-                    tablaInventario.setModel(manager_inventario.getInventarioEspecifico(filtro, busqueda, inventario));
-                }//if
-
-                //Si no hay coincidecnias entonces mostramos el inventario o el inventario a granel
-                else{
-
-                    if(inventario.equals("Inventario")){
-                        tablaInventario.setModel(manager_inventario.getInventario(filtro));
-                    }
-                    else{
-                        tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
-                    }
-
-                }//Segundo else
-
-            }//Primer else
-        }//if de consulta de inventario
-        else{
-        
+            //Si no hay criterio de busqueda entonces solo filtramos por nomeclatura y estatus
+            if(txtBusqueda.getText().isEmpty()){
+                tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
+            }else{
+                tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
         }
-        */
+        
     }//GEN-LAST:event_txtBusquedaKeyReleased
 
     private void comboInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboInventarioActionPerformed
@@ -4063,22 +3998,7 @@ public class Principal extends javax.swing.JFrame {
 
             else{
 
-                //Si hay coincidencias entonces muestra
-                if(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario)){
-                    tablaInventario.setModel(manager_inventario.getInventarioEspecifico(filtro, busqueda, inventario));
-                }//if
-
-                //Si no hay coincidecnias entonces mostramos el inventario o el inventario a granel
-                else{
-
-                    if(inventario.equals("Inventario")){
-                        tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
-                    }
-                    else{
-                        tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
-                    }
-
-                }//Segundo else
+                tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
 
             }//Primer else
         }//if de la consulta de inventario
@@ -4295,36 +4215,73 @@ public class Principal extends javax.swing.JFrame {
 
     private void comboFolioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFolioActionPerformed
         // TODO add your handling code here:
-        int folio = comboFolio.getSelectedIndex();
-        String estatus = comboEstatus.getSelectedItem().toString();
-        String nomeclatura = "";
-        //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
-        if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-        
-        //Si no hay criterio de busqueda entonces solo filtramos por nomeclatura y estatus
-        if(txtBusqueda.getText().isEmpty()){
-            tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
-        }else{
-            
-        }
+        if(manager_permisos.consulta_inventario(Username)){
+            int folio = comboFolio.getSelectedIndex();
+            String estatus = comboEstatus.getSelectedItem().toString();
+            String nomeclatura = "";
+            int filtro = comboFiltro.getSelectedIndex();
+            String inventario = comboInventario.getSelectedItem().toString();
+            String busqueda = txtBusqueda.getText();
+            //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+            if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
 
+            //Si no hay criterio de busqueda entonces solo filtramos por nomeclatura y estatus
+            if(txtBusqueda.getText().isEmpty()){
+                tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
+            }else{
+                tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
+        }
     }//GEN-LAST:event_comboFolioActionPerformed
 
     private void comboEstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEstatusActionPerformed
         // TODO add your handling code here:
-        int folio = comboFolio.getSelectedIndex();
-        String estatus = comboEstatus.getSelectedItem().toString();
-        String nomeclatura = "";
-        //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
-        if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-        
-        //Si no hay criterio de busqueda entonces solo filtramos por nomeclatura y estatus
-        if(txtBusqueda.getText().isEmpty()){
-            tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
+        if(manager_permisos.consulta_inventario(Username)){
+            int folio = comboFolio.getSelectedIndex();
+            String estatus = comboEstatus.getSelectedItem().toString();
+            String nomeclatura = "";
+            int filtro = comboFiltro.getSelectedIndex();
+            String inventario = comboInventario.getSelectedItem().toString();
+            String busqueda = txtBusqueda.getText();
+            //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+            if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
+
+            //Si no hay criterio de busqueda entonces solo filtramos por nomeclatura y estatus
+            if(txtBusqueda.getText().isEmpty()){
+                tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
+            }else{
+                tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
+            }
         }else{
-            
+        
         }
     }//GEN-LAST:event_comboEstatusActionPerformed
+
+    private void comboFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.consulta_inventario(Username)){
+            int folio = comboFolio.getSelectedIndex();
+            String estatus = comboEstatus.getSelectedItem().toString();
+            String nomeclatura = "";
+            int filtro = comboFiltro.getSelectedIndex();
+            String inventario = comboInventario.getSelectedItem().toString();
+            String busqueda = txtBusqueda.getText();
+            //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+            if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
+
+            //Si no hay criterio de busqueda entonces solo filtramos por nomeclatura y estatus
+            if(txtBusqueda.getText().isEmpty()){
+                tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
+            }else{
+                tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
+        }
+        
+    }//GEN-LAST:event_comboFiltroActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         

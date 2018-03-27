@@ -186,42 +186,48 @@ public class ManagerInventario {
 
     }//getInventarioG
 
+    //Nos devuelve todos los productos de inventario normal con un filtro de nomeclatura de folio y su estatus
     public DefaultTableModel getInventario(String nomeclatura,String estatus) {
         
         DefaultTableModel table = new DefaultTableModel();
 
         try {
+            
             table.addColumn("Clave");
-            table.addColumn("Producto");
+            table.addColumn("Nombre_corto");
             table.addColumn("Descripción");
+            table.addColumn("Ubicación");
+            table.addColumn("Marca");
+            table.addColumn("Observaciones");
             table.addColumn("No. Serie");
             table.addColumn("Modelo");
-            table.addColumn("Marca");
-            table.addColumn("Ubicación");
+            table.addColumn("Color");
+            table.addColumn("Fecha Compra");
             table.addColumn("Factura");
+            table.addColumn("Importe");
             table.addColumn("Estatus");
             
             String sql = "";
             
             if(nomeclatura.equals("")){
                 //Consulta de los empleados
-                sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,no_serie,modelo,marca,ubicacion,factura,estatus "
+                sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe,estatus "
                         + "from inventario where estatus = '"+estatus+"';";
             }
             else{
             //Consulta de los empleados
-            sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,no_serie,modelo,marca,ubicacion,factura,estatus "
+            sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe,estatus "
                     + "from inventario where Folio = '"+nomeclatura+"' and estatus = '"+estatus+"';";
             }
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
-            Object datos[] = new Object[9];
+            Object datos[] = new Object[13];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
 
-                for(int i = 0;i<9;i++){
+                for(int i = 0;i<13;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -238,6 +244,8 @@ public class ManagerInventario {
 
     }//getInventario
     
+    //Este metodo se utiliza en la ventana de insercion de inventario normal, cuando se va a dar de alta un ID de un producto (Folio,-,Numero,Extensión),
+    //que arroja un verdadero si existe por lo tanto no deja insertar ese nuevo producto, y falso si no existe entonces si deja insertar dicho producto.
     public boolean existeInventario(String id_producto) {
 
         boolean estado = false;
@@ -557,8 +565,13 @@ public class ManagerInventario {
         
     }//Buscar si existe el producto de coincidnecia especifico
     
-    public boolean existeProductoEspecifico(int filtro, String busqueda,String inventario){
+    //Este método funciona en la pestaña de inventario, cuando se quiere buscar por un filtro mas especifico donde el usuario ingresara que esta
+    //buscando de acuerdo al campo seleccionado mas aparte las opciones de nomeclatura de folio y estatus.
+    public DefaultTableModel existeProductoEspecifico(int filtro, String busqueda,String inventario,String folio,String estatus){
         boolean estado = false;
+        DefaultTableModel table = new DefaultTableModel();
+        conexion = db.getConexion();
+
         try{
             /*
                 filtro ->0("Clave");
@@ -573,41 +586,123 @@ public class ManagerInventario {
                 filtro ->9("Fecha Compra");
                 filtro ->10("Factura");
             */
-            String sql;
-            Connection c = db.getConexion();
-            Statement st = c.createStatement();
-            ResultSet rs;
-            
+            String campoBusca = "";
+            String sql = "";
             //BUSCA EN EL INVENTARIO
             if(inventario.equals("Inventario")){
                 
                 switch(filtro){
                     
-                    //BUSQUEDA POR PRODUCTO
+                    //BUSQUEDA POR CLAVE
                     case 0:
-                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario " +
-                                "where nombre_prod like '"+busqueda+"%' group by nombre_prod,marca;";
-                        rs = st.executeQuery(sql);
-                        estado = rs.next();
+                        campoBusca = "concat(Folio,'-',Numero,Extension)";
                         break;
-
-                    //BUSQUEDA POR ALMACEN
+                    //BUSQUEDA POR NOMBRE CORTO
                     case 1:
-                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario " +
-                                "where almacen like '"+busqueda+"%' group by nombre_prod,marca;";
-                        rs = st.executeQuery(sql);
-                        estado = rs.next();
+                        campoBusca = "nombre_prod";
                         break;
                         
-                    //BUSQUEDA POR MARCA
+                    //BUSQUEDA POR DESCRIPCION
                     case 2:
-                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario " +
-                                "where marca like '"+busqueda+"%' group by nombre_prod,marca;";
-                        rs = st.executeQuery(sql);
-                        estado = rs.next();
+                        campoBusca = "descripcion";
                         break;
-                
+                    //BUSQUEDA POR UBICACIÓN
+                    case 3:
+                        campoBusca = "ubicacion";
+                        break;
+                    //BUSQUEDA POR MARCA
+                    case 4:
+                        campoBusca = "marca";
+                        break;
+                        
+                    //BUSQUEDA POR OBSERVACIONES
+                    case 5:
+                        campoBusca = "observaciones";
+                        break;
+                    //BUSQUEDA POR NO. SERIE
+                    case 6:
+                        campoBusca = "no_serie";
+                        break;
+                    //BUSQUEDA POR MODELO
+                    case 7:
+                        campoBusca = "modelo";
+                        break;
+                        
+                    //BUSQUEDA POR COLOR
+                    case 8:
+                        campoBusca = "color";
+                        break;
+                    //BUSQUEDA POR FECHA DE COMPRA
+                    case 9:
+                        campoBusca = "fecha_compra";
+                        break;
+                    //BUSQUEDA POR FACTURA
+                    case 10:
+                        campoBusca = "factura";
+                        break;
+                    
                 }//Hace la busqueda de acuerdo al filtro
+                
+                //Si no tiene nada la variable folio significa que esta buscando entre todas las nomeclaturas
+                if(folio.equals("")){
+                    sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe,estatus "
+                        + "from inventario where "+campoBusca+" like '"+busqueda+"%' and estatus = '"+estatus+"';";
+                }else{
+                    if(filtro == 0){
+                    sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe,estatus "
+                            + "from inventario where "+campoBusca+" like '"+folio+"-"+busqueda+"%' and Folio = '"+folio+"' and estatus = '"+estatus+"';";
+                    }else{
+                        sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe,estatus "
+                            + "from inventario where "+campoBusca+" like '"+busqueda+"%' and Folio = '"+folio+"' and estatus = '"+estatus+"';";
+                    }
+                }
+                Connection c = db.getConexion();
+                Statement st = c.createStatement();    
+                ResultSet rs = st.executeQuery(sql);
+                estado = rs.next();
+                
+                //Si el estado es verdadero significa que si encontro coincidencias, entonces mostraremos dichas concidencias
+                if(estado){
+                    
+                    table.addColumn("Clave");
+                    table.addColumn("Nombre_corto");
+                    table.addColumn("Descripción");
+                    table.addColumn("Ubicación");
+                    table.addColumn("Marca");
+                    table.addColumn("Observaciones");
+                    table.addColumn("No. Serie");
+                    table.addColumn("Modelo");
+                    table.addColumn("Color");
+                    table.addColumn("Fecha Compra");
+                    table.addColumn("Factura");
+                    table.addColumn("Importe");
+                    table.addColumn("Estatus");
+
+                    Object datos[] = new Object[13];
+
+                    //Anteriormente se hizo la consulta, y como entro a este if significa que si se encontraron datos, por ende ya estamos posicionados
+                    //en el primer registro de las concidencias
+                    for(int i = 0;i<13;i++){
+                        datos[i] = rs.getObject(i+1);
+                    }//Llenamos las columnas por registro
+                    table.addRow(datos);
+                    
+                    //Proseguimos con los registros en caso de exisitir mas
+                    while (rs.next()) {
+
+                        for(int i = 0;i<13;i++){
+                            datos[i] = rs.getObject(i+1);
+                        }//Llenamos las columnas por registro
+
+                        table.addRow(datos);//Añadimos la fila
+                   }//while
+                    
+                   conexion.close();
+                
+                //Si estado es falso, signfica que no encontro coincidencias, entonces retornamos la tabla normal
+                }else{
+                    return getInventario(folio,estatus);
+                }
                 
             }//if
             
@@ -627,197 +722,90 @@ public class ManagerInventario {
             
                     //BUSQUEDA POR CLAVE
                     case 0:
-                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
-                                + " where id_productoGranel like '"+busqueda+"%';";
-                        rs = st.executeQuery(sql);
-                        estado = rs.next();
+                        campoBusca = "id_productoGranel";
                         break;
 
                     //BUSQUEDA POR PRODUCTO
                     case 1:
-                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
-                                + " where nombre_prod like '"+busqueda+"%';";
-                        rs = st.executeQuery(sql);
-                        estado = rs.next();
+                        campoBusca = "nombre_prod";
                         break;
                         
                     //BUSQUEDA POR DESCRIPCIÓN
                     case 2:
-                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
-                                + " where descripcion like '"+busqueda+"%';";
-                        rs = st.executeQuery(sql);
-                        estado = rs.next();
+                        campoBusca = "descripcion";
                         break;
                         
                     //BUSQUEDA POR ALMACÉN
                     case 3:
-                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
-                                + " where almacen like '"+busqueda+"%';";
-                        rs = st.executeQuery(sql);
-                        estado = rs.next();
+                        campoBusca = "almacen";
                         break;
 
                     //BUSQUEDA POR MARCA
                     case 4:
-                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
-                                + " where marca like '"+busqueda+"%';";
-                        rs = st.executeQuery(sql);
-                        estado = rs.next();
+                        campoBusca = "marca";
                         break;
                         
                     //BUSQUEDA POR OBSERVACIONES
                     case 5:
-                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
-                                + " where observaciones like '"+busqueda+"%';";
-                        rs = st.executeQuery(sql);
-                        estado = rs.next();
+                        campoBusca = "observaciones"; 
                         break;    
                 
                 }//Hace la busqueda de acuerdo al filtro
             
+                sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
+                                + " where "+campoBusca+" like '"+busqueda+"%';";
+                Connection c = db.getConexion();
+                Statement st = c.createStatement();    
+                ResultSet rs = st.executeQuery(sql);
+                estado = rs.next();
+                
+                //Si estado es verdadero significa que encontro concidencia, entonces mostramos las concidencias que se encontraron en la consulta
+                if(estado){
+                    
+                    table.addColumn("Clave");
+                    table.addColumn("Producto");
+                    table.addColumn("Descripción");
+                    table.addColumn("Almacén");
+                    table.addColumn("Estatus");
+                    table.addColumn("Marca");
+                    table.addColumn("Observaciones");
+                    table.addColumn("Stock");
+                    
+                    Object datos[] = new Object[8];
+                    
+                    //Anteriormente se hizo la consulta, y como entro a este if significa que si se encontraron datos, por ende ya estamos posicionados
+                    //en el primer registro de las concidencias
+                    for(int i = 0;i<8;i++){
+                        datos[i] = rs.getObject(i+1);
+                    }//Llenamos las columnas por registro
+                    table.addRow(datos);
+                    
+                    //Proseguimos con los registros en caso de exisitir mas
+                    while (rs.next()) {
+
+                        for(int i = 0;i<8;i++){
+                            datos[i] = rs.getObject(i+1);
+                        }//Llenamos las columnas por registro
+
+                        table.addRow(datos);//Añadimos la fila
+
+                    }//while
+                    
+                    conexion.close();
+                }else{
+                    return getInventarioG(filtro);
+                }
+                
             }//else
             
         } //try  
         catch (SQLException ex) {
             Logger.getLogger(ManagerInventario.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
         }
         
-        return estado; //Retorna el resultado, si se encontro o no
+        return table; //Retorna el resultado, si se encontro o no
         
     }//Buscar si existe el producto
-
-    public DefaultTableModel getInventarioEspecifico(int filtro, String busqueda,String inventario) {
-
-        DefaultTableModel table = new DefaultTableModel();
-        int tamaño;
-        try {
-            
-            if(inventario.equals("Inventario")){
-                table.addColumn("Producto");
-                table.addColumn("Almacén");
-                table.addColumn("Marca");
-                table.addColumn("Stock");
-                tamaño = 4;
-            }else{
-                table.addColumn("Clave");
-                table.addColumn("Producto");
-                table.addColumn("Descripción");
-                table.addColumn("Almacén");
-                table.addColumn("Estatus");
-                table.addColumn("Marca");
-                table.addColumn("Observaciones");
-                table.addColumn("Stock");
-                tamaño = 8;
-            }
-            
-            //Consulta del inventario 
-            String sql = "";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            Object datos[] = new Object[tamaño];
-            
-            //BUSCA EN EL INVENTARIO
-            if(inventario.equals("Inventario")){
-                
-                switch(filtro){
-                    
-                    //BUSQUEDA POR PRODUCTO
-                    case 0:
-                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario " +
-                                "where nombre_prod like '"+busqueda+"%' group by nombre_prod,marca;";
-                        break;
-
-                    //BUSQUEDA POR ALMACEN
-                    case 1:
-                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario " +
-                                "where almacen like '"+busqueda+"%' group by nombre_prod,marca;";
-                        break;
-                        
-                    //BUSQUEDA POR MARCA
-                    case 2:
-                        sql = "select nombre_prod,almacen,marca,count(nombre_prod and marca) as stock from inventario " +
-                                "where marca like '"+busqueda+"%' group by nombre_prod,marca;";
-                        break;
-                
-                }//Hace la busqueda de acuerdo al filtro
-                
-            }//if
-            
-            //BUSCA EN EL INVENTARIO A GRANEL
-            else{
-                
-                /*
-                filtro = 0; Clave
-                filtro = 1; Producto
-                filtro = 2; Descripción
-                filtro = 3; Almacén
-                filtro = 4; Marca
-                filtro = 5; Observaciones
-                */
-                
-                switch(filtro){
-            
-                    //BUSQUEDA POR CLAVE
-                    case 0:
-                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
-                                + " where id_productoGranel like '"+busqueda+"%';";
-                        break;
-
-                    //BUSQUEDA POR PRODUCTO
-                    case 1:
-                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
-                                + " where nombre_prod like '"+busqueda+"%';";
-                        break;
-                        
-                    //BUSQUEDA POR DESCRIPCIÓN
-                    case 2:
-                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
-                                + " where descripcion like '"+busqueda+"%';";
-                        break;
-                        
-                    //BUSQUEDA POR ALMACÉN
-                    case 3:
-                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
-                                + " where almacen like '"+busqueda+"%';";
-                        break;
-
-                    //BUSQUEDA POR MARCA
-                    case 4:
-                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
-                                + " where marca like '"+busqueda+"%';";
-                        break;
-                        
-                    //BUSQUEDA POR OBSERVACIONES
-                    case 5:
-                        sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
-                                + " where observaciones like '"+busqueda+"%';";
-                        break;    
-                
-                }//Hace la busqueda de acuerdo al filtro
-            
-            }//else
-            
-            ResultSet rs = st.executeQuery(sql);
-            //Llenar tabla
-            while (rs.next()) {
-
-                for(int i = 0;i<tamaño;i++){
-                    datos[i] = rs.getObject(i+1);
-                }//Llenamos las columnas por registro
-
-                table.addRow(datos);//Añadimos la fila
-           }//while
-            conexion.close();
-        } catch (SQLException ex) {
-            System.out.printf("Error getTabla Inventario SQL");
-            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-
-            return table;
-        }
-
-    }//getInventario
     
     public Blob leerImagen(String idProducto) throws IOException {
         conexion = db.getConexion();
