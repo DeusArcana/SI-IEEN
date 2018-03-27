@@ -18,6 +18,8 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -188,8 +190,12 @@ public class ManagerInventario {
 
     //Nos devuelve todos los productos de inventario normal con un filtro de nomeclatura de folio y su estatus
     public DefaultTableModel getInventario(String nomeclatura,String estatus) {
-        
-        DefaultTableModel table = new DefaultTableModel();
+        //No dejamos editar ninguna celda
+        DefaultTableModel table = new DefaultTableModel(){
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return false;
+                }
+            };
 
         try {
             
@@ -806,6 +812,207 @@ public class ManagerInventario {
         return table; //Retorna el resultado, si se encontro o no
         
     }//Buscar si existe el producto
+    
+    //Este metodo retorna una tabla con el formato de la tabla de inventario pero anexando una columna con un checkbox para marcar los productos que
+    //se quiere cambiar a pendiente para baja/comodato/donacion
+    public DefaultTableModel PendientePara(String pendiente,int filtro, String busqueda,String folio,String estatus){
+        JTable checks = new JTable();//{  public boolean isCellEditable(int rowIndex, int colIndex){ if(colIndex == 0){return true;} else{return false; } }  };
+        JScrollPane scroll = new JScrollPane();
+        conexion = db.getConexion();
+        
+        DefaultTableModel table = new DefaultTableModel();
+        
+        //Creamos la tabla con las caracterisiticas que necesitamos
+        checks.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        checks.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            //Declaramos el titulo de las columnas
+            new String [] {
+                "Pendiente "+pendiente,"Clave", "Nombre corto", "Descripción", "Ubicación", "Marca", "Observaciones", "No. Serie", "Modelo", "Color","Fecha de Compra","Factura","Importe","Estatus"
+            }
+        ){
+            //El tipo que sera cada columna, la primera columna un checkbox y los demas seran objetos
+            Class[] types = new Class [] {
+                java.lang.Boolean.class, java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+            //Esto es para indicar que columnas dejaremos editar o no
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+            
+          }
+        
+        );
+        //Agregamos un scroll a la tabla
+        scroll.setViewportView(checks);
+        scroll.setBounds(30, 130, 1110, 500);
+        
+        table = (DefaultTableModel)checks.getModel();
+        
+        
+        //Apartir de aquí se realiza el proceso para llenar la tabla con los datos que se estan buscando
+        try{
+            /*
+                filtro ->0("Clave");
+                filtro ->1("Nombre_corto");
+                filtro ->2("Descripción");
+                filtro ->3("Ubicación");
+                filtro ->4("Marca");
+                filtro ->5("Observaciones");
+                filtro ->6("No. Serie");
+                filtro ->7("Modelo");
+                filtro ->8("Color");
+                filtro ->9("Fecha Compra");
+                filtro ->10("Factura");
+            */
+            String campoBusca = "";
+            String sql = "";
+            switch(filtro){
+
+                //BUSQUEDA POR CLAVE
+                case 0:
+                    campoBusca = "concat(Folio,'-',Numero,Extension)";
+                    break;
+                //BUSQUEDA POR NOMBRE CORTO
+                case 1:
+                    campoBusca = "nombre_prod";
+                    break;
+
+                //BUSQUEDA POR DESCRIPCION
+                case 2:
+                    campoBusca = "descripcion";
+                    break;
+                //BUSQUEDA POR UBICACIÓN
+                case 3:
+                    campoBusca = "ubicacion";
+                    break;
+                //BUSQUEDA POR MARCA
+                case 4:
+                    campoBusca = "marca";
+                    break;
+
+                //BUSQUEDA POR OBSERVACIONES
+                case 5:
+                    campoBusca = "observaciones";
+                    break;
+                //BUSQUEDA POR NO. SERIE
+                case 6:
+                    campoBusca = "no_serie";
+                    break;
+                //BUSQUEDA POR MODELO
+                case 7:
+                    campoBusca = "modelo";
+                    break;
+
+                //BUSQUEDA POR COLOR
+                case 8:
+                    campoBusca = "color";
+                    break;
+                //BUSQUEDA POR FECHA DE COMPRA
+                case 9:
+                    campoBusca = "fecha_compra";
+                    break;
+                //BUSQUEDA POR FACTURA
+                case 10:
+                    campoBusca = "factura";
+                    break;
+
+            }//Hace la busqueda de acuerdo al filtro
+
+            //Si no tiene nada la variable folio significa que esta buscando entre todas las nomeclaturas
+            if(folio.equals("")){
+                sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe,estatus "
+                    + "from inventario where "+campoBusca+" like '"+busqueda+"%' and estatus = '"+estatus+"';";
+            }else{
+                if(filtro == 0){
+                sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe,estatus "
+                        + "from inventario where "+campoBusca+" like '"+folio+"-"+busqueda+"%' and Folio = '"+folio+"' and estatus = '"+estatus+"';";
+                }else{
+                    sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe,estatus "
+                        + "from inventario where "+campoBusca+" like '"+busqueda+"%' and Folio = '"+folio+"' and estatus = '"+estatus+"';";
+                }
+            }
+            Connection c = db.getConexion();
+            Statement st = c.createStatement();    
+            ResultSet rs = st.executeQuery(sql);
+            boolean estado = rs.next();
+
+            //Si el estado es verdadero significa que si encontro coincidencias, entonces mostraremos dichas concidencias
+            if(estado){
+                
+                System.out.println("Si entre con el campo vacio");
+
+                Object datos[] = new Object[14];
+
+                //Anteriormente se hizo la consulta, y como entro a este if significa que si se encontraron datos, por ende ya estamos posicionados
+                //en el primer registro de las concidencias
+                datos[0] = Boolean.FALSE;
+                
+                for(int i = 1;i<14;i++){
+                        datos[i] = rs.getString(i);
+                }//Llenamos la fila
+                table.addRow(datos);
+                
+                //Proseguimos con los registros en caso de exisitir mas
+                while (rs.next()) {
+
+                    datos[0] = Boolean.FALSE;
+                
+                    for(int i = 1;i<14;i++){
+                            datos[i] = rs.getString(i);
+                    }//Llenamos la fila
+
+                    table.addRow(datos);//Añadimos la fila
+               }//while
+
+               conexion.close();
+
+            //Si estado es falso, signfica que no encontro coincidencias, entonces retornamos la tabla normal
+            }else{
+                if(folio.equals("")){
+                    sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe,estatus "
+                        + "from inventario where estatus = '"+estatus+"';";
+                }
+                else{
+                    sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe,estatus "
+                        + "from inventario where Folio = '"+folio+"' and estatus = '"+estatus+"';";
+                }
+            
+                Object datos[] = new Object[14];
+                rs = st.executeQuery(sql);
+
+                //Llenar tabla
+                while (rs.next()) {
+
+                    datos[0] = Boolean.FALSE;
+
+                    for(int i = 1;i<14;i++){
+                            datos[i] = rs.getString(i);
+                    }//Llenamos la fila
+
+                    table.addRow(datos);//Añadimos la fila
+                }//while
+                conexion.close();
+            }//else
+            
+        } catch (SQLException ex) {
+            System.out.printf("Error al generar la tabla para con checkbox en el Inventario SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return table;
+        
+    }//Retorna una tabla con un checkbox en la primera columna
     
     public Blob leerImagen(String idProducto) throws IOException {
         conexion = db.getConexion();
