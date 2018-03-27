@@ -99,7 +99,7 @@ public class Principal extends javax.swing.JFrame {
     
     
     //VARIABLES GLOBALES
-    public static String usuario = "",prodInventario = "",UserUpdate = "",estadoPendiente = "",estadoSolicitud = "",Username = "",productoAsignacionReemplazo = "",productoAREstado = "",empleadoSolicitud = "";
+    public static String usuario = "",prodInventario = "",UserUpdate = "",estadoPendiente = "",estadoSolicitud = "",Username = "",productoAsignacionReemplazo = "",productoAREstado = "",empleadoSolicitud = "",pendientePara="";
     public static int idPendiente,productoIDVale;
     public DefaultTableModel modelotablaMAsignados,modeloRecoleccion,modeloObjetosEntregados;
     public static String Claves[],nomeclaturas[];
@@ -3816,16 +3816,7 @@ public class Principal extends javax.swing.JFrame {
             //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
             if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
 
-            //Si no hay criterio de busqueda entonces solo filtramos por nomeclatura y estatus
-            if(txtBusqueda.getText().isEmpty()){
-                if(inventario.equals("Inventario")){
-                    tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
-                }else{
-                    tablaInventario.setModel(manager_inventario.getInventarioG(folio));
-                }
-            }else{
-                tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
-            }
+            tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
         }else{
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
         }
@@ -4321,13 +4312,7 @@ public class Principal extends javax.swing.JFrame {
             String busqueda = txtBusqueda.getText();
             //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
             if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-
-            //Si no hay criterio de busqueda entonces solo filtramos por nomeclatura y estatus
-            if(txtBusqueda.getText().isEmpty()){
-                tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
-            }else{
-                tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
-            }
+            tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
         }else{
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
         }
@@ -4344,15 +4329,9 @@ public class Principal extends javax.swing.JFrame {
             String busqueda = txtBusqueda.getText();
             //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
             if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-
-            //Si no hay criterio de busqueda entonces solo filtramos por nomeclatura y estatus
-            if(txtBusqueda.getText().isEmpty()){
-                tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
-            }else{
-                tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
-            }
+            tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
         }else{
-        
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
         }
     }//GEN-LAST:event_comboEstatusActionPerformed
 
@@ -4367,17 +4346,7 @@ public class Principal extends javax.swing.JFrame {
             String busqueda = txtBusqueda.getText();
             //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
             if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-
-            //Si no hay criterio de busqueda entonces solo filtramos por nomeclatura y estatus
-            if(txtBusqueda.getText().isEmpty()){
-                if(inventario.equals("Inventario")){
-                    tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
-                }else{
-                    tablaInventario.setModel(manager_inventario.getInventarioG(folio));
-                }
-            }else{
-                tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
-            }
+            tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
         }else{
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
         }
@@ -4387,6 +4356,7 @@ public class Principal extends javax.swing.JFrame {
     private void ParaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ParaBajaActionPerformed
         // TODO add your handling code here:
             if(manager_permisos.update_inventario(Username)){
+                int fila = tablaInventario.getSelectedRow();
                 int folio = comboFolio.getSelectedIndex();
                 String estatus = comboEstatus.getSelectedItem().toString();
                 String nomeclatura = "";
@@ -4394,10 +4364,24 @@ public class Principal extends javax.swing.JFrame {
                 String busqueda = txtBusqueda.getText();
                 //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
                 if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-
-                tablaInventario.setModel(manager_inventario.PendientePara("para baja",filtro, busqueda,nomeclatura,estatus));
+                pendientePara = "para baja";
+                tablaInventario.setModel(manager_inventario.PendientePara(pendientePara,filtro, busqueda,nomeclatura,estatus));
+                
+                
+                tablaInventario.setValueAt(true, fila, 0);
+                
+                //Mostramos los botones para aceptar los cambios o cancelar la acción
                 btnAceptarCheck.setVisible(true);
                 btnCancelarCheck.setVisible(true);
+                
+                //Deshabilitamos las demás opciones para que no actualice la tabla, si quiere cambiar los 
+                //criterios de busqueda entonces tendra que dar cancelar
+                btnAddInventario.setEnabled(false);
+                comboInventario.setEnabled(false);
+                comboEstatus.setEnabled(false);
+                comboFolio.setEnabled(false);
+                comboFiltro.setEnabled(false);
+                txtBusqueda.setEnabled(false);
 
             }else{
                 JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");
@@ -4406,15 +4390,106 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnAceptarCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarCheckActionPerformed
         // TODO add your handling code here:
+        Object[] botones = {"Aceptar","Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this,"¿Desea realizar el cambio de estatus pendiente "+pendientePara+"?", "Confirmación",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+        
+        if(opcion == 0){
+
+            if(manager_permisos.consulta_inventario(Username)){
+                DefaultTableModel inventario = (DefaultTableModel)tablaInventario.getModel();
+                Boolean[] cambio = new Boolean[inventario.getRowCount()];
+                String[] ids = new String[inventario.getRowCount()];
+
+                //Llenamos los arreglos con la información
+                for(int i = 0; i<ids.length; i++){
+                    cambio[i] = Boolean.parseBoolean(tablaInventario.getValueAt(i, 0).toString());
+                    ids[i] = tablaInventario.getValueAt(i, 1).toString();
+                }
+
+                //Intentamos actualizar el estatus de dichos productos
+                if(manager_inventario.actualizarPendientePara(ids,cambio,pendientePara)){
+                    JOptionPane.showMessageDialog(null, "Se actualizaron con exito los registros a pendiente "+pendientePara);
+                    //Mostramos la tabla de acuerdo a los criterios de busqueda que estaban antes
+                    int folio = comboFolio.getSelectedIndex();
+                    String estatus = comboEstatus.getSelectedItem().toString();
+                    String nomeclatura = "";
+                    int filtro = comboFiltro.getSelectedIndex();
+                    String inventarios = comboInventario.getSelectedItem().toString();
+                    String busqueda = txtBusqueda.getText();
+                    //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+                    if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
+                    tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventarios,nomeclatura,estatus));
+                    
+                }else{
+                    JOptionPane.showMessageDialog(null, "No se pudo realizar el cambio pendiente "+pendientePara);
+                }
+                
+            }else{
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");                
+            }
+            
+            //Ocultamos los botones para aceptar los cambios o cancelar la acción
+            btnAceptarCheck.setVisible(false);
+            btnCancelarCheck.setVisible(false);
+
+            //Habilitamos las demás opciones para que siga con las respectivas funciones con las que cuenta la pestaña
+            btnAddInventario.setEnabled(true);
+            comboInventario.setEnabled(true);
+            comboEstatus.setEnabled(true);
+            comboFolio.setEnabled(true);
+            comboFiltro.setEnabled(true);
+            txtBusqueda.setEnabled(true);
+            
+        }//if(opcion == 0)
+        
     }//GEN-LAST:event_btnAceptarCheckActionPerformed
 
     private void btnCancelarCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarCheckActionPerformed
         // TODO add your handling code here:
+        
+        Object[] botones = {"Aceptar","Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this,"¿Desea cancelar la acción del cambio de estatus pendiente "+pendientePara+"?", "Confirmación",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+        
+        if(opcion == 0){
+
+            if(manager_permisos.consulta_inventario(Username)){
+                int folio = comboFolio.getSelectedIndex();
+                String estatus = comboEstatus.getSelectedItem().toString();
+                String nomeclatura = "";
+                int filtro = comboFiltro.getSelectedIndex();
+                String inventario = comboInventario.getSelectedItem().toString();
+                String busqueda = txtBusqueda.getText();
+                //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+                if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
+                tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
+            }else{
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
+            }
+
+            //Ocultamos los botones para aceptar los cambios o cancelar la acción
+            btnAceptarCheck.setVisible(false);
+            btnCancelarCheck.setVisible(false);
+
+            //Habilitamos las demás opciones para que siga con las respectivas funciones con las que cuenta la pestaña
+            btnAddInventario.setEnabled(true);
+            comboInventario.setEnabled(true);
+            comboEstatus.setEnabled(true);
+            comboFolio.setEnabled(true);
+            comboFiltro.setEnabled(true);
+            txtBusqueda.setEnabled(true);
+            
+        }else if(opcion == 1){
+            
+        }
+        
     }//GEN-LAST:event_btnCancelarCheckActionPerformed
 
     private void ParaComodatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ParaComodatoActionPerformed
         // TODO add your handling code here:
         if(manager_permisos.update_inventario(Username)){
+                int fila = tablaInventario.getSelectedRow();
                 int folio = comboFolio.getSelectedIndex();
                 String estatus = comboEstatus.getSelectedItem().toString();
                 String nomeclatura = "";
@@ -4422,10 +4497,21 @@ public class Principal extends javax.swing.JFrame {
                 String busqueda = txtBusqueda.getText();
                 //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
                 if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-
-                tablaInventario.setModel(manager_inventario.PendientePara("para comodato",filtro, busqueda,nomeclatura,estatus));
+                pendientePara = "para comodato";
+                tablaInventario.setModel(manager_inventario.PendientePara(pendientePara,filtro, busqueda,nomeclatura,estatus));
+                tablaInventario.setValueAt(true, fila, 0);
+                //Mostramos los botones para aceptar los cambios o cancelar la acción
                 btnAceptarCheck.setVisible(true);
                 btnCancelarCheck.setVisible(true);
+                
+                //Deshabilitamos las demás opciones para que no actualice la tabla, si quiere cambiar los 
+                //criterios de busqueda entonces tendra que dar cancelar
+                btnAddInventario.setEnabled(false);
+                comboInventario.setEnabled(false);
+                comboEstatus.setEnabled(false);
+                comboFolio.setEnabled(false);
+                comboFiltro.setEnabled(false);
+                txtBusqueda.setEnabled(false);
 
             }else{
                 JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");
@@ -4435,6 +4521,7 @@ public class Principal extends javax.swing.JFrame {
     private void ParaDonacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ParaDonacionActionPerformed
         // TODO add your handling code here:
         if(manager_permisos.update_inventario(Username)){
+                int fila = tablaInventario.getSelectedRow();
                 int folio = comboFolio.getSelectedIndex();
                 String estatus = comboEstatus.getSelectedItem().toString();
                 String nomeclatura = "";
@@ -4442,10 +4529,21 @@ public class Principal extends javax.swing.JFrame {
                 String busqueda = txtBusqueda.getText();
                 //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
                 if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-
-                tablaInventario.setModel(manager_inventario.PendientePara("para donación",filtro, busqueda,nomeclatura,estatus));
+                pendientePara = "para donación";
+                tablaInventario.setModel(manager_inventario.PendientePara(pendientePara,filtro, busqueda,nomeclatura,estatus));
+                tablaInventario.setValueAt(true, fila, 0);
+                //Mostramos los botones para aceptar los cambios o cancelar la acción
                 btnAceptarCheck.setVisible(true);
                 btnCancelarCheck.setVisible(true);
+                
+                //Deshabilitamos las demás opciones para que no actualice la tabla, si quiere cambiar los 
+                //criterios de busqueda entonces tendra que dar cancelar
+                btnAddInventario.setEnabled(false);
+                comboInventario.setEnabled(false);
+                comboEstatus.setEnabled(false);
+                comboFolio.setEnabled(false);
+                comboFiltro.setEnabled(false);
+                txtBusqueda.setEnabled(false);
 
             }else{
                 JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");

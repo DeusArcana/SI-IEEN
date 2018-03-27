@@ -1014,6 +1014,32 @@ public class ManagerInventario {
         
     }//Retorna una tabla con un checkbox en la primera columna
     
+    //Este metodo actualiza el estatus de 1 o más productos a pendiente para baja/comodato/donación
+    public boolean actualizarPendientePara(String[] ids,Boolean[]cambio,String pendientePara) {
+        conexion = db.getConexion();
+        
+        String update = "";
+        PreparedStatement ps = null;
+
+        try {
+            for(int i = 0;i<ids.length;i++){
+                if(cambio[i]){
+                    update = "update inventario set estatus = ? where concat(Folio,'-',Numero,Extension) = '"+ids[i]+"'";
+                    ps = conexion.prepareStatement(update);
+                    ps.setString(1, pendientePara);
+                    ps.executeUpdate();
+                }
+            }
+            return true;
+
+        } catch (Exception ex) {
+            System.out.println("Error al actualizar el estatus pendiente "+ pendientePara + ex.getMessage());
+            return false;
+
+        }
+
+    }//actualizarPendientePara
+    
     public Blob leerImagen(String idProducto) throws IOException {
         conexion = db.getConexion();
         //String sSql = "select imagen from inventario where id_producto = '"+idProducto+"';";
