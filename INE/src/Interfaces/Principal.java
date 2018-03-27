@@ -102,7 +102,7 @@ public class Principal extends javax.swing.JFrame {
     public static String usuario = "",prodInventario = "",UserUpdate = "",estadoPendiente = "",estadoSolicitud = "",Username = "",productoAsignacionReemplazo = "",productoAREstado = "",empleadoSolicitud = "";
     public static int idPendiente,productoIDVale;
     public DefaultTableModel modelotablaMAsignados,modeloRecoleccion,modeloObjetosEntregados;
-    public static String Claves[];
+    public static String Claves[],nomeclaturas[];
     public static int Cantidad[],IDVales[];
             
     Vector IPS = new Vector();
@@ -229,6 +229,8 @@ public class Principal extends javax.swing.JFrame {
         tabbedPrincipal = new javax.swing.JTabbedPane();
         pestañaInventario = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
+        comboEstatus = new javax.swing.JComboBox<>();
+        comboFolio = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaInventario = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
@@ -646,6 +648,25 @@ public class Principal extends javax.swing.JFrame {
         pestañaInventario.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
 
         jPanel3.setLayout(null);
+
+        comboEstatus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Disponible", "para baja", "para donación", "para comodato", "Baja", "Donación", "Comodato", "Reparación/Garantía" }));
+        comboEstatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboEstatusActionPerformed(evt);
+            }
+        });
+        jPanel3.add(comboEstatus);
+        comboEstatus.setBounds(940, 90, 200, 30);
+
+        comboFolio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboFolio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboFolioActionPerformed(evt);
+            }
+        });
+        jPanel3.add(comboFolio);
+        comboFolio.setBounds(700, 90, 220, 30);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baner inventario.png"))); // NOI18N
         jPanel3.add(jLabel5);
@@ -2194,6 +2215,19 @@ public class Principal extends javax.swing.JFrame {
         comboFiltroVehiculos.addItem("Color");
         comboFiltroVehiculos.addItem("Matricula");
         
+        //COMBOFOLIO
+        String lista = manager_inventario.nomeclaturaFolio();
+        String [] folios = lista.split(",");
+        nomeclaturas = new String[folios.length/2];
+        
+        
+        comboFolio.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        comboFolio.addItem("Todos");
+        for(int i = 1,j = 0; i <= folios.length;i = i+2,j++){
+            comboFolio.addItem(folios[i]);
+            nomeclaturas[j] = folios[i-1];
+        }
+        
         //Llenado de tablas
         //USUARIOS/EMPLEADOS
         if(manager_permisos.consulta_user(Username)){
@@ -3699,6 +3733,7 @@ public class Principal extends javax.swing.JFrame {
     private void comboFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroActionPerformed
         // TODO add your handling code here:
         //Llenamos la tabla del inventario
+        /*
         int filtro = comboFiltro.getSelectedIndex();
         String inventario = comboInventario.getSelectedItem().toString();
         String busqueda = txtBusqueda.getText();
@@ -3734,10 +3769,12 @@ public class Principal extends javax.swing.JFrame {
             }//Segundo else
 
         }//Primer else
+        */
     }//GEN-LAST:event_comboFiltroActionPerformed
 
     private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
         // TODO add your handling code here:
+        /*
         if(manager_permisos.consulta_inventario(Username)){
             //Llenamos la tabla del inventario
             int filtro = comboFiltro.getSelectedIndex();
@@ -3779,21 +3816,37 @@ public class Principal extends javax.swing.JFrame {
         else{
         
         }
+        */
     }//GEN-LAST:event_txtBusquedaKeyReleased
 
     private void comboInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboInventarioActionPerformed
         // TODO add your handling code here:
         int filtro = comboFiltro.getSelectedIndex();
+        int folio = comboFolio.getSelectedIndex();
+        String estatus = comboEstatus.getSelectedItem().toString();
+        String nomeclatura = "";
+        //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+        if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
+        
         if(manager_permisos.consulta_inventario(Username)){
 
             if(comboInventario.getSelectedItem().toString().equals("Inventario")){
-                tablaInventario.setModel(manager_inventario.getInventario(filtro));
+                tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
                 banderaInventario = 1;
 
                 comboFiltro.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-                comboFiltro.addItem("Producto");
-                comboFiltro.addItem("Almacén");
+                comboFiltro.addItem("Clave");
+                comboFiltro.addItem("Nombre_corto");
+                comboFiltro.addItem("Descripción");
+                comboFiltro.addItem("Ubicación");
                 comboFiltro.addItem("Marca");
+                comboFiltro.addItem("Observaciones");
+                comboFiltro.addItem("No. Serie");
+                comboFiltro.addItem("Modelo");
+                comboFiltro.addItem("Color");
+                comboFiltro.addItem("Fecha Compra");
+                comboFiltro.addItem("Factura");
+                
 
             }else{
                 tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
@@ -3987,6 +4040,12 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(manager_permisos.consulta_inventario(Username)){
             //Llenamos la tabla del inventario
+            int folio = comboFolio.getSelectedIndex();
+            String estatus = comboEstatus.getSelectedItem().toString();
+            String nomeclatura = "";
+            //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+            if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
+        
             int filtro = comboFiltro.getSelectedIndex();
             String inventario = comboInventario.getSelectedItem().toString();
             String busqueda = txtBusqueda.getText();
@@ -3995,7 +4054,7 @@ public class Principal extends javax.swing.JFrame {
             if(busqueda.equals("")){
 
                 if(inventario.equals("Inventario")){
-                    tablaInventario.setModel(manager_inventario.getInventario(filtro));
+                    tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
                 }
                 else{
                     tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
@@ -4013,7 +4072,7 @@ public class Principal extends javax.swing.JFrame {
                 else{
 
                     if(inventario.equals("Inventario")){
-                        tablaInventario.setModel(manager_inventario.getInventario(filtro));
+                        tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
                     }
                     else{
                         tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
@@ -4233,6 +4292,39 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con el permiso para activar usuarios.");
         }
     }//GEN-LAST:event_activarActionPerformed
+
+    private void comboFolioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFolioActionPerformed
+        // TODO add your handling code here:
+        int folio = comboFolio.getSelectedIndex();
+        String estatus = comboEstatus.getSelectedItem().toString();
+        String nomeclatura = "";
+        //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+        if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
+        
+        //Si no hay criterio de busqueda entonces solo filtramos por nomeclatura y estatus
+        if(txtBusqueda.getText().isEmpty()){
+            tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
+        }else{
+            
+        }
+
+    }//GEN-LAST:event_comboFolioActionPerformed
+
+    private void comboEstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEstatusActionPerformed
+        // TODO add your handling code here:
+        int folio = comboFolio.getSelectedIndex();
+        String estatus = comboEstatus.getSelectedItem().toString();
+        String nomeclatura = "";
+        //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+        if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
+        
+        //Si no hay criterio de busqueda entonces solo filtramos por nomeclatura y estatus
+        if(txtBusqueda.getText().isEmpty()){
+            tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
+        }else{
+            
+        }
+    }//GEN-LAST:event_comboEstatusActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -4432,9 +4524,11 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboEmpUsu;
     private javax.swing.JComboBox<String> comboEmpleado;
     private javax.swing.JComboBox<String> comboEmpleadoR;
+    public static javax.swing.JComboBox<String> comboEstatus;
     public static javax.swing.JComboBox<String> comboFiltro;
     private javax.swing.JComboBox<String> comboFiltroUsuario;
     private javax.swing.JComboBox<String> comboFiltroVehiculos;
+    public static javax.swing.JComboBox<String> comboFolio;
     private javax.swing.JComboBox<String> comboInventario;
     private javax.swing.JPanel configuracion;
     private javax.swing.JMenuItem dar_baja;

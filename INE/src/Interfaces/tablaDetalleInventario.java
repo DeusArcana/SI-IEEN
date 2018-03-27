@@ -8,7 +8,6 @@ package Interfaces;
 import javax.swing.JTable;
 import Clases.ManagerInventario;
 import Clases.ManagerSolicitud;
-import Formularios.modificar_addInventario;
 import static Interfaces.Principal.tablaVehiculos;
 import static Interfaces.ventana_modificar_vehiculo.campo;
 import java.awt.Image;
@@ -424,14 +423,6 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
 
     private void ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarActionPerformed
         // TODO add your handling code here:
-        try {
-            modificar_addInventario ob = new modificar_addInventario(this, true);
-
-            modificar_addInventario.txtClave.setText(tablaCoincidencias.getValueAt(tablaCoincidencias.getSelectedRow(), 0).toString());
-            ob.setVisible(true);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Seleccione un vehiculo!", "Información", JOptionPane.INFORMATION_MESSAGE);
-        }
     }//GEN-LAST:event_ModificarActionPerformed
     public void metodoImagen() {
         int fila = tablaCoincidencias.getSelectedRow();

@@ -10,6 +10,9 @@ import Clases.ManagerPermisos;
 import Clases.Validaciones;
 
 import Interfaces.Principal;
+import static Interfaces.Principal.comboEstatus;
+import static Interfaces.Principal.comboFolio;
+import static Interfaces.Principal.nomeclaturas;
 import com.sun.glass.events.KeyEvent;
 import java.awt.Color;
 import java.awt.Image;
@@ -467,9 +470,15 @@ public class addInventario extends javax.swing.JDialog {
             if (manager_inventario.guardarImagen(folio,numero,extension, producto, descripcion,ubicacion,"DISPONIBLE", marca, "Sin observaciones",noserie, modelo, color, fecha_compra, factura, importe,imagen)) {
 
                 JOptionPane.showMessageDialog(null, "Se inserto correctamente al inventario");
-
+                
+                int num = comboFolio.getSelectedIndex();
+                String estatus = comboEstatus.getSelectedItem().toString();
+                String nomeclatura = "";
+                //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+                if(num > 0){nomeclatura = nomeclaturas[num-1];}
+        
                 if (manager_permisos.consulta_inventario(Principal.Username)) {
-                    Principal.tablaInventario.setModel(manager_inventario.getInventario(Principal.comboFiltro.getSelectedIndex()));
+                    Principal.tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
                 }
 
             } else {
@@ -509,7 +518,7 @@ public class addInventario extends javax.swing.JDialog {
         folios = lista.split(",");
         nomeclaturas = new String[folios.length/2];
         
-         //comboFolio
+        //comboFolio
         comboFolio.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboFolio.addItem("Selecciona un folio...");
         for(int i = 1,j = 0; i <= folios.length;i = i+2,j++){

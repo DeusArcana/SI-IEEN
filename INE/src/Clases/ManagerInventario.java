@@ -186,8 +186,8 @@ public class ManagerInventario {
 
     }//getInventarioG
 
-    public DefaultTableModel getInventario(int filtro) {
-        String orden = "";
+    public DefaultTableModel getInventario(String nomeclatura,String estatus) {
+        
         DefaultTableModel table = new DefaultTableModel();
 
         try {
@@ -201,20 +201,18 @@ public class ManagerInventario {
             table.addColumn("Factura");
             table.addColumn("Estatus");
             
-            switch(filtro){
-                case 0:
-                    orden = "order by nombre_prod";
-                    break;
-                case 1:
-                    orden = "order by ubicacion";
-                    break;
-                case 2:
-                    orden = "order by marca";
-                    break;    
-            }
+            String sql = "";
             
+            if(nomeclatura.equals("")){
+                //Consulta de los empleados
+                sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,no_serie,modelo,marca,ubicacion,factura,estatus "
+                        + "from inventario where estatus = '"+estatus+"';";
+            }
+            else{
             //Consulta de los empleados
-            String sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,no_serie,modelo,marca,ubicacion,factura,estatus from inventario "+orden+";";
+            sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,no_serie,modelo,marca,ubicacion,factura,estatus "
+                    + "from inventario where Folio = '"+nomeclatura+"' and estatus = '"+estatus+"';";
+            }
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             Object datos[] = new Object[9];
@@ -563,9 +561,17 @@ public class ManagerInventario {
         boolean estado = false;
         try{
             /*
-            filtro = 0; Producto
-            filtro = 1; Almacén
-            filtro = 2; Marca
+                filtro ->0("Clave");
+                filtro ->1("Nombre_corto");
+                filtro ->2("Descripción");
+                filtro ->3("Ubicación");
+                filtro ->4("Marca");
+                filtro ->5("Observaciones");
+                filtro ->6("No. Serie");
+                filtro ->7("Modelo");
+                filtro ->8("Color");
+                filtro ->9("Fecha Compra");
+                filtro ->10("Factura");
             */
             String sql;
             Connection c = db.getConexion();
