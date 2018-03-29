@@ -66,37 +66,48 @@ public class ManejadorInventario {
 
     }//getInventarioG
 
-    public DefaultTableModel getInventario() {
+    //Este método retorna la tabla de inventario normal solo con los productos disponibles, esto para mostrarse en el Manejador Inventario
+    //cuando se quiere realizar una asignación
+    public DefaultTableModel getInventarioParaAsignacion(String nomeclatura) {
         String orden = "";
         DefaultTableModel table = new DefaultTableModel();
 
         try {
+            
             table.addColumn("Clave");
-            table.addColumn("Producto");
+            table.addColumn("Nombre_corto");
             table.addColumn("Descripción");
-            table.addColumn("Almacén");
+            table.addColumn("Ubicación");
             table.addColumn("Marca");
             table.addColumn("No. Serie");
-            table.addColumn("Observaciones");
             table.addColumn("Modelo");
-            table.addColumn("Color");
-            //Consulta de los empleados
-            String sql = "select id_producto,nombre_prod,descripcion,almacen,marca,no_serie,observaciones,modelo,color from inventario where estatus = 'DISPONIBLE';";
+            
+            String sql = "";
+            if(nomeclatura.equals("")){
+                //Consulta de los empleados
+                sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,no_serie,modelo "
+                        + "from inventario where estatus = 'Disponible';";
+            }else{
+                sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,no_serie,modelo "
+                    + "from inventario where Folio = '"+nomeclatura+"' and estatus = 'Disponible';";
+            }
+            
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
-            Object datos[] = new Object[9];
+            Object datos[] = new Object[7];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
 
-                for(int i = 0;i<9;i++){
+                for(int i = 0;i<7;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
                 table.addRow(datos);//Añadimos la fila
            }//while
             conexion.close();
+            
         } catch (SQLException ex) {
             System.out.printf("Error getTabla Inventario SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);

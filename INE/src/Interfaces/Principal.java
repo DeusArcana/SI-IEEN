@@ -144,7 +144,9 @@ public class Principal extends javax.swing.JFrame {
         tablaSolicitudesPersonal.getTableHeader().setReorderingAllowed(false);
         tablaSolicitudes.getTableHeader().setReorderingAllowed(false);
         tablaResguardo.getTableHeader().setReorderingAllowed(false);
-
+        tablaMInventarioA.getTableHeader().setReorderingAllowed(false);
+        tablaMAsignados.getTableHeader().setReorderingAllowed(false);
+        
         //Obtenemos el modelo de la tabla 
         modeloTablaIP = (DefaultTableModel) tablaIP.getModel();
         modelotablaMAsignados = (DefaultTableModel) tablaMAsignados.getModel();
@@ -1825,7 +1827,7 @@ public class Principal extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Clave", "Nombre", "Descripción", "Almacén", "Observaciones", "Cantidad"
+                "Clave", "Nombre", "Descripción", "Ubicación", "Cantidad"
             }
         ));
         tablaMAsignados.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -2897,7 +2899,7 @@ public class Principal extends javax.swing.JFrame {
         }
         
         if(rb_inventario_normal1.isSelected()){
-            tablaMInventarioA.setModel(manejador_inventario.getInventario());
+            tablaMInventarioA.setModel(manejador_inventario.getInventarioParaAsignacion(""));
         }else{
             tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
         }
@@ -2973,7 +2975,7 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Se regreso al inventario el producto cancelado.");
             //Actualizamos la tabla de acuerdo al radiobutton seleccionado
             if(rb_inventario_normal1.isSelected()){
-                tablaMInventarioA.setModel(manejador_inventario.getInventario());
+                tablaMInventarioA.setModel(manejador_inventario.getInventarioParaAsignacion(""));
             }else{
                 tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
             }//else
@@ -3210,7 +3212,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void rb_inventario_normal1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_inventario_normal1ActionPerformed
         // TODO add your handling code here:
-        tablaMInventarioA.setModel(manejador_inventario.getInventario());
+        tablaMInventarioA.setModel(manejador_inventario.getInventarioParaAsignacion(""));
         esGranel = false;
     }//GEN-LAST:event_rb_inventario_normal1ActionPerformed
 
@@ -3250,6 +3252,7 @@ public class Principal extends javax.swing.JFrame {
             //Obtenemos la clave del producto
             String idProducto = tablaMInventarioA.getValueAt(fila, 0).toString();
             if(empleadoSeleccionado){
+                //ES INVENTARIO A GRANELA
                 if(esGranel){
                     int cantidad = 0;
                     //Esto es para validar que ingrese solo numeros y mientras no lo haga, seguira preguntado hasta que
@@ -3298,7 +3301,7 @@ public class Principal extends javax.swing.JFrame {
                             if(stock > comprobar){
                                 //Se pasa el registro a la otra tabla (0,1,2,3,5,cantidad)
                                 if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
-                                    modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),cantidad});
+                                    modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),cantidad});
                                     System.out.println("Entro a agregar el registro cuando el stock entro como si nada(parte 1)");
                                 }
                                 tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
@@ -3321,7 +3324,7 @@ public class Principal extends javax.swing.JFrame {
                                 if(comprobar2 == 0){
                                     //Si es 0 entonces se cambia sin problemas y el estado cambia a agotado
                                     if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
-                                        modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),cantidad});
+                                        modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),cantidad});
                                     }
                                     tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
                                 }
@@ -3335,7 +3338,7 @@ public class Principal extends javax.swing.JFrame {
                                     if(seleccion == 0){
                                         manejador_inventario.productosIgualesInventarioG(idProducto, comprobar2);
                                         if(!(existeCodigoTablaMAsignados(idProducto,comprobar2))){
-                                            modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),comprobar2});
+                                            modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),comprobar2});
                                         }
                                     }//Dio clic en la opcion aceptar
 
@@ -3347,7 +3350,7 @@ public class Principal extends javax.swing.JFrame {
                                 else{
                                     manejador_inventario.productosSuficientesInventarioG(idProducto, cantidad);
                                     if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
-                                        modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),cantidad});
+                                        modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),cantidad});
                                     }
                                     tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
 
@@ -3369,7 +3372,7 @@ public class Principal extends javax.swing.JFrame {
                                 if(seleccion == 0){
                                     manejador_inventario.productosIgualesInventarioG(idProducto, comprobar);
                                     if(!(existeCodigoTablaMAsignados(idProducto,comprobar))){
-                                        modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),comprobar});
+                                        modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),comprobar});
                                     }
                                 }//Dio clic en aceptar
 
@@ -3380,7 +3383,7 @@ public class Principal extends javax.swing.JFrame {
                             else{
                                 manejador_inventario.productosSuficientesInventarioG(idProducto, cantidad);
                                 if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
-                                    modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),cantidad});
+                                    modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),cantidad});
                                 }
                                 tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
                             }//else
@@ -3397,7 +3400,7 @@ public class Principal extends javax.swing.JFrame {
                             if(comprobar2 == 0){
                                 //Si es 0 entonces se cambia sin problemas y el estado cambia a agotado
                                 if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
-                                    modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),cantidad});
+                                    modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),cantidad});
                                 }
                                 tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
                             }
@@ -3411,7 +3414,7 @@ public class Principal extends javax.swing.JFrame {
                                 if(seleccion == 0){
                                     manejador_inventario.productosIgualesInventarioG(idProducto, comprobar2);
                                     if(!(existeCodigoTablaMAsignados(idProducto,comprobar2))){
-                                        modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),comprobar2});
+                                        modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),comprobar2});
                                     }
                                 }//Dio clic en aceptar
 
@@ -3422,7 +3425,7 @@ public class Principal extends javax.swing.JFrame {
                             else{
                                 manejador_inventario.productosSuficientesInventarioG(idProducto, cantidad);
                                 if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
-                                    modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),cantidad});
+                                    modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),cantidad});
                                 }
                                 tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
 
@@ -3436,7 +3439,7 @@ public class Principal extends javax.swing.JFrame {
                             if(seleccion == 0){
                                 manejador_inventario.productosIgualesInventarioG(idProducto, stock);
                                 if(!(existeCodigoTablaMAsignados(idProducto,stock))){
-                                    modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 5),stock});
+                                    modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),stock});
                                 }
                             }//Dio clic en la opcion aceptar
 
@@ -3444,6 +3447,8 @@ public class Principal extends javax.swing.JFrame {
                         }//stock < cantidad
                     }//canceloSolicitud
                 }//esGranel
+                
+                //ES INVENTARIO NORMAL
                 else{
                     //Obtenemos el estado del producto
                     String estado = manager_solicitud.estadoProducto(idProducto);
@@ -3452,8 +3457,8 @@ public class Principal extends javax.swing.JFrame {
 
                         if(manager_asignar.asignarEquipo(idProducto)){
                             btn_generar_vale3.setEnabled(true);
-                            modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),tablaMInventarioA.getValueAt(fila, 6),1});
-                            tablaMInventarioA.setModel(manejador_inventario.getInventario());
+                            modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),1});
+                            tablaMInventarioA.setModel(manejador_inventario.getInventarioParaAsignacion(""));
                         }//asignarEquipo
 
                     }//estado.equals("DISPONIBLE")
@@ -3461,7 +3466,7 @@ public class Principal extends javax.swing.JFrame {
                     //No estaba disponible entonces le avisamos al usuario y actualizamos la tabla
                     else{
                         JOptionPane.showMessageDialog(null, "El equipo ya no se encuentra disponible");
-                        tablaMInventarioA.setModel(manejador_inventario.getInventario());
+                        tablaMInventarioA.setModel(manejador_inventario.getInventarioParaAsignacion(""));
                     }//else
 
                 }//else

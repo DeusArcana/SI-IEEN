@@ -312,7 +312,7 @@ BEGIN
 	
 	UPDATE `INE`.`Inventario` 
 		SET `Inventario`.`Estatus` = 'ASIGNADO' 
-			WHERE `Inventario`.`ID_Producto` = `Query`;
+			WHERE concat(`Inventario`.`Folio`,'-',`Inventario`.`Numero`,`Inventario`.`Extension`) = `Query`;
 
 END$$
 DELIMITER ;

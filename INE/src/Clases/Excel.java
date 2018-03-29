@@ -6,22 +6,18 @@
 package Clases;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Iterator;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.HSSFColor;
+
 
 /**
  *
@@ -43,22 +39,6 @@ public class Excel {
         //Creamos la hoja de excel
         HSSFSheet hoja = libro.createSheet();
         HSSFRow encabezados = hoja.createRow(0);
-        
-        //Creamos los estilos de las columnas (colores)
-         // Creamos el estilo de celda del color ROJO
-        HSSFCellStyle celdaRoja = libro.createCellStyle();
-        celdaRoja.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        celdaRoja.setFillForegroundColor(HSSFColor.RED.index);
-
-        // Creamos el estilo de celda del color AMARILLO
-        HSSFCellStyle celdaAmarilla = libro.createCellStyle();
-        celdaAmarilla.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        celdaAmarilla.setFillForegroundColor(HSSFColor.YELLOW.index);
-
-        // Creamos el estilo de celda del color VERDE
-        HSSFCellStyle celdaVerde = libro.createCellStyle();
-        celdaVerde.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        celdaVerde.setFillForegroundColor(HSSFColor.GREEN.index);
         
         for (int j = 0; j <= table.getColumnCount()-1; j++) {
             HSSFCell celda = encabezados.createCell(j);

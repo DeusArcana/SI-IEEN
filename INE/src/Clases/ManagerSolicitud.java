@@ -458,11 +458,13 @@ public class ManagerSolicitud {
 
     }//tabla_Solicitudes_Personales --> Muestra las solicitudes que realizo el usuario permisos_solicitudes
 
+    //Este método es para saber si todavia sigue disponible el producto y no lo selecciono alguien más, retorna un respectivo true o false
+    //Esto se utiliza en el Manejador Inventario, en la opción de asignación
     public String estadoProducto(String clave) {
         String estado = "";
         try{
            
-            String sql = "select estatus from inventario where id_producto = '"+clave+"';";
+            String sql = "select estatus from inventario where concat(Folio,'-',Numero,Extension) = '"+clave+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -471,7 +473,7 @@ public class ManagerSolicitud {
             
             conexion.close();
         } catch (SQLException ex) {
-            System.out.printf("Error al obtener los puestos para ingresarlos al combo SQL");
+            System.out.printf("Error al obtener el estatus del producto en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
             return estado;
         } 

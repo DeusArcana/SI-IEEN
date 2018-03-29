@@ -182,6 +182,9 @@ public class ManagerAsignarEquipo {
 
     }//getDetallesEquipoComputo
     
+    //Este método es para actualizar el estatus del producto a asignado porque ya se selecciono como posible asignación a algun empleado,
+    //sin embargo en esta parte aun no se realiza el vale de resguardo, aqui es simplemente seguridad de cuando se seleccione algun producto 
+    //del inventario para que alguien mas no intente asignarselo a otro empleado
     public boolean asignarEquipo(String clave){
         try { 
             // Preparamos el procedimiento almacenado
@@ -191,7 +194,7 @@ public class ManagerAsignarEquipo {
             // executeUpdate retorna el numero de filas modificadas
             return st.executeUpdate() == 1;
         } catch (SQLException ex) {
-            System.err.printf("Error al insertar la solicitud en SQL");
+            System.err.printf("Error al intentar actualizar el estauts del producto a \"asignado\" en SQL ");
             Logger.getLogger(ManagerSolicitud.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         } 
