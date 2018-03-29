@@ -37,6 +37,7 @@ import Clases.ManagerComplemento;
 import Clases.ManagerVehiculos;
 import Clases.ManejadorInventario;
 import Clases.ManagerAsignarEquipo;
+import Clases.Excel;
 
 
 //Importamos los formularios
@@ -71,6 +72,7 @@ public class Principal extends javax.swing.JFrame {
     ManagerComplemento manager_complemento;
     ManejadorInventario manejador_inventario;
     ManagerAsignarEquipo manager_asignar;
+    Excel excel;
     
     public String Responsable,Cargo,Area,Tipo_de_uso,Municipio,Localidad,Responsable1,Cargo1,Area1,Tipo_de_uso1,Municipio1,Localidad1;
     
@@ -128,6 +130,8 @@ public class Principal extends javax.swing.JFrame {
         managerVehiculos = new ManagerVehiculos();
         manejador_inventario = new ManejadorInventario();
         manager_asignar = new ManagerAsignarEquipo();
+        excel = new Excel();
+        
         //Para obtener el nombre de usuario con el que se logearon
         leer();
         
@@ -252,6 +256,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         comboInventario = new javax.swing.JComboBox<>();
         btnCancelarCheck = new javax.swing.JButton();
+        btnAceptarCheck1 = new javax.swing.JButton();
         txtBusqueda = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -793,6 +798,16 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        btnAceptarCheck1.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        btnAceptarCheck1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar.png"))); // NOI18N
+        btnAceptarCheck1.setText("Exportar");
+        btnAceptarCheck1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAceptarCheck1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarCheck1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -809,7 +824,8 @@ public class Principal extends javax.swing.JFrame {
                                 .addComponent(btnAddInventario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(comboInventario, 0, 174, Short.MAX_VALUE))
                             .addComponent(btnAceptarCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCancelarCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnCancelarCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAceptarCheck1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -822,10 +838,12 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addComponent(btnAddInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(btnAceptarCheck1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
                 .addComponent(btnAceptarCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCancelarCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(194, Short.MAX_VALUE))
+                .addContainerGap(114, Short.MAX_VALUE))
         );
 
         jPanel3.add(jPanel1);
@@ -4549,6 +4567,11 @@ public class Principal extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");
             }
     }//GEN-LAST:event_ParaDonacionActionPerformed
+
+    private void btnAceptarCheck1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarCheck1ActionPerformed
+        // TODO add your handling code here:
+        excel.GuardarComo(tablaInventario);
+    }//GEN-LAST:event_btnAceptarCheck1ActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -4738,6 +4761,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.ButtonGroup bg_manejo_inventario;
     private javax.swing.ButtonGroup bt_tipo_inventario_asignable;
     private javax.swing.JButton btnAceptarCheck;
+    private javax.swing.JButton btnAceptarCheck1;
     private javax.swing.JButton btnAddEmpleado;
     private javax.swing.JButton btnAddInventario;
     private javax.swing.JButton btnAñadirResguardo;
