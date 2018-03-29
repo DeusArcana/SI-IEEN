@@ -63,7 +63,7 @@ public class ManagerInventario {
         
     }//insertarEmpleado
     
-    public boolean guardarImagen(String folio,int numero,String extension, String producto, String descripcion, String ubicacion,String estatus, String marca, String observaciones,String no_serie,String modelo,String color,String fecha_compra,String factura, float importe,String ruta) {
+    public boolean guardarImagen(String folio,int numero,String extension, String producto, String descripcion, String ubicacion, String marca, String observaciones,String no_serie,String modelo,String color,String fecha_compra,String factura, float importe,String ruta) {
         conexion = db.getConexion();
         String insert = "insert into inventario (Folio,Numero,Extension,nombre_prod,descripcion,ubicacion,estatus,marca,observaciones,no_serie,tipo_uso,modelo,color,imagen,Fecha_Compra,Factura,Importe)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
         FileInputStream fi = null;
@@ -81,7 +81,7 @@ public class ManagerInventario {
             ps.setString(4, producto);
             ps.setString(5, descripcion);
             ps.setString(6, ubicacion);
-            ps.setString(7, estatus);
+            ps.setString(7, "Disponible");
             ps.setString(8, marca);
             ps.setString(9, observaciones);
             ps.setString(10, no_serie);
@@ -321,40 +321,6 @@ public class ManagerInventario {
         } 
         
     }//getBodegas
-    
-    public boolean insertarInventario(String clave, String producto, String almacen, String marca,String noserie, String descripcion, String observaciones,String tipo,String modelo,String color) {
-        try {
-            //Hacemos la conexión
-            conexion = db.getConexion();
-            //Creamos la variable para hacer operaciones CRUD
-            Statement st = conexion.createStatement();
-            //Creamos la variable para guardar el resultado de las consultas
-            ResultSet rs;
-            
-            //Insertamos al inventario
-            String sql = "insert into inventario (id_producto,nombre_prod,almacen,marca,no_serie,descripcion,observaciones,estatus,tipo_uso,modelo,color) "
-                         +"values('"+clave+"','"+producto+"','"+almacen+"','"+marca+"','"+noserie+"','"
-                         +descripcion+"','"+observaciones+"','DISPONIBLE','"+tipo+"','"+modelo+"','"+color+"');";
-            st.executeUpdate(sql);
-            
-            //Si es algún CPU o Monitor o Teclado, lo insertamos a su correspondiente tabla para cuando se necesite
-            //asignar a un grupo en la tabla de equipo de computo. Cada componente tenga su propia llave.
-            if(producto.equals("CPU") || producto.equals("Monitor") || producto.equals("Teclado")){
-                sql = "insert into "+producto+" values('"+clave+"');";
-                st.executeUpdate(sql);
-            }
-            
-            //Cerramos la conexión
-            conexion.close();
-            return true;
-            
-        } catch (SQLException ex) {
-            System.out.printf("Error al insertar en el inventario en SQL");
-            Logger.getLogger(ManagerInventario.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        } 
-        
-    }//insertarInventario
     
     public DefaultTableModel getInventarioCoincidencias(String prod) {
 

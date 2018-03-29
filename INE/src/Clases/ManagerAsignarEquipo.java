@@ -186,13 +186,28 @@ public class ManagerAsignarEquipo {
     //sin embargo en esta parte aun no se realiza el vale de resguardo, aqui es simplemente seguridad de cuando se seleccione algun producto 
     //del inventario para que alguien mas no intente asignarselo a otro empleado
     public boolean asignarEquipo(String clave){
-        try { 
+        try {
+            /*
             // Preparamos el procedimiento almacenado
             CallableStatement st = db.getConexion().prepareCall("{CALL `ine`.`sp_update_asignarEquipo`(?);}");
             // Asignamos el parametro
             st.setString(0, clave);
             // executeUpdate retorna el numero de filas modificadas
             return st.executeUpdate() == 1;
+            */
+            
+            //Hacemos la conexión
+            conexion = db.getConexion();
+            //Creamos la variable para hacer operaciones CRUD
+            Statement st = conexion.createStatement();
+            //Cambiamos el estatus del equipo seleccionado
+            String sql = "update Inventario set estatus = 'Asignado' " +
+                         "where concat(Folio,'-',Numero,Extension) = '"+clave+"';";
+            st.executeUpdate(sql);
+            //Cerramos la conexión
+            conexion.close();
+            return true;
+            
         } catch (SQLException ex) {
             System.err.printf("Error al intentar actualizar el estauts del producto a \"asignado\" en SQL ");
             Logger.getLogger(ManagerSolicitud.class.getName()).log(Level.SEVERE, null, ex);

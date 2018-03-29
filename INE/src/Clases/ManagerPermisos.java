@@ -1379,7 +1379,7 @@ public class ManagerPermisos {
     }//organizacion_solicitud
     
     public boolean permisoPorVale(String usuario,String tipo){
-        boolean estado;
+        boolean estado = false;
         conexion = db.getConexion();
         
         try {
@@ -1387,9 +1387,9 @@ public class ManagerPermisos {
             //Obtenemos la respuesta de permiso para la secretaria de acuerdo al tipo de solicitud
             String sql = "select permiso from permiso_vale pv inner join user u on (u.puesto = pv.puesto) where u.id_user = '"+usuario+"' and tipo_vale = '"+tipo+"';";
             ResultSet rs = st.executeQuery(sql);
-            rs.next();
-            estado = rs.getBoolean(1);
-            
+            if(rs.next()){
+                estado = rs.getBoolean(1);
+            }
             conexion.close();
         } //try  
         

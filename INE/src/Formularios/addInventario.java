@@ -467,7 +467,7 @@ public class addInventario extends javax.swing.JDialog {
         getInfo();
         if (manager_permisos.alta_inventario(Principal.Username)) {
             
-            if (manager_inventario.guardarImagen(folio,numero,extension, producto, descripcion,ubicacion,"DISPONIBLE", marca, "Sin observaciones",noserie, modelo, color, fecha_compra, factura, importe,imagen)) {
+            if (manager_inventario.guardarImagen(folio,numero,extension, producto, descripcion,ubicacion, marca, "Sin observaciones",noserie, modelo, color, fecha_compra, factura, importe,imagen)) {
 
                 JOptionPane.showMessageDialog(null, "Se inserto correctamente al inventario");
                 
