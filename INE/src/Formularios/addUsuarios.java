@@ -5,12 +5,20 @@
  */
 package Formularios;
 
+import Clases.CrearUsuarioPDF;
 import Clases.ManagerUsers;
 import Clases.ManagerComplemento;
 import Clases.ManagerPermisos;
 
 import Interfaces.Principal;
 import com.alee.laf.WebLookAndFeel;
+import com.itextpdf.text.DocumentException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -22,7 +30,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @author kevin
  */
 public class addUsuarios extends javax.swing.JDialog {
-    String usuario,contraseña,area,puesto;
+    String usuario,contraseña,area,puesto,USU;
     int id;
     
     ManagerUsers manager_users;
@@ -43,6 +51,11 @@ public class addUsuarios extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
         this.setTitle("Asginación de usuario");
         this.id = id_empleado;
+        
+        txtNombre.setVisible(false);
+        txtApellidoP.setVisible(false);
+        txtApellidoM.setVisible(false);
+        
     }
 
     private addUsuarios(JFrame jFrame, boolean b) {
@@ -63,12 +76,17 @@ public class addUsuarios extends javax.swing.JDialog {
         jLabel11 = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        txtContraseña = new javax.swing.JPasswordField();
         jLabel13 = new javax.swing.JLabel();
         comboCargo = new javax.swing.JComboBox<>();
+        jLabel14 = new javax.swing.JLabel();
+        comboArea = new javax.swing.JComboBox<>();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         lblAviso = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JTextField();
+        txtApellidoP = new javax.swing.JTextField();
+        txtApellidoM = new javax.swing.JTextField();
+        txtContraseña = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
 
@@ -96,12 +114,15 @@ public class addUsuarios extends javax.swing.JDialog {
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Contraseña:");
 
-        txtContraseña.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
         jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel13.setText("Cargo:");
 
         comboCargo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel14.setText("Área:");
+
+        comboArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnAceptar.setText("Aceptar");
@@ -119,17 +140,24 @@ public class addUsuarios extends javax.swing.JDialog {
             }
         });
 
+        txtNombre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        txtApellidoP.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        txtApellidoM.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout pn_usuarioLayout = new javax.swing.GroupLayout(pn_usuario);
         pn_usuario.setLayout(pn_usuarioLayout);
         pn_usuarioLayout.setHorizontalGroup(
             pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_usuarioLayout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addComponent(lblAviso)
+                .addContainerGap(541, Short.MAX_VALUE))
+            .addGroup(pn_usuarioLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pn_usuarioLayout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(lblAviso))
-                    .addGroup(pn_usuarioLayout.createSequentialGroup()
-                        .addGap(37, 37, 37)
                         .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(pn_usuarioLayout.createSequentialGroup()
                                 .addComponent(jLabel11)
@@ -140,21 +168,33 @@ public class addUsuarios extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(39, 39, 39)
-                        .addComponent(jLabel13)
+                        .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel14))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(comboCargo, 0, 161, Short.MAX_VALUE)))
+                        .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(comboCargo, 0, 188, Short.MAX_VALUE)
+                            .addComponent(comboArea, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(pn_usuarioLayout.createSequentialGroup()
+                        .addGap(158, 158, 158)
+                        .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(pn_usuarioLayout.createSequentialGroup()
-                .addGap(195, 195, 195)
-                .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_usuarioLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtApellidoP, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtApellidoM, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(197, 197, 197))
         );
         pn_usuarioLayout.setVerticalGroup(
             pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_usuarioLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pn_usuarioLayout.createSequentialGroup()
                         .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -163,21 +203,31 @@ public class addUsuarios extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
-                            .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addComponent(lblAviso))
-                    .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel13)
-                        .addComponent(comboCargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pn_usuarioLayout.createSequentialGroup()
+                        .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13)
+                            .addComponent(comboCargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(comboArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel14))))
                 .addGap(18, 18, 18)
                 .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
                     .addComponent(btnCancelar))
-                .addGap(60, 60, 60))
+                .addGap(18, 18, 18)
+                .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtApellidoP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtApellidoM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblAviso)
+                .addGap(106, 106, 106))
         );
 
         pn_empleado.add(pn_usuario);
-        pn_usuario.setBounds(30, 70, 580, 136);
+        pn_usuario.setBounds(20, 60, 580, 170);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setText("Asignación de Usuario");
@@ -186,17 +236,17 @@ public class addUsuarios extends javax.swing.JDialog {
 
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         pn_empleado.add(jLabel17);
-        jLabel17.setBounds(0, 0, 650, 230);
+        jLabel17.setBounds(-10, 0, 630, 410);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_empleado, javax.swing.GroupLayout.PREFERRED_SIZE, 649, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pn_empleado, javax.swing.GroupLayout.PREFERRED_SIZE, 616, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_empleado, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+            .addComponent(pn_empleado, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
         );
 
         pack();
@@ -207,6 +257,7 @@ public class addUsuarios extends javax.swing.JDialog {
         usuario = txtUsuario.getText();
         contraseña = txtContraseña.getText();
         puesto = comboCargo.getSelectedItem().toString();
+        area = comboArea.getSelectedItem().toString();
         
     }//getInfo()
     
@@ -227,8 +278,19 @@ public class addUsuarios extends javax.swing.JDialog {
             switch(res){
                 case 0:
                     getInfo();
-                    boolean insertar = manager_users.asignarUsuario(id,usuario,contraseña,puesto);
-                    if(insertar){
+                    boolean insertar = manager_users.asignarUsuario(id, usuario, contraseña, puesto);
+                    if (insertar) {
+                        //metodo para pdf
+                        Object[] botones = {"Si", "No", "Cancelar"};
+                        int opcion = JOptionPane.showOptionDialog(this, "¿Al generar el reporte desea abrirlo?", "Confirmación",
+                                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
+
+                        if (opcion == 0) {
+                            metodo(1);
+                        } else if (opcion == 1) {
+                            metodo(0);
+                        }
+                        
                         JOptionPane.showMessageDialog(null, "El usuario "+usuario+ "ha sido registrado en la base de datos exitosamente.");
                         if(manager_permisos.consulta_user(Principal.Username)){
                             Principal.tablaUsuarios.setModel(manager_users.getEmpleados());
@@ -256,11 +318,58 @@ public class addUsuarios extends javax.swing.JDialog {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        comboCargo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-        manager_complemento.getComboPuestos(comboCargo);
+        //Llenamos los combobox
+        if(Principal.banderaUser == 1){
+            comboCargo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+            manager_complemento.getComboPuestos(comboCargo);
 
+            comboArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+            manager_complemento.getComboAreas(comboArea);
+        }
+        Calendar calendario = Calendar.getInstance();
+   
+        String min,sec = "";
+        
+        min = "" +calendario.get(Calendar.MINUTE);
+        sec = "" +calendario.get(Calendar.SECOND);
+        char a,b;
+
+        Random r = new Random();
+
+        double aleatorio = Math.floor(Math.random() * (122 - 97 + 1) + 97);
+
+        a = (char) aleatorio;      
+        aleatorio = Math.floor(Math.random()*(122-97+1)+97);
+        
+        b = (char) aleatorio;
+        aleatorio = Math.floor(Math.random()*(122-97+1)+97);
+        
+       
+        
+        USU = txtNombre.getText().substring(0,1)+txtApellidoP.getText().substring(0,1)+a+b+sec;
+        txtUsuario.setText(USU);
+        txtContraseña.setText(generarContra(min));
     }//GEN-LAST:event_formWindowOpened
-
+    
+    public String generarContra(String min){
+        char a,b,c,d;
+        
+       
+        Random r = new Random();
+        
+        double aleatorio = Math.floor(Math.random()*(122-97+1)+97);
+       
+        a = (char)aleatorio;
+        aleatorio = Math.floor(Math.random()*(122-97+1)+97);
+        b = (char)aleatorio;
+        aleatorio = Math.floor(Math.random()*(122-97+1)+97);
+        c = (char)aleatorio;
+        aleatorio = Math.floor(Math.random()*(122-97+1)+97);
+        d = (char)aleatorio;
+        aleatorio = Math.floor(Math.random()*(122-97+1)+97);
+        
+        return a+min+b+c+d;
+    }
     private void txtUsuarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsuarioFocusLost
         // TODO add your handling code here:
         if(!(txtUsuario.getText().isEmpty())){
@@ -292,7 +401,40 @@ public class addUsuarios extends javax.swing.JDialog {
          this.dispose();
         
     }//GEN-LAST:event_btnCancelarActionPerformed
-
+    
+    public void metodo(int res){
+        CrearUsuarioPDF ob = new CrearUsuarioPDF();
+         //Instanciamos el objeto Calendar
+        //en fecha obtenemos la fecha y hora del sistema
+        Calendar fecha = new GregorianCalendar();
+        //Obtenemos el valor del año, mes, día,
+        //hora, minuto y segundo del sistema
+        //usando el método get y el parámetro correspondiente
+        int año = fecha.get(Calendar.YEAR);
+        int mes = fecha.get(Calendar.MONTH);
+        int dia = fecha.get(Calendar.DAY_OF_MONTH);
+        int hora = fecha.get(Calendar.HOUR_OF_DAY);
+        int minuto = fecha.get(Calendar.MINUTE);
+        int segundo = fecha.get(Calendar.SECOND);
+        
+         Date date = new Date();
+        DateFormat hourdateFormat = new SimpleDateFormat("dd_MM_yyyy HH_mm_ss");
+        
+        //Parse
+        String a = hourdateFormat.format(date);
+        
+        String cadena = txtUsuario.getText()+"_"+a;
+       
+        String cadena1 = ""+ dia + "/" + (mes+1) + "/" + año;
+        String cadena2 = ""+hora+":"+minuto+":"+segundo;
+        
+        System.out.println(""+cadena1+" "+cadena2);
+        try {
+            ob.createTicket(cadena, txtUsuario.getText(), txtContraseña.getText(), res,cadena1,cadena2);
+        } catch (DocumentException ex) {
+            Logger.getLogger(addUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -320,6 +462,8 @@ public class addUsuarios extends javax.swing.JDialog {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -339,16 +483,21 @@ public class addUsuarios extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JComboBox<String> comboArea;
     private javax.swing.JComboBox<String> comboCargo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel lblAviso;
     private javax.swing.JPanel pn_empleado;
     private javax.swing.JPanel pn_usuario;
-    private javax.swing.JPasswordField txtContraseña;
+    public static javax.swing.JTextField txtApellidoM;
+    public static javax.swing.JTextField txtApellidoP;
+    private javax.swing.JTextField txtContraseña;
+    public static javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }
