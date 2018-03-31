@@ -316,7 +316,7 @@ public class CrearUsuarioPDF {
                 JOptionPane.showMessageDialog(null, "Comprobante creado con éxito!", "Información", INFORMATION_MESSAGE);
             }
         } catch (java.io.FileNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "ERROR: Imagen no encontrada\nColoca la imagen dentro de dist\\print\\blogin.png", "Advertencia!", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "ERROR: No hay imagen prro dist\\print\\blogin.png", "Advertencia!", JOptionPane.WARNING_MESSAGE);
         } catch (DocumentException dex) {
             dex.printStackTrace();
         } catch (Exception ex) {

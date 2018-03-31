@@ -4339,12 +4339,22 @@ public class Principal extends javax.swing.JFrame {
             int fila = tablaUsuarios.getSelectedRow();
             int id = Integer.parseInt(tablaUsuarios.getValueAt(fila, 0).toString());
             
+            
             addUsuarios ob = new addUsuarios(this, true,id);
+            
+            String nombre = tablaUsuarios.getValueAt(fila, 1).toString();
+            String apPaterno = tablaUsuarios.getValueAt(fila, 2).toString();
+            String apMaterno = tablaUsuarios.getValueAt(fila, 3).toString();
+            
+            ob.txtNombre.setText(nombre);
+            ob.txtApellidoP.setText(apPaterno);
+            ob.txtApellidoM.setText(apMaterno);
+            
+            
             ob.setVisible(true);
         }else{
             JOptionPane.showMessageDialog(null, "No tienes permiso para asignar usuarios");
         }
-        
     }//GEN-LAST:event_Asignar_usuarioActionPerformed
 
     private void activarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activarActionPerformed
