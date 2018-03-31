@@ -244,18 +244,18 @@ CREATE TABLE IF NOT EXISTS `INE`.`Vales` (
   `id_vale` INT NOT NULL AUTO_INCREMENT,
   `tipo_vale` VARCHAR(30) NOT NULL,
   `fecha_vale` DATETIME NULL,
-  `id_user` VARCHAR(20) NOT NULL,
-  PRIMARY KEY (`id_vale`, `tipo_vale`, `id_user`),
+  `id_empleado` INT NOT NULL,
+  PRIMARY KEY (`id_vale`, `tipo_vale`, `id_empleado`),
   INDEX `fk_Vales_tipoVale1_idx` (`tipo_vale` ASC),
-  INDEX `fk_Vales_User1_idx` (`id_user` ASC),
+  INDEX `fk_Vales_User1_idx` (`id_empleado` ASC),
   CONSTRAINT `fk_Vales_tipoVale1`
     FOREIGN KEY (`tipo_vale`)
     REFERENCES `INE`.`tipoVale` (`tipo_vale`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Vales_User1`
-    FOREIGN KEY (`id_user`)
-    REFERENCES `INE`.`User` (`id_user`)
+    FOREIGN KEY (`id_empleado`)
+    REFERENCES `INE`.`Empleados` (`id_empleado`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

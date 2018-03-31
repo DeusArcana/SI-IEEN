@@ -158,21 +158,21 @@ INSERT INTO `INE`.`Permisos_Solicitud`
     DELETE FROM `INE`.`TipoVale` WHERE 1;
 INSERT INTO `INE`.`TipoVale` 
 	VALUES
-		('Vale de asignación'),
+		('Vale de resguardo'),
 		('Vale de recolección'),
         ('Vale de reemplazo')
     ;
 DELETE FROM `INE`.`Permiso_Vale` WHERE 1;
 INSERT INTO `INE`.`Permiso_Vale` 
 	VALUES
-		('Vale de asignación',		'Auxiliar',				false),
-		('Vale de asignación',		'Administración',		true),
-		('Vale de asignación',		'Jefe de departamento',	true),
-        ('Vale de asignación',		'Usuario Depto.',		false),
-        ('Vale de asignación',		'Organización', 		true),
-        ('Vale de asignación',		'Presidencia', 			true),
-        ('Vale de asignación',		'SuperUsuario', 		true),
-        ('Vale de asignación',		'Secretaria', 			false),
+		('Vale de resguardo',		'Auxiliar',				false),
+		('Vale de resguardo',		'Administración',		true),
+		('Vale de resguardo',		'Jefe de departamento',	true),
+        ('Vale de resguardo',		'Usuario Depto.',		false),
+        ('Vale de resguardo',		'Organización', 		true),
+        ('Vale de resguardo',		'Presidencia', 			true),
+        ('Vale de resguardo',		'SuperUsuario', 		true),
+        ('Vale de resguardo',		'Secretaria', 			false),
 		('Vale de recolección',	'Auxiliar',				false),
 		('Vale de recolección',	'Administración',		true),
         ('Vale de recolección',	'Jefe de departamento',	true),
@@ -199,7 +199,7 @@ INSERT INTO `Folio`(`Folio`.`ID_Folio`, `Folio`.`descripcion`) VALUES
 	('EY-02', 'Equipo de Computo'),
 	('EY-03', 'Equipo de Fotografía y Video'),
 	('EY-04', 'Aire Acondicionado'),
-	('EY-05', 'Equipo de Computación'),
+	('EY-05', 'Equipo de Comunicación'),
 	('EY-06', 'Equipos y Aparatos Audiovisuales'),
 	('EY-07', 'Equipo Diverso'),
 	('EY-10', 'Equipo de Transporte')
