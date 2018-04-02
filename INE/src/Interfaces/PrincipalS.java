@@ -54,6 +54,9 @@ public class PrincipalS extends javax.swing.JFrame {
         //tablasolic.setModel(manager_soviaticos.getTasol()); 
         tablasolic.getTableHeader().setReorderingAllowed(false);
         tablon.getTableHeader().setReorderingAllowed(false);
+        tablonpendientes.getTableHeader().setReorderingAllowed(false);
+        tablonaceptadas.getTableHeader().setReorderingAllowed(false);
+        tabloncanceladas.getTableHeader().setReorderingAllowed(false);
         manager_soviaticos = new ManagerSoViaticos();
         
     }
@@ -130,6 +133,22 @@ public class PrincipalS extends javax.swing.JFrame {
         btnguardar = new javax.swing.JButton();
         btnregresar = new javax.swing.JButton();
         jLabel24 = new javax.swing.JLabel();
+        tablonsolicitud1 = new javax.swing.JPanel();
+        jPanel20 = new javax.swing.JPanel();
+        menutablones = new javax.swing.JTabbedPane();
+        solipendientes = new javax.swing.JPanel();
+        jPanel23 = new javax.swing.JPanel();
+        jScrollPane13 = new javax.swing.JScrollPane();
+        tablonpendientes = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        soliaceptadas = new javax.swing.JPanel();
+        jPanel24 = new javax.swing.JPanel();
+        jScrollPane14 = new javax.swing.JScrollPane();
+        tablonaceptadas = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        solicanceladas = new javax.swing.JPanel();
+        jPanel25 = new javax.swing.JPanel();
+        jScrollPane15 = new javax.swing.JScrollPane();
+        tabloncanceladas = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        jLabel28 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itemAnterior = new javax.swing.JMenuItem();
@@ -624,6 +643,142 @@ public class PrincipalS extends javax.swing.JFrame {
 
         solicviaticos.addTab("Informe", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), informe); // NOI18N
 
+        tablonsolicitud1.setLayout(null);
+
+        solipendientes.setLayout(null);
+
+        tablonpendientes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nombre", "Puesto", "Fecha_salida", "Fecha_llegada", "Lugar"
+            }
+        ));
+        tablonpendientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablonpendientesMouseReleased(evt);
+            }
+        });
+        jScrollPane13.setViewportView(tablonpendientes);
+
+        javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
+        jPanel23.setLayout(jPanel23Layout);
+        jPanel23Layout.setHorizontalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel23Layout.createSequentialGroup()
+                .addComponent(jScrollPane13, javax.swing.GroupLayout.DEFAULT_SIZE, 1308, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel23Layout.setVerticalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel23Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(43, Short.MAX_VALUE))
+        );
+
+        solipendientes.add(jPanel23);
+        jPanel23.setBounds(0, 0, 1320, 530);
+
+        menutablones.addTab("Solicitudes Pendientes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), solipendientes); // NOI18N
+
+        soliaceptadas.setLayout(null);
+
+        tablonaceptadas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Folio", "Monto", "Fecha_salida", "Fecha_llegada", "Lugar"
+            }
+        ));
+        tablonaceptadas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablonaceptadasMouseReleased(evt);
+            }
+        });
+        jScrollPane14.setViewportView(tablonaceptadas);
+
+        javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
+        jPanel24.setLayout(jPanel24Layout);
+        jPanel24Layout.setHorizontalGroup(
+            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel24Layout.createSequentialGroup()
+                .addComponent(jScrollPane14, javax.swing.GroupLayout.DEFAULT_SIZE, 1308, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel24Layout.setVerticalGroup(
+            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel24Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(43, Short.MAX_VALUE))
+        );
+
+        soliaceptadas.add(jPanel24);
+        jPanel24.setBounds(0, 0, 1320, 530);
+
+        menutablones.addTab("Solicitudes Aceptadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), soliaceptadas); // NOI18N
+
+        solicanceladas.setLayout(null);
+
+        tabloncanceladas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nombre", "Puesto", "Fecha_salida", "Fecha_llegada", "Lugar"
+            }
+        ));
+        tabloncanceladas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tabloncanceladasMouseReleased(evt);
+            }
+        });
+        jScrollPane15.setViewportView(tabloncanceladas);
+
+        javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
+        jPanel25.setLayout(jPanel25Layout);
+        jPanel25Layout.setHorizontalGroup(
+            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel25Layout.createSequentialGroup()
+                .addComponent(jScrollPane15, javax.swing.GroupLayout.DEFAULT_SIZE, 1308, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel25Layout.setVerticalGroup(
+            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel25Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(43, Short.MAX_VALUE))
+        );
+
+        solicanceladas.add(jPanel25);
+        jPanel25.setBounds(0, 0, 1320, 530);
+
+        menutablones.addTab("Solicitudes Canceladas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), solicanceladas); // NOI18N
+
+        javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
+        jPanel20.setLayout(jPanel20Layout);
+        jPanel20Layout.setHorizontalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(menutablones, javax.swing.GroupLayout.DEFAULT_SIZE, 1320, Short.MAX_VALUE)
+        );
+        jPanel20Layout.setVerticalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(menutablones, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+        );
+
+        tablonsolicitud1.add(jPanel20);
+        jPanel20.setBounds(20, 110, 1320, 530);
+
+        jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
+        tablonsolicitud1.add(jLabel28);
+        jLabel28.setBounds(0, 0, 1367, 769);
+
+        solicviaticos.addTab("Tablon de Solicitudes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), tablonsolicitud1); // NOI18N
+
         jMenu1.setText("Archivo");
 
         itemAnterior.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_LEFT, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
@@ -925,6 +1080,9 @@ public class PrincipalS extends javax.swing.JFrame {
         Solicitud("SELECT O.Folio, S.Nombre FROM solicitud_viatico S, oficio_comision O WHERE S.Estado = 'A' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
         tablasolic.setModel(manager_soviaticos.getTasol());
         tablon.setModel(manager_soviaticos.SolicitudP());
+        tablonpendientes.setModel(manager_soviaticos.SolicitudP());
+        tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
+        tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
         
     }//GEN-LAST:event_formWindowOpened
 
@@ -1532,6 +1690,36 @@ public class PrincipalS extends javax.swing.JFrame {
         addSolicitudVehiculo asv = new addSolicitudVehiculo(this, true);
         asv.setVisible(true);
     }//GEN-LAST:event_btnSolicitarVehiculoActionPerformed
+
+    private void tablonpendientesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablonpendientesMouseReleased
+        // TODO add your handling code here:
+        if(SwingUtilities.isRightMouseButton(evt)){
+            int r = tablonpendientes.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablonpendientes.getRowCount())
+            tablonpendientes.setRowSelectionInterval(r, r);
+            MenuTablonP.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
+    }//GEN-LAST:event_tablonpendientesMouseReleased
+
+    private void tablonaceptadasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablonaceptadasMouseReleased
+        // TODO add your handling code here:
+        if(SwingUtilities.isRightMouseButton(evt)){
+            int r = tablonaceptadas.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablonaceptadas.getRowCount())
+            tablonaceptadas.setRowSelectionInterval(r, r);
+            MenuTablonA.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
+    }//GEN-LAST:event_tablonaceptadasMouseReleased
+
+    private void tabloncanceladasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabloncanceladasMouseReleased
+        // TODO add your handling code here:
+        if(SwingUtilities.isRightMouseButton(evt)){
+            int r = tabloncanceladas.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tabloncanceladas.getRowCount())
+            tabloncanceladas.setRowSelectionInterval(r, r);
+            MenuTablonC.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
+    }//GEN-LAST:event_tabloncanceladasMouseReleased
     public void Consultar() {
         if (i == 1) {
             int i = tablon.getSelectedRow();
@@ -1705,6 +1893,7 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -1713,23 +1902,38 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel19;
+    private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane13;
+    private javax.swing.JScrollPane jScrollPane14;
+    private javax.swing.JScrollPane jScrollPane15;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JLabel jlb;
     private javax.swing.JMenu menuOpciones;
     private javax.swing.JMenuItem menuPermisos;
     private javax.swing.JMenuItem menuPuestoArea;
+    private javax.swing.JTabbedPane menutablones;
     private javax.swing.JMenuItem mi_inventario;
+    private javax.swing.JPanel soliaceptadas;
+    private javax.swing.JPanel solicanceladas;
     private javax.swing.JPanel solicitudviaticos1;
     public static javax.swing.JTabbedPane solicviaticos;
+    private javax.swing.JPanel solipendientes;
     private javax.swing.JTable tablainfo;
     public static javax.swing.JTable tablasolic;
     public static javax.swing.JTable tablon;
+    public static javax.swing.JTable tablonaceptadas;
+    public static javax.swing.JTable tabloncanceladas;
+    public static javax.swing.JTable tablonpendientes;
     private javax.swing.JPanel tablonsolicitud;
+    private javax.swing.JPanel tablonsolicitud1;
     private javax.swing.JTextField txtbusquedasoli;
     private javax.swing.JTextField txtbusquedasoli1;
     private javax.swing.JTextField txtbusquedasoli2;
