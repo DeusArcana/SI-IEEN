@@ -286,6 +286,38 @@ CREATE TABLE IF NOT EXISTS `INE`.`Permisos_puesto` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `INE`.`SolicitudSalida`
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `INE`.`SolicitudSalida` (
+  `Folio` VARCHAR(30) NOT NULL,
+  `Num` INT NOT NULL,
+  `Año` INT NOT NULL,
+  `estado` VARCHAR(25) NULL,
+  `user_autorizo` VARCHAR(20) NULL,
+  `id_user` VARCHAR(20) NOT NULL,
+  `fecha_solicitud` DATETIME NULL,
+  `fecha_respuesta` DATETIME NULL,
+  PRIMARY KEY (`Folio`, `Num`, `Año`),
+  INDEX `fk_Solicitudes_User1_idx` (`id_user` ASC),
+  CONSTRAINT `fk_Solicitudes_User2`
+    FOREIGN KEY (`id_user`)
+    REFERENCES `INE`.`User` (`id_user`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `INE`.`Detalle_solicitudSalida`
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `INE`.`Detalle_solicitudSalida` (
+  `id_solicitud` VARCHAR(20) NOT NULL,
+  `id_producto` VARCHAR(30) NOT NULL,
+  `cantidad_solicitada` INT NULL,
+  `cantidad_autorizada` INT NULL)
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `INE`.`Detalle_solicitud`

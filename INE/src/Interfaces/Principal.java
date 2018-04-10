@@ -399,6 +399,16 @@ public class Principal extends javax.swing.JFrame {
         rb_asignacion1 = new javax.swing.JRadioButton();
         rb_recoleccion1 = new javax.swing.JRadioButton();
         jLabel16 = new javax.swing.JLabel();
+        solicitar_granel = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        pn_tablaUsuarios1 = new javax.swing.JPanel();
+        jScrollPane17 = new javax.swing.JScrollPane();
+        tablaSolicitarGranel = new javax.swing.JTable();
+        btnSolicitarSalida = new javax.swing.JButton();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        comboFiltroUsuario1 = new javax.swing.JComboBox<>();
+        fondo1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itemAnterior = new javax.swing.JMenuItem();
@@ -1449,7 +1459,6 @@ public class Principal extends javax.swing.JFrame {
         });
 
         GrupoTipoInventario.add(radioGranel);
-        radioGranel.setSelected(true);
         radioGranel.setText("Inventario granel");
         radioGranel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2164,6 +2173,91 @@ public class Principal extends javax.swing.JFrame {
 
         tabbedPrincipal.addTab("Manejador de inventario", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), manejo_inventario); // NOI18N
 
+        jPanel12.setLayout(null);
+
+        pn_tablaUsuarios1.setBackground(new java.awt.Color(255, 255, 255));
+        pn_tablaUsuarios1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+
+        tablaSolicitarGranel.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Solicitar", "Clave", "Nombre corto", "Descripción", "Ubicación", "Marca"
+            }
+        ));
+        tablaSolicitarGranel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablaSolicitarGranelMouseReleased(evt);
+            }
+        });
+        jScrollPane17.setViewportView(tablaSolicitarGranel);
+
+        javax.swing.GroupLayout pn_tablaUsuarios1Layout = new javax.swing.GroupLayout(pn_tablaUsuarios1);
+        pn_tablaUsuarios1.setLayout(pn_tablaUsuarios1Layout);
+        pn_tablaUsuarios1Layout.setHorizontalGroup(
+            pn_tablaUsuarios1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pn_tablaUsuarios1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane17, javax.swing.GroupLayout.DEFAULT_SIZE, 1306, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pn_tablaUsuarios1Layout.setVerticalGroup(
+            pn_tablaUsuarios1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pn_tablaUsuarios1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane17, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE))
+        );
+
+        jPanel12.add(pn_tablaUsuarios1);
+        pn_tablaUsuarios1.setBounds(20, 150, 1330, 610);
+
+        btnSolicitarSalida.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        btnSolicitarSalida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar.png"))); // NOI18N
+        btnSolicitarSalida.setText("Solicitar");
+        btnSolicitarSalida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSolicitarSalidaActionPerformed(evt);
+            }
+        });
+        jPanel12.add(btnSolicitarSalida);
+        btnSolicitarSalida.setBounds(430, 100, 140, 30);
+
+        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baner Usuarios.png"))); // NOI18N
+        jPanel12.add(jLabel21);
+        jLabel21.setBounds(10, 10, 1350, 80);
+
+        jLabel32.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel32.setText("Categoria:");
+        jPanel12.add(jLabel32);
+        jLabel32.setBounds(30, 100, 90, 22);
+
+        comboFiltroUsuario1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        comboFiltroUsuario1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboFiltroUsuario1ActionPerformed(evt);
+            }
+        });
+        jPanel12.add(comboFiltroUsuario1);
+        comboFiltroUsuario1.setBounds(120, 100, 210, 28);
+
+        fondo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
+        jPanel12.add(fondo1);
+        fondo1.setBounds(0, 0, 1367, 769);
+
+        javax.swing.GroupLayout solicitar_granelLayout = new javax.swing.GroupLayout(solicitar_granel);
+        solicitar_granel.setLayout(solicitar_granelLayout);
+        solicitar_granelLayout.setHorizontalGroup(
+            solicitar_granelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 1397, Short.MAX_VALUE)
+        );
+        solicitar_granelLayout.setVerticalGroup(
+            solicitar_granelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 1180, Short.MAX_VALUE)
+        );
+
+        tabbedPrincipal.addTab("Solicitar I_granel", new javax.swing.ImageIcon(getClass().getResource("/Iconos/usuarios.png")), solicitar_granel); // NOI18N
+
         jMenu1.setText("Archivo");
 
         itemAnterior.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_LEFT, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
@@ -2449,6 +2543,9 @@ public class Principal extends javax.swing.JFrame {
         if(!(manager_permisos.permisoPorVale(Username, "Vale de resguardo") || manager_permisos.permisoPorVale(Username, "Vale de recolección"))){
             tabbedPrincipal.removeTabAt(6-pestañas);//Eliminamos la pestaña
         }
+        
+        //PESTAÑA SOLICITAR I_GRANEL
+        tablaSolicitarGranel.setModel(manager_inventario.tablaSolicitarInvGranel());
         
     }//GEN-LAST:event_formWindowOpened
     
@@ -4650,6 +4747,38 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
         }
     }//GEN-LAST:event_comboFolioAsignacionActionPerformed
+
+    private void tablaSolicitarGranelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaSolicitarGranelMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaSolicitarGranelMouseReleased
+
+    private void btnSolicitarSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarSalidaActionPerformed
+        // TODO add your handling code here:
+        String ids = "";
+        
+        for(int i = 0; i<tablaSolicitarGranel.getRowCount();i++){
+            
+            if(Boolean.parseBoolean(tablaSolicitarGranel.getValueAt(i, 0).toString())){
+                if(ids.equals("")){
+                    ids = tablaSolicitarGranel.getValueAt(i, 1).toString();
+                }else{
+                    ids += ","+tablaSolicitarGranel.getValueAt(i, 1).toString();
+                } 
+            }//si es verdadero entonces marco ese producto
+            
+        }//Recorremos toda la tabla para ver que marco para solicitar
+        if(ids.equals("")){
+            JOptionPane.showMessageDialog(null, "Debes seleccionar al menos un producto para realizar la solicitud");
+        }else{
+            Ventana_solicitudSalida ob = new Ventana_solicitudSalida(this, true, ids,Username);
+            ob.setVisible(true);
+            tablaSolicitarGranel.setModel(manager_inventario.tablaSolicitarInvGranel());
+        }
+    }//GEN-LAST:event_btnSolicitarSalidaActionPerformed
+
+    private void comboFiltroUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroUsuario1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboFiltroUsuario1ActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -4848,6 +4977,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEditar1;
     public javax.swing.JButton btnGenerarValeR;
+    private javax.swing.JButton btnSolicitarSalida;
     public javax.swing.JButton btn_cancelar2;
     public javax.swing.JButton btn_cancelar3;
     public javax.swing.JButton btn_generar_vale3;
@@ -4862,6 +4992,7 @@ public class Principal extends javax.swing.JFrame {
     public static javax.swing.JComboBox<String> comboEstatus;
     public static javax.swing.JComboBox<String> comboFiltro;
     private javax.swing.JComboBox<String> comboFiltroUsuario;
+    private javax.swing.JComboBox<String> comboFiltroUsuario1;
     private javax.swing.JComboBox<String> comboFiltroVehiculos;
     public static javax.swing.JComboBox<String> comboFolio;
     public static javax.swing.JComboBox<String> comboFolioAsignacion;
@@ -4875,6 +5006,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel etiquetaLinea;
     private javax.swing.JLabel etiquetaMarca;
     private javax.swing.JLabel fondo;
+    private javax.swing.JLabel fondo1;
     private javax.swing.JPanel fondoVehiculo;
     private javax.swing.JLabel imagenVehiculo;
     private javax.swing.JMenuItem itemAnterior;
@@ -4897,12 +5029,14 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -4914,6 +5048,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
@@ -4929,6 +5064,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
+    private javax.swing.JScrollPane jScrollPane17;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane31;
@@ -4972,12 +5108,14 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel pn_contenedor_ventanas1;
     private javax.swing.JPanel pn_recoleccion_inventario1;
     private javax.swing.JPanel pn_tablaUsuarios;
+    private javax.swing.JPanel pn_tablaUsuarios1;
     private javax.swing.JRadioButton radioEquipo;
     private javax.swing.JRadioButton radioGranel;
     private javax.swing.JRadioButton rb_asignacion1;
     public javax.swing.JRadioButton rb_inventario_granel1;
     public javax.swing.JRadioButton rb_inventario_normal1;
     public javax.swing.JRadioButton rb_recoleccion1;
+    private javax.swing.JPanel solicitar_granel;
     private javax.swing.JPanel solicitudes;
     private javax.swing.JScrollPane sp_asignacion_inventario1;
     private javax.swing.JScrollPane sp_recoleccion_inventario1;
@@ -4992,6 +5130,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTable tablaPermisosPersonales;
     public javax.swing.JTable tablaRecoleccion;
     public static javax.swing.JTable tablaResguardo;
+    public static javax.swing.JTable tablaSolicitarGranel;
     public static javax.swing.JTable tablaSolicitudes;
     public static javax.swing.JTable tablaSolicitudesPersonal;
     public static javax.swing.JTable tablaStockMin;

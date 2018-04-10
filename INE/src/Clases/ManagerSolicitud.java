@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
@@ -79,6 +80,114 @@ public class ManagerSolicitud {
         } 
         
     }//registro_solicitud
+    
+    //Este metodo realiza el registro de la solicitud de salida de almacen y retorna la tabla para que ingresen la cantidad que desean solicitar
+    public DefaultTableModel registro_SolicitudSalida(String user, String ids){
+        String idSol ="";
+        try {
+            //Hacemos la conexión
+            conexion = db.getConexion();
+            //Creamos la variable para hacer operaciones CRUD
+            Statement st = conexion.createStatement();
+            //Creamos la variable para guardar el resultado de las consultas
+            ResultSet rs;
+            
+            //Obtenemos la fecha del sistema
+            String sql = "select now();";
+            rs = st.executeQuery(sql);
+            rs.next();
+            String fecha = rs.getString(1); 
+            
+            //Buscamos el año y el numero en el que se quedo la solicitud
+            Calendar cal= Calendar.getInstance();
+            int year= cal.get(Calendar.YEAR);
+            int num = 1;
+            
+            sql = "select Num from solicitudSalida where año = "+year+" and Folio = 'SALIDA';";
+            rs = st.executeQuery(sql);
+            //Si encuentra coincidencias entonces le sumamos uno para el siguiente vale, 
+            //en caso de no encontrarlo entonces se reinicia el contador de solicitudes con el nuevo año
+            if(rs.next()){
+                num = rs.getInt(1) + 1;
+            }
+            
+            //Registramos la solicitud
+            sql = "insert into solicitudSalida (Folio,Num,Año,id_user,fecha_solicitud) "
+                        +"values('SALIDA',"+num+","+year+",'"+user+"','"+fecha+"');";
+            st.executeUpdate(sql);
+            
+            String[] productos = ids.split(",");
+            
+            for (String producto : productos) {
+                //Registramos los productos que se solicitaron
+                sql = "insert into detalle_solicitudSalida (id_solicitud,id_producto) "
+                        +"values('SALIDA-"+num+"-"+year+"','" + producto + "');";
+                st.executeUpdate(sql);
+            }
+            
+            //Buscamos el id de la solicitud
+            sql = "select concat(Folio,'-',Num,'-',Año) from solicitudSalida where fecha_solicitud = '"+fecha+"';";
+            rs = st.executeQuery(sql);
+            rs.next();
+            idSol = rs.getString(1);
+            
+        } catch (SQLException ex) {
+            System.out.printf("Error al insertar la solicitud en SQL");
+            Logger.getLogger(ManagerSolicitud.class.getName()).log(Level.SEVERE, null, ex);
+            
+        } 
+        
+        return tabla_SolicitudSalida(idSol);
+    }//registro_solicitudSalida
+    
+    //Este metodo muestra una tabla con los pedidos de productos que se quieren para realizar la solicitud de salida de almacen,
+    //esto para que indiquen la cantidad de productos que requieren cada uno. (pendiente)
+    public DefaultTableModel tabla_SolicitudSalida(String solicitud) {
+        
+        DefaultTableModel table = new DefaultTableModel();
+        
+        try {
+            
+            table.addColumn("Clave");
+            table.addColumn("Nombre corto");
+            table.addColumn("Descripción");
+            table.addColumn("Marca");
+            table.addColumn("Solicitar");
+            
+            conexion = db.getConexion();
+            
+            String sql="select ig.id_productoGranel, ig.nombre_prod, ig.descripcion, ig.marca from detalle_solicitudSalida dss\n" +
+                        "inner join solicitudsalida ss on (concat(ss.Folio,'-',ss.Num,'-',ss.Año) = dss.id_solicitud)\n" +
+                        "inner join inventario_granel ig on (ig.id_productoGranel = dss.id_producto) where dss.id_solicitud = '"+solicitud+"';";
+            Statement st = conexion.createStatement();
+            Object datos[] = new Object[5];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+                
+                for(int i = 0;i<4;i++){
+                    
+                datos[i] = rs.getObject(i+1);    
+                    
+                }//Llenamos las columnas por registro
+                
+                datos[4] = 1;
+                
+                table.addRow(datos);//Añadimos la fila
+           }//while
+                
+            
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los productos de la solicitud de la salida de almacen SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//tabla_SolicitudSalida --> Muestra los productos que estan asignados a una solicitud
 
     public boolean actualizar_Solicitud(int idSol,String tipo){
         
@@ -524,6 +633,59 @@ public class ManagerSolicitud {
             return false;
 
         }
-    }
+    }//guardarImagenSolicitud
+    
+    //Este método es para registrar la solicitud de los productos que se requieren pero que aun no han sido autorizados o denegados
+    public boolean solicitudResguardo(String idProd[], String tipo,String empleado,String motivo,int cantidad){
+        
+        if(motivo.equals("")){
+            motivo = "Sin especificar el motivo";
+        }
+        
+        try {
+            //Hacemos la conexión
+            conexion = db.getConexion();
+            //Creamos la variable para hacer operaciones CRUD
+            Statement st = conexion.createStatement();
+            //Creamos la variable para guardar el resultado de las consultas
+            ResultSet rs;
+            
+            //Obtenemos la fecha del sistema
+            String sql = "select now();";
+            rs = st.executeQuery(sql);
+            rs.next();
+            String fecha = rs.getString(1); 
+            
+            
+            //Registramos la solicitud
+            sql = "insert into Solicitudes (tipo_solicitud,id_user,motivo,cantidad,fecha_solicitud,estado) "
+                        +"values('"+tipo+"','"+empleado+"','"+motivo+"',"+cantidad+",'"+fecha+"','SOLICITUD');";
+            st.executeUpdate(sql);
+            
+            //Cambiamos el estatus del equipo seleccionado
+            sql = "update Inventario set estatus = '"+tipo+"' where id_producto = '"+idProd+"'";
+            st.executeUpdate(sql);
+            
+            //Buscamos el id de la solicitud
+            sql = "select id_solicitud from Solicitudes where fecha_solicitud = '"+fecha+"';";
+            rs = st.executeQuery(sql);
+            rs.next();
+            String idSol = rs.getString(1); 
+            
+            //Realizamos el registro de los detalles de la solicitud
+            sql = "insert into Detalle_solicitud values('"+idSol+"','"+idProd+"')";
+            st.executeUpdate(sql);
+            
+            //Cerramos la conexión
+            conexion.close();
+            return true;
+            
+        } catch (SQLException ex) {
+            System.out.printf("Error al insertar la solicitud en SQL");
+            Logger.getLogger(ManagerSolicitud.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } 
+        
+    }//registro_solicitud
     
 }//class 
