@@ -357,10 +357,10 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         ResultSet res;
         try{
             Connection cn=cbd.getConexion();
-            res=cbd.getTabla("select marca,linea,clase,matricula from vehiculos where Estado='Disponible'",cn);
+            res=cbd.getTabla("select marca,matricula from vehiculos where Estado='Disponible'",cn);
             List<String> autos=new ArrayList<String>();
             while(res.next()){
-                String aux=res.getString("marca")+"-"+res.getString("linea")+"-"+res.getString("clase")+"-"+res.getString("matricula");
+                String aux=res.getString("marca")+"-"+res.getString("matricula");
                 System.out.println(aux);
                 autos.add(aux);
             }
@@ -388,12 +388,12 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         if(cmb_Vehiculo.getSelectedIndex() != 0){
             String separador [] = cmb_Vehiculo.getSelectedItem().toString().split("-");
             try {
-                ResultSet res=cbd.getTabla("select kilometraje from vehiculo_usado where vehiculos_Matricula='"+separador[3]+"'", cn);
-                System.out.println("select kilometraje from vehiculo_usado where vehiculos_Matricula='"+separador[3]+"'");
+                ResultSet res=cbd.getTabla("select kilometraje from vehiculo_usado where vehiculos_Matricula='"+separador[1]+"'", cn);
+                System.out.println("select kilometraje from vehiculo_usado where vehiculos_Matricula='"+separador[1]+"'");
                 res.next();
                 txtKilometraje.setText(res.getString("kilometraje"));
                 
-                res=cbd.getTabla("select observaciones from vehiculos where Matricula='"+separador[3]+"'", cn);
+                res=cbd.getTabla("select observaciones from vehiculos where Matricula='"+separador[1]+"'", cn);
                 res.next();
                 txtADescripcion.setText(res.getString("observaciones"));
             } catch (SQLException ex) {
