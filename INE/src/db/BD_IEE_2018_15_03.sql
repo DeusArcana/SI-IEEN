@@ -626,6 +626,17 @@ CREATE TABLE IF NOT EXISTS `ine`.`solicitud_vehiculo` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- ====================================================================
+--
+-- Author:      Javier Pazos
+-- Create date: 10 / 04 / 2018
+-- Description: Tabla para configuración de sistema
+--
+-- ====================================================================
+
+CREATE TABLE IF NOT EXISTS `Admin_config` (
+	`INT_String_Format` INT
+) ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
