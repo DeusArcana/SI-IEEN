@@ -294,7 +294,7 @@ CREATE TABLE IF NOT EXISTS `INE`.`SolicitudSalida` (
   `Folio` VARCHAR(30) NOT NULL,
   `Num` INT NOT NULL,
   `Año` INT NOT NULL,
-  `estado` VARCHAR(25) NULL,
+  `estado` VARCHAR(50) NULL,
   `user_autorizo` VARCHAR(20) NULL,
   `id_user` VARCHAR(20) NOT NULL,
   `fecha_solicitud` DATETIME NULL,

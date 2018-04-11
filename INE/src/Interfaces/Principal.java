@@ -2467,7 +2467,7 @@ public class Principal extends javax.swing.JFrame {
             1 -> reemplazo
             0 -> ningun permiso
         */
-        /*
+        
         if(manager_permisos.verTablaSolicitudes(Username) == 0){
                 tabbedPrincipal.removeTabAt(3);//Eliminamos la pestaña
                 pestañas++;
@@ -2490,7 +2490,7 @@ public class Principal extends javax.swing.JFrame {
                 }//if cantidad
                 
             }
-        }*/
+        }
         
         tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
         
