@@ -67,9 +67,52 @@ public class ManagerSoViaticos {
 
             return taso;
         }
+        
 
     }//getInventarioG
-      
+    public DefaultTableModel getTasolVehiculo() {
+
+        DefaultTableModel taso = new DefaultTableModel();
+        taso.addColumn("idSolicitud");
+        taso.addColumn("Fecha_Salida");
+        taso.addColumn("Lugar");
+        taso.addColumn("Nombre");
+        taso.addColumn("Actividad");
+        taso.addColumn("Pernoctado");
+        taso.addColumn("Vehiculo");
+        taso.addColumn("Puesto");
+        taso.addColumn("Fecha_llegada");
+        taso.addColumn("Estado");
+
+        try {
+            
+            //Consulta de los empleados
+            String sql = "select idsolicitud_vehiculo,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_llegada,Estado from solicitud_vehiculo";
+            //String sql="select * from solicitud_viatico";
+            Statement st = cn.createStatement();
+            Object datos[] = new Object[10];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<10;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                taso.addRow(datos);//Añadimos la fila
+           }//while
+            //cn.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error getTabla solicitudviatico SQL");
+            Logger.getLogger(ManagerSoViaticos.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return taso;
+        }
+        
+
+    }//Obtener las solicitudes de vehiculos
       
       /* public boolean insertarSolicitud(String ID,String fechasali, String lugar, String nombre, String actividad,String pernoctado,String vehiculo, String puesto,String fechallega) {
         try {
