@@ -81,6 +81,72 @@ public class ManagerSolicitud {
         
     }//registro_solicitud
     
+    //Este metodo crea una tabla temporal que almacena los ids de los productos que se quieren solicitar, esto con el fin de que si el proceso se
+    //llegue a cancelar no se haya registrado todavia ninguna solicitud
+    public DefaultTableModel mostrarProductosSolicitados(String user, String ids){
+        
+        //Creamos la tabla que mostrara la información al usuario
+        DefaultTableModel table = new DefaultTableModel();
+        
+        try {
+            //Hacemos la conexión
+            conexion = db.getConexion();
+            //Creamos la variable para hacer operaciones CRUD
+            Statement st = conexion.createStatement();
+            //Creamos la variable para guardar el resultado de las consultas
+            ResultSet rs;
+            
+            //Creamos la tabla temporal que albergara los ids de los productos solicitados
+            String sql = "CREATE TEMPORARY TABLE productosSolicitados_"+user+" (id_granel varchar(50));";
+            st.executeUpdate(sql);
+            System.out.println("Se creo la tabla temporal correctamente");
+            
+            String[] productos = ids.split(",");
+            
+            for (String producto : productos) {
+                //Registramos los productos que se solicitaron
+                sql = "insert into productosSolicitados_"+user+" (id_granel) "
+                        +"values('"+producto+"');";
+                st.executeUpdate(sql);
+            }//Llenamos la tabla temporal
+            System.out.println("Se insertaron datos en la tabla temporal correctamente");
+            table.addColumn("Clave");
+            table.addColumn("Nombre corto");
+            table.addColumn("Descripción");
+            table.addColumn("Marca");
+            table.addColumn("Solicitar");
+            
+            sql="select ig.id_productoGranel, ig.nombre_prod, ig.descripcion, ig.marca from productosSolicitados_"+user+" dss\n" +
+                        "inner join inventario_granel ig on (ig.id_productoGranel = dss.id_granel);";
+            Object datos[] = new Object[5];
+            rs = st.executeQuery(sql);
+            System.out.println("Se realizo el inner join con la tabla temporal correctamente");
+            //Llenar tabla
+            while (rs.next()) {
+                
+                for(int i = 0;i<4;i++){
+                    
+                datos[i] = rs.getObject(i+1);    
+                    
+                }//Llenamos las columnas por registro
+                
+                datos[4] = 1;
+                
+                table.addRow(datos);//Añadimos la fila
+           }//while
+                
+            
+            conexion.close();
+            
+        } catch (SQLException ex) {
+            System.out.printf("Error al crear la tabla temporal para mostrarla en SQL");
+            Logger.getLogger(ManagerSolicitud.class.getName()).log(Level.SEVERE, null, ex);
+            
+        } 
+        
+        return table;
+    }//registro_solicitudSalida
+
     //Este metodo realiza el registro de la solicitud de salida de almacen y retorna la tabla para que ingresen la cantidad que desean solicitar
     public DefaultTableModel registro_SolicitudSalida(String user, String ids){
         String idSol ="";
@@ -112,8 +178,8 @@ public class ManagerSolicitud {
             }
             
             //Registramos la solicitud
-            sql = "insert into solicitudSalida (Folio,Num,Año,id_user,fecha_solicitud) "
-                        +"values('SALIDA',"+num+","+year+",'"+user+"','"+fecha+"');";
+            sql = "insert into solicitudSalida (Folio,Num,Año,id_user,fecha_solicitud,estado) "
+                        +"values('SALIDA',"+num+","+year+",'"+user+"','"+fecha+"','Solicitud Salida');";
             st.executeUpdate(sql);
             
             String[] productos = ids.split(",");

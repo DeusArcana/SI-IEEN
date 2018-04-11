@@ -386,7 +386,7 @@ public class ManagerPermisos {
     
     //---------------------------------------------------------------------------------------------------------------------//   
     public int verTablaSolicitudes(String user){
-        boolean baja = false,comodato = false,donacion = false,reemplazo = false;
+        boolean baja = false,comodato = false,donacion = false,salida = false;
         String puesto;
         conexion = db.getConexion();
         try {
@@ -415,11 +415,11 @@ public class ManagerPermisos {
             if(rs.next()){
                 donacion = rs.getBoolean(1);
             }
-            //Obtenemos la respuesta de permiso para el puesto de la persona que se logeo de la solicitud reemplazo
-            sql = "select permiso from permisos_solicitud where tipo_solicitud = 'Solicitud Reemplazo' and puesto = '"+puesto+"';";
+            //Obtenemos la respuesta de permiso para el puesto de la persona que se logeo de la solicitud salida
+            sql = "select permiso from permisos_solicitud where tipo_solicitud = 'Solicitud Salida' and puesto = '"+puesto+"';";
             rs = st.executeQuery(sql);
             if(rs.next()){
-                reemplazo = rs.getBoolean(1);
+                salida = rs.getBoolean(1);
             }
             rs.close();
             st.close();
@@ -443,7 +443,7 @@ public class ManagerPermisos {
            */
             
 //------------------PERMISO PARA LOS 4 TIPOS DE SOLICITUDES------------------------//
-            if(baja == donacion && baja == comodato && baja == reemplazo && baja){
+            if(baja == donacion && baja == comodato && baja == salida && baja){
                 return 14; //Tiene permiso para ver todos los tipos de solicitud
             }
             
@@ -451,11 +451,11 @@ public class ManagerPermisos {
             if(baja == donacion && baja == comodato && baja){
                 return 13; //Tiene permiso para ver baja,donacion y comodato
             }
-            if(baja == donacion && baja == reemplazo && baja){
-                return 12; //Tiene permiso para ver baja, donacion y reemplazo
+            if(baja == donacion && baja == salida && baja){
+                return 12; //Tiene permiso para ver baja, donacion y salida de almacen
             }
-            if(baja == comodato && baja == reemplazo && baja){
-                return 11; //Tiene permiso para ver baja, comodato y reemplazo
+            if(baja == comodato && baja == salida && baja){
+                return 11; //Tiene permiso para ver baja, comodato y salida de almacen
             }
             
 //------------------PERIMSO PARA 2 TIPOS DE SOLICITUDES------------------------//
@@ -465,14 +465,14 @@ public class ManagerPermisos {
             if(baja == comodato && baja){
                 return 9; //Tiene permiso para ver baja y comodato
             }
-            if(baja == reemplazo && baja){
-                return 8; //Tiene permiso para ver baja y reemplazo
+            if(baja == salida && baja){
+                return 8; //Tiene permiso para ver baja y salida de almacen
             }
-            if(reemplazo == comodato && baja){
-                return 7; //Tiene permiso para ver reemplazo y comodato
+            if(salida == comodato && baja){
+                return 7; //Tiene permiso para ver salida de almacen y comodato
             }
-            if(reemplazo == donacion && baja){
-                return 6; //Tiene permiso para ver reemplazo y donacion
+            if(salida == donacion && baja){
+                return 6; //Tiene permiso para ver salida de almacen y donacion
             }
             if(comodato == donacion && comodato){
                 return 5;//Tiene permiso para ver comodato y donacion
@@ -488,7 +488,7 @@ public class ManagerPermisos {
             if(donacion){
                 return 2;
             }
-            if(reemplazo){
+            if(salida){
                 return 1;
             }
             
