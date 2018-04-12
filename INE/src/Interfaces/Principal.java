@@ -1220,7 +1220,7 @@ public class Principal extends javax.swing.JFrame {
 
             },
             new String [] {
-                "No. Solicitud", "Usuario que solicito", "Producto", "Motivo", "Fecha que se solicito", "Estado"
+                "Solicitud", "Usuario que solicito", "Fecha que se solicito", "Estado"
             }
         ));
         tablaSolicitudes.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1229,9 +1229,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jScrollPane6.setViewportView(tablaSolicitudes);
-        if (tablaSolicitudes.getColumnModel().getColumnCount() > 0) {
-            tablaSolicitudes.getColumnModel().getColumn(1).setHeaderValue("Usuario que solicito");
-        }
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -2467,7 +2464,7 @@ public class Principal extends javax.swing.JFrame {
             1 -> reemplazo
             0 -> ningun permiso
         */
-        
+        /*
         if(manager_permisos.verTablaSolicitudes(Username) == 0){
                 tabbedPrincipal.removeTabAt(3);//Eliminamos la pestaña
                 pestañas++;
@@ -2493,7 +2490,7 @@ public class Principal extends javax.swing.JFrame {
         }
         
         tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
-        
+        */
         /*PESTAÑA DE EMPLEADO*/
         tabbedPrincipal.setTitleAt(4-pestañas, Username.toUpperCase());//Le damos el nombre a esa pestaña
         tablaResguardo.setModel(manager_complemento.getResguardoPersonal(Username));

@@ -148,7 +148,7 @@ public class ManagerSolicitud {
     }//registro_solicitudSalida
 
     //Este metodo realiza el registro de la solicitud de salida de almacen y retorna la tabla para que ingresen la cantidad que desean solicitar
-    public DefaultTableModel registro_SolicitudSalida(String user, String ids){
+    public boolean registro_SolicitudSalida(String user, String ids,int[] Cantidad){
         String idSol ="";
         try {
             //Hacemos la conexión
@@ -182,12 +182,12 @@ public class ManagerSolicitud {
                         +"values('SALIDA',"+num+","+year+",'"+user+"','"+fecha+"','Solicitud Salida');";
             st.executeUpdate(sql);
             
-            String[] productos = ids.split(",");
+            String[] Productos = ids.split(",");
             
-            for (String producto : productos) {
+            for (int i = 0; i<Productos.length;i++) {
                 //Registramos los productos que se solicitaron
-                sql = "insert into detalle_solicitudSalida (id_solicitud,id_producto) "
-                        +"values('SALIDA-"+num+"-"+year+"','" + producto + "');";
+                sql = "insert into detalle_solicitudSalida (id_solicitud,id_producto,cantidad_solicitada) "
+                        +"values('SALIDA-"+num+"-"+year+"','" + Productos[i] + "',"+Cantidad[i]+");";
                 st.executeUpdate(sql);
             }
             
@@ -196,14 +196,14 @@ public class ManagerSolicitud {
             rs = st.executeQuery(sql);
             rs.next();
             idSol = rs.getString(1);
-            
+            conexion.close();
+            return true;
         } catch (SQLException ex) {
             System.out.printf("Error al insertar la solicitud en SQL");
             Logger.getLogger(ManagerSolicitud.class.getName()).log(Level.SEVERE, null, ex);
-            
-        } 
+            return false;
+        }
         
-        return tabla_SolicitudSalida(idSol);
     }//registro_solicitudSalida
     
     //Este metodo muestra una tabla con los pedidos de productos que se quieren para realizar la solicitud de salida de almacen,

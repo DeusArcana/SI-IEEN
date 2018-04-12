@@ -8,12 +8,13 @@ package Interfaces;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import Clases.ManagerSolicitud;
+import javax.swing.JOptionPane;
 /**
  *
  * @author kevin
  */
 public class Ventana_solicitudSalida extends javax.swing.JDialog {
-
+    String ids,user;
     ManagerSolicitud manager_solicitud;
     /**
      * Creates new form Ventana_solicitudSalida
@@ -24,7 +25,8 @@ public class Ventana_solicitudSalida extends javax.swing.JDialog {
         this.setTitle("Solicitud para salida de almacen-Especificar cantidad del producto solicitado");
         
         manager_solicitud = new ManagerSolicitud();
-        
+        this.ids = ids;
+        this.user = user;
         tablaSolicitudSalida.setModel(manager_solicitud.mostrarProductosSolicitados(user, ids));
         
     }
@@ -53,8 +55,8 @@ public class Ventana_solicitudSalida extends javax.swing.JDialog {
                 } 
             }  
         };
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnAceptar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
 
         jLabel1.setText("jLabel1");
 
@@ -71,13 +73,28 @@ public class Ventana_solicitudSalida extends javax.swing.JDialog {
                 "Clave", "Nombre corto", "Descripción", "Marca", "Solicitar"
             }
         ));
+        tablaSolicitudSalida.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tablaSolicitudSalidaKeyTyped(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaSolicitudSalida);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton1.setText("Aceptar");
+        btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton2.setText("Cancelar");
+        btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -89,9 +106,9 @@ public class Ventana_solicitudSalida extends javax.swing.JDialog {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(230, 230, 230))
         );
         layout.setVerticalGroup(
@@ -101,13 +118,55 @@ public class Ventana_solicitudSalida extends javax.swing.JDialog {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        // TODO add your handling code here:
+        //Es necesario validar que los campos hayan sido escritos unicamente con numeros (pendiente)
+        
+        //Obtenemos todas las cantidades de los productos
+        int[] Cantidad = new int[tablaSolicitudSalida.getRowCount()];
+        for(int i = 0; i<Cantidad.length;i++){
+            Cantidad[i] = Integer.parseInt(tablaSolicitudSalida.getValueAt(i, 4).toString());
+        }
+        
+        //Realizamos el registro
+        if(manager_solicitud.registro_SolicitudSalida(user, ids, Cantidad)){
+            JOptionPane.showMessageDialog(null, "Se realizo correctamente la solicitud de salida de almacen.");
+            this.dispose();
+        }else{
+            JOptionPane.showMessageDialog(null, "No se pudo realizar la solicitud de almacen, verificar con el distribuidor.");
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        String[] opciones = {"Aceptar", "Cancelar"};
+        int seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar la solicitud de salida de almacen?","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+        if(seleccion == 0){
+            this.dispose();
+        }else{
+        
+        }
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void tablaSolicitudSalidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaSolicitudSalidaKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();
+        if(caracter != evt.getKeyChar()){
+        
+        }
+        if(caracter < '0' || caracter > '9'){
+            evt.consume();
+        }
+    }//GEN-LAST:event_tablaSolicitudSalidaKeyTyped
 
     /**
      * @param args the command line arguments
@@ -152,8 +211,8 @@ public class Ventana_solicitudSalida extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnAceptar;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaSolicitudSalida;
