@@ -983,7 +983,7 @@ public class ManagerInventario {
     //Este metodo retorna una tabla con el formato para la tabla de inventario a granel en la pestaña solicitar I_granel anexando una columna con un 
     //checkbox para marcar los productos que se quieren solicitar
     public DefaultTableModel tablaSolicitarInvGranel(){
-        JTable checks = new JTable();//{  public boolean isCellEditable(int rowIndex, int colIndex){ if(colIndex == 0){return true;} else{return false; } }  };
+        JTable checks = new JTable();
         JScrollPane scroll = new JScrollPane();
         conexion = db.getConexion();
         

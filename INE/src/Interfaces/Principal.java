@@ -2446,6 +2446,8 @@ public class Principal extends javax.swing.JFrame {
         
         /*PESTAÑA DE SOLICITUDES*/
         
+         tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada());
+        
         //Buscamos si el usuario puede ver solicitudes o no.
         /*
             14 -> todos los tipos de solicitud
@@ -2668,6 +2670,7 @@ public class Principal extends javax.swing.JFrame {
         
         tablaBD.setModel(manajerMySQL.getPermisosMySQL());
         infoEmpleado();
+        tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada());
         /*
         if(manager_permisos.verTablaSolicitudes(Username) > 0){
             
@@ -2853,7 +2856,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void AtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtenderActionPerformed
         // TODO add your handling code here:
-        
+/*        
         //Obtenemos la fila seleccionada
         int fila = tablaSolicitudes.getSelectedRow();
         //Obtenemos el tipo de la solicitud
@@ -2867,7 +2870,13 @@ public class Principal extends javax.swing.JFrame {
         //Abrimos la ventana para atender la solicitud y actualizar la foto del producto solicitado.
         ventana_AtenderSolicitud ob = new ventana_AtenderSolicitud(this,true);
         ob.setVisible(true);
-        
+  */
+        //Obtenemos la fila seleccionada
+        int fila = tablaSolicitudes.getSelectedRow();
+        //Abrimos la ventana para atender la solicitud y actualizar la foto del producto solicitado.
+        Ventana_AceptaSalida ob = new Ventana_AceptaSalida(this,true,tablaSolicitudes.getValueAt(fila, 0).toString());
+        ob.setVisible(true);
+
     }//GEN-LAST:event_AtenderActionPerformed
 
     private void mi_viaticosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_viaticosActionPerformed

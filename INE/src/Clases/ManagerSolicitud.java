@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -87,7 +88,7 @@ public class ManagerSolicitud {
         
         //Creamos la tabla que mostrara la información al usuario
         DefaultTableModel table = new DefaultTableModel();
-        
+        JTable checks = new JTable();
         try {
             //Hacemos la conexión
             conexion = db.getConexion();
@@ -99,7 +100,6 @@ public class ManagerSolicitud {
             //Creamos la tabla temporal que albergara los ids de los productos solicitados
             String sql = "CREATE TEMPORARY TABLE productosSolicitados_"+user+" (id_granel varchar(50));";
             st.executeUpdate(sql);
-            System.out.println("Se creo la tabla temporal correctamente");
             
             String[] productos = ids.split(",");
             
@@ -109,18 +109,50 @@ public class ManagerSolicitud {
                         +"values('"+producto+"');";
                 st.executeUpdate(sql);
             }//Llenamos la tabla temporal
-            System.out.println("Se insertaron datos en la tabla temporal correctamente");
-            table.addColumn("Clave");
-            table.addColumn("Nombre corto");
-            table.addColumn("Descripción");
-            table.addColumn("Marca");
-            table.addColumn("Solicitar");
+            
+            JScrollPane scroll = new JScrollPane();
+    
+            //Creamos la tabla con las caracterisiticas que necesitamos
+            checks.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+            checks.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+
+                },
+                //Declaramos el titulo de las columnas
+                new String [] {
+                    "Clave", "Nombre corto", "Descripción", "Marca","Solicitar"
+                }
+            ){
+                //El tipo que sera cada columna, la primera columna un checkbox y los demas seran objetos
+                Class[] types = new Class [] {
+                    java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Integer.class
+                };
+
+                public Class getColumnClass(int columnIndex) {
+                    return types [columnIndex];
+                }
+                //Esto es para indicar que columnas dejaremos editar o no
+                boolean[] canEdit = new boolean [] {
+                    false, false, false, false, true
+                };
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit [columnIndex];
+                }
+
+              }
+
+            );
+            //Agregamos un scroll a la tabla
+            scroll.setViewportView(checks);
+            scroll.setBounds(30, 130, 1110, 500);
+
+            table = (DefaultTableModel)checks.getModel();
             
             sql="select ig.id_productoGranel, ig.nombre_prod, ig.descripcion, ig.marca from productosSolicitados_"+user+" dss\n" +
                         "inner join inventario_granel ig on (ig.id_productoGranel = dss.id_granel);";
             Object datos[] = new Object[5];
             rs = st.executeQuery(sql);
-            System.out.println("Se realizo el inner join con la tabla temporal correctamente");
             //Llenar tabla
             while (rs.next()) {
                 
@@ -169,7 +201,7 @@ public class ManagerSolicitud {
             int year= cal.get(Calendar.YEAR);
             int num = 1;
             
-            sql = "select Num from solicitudSalida where año = "+year+" and Folio = 'SALIDA';";
+            sql = "select Num from solicitudSalida where año = "+year+" and Folio = 'SALIDA' order by Num desc;";
             rs = st.executeQuery(sql);
             //Si encuentra coincidencias entonces le sumamos uno para el siguiente vale, 
             //en caso de no encontrarlo entonces se reinicia el contador de solicitudes con el nuevo año
@@ -218,27 +250,28 @@ public class ManagerSolicitud {
             table.addColumn("Nombre corto");
             table.addColumn("Descripción");
             table.addColumn("Marca");
-            table.addColumn("Solicitar");
+            table.addColumn("Solcitó");
+            table.addColumn("Autorizó");
             
             conexion = db.getConexion();
             
-            String sql="select ig.id_productoGranel, ig.nombre_prod, ig.descripcion, ig.marca from detalle_solicitudSalida dss\n" +
+            String sql="select ig.id_productoGranel, ig.nombre_prod, ig.descripcion, ig.marca, dss.cantidad_solicitada from detalle_solicitudSalida dss\n" +
                         "inner join solicitudsalida ss on (concat(ss.Folio,'-',ss.Num,'-',ss.Año) = dss.id_solicitud)\n" +
                         "inner join inventario_granel ig on (ig.id_productoGranel = dss.id_producto) where dss.id_solicitud = '"+solicitud+"';";
             Statement st = conexion.createStatement();
-            Object datos[] = new Object[5];
+            Object datos[] = new Object[6];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
                 
-                for(int i = 0;i<4;i++){
+                for(int i = 0;i<5;i++){
                     
                 datos[i] = rs.getObject(i+1);    
                     
                 }//Llenamos las columnas por registro
                 
-                datos[4] = 1;
+                datos[5] = 1;
                 
                 table.addRow(datos);//Añadimos la fila
            }//while
@@ -528,6 +561,49 @@ public class ManagerSolicitud {
             conexion.close();
         } catch (SQLException ex) {
             System.out.printf("Error getTabla Inventario SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//tabla_Solicitudes --> Muestra las solicitudes que puedes ver de acuerdo la tabla de permisos_solicitudes
+    public DefaultTableModel tabla_SolicitudesMejorada() {
+        
+        DefaultTableModel table = new DefaultTableModel();
+        String sql="";
+        try {
+            
+            table.addColumn("Solicitud");
+            table.addColumn("Empleado que solicito");
+            table.addColumn("Fecha cuando se solicito");
+            table.addColumn("Estado");
+            
+            
+            sql = "select concat(ss.Folio,'-',ss.Num,'-',ss.Año) as ID, concat(e.nombres,' ',e.apellido_p, ' ', e.apellido_m) as Empleado,\n" +
+                    "date(ss.fecha_solicitud), ss.estado from solicitudsalida ss\n" +
+                    "inner join user u on (u.id_user = ss.id_user) inner join empleados e on (e.id_empleado = u.id_empleado);";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            Object datos[] = new Object[5];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+                
+                for(int i = 0;i<4;i++){
+                    
+                datos[i] = rs.getObject(i+1);    
+                    
+                }//Llenamos las columnas por registro
+                
+                table.addRow(datos);//Añadimos la fila
+           }//while
+                
+            
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error get tabla solicitudes SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
 

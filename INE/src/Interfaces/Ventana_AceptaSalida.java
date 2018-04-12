@@ -14,28 +14,27 @@ import Clases.validarCeldaNumero;
  *
  * @author kevin
  */
-public class Ventana_solicitudSalida extends javax.swing.JDialog {
-    String ids,user;
+public class Ventana_AceptaSalida extends javax.swing.JDialog {
+    String id;
     ManagerSolicitud manager_solicitud;
     validarCeldaNumero validar;
     /**
      * Creates new form Ventana_solicitudSalida
      */
-    public Ventana_solicitudSalida(java.awt.Frame parent, boolean modal,String ids,String user) {
+    public Ventana_AceptaSalida(java.awt.Frame parent, boolean modal,String id) {
         super(parent, modal);
         initComponents();
         this.setTitle("Solicitud para salida de almacen-Especificar cantidad del producto solicitado");
         
         manager_solicitud = new ManagerSolicitud();
         validar = new validarCeldaNumero();
-        this.ids = ids;
-        this.user = user;
-        tablaSolicitudSalida.setModel(manager_solicitud.mostrarProductosSolicitados(user, ids));
-        tablaSolicitudSalida.setDefaultRenderer(Integer.class, validar);
+        this.id = id;
+        tablaSolicitudSalida.setModel(manager_solicitud.tabla_SolicitudSalida(this.id));
+        //tablaSolicitudSalida.setDefaultRenderer(Integer.class, validar);
         
     }
     
-    private Ventana_solicitudSalida(JFrame jFrame, boolean b) {
+    private Ventana_AceptaSalida(JFrame jFrame, boolean b) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -51,14 +50,14 @@ public class Ventana_solicitudSalida extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaSolicitudSalida = new JTable(){  
-            public boolean isCellEditable(int rowIndex, int colIndex){  
-                if(colIndex == 4){
-                    return true;
-                } else{
-                    return false; 
-                } 
-            }  
-        };
+     public boolean isCellEditable(int rowIndex, int colIndex){  
+         if(colIndex == 5){
+             return true;
+         } else{
+             return false; 
+         } 
+     }  
+ };
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
@@ -134,7 +133,7 @@ public class Ventana_solicitudSalida extends javax.swing.JDialog {
         // TODO add your handling code here:
         //Es necesario validar que los campos hayan sidoescritos unicamente con numeros (pendiente)
         
-        
+/*        
         //Obtenemos todas las cantidades de los productos
         int[] Cantidad = new int[tablaSolicitudSalida.getRowCount()];
         for(int i = 0; i<Cantidad.length;i++){
@@ -151,7 +150,7 @@ public class Ventana_solicitudSalida extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "No se pudo realizar la solicitud de almacen, verificar con el distribuidor.");
             this.dispose();
         }
-        
+  */      
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -193,20 +192,21 @@ public class Ventana_solicitudSalida extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Ventana_solicitudSalida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ventana_AceptaSalida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Ventana_solicitudSalida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ventana_AceptaSalida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Ventana_solicitudSalida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ventana_AceptaSalida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Ventana_solicitudSalida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ventana_AceptaSalida.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Ventana_solicitudSalida dialog = new Ventana_solicitudSalida(new javax.swing.JFrame(), true);
+                Ventana_AceptaSalida dialog = new Ventana_AceptaSalida(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
