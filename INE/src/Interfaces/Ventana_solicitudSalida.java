@@ -129,27 +129,44 @@ public class Ventana_solicitudSalida extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    private boolean validar(){
+        boolean estado = true;
+        try{
+            //Revisamos todos los campos de la cantidad
+            for(int i = 0; i<tablaSolicitudSalida.getRowCount();i++){
+                if(Integer.parseInt(tablaSolicitudSalida.getValueAt(i, 4).toString()) < 1){
+                    JOptionPane.showMessageDialog(null, "Por favor verifique los campos que estan en amarillo, se ingreso una cantidad menor a 1 en su solicitud.");
+                    estado = false;
+                    break;
+                }//menor a 1
+            }//for
+            return estado;
+        }catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "Por favor verifique el campo que esta en rojo, se ingresaron caracteres invalidos. Solo acepta numeros enteros mayores o iguales a 1.");
+            return false;
+        }
+    }//validar
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
         //Es necesario validar que los campos hayan sidoescritos unicamente con numeros (pendiente)
+        if(validar()){
         
-        
-        //Obtenemos todas las cantidades de los productos
-        int[] Cantidad = new int[tablaSolicitudSalida.getRowCount()];
-        for(int i = 0; i<Cantidad.length;i++){
-            Cantidad[i] = Integer.parseInt(tablaSolicitudSalida.getValueAt(i, 4).toString());
-        }
-        
-        System.out.println("No se porque se ejecuta lo que esta comentado");
-        
-        //Realizamos el registro
-        if(manager_solicitud.registro_SolicitudSalida(user, ids, Cantidad)){
-            JOptionPane.showMessageDialog(null, "Se realizo correctamente la solicitud de salida de almacen.");
-            this.dispose();
-        }else{
-            JOptionPane.showMessageDialog(null, "No se pudo realizar la solicitud de almacen, verificar con el distribuidor.");
-            this.dispose();
+            //Obtenemos todas las cantidades de los productos
+            int[] Cantidad = new int[tablaSolicitudSalida.getRowCount()];
+            for(int i = 0; i<Cantidad.length;i++){
+                Cantidad[i] = Integer.parseInt(tablaSolicitudSalida.getValueAt(i, 4).toString());
+            }
+
+            System.out.println("No se porque se ejecuta lo que esta comentado");
+
+            //Realizamos el registro
+            if(manager_solicitud.registro_SolicitudSalida(user, ids, Cantidad)){
+                JOptionPane.showMessageDialog(null, "Se realizo correctamente la solicitud de salida de almacen.");
+                this.dispose();
+            }else{
+                JOptionPane.showMessageDialog(null, "No se pudo realizar la solicitud de salida de almacen, verificar con el distribuidor.");
+                this.dispose();
+            }
         }
         
     }//GEN-LAST:event_btnAceptarActionPerformed

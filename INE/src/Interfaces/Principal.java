@@ -2874,7 +2874,7 @@ public class Principal extends javax.swing.JFrame {
         //Obtenemos la fila seleccionada
         int fila = tablaSolicitudes.getSelectedRow();
         //Abrimos la ventana para atender la solicitud y actualizar la foto del producto solicitado.
-        Ventana_AceptaSalida ob = new Ventana_AceptaSalida(this,true,tablaSolicitudes.getValueAt(fila, 0).toString());
+        Ventana_AceptaSalida ob = new Ventana_AceptaSalida(this,true,tablaSolicitudes.getValueAt(fila, 0).toString(),Username);
         ob.setVisible(true);
 
     }//GEN-LAST:event_AtenderActionPerformed

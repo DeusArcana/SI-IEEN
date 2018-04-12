@@ -115,7 +115,7 @@
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tablaSolicitudSalidaKeyTyped"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JTable(){  &#xd;     public boolean isCellEditable(int rowIndex, int colIndex){  &#xd;         if(colIndex == 5){&#xd;             return true;&#xd;         } else{&#xd;             return false; &#xd;         } &#xd;     }  &#xd; };"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JTable(){  &#xd;     public boolean isCellEditable(int rowIndex, int colIndex){  &#xd;         if(colIndex == 6){&#xd;             return true;&#xd;         } else{&#xd;             return false; &#xd;         } &#xd;     }  &#xd; };"/>
           </AuxValues>
         </Component>
       </SubComponents>

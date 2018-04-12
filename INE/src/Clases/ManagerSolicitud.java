@@ -211,7 +211,7 @@ public class ManagerSolicitud {
             
             //Registramos la solicitud
             sql = "insert into solicitudSalida (Folio,Num,Año,id_user,fecha_solicitud,estado) "
-                        +"values('SALIDA',"+num+","+year+",'"+user+"','"+fecha+"','Solicitud Salida');";
+                        +"values('SALIDA',"+num+","+year+",'"+user+"','"+fecha+"','Solicitud');";
             st.executeUpdate(sql);
             
             String[] Productos = ids.split(",");
@@ -238,40 +238,109 @@ public class ManagerSolicitud {
         
     }//registro_solicitudSalida
     
+    //Este metodo agrega la cantidad que se le otorgorá por cada producto solicitado
+    public boolean registro_AceptaSalida(String user,String id,String[] Productos,int[] Cantidad){
+        String idSol ="";
+        try {
+            //Hacemos la conexión
+            conexion = db.getConexion();
+            //Creamos la variable para hacer operaciones CRUD
+            Statement st = conexion.createStatement();
+            //Creamos la variable para guardar el resultado de las consultas
+            ResultSet rs;
+            
+            //Obtenemos la fecha del sistema
+            String sql = "select now();";
+            rs = st.executeQuery(sql);
+            rs.next();
+            String fecha = rs.getString(1); 
+            
+            //Actualiza el regitro de la solicitud agregando el usuario que lo autorizo, cuando lo hizo y cambiamos el estado
+            sql = "update solicitudSalida set user_autorizo = '"+user+"', fecha_respuesta = '"+fecha+"', estado = 'Atendida' where concat(Folio,'-',Num,'-',Año) = '"+id+"';";
+            st.executeUpdate(sql);
+            
+            for (int i = 0; i<Productos.length;i++) {
+                //Registramos los productos que se solicitaron
+                sql = "update detalle_solicitudSalida set cantidad_autorizada = "+Cantidad[i]+" where id_solicitud = '"+id+"' and id_producto = '"+Productos[i]+"';";
+                st.executeUpdate(sql);
+            }
+            
+            conexion.close();
+            return true;
+        } catch (SQLException ex) {
+            System.out.printf("Error al aceptar la solicitud de salida de almacen en SQL");
+            Logger.getLogger(ManagerSolicitud.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        
+    }//registro_AceptaSalida
+    
     //Este metodo muestra una tabla con los pedidos de productos que se quieren para realizar la solicitud de salida de almacen,
     //esto para que indiquen la cantidad de productos que requieren cada uno. (pendiente)
     public DefaultTableModel tabla_SolicitudSalida(String solicitud) {
         
         DefaultTableModel table = new DefaultTableModel();
-        
+        JTable checks = new JTable();
         try {
             
-            table.addColumn("Clave");
-            table.addColumn("Nombre corto");
-            table.addColumn("Descripción");
-            table.addColumn("Marca");
-            table.addColumn("Solcitó");
-            table.addColumn("Autorizó");
+            JScrollPane scroll = new JScrollPane();
+    
+            //Creamos la tabla con las caracterisiticas que necesitamos
+            checks.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+            checks.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+
+                },
+                //Declaramos el titulo de las columnas
+                new String [] {
+                    "Clave", "Nombre corto", "Descripción", "Marca","Stock","Solicitó","Autorizó"
+                }
+            ){
+                //El tipo que sera cada columna, la primera columna un checkbox y los demas seran objetos
+                Class[] types = new Class [] {
+                    java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Integer.class
+                };
+
+                public Class getColumnClass(int columnIndex) {
+                    return types [columnIndex];
+                }
+                //Esto es para indicar que columnas dejaremos editar o no
+                boolean[] canEdit = new boolean [] {
+                    false, false, false, false, false,false,true
+                };
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit [columnIndex];
+                }
+
+              }
+
+            );
+            //Agregamos un scroll a la tabla
+            scroll.setViewportView(checks);
+            scroll.setBounds(30, 130, 1110, 500);
+
+            table = (DefaultTableModel)checks.getModel();
             
             conexion = db.getConexion();
             
-            String sql="select ig.id_productoGranel, ig.nombre_prod, ig.descripcion, ig.marca, dss.cantidad_solicitada from detalle_solicitudSalida dss\n" +
+            String sql="select ig.id_productoGranel, ig.nombre_prod, ig.descripcion, ig.marca,ig.stock, dss.cantidad_solicitada from detalle_solicitudSalida dss\n" +
                         "inner join solicitudsalida ss on (concat(ss.Folio,'-',ss.Num,'-',ss.Año) = dss.id_solicitud)\n" +
                         "inner join inventario_granel ig on (ig.id_productoGranel = dss.id_producto) where dss.id_solicitud = '"+solicitud+"';";
             Statement st = conexion.createStatement();
-            Object datos[] = new Object[6];
+            Object datos[] = new Object[7];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
                 
-                for(int i = 0;i<5;i++){
+                for(int i = 0;i<6;i++){
                     
                 datos[i] = rs.getObject(i+1);    
                     
                 }//Llenamos las columnas por registro
                 
-                datos[5] = 1;
+                datos[6] = 1;
                 
                 table.addRow(datos);//Añadimos la fila
            }//while
@@ -582,7 +651,7 @@ public class ManagerSolicitud {
             
             sql = "select concat(ss.Folio,'-',ss.Num,'-',ss.Año) as ID, concat(e.nombres,' ',e.apellido_p, ' ', e.apellido_m) as Empleado,\n" +
                     "date(ss.fecha_solicitud), ss.estado from solicitudsalida ss\n" +
-                    "inner join user u on (u.id_user = ss.id_user) inner join empleados e on (e.id_empleado = u.id_empleado);";
+                    "inner join user u on (u.id_user = ss.id_user) inner join empleados e on (e.id_empleado = u.id_empleado) where ss.estado like 'Solicitud%';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             Object datos[] = new Object[5];
