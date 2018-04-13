@@ -68,10 +68,15 @@ public class addInventarioGranel extends javax.swing.JDialog {
         lblAviso = new javax.swing.JLabel();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        cb_almacen = new javax.swing.JComboBox();
+        comboUbicacion = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         pn_addInventario.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         pn_addInventario.setLayout(null);
@@ -89,7 +94,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(txtClave);
-        txtClave.setBounds(106, 13, 215, 23);
+        txtClave.setBounds(110, 10, 220, 30);
 
         txtProducto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtProducto.addActionListener(new java.awt.event.ActionListener() {
@@ -98,12 +103,12 @@ public class addInventarioGranel extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(txtProducto);
-        txtProducto.setBounds(106, 42, 215, 23);
+        txtProducto.setBounds(110, 50, 220, 30);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Producto:");
         pn_addInventario.add(jLabel2);
-        jLabel2.setBounds(26, 45, 62, 17);
+        jLabel2.setBounds(30, 60, 62, 17);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Descripción:");
@@ -111,14 +116,14 @@ public class addInventarioGranel extends javax.swing.JDialog {
         jLabel3.setBounds(392, 16, 75, 17);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("Almacén:");
+        jLabel4.setText("Ubucación:");
         pn_addInventario.add(jLabel4);
-        jLabel4.setBounds(32, 77, 56, 17);
+        jLabel4.setBounds(26, 100, 70, 17);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Marca:");
         pn_addInventario.add(jLabel5);
-        jLabel5.setBounds(47, 106, 41, 17);
+        jLabel5.setBounds(50, 140, 41, 17);
 
         txtMarca.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtMarca.addActionListener(new java.awt.event.ActionListener() {
@@ -127,7 +132,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(txtMarca);
-        txtMarca.setBounds(106, 100, 215, 23);
+        txtMarca.setBounds(110, 130, 215, 30);
 
         txtAreaDescripcion.setColumns(20);
         txtAreaDescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -142,7 +147,6 @@ public class addInventarioGranel extends javax.swing.JDialog {
         txtAreaObservaciones.setColumns(20);
         txtAreaObservaciones.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtAreaObservaciones.setRows(5);
-        txtAreaObservaciones.setText("Ejemplo: Falta una hoja en el paquete.");
         jScrollPane2.setViewportView(txtAreaObservaciones);
 
         pn_addInventario.add(jScrollPane2);
@@ -156,7 +160,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Stock min:");
         pn_addInventario.add(jLabel8);
-        jLabel8.setBounds(22, 170, 66, 17);
+        jLabel8.setBounds(30, 220, 66, 17);
 
         txtStockMin.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtStockMin.setToolTipText("Ingrese cantidad numérica entera ejemplo: 10");
@@ -166,7 +170,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(txtStockMin);
-        txtStockMin.setBounds(106, 164, 215, 23);
+        txtStockMin.setBounds(110, 210, 215, 30);
 
         txtStock.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtStock.setToolTipText("Ingrese cantidad numérica entera ejemplo: 10");
@@ -176,17 +180,17 @@ public class addInventarioGranel extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(txtStock);
-        txtStock.setBounds(106, 200, 215, 23);
+        txtStock.setBounds(110, 250, 215, 30);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("Stock:");
         pn_addInventario.add(jLabel9);
-        jLabel9.setBounds(48, 206, 40, 17);
+        jLabel9.setBounds(50, 260, 40, 17);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("Tipo de uso:");
         pn_addInventario.add(jLabel10);
-        jLabel10.setBounds(12, 136, 76, 17);
+        jLabel10.setBounds(20, 170, 76, 17);
 
         txtTipoUso.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtTipoUso.setToolTipText("Ingrese tipo de uso de forma alfanimérica, no deje sin datos");
@@ -196,7 +200,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(txtTipoUso);
-        txtTipoUso.setBounds(106, 130, 215, 23);
+        txtTipoUso.setBounds(110, 170, 215, 30);
 
         lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_addInventario.add(lblAviso);
@@ -212,7 +216,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(btnAceptar);
-        btnAceptar.setBounds(259, 280, 130, 33);
+        btnAceptar.setBounds(260, 320, 130, 33);
 
         btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
@@ -224,15 +228,14 @@ public class addInventarioGranel extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(btnCancelar);
-        btnCancelar.setBounds(420, 280, 150, 33);
+        btnCancelar.setBounds(420, 320, 150, 33);
 
-        cb_almacen.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Informatica", "Administracion", "Bodega" }));
-        pn_addInventario.add(cb_almacen);
-        cb_almacen.setBounds(110, 70, 210, 20);
+        pn_addInventario.add(comboUbicacion);
+        comboUbicacion.setBounds(110, 90, 210, 30);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         pn_addInventario.add(jLabel6);
-        jLabel6.setBounds(0, 0, 850, 330);
+        jLabel6.setBounds(0, 0, 850, 370);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -242,7 +245,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_addInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pn_addInventario, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
         );
 
         pack();
@@ -265,7 +268,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         caracteres_faltantes=(txtClave.getText().length());
         if(Validaciones.validateClaveInventarioGranel(txtClave.getText())){clave = txtClave.getText();}else{JOptionPane.showMessageDialog(null, "Clave no cumple con requerimientos faltan "+(11-caracteres_faltantes)+" caracteres\n Formato: GMP00000001");return false;}
         if(Validaciones.validateAlphanumericWithSpacing(txtProducto.getText(), 1, 30)){producto = txtProducto.getText();}else{JOptionPane.showMessageDialog(null, "Nombre de producto no cumple con requerimientos.");return false;}
-        cb_almacen.getSelectedItem().toString();
+        comboUbicacion.getSelectedItem().toString();
         if(Validaciones.validateAlphanumericWithSpacing(txtMarca.getText(), 1, 49)){marca = txtMarca.getText();}else{JOptionPane.showMessageDialog(null, "Nombre de producto no cumple con requerimientos.");return false;}
         if(Validaciones.validateAlphanumericWithSpacing(txtTipoUso.getText(), 1, 100)){tipo = txtTipoUso.getText();}
         if(Validaciones.validateInteger((txtStockMin.getText()), 1, 11)){stockmin = Integer.parseInt(txtStockMin.getText());}else{JOptionPane.showMessageDialog(null, "Cantidad de Stock minimo no valida.");return false;}
@@ -348,6 +351,12 @@ public class addInventarioGranel extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtProductoActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        //comboUbicacion
+        manager_inventario.getBodegas(comboUbicacion);
+    }//GEN-LAST:event_formWindowOpened
+
     /**
      * @param args the command line arguments
      */
@@ -394,7 +403,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JComboBox cb_almacen;
+    private javax.swing.JComboBox comboUbicacion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

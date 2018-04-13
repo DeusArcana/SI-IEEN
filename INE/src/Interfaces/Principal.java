@@ -74,7 +74,7 @@ public class Principal extends javax.swing.JFrame {
     ManagerAsignarEquipo manager_asignar;
     Excel excel;
     
-    public String Responsable,Cargo,Area,Tipo_de_uso,Municipio,Localidad,Responsable1,Cargo1,Area1,Tipo_de_uso1,Municipio1,Localidad1;
+    public String Responsable,Cargo,Area,Tipo_de_uso,Municipio,Localidad,Responsable1,Cargo1,Area1,Tipo_de_uso1,Municipio1,Localidad1,idAtenderSalida;
     
     
     //VARIABLES QUE FUNCIONAN COMO BANDERAS
@@ -2445,36 +2445,14 @@ public class Principal extends javax.swing.JFrame {
         }
         
         /*PESTAÑA DE SOLICITUDES*/
-        
-         tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada());
-        
-        //Buscamos si el usuario puede ver solicitudes o no.
-        /*
-            14 -> todos los tipos de solicitud
-            13 -> baja, donación y comodato
-            12 -> baja, donación y reemplazo
-            11 -> baja, comodato y reemplazo
-            10 -> baja y donación 
-            9 -> baja y comodato
-            8 -> baja y reemplazo
-            7 -> reemplazo y comodato
-            6 -> reemplazo y donación
-            5 -> comodato y donación
-            4 -> baja
-            3 -> comodato
-            2 -> donación
-            1 -> reemplazo
-            0 -> ningun permiso
-        */
-        /*
         if(manager_permisos.verTablaSolicitudes(Username) == 0){
                 tabbedPrincipal.removeTabAt(3);//Eliminamos la pestaña
                 pestañas++;
         }else{
             if(!(manager_permisos.esPresidencia(Username))){
                 
-                tablaSolicitudes.setModel(manager_solicitud.tabla_Solicitudes(manager_permisos.verTablaSolicitudes(Username)));
-                int solicitud = manager_complemento.cantidadSolicitudes(manager_permisos.verTablaSolicitudes(Username));
+                tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
+                int solicitud = tablaSolicitudes.getRowCount();
                 if(solicitud > 0){
                     tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
                 }//if cantidad
@@ -2483,7 +2461,7 @@ public class Principal extends javax.swing.JFrame {
             else{
                 tabbedPrincipal.setTitleAt(3, "Pendientes");//Le damos el nombre a esa pestaña
                 tablaSolicitudes.setModel(manager_solicitud.tabla_Pendientes());
-                int pendientes = manager_complemento.cantidadPendientes();
+                int pendientes = tablaSolicitudes.getRowCount();
                 if(pendientes > 0){
                     tabbedPrincipal.setTitleAt(3, "Pendientes ("+pendientes+")");//Le damos el nombre a esa pestaña
                 }//if cantidad
@@ -2492,7 +2470,8 @@ public class Principal extends javax.swing.JFrame {
         }
         
         tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
-        */
+        
+        
         /*PESTAÑA DE EMPLEADO*/
         tabbedPrincipal.setTitleAt(4-pestañas, Username.toUpperCase());//Le damos el nombre a esa pestaña
         tablaResguardo.setModel(manager_complemento.getResguardoPersonal(Username));
@@ -2670,14 +2649,13 @@ public class Principal extends javax.swing.JFrame {
         
         tablaBD.setModel(manajerMySQL.getPermisosMySQL());
         infoEmpleado();
-        tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada());
-        /*
+        
         if(manager_permisos.verTablaSolicitudes(Username) > 0){
             
             if(!(manager_permisos.esPresidencia(Username))){
                 
-                tablaSolicitudes.setModel(manager_solicitud.tabla_Solicitudes(manager_permisos.verTablaSolicitudes(Username)));
-                int solicitud = manager_complemento.cantidadSolicitudes(manager_permisos.verTablaSolicitudes(Username));
+                tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
+                int solicitud = tablaSolicitudes.getRowCount();
                 if(solicitud > 0){
                     tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
                 }//if cantidad
@@ -2686,7 +2664,7 @@ public class Principal extends javax.swing.JFrame {
             else{
                 
                 tablaSolicitudes.setModel(manager_solicitud.tabla_Pendientes());
-                int pendientes = manager_complemento.cantidadPendientes();
+                int pendientes = tablaSolicitudes.getRowCount();
                 if(pendientes > 0){
                     tabbedPrincipal.setTitleAt(3, "Pendientes ("+pendientes+")");//Le damos el nombre a esa pestaña
                 }//if cantidad
@@ -2694,7 +2672,7 @@ public class Principal extends javax.swing.JFrame {
             }
             
         }//if verTablaSolicitudes
-        */
+        
     }//GEN-LAST:event_formWindowActivated
     
     private void itemAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAnteriorActionPerformed
@@ -2773,8 +2751,8 @@ public class Principal extends javax.swing.JFrame {
         }else{
             if(!(manager_permisos.esPresidencia(Username))){
                 
-                tablaSolicitudes.setModel(manager_solicitud.tabla_Solicitudes(manager_permisos.verTablaSolicitudes(Username)));
-                int solicitud = manager_complemento.cantidadSolicitudes(manager_permisos.verTablaSolicitudes(Username));
+                tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
+                int solicitud = tablaSolicitudes.getRowCount();
                 if(solicitud > 0){
                     tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
                 }//if cantidad
@@ -2783,7 +2761,7 @@ public class Principal extends javax.swing.JFrame {
             else{
                 tabbedPrincipal.setTitleAt(3, "Pendientes");//Le damos el nombre a esa pestaña
                 tablaSolicitudes.setModel(manager_solicitud.tabla_Pendientes());
-                int pendientes = manager_complemento.cantidadPendientes();
+                int pendientes = tablaSolicitudes.getRowCount();
                 if(pendientes > 0){
                     tabbedPrincipal.setTitleAt(3, "Pendientes ("+pendientes+")");//Le damos el nombre a esa pestaña
                 }//if cantidad
@@ -2856,27 +2834,36 @@ public class Principal extends javax.swing.JFrame {
 
     private void AtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtenderActionPerformed
         // TODO add your handling code here:
-/*        
-        //Obtenemos la fila seleccionada
-        int fila = tablaSolicitudes.getSelectedRow();
-        //Obtenemos el tipo de la solicitud
-        String solicitud = tablaSolicitudes.getValueAt(fila, 1).toString();
-        //Obtenemos el id de la solicitud
-        idPendiente = Integer.parseInt(tablaSolicitudes.getValueAt(fila, 0).toString());
-        //Le quitamos la palabra "Solicitud " y nos quedamos con el estado pendiente al que va a cambiar
-        estadoPendiente = solicitud.substring(10, solicitud.length());
-        estadoSolicitud = tablaSolicitudes.getValueAt(fila, 6).toString();
-        empleadoSolicitud = tablaSolicitudes.getValueAt(fila, 2).toString();
-        //Abrimos la ventana para atender la solicitud y actualizar la foto del producto solicitado.
-        ventana_AtenderSolicitud ob = new ventana_AtenderSolicitud(this,true);
-        ob.setVisible(true);
-  */
+        /*
         //Obtenemos la fila seleccionada
         int fila = tablaSolicitudes.getSelectedRow();
         //Abrimos la ventana para atender la solicitud y actualizar la foto del producto solicitado.
         Ventana_AceptaSalida ob = new Ventana_AceptaSalida(this,true,tablaSolicitudes.getValueAt(fila, 0).toString(),Username);
         ob.setVisible(true);
-
+        */
+        
+        int fila = tablaSolicitudes.getSelectedRow();
+        idAtenderSalida = tablaSolicitudes.getValueAt(fila, 0).toString();
+        tabbedPrincipal.setSelectedIndex(6-pestañas);//Direccionamos a la pestaña de Manejador inventario
+        rb_recoleccion1.setEnabled(false);//Deshabilitamos el boton de recolección, esto para que atienda la solicitud
+        rb_inventario_granel1.setEnabled(true);//Habilitamos la de inventario a granel
+        rb_inventario_granel1.setSelected(true);//Marcamos el radio del inventario a granel
+        rb_inventario_normal1.setEnabled(false);//Deshabilitamos la de inventario
+        rb_inventario_normal1.setSelected(false);//Desmarcamos el radio del inventario
+        comboEmpleado.setSelectedItem(tablaSolicitudes.getValueAt(fila, 1).toString());//Le inidicamos el empleado que realizo la solicitud
+        comboEmpleado.setEnabled(false);//Desactivamos el combo para que no cambie el responsable
+        esGranel = true;//Activamos la banera de es a granel para saber que hacer con los botones
+        
+        
+        //Cargamos el cardLayout en caso de encontrarse en el recolección
+        CardLayout c_asignacion = (CardLayout)pn_contenedor_ventanas1.getLayout();
+        c_asignacion.show(pn_contenedor_ventanas1,"c_s_asignacion");
+        
+        //Llenamos la tabla con la información de acuerdo a la solicitud que se realizo
+        tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
+        
+        
+        
     }//GEN-LAST:event_AtenderActionPerformed
 
     private void mi_viaticosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_viaticosActionPerformed
@@ -2913,8 +2900,8 @@ public class Principal extends javax.swing.JFrame {
         }else{
             if(!(manager_permisos.esPresidencia(Username))){
                 
-                tablaSolicitudes.setModel(manager_solicitud.tabla_Solicitudes(manager_permisos.verTablaSolicitudes(Username)));
-                int solicitud = manager_complemento.cantidadSolicitudes(manager_permisos.verTablaSolicitudes(Username));
+                tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
+                int solicitud = tablaSolicitudes.getRowCount();
                 if(solicitud > 0){
                     tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
                 }//if cantidad
@@ -2923,7 +2910,7 @@ public class Principal extends javax.swing.JFrame {
             else{
                 tabbedPrincipal.setTitleAt(3, "Pendientes");//Le damos el nombre a esa pestaña
                 tablaSolicitudes.setModel(manager_solicitud.tabla_Pendientes());
-                int pendientes = manager_complemento.cantidadPendientes();
+                int pendientes = tablaSolicitudes.getRowCount();
                 if(pendientes > 0){
                     tabbedPrincipal.setTitleAt(3, "Pendientes ("+pendientes+")");//Le damos el nombre a esa pestaña
                 }//if cantidad
@@ -3020,12 +3007,16 @@ public class Principal extends javax.swing.JFrame {
            modelotablaMAsignados.removeRow(0);
         }
         
-        if(rb_inventario_normal1.isSelected()){
-            tablaMInventarioA.setModel(manejador_inventario.getInventarioParaAsignacion(""));
-            comboFolioAsignacion.setSelectedIndex(0);
-        }else{
-            tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
-        }
+        //Deshacemos todos los cambios que habiamos hecho cuando quisimos atender la solicitud para salida de almacen
+        rb_recoleccion1.setEnabled(true);
+        rb_inventario_granel1.setEnabled(false);
+        rb_inventario_granel1.setSelected(false);
+        rb_inventario_normal1.setEnabled(true);
+        rb_inventario_normal1.setSelected(true);
+        comboEmpleado.setSelectedIndex(0);
+        comboEmpleado.setEnabled(true);
+        esGranel = false;
+                
         
     }//limpia la tabla "tablaMAsignados"
     
@@ -3107,7 +3098,7 @@ public class Principal extends javax.swing.JFrame {
                 tablaMInventarioA.setModel(manejador_inventario.getInventarioParaAsignacion(nomeclatura));
                         
             }else{
-                tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
             }//else
             //Vemos si queda mas de un producto
             if(modelotablaMAsignados.getRowCount() == 0){
@@ -3336,8 +3327,6 @@ public class Principal extends javax.swing.JFrame {
 
     private void rb_inventario_granel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_inventario_granel1ActionPerformed
         // TODO add your handling code here:
-        tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
-        esGranel = true;
     }//GEN-LAST:event_rb_inventario_granel1ActionPerformed
 
     private void rb_inventario_granel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rb_inventario_granel1MouseClicked
@@ -3363,7 +3352,14 @@ public class Principal extends javax.swing.JFrame {
     private void btn_cancelar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelar2ActionPerformed
         // TODO add your handling code here:
         String[] opciones = {"Aceptar", "Cancelar"};
-        int seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar el el proceso de asignación? \nLos productos volveran a estar disponibles","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+        int seleccion = 0;
+        
+        if(esGranel){
+            seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar el proceso para atender la solicitud de salida de almacen? \nLos productos que se asignaron volveran a estar disponibles.","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+        }else{
+            seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar el proceso de asignación? \nLos productos volveran a estar disponibles","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+        }
+        
         if(seleccion == 0){
             getDatosTablaAsignados();
             regresarInventario();
@@ -3372,6 +3368,7 @@ public class Principal extends javax.swing.JFrame {
             btn_generar_vale3.setEnabled(false);
             btn_cancelar2.setEnabled(false);
         }
+        
     }//GEN-LAST:event_btn_cancelar2ActionPerformed
 
     private void btn_generar_vale3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generar_vale3ActionPerformed
@@ -3397,6 +3394,7 @@ public class Principal extends javax.swing.JFrame {
             //Obtenemos la clave del producto
             String idProducto = tablaMInventarioA.getValueAt(fila, 0).toString();
             if(empleadoSeleccionado){
+                
                 //ES INVENTARIO A GRANELA
                 if(esGranel){
                     int cantidad = 0;
@@ -3423,6 +3421,7 @@ public class Principal extends javax.swing.JFrame {
                             }//try catch
                         }
                     }//while
+                    
                     if(canceloCantidad){
                         btn_generar_vale3.setEnabled(true);
                         //Obtenemos la cantidad directamente de la BD por si se ha actualizado la cantidad
@@ -3436,7 +3435,7 @@ public class Principal extends javax.swing.JFrame {
                         //2.- Se agotaron existencias, entonces alguien mas asigno dichas existencias a alguien más
                         else if(stock == 0){
                             JOptionPane.showMessageDialog(null, "Se han agotado las existencias de ese producto, ya han sido asignadas");
-                            tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                            tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                         }//stock == 0
                         //3.- Las existencias son mayores a lo que se solicita, entonces se realiza la asignacion sin problema
                         else if(stock > cantidad){
@@ -3449,14 +3448,14 @@ public class Principal extends javax.swing.JFrame {
                                     modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),cantidad});
                                     System.out.println("Entro a agregar el registro cuando el stock entro como si nada(parte 1)");
                                 }
-                                tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                                tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                             }//stock > comprobar
 
                             //No se realizo la condición anterior porque el stock dejo de ser mayor que la cantidad que se solicita
                             //Comprobamos si se agotaron las exitencias
                             else if(comprobar == 0){
                                 JOptionPane.showMessageDialog(null, "Se han agotado las existencias de ese producto, ya han sido asignadas");
-                                tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                                tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                             }
 
                             //No se cumplio la de 0 existencias, entonces comprobamos si es igual de la cantidad que se solicita,
@@ -3471,11 +3470,11 @@ public class Principal extends javax.swing.JFrame {
                                     if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
                                         modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),cantidad});
                                     }
-                                    tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                                    tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                                 }
 
                                 else if(cantidad > comprobar2){
-                                    tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                                    tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
 
                                     //Preguntara si quiere lo que hay en existencia
                                     String[] opciones = {"Aceptar", "Cancelar"};
@@ -3487,7 +3486,7 @@ public class Principal extends javax.swing.JFrame {
                                         }
                                     }//Dio clic en la opcion aceptar
 
-                                    tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                                    tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                                 }//cantidad > comprobar2
 
                                 //Si no entro a ninguna de las 2 de arriba, entonces se actualizo el stock agregando mas
@@ -3497,7 +3496,7 @@ public class Principal extends javax.swing.JFrame {
                                     if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
                                         modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),cantidad});
                                     }
-                                    tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                                    tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
 
                                 }//else
 
@@ -3510,7 +3509,7 @@ public class Principal extends javax.swing.JFrame {
                                 //Se pregunta si se quieren los productos que se encuentran, en caso de quererlos
                                 //se asignan las existencias restantes y cambia a agotado, si no las quiere
                                 //entonces no sucede nada
-                                tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                                tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                                 //Preguntara si quiere lo que hay en existencia
                                 String[] opciones = {"Aceptar", "Cancelar"};
                                 int seleccion = JOptionPane.showOptionDialog(null, "Solo se cuenta con "+comprobar+" de exitencias para el producto "+idProducto+".\nUsted esta solicitando "+cantidad+", ¿Desea aceptar las existencias restantes o esperar a que las agreguen al inventario?","¿Acepta las exitencias restantes?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
@@ -3521,7 +3520,7 @@ public class Principal extends javax.swing.JFrame {
                                     }
                                 }//Dio clic en aceptar
 
-                                tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                                tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                             }
                             //Si no entro a ninguna de las 3 de arriba, entonces se actualizo el stock agregando mas
                             //existencias, entonces se realiza el registro normalmente
@@ -3530,7 +3529,7 @@ public class Principal extends javax.swing.JFrame {
                                 if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
                                     modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),cantidad});
                                 }
-                                tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                                tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                             }//else
 
                         }//stock > cantidad
@@ -3547,12 +3546,12 @@ public class Principal extends javax.swing.JFrame {
                                 if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
                                     modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),cantidad});
                                 }
-                                tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                                tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                             }
 
                             else if(cantidad > comprobar2){
 
-                                tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                                tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                                 //Preguntara si quiere lo que hay en existencia
                                 String[] opciones = {"Aceptar", "Cancelar"};
                                 int seleccion = JOptionPane.showOptionDialog(null, "Solo se cuenta con "+comprobar2+" de exitencias para el producto "+idProducto+".\nUsted esta solicitando "+cantidad+", ¿Desea aceptar las existencias restantes o esperar a que las agreguen al inventario?","¿Acepta las exitencias restantes?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
@@ -3563,7 +3562,7 @@ public class Principal extends javax.swing.JFrame {
                                     }
                                 }//Dio clic en aceptar
 
-                                tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                                tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                             }//cantidad > stock
                             //Si no entro a ninguna de las 2 de arriba, entonces se actualizo el stock agregando mas
                             //existencias, entonces se realiza el registro normalmente
@@ -3572,12 +3571,12 @@ public class Principal extends javax.swing.JFrame {
                                 if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
                                     modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),cantidad});
                                 }
-                                tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                                tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
 
                             }//else
                         }// stock == cantidad
                         else if (stock < cantidad){
-                            tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                            tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                             //Preguntara si quiere lo que hay en existencia
                             String[] opciones = {"Aceptar", "Cancelar"};
                             int seleccion = JOptionPane.showOptionDialog(null, "Solo se cuenta con "+stock+" de exitencias para el producto "+idProducto+".\nUsted esta solicitando "+cantidad+", ¿Desea aceptar las existencias restantes o esperar a que las agreguen al inventario?","¿Acepta las exitencias restantes?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
@@ -3588,10 +3587,12 @@ public class Principal extends javax.swing.JFrame {
                                 }
                             }//Dio clic en la opcion aceptar
 
-                            tablaMInventarioA.setModel(manejador_inventario.getInventarioG());
+                            tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                         }//stock < cantidad
                     }//canceloSolicitud
                 }//esGranel
+                
+                
                 
                 //ES INVENTARIO NORMAL
                 else{

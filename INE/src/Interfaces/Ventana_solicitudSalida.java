@@ -160,7 +160,7 @@ public class Ventana_solicitudSalida extends javax.swing.JDialog {
             System.out.println("No se porque se ejecuta lo que esta comentado");
 
             //Realizamos el registro
-            if(manager_solicitud.registro_SolicitudSalida(user, ids, Cantidad)){
+            if(manager_solicitud.registro_SolicitudSalida(user, ids, Cantidad,"Solicitud Salida")){
                 JOptionPane.showMessageDialog(null, "Se realizo correctamente la solicitud de salida de almacen.");
                 this.dispose();
             }else{

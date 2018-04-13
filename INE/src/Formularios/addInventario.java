@@ -578,6 +578,7 @@ public class addInventario extends javax.swing.JDialog {
             txtFolio.setText(nomeclaturas[folio-1]);
             txtNum.setEnabled(true);
             txtExtension.setEnabled(true);
+            txtNum.setText(manager_inventario.sugerenciaNum(nomeclaturas[folio-1]));
             
             if(!(txtNum.getText().isEmpty())){
             
@@ -614,6 +615,7 @@ public class addInventario extends javax.swing.JDialog {
             txtNum.setEnabled(false);
             txtExtension.setText("");
             txtExtension.setEnabled(false);
+            btnAceptar.setEnabled(false);
         }
         
     }//GEN-LAST:event_comboFolioActionPerformed

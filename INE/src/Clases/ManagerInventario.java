@@ -188,6 +188,27 @@ public class ManagerInventario {
 
     }//getInventarioG
 
+    public String sugerenciaNum(String Folio) {
+        int numero = 1;
+        try {
+            //Consulta para saber si existe o no dicho producto
+            String sql = "select Numero from inventario where Folio = '"+Folio+"' order by Numero desc;";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            if(rs.next()){
+                numero = rs.getInt(1)+1;
+            }
+            conexion.close();
+            return ""+numero;
+        } catch (SQLException ex) {
+            System.out.printf("Error al consultar el inventario en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        } 
+
+    }//sugerenciaNum
+    
     //Nos devuelve todos los productos de inventario normal con un filtro de nomeclatura de folio y su estatus
     public DefaultTableModel getInventario(String nomeclatura,String estatus) {
         //No dejamos editar ninguna celda

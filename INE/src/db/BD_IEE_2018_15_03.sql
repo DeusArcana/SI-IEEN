@@ -638,6 +638,11 @@ CREATE TABLE IF NOT EXISTS `Admin_config` (
 	`INT_String_Format` INT
 ) ENGINE = InnoDB;
 
+/*Vistas*/
+CREATE VIEW 
+vista_permisosSolicitud AS
+select tipo_solicitud, puesto from permisos_solicitud where permiso = 1;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

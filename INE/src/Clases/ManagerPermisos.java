@@ -384,9 +384,9 @@ public class ManagerPermisos {
         return estado;
     }//organizacion_solicitud
     
-    //---------------------------------------------------------------------------------------------------------------------//   
+    //Método para saber puede ver la pestaña de solicitudes
     public int verTablaSolicitudes(String user){
-        boolean baja = false,comodato = false,donacion = false,salida = false;
+        
         String puesto;
         conexion = db.getConexion();
         try {
@@ -397,111 +397,20 @@ public class ManagerPermisos {
             rs.next();
             puesto = rs.getString(1);
             
-            //Obtenemos la respuesta de permiso para el puesto de la persona que se logeo de la solicitud baja
-            sql = "select permiso from permisos_solicitud where tipo_solicitud = 'Solicitud Baja' and puesto = '"+puesto+"';";
+            sql = "select tipo_solicitud from vista_permisosSolicitud where puesto = '"+puesto+"';";
             rs = st.executeQuery(sql);
             if(rs.next()){
-                baja = rs.getBoolean(1);
+                return 1;//Encontro alguna coincidencia entonces puede ver por lo menos algun tipo de solicitud
+            }else{
+                return 0;//No se encontro concidencia entonces no puede ver ningun tipo de solicitud
             }
-            //Obtenemos la respuesta de permiso para el puesto de la persona que se logeo de la solicitud comodato
-            sql = "select permiso from permisos_solicitud where tipo_solicitud = 'Solicitud Comodato' and puesto = '"+puesto+"';";
-            rs = st.executeQuery(sql);
-            if(rs.next()){
-                comodato = rs.getBoolean(1);
-            }
-            //Obtenemos la respuesta de permiso para el puesto de la persona que se logeo de la solicitud donación
-            sql = "select permiso from permisos_solicitud where tipo_solicitud = 'Solicitud Donación' and puesto = '"+puesto+"';";
-            rs = st.executeQuery(sql);
-            if(rs.next()){
-                donacion = rs.getBoolean(1);
-            }
-            //Obtenemos la respuesta de permiso para el puesto de la persona que se logeo de la solicitud salida
-            sql = "select permiso from permisos_solicitud where tipo_solicitud = 'Solicitud Salida' and puesto = '"+puesto+"';";
-            rs = st.executeQuery(sql);
-            if(rs.next()){
-                salida = rs.getBoolean(1);
-            }
-            rs.close();
-            st.close();
-            conexion.close();
-            /*
-            14 -> todos los tipos de solicitud
-            13 -> baja, donación y comodato
-            12 -> baja, donación y reemplazo
-            11 -> baja, comodato y reemplazo
-            10 -> baja y donación 
-            9 -> baja y comodato
-            8 -> baja y reemplazo
-            7 -> reemplazo y comodato
-            6 -> reemplazo y donación
-            5 -> comodato y donación
-            4 -> baja
-            3 -> comodato
-            2 -> donación
-            1 -> reemplazo
-            0 -> ningun permiso
-           */
-            
-//------------------PERMISO PARA LOS 4 TIPOS DE SOLICITUDES------------------------//
-            if(baja == donacion && baja == comodato && baja == salida && baja){
-                return 14; //Tiene permiso para ver todos los tipos de solicitud
-            }
-            
-//------------------PERMISO PARA 3 TIPOS DE SOLICITUDES------------------------//
-            if(baja == donacion && baja == comodato && baja){
-                return 13; //Tiene permiso para ver baja,donacion y comodato
-            }
-            if(baja == donacion && baja == salida && baja){
-                return 12; //Tiene permiso para ver baja, donacion y salida de almacen
-            }
-            if(baja == comodato && baja == salida && baja){
-                return 11; //Tiene permiso para ver baja, comodato y salida de almacen
-            }
-            
-//------------------PERIMSO PARA 2 TIPOS DE SOLICITUDES------------------------//
-            if(baja == donacion && baja){
-                return 10; //Tiene permiso para ver baja y donacion
-            }
-            if(baja == comodato && baja){
-                return 9; //Tiene permiso para ver baja y comodato
-            }
-            if(baja == salida && baja){
-                return 8; //Tiene permiso para ver baja y salida de almacen
-            }
-            if(salida == comodato && baja){
-                return 7; //Tiene permiso para ver salida de almacen y comodato
-            }
-            if(salida == donacion && baja){
-                return 6; //Tiene permiso para ver salida de almacen y donacion
-            }
-            if(comodato == donacion && comodato){
-                return 5;//Tiene permiso para ver comodato y donacion
-            }
-
-//------------------PERIMSO PARA 1 TIPO DE SOLICITUDES------------------------// 
-            if(baja){
-                return 4;
-            }
-            if(comodato){
-                return 3;
-            }
-            if(donacion){
-                return 2;
-            }
-            if(salida){
-                return 1;
-            }
-            
-//------------------SIN PERMISOS PARA LAS SOLICITUDES------------------------//            
-            return 0;
-            
             
         } //try  
         
         catch (SQLException ex) {
             Logger.getLogger(ManagerPermisos.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
-        }//Catch//Catch//Catch//Catch
+        }//
         
     }//verTablaSolicitudes
     
