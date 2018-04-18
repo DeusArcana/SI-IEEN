@@ -103,7 +103,7 @@ public class Principal extends javax.swing.JFrame {
     //VARIABLES GLOBALES
     public static String usuario = "",prodInventario = "",UserUpdate = "",estadoPendiente = "",estadoSolicitud = "",Username = "",productoAsignacionReemplazo = "",productoAREstado = "",empleadoSolicitud = "",pendientePara="";
     public static int idPendiente,productoIDVale;
-    public DefaultTableModel modelotablaMAsignados,modeloRecoleccion,modeloObjetosEntregados;
+    public DefaultTableModel tablaGranel,tablaNormal,modeloRecoleccion,modeloObjetosEntregados,modeloCantidadSalida;
     public static String Claves[],nomeclaturas[];
     public static int Cantidad[],IDVales[];
             
@@ -149,9 +149,19 @@ public class Principal extends javax.swing.JFrame {
         
         //Obtenemos el modelo de la tabla 
         modeloTablaIP = (DefaultTableModel) tablaIP.getModel();
-        modelotablaMAsignados = (DefaultTableModel) tablaMAsignados.getModel();
+        tablaNormal = (DefaultTableModel) tablaMAsignados.getModel();
         modeloRecoleccion = (DefaultTableModel) tablaRecoleccion.getModel();
         modeloObjetosEntregados = (DefaultTableModel) tablaObjetosEntregados.getModel();
+        modeloCantidadSalida = (DefaultTableModel) tablaCantidadGranel.getModel();
+        
+        //Añadimos el modelo que queremos que tenga la tabla cuando se vaya a atender una solicitud de salida de almacen
+        DefaultTableModel table = new DefaultTableModel();
+        table.addColumn("Cantidad con letra");
+        table.addColumn("Autorizó");
+        table.addColumn("Solicitó");
+        table.addColumn("Articulo");
+        table.addColumn("Descripción");
+        tablaGranel = table;
         
         campoObservaciones.setLineWrap(true);
         //Quitar editable a spinner
@@ -246,6 +256,8 @@ public class Principal extends javax.swing.JFrame {
         bg_manejo_inventario = new javax.swing.ButtonGroup();
         bt_tipo_inventario_asignable = new javax.swing.ButtonGroup();
         GrupoTipoInventario = new javax.swing.ButtonGroup();
+        MenuSolicitarSalida = new javax.swing.JPopupMenu();
+        CancelarSS = new javax.swing.JMenuItem();
         tabbedPrincipal = new javax.swing.JTabbedPane();
         pestañaInventario = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -371,7 +383,7 @@ public class Principal extends javax.swing.JFrame {
         pn_asignacion_inventario1 = new javax.swing.JPanel();
         lb_objetos_asignables2 = new javax.swing.JLabel();
         jScrollPane31 = new javax.swing.JScrollPane();
-        tablaMAsignados = new javax.swing.JTable();
+        tablaMAsignados = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         lb_objetos_asignables3 = new javax.swing.JLabel();
         jScrollPane32 = new javax.swing.JScrollPane();
         tablaMInventarioA = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
@@ -403,7 +415,10 @@ public class Principal extends javax.swing.JFrame {
         jPanel12 = new javax.swing.JPanel();
         pn_tablaUsuarios1 = new javax.swing.JPanel();
         jScrollPane17 = new javax.swing.JScrollPane();
-        tablaSolicitarGranel = new javax.swing.JTable();
+        tablaSolicitarGranel = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        jScrollPane18 = new javax.swing.JScrollPane();
+        tablaCantidadGranel = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        btnCancelarSalida = new javax.swing.JButton();
         btnSolicitarSalida = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
@@ -692,6 +707,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MenuStockMin.add(ActualizarInfoSM);
+
+        CancelarSS.setText("Cancelar");
+        CancelarSS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelarSSActionPerformed(evt);
+            }
+        });
+        MenuSolicitarSalida.add(CancelarSS);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Sistema Integral - Instituto Estatal Electoral de Nayarit");
@@ -2180,15 +2203,33 @@ public class Principal extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Solicitar", "Clave", "Nombre corto", "Descripción", "Ubicación", "Marca"
+                "Clave", "Nombre corto", "Descripción"
             }
         ));
         tablaSolicitarGranel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaSolicitarGranelMouseClicked(evt);
+            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tablaSolicitarGranelMouseReleased(evt);
             }
         });
         jScrollPane17.setViewportView(tablaSolicitarGranel);
+
+        tablaCantidadGranel.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Clave", "Nombre corto", "Descripción", "Cantidad"
+            }
+        ));
+        tablaCantidadGranel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablaCantidadGranelMouseReleased(evt);
+            }
+        });
+        jScrollPane18.setViewportView(tablaCantidadGranel);
 
         javax.swing.GroupLayout pn_tablaUsuarios1Layout = new javax.swing.GroupLayout(pn_tablaUsuarios1);
         pn_tablaUsuarios1.setLayout(pn_tablaUsuarios1Layout);
@@ -2196,29 +2237,48 @@ public class Principal extends javax.swing.JFrame {
             pn_tablaUsuarios1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_tablaUsuarios1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane17, javax.swing.GroupLayout.DEFAULT_SIZE, 1306, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(87, Short.MAX_VALUE))
         );
         pn_tablaUsuarios1Layout.setVerticalGroup(
             pn_tablaUsuarios1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_tablaUsuarios1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane17, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE))
+                .addGroup(pn_tablaUsuarios1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pn_tablaUsuarios1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane18, javax.swing.GroupLayout.Alignment.TRAILING)))
         );
 
         jPanel12.add(pn_tablaUsuarios1);
-        pn_tablaUsuarios1.setBounds(20, 150, 1330, 610);
+        pn_tablaUsuarios1.setBounds(20, 150, 1330, 500);
+
+        btnCancelarSalida.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        btnCancelarSalida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar.png"))); // NOI18N
+        btnCancelarSalida.setText("Cancelar");
+        btnCancelarSalida.setEnabled(false);
+        btnCancelarSalida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarSalidaActionPerformed(evt);
+            }
+        });
+        jPanel12.add(btnCancelarSalida);
+        btnCancelarSalida.setBounds(860, 100, 140, 30);
 
         btnSolicitarSalida.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         btnSolicitarSalida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar.png"))); // NOI18N
         btnSolicitarSalida.setText("Solicitar");
+        btnSolicitarSalida.setEnabled(false);
         btnSolicitarSalida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSolicitarSalidaActionPerformed(evt);
             }
         });
         jPanel12.add(btnSolicitarSalida);
-        btnSolicitarSalida.setBounds(430, 100, 140, 30);
+        btnSolicitarSalida.setBounds(650, 100, 140, 30);
 
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baner Usuarios.png"))); // NOI18N
         jPanel12.add(jLabel21);
@@ -2841,6 +2901,7 @@ public class Principal extends javax.swing.JFrame {
         Ventana_AceptaSalida ob = new Ventana_AceptaSalida(this,true,tablaSolicitudes.getValueAt(fila, 0).toString(),Username);
         ob.setVisible(true);
         */
+        cancelarVale();
         
         int fila = tablaSolicitudes.getSelectedRow();
         idAtenderSalida = tablaSolicitudes.getValueAt(fila, 0).toString();
@@ -2853,6 +2914,8 @@ public class Principal extends javax.swing.JFrame {
         comboEmpleado.setSelectedItem(tablaSolicitudes.getValueAt(fila, 1).toString());//Le inidicamos el empleado que realizo la solicitud
         comboEmpleado.setEnabled(false);//Desactivamos el combo para que no cambie el responsable
         esGranel = true;//Activamos la banera de es a granel para saber que hacer con los botones
+        comboFolioAsignacion.setVisible(false);
+        btn_cancelar2.setEnabled(true);
         
         
         //Cargamos el cardLayout en caso de encontrarse en el recolección
@@ -2861,8 +2924,7 @@ public class Principal extends javax.swing.JFrame {
         
         //Llenamos la tabla con la información de acuerdo a la solicitud que se realizo
         tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
-        
-        
+        tablaMAsignados.setModel(tablaGranel);
         
     }//GEN-LAST:event_AtenderActionPerformed
 
@@ -2969,6 +3031,35 @@ public class Principal extends javax.swing.JFrame {
          
         }//Acepto la autorización
     }//GEN-LAST:event_DenegarActionPerformed
+    
+    public boolean existeCodigoTablaSolicitarGranel(String codigo,int cantidad){
+        boolean existe = false;
+        //Buscamos en la tabla si ya existe el codigo
+        for(int fila = 0;fila<tablaCantidadGranel.getRowCount();fila++){
+            //Si el codigo ya se habia registrado entonces sumamos uno a la cantidad
+            if(tablaCantidadGranel.getValueAt(fila,0).equals(codigo)){
+                    Object[] opciones = {"Aceptar","Cancelar"};
+                    int seleccion = JOptionPane.showOptionDialog(null, "¿Desea agregar \""+cantidad+"\" al producto \""+tablaCantidadGranel.getValueAt(fila, 0).toString()+"\"?","Confirmación para añadir cantidad", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+                    if(seleccion == 0){
+                        int  valor = Integer.parseInt(tablaCantidadGranel.getValueAt(fila,3).toString());
+                        valor = valor + cantidad;
+                        tablaCantidadGranel.setValueAt(valor,fila,3);
+                    }
+                    existe = true;
+                    break;
+            }//if
+            
+        }//for
+        return existe;
+    }//existeCodigoTablaSolicitarGranel
+    
+    public void limpiarTablaCantidadGranel(){
+            int a = modeloCantidadSalida.getRowCount() - 1;
+            for(int i=0; i<=a;i++){
+               modeloCantidadSalida.removeRow(0);
+            }
+    }
+    
     /*-------------------------------PARA LA ASIGNACION EN LA PESTAÑA DE MANEJADOR KEVIN------------------------------------------------*/
     public boolean existeCodigoTablaMAsignados(String codigo,int cantidad){
         boolean existe = false;
@@ -2990,9 +3081,19 @@ public class Principal extends javax.swing.JFrame {
     public void getDatosTablaAsignados(){
         Claves = new String[tablaMAsignados.getRowCount()];
         Cantidad = new int[tablaMAsignados.getRowCount()];
+        int columnaCla = 0;
+        int columnaCan = 0;
+        if(esGranel){
+            columnaCla = 3;
+            columnaCan = 2;
+        }else{
+            columnaCla = 0;
+            columnaCan = 4;
+        }
+        
         for(int i = 0;i<tablaMAsignados.getRowCount();i++){
-            Claves[i] = tablaMAsignados.getValueAt(i, 0).toString();//Obtenemos las claves
-            Cantidad[i] = Integer.parseInt(tablaMAsignados.getValueAt(i, 4).toString());//Obtenemos las cantidades
+            Claves[i] = tablaMAsignados.getValueAt(i, columnaCla).toString();//Obtenemos las claves
+            Cantidad[i] = Integer.parseInt(tablaMAsignados.getValueAt(i, columnaCan).toString());//Obtenemos las cantidades
         }//Llenar vector de los codigos de barras
     }//obtiene los datos de la tabla "tablaMAsignados"
     
@@ -3001,21 +3102,41 @@ public class Principal extends javax.swing.JFrame {
     }
     
     public void limpiarTablaMAsignados(){
-        
-        int a = modelotablaMAsignados.getRowCount() - 1;
-        for(int i=0; i<=a;i++){
-           modelotablaMAsignados.removeRow(0);
+        if(esGranel){
+            int a = tablaGranel.getRowCount() - 1;
+            for(int i=0; i<=a;i++){
+               tablaGranel.removeRow(0);
+            }
+            
+            //Deshacemos todos los cambios que habiamos hecho cuando quisimos atender la solicitud para salida de almacen
+            rb_recoleccion1.setEnabled(true);
+            rb_inventario_granel1.setEnabled(false);
+            rb_inventario_granel1.setSelected(false);
+            rb_inventario_normal1.setEnabled(true);
+            rb_inventario_normal1.setSelected(true);
+            comboEmpleado.setSelectedIndex(0);
+            comboEmpleado.setEnabled(true);
+            
+        }else{
+            int a = tablaNormal.getRowCount() - 1;
+            for(int i=0; i<=a;i++){
+               tablaNormal.removeRow(0);
+            }
         }
         
-        //Deshacemos todos los cambios que habiamos hecho cuando quisimos atender la solicitud para salida de almacen
-        rb_recoleccion1.setEnabled(true);
-        rb_inventario_granel1.setEnabled(false);
-        rb_inventario_granel1.setSelected(false);
-        rb_inventario_normal1.setEnabled(true);
-        rb_inventario_normal1.setSelected(true);
-        comboEmpleado.setSelectedIndex(0);
-        comboEmpleado.setEnabled(true);
+        tablaMInventarioA.setModel(manejador_inventario.getInventarioParaAsignacion(""));
+        tablaMAsignados.setModel(tablaNormal);
         esGranel = false;
+        comboFolioAsignacion.setVisible(true);
+        //Llenamos el combo con las categorias del inventario normal
+        String lista = manager_inventario.nomeclaturaFolio();
+        String [] folios = lista.split(",");
+        
+        comboFolioAsignacion.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        comboFolioAsignacion.addItem("Todos");
+        for(int i = 1,j = 0; i <= folios.length;i = i+2,j++){
+            comboFolioAsignacion.addItem(folios[i]);
+        }
                 
         
     }//limpia la tabla "tablaMAsignados"
@@ -3073,36 +3194,51 @@ public class Principal extends javax.swing.JFrame {
         Cantidad = new int[1];
         //Obtenemos la fila
         int fila = tablaMAsignados.getSelectedRow();
-        
-        //Obtenemos la clave y cantidad
-        Claves[0] = tablaMAsignados.getValueAt(fila, 0).toString();
-        Cantidad[0] = Integer.parseInt(tablaMAsignados.getValueAt(fila, 4).toString());
+
+        if(esGranel){
+            //Obtenemos la clave y cantidad
+             Claves[0] = tablaMAsignados.getValueAt(fila, 3).toString();
+             Cantidad[0] = Integer.parseInt(tablaMAsignados.getValueAt(fila, 2).toString());
+        }else{
+            //Obtenemos la clave y cantidad
+            Claves[0] = tablaMAsignados.getValueAt(fila, 0).toString();
+            Cantidad[0] = Integer.parseInt(tablaMAsignados.getValueAt(fila, 4).toString());
+        }
         
         //Mostramos mensaje de confirmación para cancelar el producto seleccionado
         String[] opciones = {"Aceptar", "Cancelar"};
         int seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar el producto \""+Claves[0]+"\"?","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
         if(seleccion == 0){
-            //Esto es para mostrar la tabla de acuerdo a lo que se quedo seleccionado en el combo
-            int folio = comboFolioAsignacion.getSelectedIndex();
-            String nomeclatura = "";
-            //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
-            if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-            
-            //Regresamos el producto seleccionado
-            manejador_inventario.regresarInventario(Claves,Cantidad);
-            //Eliminamos el registro de la tabla
-            modelotablaMAsignados.removeRow(fila);
-            JOptionPane.showMessageDialog(null, "Se regreso al inventario el producto \""+Claves[0]+"\".");
-            //Actualizamos la tabla de acuerdo al radiobutton seleccionado
-            if(rb_inventario_normal1.isSelected()){
+            if(!esGranel){
+                //Esto es para mostrar la tabla de acuerdo a lo que se quedo seleccionado en el combo
+                int folio = comboFolioAsignacion.getSelectedIndex();
+                String nomeclatura = "";
+                //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+                if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
+
+                //Regresamos el producto seleccionado
+                manejador_inventario.regresarInventario(Claves,Cantidad);
+                //Eliminamos el registro de la tabla
+                tablaNormal.removeRow(fila);
+                JOptionPane.showMessageDialog(null, "Se regreso al inventario el producto \""+Claves[0]+"\".");
                 tablaMInventarioA.setModel(manejador_inventario.getInventarioParaAsignacion(nomeclatura));
-                        
-            }else{
+
+                //Vemos si queda mas de un producto
+                if(tablaNormal.getRowCount() == 0){
+                    btn_generar_vale3.setEnabled(false);
+                }
+            }//esGranel
+            else{
+                //Regresamos el producto seleccionado
+                manejador_inventario.regresarInventario(Claves,Cantidad);
+                //Eliminamos el registro de la tabla
+                tablaNormal.removeRow(fila);
+                JOptionPane.showMessageDialog(null, "Se regresaron \""+Cantidad[0]+"\" al inventario del producto \""+Claves[0]+"\".");
                 tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
-            }//else
-            //Vemos si queda mas de un producto
-            if(modelotablaMAsignados.getRowCount() == 0){
-                btn_generar_vale3.setEnabled(false);
+                //Vemos si queda mas de un producto
+                if(tablaGranel.getRowCount() == 0){
+                    btn_generar_vale3.setEnabled(false);
+                }
             }
             
         }//selecciono la opcion "Aceptar"
@@ -3348,27 +3484,51 @@ public class Principal extends javax.swing.JFrame {
             comboFolioAsignacion.addItem(folios[i]);
         }
     }//GEN-LAST:event_rb_inventario_normal1ActionPerformed
+    private void cancelarVale(){
+            int filas = 0;
+            if(esGranel){
+                filas = tablaGranel.getRowCount();
+            }else{
+                filas = tablaNormal.getRowCount();
+            }
+                String[] opciones = {"Aceptar", "Cancelar"};
+                int seleccion = 0;
 
+                if(esGranel){
+                    if(filas >0){seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar el proceso para atender la solicitud de salida de almacen? \nLos productos que se asignaron volveran a estar disponibles.","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);}
+                }else{
+                    if(filas>0){seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar el proceso de asignación? \nLos productos volveran a estar disponibles","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);}
+                }
+
+                if(seleccion == 0){
+                    getDatosTablaAsignados();
+                    regresarInventario();
+                    limpiarTablaMAsignados();
+                    btn_generar_vale3.setEnabled(false);
+                    btn_cancelar2.setEnabled(false);
+                }
+            
+    }
     private void btn_cancelar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelar2ActionPerformed
         // TODO add your handling code here:
-        String[] opciones = {"Aceptar", "Cancelar"};
-        int seleccion = 0;
-        
-        if(esGranel){
-            seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar el proceso para atender la solicitud de salida de almacen? \nLos productos que se asignaron volveran a estar disponibles.","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
-        }else{
-            seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar el proceso de asignación? \nLos productos volveran a estar disponibles","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
-        }
-        
-        if(seleccion == 0){
-            getDatosTablaAsignados();
-            regresarInventario();
-            limpiarTablaMAsignados();
-            comboEmpleado.setSelectedIndex(0);
-            btn_generar_vale3.setEnabled(false);
-            btn_cancelar2.setEnabled(false);
-        }
-        
+            if(esGranel){
+                if(tablaGranel.getRowCount() == 0){
+                    rb_recoleccion1.setEnabled(true);
+                    rb_inventario_granel1.setEnabled(false);
+                    rb_inventario_granel1.setSelected(false);
+                    rb_inventario_normal1.setEnabled(true);
+                    rb_inventario_normal1.setSelected(true);
+                    comboEmpleado.setSelectedIndex(0);
+                    comboEmpleado.setEnabled(true);
+                    btn_generar_vale3.setEnabled(false);
+                    btn_cancelar2.setEnabled(false);
+                }
+                else{
+                    cancelarVale();
+                }
+            }else{
+                cancelarVale();
+            }
     }//GEN-LAST:event_btn_cancelar2ActionPerformed
 
     private void btn_generar_vale3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generar_vale3ActionPerformed
@@ -3423,6 +3583,13 @@ public class Principal extends javax.swing.JFrame {
                     }//while
                     
                     if(canceloCantidad){
+                        
+                        
+                        tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(cantidad),tablaMInventarioA.getValueAt(fila, 4),cantidad,idProducto,tablaMInventarioA.getValueAt(fila, 2)});
+                        btn_generar_vale3.setEnabled(true);
+                        btn_cancelar2.setEnabled(true);
+                        
+                        /*
                         btn_generar_vale3.setEnabled(true);
                         //Obtenemos la cantidad directamente de la BD por si se ha actualizado la cantidad
                         int stock = manejador_inventario.cantidadInventarioG(idProducto);
@@ -3445,8 +3612,7 @@ public class Principal extends javax.swing.JFrame {
                             if(stock > comprobar){
                                 //Se pasa el registro a la otra tabla (0,1,2,3,5,cantidad)
                                 if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
-                                    modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),cantidad});
-                                    System.out.println("Entro a agregar el registro cuando el stock entro como si nada(parte 1)");
+                                    tablaGranel.addRow(new Object[]{"",tablaMInventarioA.getValueAt(fila, 5),cantidad,idProducto});
                                 }
                                 tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                             }//stock > comprobar
@@ -3468,7 +3634,7 @@ public class Principal extends javax.swing.JFrame {
                                 if(comprobar2 == 0){
                                     //Si es 0 entonces se cambia sin problemas y el estado cambia a agotado
                                     if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
-                                        modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),cantidad});
+                                        tablaGranel.addRow(new Object[]{"",tablaMInventarioA.getValueAt(fila, 5),cantidad,idProducto});
                                     }
                                     tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                                 }
@@ -3482,10 +3648,12 @@ public class Principal extends javax.swing.JFrame {
                                     if(seleccion == 0){
                                         manejador_inventario.productosIgualesInventarioG(idProducto, comprobar2);
                                         if(!(existeCodigoTablaMAsignados(idProducto,comprobar2))){
-                                            modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),comprobar2});
+                                            tablaGranel.addRow(new Object[]{"",tablaMInventarioA.getValueAt(fila, 5),comprobar2,idProducto});
                                         }
                                     }//Dio clic en la opcion aceptar
-
+                                    else{
+                                        tablaGranel.addRow(new Object[]{"",tablaMInventarioA.getValueAt(fila, 5),cantidad,idProducto});
+                                    }
                                     tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                                 }//cantidad > comprobar2
 
@@ -3589,13 +3757,12 @@ public class Principal extends javax.swing.JFrame {
 
                             tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                         }//stock < cantidad
+                        */
                     }//canceloSolicitud
                 }//esGranel
                 
-                
-                
                 //ES INVENTARIO NORMAL
-                else{
+                    else{
                     //Obtenemos el estado del producto
                     String estado = manager_solicitud.estadoProducto(idProducto);
                     
@@ -3610,7 +3777,7 @@ public class Principal extends javax.swing.JFrame {
                         if(manager_asignar.asignarEquipo(idProducto)){
                             btn_generar_vale3.setEnabled(true);
                             btn_cancelar2.setEnabled(true);
-                            modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),1});
+                            tablaNormal.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),1});
                             tablaMInventarioA.setModel(manejador_inventario.getInventarioParaAsignacion(nomeclatura));
                         }//asignarEquipo
 
@@ -4762,30 +4929,113 @@ public class Principal extends javax.swing.JFrame {
     private void btnSolicitarSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarSalidaActionPerformed
         // TODO add your handling code here:
         String ids = "";
+        int[] Cantidad = new int[tablaCantidadGranel.getRowCount()];
+                   
+        for(int i = 0; i<tablaCantidadGranel.getRowCount();i++){
+            
+            Cantidad[i] = Integer.parseInt(tablaCantidadGranel.getValueAt(i, 3).toString());
+            if(ids.equals("")){
+                ids = tablaCantidadGranel.getValueAt(i, 0).toString();
+            }else{
+                ids += ","+tablaCantidadGranel.getValueAt(i, 0).toString();
+            } 
+            
+        }//Recorremos toda la tabla para ver que solicito y cuanto
         
-        for(int i = 0; i<tablaSolicitarGranel.getRowCount();i++){
+        //Realizamos el registro
+        if(manager_solicitud.registro_SolicitudSalida(Username, ids, Cantidad,"Solicitud Salida")){
+            JOptionPane.showMessageDialog(null, "Se realizo correctamente la solicitud de salida de almacen.");
+            limpiarTablaCantidadGranel();
+            btnCancelarSalida.setEnabled(false);
+            btnSolicitarSalida.setEnabled(false);
             
-            if(Boolean.parseBoolean(tablaSolicitarGranel.getValueAt(i, 0).toString())){
-                if(ids.equals("")){
-                    ids = tablaSolicitarGranel.getValueAt(i, 1).toString();
-                }else{
-                    ids += ","+tablaSolicitarGranel.getValueAt(i, 1).toString();
-                } 
-            }//si es verdadero entonces marco ese producto
-            
-        }//Recorremos toda la tabla para ver que marco para solicitar
-        if(ids.equals("")){
-            JOptionPane.showMessageDialog(null, "Debes seleccionar al menos un producto para realizar la solicitud");
         }else{
-            Ventana_solicitudSalida ob = new Ventana_solicitudSalida(this, true, ids,Username);
-            ob.setVisible(true);
-            tablaSolicitarGranel.setModel(manager_inventario.tablaSolicitarInvGranel());
+            JOptionPane.showMessageDialog(null, "No se pudo realizar la solicitud de salida de almacen, verificar con el distribuidor.");
+            this.dispose();
         }
     }//GEN-LAST:event_btnSolicitarSalidaActionPerformed
 
     private void comboFiltroUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroUsuario1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboFiltroUsuario1ActionPerformed
+
+    private void tablaCantidadGranelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCantidadGranelMouseReleased
+        // TODO add your handling code here:
+        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+        if(SwingUtilities.isRightMouseButton(evt)){
+            int r = tablaCantidadGranel.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablaCantidadGranel.getRowCount())
+            tablaCantidadGranel.setRowSelectionInterval(r, r);
+            MenuSolicitarSalida.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
+    }//GEN-LAST:event_tablaCantidadGranelMouseReleased
+
+    private void btnCancelarSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarSalidaActionPerformed
+        // TODO add your handling code here:
+        
+        String[] opciones = {"Aceptar", "Cancelar"};
+        int seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar la solicitud de salida de almacen?","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+        if(seleccion == 0){
+            limpiarTablaCantidadGranel();
+            btnCancelarSalida.setEnabled(false);
+            btnSolicitarSalida.setEnabled(false);
+        }
+    }//GEN-LAST:event_btnCancelarSalidaActionPerformed
+
+    private void tablaSolicitarGranelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaSolicitarGranelMouseClicked
+        // TODO add your handling code here:
+        if(evt.getClickCount() == 2){
+            int cantidad = 0;
+            int fila = tablaSolicitarGranel.getSelectedRow();
+            //Esto es para validar que ingrese solo numeros y mientras no lo haga, seguira preguntado hasta que
+            //solo teclee numeros o cancele el movimiento
+            boolean entero = true;
+            boolean canceloCantidad = true;
+            while(entero){
+
+                String cadena = JOptionPane.showInputDialog("Ingrese la cantidad que desea solicitar");
+                //Cancelo la solicitud de asignacion
+                if(cadena == null){
+                    entero = false;
+                    canceloCantidad = false;
+                }else{
+                    try{
+                        //Si hace la conversion correctamente entonces no entra en la excepcion y se sale del ciclo
+                        cantidad = Integer.parseInt(cadena);
+                        entero = false;
+
+                    }catch(NumberFormatException e){
+                        JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
+                        entero = true;
+                    }//try catch
+                }
+            }//while
+
+            if(canceloCantidad){
+                if(!(existeCodigoTablaSolicitarGranel(tablaSolicitarGranel.getValueAt(fila, 0).toString(),cantidad))){
+                    modeloCantidadSalida.addRow(new Object[]{tablaSolicitarGranel.getValueAt(fila, 0),tablaSolicitarGranel.getValueAt(fila, 1),tablaSolicitarGranel.getValueAt(fila, 2),cantidad});
+                }
+                btnCancelarSalida.setEnabled(true);
+                btnSolicitarSalida.setEnabled(true);
+            }
+                        
+        }//If del doble click
+    }//GEN-LAST:event_tablaSolicitarGranelMouseClicked
+
+    private void CancelarSSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarSSActionPerformed
+        // TODO add your handling code here: tablaCantidadGranel
+        int fila = tablaCantidadGranel.getSelectedRow();
+        String[] opciones = {"Aceptar", "Cancelar"};
+        int seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar el producto \""+tablaCantidadGranel.getValueAt(fila, 0).toString()+"\"?","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+        if(seleccion == 0){
+            modeloCantidadSalida.removeRow(fila);
+            if(tablaCantidadGranel.getRowCount() == 0){
+                btnCancelarSalida.setEnabled(false);
+                btnSolicitarSalida.setEnabled(false);
+            }//Deshabilitar botones cuando ya no haya registros
+        }//Acepto cancelar la solicitud
+
+    }//GEN-LAST:event_CancelarSSActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -4936,6 +5186,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem Autorizar;
     private javax.swing.JMenuItem CancelarA;
     private javax.swing.JMenuItem CancelarEntrega;
+    private javax.swing.JMenuItem CancelarSS;
     private javax.swing.JMenuItem Denegar;
     private javax.swing.JMenuItem EntregarParte;
     private javax.swing.JMenuItem EntregarTodo;
@@ -4952,6 +5203,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu MenuPendientes;
     private javax.swing.JPopupMenu MenuPermisosP;
     private javax.swing.JPopupMenu MenuRecoleccion;
+    private javax.swing.JPopupMenu MenuSolicitarSalida;
     private javax.swing.JMenuItem MenuSolicitud;
     private javax.swing.JPopupMenu MenuSolicitudes;
     private javax.swing.JPopupMenu MenuSolicitudesP;
@@ -4981,6 +5233,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnAñadirResguardo;
     private javax.swing.JButton btnAñadirVehiculo;
     private javax.swing.JButton btnCancelarCheck;
+    private javax.swing.JButton btnCancelarSalida;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEditar1;
     public javax.swing.JButton btnGenerarValeR;
@@ -5072,6 +5325,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane17;
+    private javax.swing.JScrollPane jScrollPane18;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane31;
@@ -5129,6 +5383,7 @@ public class Principal extends javax.swing.JFrame {
     public static javax.swing.JTabbedPane tabbedPrincipal;
     public static javax.swing.JTable tablaAsignacionPersonal;
     private javax.swing.JTable tablaBD;
+    public static javax.swing.JTable tablaCantidadGranel;
     private javax.swing.JTable tablaIP;
     public static javax.swing.JTable tablaInventario;
     public javax.swing.JTable tablaMAsignados;

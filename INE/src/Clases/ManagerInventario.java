@@ -1001,70 +1001,30 @@ public class ManagerInventario {
         
     }//Retorna una tabla con un checkbox en la primera columna
     
-    //Este metodo retorna una tabla con el formato para la tabla de inventario a granel en la pestaña solicitar I_granel anexando una columna con un 
-    //checkbox para marcar los productos que se quieren solicitar
+    //Este metodo retorna una tabla para solicitar productos a granel
     public DefaultTableModel tablaSolicitarInvGranel(){
-        JTable checks = new JTable();
-        JScrollPane scroll = new JScrollPane();
         conexion = db.getConexion();
-        
         DefaultTableModel table = new DefaultTableModel();
         
-        //Creamos la tabla con las caracterisiticas que necesitamos
-        checks.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
-        checks.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            //Declaramos el titulo de las columnas
-            new String [] {
-                "Solicitar","Clave", "Nombre corto", "Descripción", "Ubicación", "Marca"
-            }
-        ){
-            //El tipo que sera cada columna, la primera columna un checkbox y los demas seran objetos
-            Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-            //Esto es para indicar que columnas dejaremos editar o no
-            boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-            
-          }
-        
-        );
-        //Agregamos un scroll a la tabla
-        scroll.setViewportView(checks);
-        scroll.setBounds(30, 130, 1110, 500);
-        
-        table = (DefaultTableModel)checks.getModel();
-        
+        table.addColumn("Clave");
+        table.addColumn("Nombre corto");
+        table.addColumn("Descripción");
         
         //Apartir de aquí se realiza el proceso para llenar la tabla con los datos que se estan buscando
         try{
             
-            String sql = "select id_productoGranel,nombre_prod,descripcion,almacen,marca from inventario_granel;";
+            String sql = "select id_productoGranel,nombre_prod,descripcion from inventario_granel;";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();    
             ResultSet rs = st.executeQuery(sql);
 
-            Object datos[] = new Object[6];
+            Object datos[] = new Object[3];
 
             //Llenamos la tabla
             while (rs.next()) {
 
-                datos[0] = Boolean.FALSE;
-
-                for(int i = 1;i<6;i++){
-                        datos[i] = rs.getString(i);
+                for(int i = 0;i<3;i++){
+                        datos[i] = rs.getString(i+1);
                 }//Llenamos la fila
 
                 table.addRow(datos);//Añadimos la fila
@@ -1073,7 +1033,7 @@ public class ManagerInventario {
            conexion.close();
             
         } catch (SQLException ex) {
-            System.out.printf("Error al generar la tabla para con checkbox en el Inventario SQL");
+            System.out.printf("Error al obtener el Inventario a granel para solicitarlo en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
         

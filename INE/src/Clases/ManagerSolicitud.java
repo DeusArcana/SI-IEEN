@@ -182,7 +182,6 @@ public class ManagerSolicitud {
     //Este metodo realiza el registro de la solicitud de salida de almacen y retorna la tabla para que ingresen la cantidad que desean solicitar
     //(Hace falta mejorar este método para que este sea el registro de todos los tipos de solicitudes, por el momento realiza correctamente la de solicitud de salida de almacen)
     public boolean registro_SolicitudSalida(String user, String ids,int[] Cantidad,String tipoSolicitud){
-        String idSol ="";
         try {
             //Hacemos la conexión
             conexion = db.getConexion();
@@ -224,11 +223,6 @@ public class ManagerSolicitud {
                 st.executeUpdate(sql);
             }
             
-            //Buscamos el id de la solicitud
-            sql = "select concat(Folio,'-',Num,'-',Año) from solicitudSalida where fecha_solicitud = '"+fecha+"';";
-            rs = st.executeQuery(sql);
-            rs.next();
-            idSol = rs.getString(1);
             conexion.close();
             return true;
         } catch (SQLException ex) {

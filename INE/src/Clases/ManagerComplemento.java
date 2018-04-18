@@ -186,4 +186,236 @@ public class ManagerComplemento {
         
     }//Obtiene todas los puestos y las mete al combobox
     
+    //Este método es para convertir un numero a su equivalente en texto (letras)
+    public String textoNumero(int numero){
+        String texto="";
+        
+        //Primero verificamos si es mayor a las centenas
+        int miles = numero/1000;
+        numero = numero%1000;
+        
+        switch(miles){
+                case 1:
+                    texto += "Mil ";
+                    break;
+                case 2:
+                    texto += "Dos Mil ";
+                    break;
+                case 3:
+                    texto += "Tres Mil ";
+                    break;
+                case 4:
+                    texto += "Cuatro Mil ";
+                    break;
+                case 5:
+                    texto += "Cinco Mil ";
+                    break;
+                case 6:
+                    texto += "Seis Mil ";
+                    break;
+                case 7:
+                    texto += "Siete Mil ";
+                    break;
+                case 8:
+                    texto += "Ocho Mil ";
+                    break;
+                case 9:
+                    texto += "Nueve Mil ";
+                    break;
+                default:
+                    break;
+        }//swtich
+        
+        //Ahora verificamos las centenas
+        int centena = numero/100;
+        numero = numero%100;
+        
+        switch(centena){
+                case 1:
+                    if(numero > 0){
+                        texto += "Ciento ";
+                    }
+                    else{
+                        texto += "Cien";
+                    }
+                    break;
+                case 2:
+                    texto += "Doscientos ";
+                    break;
+                case 3:
+                    texto += "Trescientos ";
+                    break;
+                case 4:
+                    texto += "Cuatroscientos ";
+                    break;
+                case 5:
+                    texto += "Quinientos ";
+                    break;
+                case 6:
+                    texto += "Seiscientos ";
+                    break;
+                case 7:
+                    texto += "Setescientos ";
+                    break;
+                case 8:
+                    texto += "Ochoscientos ";
+                    break;
+                case 9:
+                    texto += "Novescientos ";
+                    break;
+                default:
+                    break;
+        }//swtich
+        
+        //Enseguida verificamos las decenas
+        int decenas = numero/10;
+        numero = numero%10;
+        boolean unity = false;
+        
+        switch(decenas){
+                case 1:
+                    //Aqui es un caso especial, del 11 al 15 tienen su propio nombre, del 16 al 19 tienen en comun "Dieci" y su respectivo numero
+                    switch(numero){
+                            case 0:
+                                texto += "Diez";
+                                unity = true;
+                                break;
+                            case 1:
+                                texto += "Once";
+                                unity = true;
+                                break;
+                            case 2:
+                                texto += "Doce";
+                                unity = true;
+                                break;
+                            case 3:
+                                texto += "Trece";
+                                unity = true;
+                                break;
+                            case 4:
+                                texto += "Catorce";
+                                unity = true;
+                                break;
+                            case 5:
+                                texto += "Quince";
+                                unity = true;
+                                break;
+                            default:
+                                texto += "Dieci";
+                                break;
+                        }//switch
+                        
+                    break;
+                case 2:
+                    if(numero > 0){
+                        texto += "Veinti";
+                    }
+                    else{
+                        texto += "Veinte";
+                    }
+                    break;
+                case 3:
+                    if(numero > 0){
+                        texto += "Treinta y ";
+                    }
+                    else{
+                        texto += "Treinta";
+                    }
+                    break;
+                case 4:
+                    if(numero > 0){
+                        texto += "Cuarenta y ";
+                    }
+                    else{
+                        texto += "Cuarenta";
+                    }
+                    break;
+                case 5:
+                    if(numero > 0){
+                        texto += "Ciencuenta y ";
+                    }
+                    else{
+                        texto += "Cincuenta";
+                    }
+                    break;
+                case 6:
+                    if(numero > 0){
+                        texto += "Sesenta y ";
+                    }
+                    else{
+                        texto += "Sesenta";
+                    }
+                    break;
+                case 7:
+                    if(numero > 0){
+                        texto += "Setenta y ";
+                    }
+                    else{
+                        texto += "Setenta";
+                    }
+                    break;
+                case 8:
+                    if(numero > 0){
+                        texto += "Ochenta y ";
+                    }
+                    else{
+                        texto += "Ochenta";
+                    }
+                    break;
+                case 9:
+                    if(numero > 0){
+                        texto += "Noventa y ";
+                    }
+                    else{
+                        texto += "Noventa";
+                    }
+                    break;
+                default:
+                    break;
+        }//swtich
+        
+        //Por ultimo verificamos las unidades en caso de que no se hayan usado en la decena "10"
+        if(!unity){
+
+            switch(numero){
+                    case 1:
+                        texto += "Uno";
+                        break;
+                    case 2:
+                        texto += "Dos";
+                        break;
+                    case 3:
+                        texto += "Tres";
+                        break;
+                    case 4:
+                        texto += "Cuatro";
+                        break;
+                    case 5:
+                        texto += "Cinco";
+                        break;
+                    case 6:
+                        texto += "Seis";
+                        break;
+                    case 7:
+                        texto += "Siete";
+                        break;
+                    case 8:
+                        texto += "Ocho";
+                        break;
+                    case 9:
+                        texto += "Nueve";
+                        break;
+                    default:
+                        if(texto.equals("")){
+                            texto += "Cero";
+                        }
+                        break;
+            }//swtich
+        }//if(!unity)
+        
+        return texto;
+        
+    }//textoNumero
+    
+    
 }//class
