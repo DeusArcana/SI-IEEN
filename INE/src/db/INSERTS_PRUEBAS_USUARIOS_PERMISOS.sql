@@ -322,3 +322,14 @@ INSERT INTO `INE`.`Permisos_Puesto`
         ('Secretaria',		'Respuesta Viaticos',	false,false,false,false),
         ('Secretaria',		'Solicitud Viaticos',	true,true,true,true);
         
+
+LOAD DATA LOCAL INFILE 'C:\\Users\\DeusArcana\\Documents\\NetBeansProjects\\SI-IEEN\\INE\\src\\db\\data_test.csv' 
+REPLACE INTO TABLE `ine`.`inventario` 
+FIELDS TERMINATED BY ',' 
+ESCAPED BY '"'
+LINES TERMINATED BY '\r\n' 
+(`Folio`, `Numero`, `Extension`, `NO_Serie`, `Nombre_Prod`, `Marca`, `Modelo`, `Color`, `Fecha_Compra`, `Factura`, `Importe`, `Observaciones`);
+
+-- Return initial state
+SET SQL_SAFE_UPDATES = 1;
+SET FOREIGN_KEY_CHECKS=1;

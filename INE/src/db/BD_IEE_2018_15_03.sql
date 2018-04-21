@@ -117,7 +117,7 @@ ENGINE = InnoDB;
 -- Table `INE`.`Folio`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Folio` (
-  `ID_Folio` CHAR(5) NOT NULL,
+  `ID_Folio` CHAR(6) NOT NULL,
   `Descripcion` VARCHAR(255),
   PRIMARY KEY `pk_ID_Folio`(`ID_Folio`)
 ) ENGINE = InnoDB;
@@ -134,7 +134,7 @@ ENGINE = InnoDB;
 -- Table `INE`.`Inventario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `INE`.`Inventario` (
-  `Folio` 			CHAR(5) NOT NULL,
+  `Folio` 			CHAR(6) NOT NULL,
   `Numero` 			INT NOT NULL,
   `Extension` 		CHAR(1) NULL,
   `nombre_prod` 	VARCHAR(50) NULL,
