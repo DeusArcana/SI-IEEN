@@ -238,30 +238,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `INE`.`Vales`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `INE`.`Vales` (
-  `id_vale` INT NOT NULL AUTO_INCREMENT,
-  `tipo_vale` VARCHAR(30) NOT NULL,
-  `fecha_vale` DATETIME NULL,
-  `id_empleado` INT NOT NULL,
-  PRIMARY KEY (`id_vale`, `tipo_vale`, `id_empleado`),
-  INDEX `fk_Vales_tipoVale1_idx` (`tipo_vale` ASC),
-  INDEX `fk_Vales_User1_idx` (`id_empleado` ASC),
-  CONSTRAINT `fk_Vales_tipoVale1`
-    FOREIGN KEY (`tipo_vale`)
-    REFERENCES `INE`.`tipoVale` (`tipo_vale`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Vales_User1`
-    FOREIGN KEY (`id_empleado`)
-    REFERENCES `INE`.`Empleados` (`id_empleado`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `INE`.`Permisos_puesto`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `INE`.`Permisos_puesto` (
@@ -396,20 +372,39 @@ CREATE TABLE IF NOT EXISTS `INE`.`Permiso_vale` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `INE`.`Vales`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `INE`.`Vales` (
+  `Folio` varchar(15) NULL,
+  `Numero` INT NOT NULL,
+  `Año` INT NOT NULL,
+  `tipo_vale` VARCHAR(30) NOT NULL,
+  `fecha_vale` DATETIME NULL,
+  `id_empleado` INT NOT NULL,
+  INDEX `fk_Vales_tipoVale1_idx` (`tipo_vale` ASC),
+  INDEX `fk_Vales_User1_idx` (`id_empleado` ASC),
+  CONSTRAINT `fk_Vales_tipoVale1`
+    FOREIGN KEY (`tipo_vale`)
+    REFERENCES `INE`.`tipoVale` (`tipo_vale`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Vales_User1`
+    FOREIGN KEY (`id_empleado`)
+    REFERENCES `INE`.`Empleados` (`id_empleado`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `INE`.`Detalle_vale`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `INE`.`Detalle_vale` (
-  `id_vale` INT NOT NULL,
+  `id_vale` varchar(20) NOT NULL,
   `id_producto` VARCHAR(45) NULL,
   `cantidad` INT NULL,
-  `estado` VARCHAR(25) NULL,
-  CONSTRAINT `fk_Detalle_vale_Vales1`
-    FOREIGN KEY (`id_vale`)
-    REFERENCES `INE`.`Vales` (`id_vale`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  `estado` VARCHAR(25) NULL
+  )
 ENGINE = InnoDB;
 
 
@@ -572,12 +567,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `INE`.`productosEntregados` (
   `id_vale` INT NOT NULL,
   `id_producto` VARCHAR(45) NULL,
-  `cantidad` INT NULL,
-  CONSTRAINT `fk_Detalle_vale_Vales10`
-    FOREIGN KEY (`id_vale`)
-    REFERENCES `INE`.`Vales` (`id_vale`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  `cantidad` INT NULL
+  )
 ENGINE = InnoDB;
 
 

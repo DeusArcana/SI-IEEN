@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
@@ -226,8 +227,8 @@ public class ManejadorInventario {
         
     }//Regresa los productos a su estado orignal (estatus y/o cantidad)
     
-    //Este método realiza el vale de resguardo, en donde todos los productos seleccionados se le asignan a un responsable
-    public boolean asignarInventario(String[] Claves,int[] Cantidad,String empleado){
+    //Este método realiza el resguardo, en donde todos los productos seleccionados se le asignan a un responsable
+    public boolean asignarInventario(String[] Claves,int[] Cantidad,String empleado,String folio){
         
         try{
                 String sql = "";
@@ -247,22 +248,37 @@ public class ManejadorInventario {
                 rs.next();
                 int id_empleado = rs.getInt(1);
                 
+                 //Buscamos el año y el numero en el que se quedo la solicitud
+                Calendar cal= Calendar.getInstance();
+                int year= cal.get(Calendar.YEAR);
+                int num = 1;
+
+                System.out.println("Llego a conseguir el id del empleado y obtener el año del sistema");
+                
+                sql = "select Numero from vales where año = "+year+" and Folio = '"+folio+"' order by Numero desc limit 1;";
+                rs = st.executeQuery(sql);
+                //Si encuentra coincidencias entonces le sumamos uno para el siguiente vale, 
+                //en caso de no encontrarlo entonces se reinicia el contador de solicitudes con el nuevo año
+                if(rs.next()){
+                    num = rs.getInt(1) + 1;
+                }
+                
+                System.out.println("Consiguio el ultimo numero del vale de resguardo: "+num);
+                
                 //Insertamos el registro del vale de asignación
-                sql = "insert into vales (tipo_vale,fecha_vale,id_empleado) values('Vale de resguardo','"+fecha+"','"+id_empleado+"');";
+                sql = "insert into vales (Folio,Numero,Año,tipo_vale,fecha_vale,id_empleado) values('"+folio+"',"+num+","+year+",'Vale de resguardo','"+fecha+"',"+id_empleado+");";
                 st.executeUpdate(sql);
                 
-                //Obtenemos el id del vale que se acaba de crear
-                sql = "select id_vale from vales where fecha_vale = '"+fecha+"';";
-                rs = st.executeQuery(sql);
-                rs.next();
-                int idVale = rs.getInt(1);
+                System.out.println("Inserto el registro del vale de resguardo");
                 
                 for(int i = 0; i < Claves.length; i++){
                     //Insertamos los datos en la tabla "detalle_vale"
-                    sql = "insert into detalle_vale (id_vale,id_producto,cantidad,estado)values("+idVale+",'"+Claves[i]+"',"+Cantidad[i]+",'Asignado');";
+                    sql = "insert into detalle_vale (id_vale,id_producto,cantidad,estado)values('"+folio+"-"+num+"-"+year+"','"+Claves[i]+"',"+Cantidad[i]+",'Asignado');";
                     st.executeUpdate(sql);
-                    
                 }//for
+                
+                System.out.println("Por ultimo, inserto todos los productos al detalle del vale");
+                
                 conexion.close();
                 return true;
         } //try  
@@ -315,39 +331,27 @@ public class ManejadorInventario {
             table.addColumn("Producto");
             table.addColumn("Descripción");
             table.addColumn("Observaciones");
-            table.addColumn("Cantidad");
             
             //Obtiene los productos asignados de acuerdo al empleado (Inventario)
-            String sql = "select v.id_vale, dv.id_producto, ig.nombre_prod,ig.descripcion,ig.observaciones,dv.cantidad from vales v inner join detalle_vale dv on (dv.id_vale = v.id_vale) inner join inventario ig on (dv.id_producto = ig.id_producto) inner join user u on (u.id_user = v.id_user) inner join empleados e on (e.id_empleado = u.id_empleado) where concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m)= '"+empleado+"';";
+            String sql = "select v.id_vale, dv.id_producto, ig.nombre_prod,ig.descripcion,ig.observaciones from vales v "
+                    + "inner join detalle_vale dv on (dv.id_vale = v.id_vale) "
+                    + "inner join inventario ig on (dv.id_producto = concat(ig.Folio,'-',ig.Numero,ig.Extension)) "
+                    + "inner join empleados e on (e.id_empleado = v.id_empleado) "
+                    + "where concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m)= '"+empleado+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
-            Object datos[] = new Object[6];
+            Object datos[] = new Object[5];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
 
-                for(int i = 0;i<6;i++){
+                for(int i = 0;i<5;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
                 table.addRow(datos);//Añadimos la fila
             }//while
-            
-            //Obtiene los productos asignados de acuerdo al empleado (Inventario a granel)
-            sql = "select v.id_vale, dv.id_producto, ig.nombre_prod,ig.descripcion,ig.observaciones,dv.cantidad from vales v inner join detalle_vale dv on (dv.id_vale = v.id_vale) inner join inventario_granel ig on (dv.id_producto = ig.id_productoGranel) inner join user u on (u.id_user = v.id_user) inner join empleados e on (e.id_empleado = u.id_empleado) where concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m)= '"+empleado+"';";
-            conexion = db.getConexion();
-            rs = st.executeQuery(sql);
-
-            //Llenar tabla
-            while (rs.next()) {
-
-                for(int i = 0;i<6;i++){
-                    datos[i] = rs.getObject(i+1);
-                }//Llenamos las columnas por registro
-
-                table.addRow(datos);//Añadimos la fila
-           }//while
             
             conexion.close();
         } catch (SQLException ex) {

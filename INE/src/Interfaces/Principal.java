@@ -2191,7 +2191,7 @@ public class Principal extends javax.swing.JFrame {
             .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, 1180, Short.MAX_VALUE)
         );
 
-        tabbedPrincipal.addTab("Manejador de inventario", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), manejo_inventario); // NOI18N
+        tabbedPrincipal.addTab("Resguardo", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), manejo_inventario); // NOI18N
 
         jPanel12.setLayout(null);
 
@@ -3398,7 +3398,7 @@ public class Principal extends javax.swing.JFrame {
     private void comboEmpleadoRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpleadoRActionPerformed
         // TODO add your handling code here:
         if(comboEmpleadoR.getSelectedIndex() != 0){
-           // tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
+           tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
             
             if(tablaObjetosEntregados.getRowCount() > 0){
                 btnGenerarValeR.setEnabled(true);
@@ -3534,7 +3534,7 @@ public class Principal extends javax.swing.JFrame {
     private void btn_generar_vale3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generar_vale3ActionPerformed
         // TODO add your handling code here:
         getDatosTablaAsignados();
-        if(manejador_inventario.asignarInventario(Claves, Cantidad, comboEmpleado.getSelectedItem().toString())){
+        if(manejador_inventario.asignarInventario(Claves, Cantidad, comboEmpleado.getSelectedItem().toString(),"RES")){
             JOptionPane.showMessageDialog(null, "Se han asignado correctamente.");
             limpiarTablaMAsignados();
             btn_generar_vale3.setEnabled(false);
@@ -4928,22 +4928,19 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnSolicitarSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarSalidaActionPerformed
         // TODO add your handling code here:
-        String ids = "";
+        String [] ids = new String[tablaCantidadGranel.getRowCount()];
         int[] Cantidad = new int[tablaCantidadGranel.getRowCount()];
                    
         for(int i = 0; i<tablaCantidadGranel.getRowCount();i++){
             
             Cantidad[i] = Integer.parseInt(tablaCantidadGranel.getValueAt(i, 3).toString());
-            if(ids.equals("")){
-                ids = tablaCantidadGranel.getValueAt(i, 0).toString();
-            }else{
-                ids += ","+tablaCantidadGranel.getValueAt(i, 0).toString();
-            } 
+            ids[i] = tablaCantidadGranel.getValueAt(i, 0).toString();
+             
             
         }//Recorremos toda la tabla para ver que solicito y cuanto
         
         //Realizamos el registro
-        if(manager_solicitud.registro_SolicitudSalida(Username, ids, Cantidad,"Solicitud Salida")){
+        if(manager_solicitud.registro_SolicitudSalida(Username, ids, Cantidad)){
             JOptionPane.showMessageDialog(null, "Se realizo correctamente la solicitud de salida de almacen.");
             limpiarTablaCantidadGranel();
             btnCancelarSalida.setEnabled(false);

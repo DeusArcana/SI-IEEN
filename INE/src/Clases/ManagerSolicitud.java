@@ -181,7 +181,7 @@ public class ManagerSolicitud {
 
     //Este metodo realiza el registro de la solicitud de salida de almacen y retorna la tabla para que ingresen la cantidad que desean solicitar
     //(Hace falta mejorar este método para que este sea el registro de todos los tipos de solicitudes, por el momento realiza correctamente la de solicitud de salida de almacen)
-    public boolean registro_SolicitudSalida(String user, String ids,int[] Cantidad,String tipoSolicitud){
+    public boolean registro_SolicitudSalida(String user, String [] Productos,int[] Cantidad){
         try {
             //Hacemos la conexión
             conexion = db.getConexion();
@@ -201,7 +201,7 @@ public class ManagerSolicitud {
             int year= cal.get(Calendar.YEAR);
             int num = 1;
             
-            sql = "select Num from solicitudSalida where año = "+year+" and Folio = 'SALIDA' order by Num desc;";
+            sql = "select Num from solicitudSalida where año = "+year+" and Folio = 'SALIDA' order by Num desc limit 1;";
             rs = st.executeQuery(sql);
             //Si encuentra coincidencias entonces le sumamos uno para el siguiente vale, 
             //en caso de no encontrarlo entonces se reinicia el contador de solicitudes con el nuevo año
@@ -211,15 +211,13 @@ public class ManagerSolicitud {
             
             //Registramos la solicitud
             sql = "insert into solicitudSalida (Folio,Num,Año,id_user,fecha_solicitud,estado) "
-                        +"values('SALIDA',"+num+","+year+",'"+user+"','"+fecha+"','"+tipoSolicitud+"');";
+                        +"values('SALIDA',"+num+","+year+",'"+user+"','"+fecha+"','Solicitud Salida');";
             st.executeUpdate(sql);
-            
-            String[] Productos = ids.split(",");
             
             for (int i = 0; i<Productos.length;i++) {
                 //Registramos los productos que se solicitaron
                 sql = "insert into detalle_solicitudSalida (id_solicitud,id_producto,cantidad_solicitada) "
-                        +"values('SALIDA-"+num+"-"+year+"','" + Productos[i] + "',"+Cantidad[i]+");";
+                        +"values('Folio-"+num+"-"+year+"','" + Productos[i] + "',"+Cantidad[i]+");";
                 st.executeUpdate(sql);
             }
             
