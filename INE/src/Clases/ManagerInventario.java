@@ -803,7 +803,7 @@ public class ManagerInventario {
     //Este metodo retorna una tabla con el formato de la tabla de inventario pero anexando una columna con un checkbox para marcar los productos que
     //se quiere cambiar a pendiente para baja/comodato/donacion
     public DefaultTableModel PendientePara(String pendiente,int filtro, String busqueda,String folio,String estatus){
-        JTable checks = new JTable();//{  public boolean isCellEditable(int rowIndex, int colIndex){ if(colIndex == 0){return true;} else{return false; } }  };
+        JTable checks = new JTable();
         JScrollPane scroll = new JScrollPane();
         conexion = db.getConexion();
         

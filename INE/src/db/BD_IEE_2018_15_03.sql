@@ -403,7 +403,8 @@ CREATE TABLE IF NOT EXISTS `INE`.`Detalle_vale` (
   `id_vale` varchar(20) NOT NULL,
   `id_producto` VARCHAR(45) NULL,
   `cantidad` INT NULL,
-  `estado` VARCHAR(25) NULL
+  `estado` VARCHAR(25) NULL,
+  `fecha_entrega` DATETIME NULL
   )
 ENGINE = InnoDB;
 
@@ -563,14 +564,6 @@ CREATE TABLE IF NOT EXISTS `INE`.`viaticos_vehiculos` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE TABLE IF NOT EXISTS `INE`.`productosEntregados` (
-  `id_vale` INT NOT NULL,
-  `id_producto` VARCHAR(45) NULL,
-  `cantidad` INT NULL
-  )
-ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `ine`.`vehiculo_usado`
