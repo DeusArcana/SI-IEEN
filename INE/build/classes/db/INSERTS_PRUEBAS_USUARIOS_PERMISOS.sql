@@ -116,7 +116,9 @@ INSERT INTO `INE`.`TipoSolicitud`
 		('Solicitud Baja'),
 		('Solicitud Comodato'),
         ('Solicitud Donación'),
-        ('Solicitud Reemplazo')
+        ('Solicitud Reemplazo'),
+        ('Solicitud Salida')
+        
     ;
 DELETE FROM `INE`.`Permisos_Solicitud` WHERE 1;
 INSERT INTO `INE`.`Permisos_Solicitud` 
@@ -152,7 +154,15 @@ INSERT INTO `INE`.`Permisos_Solicitud`
         ('Solicitud Reemplazo',	'Organización',		    false),
         ('Solicitud Reemplazo',	'Presidencia',		    true),
         ('Solicitud Reemplazo',	'SuperUsuario',	    	true),
-        ('Solicitud Reemplazo',	'Secretaria', 			false)
+        ('Solicitud Reemplazo',	'Secretaria', 			false),
+        ('Solicitud Salida',	'Auxiliar',				false),
+		('Solicitud Salida',	'Administración',		true),
+		('Solicitud Salida',	'Jefe de departamento',	true),
+        ('Solicitud Salida',	'Usuario Depto.',		false),
+        ('Solicitud Salida',	'Organización', 		true),
+        ('Solicitud Salida',	'Presidencia', 			true),
+        ('Solicitud Salida',	'SuperUsuario', 		true),
+        ('Solicitud Salida',	'Secretaria', 			false)
 	;
     
     DELETE FROM `INE`.`TipoVale` WHERE 1;
@@ -322,3 +332,14 @@ INSERT INTO `INE`.`Permisos_Puesto`
         ('Secretaria',		'Respuesta Viaticos',	false,false,false,false),
         ('Secretaria',		'Solicitud Viaticos',	true,true,true,true);
         
+
+LOAD DATA LOCAL INFILE 'C:\\Users\\kevin\\OneDrive\\Documentos\\GitHub\\SI-IEEN\\INE\\src\\db\\data_test.csv' 
+REPLACE INTO TABLE `ine`.`inventario` 
+FIELDS TERMINATED BY ',' 
+ESCAPED BY '"'
+LINES TERMINATED BY '\r\n' 
+(`Folio`, `Numero`, `Extension`, `NO_Serie`, `Nombre_Prod`, `Marca`, `Modelo`, `Color`, `Fecha_Compra`, `Factura`, `Importe`, `Observaciones`);
+
+-- Return initial state
+SET SQL_SAFE_UPDATES = 1;
+SET FOREIGN_KEY_CHECKS=1;

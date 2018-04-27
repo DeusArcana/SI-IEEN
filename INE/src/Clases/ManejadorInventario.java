@@ -9,10 +9,16 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import Clases.ManagerInventario;
+import javax.swing.DefaultCellEditor;
+import javax.swing.table.TableColumn;
 /**
  *
  * @author kevin
@@ -20,9 +26,11 @@ import javax.swing.table.DefaultTableModel;
 public class ManejadorInventario {
     private Connection conexion;
     private Conexion db;
+    ManagerInventario manager_inventario;
     
     public ManejadorInventario(){
         db = new Conexion();
+        manager_inventario = new ManagerInventario();
     }//constructor
     
     public DefaultTableModel getInventarioG() {
@@ -226,8 +234,8 @@ public class ManejadorInventario {
         
     }//Regresa los productos a su estado orignal (estatus y/o cantidad)
     
-    //Este método realiza el vale de resguardo, en donde todos los productos seleccionados se le asignan a un responsable
-    public boolean asignarInventario(String[] Claves,int[] Cantidad,String empleado){
+    //Este método realiza el resguardo, en donde todos los productos seleccionados se le asignan a un responsable
+    public boolean asignarInventario(String[] Claves,int[] Cantidad,String empleado,String folio){
         
         try{
                 String sql = "";
@@ -247,22 +255,37 @@ public class ManejadorInventario {
                 rs.next();
                 int id_empleado = rs.getInt(1);
                 
+                 //Buscamos el año y el numero en el que se quedo la solicitud
+                Calendar cal= Calendar.getInstance();
+                int year= cal.get(Calendar.YEAR);
+                int num = 1;
+                
+                sql = "select Numero from vales where año = "+year+" and Folio = '"+folio+"' order by Numero desc limit 1;";
+                rs = st.executeQuery(sql);
+                //Si encuentra coincidencias entonces le sumamos uno para el siguiente vale, 
+                //en caso de no encontrarlo entonces se reinicia el contador de solicitudes con el nuevo año
+                if(rs.next()){
+                    num = rs.getInt(1) + 1;
+                }
+                
                 //Insertamos el registro del vale de asignación
-                sql = "insert into vales (tipo_vale,fecha_vale,id_empleado) values('Vale de resguardo','"+fecha+"','"+id_empleado+"');";
+                sql = "insert into vales (Folio,Numero,Año,tipo_vale,fecha_vale,id_empleado) values('"+folio+"',"+num+","+year+",'Vale de resguardo','"+fecha+"',"+id_empleado+");";
                 st.executeUpdate(sql);
                 
-                //Obtenemos el id del vale que se acaba de crear
-                sql = "select id_vale from vales where fecha_vale = '"+fecha+"';";
+                sql = "select area from empleados where id_empleado = "+id_empleado+";";
                 rs = st.executeQuery(sql);
                 rs.next();
-                int idVale = rs.getInt(1);
+                String ubicacion = rs.getString(1);
                 
                 for(int i = 0; i < Claves.length; i++){
                     //Insertamos los datos en la tabla "detalle_vale"
-                    sql = "insert into detalle_vale (id_vale,id_producto,cantidad,estado)values("+idVale+",'"+Claves[i]+"',"+Cantidad[i]+",'Asignado');";
+                    sql = "insert into detalle_vale (id_vale,id_producto,cantidad,estado)values('"+folio+"-"+num+"-"+year+"','"+Claves[i]+"',"+Cantidad[i]+",'Asignado');";
                     st.executeUpdate(sql);
-                    
+                    //Actualizamos la ubicación del producto
+                    sql = "update inventario set ubicacion = '"+ubicacion+"' where concat(Folio,'-',Numero,Extension) = '"+Claves[i]+"';";
+                    st.executeUpdate(sql);
                 }//for
+                
                 conexion.close();
                 return true;
         } //try  
@@ -279,16 +302,11 @@ public class ManejadorInventario {
            
             String sql = "select concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) as Empleado from empleados e " +
                          "where e.id_empleado in ( " +
-                         "select v.id_empleado from vales v " +
-                         "inner join empleados e on (e.id_empleado = v.id_empleado) " +
-                         "inner join detalle_vale dv on (dv.id_vale = v.id_vale) " +
-                         "inner join inventario_granel ig on (dv.id_producto = ig.id_productoGranel) " +
-                         ") or e.id_empleado in ( " +
                          "select e.id_empleado as Empleado from empleados e " +
                          "where e.id_empleado in ( " +
                          "select v.id_empleado from vales v " +
                          "inner join empleados e on (e.id_empleado = v.id_empleado) " +
-                         "inner join detalle_vale dv on (dv.id_vale = v.id_vale) " +
+                         "inner join detalle_vale dv on (dv.id_vale = concat(v.Folio,'-',v.Numero,'-',v.Año)) " +
                          "inner join inventario i on (dv.id_producto = concat(i.Folio,'-',i.Numero,i.Extension))) " +
                          ") group by concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m);";
             conexion = db.getConexion();
@@ -306,52 +324,92 @@ public class ManejadorInventario {
         
     }//Obtiene todas los nombres de los empleados que tienen productos asignados
     
+    /*Este método es para obtener los productos que fueron asignados a un empleado, se mostraran todos los productos de todos los vales que esten a su
+    nombre, y solo se mostaran aquellos productos que aun tengan en su estado "Asignado" (significa que aun no los entregan en su vale de recolección).
+    Se genera la tabla con su respectiva información y en la columna principal se le asigna un checkbox para marcar los productos que quiera entregar.*/
     public DefaultTableModel getInventarioEmpleadoAsignaciones(String empleado) {
-            DefaultTableModel table = new DefaultTableModel();
-
-        try {
-            table.addColumn("Vale");
-            table.addColumn("Clave");
-            table.addColumn("Producto");
-            table.addColumn("Descripción");
-            table.addColumn("Observaciones");
-            table.addColumn("Cantidad");
             
+        DefaultTableModel table = new DefaultTableModel();
+        JTable checks = new JTable();
+        JScrollPane scroll = new JScrollPane();
+        conexion = db.getConexion();
+        
+        //Creamos la tabla con las caracterisiticas que necesitamos
+        checks.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        checks.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            //Declaramos el titulo de las columnas
+            new String [] {
+                "Entregar","Vale", "Clave", "Nombre corto", "Descripción","Marca","No. Serie","Modelo", "Observaciones","Ubicación"
+            }
+        ){
+            //El tipo que sera cada columna, la primera columna un checkbox y los demas seran objetos
+            Class[] types = new Class [] {
+                java.lang.Boolean.class, java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+            //Esto es para indicar que columnas dejaremos editar o no
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false, false, false,false, false,true,true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+            
+          }
+        
+        );
+        //Agregamos un scroll a la tabla
+        scroll.setViewportView(checks);
+        scroll.setBounds(30, 130, 1110, 500);
+        
+        /*FALTA AGREGAR UN COMBOBOX EN LA COLUMNA DE UBICACIÓN*/
+        table = (DefaultTableModel)checks.getModel();
+        try {
             //Obtiene los productos asignados de acuerdo al empleado (Inventario)
-            String sql = "select v.id_vale, dv.id_producto, ig.nombre_prod,ig.descripcion,ig.observaciones,dv.cantidad from vales v inner join detalle_vale dv on (dv.id_vale = v.id_vale) inner join inventario ig on (dv.id_producto = ig.id_producto) inner join user u on (u.id_user = v.id_user) inner join empleados e on (e.id_empleado = u.id_empleado) where concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m)= '"+empleado+"';";
+            String sql = "select concat(v.Folio,'-',v.Numero,'-',v.Año), dv.id_producto, ig.nombre_prod,ig.descripcion,ig.marca,ig.no_serie,ig.modelo,ig.observaciones from vales v "
+                    + "inner join detalle_vale dv on (dv.id_vale = concat(v.Folio,'-',v.Numero,'-',v.Año)) "
+                    + "inner join inventario ig on (dv.id_producto = concat(ig.Folio,'-',ig.Numero,ig.Extension)) "
+                    + "inner join empleados e on (e.id_empleado = v.id_empleado) "
+                    + "where concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m)= '"+empleado+"' and dv.estado = 'Asignado' "
+                    + "order by concat(v.Folio,'-',v.Numero,'-',v.Año);";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
-            Object datos[] = new Object[6];
+            Object datos[] = new Object[10];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
 
-                for(int i = 0;i<6;i++){
-                    datos[i] = rs.getObject(i+1);
+                datos[0] = Boolean.FALSE;
+                for(int i = 1;i<9;i++){
+                    datos[i] = rs.getObject(i);
                 }//Llenamos las columnas por registro
 
                 table.addRow(datos);//Añadimos la fila
             }//while
             
-            //Obtiene los productos asignados de acuerdo al empleado (Inventario a granel)
-            sql = "select v.id_vale, dv.id_producto, ig.nombre_prod,ig.descripcion,ig.observaciones,dv.cantidad from vales v inner join detalle_vale dv on (dv.id_vale = v.id_vale) inner join inventario_granel ig on (dv.id_producto = ig.id_productoGranel) inner join user u on (u.id_user = v.id_user) inner join empleados e on (e.id_empleado = u.id_empleado) where concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m)= '"+empleado+"';";
-            conexion = db.getConexion();
-            rs = st.executeQuery(sql);
+            //Creamos el combobox y lo llenamos
+            checks.setModel(table);
+            TableColumn col=checks.getColumnModel().getColumn(9);
+            JComboBox bodegas = new JComboBox();
+            bodegas.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+            manager_inventario.getBodegas(bodegas);
 
-            //Llenar tabla
-            while (rs.next()) {
+            //Agregamos el combo a la tabla
+            col.setCellEditor(new DefaultCellEditor(bodegas));
 
-                for(int i = 0;i<6;i++){
-                    datos[i] = rs.getObject(i+1);
-                }//Llenamos las columnas por registro
-
-                table.addRow(datos);//Añadimos la fila
-           }//while
+            table = (DefaultTableModel)checks.getModel();
             
             conexion.close();
         } catch (SQLException ex) {
-            System.out.printf("Error getTabla Inventario SQL");
+            System.out.printf("Error al obtener la información de los productos que fueron asignados a un responsable en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
 
@@ -373,7 +431,7 @@ public class ManejadorInventario {
                 rs = st.executeQuery(sql);
                 //Si entra es a inventario
                 if(rs.next()){
-                    sql = "update inventario set estatus = 'DISPONIBLE' where id_producto = '"+idProducto+"';";
+                    sql = "update inventario set estatus = 'Disponible' where id_producto = '"+idProducto+"';";
                     st.executeUpdate(sql);
                 }
                 //Si no entra es a granel

@@ -1,5 +1,10 @@
  USE `INE`;
  
+ -- Permite usar los DELETE FROM para vaciar las tablas
+SET SQL_SAFE_UPDATES = 0;
+-- Permite insertar los datos sin importar si es parent_table
+SET FOREIGN_KEY_CHECKS=1;
+ 
 /*
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
@@ -16,26 +21,14 @@ UPDATE inicio
 	SET `password` = 'deuspass' 
 		WHERE `Usuario` = 'root';
 */
-SET SQL_SAFE_UPDATES = 0;
-DELETE FROM inicio WHERE `Usuario` = 'localhost';
-INSERT INTO inicio values ("","","deuspass","");
-select * from User;
-SELECT * FROM inicio;
-SELECT * FROM modulos;
-SELECT * FROM puestos;
-SELECT * FROM permisos_puesto;
-SELECT * FROM Inventario;
 
-UPDATE `INE`.`Inventario` 
-		SET `Inventario`.`Estatus` = 'ASIGNADO' 
-			WHERE `Inventario`.`ID_Producto` = `QUery`;
-            
-UPDATE inicio 
-	SET `password` = 'deuspass' 
-		WHERE `Usuario` = 'root';
+SELECT * FROM Folio;
+
+SELECT * FROM INVENTARIO 
+INNER JOIN Folio ON Folio.ID_Folio = Inventario.Folio
+WHERE Folio.ID_Folio = 'EY-02'
+ LIMIT 20;
 
 
-SELECT `Inventario`.`Numero` 
-		FROM `INE`.`Inventario` 
-			ORDER BY `Inventario`.`Numero` DESC LIMIT 1;
+
 
