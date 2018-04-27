@@ -201,10 +201,10 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             });
             pn_addInventario.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 470, -1, -1));
             pn_addInventario.add(hora_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(381, 80, 100, -1));
-            JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "h:mm:ss a");
+            JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "HH:mm");
             hora_Salida.setEditor(de);
             pn_addInventario.add(hora_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(381, 117, 100, -1));
-            JSpinner.DateEditor de2 = new JSpinner.DateEditor(hora_Llegada, "h:mm:ss a");
+            JSpinner.DateEditor de2 = new JSpinner.DateEditor(hora_Llegada, "HH:mm");
             hora_Llegada.setEditor(de2);
 
             jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N

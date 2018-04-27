@@ -286,7 +286,7 @@
         </Component>
         <Component class="javax.swing.JSpinner" name="hora_Salida">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, &quot;h:mm:ss a&quot;);&#xa;hora_Salida.setEditor(de);"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, &quot;HH:mm&quot;);&#xa;hora_Salida.setEditor(de);"/>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(sdm)"/>
             <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="Date date=new Date();&#xa;    SpinnerDateModel sdm=new SpinnerDateModel(date,null&#xa;,null,Calendar.HOUR_OF_DAY);"/>
           </AuxValues>
@@ -298,7 +298,7 @@
         </Component>
         <Component class="javax.swing.JSpinner" name="hora_Llegada">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="JSpinner.DateEditor de2 = new JSpinner.DateEditor(hora_Llegada, &quot;h:mm:ss a&quot;);&#xa;hora_Llegada.setEditor(de2);"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="JSpinner.DateEditor de2 = new JSpinner.DateEditor(hora_Llegada, &quot;HH:mm&quot;);&#xa;hora_Llegada.setEditor(de2);"/>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(sdm2)"/>
             <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="SpinnerDateModel sdm2=new SpinnerDateModel(date,null&#xa;,null,Calendar.HOUR_OF_DAY);"/>
           </AuxValues>
