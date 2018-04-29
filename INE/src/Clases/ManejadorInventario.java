@@ -342,12 +342,12 @@ public class ManejadorInventario {
             },
             //Declaramos el titulo de las columnas
             new String [] {
-                "Entregar","Vale", "Clave", "Nombre corto", "Descripción","Marca","No. Serie","Modelo", "Observaciones","Ubicación"
+                "Entregar","Vale", "Clave", "Nombre corto", "Descripción","Marca","No. Serie","Modelo", "Observaciones","Ubicación Actual","Nueva Ubicación"
             }
         ){
             //El tipo que sera cada columna, la primera columna un checkbox y los demas seran objetos
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class
+                java.lang.Boolean.class, java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -355,7 +355,7 @@ public class ManejadorInventario {
             }
             //Esto es para indicar que columnas dejaremos editar o no
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false,false, false,true,true
+                true, false, false, false, false, false,false, false,true,false,true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -373,7 +373,7 @@ public class ManejadorInventario {
         table = (DefaultTableModel)checks.getModel();
         try {
             //Obtiene los productos asignados de acuerdo al empleado (Inventario)
-            String sql = "select concat(v.Folio,'-',v.Numero,'-',v.Año), dv.id_producto, ig.nombre_prod,ig.descripcion,ig.marca,ig.no_serie,ig.modelo,ig.observaciones from vales v "
+            String sql = "select concat(v.Folio,'-',v.Numero,'-',v.Año), dv.id_producto, ig.nombre_prod,ig.descripcion,ig.marca,ig.no_serie,ig.modelo,ig.observaciones,ig.ubicacion from vales v "
                     + "inner join detalle_vale dv on (dv.id_vale = concat(v.Folio,'-',v.Numero,'-',v.Año)) "
                     + "inner join inventario ig on (dv.id_producto = concat(ig.Folio,'-',ig.Numero,ig.Extension)) "
                     + "inner join empleados e on (e.id_empleado = v.id_empleado) "
@@ -381,31 +381,19 @@ public class ManejadorInventario {
                     + "order by concat(v.Folio,'-',v.Numero,'-',v.Año);";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
-            Object datos[] = new Object[10];
+            Object datos[] = new Object[11];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
 
                 datos[0] = Boolean.FALSE;
-                for(int i = 1;i<9;i++){
+                for(int i = 1;i<10;i++){
                     datos[i] = rs.getObject(i);
                 }//Llenamos las columnas por registro
-
+                datos[10] = "Selecciona la nueva ubicación...";
                 table.addRow(datos);//Añadimos la fila
             }//while
-            
-            //Creamos el combobox y lo llenamos
-            checks.setModel(table);
-            TableColumn col=checks.getColumnModel().getColumn(9);
-            JComboBox bodegas = new JComboBox();
-            bodegas.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-            manager_inventario.getBodegas(bodegas);
-
-            //Agregamos el combo a la tabla
-            col.setCellEditor(new DefaultCellEditor(bodegas));
-
-            table = (DefaultTableModel)checks.getModel();
             
             conexion.close();
         } catch (SQLException ex) {
@@ -418,7 +406,9 @@ public class ManejadorInventario {
 
     }//getInventarioEmpleadoAsignaciones
     
-    public boolean recoleccionInventario(int idVale,String idProducto,int cantidad){
+    /*Este método es para regresar al inventario los productos que fueron marcados, se cambia el estus de los productos y tambien de la 
+    tabla detalle_vales, para que ya no aparezca asignada*/
+    public boolean recoleccionInventario(String []idVales,String []Claves,String []Ubicaciones,String []Observaciones){
         
         try{
                 String sql = "";
@@ -426,42 +416,23 @@ public class ManejadorInventario {
                 Statement st = conexion.createStatement();
                 ResultSet rs;
                 
-                //Regresamos el producto (Ya sea a inventario o inventario a granel)
-                sql = "select * from inventario where id_producto = '"+idProducto+"';";
+                //Obtenemos la fecha del sistema
+                sql = "select now();";
                 rs = st.executeQuery(sql);
-                //Si entra es a inventario
-                if(rs.next()){
-                    sql = "update inventario set estatus = 'Disponible' where id_producto = '"+idProducto+"';";
-                    st.executeUpdate(sql);
-                }
-                //Si no entra es a granel
-                else{
-                    sql = "update inventario_granel set stock = stock + "+cantidad+" where id_productoGranel = '"+idProducto+"' and stock > 0;";
-                    st.executeUpdate(sql);
-
-                    sql = "update inventario_granel set estatus = 'DISPONIBLE', stock = "+cantidad+" where id_productoGranel = '"+idProducto+"' and stock = 0;";
-                    st.executeUpdate(sql);
-                }
+                rs.next();
+                String fecha = rs.getString(1); 
                 
-                sql = "select * from productosEntregados where id_vale = "+idVale+" and id_producto = '"+idProducto+"';";
-                rs = st.executeQuery(sql);
-                //Si el registro existe entonces solo sumamos la cantidad entregada
-                if(rs.next()){
-                    sql = "update productosEntregados set cantidad = cantidad + "+cantidad+" where id_vale = "+idVale+" and id_producto = '"+idProducto+"';";
+                //Actualizamos el detalle del vale, para marcar los productos que fueron entregados
+                for(int i = 0; i< idVales.length;i++){
+                    sql = "update detalle_vale set estado = 'Entregado', fecha_entrega = '"+fecha+"' where id_producto = '"+Claves[i]+"' and id_vale = '"+idVales[i]+"';";
                     st.executeUpdate(sql);
-                }
-                //Si el registro no existe entonces hacemos el nuevo registro en la tabla "productosEntregados"
-                else{
-                    sql = "insert into productosEntregados values("+idVale+",'"+idProducto+"',"+cantidad+");";
-                    st.executeUpdate(sql);
-                }
+                }//for
                 
-                //Actualizamos o eliminamos el registro segun corresponda en la tabla "detalle_vale" 
-                sql = "update detalle_vale set cantidad = cantidad - "+cantidad+" where id_vale = "+idVale+" and id_producto = '"+idProducto+"';";
-                st.executeUpdate(sql);
-                //Si es 0 entonces ya no quedan mas producto por entregar, se elimina de la tabla
-                sql = "delete from detalle_vale where id_vale = "+idVale+" and id_producto = '"+idProducto+"' and cantidad = 0;";
-                st.executeUpdate(sql);                
+                //Actualizamos la información del producto, en donde se vuelve disponible, se agregan observaciones(si las tuvo) y su ubicación
+                for(int i = 0; i< idVales.length;i++){
+                    sql = "update inventario set estatus = 'Disponible', ubicacion = '"+Ubicaciones[i]+"', observaciones = '"+Observaciones[i]+"' where concat(Folio,'-',Numero,Extension) = '"+Claves[i]+"';";
+                    st.executeUpdate(sql);
+                }//for                
                 
                 conexion.close();
         } //try  
