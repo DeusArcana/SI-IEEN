@@ -55,6 +55,10 @@ import java.util.ArrayList;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JSpinner;
 import static Interfaces.ventana_modificar_vehiculo.campo;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -406,7 +410,7 @@ public class Principal extends javax.swing.JFrame {
         btnGenerarValeR = new javax.swing.JButton();
         btn_cancelar3 = new javax.swing.JButton();
         comboEmpleadoR = new javax.swing.JComboBox<>();
-        jButton6 = new javax.swing.JButton();
+        btnEntregarRecoleccion = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         pn_acciones1 = new javax.swing.JPanel();
         rb_asignacion1 = new javax.swing.JRadioButton();
@@ -2024,7 +2028,7 @@ public class Principal extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Entregar", "Vale", "Clave", "Nombre corto", "Descripción", "Marca", "No. Serie", "Modelo", "Ubicación", "Observaciones"
+                "Entregar", "Vale", "Clave", "Nombre corto", "Descripción", "Marca", "No. Serie", "Modelo", "Observaciones", "Ubicación Actual", "Nueva Ubicación"
             }
         ));
         tablaRecoleccion.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -2077,8 +2081,13 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jButton6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton6.setText("Entregar");
+        btnEntregarRecoleccion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnEntregarRecoleccion.setText("Entregar");
+        btnEntregarRecoleccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEntregarRecoleccionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pn_recoleccion_inventario1Layout = new javax.swing.GroupLayout(pn_recoleccion_inventario1);
         pn_recoleccion_inventario1.setLayout(pn_recoleccion_inventario1Layout);
@@ -2092,7 +2101,7 @@ public class Principal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(comboEmpleadoR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(88, 88, 88)
-                        .addComponent(jButton6)
+                        .addComponent(btnEntregarRecoleccion)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(pn_recoleccion_inventario1Layout.createSequentialGroup()
                         .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2120,7 +2129,7 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_recoleccion_inventario1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton6)
+                        .addComponent(btnEntregarRecoleccion)
                         .addGap(1, 1, 1)))
                 .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pn_recoleccion_inventario1Layout.createSequentialGroup()
@@ -3258,22 +3267,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_CancelarAActionPerformed
 
     private void EntregarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EntregarTodoActionPerformed
-        // TODO add your handling code here:
-        int fila = tablaRecoleccion.getSelectedRow();
-        //Obtenemos el idvale,el codigo del producto y la cantidad
-        int vale = Integer.parseInt(tablaRecoleccion.getValueAt(fila, 0).toString());
-        String codigo = tablaRecoleccion.getValueAt(fila, 1).toString();
-        int cantidad = Integer.parseInt(tablaRecoleccion.getValueAt(fila, 5).toString());
         
-        if(manejador_inventario.recoleccionInventario(vale,codigo,cantidad)){
-            btnGenerarValeR.setEnabled(true);
-            if(!(existeCodigoTablaObjetosEntregados(codigo,cantidad))){
-                modeloObjetosEntregados.addRow(new Object[]{vale,codigo,tablaRecoleccion.getValueAt(fila, 2),tablaRecoleccion.getValueAt(fila, 3),tablaRecoleccion.getValueAt(fila, 4),cantidad});
-            }
-            //tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
-        }else{
-            JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
-        }
         
     }//GEN-LAST:event_EntregarTodoActionPerformed
 
@@ -3293,53 +3287,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_UpdateInfoActionPerformed
 
     private void EntregarParteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EntregarParteActionPerformed
-        // TODO add your handling code here:
-        int fila = tablaRecoleccion.getSelectedRow();
-        //Obtenemos el idvale,el codigo del producto y la cantidad
-        int vale = Integer.parseInt(tablaRecoleccion.getValueAt(fila, 0).toString());
-        String codigo = tablaRecoleccion.getValueAt(fila, 1).toString();
-        int cantidad = Integer.parseInt(tablaRecoleccion.getValueAt(fila, 5).toString());
         
-        boolean entero = true;
-        boolean canceloCantidad = true;
-        int resta = 0;
-        while(entero){    
-
-            String cadena = JOptionPane.showInputDialog("Ingrese la cantidad que va a recolectar");
-            //Cancelo la solicitud de asignacion
-            if(cadena == null){
-                entero = false;
-                canceloCantidad = false;
-            }else{
-                try{
-                    //Si hace la conversion correctamente entonces no entra en la excepcion y se sale del ciclo
-                    resta = Integer.parseInt(cadena);
-                    
-                    if(cantidad >= resta){
-                        entero = false;
-                    }else{
-                        JOptionPane.showMessageDialog(null, "La cantidad que quiere recolectar ("+resta+") es mayor a la que tiene asignado("+cantidad+")");
-                    }
-                }catch(NumberFormatException e){
-                    JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
-                    entero = true;
-                }//try catch
-            }
-        }//while
-        if(canceloCantidad){
-            
-            if(manejador_inventario.recoleccionInventario(vale,codigo,resta)){
-                btnGenerarValeR.setEnabled(true);
-                if(!(existeCodigoTablaObjetosEntregados(codigo,resta))){
-                    modeloObjetosEntregados.addRow(new Object[]{vale,codigo,tablaRecoleccion.getValueAt(fila, 2),tablaRecoleccion.getValueAt(fila, 3),tablaRecoleccion.getValueAt(fila, 4),resta});
-                }
-                //tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
-                
-            }else{
-                JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
-            }
-            
-        }//canceloCantidad
+        
     }//GEN-LAST:event_EntregarParteActionPerformed
 
     private void manejo_inventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_manejo_inventarioMouseClicked
@@ -3412,6 +3361,18 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(comboEmpleadoR.getSelectedIndex() != 0){
            tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
+           //Creamos el combobox y lo llenamos
+            
+            TableColumn col=tablaRecoleccion.getColumnModel().getColumn(10);
+            JComboBox bodegas = new JComboBox();
+            bodegas.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+            manager_inventario.getBodegas(bodegas);
+            TableCellEditor tce = new DefaultCellEditor(bodegas);
+            col.setCellEditor(tce);
+
+            //Agregamos el combo a la tabla
+            col.setCellEditor(new DefaultCellEditor(bodegas));
+            btnEntregarRecoleccion.setEnabled(true);
             
             if(tablaObjetosEntregados.getRowCount() > 0){
                 btnGenerarValeR.setEnabled(true);
@@ -3420,6 +3381,7 @@ public class Principal extends javax.swing.JFrame {
         }else{
             tablaRecoleccion.setModel(modeloRecoleccion);
             btnGenerarValeR.setEnabled(false);
+            btnEntregarRecoleccion.setEnabled(false);
         }
     }//GEN-LAST:event_comboEmpleadoRActionPerformed
 
@@ -5046,6 +5008,74 @@ public class Principal extends javax.swing.JFrame {
         }//Acepto cancelar la solicitud
 
     }//GEN-LAST:event_CancelarSSActionPerformed
+
+    private void btnEntregarRecoleccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntregarRecoleccionActionPerformed
+        // TODO add your handling code here:
+        //String []claves = new String[tablaRecoleccion.]
+        String ids = "";
+        String claves = "";
+        String ubicaciones = "";
+        String observaciones="";
+        boolean registroCorrecto = true;
+        for(int i = 0; i<tablaRecoleccion.getRowCount();i++){
+            
+            //Si lo selecciono, entonces intentamos guardar el registro
+            if((boolean)tablaRecoleccion.getValueAt(i, 0)){
+                
+                //Verificamos que haya seleccionado la nueva ubicación del equipo o producto que entregará
+                if(!tablaRecoleccion.getValueAt(i, 10).toString().equals("Selecciona la nueva ubicación...")){
+                    
+                    //Vemos si tiene observaciones el equipo entregado
+                    if(tablaRecoleccion.getValueAt(i, 8).toString().equals("")){
+                        //Si esta vacío entonces concatenamos un espacio en blanco
+                        observaciones += " ,";
+                    }else{
+                        observaciones += tablaRecoleccion.getValueAt(i, 8).toString()+",";
+                    }
+                    
+                    ids += tablaRecoleccion.getValueAt(i, 1).toString()+",";
+                    claves += tablaRecoleccion.getValueAt(i, 2).toString()+",";
+                    ubicaciones += tablaRecoleccion.getValueAt(i, 10).toString()+",";
+                
+                }else{
+                    //Como no se selecciono la nueva ubicación, le mandamos un mensaje y le marcamos la celda donde no selecciono la ubicación
+                    JOptionPane.showMessageDialog(this, "El equipo o producto \""+tablaRecoleccion.getValueAt(i, 2).toString()+"\", no especificó su nueva ubicación.");
+                    tablaRecoleccion.changeSelection(i, 10, false, false);
+                    registroCorrecto = false;
+                    break;
+                }//else
+                
+            }//if
+            
+        }//for
+        
+        if(registroCorrecto){
+            //Convertimos en arreglo la información que se obtuvo con el ciclo de la tablaRecolección
+            String [] idVales = ids.split(",");
+            String [] Claves = claves.split(",");
+            String [] Ubicaciones = ubicaciones.split(",");
+            String [] Observaciones = observaciones.split(",");
+            
+            //Se realiza la operación de entrega de productos y su respectivo cambio
+            if(manejador_inventario.recoleccionInventario(idVales,Claves,Ubicaciones,Observaciones)){
+                
+                JOptionPane.showMessageDialog(this,"Se registro el movimiento de recolección exitosamente.");
+                
+                tablaRecoleccion.setModel(modeloRecoleccion);
+                btnGenerarValeR.setEnabled(false);
+                btnEntregarRecoleccion.setEnabled(false);
+            }else{
+                JOptionPane.showMessageDialog(this, "Verificar con el distribuidor.");
+            }
+                    
+            
+            
+            
+        }//registroCorrecto
+        
+        
+        
+    }//GEN-LAST:event_btnEntregarRecoleccionActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -5246,6 +5276,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelarSalida;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEditar1;
+    private javax.swing.JButton btnEntregarRecoleccion;
     public javax.swing.JButton btnGenerarValeR;
     private javax.swing.JButton btnSolicitarSalida;
     public javax.swing.JButton btn_cancelar2;
@@ -5287,7 +5318,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
