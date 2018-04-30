@@ -7,9 +7,9 @@ USE `INE`;
 --
 -- Returns:     Nombre, Apellidos, Puesto, Area, Municipio y Localidad del empleado
 -- ====================================================================
-DROP PROCEDURE IF EXISTS `sp_get_userData`;
+DROP PROCEDURE IF EXISTS `usp_get_userData`;
 DELIMITER $$
-CREATE PROCEDURE `sp_get_userData`()
+CREATE PROCEDURE `usp_get_userData`()
 BEGIN
 	SELECT `Empleados`.`Nombres`, `Empleados`.`apellido_p`, `Empleados`.`apellido_m`,`User`.`puesto`, `User`.`area`,`Empleados`.`municipio`, `Empleados`.`localidad`
 		FROM `User`
@@ -29,9 +29,9 @@ DELIMITER ;
 --   @Value - ID del usuario en formato User
 -- Returns:     Nombres, Apellidos, Puesto, Area, Municipio y Localidad
 -- ====================================================================
-DROP PROCEDURE IF EXISTS `sp_find_userDataByID`;
+DROP PROCEDURE IF EXISTS `usp_find_userDataByID`;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_find_userDataByID`(IN `Value` VARCHAR(10))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_find_userDataByID`(IN `Value` VARCHAR(10))
 BEGIN   
 	SELECT `Empleados`.`Nombres`, `Empleados`.`apellido_p`, `Empleados`.`apellido_m`,`User`.`puesto`, `User`.`area`,`Empleados`.`municipio`, `Empleados`.`localidad`
 		FROM `User`
@@ -50,9 +50,9 @@ DELIMITER ;
 --
 -- Returns:     Productos asignados ordenados por ID_Producto
 -- ====================================================================
-DROP PROCEDURE IF EXISTS `sp_get_userObjetos`;
+DROP PROCEDURE IF EXISTS `usp_get_userObjetos`;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_userObjetos`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_get_userObjetos`()
 BEGIN
 	SELECT `Inventario`.`ID_Producto`, `Inventario`.`nombre_prod`, `Inventario`.`estatus`, `Vales`.`id_vale`, `Vales`.`tipo_vale`, 
 			CONCAT(`Empleados`.`nombres`, ' ' , `Empleados`.`apellido_p`, ' ' , `Empleados`.`apellido_m`) AS 'Nombre'
@@ -74,9 +74,9 @@ DELIMITER ;
 --   @Value - Estatus del producto
 -- Returns:     Productos asignados ordenados por ID_Producto dado un status
 -- ====================================================================
-DROP PROCEDURE IF EXISTS `sp_get_userObjetosAsignados`;
+DROP PROCEDURE IF EXISTS `usp_get_userObjetosAsignados`;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_userObjetosAsignados`(IN `Value` VARCHAR(15))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_get_userObjetosAsignados`(IN `Value` VARCHAR(15))
 BEGIN
 	SELECT `Inventario`.`ID_Producto`, `Inventario`.`nombre_prod`, `Inventario`.`estatus`, `Vales`.`id_vale`, `Vales`.`tipo_vale`, 
 			CONCAT(`Empleados`.`nombres`, ' ' , `Empleados`.`apellido_p`, ' ' , `Empleados`.`apellido_m`) AS 'Nombre'
@@ -96,9 +96,9 @@ DELIMITER ;
 --
 -- Returns:     Datos sobre inventario granel junto con informacion del vale
 -- ====================================================================
-DROP PROCEDURE IF EXISTS `sp_get_userObjetosGranel`;
+DROP PROCEDURE IF EXISTS `usp_get_userObjetosGranel`;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_userObjetosGranel`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_get_userObjetosGranel`()
 BEGIN
 	SELECT `Inventario_Granel`.`id_productoGranel`, `Inventario_Granel`.`nombre_prod`, `Inventario_Granel`.`estatus`,
 			`Vales`.`id_vale`, `Vales`.`tipo_vale`, `vales`.`estado`, `Empleados`.`nombres`, `Empleados`.`apellido_p`, `Empleados`.`apellido_m`
@@ -123,9 +123,9 @@ DELIMITER ;
 -- 	1 - Verdadero
 --  2 - Falso
 -- ====================================================================
-DROP PROCEDURE IF EXISTS `sp_update_statusProducto`;
+DROP PROCEDURE IF EXISTS `usp_update_statusProducto`;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_statusProducto`(IN `Value` VARCHAR(15), IN `ID` VARCHAR(30))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_update_statusProducto`(IN `Value` VARCHAR(15), IN `ID` VARCHAR(30))
 BEGIN
 	DECLARE `Done` BOOL DEFAULT FALSE;
 
@@ -155,9 +155,9 @@ DELIMITER ;
 -- 	1 - Verdadero
 --  2 - Falso
 -- ====================================================================
-DROP PROCEDURE IF EXISTS `sp_update_statusGranel`;
+DROP PROCEDURE IF EXISTS `usp_update_statusGranel`;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_statusGranel`(IN `Value` VARCHAR(15), IN `ID` VARCHAR(30))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_update_statusGranel`(IN `Value` VARCHAR(15), IN `ID` VARCHAR(30))
 BEGIN
 	DECLARE `Done` BOOL DEFAULT FALSE;
 	
@@ -187,9 +187,9 @@ DELIMITER ;
 -- 	1 - Verdadero
 --  2 - Falso
 -- ====================================================================
-DROP PROCEDURE IF EXISTS `sp_update_stockGranel`;
+DROP PROCEDURE IF EXISTS `usp_update_stockGranel`;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_stockGranel`(IN `Value` VARCHAR(15), IN `ID` VARCHAR(30))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_update_stockGranel`(IN `Value` VARCHAR(15), IN `ID` VARCHAR(30))
 BEGIN
 	DECLARE `Done` BOOL DEFAULT FALSE;
 	
@@ -220,9 +220,9 @@ DELIMITER ;
 -- 		Inventario -> Numero de serie
 -- 		Inventario -> Modelo del producto
 -- ====================================================================
-DROP PROCEDURE IF EXISTS `sp_get_equiposComputo`;
+DROP PROCEDURE IF EXISTS `usp_get_equiposComputo`;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_equiposComputo`(IN `Query` VARCHAR(15))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_get_equiposComputo`(IN `Query` VARCHAR(15))
 BEGIN
 
 	SELECT `Inventario`.`ID_Producto`, `Inventario`.`Nombre_Prod`, `Inventario`.`NO_Serie`, `Inventario`.`Modelo` 
@@ -238,9 +238,9 @@ DELIMITER ;
 
 
 /*
-DROP PROCEDURE IF EXISTS `sp_insert_nuevoVale`;
+DROP PROCEDURE IF EXISTS `usp_insert_nuevoVale`;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_insert_nuevoVale`(IN `Value` VARCHAR(15), IN `ID` VARCHAR(30))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_insert_nuevoVale`(IN `Value` VARCHAR(15), IN `ID` VARCHAR(30))
 BEGIN
 	INSERT INTO `INE`.`Vales` (`Vales`.`ID_Vale`, `Vales`.`Estado`, `Vales`.`User_Autorizo`, `Vales`.`Fecha_Vale`, `Vales`.`Tipo_Vale`, `Vales`.`ID_User`) 
 		VALUES
@@ -251,9 +251,9 @@ END$$
 DELIMITER ;
 */
 
-DROP PROCEDURE IF EXISTS `sp_get_conjuntosEquipo`;
+DROP PROCEDURE IF EXISTS `usp_get_conjuntosEquipo`;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_conjuntosEquipo`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_get_conjuntosEquipo`()
 BEGIN
 
 	SELECT `Detalles_Equipo_Computo`.`ID_Equipo` AS 'Equipo', 
@@ -270,9 +270,9 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS `sp_get_conjuntosEquipoReemplazo`;
+DROP PROCEDURE IF EXISTS `usp_get_conjuntosEquipoReemplazo`;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_conjuntosEquipoReemplazo`(IN `Query` VARCHAR(25))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_get_conjuntosEquipoReemplazo`(IN `Query` VARCHAR(25))
 BEGIN
 
 	SELECT `Detalles_Equipo_Computo`.`ID_Equipo` AS 'Equipo', 
@@ -292,9 +292,9 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS `sp_get_detallesEquipo`;
+DROP PROCEDURE IF EXISTS `usp_get_detallesEquipo`;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_detallesEquipo`(IN `Query` VARCHAR(25))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_get_detallesEquipo`(IN `Query` VARCHAR(25))
 BEGIN
 
 	SELECT `Inventario`.`ID_Producto`, `Inventario`.`Nombre_Prod`, `Inventario`.`NO_Serie`, `Inventario`.`Modelo` 
@@ -305,9 +305,9 @@ END$$
 DELIMITER ;
 
 
-DROP PROCEDURE IF EXISTS `sp_update_asignarEquipo`;
+DROP PROCEDURE IF EXISTS `usp_update_asignarEquipo`;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_asignarEquipo`(IN `Query` VARCHAR(25))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_update_asignarEquipo`(IN `Query` VARCHAR(25))
 BEGIN
 	
 	UPDATE `INE`.`Inventario` 
@@ -333,9 +333,9 @@ DELIMITER ;
 --  NULL 
 -- Returns:     Los registros de la tabla Folio
 -- ====================================================================
-DROP PROCEDURE IF EXISTS `sp_get_registrosFolio`;
+DROP PROCEDURE IF EXISTS `usp_get_registrosFolio`;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_registrosFolio`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_get_registrosFolio`()
 BEGIN
 
 	SELECT `Folio`.`ID_Folio`, `Folio`.`Descripcion`
@@ -354,9 +354,9 @@ DELIMITER ;
 --  NULL
 -- Returns:     El ultimo `Numero` insertado
 -- ====================================================================
-DROP PROCEDURE IF EXISTS `sp_get_ultimoSerie`;
+DROP PROCEDURE IF EXISTS `usp_get_ultimoSerie`;
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_ultimoSerie`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_get_ultimoSerie`()
 BEGIN
 
 	SELECT `Inventario`.`Numero` 
