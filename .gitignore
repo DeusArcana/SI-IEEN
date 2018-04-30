@@ -57,3 +57,4 @@ INE/dist/README.TXT
 INE/nbproject/private/private.xml
 INE/nbproject/project.properties
 INE/src/Clases/Conexion.java
+INE/src/db/procedimientos_test.sql
