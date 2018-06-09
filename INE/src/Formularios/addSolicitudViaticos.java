@@ -23,6 +23,7 @@ import com.toedter.calendar.JTextFieldDateEditor;
 import java.util.Calendar;
 import java.util.Vector;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -57,9 +58,16 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         manager_viaticos = new ManagerSoViaticos();
         manager_users = new ManagerUsers();
         manager_vehiculo = new ManagerVehiculos();
+        iniciarEstados();
         
         AutoCompleteDecorator.decorate(this.comboEmpleados);
         
+    }
+    private void iniciarEstados(){
+        List<String> estados=cbd.acceder("select nombre from estado;");
+        for(int i=0;i<estados.size();i++){
+            cmbEstado.addItem(estados.get(i));
+        }
     }
 
     /**
@@ -80,14 +88,15 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_Actividad = new javax.swing.JTextArea();
+        cmbEstado = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        txt_Lugar = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         lblAviso = new javax.swing.JLabel();
         date_Salida = new com.toedter.calendar.JDateChooser();
         date_Llegada = new com.toedter.calendar.JDateChooser();
         chb_Pernoctado = new javax.swing.JCheckBox();
         comboEmpleados = new javax.swing.JComboBox<>();
+        cmbLocalidad = new javax.swing.JComboBox<>();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         Date date=new Date();
@@ -142,17 +151,17 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
 
         pn_addInventario.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 251, 440, 209));
 
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione estado" }));
+        cmbEstado.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbEstadoItemStateChanged(evt);
+            }
+        });
+        pn_addInventario.add(cmbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, -1, -1));
+
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Lugar:");
         pn_addInventario.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(93, 193, -1, -1));
-
-        txt_Lugar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txt_Lugar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_LugarActionPerformed(evt);
-            }
-        });
-        pn_addInventario.add(txt_Lugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(154, 183, 215, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("Pernoctado:");
@@ -180,6 +189,9 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                 }
             });
             pn_addInventario.add(comboEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(154, 14, -1, -1));
+
+            cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione localidad" }));
+            pn_addInventario.add(cmbLocalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, -1, -1));
 
             btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
@@ -229,10 +241,6 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
            javax.swing.JOptionPane.showMessageDialog(null, "Error"); 
         }
     }
-    private void txt_LugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_LugarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_LugarActionPerformed
-
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
 
         try{
@@ -273,6 +281,16 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         }
         
     }//GEN-LAST:event_comboEmpleadosActionPerformed
+
+    private void cmbEstadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbEstadoItemStateChanged
+        // TODO add your handling code here:
+        cmbLocalidad.removeAllItems();
+        cmbLocalidad.addItem("Seleccione localidad");
+        List<String> localidades=cbd.acceder("select L.nombre from localidad L inner join estado E on L.estado_idestado=E.idestado where E.nombre='"+cmbEstado.getSelectedItem().toString()+"' order by L.nombre;");
+        for(int i=0;i<localidades.size();i++){
+            cmbLocalidad.addItem(localidades.get(i));
+        }
+    }//GEN-LAST:event_cmbEstadoItemStateChanged
     public void insertar_Solicitud(int ConCarro){
         try{
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
@@ -290,7 +308,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             //Con carro
             conexion.getConexion();
             SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
-            boolean insersion = insersion=conexion.ejecutar("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+txt_Lugar.getText()+"'"
+            boolean insersion = insersion=conexion.ejecutar("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+cmbEstado.getSelectedItem().toString()+"'"
                 + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+carro+"'"
                 + ",'"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"')");
             
@@ -309,7 +327,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
             String fecha_Salida=sdf.format(date_Salida.getDate().getTime());
             String fecha_Llegada=sdf.format(date_Llegada.getDate().getTime());
-            System.out.print("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+txt_Lugar.getText()+"'"
+            System.out.print("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+cmbEstado.getSelectedItem().toString()+"'"
                 + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+carro+"'"
                 + ",'"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"')");
         }
@@ -357,12 +375,12 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                 cad+="\n-No se ha insertado ninguna actividad, escriba la acitividad y vuelva a intentarlo";
             }
         }
-        if(txt_Lugar.getText().equals("")){
+        if(cmbEstado.getSelectedItem().toString().equals("Seleccione estado") || cmbLocalidad.getSelectedItem().toString().equals("Seleccione localidad")){
             if(cad.equals("")){
-                cad+="-No se ha insertado el lugar, escriba el lugar y vuelva a intentarlo";
+                cad+="-No se ha insertado el lugar, seleccione el lugar y vuelva a intentarlo";
             }
             else{
-                cad+="\n-No se ha insertado el lugar, escriba el lugar y vuelva a intentarlo";
+                cad+="\n-No se ha insertado el lugar, seleccione el lugar y vuelva a intentarlo";
             }
         }
         if(comboEmpleados.getSelectedItem().toString().equals("Selecione empleado...")){
@@ -437,6 +455,8 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JCheckBox chb_Pernoctado;
+    private javax.swing.JComboBox<String> cmbEstado;
+    private javax.swing.JComboBox<String> cmbLocalidad;
     private javax.swing.JComboBox<String> comboEmpleados;
     private com.toedter.calendar.JDateChooser date_Llegada;
     private com.toedter.calendar.JDateChooser date_Salida;
@@ -454,7 +474,6 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     private javax.swing.JLabel lblAviso;
     private javax.swing.JPanel pn_addInventario;
     private javax.swing.JTextArea txt_Actividad;
-    private javax.swing.JTextField txt_Lugar;
     private javax.swing.JTextField txt_Puesto;
     // End of variables declaration//GEN-END:variables
 }
