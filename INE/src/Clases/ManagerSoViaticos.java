@@ -36,7 +36,6 @@ public class ManagerSoViaticos {
         taso.addColumn("Nombre");
         taso.addColumn("Actividad");
         taso.addColumn("Pernoctado");
-        taso.addColumn("Vehiculo");
         taso.addColumn("Puesto");
         taso.addColumn("Fecha_llegada");
         taso.addColumn("Estado");
@@ -44,16 +43,16 @@ public class ManagerSoViaticos {
         try {
             
             //Consulta de los empleados
-            String sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_llegada,Estado from solicitud_viatico";
+            String sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Estado from solicitud_viatico";
             //String sql="select * from solicitud_viatico";
             Statement st = cn.createStatement();
-            Object datos[] = new Object[10];
+            Object datos[] = new Object[taso.getColumnCount()];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
 
-                for(int i = 0;i<10;i++){
+                for(int i = 0;i<taso.getColumnCount();i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -79,7 +78,6 @@ public class ManagerSoViaticos {
         taso.addColumn("Nombre");
         taso.addColumn("Actividad");
         taso.addColumn("Pernoctado");
-        taso.addColumn("Vehiculo");
         taso.addColumn("Puesto");
         taso.addColumn("Fecha_llegada");
         taso.addColumn("Estado");
@@ -87,16 +85,16 @@ public class ManagerSoViaticos {
         try {
             
             //Consulta de los empleados
-            String sql = "select idsolicitud_vehiculo,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_llegada,Estado from solicitud_vehiculo";
+            String sql = "select idsolicitud_vehiculo,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Estado from solicitud_vehiculo";
             //String sql="select * from solicitud_viatico";
             Statement st = cn.createStatement();
-            Object datos[] = new Object[10];
+            Object datos[] = new Object[taso.getColumnCount()];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
 
-                for(int i = 0;i<10;i++){
+                for(int i = 0;i<taso.getColumnCount();i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 

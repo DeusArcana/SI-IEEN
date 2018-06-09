@@ -85,6 +85,7 @@ public class Login extends javax.swing.JFrame {
         pn_principal_Login.setLayout(null);
 
         tf_campoUsuario.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        tf_campoUsuario.setText("juanpedrog");
         tf_campoUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 tf_campoUsuarioKeyReleased(evt);
@@ -94,13 +95,14 @@ public class Login extends javax.swing.JFrame {
         tf_campoUsuario.setBounds(220, 110, 200, 30);
 
         tf_campoContraseña.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        tf_campoContraseña.setText("123");
         tf_campoContraseña.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 tf_campoContraseñaKeyReleased(evt);
             }
         });
         pn_principal_Login.add(tf_campoContraseña);
-        tf_campoContraseña.setBounds(220, 160, 200, 28);
+        tf_campoContraseña.setBounds(220, 160, 200, 32);
 
         lb_logoIEEN_Login.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
         lb_logoIEEN_Login.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/banerLogin.png"))); // NOI18N
@@ -110,7 +112,7 @@ public class Login extends javax.swing.JFrame {
         btn_ingresar.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btn_ingresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
         btn_ingresar.setText("  Ingresar");
-        btn_ingresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_ingresar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btn_ingresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_ingresarActionPerformed(evt);
@@ -127,7 +129,7 @@ public class Login extends javax.swing.JFrame {
         btn_cancelar.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
         btn_cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
         btn_cancelar.setText("  Cancelar");
-        btn_cancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_cancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_cancelarActionPerformed(evt);

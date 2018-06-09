@@ -213,7 +213,7 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuSolicitudViaticos.add(Impri_Sol);
 
-        Add.setText("Añadir");
+        Add.setText("Solicitud viático");
         Add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddActionPerformed(evt);
@@ -315,7 +315,7 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuTablonC.add(CancelarC);
 
-        Add1.setText("Añadir");
+        Add1.setText("Solicitud viático");
         Add1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Add1ActionPerformed(evt);
@@ -382,6 +382,12 @@ public class PrincipalS extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Solicitud de viáticos", jScrollPane11);
 
+        jScrollPane12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jScrollPane12MouseReleased(evt);
+            }
+        });
+
         tablasolicvehiculo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -391,11 +397,11 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         ));
         tablasolicvehiculo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablasolicvehiculoMouseClicked(evt);
-            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tablasolicvehiculoMouseReleased(evt);
+            }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablasolicvehiculoMouseClicked(evt);
             }
         });
         jScrollPane12.setViewportView(tablasolicvehiculo);
@@ -1711,6 +1717,13 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void tablasolicvehiculoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablasolicvehiculoMouseReleased
         // TODO add your handling code here:
+        if(SwingUtilities.isRightMouseButton(evt)){
+                int r = tablasolicvehiculo.rowAtPoint(evt.getPoint());
+                if (r >= 0 && r < tablasolicvehiculo.getRowCount())
+                tablasolicvehiculo.setRowSelectionInterval(r, r);
+                MenuSolicitudViaticos.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+                
+        }//clic derecho
     }//GEN-LAST:event_tablasolicvehiculoMouseReleased
 
     private void AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddActionPerformed
@@ -1795,6 +1808,17 @@ public class PrincipalS extends javax.swing.JFrame {
         addSolicitudVehiculo asv = new addSolicitudVehiculo(this, true);
         asv.setVisible(true);
     }//GEN-LAST:event_SolicitarVehiculo1ActionPerformed
+
+    private void jScrollPane12MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane12MouseReleased
+        // TODO add your handling code here:
+        if(SwingUtilities.isRightMouseButton(evt)){
+                int r = tablasolicvehiculo.rowAtPoint(evt.getPoint());
+                if (r >= 0 && r < tablasolicvehiculo.getRowCount())
+                tablasolicvehiculo.setRowSelectionInterval(r, r);
+                MenuPanelSolicitudViatico.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+                
+        }//clic derecho
+    }//GEN-LAST:event_jScrollPane12MouseReleased
     public void Consultar() {
         if (i == 1) {
             int i = tablon.getSelectedRow();
