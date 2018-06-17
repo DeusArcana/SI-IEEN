@@ -1,6 +1,6 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template file, choose Tools ,, Templates
  * and open the template in the editor.
  */
 package Clases;
@@ -36,6 +36,32 @@ public class ManagerInventario {
         
     }//Constructor
     
+    public String obtenerDatosProd(String clave) {
+
+        String lista = "";
+        
+        try {
+            
+            String sql = "select folio, numero, Extension, nombre_prod, no_serie, marca,modelo,color,descripcion,Factura,Importe,Fecha_Compra,ubicacion from inventario "
+                    + "where concat(folio,'-',numero,extension) = '"+clave+"';";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            lista = rs.getString(1)+",,"+rs.getString(2)+",,"+rs.getString(3)+",,"+rs.getString(4)+",,"+rs.getString(5)+",,"+rs.getString(6)
+                    +",,"+rs.getString(7)+",,"+rs.getString(8)+",,"+rs.getString(9)+",,"+rs.getString(10)+",,"+rs.getString(11)+",,"+rs.getString(12)+",,"+rs.getString(13);
+            
+            conexion.close();
+            
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los datos del producto \""+clave+"\" en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        } 
+            return lista;
+
+    }//obtenerDatosProd
+    
     public boolean insertarInventarioG(String clave, String producto, String almacen, String marca,int stockmin, int stock, String descripcion, String observaciones,String tipo) {
         try {
             //Hacemos la conexión
@@ -63,6 +89,7 @@ public class ManagerInventario {
         
     }//insertarEmpleado
     
+    //realizar una inserción al inventario con imagen
     public boolean guardarImagen(String folio,int numero,String extension, String producto, String descripcion, String ubicacion, String marca, String observaciones,String no_serie,String modelo,String color,String fecha_compra,String factura, float importe,String ruta) {
         conexion = db.getConexion();
         String insert = "insert into inventario (Folio,Numero,Extension,nombre_prod,descripcion,ubicacion,estatus,marca,observaciones,no_serie,tipo_uso,modelo,color,imagen,Fecha_Compra,Factura,Importe)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
@@ -102,7 +129,44 @@ public class ManagerInventario {
             return false;
 
         }
-    }
+    }//guardarImagen
+    
+    //actualizar un producto con la imagen
+    public boolean actualizarProducto(String clave, String producto, String descripcion, String ubicacion, String marca,String no_serie,String modelo,String color,String fecha_compra,String factura, float importe,String ruta) {
+        conexion = db.getConexion();
+        String update = "update inventario set nombre_prod = ? ,descripcion = ?,ubicacion = ?,marca = ?,no_serie = ?,modelo = ?,color = ?,imagen = ?,Fecha_Compra = ?,Factura = ?,Importe = ? where concat(folio,'-',numero,extension) = '"+clave+"';";
+        FileInputStream fi = null;
+        PreparedStatement ps = null;
+
+        try {
+            File file = new File(ruta);
+            fi = new FileInputStream(file);
+
+            ps = conexion.prepareStatement(update);
+
+            ps.setString(1, producto);
+            ps.setString(2, descripcion);
+            ps.setString(3, ubicacion);
+            ps.setString(4, marca);
+            ps.setString(5, no_serie);
+            ps.setString(6, modelo);
+            ps.setString(7, color);
+            ps.setBinaryStream(8, fi);
+            ps.setString(9, fecha_compra);
+            ps.setString(10, factura);
+            ps.setFloat(11, importe);
+
+            ps.executeUpdate();
+
+            return true;
+
+        } catch (Exception ex) {
+            System.out.println("Error al actualizar imagen " + ex.getMessage());
+            return false;
+
+        }
+
+    }//actualizarProducto
     
     public boolean existeInventarioG(String id_producto) {
 
@@ -188,6 +252,7 @@ public class ManagerInventario {
 
     }//getInventarioG
 
+    //Este método funciona para dar el siguiente número de acuerdo al folio seleccionado
     public String sugerenciaNum(String Folio) {
         int numero = 1;
         try {
@@ -202,7 +267,7 @@ public class ManagerInventario {
             conexion.close();
             return ""+numero;
         } catch (SQLException ex) {
-            System.out.printf("Error al consultar el inventario en SQL");
+            System.out.printf("Error al obtener el ultimo número del folio \""+Folio+"\" en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
             return "";
         } 
@@ -295,6 +360,8 @@ public class ManagerInventario {
 
     }//existeInventario
     
+    //Este método es para llenar los combos de folio y su descripción. Se utilizan para llenar el combo en el inventario de la ventana principal
+    //en la ventana para añadir productos y en el update del producto
     public String nomeclaturaFolio() {
 
         String lista = "";
@@ -1116,42 +1183,6 @@ public class ManagerInventario {
         return v;
     }//infoVehiculos
     
-     public boolean actualizarProducto(String clave, String producto, String almacen, String marca,String noserie, String descripcion, String observaciones,String tipo,String modelo,String color,String ruta) {
-        conexion = db.getConexion();
-        
-        String update = "update inventario set nombre_prod = ?,almacen = ?,marca = ?,no_serie = ?,descripcion = ?,observaciones = ?,tipo_uso = ?,modelo = ?,color = ?,imagen = ? where id_producto = '"+clave+"'";
-        FileInputStream fi = null;
-        PreparedStatement ps = null;
-
-        try {
-            File file = new File(ruta);
-            fi = new FileInputStream(file);
-
-             ps = conexion.prepareStatement(update);
-
-            ps.setString(1, producto);
-            ps.setString(2, almacen);
-            ps.setString(3, marca);
-            ps.setString(4, noserie);
-            ps.setString(5, descripcion);
-            ps.setString(6, observaciones);
-            ps.setString(7, tipo);
-            ps.setString(8, modelo);
-            ps.setString(9, color);
-            ps.setBinaryStream(10, fi);
-
-            ps.executeUpdate();
-
-            return true;
-
-        } catch (Exception ex) {
-            System.out.println("Error al actualizar imagen " + ex.getMessage());
-            return false;
-
-        }
-
-    }//guardarImagen
-     
      
      public boolean actualizarProductoSinFoto(String clave, String producto, String almacen, String marca,String noserie, String descripcion, String observaciones,String tipo,String modelo,String color) {
         conexion = db.getConexion();

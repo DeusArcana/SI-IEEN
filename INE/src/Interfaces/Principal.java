@@ -47,6 +47,7 @@ import Formularios.addInventarioGranel;
 import Formularios.addResguardo;
 import Formularios.addUsuarios;
 import Formularios.changePassword;
+import Formularios.updateInventario;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Image;
@@ -497,6 +498,11 @@ public class Principal extends javax.swing.JFrame {
         MenuEmpleados.add(Asignar_usuario);
 
         ActualizarProd.setText("Actualizar");
+        ActualizarProd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarProdActionPerformed(evt);
+            }
+        });
         MenuInventario.add(ActualizarProd);
 
         Pendiente.setText("Pendiente");
@@ -3560,7 +3566,7 @@ public class Principal extends javax.swing.JFrame {
                     if(canceloCantidad){
                         
                         
-                        tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(cantidad),tablaMInventarioA.getValueAt(fila, 4),cantidad,idProducto,tablaMInventarioA.getValueAt(fila, 2)});
+                        tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(cantidad),cantidad,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
                         btn_generar_vale3.setEnabled(true);
                         btn_cancelar2.setEnabled(true);
                         
@@ -5076,6 +5082,26 @@ public class Principal extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_btnEntregarRecoleccionActionPerformed
+
+    private void ActualizarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarProdActionPerformed
+        // TODO add your handling code here:
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            // If Nimbus is not available, you can set the GUI to another look and feel.
+        }
+        
+        int fila = tablaInventario.getSelectedRow();
+        String clave = tablaInventario.getValueAt(fila, 0).toString();
+                
+        updateInventario ob = new updateInventario(this, true,clave);
+        ob.setVisible(true);
+    }//GEN-LAST:event_ActualizarProdActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         

@@ -217,7 +217,7 @@ public class ManagerSolicitud {
             for (int i = 0; i<Productos.length;i++) {
                 //Registramos los productos que se solicitaron
                 sql = "insert into detalle_solicitudSalida (id_solicitud,id_producto,cantidad_solicitada) "
-                        +"values('Folio-"+num+"-"+year+"','" + Productos[i] + "',"+Cantidad[i]+");";
+                        +"values('SALIDA-"+num+"-"+year+"','" + Productos[i] + "',"+Cantidad[i]+");";
                 st.executeUpdate(sql);
             }
             
