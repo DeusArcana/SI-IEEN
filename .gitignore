@@ -32,9 +32,9 @@
 # Configuration Files Running
 ./INE/cnfg.cfg
 ./INE/cnfg.init
-./INE/cnfg.ntw
 ./INE/vale_resguardo_configsA.txt
 ./INE/vale_resguardo_configsB.txtg
+./INE/cnfg.ntw
 
 # Images
 *.png
