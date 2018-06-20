@@ -18,6 +18,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -119,9 +120,17 @@ public final class updateInventario extends javax.swing.JDialog {
             datos[8] = "Sin descripción";
         }
         txtDescripcion.setText(datos[8]);
+        if(datos[9].equals("null")){
+            datos[9] = "Sin Factura";
+        }
         txtFactura.setText(datos[9]);
         txtImporte.setText(datos[10]);
-        //Fecha datos[11]
+        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
+        try{
+        txtFecha.setDate(formatoDelTexto.parse(datos[11]));
+        }catch(ParseException e){
+            System.out.println("Conversión de la fecha fallido.");
+        }
         //Colocamos el combo de ubicación
         if(!(datos[12].equals("null"))){
         
@@ -531,8 +540,11 @@ public final class updateInventario extends javax.swing.JDialog {
         }
         imagen = campoRuta.getText();
         importe = Float.parseFloat(txtImporte.getText());
-        factura = txtFactura.getText();
-        
+        if(txtFactura.getText().isEmpty()){
+            factura = "Sin capturar";
+        }else{
+            factura = txtFactura.getText();
+        }
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         fecha_compra = formato.format(txtFecha.getDate());
     }//getInfo

@@ -433,14 +433,29 @@ public class addInventario extends javax.swing.JDialog {
         producto = txtProducto.getText();
         ubicacion = comboUbicacion.getSelectedItem().toString();
         marca = txtMarca.getText();
-        noserie = txtNoSerie.getText();
-        modelo = txtModelo.getText();
+        if(txtNoSerie.getText().isEmpty()){
+            noserie = "S/N";
+        }else{
+            noserie = txtNoSerie.getText();
+        }
+        if(txtModelo.getText().isEmpty()){
+            modelo = "Sin modelo";
+        }else{
+            modelo = txtModelo.getText();
+        }
         color = txtColor.getText();
-        descripcion = txtDescripcion.getText();
+        if(txtDescripcion.getText().isEmpty()){
+            descripcion = "Sin descripción";
+        }else{
+            descripcion = txtDescripcion.getText();
+        }
         imagen = campoRuta.getText();
         importe = Float.parseFloat(txtImporte.getText());
-        factura = txtFactura.getText();
-        
+        if(txtFactura.getText().isEmpty()){
+            factura = "Sin capturar";
+        }else{
+            factura = txtFactura.getText();
+        }
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         fecha_compra = formato.format(txtFecha.getDate());
     }//getInfo
