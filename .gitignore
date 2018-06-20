@@ -45,14 +45,11 @@ hs_err_pid*
 INE/nbproject/project.properties
 INE/cnfg.cfg
 INE/cnfg.ntw
-INE/build/built-jar.properties
 INE/src/Clases/Conexion.java
-INE/build/built-jar.properties
 INE/nbproject/private/private.xml
 INE/src/Clases/Conexion.java
-/INE/dist/
-INE/build/built-jar.properties
-INE/dist/INE.jar
+INE/build/
+INE/dist/
 INE/nbproject/private/private.xml
 INE/nbproject/project.properties
 INE/src/Clases/Conexion.java
