@@ -220,6 +220,14 @@ public class Principal extends javax.swing.JFrame {
         ParaComodato = new javax.swing.JMenuItem();
         ParaDonacion = new javax.swing.JMenuItem();
         Repa_Garan = new javax.swing.JMenuItem();
+        MenuInventarioDevolver = new javax.swing.JPopupMenu();
+        ActualizarProd1 = new javax.swing.JMenuItem();
+        DevolverDis = new javax.swing.JMenuItem();
+        Pendiente1 = new javax.swing.JMenu();
+        ParaBaja1 = new javax.swing.JMenuItem();
+        ParaComodato1 = new javax.swing.JMenuItem();
+        ParaDonacion1 = new javax.swing.JMenuItem();
+        Repa_Garan1 = new javax.swing.JMenuItem();
         MenuInventarioG = new javax.swing.JPopupMenu();
         ActualizarInfoG = new javax.swing.JMenuItem();
         MenuSolicitudes = new javax.swing.JPopupMenu();
@@ -535,6 +543,53 @@ public class Principal extends javax.swing.JFrame {
 
         Repa_Garan.setText("Reparación/Garantía");
         MenuInventario.add(Repa_Garan);
+
+        ActualizarProd1.setText("Actualizar");
+        ActualizarProd1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarProd1ActionPerformed(evt);
+            }
+        });
+        MenuInventarioDevolver.add(ActualizarProd1);
+
+        DevolverDis.setText("Devolver a disponible");
+        DevolverDis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DevolverDisActionPerformed(evt);
+            }
+        });
+        MenuInventarioDevolver.add(DevolverDis);
+
+        Pendiente1.setText("Pendiente");
+
+        ParaBaja1.setText("para baja");
+        ParaBaja1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ParaBaja1ActionPerformed(evt);
+            }
+        });
+        Pendiente1.add(ParaBaja1);
+
+        ParaComodato1.setText("para comodato");
+        ParaComodato1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ParaComodato1ActionPerformed(evt);
+            }
+        });
+        Pendiente1.add(ParaComodato1);
+
+        ParaDonacion1.setText("para donación");
+        ParaDonacion1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ParaDonacion1ActionPerformed(evt);
+            }
+        });
+        Pendiente1.add(ParaDonacion1);
+
+        MenuInventarioDevolver.add(Pendiente1);
+
+        Repa_Garan1.setText("Reparación/Garantía");
+        MenuInventarioDevolver.add(Repa_Garan1);
 
         ActualizarInfoG.setText("Refrescar tabla");
         ActualizarInfoG.addActionListener(new java.awt.event.ActionListener() {
@@ -4275,7 +4330,12 @@ public class Principal extends javax.swing.JFrame {
                 int r = tablaInventario.rowAtPoint(evt.getPoint());
                 if (r >= 0 && r < tablaInventario.getRowCount())
                 tablaInventario.setRowSelectionInterval(r, r);
-                MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+                //Asignamos el popmenu correspondiente
+                if(comboEstatus.getSelectedItem().toString().equals("para baja") || comboEstatus.getSelectedItem().toString().equals("para donación") || comboEstatus.getSelectedItem().toString().equals("para comodato")){
+                    MenuInventarioDevolver.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+                }else{
+                    MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+                }
             }//clic derecho
         }
 
@@ -4656,6 +4716,13 @@ public class Principal extends javax.swing.JFrame {
     private void comboEstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEstatusActionPerformed
         // TODO add your handling code here:
         if(manager_permisos.consulta_inventario(Username)){
+            
+            if(comboEstatus.getSelectedItem().toString().equals("Asignado")){
+                comboFiltro.addItem("Responsable");
+            }else{
+                comboFiltro.removeItem("Responsable");
+            }
+            
             int folio = comboFolio.getSelectedIndex();
             String estatus = comboEstatus.getSelectedItem().toString();
             String nomeclatura = "";
@@ -4665,6 +4732,7 @@ public class Principal extends javax.swing.JFrame {
             //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
             if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
             tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
+            
         }else{
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
         }
@@ -4700,7 +4768,7 @@ public class Principal extends javax.swing.JFrame {
                 //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
                 if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
                 pendientePara = "para baja";
-                tablaInventario.setModel(manager_inventario.PendientePara(pendientePara,filtro, busqueda,nomeclatura,estatus));
+                tablaInventario.setModel(manager_inventario.cambiarEstatus("Pendiente ",pendientePara,filtro, busqueda,nomeclatura,estatus));
                 
                 
                 tablaInventario.setValueAt(true, fila, 0);
@@ -4833,7 +4901,7 @@ public class Principal extends javax.swing.JFrame {
                 //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
                 if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
                 pendientePara = "para comodato";
-                tablaInventario.setModel(manager_inventario.PendientePara(pendientePara,filtro, busqueda,nomeclatura,estatus));
+                tablaInventario.setModel(manager_inventario.cambiarEstatus("Pendiente ",pendientePara,filtro, busqueda,nomeclatura,estatus));
                 tablaInventario.setValueAt(true, fila, 0);
                 //Mostramos los botones para aceptar los cambios o cancelar la acción
                 btnAceptarCheck.setVisible(true);
@@ -4865,7 +4933,7 @@ public class Principal extends javax.swing.JFrame {
                 //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
                 if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
                 pendientePara = "para donación";
-                tablaInventario.setModel(manager_inventario.PendientePara(pendientePara,filtro, busqueda,nomeclatura,estatus));
+                tablaInventario.setModel(manager_inventario.cambiarEstatus("Pendiente ",pendientePara,filtro, busqueda,nomeclatura,estatus));
                 tablaInventario.setValueAt(true, fila, 0);
                 //Mostramos los botones para aceptar los cambios o cancelar la acción
                 btnAceptarCheck.setVisible(true);
@@ -5102,6 +5170,165 @@ public class Principal extends javax.swing.JFrame {
         updateInventario ob = new updateInventario(this, true,clave);
         ob.setVisible(true);
     }//GEN-LAST:event_ActualizarProdActionPerformed
+
+    private void ActualizarProd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarProd1ActionPerformed
+        // TODO add your handling code here:
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            // If Nimbus is not available, you can set the GUI to another look and feel.
+        }
+        
+        int fila = tablaInventario.getSelectedRow();
+        String clave = tablaInventario.getValueAt(fila, 0).toString();
+                
+        updateInventario ob = new updateInventario(this, true,clave);
+        ob.setVisible(true);
+    }//GEN-LAST:event_ActualizarProd1ActionPerformed
+
+    private void ParaBaja1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ParaBaja1ActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.update_inventario(Username)){
+                int fila = tablaInventario.getSelectedRow();
+                int folio = comboFolio.getSelectedIndex();
+                String estatus = comboEstatus.getSelectedItem().toString();
+                String nomeclatura = "";
+                int filtro = comboFiltro.getSelectedIndex();
+                String busqueda = txtBusqueda.getText();
+                //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+                if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
+                pendientePara = "para baja";
+                tablaInventario.setModel(manager_inventario.cambiarEstatus("Pendiente ",pendientePara,filtro, busqueda,nomeclatura,estatus));
+                
+                
+                tablaInventario.setValueAt(true, fila, 0);
+                
+                //Mostramos los botones para aceptar los cambios o cancelar la acción
+                btnAceptarCheck.setVisible(true);
+                btnCancelarCheck.setVisible(true);
+                
+                //Deshabilitamos las demás opciones para que no actualice la tabla, si quiere cambiar los 
+                //criterios de busqueda entonces tendra que dar cancelar
+                btnAddInventario.setEnabled(false);
+                comboInventario.setEnabled(false);
+                comboEstatus.setEnabled(false);
+                comboFolio.setEnabled(false);
+                comboFiltro.setEnabled(false);
+                txtBusqueda.setEnabled(false);
+
+            }else{
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");
+            }
+    }//GEN-LAST:event_ParaBaja1ActionPerformed
+
+    private void ParaComodato1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ParaComodato1ActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.update_inventario(Username)){
+                int fila = tablaInventario.getSelectedRow();
+                int folio = comboFolio.getSelectedIndex();
+                String estatus = comboEstatus.getSelectedItem().toString();
+                String nomeclatura = "";
+                int filtro = comboFiltro.getSelectedIndex();
+                String busqueda = txtBusqueda.getText();
+                //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+                if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
+                pendientePara = "para comodato";
+                tablaInventario.setModel(manager_inventario.cambiarEstatus("Pendiente ",pendientePara,filtro, busqueda,nomeclatura,estatus));
+                
+                
+                tablaInventario.setValueAt(true, fila, 0);
+                
+                //Mostramos los botones para aceptar los cambios o cancelar la acción
+                btnAceptarCheck.setVisible(true);
+                btnCancelarCheck.setVisible(true);
+                
+                //Deshabilitamos las demás opciones para que no actualice la tabla, si quiere cambiar los 
+                //criterios de busqueda entonces tendra que dar cancelar
+                btnAddInventario.setEnabled(false);
+                comboInventario.setEnabled(false);
+                comboEstatus.setEnabled(false);
+                comboFolio.setEnabled(false);
+                comboFiltro.setEnabled(false);
+                txtBusqueda.setEnabled(false);
+
+            }else{
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");
+            }
+    }//GEN-LAST:event_ParaComodato1ActionPerformed
+
+    private void ParaDonacion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ParaDonacion1ActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.update_inventario(Username)){
+                int fila = tablaInventario.getSelectedRow();
+                int folio = comboFolio.getSelectedIndex();
+                String estatus = comboEstatus.getSelectedItem().toString();
+                String nomeclatura = "";
+                int filtro = comboFiltro.getSelectedIndex();
+                String busqueda = txtBusqueda.getText();
+                //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+                if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
+                pendientePara = "para donación";
+                tablaInventario.setModel(manager_inventario.cambiarEstatus("Pendiente ",pendientePara,filtro, busqueda,nomeclatura,estatus));
+                
+                
+                tablaInventario.setValueAt(true, fila, 0);
+                
+                //Mostramos los botones para aceptar los cambios o cancelar la acción
+                btnAceptarCheck.setVisible(true);
+                btnCancelarCheck.setVisible(true);
+                
+                //Deshabilitamos las demás opciones para que no actualice la tabla, si quiere cambiar los 
+                //criterios de busqueda entonces tendra que dar cancelar
+                btnAddInventario.setEnabled(false);
+                comboInventario.setEnabled(false);
+                comboEstatus.setEnabled(false);
+                comboFolio.setEnabled(false);
+                comboFiltro.setEnabled(false);
+                txtBusqueda.setEnabled(false);
+
+            }else{
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");
+            }
+    }//GEN-LAST:event_ParaDonacion1ActionPerformed
+
+    private void DevolverDisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DevolverDisActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.update_inventario(Username)){
+                int fila = tablaInventario.getSelectedRow();
+                int folio = comboFolio.getSelectedIndex();
+                String estatus = comboEstatus.getSelectedItem().toString();
+                String nomeclatura = "";
+                int filtro = comboFiltro.getSelectedIndex();
+                String busqueda = txtBusqueda.getText();
+                //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+                if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
+                tablaInventario.setModel(manager_inventario.cambiarEstatus("Devolver ","a disponible",filtro, busqueda,nomeclatura,estatus));
+                
+                
+                tablaInventario.setValueAt(true, fila, 0);
+                
+                //Mostramos los botones para aceptar los cambios o cancelar la acción
+                btnAceptarCheck.setVisible(true);
+                btnCancelarCheck.setVisible(true);
+                
+                //Deshabilitamos las demás opciones para que no actualice la tabla, si quiere cambiar los 
+                //criterios de busqueda entonces tendra que dar cancelar
+                btnAddInventario.setEnabled(false);
+                comboInventario.setEnabled(false);
+                comboEstatus.setEnabled(false);
+                comboFolio.setEnabled(false);
+                comboFiltro.setEnabled(false);
+                txtBusqueda.setEnabled(false);
+
+            }else{
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");
+            }
+    }//GEN-LAST:event_DevolverDisActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -5243,6 +5470,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem ActualizarInfoV;
     private javax.swing.JMenuItem ActualizarPendientes;
     private javax.swing.JMenuItem ActualizarProd;
+    private javax.swing.JMenuItem ActualizarProd1;
     private javax.swing.JMenuItem ActualizarV;
     private javax.swing.JMenuItem AgregarStock;
     private javax.swing.JMenuItem Asignar;
@@ -5254,6 +5482,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem CancelarEntrega;
     private javax.swing.JMenuItem CancelarSS;
     private javax.swing.JMenuItem Denegar;
+    private javax.swing.JMenuItem DevolverDis;
     private javax.swing.JMenuItem EntregarParte;
     private javax.swing.JMenuItem EntregarTodo;
     private javax.swing.JMenuItem Equipos;
@@ -5265,6 +5494,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu MenuEmpleados;
     private javax.swing.JPopupMenu MenuEntregados;
     private javax.swing.JPopupMenu MenuInventario;
+    private javax.swing.JPopupMenu MenuInventarioDevolver;
     private javax.swing.JPopupMenu MenuInventarioG;
     private javax.swing.JPopupMenu MenuPendientes;
     private javax.swing.JPopupMenu MenuPermisosP;
@@ -5277,13 +5507,18 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu MenuUsuarios;
     private javax.swing.JPopupMenu MenuVehiculos;
     private javax.swing.JMenuItem ParaBaja;
+    private javax.swing.JMenuItem ParaBaja1;
     private javax.swing.JMenuItem ParaComodato;
+    private javax.swing.JMenuItem ParaComodato1;
     private javax.swing.JMenuItem ParaDonacion;
+    private javax.swing.JMenuItem ParaDonacion1;
     private javax.swing.JMenu Pendiente;
+    private javax.swing.JMenu Pendiente1;
     private javax.swing.JMenuItem Permisos;
     private javax.swing.JMenuItem Promover;
     private javax.swing.JMenuItem Reemplazar;
     private javax.swing.JMenuItem Repa_Garan;
+    private javax.swing.JMenuItem Repa_Garan1;
     private javax.swing.JScrollPane ScrollEmpleado;
     private javax.swing.JMenuItem Servicio;
     private javax.swing.JMenuItem SolicitarBaja;
