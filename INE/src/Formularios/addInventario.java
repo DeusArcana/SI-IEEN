@@ -593,7 +593,7 @@ public class addInventario extends javax.swing.JDialog {
             txtFolio.setText(nomeclaturas[folio-1]);
             txtNum.setEnabled(true);
             txtExtension.setEnabled(true);
-            txtNum.setText(manager_inventario.sugerenciaNum(nomeclaturas[folio-1]));
+            txtNum.setText(manager_inventario.getSugerenciaNum());
             
             if(!(txtNum.getText().isEmpty())){
             

@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Blob;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,29 +37,55 @@ public class ManagerInventario {
         
     }//Constructor
     
-    public String obtenerDatosProd(String clave) {
 
-        String lista = "";
+    /**
+    * <h1>obtenerDatosProd</h1>
+    * 
+    * <p>Obtiene la información de un producto dada la clave del producto
+	* en el formato ya establecido</p>
+    * 
+    * @param clave La clave del producto
+    * @return <code>String</code> información del producto seleccionado, la cual es:
+	*	<ul>
+	*		<li>Folio</li>
+	*		<li>Numero</li>
+	*		<li>Extension</li>
+	*		<li>Nombre del Producto</li>
+	*		<li>Número de Serie</li>
+	*		<li>Marca</li>
+	*		<li>Modelo</li>
+	*		<li>Color</li>
+	*		<li>Descripción</li>
+	*		<li>Factura</li>
+	*		<li>Importe</li>
+	*		<li>Fecha de Compra</li>
+	*		<li>Ubicación</li>
+	*	</ul> 
+    */
+	public String obtenerDatosProd(String clave) {
+		StringBuilder sb = new StringBuilder();
         
-        try {
+        try{
             
-            String sql = "select folio, numero, Extension, nombre_prod, no_serie, marca,modelo,color,descripcion,Factura,Importe,Fecha_Compra,ubicacion from inventario "
-                    + "where concat(folio,'-',numero,extension) = '"+clave+"';";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            rs.next();
-            lista = rs.getString(1)+",,"+rs.getString(2)+",,"+rs.getString(3)+",,"+rs.getString(4)+",,"+rs.getString(5)+",,"+rs.getString(6)
-                    +",,"+rs.getString(7)+",,"+rs.getString(8)+",,"+rs.getString(9)+",,"+rs.getString(10)+",,"+rs.getString(11)+",,"+rs.getString(12)+",,"+rs.getString(13);
+			CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_infoProducto`(?)}");
+			cs.setString(1, clave);
+            ResultSet rs = cs.executeQuery();
+					
+			while (rs.next()){
+				for (int i = 1; i <= 13; i++) {
+					sb.append(rs.getString(i));
+					sb.append(",,");
+				}
+			}
             
-            conexion.close();
-            
+			db.getConexion().close();
+			
         } catch (SQLException ex) {
-            System.out.printf("Error al obtener los datos del producto \""+clave+"\" en SQL");
+            System.err.printf("Error al obtener los datos del producto \""+clave+"\" en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
-            return "";
         } 
-            return lista;
+        
+		return sb.toString();
 
     }//obtenerDatosProd
     
@@ -252,32 +279,38 @@ public class ManagerInventario {
 
     }//getInventarioG
 
-    //Este método funciona para dar el siguiente número de acuerdo al folio seleccionado
-    public String sugerenciaNum(String Folio) {
-        int numero = 1;
-        try {
-            //Consulta para saber si existe o no dicho producto
-            String sql = "select Numero from inventario where Folio = '"+Folio+"' order by Numero desc;";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            if(rs.next()){
-                numero = rs.getInt(1)+1;
-            }
-            conexion.close();
-            return ""+numero;
-        } catch (SQLException ex) {
-            System.out.printf("Error al obtener el ultimo número del folio \""+Folio+"\" en SQL");
-            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
-            return "";
-        } 
+	/**
+	 *
+	 * <h1>Sugerencia de Numero</h1>
+	 * 
+	 * <p>Obtiene una sugerencia para la inserción del número de folio,
+	 * la cual consiste en el último número de folio que existe en la base de datos
+	 * más uno</p>
+	 * 
+	 * @return <code>String</code> - número del último folio más uno
+	 */
+	public String getSugerenciaNum() {
 
+        try {
+			
+			ResultSet rs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_sugFolio`()}").executeQuery();
+			while(rs.next()) 
+				return rs.getString("Sugerencia_Folio");
+			db.getConexion().close();
+			
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener el ultimo número del folio en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+		
+		return null;
     }//sugerenciaNum
     
     //Nos devuelve todos los productos de inventario normal con un filtro de nomeclatura de folio y su estatus
     public DefaultTableModel getInventario(String nomeclatura,String estatus) {
         //No dejamos editar ninguna celda
         DefaultTableModel table = new DefaultTableModel(){
+				@Override
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
                     return false;
                 }
