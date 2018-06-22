@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools ,, Templates
- * and open the template in the editor.
- */
 package Clases;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.CallableStatement;
@@ -87,8 +83,6 @@ public class ManagerInventario {
 
     }//obtenerDatosProd
     
-
-    
     //realizar una inserción al inventario con imagen
     public boolean guardarImagen(String folio,int numero,String extension, String producto, String descripcion, String ubicacion, String marca, String observaciones,String no_serie,String modelo,String color,String fecha_compra,String factura, float importe,String ruta) {
         conexion = db.getConexion();
@@ -131,18 +125,34 @@ public class ManagerInventario {
         }
     }//guardarImagen
     
-    //actualizar un producto con la imagen
-    public boolean actualizarProducto(String clave, String producto, String descripcion, String ubicacion, String marca,String no_serie,String modelo,String color,String fecha_compra,String factura, float importe,String ruta) {
-        conexion = db.getConexion();
-        String update = "update inventario set nombre_prod = ? ,descripcion = ?,ubicacion = ?,marca = ?,no_serie = ?,modelo = ?,color = ?,imagen = ?,Fecha_Compra = ?,Factura = ?,Importe = ? where concat(folio,'-',numero,extension) = '"+clave+"';";
-        FileInputStream fi = null;
-        PreparedStatement ps = null;
-
+	/**
+	 * <h1>Actualizar Producto</h1>
+	 * 
+	 * <p>Realiza una operación DML UPDATE en un producto dada la clave del mismo</p>
+	 * 
+	 * @param clave del producto
+	 * @param producto - se refiere a el nombre del producto
+	 * @param descripcion del producto
+	 * @param ubicacion del producto
+	 * @param marca del producto
+	 * @param no_serie del producto
+	 * @param modelo del producto
+	 * @param color del producto
+	 * @param fecha_compra del producto
+	 * @param factura del producto
+	 * @param importe del producto
+	 * @param ruta de la imágen del producto
+	 * @return 
+	 *		<ul>
+	 *			<li><code>true</code> si la actualización ha sido exitosa</li>
+	 *			<li><code>false</code> si hay algún error en la consulta o si no se ha actualizado ningún registro</li>
+	 *		</ul>
+	 *		
+	 */
+    public boolean actualizarProducto(	String clave, String producto, String descripcion, String ubicacion, String marca, 
+										String no_serie, String modelo, String color, String fecha_compra, String factura, float importe, String ruta) {
         try {
-            File file = new File(ruta);
-            fi = new FileInputStream(file);
-
-            ps = conexion.prepareStatement(update);
+			PreparedStatement ps = db.getConexion().prepareStatement("{CALL `ine`.`usp_update_productoInventario`(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
 
             ps.setString(1, producto);
             ps.setString(2, descripcion);
@@ -151,20 +161,19 @@ public class ManagerInventario {
             ps.setString(5, no_serie);
             ps.setString(6, modelo);
             ps.setString(7, color);
-            ps.setBinaryStream(8, fi);
+            ps.setBinaryStream(8, new FileInputStream(new File(ruta)));
             ps.setString(9, fecha_compra);
             ps.setString(10, factura);
             ps.setFloat(11, importe);
+			ps.setString(12, clave);
+			
+            return ps.executeUpdate() != 0;
 
-            ps.executeUpdate();
-
-            return true;
-
-        } catch (Exception ex) {
-            System.out.println("Error al actualizar imagen " + ex.getMessage());
-            return false;
-
-        }
+        } catch (FileNotFoundException | SQLException ex) {
+            System.err.println("Error al actualizar producto: " + ex.getMessage());
+			Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+			return false;
+	    }
 
     }//actualizarProducto
     
