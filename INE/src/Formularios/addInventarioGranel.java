@@ -7,6 +7,7 @@ package Formularios;
 
 import Clases.ManagerInventario;
 import Clases.ManagerPermisos;
+import Clases.ManagerInventarioGranel;
 import Clases.Validaciones;
 
 import Interfaces.Principal;
@@ -17,22 +18,26 @@ import javax.swing.JOptionPane;
  * @author kevin
  */
 public class addInventarioGranel extends javax.swing.JDialog {
-    ManagerInventario manager_inventario;
-    ManagerPermisos manager_permisos;
+    ManagerInventario			manager_inventario;
+    ManagerPermisos				manager_permisos;
+	ManagerInventarioGranel		manager_inventario_granel;
     
     String clave,producto,almacen,marca,descripcion,observaciones,tipo;
     int stockmin,stock;
     
     /**
      * Creates new form addInventario
+	 * @param parent
+	 * @param modal
      */
     public addInventarioGranel(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         
         //Asginamos memoria al objeto
-        manager_inventario = new ManagerInventario();
-        manager_permisos = new ManagerPermisos();
+        manager_inventario			= new ManagerInventario();
+        manager_permisos			= new ManagerPermisos();
+		manager_inventario_granel	= new ManagerInventarioGranel();
         this.setLocationRelativeTo(null);
     }
 
@@ -295,11 +300,11 @@ public class addInventarioGranel extends javax.swing.JDialog {
         if(getInfo())
         if(manager_permisos.alta_inventario(Principal.Username)){
             
-            if(manager_inventario.insertarInventarioG(clave, producto, almacen, marca, stockmin, stock, descripcion, observaciones,tipo)){
+            if(manager_inventario_granel.insertarInventarioG(clave, producto, almacen, marca, stockmin, stock, descripcion, observaciones,tipo)){
                 JOptionPane.showMessageDialog(null,"Se inserto correctamente al inventario");
                 
                 if(manager_permisos.consulta_inventario(Principal.Username)){
-                    Principal.tablaInventario.setModel(manager_inventario.getInventarioG(Principal.comboFiltro.getSelectedIndex()));
+                    Principal.tablaInventario.setModel(manager_inventario_granel.getInventarioG(Principal.comboFiltro.getSelectedIndex()));
                 }
                 
             }else{
@@ -317,7 +322,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         if(!(txtClave.getText().isEmpty())){
             
             //Comparamos si existe o no
-            if(manager_inventario.existeInventarioG(txtClave.getText())){
+            if(manager_inventario_granel.existeInventarioG(txtClave.getText())){
                 //Existe, entonces pintamos en rojo los TextField
                 txtClave.setBackground(java.awt.Color.RED);
                 btnAceptar.setEnabled(false);
