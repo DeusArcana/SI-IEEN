@@ -275,28 +275,33 @@ public class ManagerInventario {
 		return table;
     }//getInventario
     
-    //Este metodo se utiliza en la ventana de insercion de inventario normal, cuando se va a dar de alta un ID de un producto (Folio,-,Numero,Extensión),
-    //que arroja un verdadero si existe por lo tanto no deja insertar ese nuevo producto, y falso si no existe entonces si deja insertar dicho producto.
-    public boolean existeInventario(String id_producto) {
-
-        boolean estado = false;
-        
+	/**
+	 * 
+	 * <h1>Existe en Inventario</h1>
+	 *
+	 * <p>Este metodo se utiliza en la ventana de insercion de inventario normal, 
+	 * cuando se va a dar de alta un ID de un producto (Folio, -, Numero, Extensión),
+	 * que arroja un verdadero si existe por lo tanto no deja insertar ese nuevo producto, 
+	 * y falso si no existe entonces si deja insertar dicho producto.</p>
+	 * 
+	 * @param idProducto
+	 * @return 
+	 *		<ul>
+	 *			<li><code>true</code> si existe el producto</li>
+	 *			<li><code>false</code> si no existe el producto</li>
+	 *		</ul>
+	 *	
+	 */
+    public boolean existeInventario(String idProducto) {
         try {
-            //Consulta para saber si existe o no dicho producto
-            String sql = "select * from inventario where concat(Folio,'-',Numero,Extension) = '"+id_producto+"';";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            estado = rs.next();//Guardamos el resultado para retornar la respuesta.
-            conexion.close();
-            
+			CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_existeProducto`(?)}");
+            cs.setString(1, idProducto);
+            return cs.executeQuery().getInt("res") == 1;          
         } catch (SQLException ex) {
-            System.out.printf("Error al consultar el inventario en SQL");
+            System.err.printf("Error al consultar el inventario en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-        } 
-            return estado;
-
+        }
     }//existeInventario
     
     //Este método es para llenar los combos de folio y su descripción. Se utilizan para llenar el combo en el inventario de la ventana principal
