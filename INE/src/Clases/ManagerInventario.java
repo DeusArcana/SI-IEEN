@@ -204,8 +204,21 @@ public class ManagerInventario {
 		return null;
     }//sugerenciaNum
     
-    //Nos devuelve todos los productos de inventario normal con un filtro de nomeclatura de folio y su estatus
-    public DefaultTableModel getInventario(String nomeclatura,String estatus) {
+    
+
+	/**
+	 *
+	 * <h1>Obtener Inventario</h1>
+	 * 
+	 * <p>Nos devuelve todos los productos de inventario 
+	 * con un filtro de nomeclatura de folio y su estatus</p>
+	 * 
+	 * @param nomenclatura que pertenece al folio del producto
+	 * @param estatus en el que se encuentra el producto
+	 * @return <code>DefaultTableModel</code> con la consulta realizada dada los 
+	 *	parámetros establecidos.
+	 */
+    public DefaultTableModel getInventario(String nomenclatura, String estatus) {
         //No dejamos editar ninguna celda
         DefaultTableModel table = new DefaultTableModel(){
 				@Override
@@ -215,7 +228,7 @@ public class ManagerInventario {
             };
 
         try {
-            
+            // Se añaden los campos a la tabla
             table.addColumn("Clave");
             table.addColumn("Nombre_corto");
             table.addColumn("Descripción");
@@ -228,42 +241,38 @@ public class ManagerInventario {
             table.addColumn("Fecha Compra");
             table.addColumn("Factura");
             table.addColumn("Importe");
-            
-            String sql = "";
-            
-            if(nomeclatura.equals("")){
-                //Consulta de los empleados
-                sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe "
-                        + "from inventario where estatus = '"+estatus+"';";
-            }
-            else{
-            //Consulta de los empleados
-            sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe "
-                    + "from inventario where Folio = '"+nomeclatura+"' and estatus = '"+estatus+"';";
-            }
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            Object datos[] = new Object[12];
-            ResultSet rs = st.executeQuery(sql);
+			
+			// Se crea la llamada a la DB y se añade el parámetro de estatus
+			CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_infoInventario`(?, ?)}");
+			cs.setString(1, estatus);
+			
+			// El USP hace manejo de la consulta a ejecutar dado si el parámetro nomenclatura está vacío o no 
+			if(nomenclatura.equals(""))
+				cs.setNull(2, 0);
+			else 
+				cs.setString(2, nomenclatura);
+			// Se obtiene la consulta
+            ResultSet rs = cs.executeQuery();
+			
+			//Llenar tabla
+			Object datos[] = new Object[12];
 
-            //Llenar tabla
             while (rs.next()) {
-
-                for(int i = 0;i<12;i++){
-                    datos[i] = rs.getObject(i+1);
-                }//Llenamos las columnas por registro
-
-                table.addRow(datos);//Añadimos la fila
+				//Llenamos las columnas por registro
+                for(int i = 0; i < 12; i++){
+                    datos[i] = rs.getObject(i + 1);
+                }
+				//Añadimos la fila
+                table.addRow(datos);
            }//while
-            conexion.close();
+			// Se cierra la conexión
+            db.getConexion().close();
         } catch (SQLException ex) {
             System.out.printf("Error getTabla Inventario SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-
-            return table;
-        }
-
+        } 
+        
+		return table;
     }//getInventario
     
     //Este metodo se utiliza en la ventana de insercion de inventario normal, cuando se va a dar de alta un ID de un producto (Folio,-,Numero,Extensión),
