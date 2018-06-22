@@ -30,6 +30,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 //Importamos los TDA del paquete Clases
 import Clases.ManagerUsers;
 import Clases.ManagerInventario;
+import Clases.ManagerInventarioGranel;
 import Clases.ManagerMySQL;
 import Clases.ManagerPermisos;
 import Clases.ManagerSolicitud;
@@ -77,6 +78,7 @@ public class Principal extends javax.swing.JFrame {
     ManagerComplemento manager_complemento;
     ManejadorInventario manejador_inventario;
     ManagerAsignarEquipo manager_asignar;
+	ManagerInventarioGranel manager_inventario_granel;
     Excel excel;
     
     public String Responsable,Cargo,Area,Tipo_de_uso,Municipio,Localidad,Responsable1,Cargo1,Area1,Tipo_de_uso1,Municipio1,Localidad1,idAtenderSalida;
@@ -4238,7 +4240,7 @@ public class Principal extends javax.swing.JFrame {
                 comboFiltro.addItem("Factura");
                 
             }else{
-                tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
+                tablaInventario.setModel(manager_inventario_granel.getInventarioG(filtro));
                 banderaInventario = 2;
                 
                 comboFolio.setVisible(false);
@@ -4465,7 +4467,7 @@ public class Principal extends javax.swing.JFrame {
                     tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
                 }
                 else{
-                    tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
+                    tablaInventario.setModel(manager_inventario_granel.getInventarioG(filtro));
                 }
             }//if
 
