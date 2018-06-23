@@ -35,7 +35,11 @@ BEGIN
 							WHERE `Inventario`.`Folio` = `Inv_Folio`
 							ORDER BY `Inventario`.`Numero` DESC
 							LIMIT 1);
-
+	
+    IF @sugFolio IS NULL THEN 
+		SET @sugFolio = 0; 
+	END IF;
+    
 	SET @sugFolio = @sugFolio + 1;
 	SELECT @sugFolio AS 'Sugerencia_Folio';
 

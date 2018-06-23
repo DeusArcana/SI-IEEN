@@ -191,7 +191,7 @@ public class ManagerInventario {
 	public String getSugerenciaNum(String folio) {
 
         try {
-			CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_sugFolio`()}");
+			CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_sugFolio`(?)}");
 			cs.setString(1, folio);
 			ResultSet rs = cs.executeQuery();
 			
@@ -313,7 +313,7 @@ public class ManagerInventario {
         StringBuilder sb = new StringBuilder();
         
         try {
-            ResultSet rs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_sugFolio`()}").executeQuery();
+            ResultSet rs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_infoFolio`()}").executeQuery();
             
             while(rs.next()){
 				sb.append(rs.getString(1));
