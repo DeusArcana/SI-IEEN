@@ -299,12 +299,13 @@ public class ManagerInventario {
         try {
 			CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_existeProducto`(?)}");
             cs.setString(1, idProducto);
-            return cs.executeQuery().getInt("res") == 1;          
+			ResultSet rs = cs.executeQuery();
+			if (rs.next()) return rs.getInt("res") == 1;         
         } catch (SQLException ex) {
             System.err.printf("Error al consultar el inventario en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
         }
+		return false;
     }//existeInventario
     
     //Este método es para llenar los combos de folio y su descripción. Se utilizan para llenar el combo en el inventario de la ventana principal
