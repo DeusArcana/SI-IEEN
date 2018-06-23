@@ -185,13 +185,16 @@ public class ManagerInventario {
 	 * la cual consiste en el último número de folio que existe en la base de datos
 	 * más uno</p>
 	 * 
+	 * @param folio del producto
 	 * @return <code>String</code> - número del último folio más uno
 	 */
-	public String getSugerenciaNum() {
+	public String getSugerenciaNum(String folio) {
 
         try {
+			CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_sugFolio`()}");
+			cs.setString(1, folio);
+			ResultSet rs = cs.executeQuery();
 			
-			ResultSet rs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_sugFolio`()}").executeQuery();
 			while(rs.next()) 
 				return rs.getString("Sugerencia_Folio");
 			db.getConexion().close();
@@ -307,32 +310,27 @@ public class ManagerInventario {
     //Este método es para llenar los combos de folio y su descripción. Se utilizan para llenar el combo en el inventario de la ventana principal
     //en la ventana para añadir productos y en el update del producto
     public String nomeclaturaFolio() {
-
-        String lista = "";
+        StringBuilder sb = new StringBuilder();
         
         try {
-            
-            String sql = "select ID_Folio,Descripcion from Folio;";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            
-            rs.next();
-            lista = rs.getString(1)+","+rs.getString(2);
+            ResultSet rs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_sugFolio`()}").executeQuery();
             
             while(rs.next()){
-                lista += ","+rs.getString(1)+","+rs.getString(2);
+				sb.append(rs.getString(1));
+				sb.append(",");
+				sb.append(rs.getString(2));
+				sb.append(",");
             }
             
-            conexion.close();
+            db.getConexion().close();
             
         } catch (SQLException ex) {
             System.out.printf("Error al obtener los folios en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
             return "";
         } 
-            return lista;
-
+        
+		return sb.toString();
     }//nomeclaturaFolio
     
     public void getBodegas(JComboBox combo) {

@@ -27,16 +27,17 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS `usp_get_sugFolio`;
 DELIMITER $$
-CREATE PROCEDURE `usp_get_sugFolio`()
+CREATE PROCEDURE `usp_get_sugFolio`(IN `Inv_Folio` VARCHAR(10))
 BEGIN
 
 	SET @sugFolio = (SELECT `Inventario`.`Numero`
 						FROM `INE`.`Inventario`
+							WHERE `Inventario`.`Folio` = `Inv_Folio`
 							ORDER BY `Inventario`.`Numero` DESC
 							LIMIT 1);
 
 	SET @sugFolio = @sugFolio + 1;
-	SELECT @sugFolio;
+	SELECT @sugFolio AS 'Sugerencia_Folio';
 
 END$$
 DELIMITER ;
@@ -134,6 +135,19 @@ BEGIN
 			SELECT 0 AS 'res';
         END;
 	END IF;
+
+END$$
+DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS `usp_get_infoFolio`;
+DELIMITER $$
+CREATE PROCEDURE `usp_get_infoFolio`()
+BEGIN
+
+	SELECT `Folio`.`ID_Folio`, `Folio`.`Descripcion`
+		FROM `INE`.`Folio`
+			WHERE 1;
 
 END$$
 DELIMITER ;
