@@ -161,7 +161,7 @@ DELIMITER $$
 CREATE PROCEDURE `usp_get_busquedaProducto`(IN `Inv_Filtro` INT, IN `Inv_Estatus` VARCHAR(35), IN `Inv_Busqueda` VARCHAR(255), IN `Inv_Folio` VARCHAR(255))
 BEGIN
 
-	IF (`Inv_Filtro` < 11) THEN
+	IF (`Inv_Filtro` = 11) THEN
 		BEGIN
 			SELECT	CONCAT( `Inventario`.`Folio`, '-', 	`Inventario`.`Numero`, `Inventario`.`Extension`) AS 'Clave',
 				`Inventario`.`Nombre_Prod`,
