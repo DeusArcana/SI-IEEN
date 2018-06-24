@@ -38,7 +38,7 @@ import Clases.ManagerVehiculos;
 import Clases.ManejadorInventario;
 import Clases.ManagerAsignarEquipo;
 import Clases.Excel;
-
+import Clases.ManagerInventarioGranel;
 
 //Importamos los formularios
 import Formularios.addEmpleados;
@@ -76,6 +76,7 @@ public class Principal extends javax.swing.JFrame {
     ManagerSolicitud manager_solicitud;
     ManagerComplemento manager_complemento;
     ManejadorInventario manejador_inventario;
+    ManagerInventarioGranel manager_inventario_granel;
     ManagerAsignarEquipo manager_asignar;
     Excel excel;
     
@@ -136,6 +137,7 @@ public class Principal extends javax.swing.JFrame {
         manejador_inventario = new ManejadorInventario();
         manager_asignar = new ManagerAsignarEquipo();
         excel = new Excel();
+        manager_inventario_granel = new ManagerInventarioGranel();
         
         //Para obtener el nombre de usuario con el que se logearon
         leer();
@@ -3149,10 +3151,11 @@ public class Principal extends javax.swing.JFrame {
         //Buscamos en la tabla si ya existe el codigo
         for(int fila = 0;fila<tablaMAsignados.getRowCount();fila++){
             //Si el codigo ya se habia registrado entonces sumamos uno a la cantidad
-            if(tablaMAsignados.getValueAt(fila,0).equals(codigo)){
-                int  valor = Integer.parseInt(tablaMAsignados.getValueAt(fila,5).toString());
+            if(tablaMAsignados.getValueAt(fila,3).equals(codigo)){
+                int  valor = Integer.parseInt(tablaMAsignados.getValueAt(fila,1).toString());
                 valor = valor + cantidad;
-                tablaMAsignados.setValueAt(valor,fila,5);
+                tablaMAsignados.setValueAt(valor,fila,1);
+                tablaMAsignados.setValueAt(manager_complemento.textoNumero(valor),fila,0);
                 existe = true;
                 break;
             }//if
@@ -3168,7 +3171,7 @@ public class Principal extends javax.swing.JFrame {
         int columnaCan = 0;
         if(esGranel){
             columnaCla = 3;
-            columnaCan = 2;
+            columnaCan = 1;
         }else{
             columnaCla = 0;
             columnaCan = 4;
@@ -3281,7 +3284,7 @@ public class Principal extends javax.swing.JFrame {
         if(esGranel){
             //Obtenemos la clave y cantidad
              Claves[0] = tablaMAsignados.getValueAt(fila, 3).toString();
-             Cantidad[0] = Integer.parseInt(tablaMAsignados.getValueAt(fila, 2).toString());
+             Cantidad[0] = Integer.parseInt(tablaMAsignados.getValueAt(fila, 1).toString());
         }else{
             //Obtenemos la clave y cantidad
             Claves[0] = tablaMAsignados.getValueAt(fila, 0).toString();
@@ -3302,7 +3305,7 @@ public class Principal extends javax.swing.JFrame {
                 //Regresamos el producto seleccionado
                 manejador_inventario.regresarInventario(Claves,Cantidad);
                 //Eliminamos el registro de la tabla
-                tablaNormal.removeRow(fila);
+                tablaGranel.removeRow(fila);
                 JOptionPane.showMessageDialog(null, "Se regreso al inventario el producto \""+Claves[0]+"\".");
                 tablaMInventarioA.setModel(manejador_inventario.getInventarioParaAsignacion(nomeclatura));
 
@@ -3315,8 +3318,8 @@ public class Principal extends javax.swing.JFrame {
                 //Regresamos el producto seleccionado
                 manejador_inventario.regresarInventario(Claves,Cantidad);
                 //Eliminamos el registro de la tabla
-                tablaNormal.removeRow(fila);
-                JOptionPane.showMessageDialog(null, "Se regresaron \""+Cantidad[0]+"\" al inventario del producto \""+Claves[0]+"\".");
+                tablaGranel.removeRow(fila);
+                JOptionPane.showMessageDialog(null, "Se regresaron \""+Cantidad[0]+"\" productos al inventario del producto \""+Claves[0]+"\".");
                 tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                 //Vemos si queda mas de un producto
                 if(tablaGranel.getRowCount() == 0){
@@ -3603,30 +3606,39 @@ public class Principal extends javax.swing.JFrame {
                         String cadena = JOptionPane.showInputDialog("Ingrese la cantidad que desea asignar");
                         //Cancelo la solicitud de asignacion
                         if(cadena == null){
-                            entero = false;
+                            entero=false;
                             canceloCantidad = false;
                         }else{
                             try{
                                 //Si hace la conversion correctamente entonces no entra en la excepcion y se sale del ciclo
                                 cantidad = Integer.parseInt(cadena);
-                                entero = false;
-
+                                if(cantidad > 0){
+                                    entero = false;
+                                }else{
+                                    JOptionPane.showMessageDialog(null,"Ingrese cantidades mayores a 0.");
+                                }
                             }catch(NumberFormatException e){
                                 JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
                                 entero = true;
                             }//try catch
                         }
                     }//while
+                    int solicitado = Integer.parseInt(tablaMInventarioA.getValueAt(fila, 4).toString());
+                    //Verificamos la cantidad que se quiere asignar con la que se solicito
+                    if(cantidad > solicitado){
+                        JOptionPane.showMessageDialog(null, "Se están solicitando \""+solicitado+"\" productos, y usted quiere asignar \""+cantidad+"\".\n"
+                                + "Por favor asigne una cantidad menor o igual a la solicitada.");
+                        tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
+                        canceloCantidad = false;
+                    }
                     
                     if(canceloCantidad){
                         
                         
-                        tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(cantidad),cantidad,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
+                        
                         btn_generar_vale3.setEnabled(true);
                         btn_cancelar2.setEnabled(true);
                         
-                        /*
-                        btn_generar_vale3.setEnabled(true);
                         //Obtenemos la cantidad directamente de la BD por si se ha actualizado la cantidad
                         int stock = manejador_inventario.cantidadInventarioG(idProducto);
 
@@ -3646,9 +3658,9 @@ public class Principal extends javax.swing.JFrame {
 
                             //Si es mayor entonces si se realizo exitosamente la actualización del inventario
                             if(stock > comprobar){
-                                //Se pasa el registro a la otra tabla (0,1,2,3,5,cantidad)
+                                //Se pasa el registro a la otra tabla
                                 if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
-                                    tablaGranel.addRow(new Object[]{"",tablaMInventarioA.getValueAt(fila, 5),cantidad,idProducto});
+                                    tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(cantidad),cantidad,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
                                 }
                                 tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                             }//stock > comprobar
@@ -3670,11 +3682,11 @@ public class Principal extends javax.swing.JFrame {
                                 if(comprobar2 == 0){
                                     //Si es 0 entonces se cambia sin problemas y el estado cambia a agotado
                                     if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
-                                        tablaGranel.addRow(new Object[]{"",tablaMInventarioA.getValueAt(fila, 5),cantidad,idProducto});
+                                        tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(cantidad),cantidad,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
                                     }
                                     tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                                 }
-
+                                //La canidad que solicita es mayor a la que hay en el stock
                                 else if(cantidad > comprobar2){
                                     tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
 
@@ -3684,11 +3696,11 @@ public class Principal extends javax.swing.JFrame {
                                     if(seleccion == 0){
                                         manejador_inventario.productosIgualesInventarioG(idProducto, comprobar2);
                                         if(!(existeCodigoTablaMAsignados(idProducto,comprobar2))){
-                                            tablaGranel.addRow(new Object[]{"",tablaMInventarioA.getValueAt(fila, 5),comprobar2,idProducto});
+                                            tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(comprobar2),comprobar2,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
                                         }
                                     }//Dio clic en la opcion aceptar
                                     else{
-                                        tablaGranel.addRow(new Object[]{"",tablaMInventarioA.getValueAt(fila, 5),cantidad,idProducto});
+                                        tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(cantidad),cantidad,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
                                     }
                                     tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                                 }//cantidad > comprobar2
@@ -3698,7 +3710,7 @@ public class Principal extends javax.swing.JFrame {
                                 else{
                                     manejador_inventario.productosSuficientesInventarioG(idProducto, cantidad);
                                     if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
-                                        modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),cantidad});
+                                        tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(cantidad),cantidad,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
                                     }
                                     tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
 
@@ -3720,7 +3732,7 @@ public class Principal extends javax.swing.JFrame {
                                 if(seleccion == 0){
                                     manejador_inventario.productosIgualesInventarioG(idProducto, comprobar);
                                     if(!(existeCodigoTablaMAsignados(idProducto,comprobar))){
-                                        modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),comprobar});
+                                        tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(comprobar),comprobar,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
                                     }
                                 }//Dio clic en aceptar
 
@@ -3731,7 +3743,7 @@ public class Principal extends javax.swing.JFrame {
                             else{
                                 manejador_inventario.productosSuficientesInventarioG(idProducto, cantidad);
                                 if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
-                                    modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),cantidad});
+                                    tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(cantidad),cantidad,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
                                 }
                                 tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                             }//else
@@ -3748,11 +3760,11 @@ public class Principal extends javax.swing.JFrame {
                             if(comprobar2 == 0){
                                 //Si es 0 entonces se cambia sin problemas y el estado cambia a agotado
                                 if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
-                                    modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),cantidad});
+                                    tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(cantidad),cantidad,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
                                 }
                                 tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                             }
-
+                            //La cantidad solicitada es mayor al stock
                             else if(cantidad > comprobar2){
 
                                 tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
@@ -3762,7 +3774,7 @@ public class Principal extends javax.swing.JFrame {
                                 if(seleccion == 0){
                                     manejador_inventario.productosIgualesInventarioG(idProducto, comprobar2);
                                     if(!(existeCodigoTablaMAsignados(idProducto,comprobar2))){
-                                        modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),comprobar2});
+                                        tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(comprobar2),comprobar2,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
                                     }
                                 }//Dio clic en aceptar
 
@@ -3773,7 +3785,7 @@ public class Principal extends javax.swing.JFrame {
                             else{
                                 manejador_inventario.productosSuficientesInventarioG(idProducto, cantidad);
                                 if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
-                                    modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),cantidad});
+                                    tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(cantidad),cantidad,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
                                 }
                                 tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
 
@@ -3787,13 +3799,13 @@ public class Principal extends javax.swing.JFrame {
                             if(seleccion == 0){
                                 manejador_inventario.productosIgualesInventarioG(idProducto, stock);
                                 if(!(existeCodigoTablaMAsignados(idProducto,stock))){
-                                    modelotablaMAsignados.addRow(new Object[]{idProducto,tablaMInventarioA.getValueAt(fila, 1),tablaMInventarioA.getValueAt(fila, 2),tablaMInventarioA.getValueAt(fila, 3),stock});
+                                    tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(stock),stock,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
                                 }
                             }//Dio clic en la opcion aceptar
 
                             tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                         }//stock < cantidad
-                        */
+                        
                     }//canceloSolicitud
                 }//esGranel
                 
@@ -4238,7 +4250,7 @@ public class Principal extends javax.swing.JFrame {
                 comboFiltro.addItem("Factura");
                 
             }else{
-                tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
+                tablaInventario.setModel(manager_inventario_granel.getInventarioG(filtro));
                 banderaInventario = 2;
                 
                 comboFolio.setVisible(false);
@@ -4465,7 +4477,7 @@ public class Principal extends javax.swing.JFrame {
                     tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
                 }
                 else{
-                    tablaInventario.setModel(manager_inventario.getInventarioG(filtro));
+                    tablaInventario.setModel(manager_inventario_granel.getInventarioG(filtro));
                 }
             }//if
 
