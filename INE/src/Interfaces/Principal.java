@@ -30,6 +30,7 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 //Importamos los TDA del paquete Clases
 import Clases.ManagerUsers;
 import Clases.ManagerInventario;
+import Clases.ManagerInventarioGranel;
 import Clases.ManagerMySQL;
 import Clases.ManagerPermisos;
 import Clases.ManagerSolicitud;
@@ -78,6 +79,7 @@ public class Principal extends javax.swing.JFrame {
     ManejadorInventario manejador_inventario;
     ManagerInventarioGranel manager_inventario_granel;
     ManagerAsignarEquipo manager_asignar;
+	ManagerInventarioGranel manager_inventario_granel;
     Excel excel;
     
     public String Responsable,Cargo,Area,Tipo_de_uso,Municipio,Localidad,Responsable1,Cargo1,Area1,Tipo_de_uso1,Municipio1,Localidad1,idAtenderSalida;

@@ -27,17 +27,22 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS `usp_get_sugFolio`;
 DELIMITER $$
-CREATE PROCEDURE `usp_get_sugFolio`()
+CREATE PROCEDURE `usp_get_sugFolio`(IN `Inv_Folio` VARCHAR(10))
 BEGIN
 
 	SET @sugFolio = (SELECT `Inventario`.`Numero`
 						FROM `INE`.`Inventario`
+							WHERE `Inventario`.`Folio` = `Inv_Folio`
 							ORDER BY `Inventario`.`Numero` DESC
 							LIMIT 1);
-
+	
+    IF @sugFolio IS NULL THEN 
+		SET @sugFolio = 0; 
+	END IF;
+    
 	SET @sugFolio = @sugFolio + 1;
-	SELECT @sugFolio;
-        
+	SELECT @sugFolio AS 'Sugerencia_Folio';
+
 END$$
 DELIMITER ;
 
@@ -72,3 +77,81 @@ BEGIN
 END$$
 DELIMITER ;
 
+
+DROP PROCEDURE IF EXISTS `usp_get_infoInventario`;
+DELIMITER $$
+CREATE PROCEDURE `usp_get_infoInventario`(IN `Inv_Estatus` VARCHAR(35), IN `Inv_Folio` CHAR(6))
+BEGIN
+
+	IF`Inv_Estatus` IS NOT NULL AND `Inv_Folio` IS NULL THEN 
+		BEGIN
+			SELECT 	CONCAT(`Inventario`.`Folio`, '-', `Inventario`.`Numero`, `Inventario`.`Extension`),
+				`Inventario`.`Nombre_Prod`,
+				`Inventario`.`Descripcion`,  
+				`Inventario`.`Ubicacion`,
+				`Inventario`.`Marca`,
+				`Inventario`.`Observaciones`,
+				`Inventario`.`No_Serie`,
+				`Inventario`.`Modelo`, 
+				`Inventario`.`Color`, 	
+				`Inventario`.`Fecha_Compra`, 
+				`Inventario`.`Factura`, 
+				`Inventario`.`Importe`
+			FROM `INE`.`Inventario`
+				WHERE `Inventario`.`Estatus` = `Inv_Estatus`;
+		END;
+	ELSE IF `Inv_Estatus` IS NOT NULL AND `Inv_Folio` IS NOT NULL THEN 
+		BEGIN
+			SELECT 	CONCAT(`Inventario`.`Folio`, '-', `Inventario`.`Numero`, `Inventario`.`Extension`),
+				`Inventario`.`Nombre_Prod`,
+				`Inventario`.`Descripcion`,  
+				`Inventario`.`Ubicacion`,
+				`Inventario`.`Marca`,
+				`Inventario`.`Observaciones`,
+				`Inventario`.`No_Serie`,
+				`Inventario`.`Modelo`, 
+				`Inventario`.`Color`, 	
+				`Inventario`.`Fecha_Compra`, 
+				`Inventario`.`Factura`, 
+				`Inventario`.`Importe`
+			FROM `INE`.`Inventario`
+				WHERE `Inventario`.`Estatus` = `Inv_Estatus` AND `Inventario`.`Folio` = `Inv_Folio`;
+        END;
+	END IF;
+    END IF;
+
+END$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `usp_get_existeProducto`;
+DELIMITER $$
+CREATE PROCEDURE `usp_get_existeProducto`(IN `ID_Producto` VARCHAR(10))
+BEGIN
+
+	IF (SELECT 1 = 1 
+			FROM `INE`.`Inventario` 
+				WHERE CONCAT(`Inventario`.`Folio`, '-', `Inventario`.`Numero`, `Inventario`.`Extension`) = `ID_Producto`) THEN
+		BEGIN
+			SELECT 1 AS 'res';        
+        END;
+	ELSE 
+		BEGIN
+			SELECT 0 AS 'res';
+        END;
+	END IF;
+
+END$$
+DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS `usp_get_infoFolio`;
+DELIMITER $$
+CREATE PROCEDURE `usp_get_infoFolio`()
+BEGIN
+
+	SELECT `Folio`.`ID_Folio`, `Folio`.`Descripcion`
+		FROM `INE`.`Folio`
+			WHERE 1;
+
+END$$
+DELIMITER ;

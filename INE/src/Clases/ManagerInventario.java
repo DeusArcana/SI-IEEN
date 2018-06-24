@@ -185,13 +185,16 @@ public class ManagerInventario {
 	 * la cual consiste en el último número de folio que existe en la base de datos
 	 * más uno</p>
 	 * 
+	 * @param folio del producto
 	 * @return <code>String</code> - número del último folio más uno
 	 */
-	public String getSugerenciaNum() {
+	public String getSugerenciaNum(String folio) {
 
         try {
+			CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_sugFolio`(?)}");
+			cs.setString(1, folio);
+			ResultSet rs = cs.executeQuery();
 			
-			ResultSet rs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_sugFolio`()}").executeQuery();
 			while(rs.next()) 
 				return rs.getString("Sugerencia_Folio");
 			db.getConexion().close();
@@ -204,8 +207,21 @@ public class ManagerInventario {
 		return null;
     }//sugerenciaNum
     
-    //Nos devuelve todos los productos de inventario normal con un filtro de nomeclatura de folio y su estatus
-    public DefaultTableModel getInventario(String nomeclatura,String estatus) {
+    
+
+	/**
+	 *
+	 * <h1>Obtener Inventario</h1>
+	 * 
+	 * <p>Nos devuelve todos los productos de inventario 
+	 * con un filtro de nomeclatura de folio y su estatus</p>
+	 * 
+	 * @param nomenclatura que pertenece al folio del producto
+	 * @param estatus en el que se encuentra el producto
+	 * @return <code>DefaultTableModel</code> con la consulta realizada dada los 
+	 *	parámetros establecidos.
+	 */
+    public DefaultTableModel getInventario(String nomenclatura, String estatus) {
         //No dejamos editar ninguna celda
         DefaultTableModel table = new DefaultTableModel(){
 				@Override
@@ -215,7 +231,7 @@ public class ManagerInventario {
             };
 
         try {
-            
+            // Se añaden los campos a la tabla
             table.addColumn("Clave");
             table.addColumn("Nombre_corto");
             table.addColumn("Descripción");
@@ -228,97 +244,94 @@ public class ManagerInventario {
             table.addColumn("Fecha Compra");
             table.addColumn("Factura");
             table.addColumn("Importe");
-            
-            String sql = "";
-            
-            if(nomeclatura.equals("")){
-                //Consulta de los empleados
-                sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe "
-                        + "from inventario where estatus = '"+estatus+"';";
-            }
-            else{
-            //Consulta de los empleados
-            sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe "
-                    + "from inventario where Folio = '"+nomeclatura+"' and estatus = '"+estatus+"';";
-            }
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            Object datos[] = new Object[12];
-            ResultSet rs = st.executeQuery(sql);
+			
+			// Se crea la llamada a la DB y se añade el parámetro de estatus
+			CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_infoInventario`(?, ?)}");
+			cs.setString(1, estatus);
+			
+			// El USP hace manejo de la consulta a ejecutar dado si el parámetro nomenclatura está vacío o no 
+			if(nomenclatura.equals(""))
+				cs.setNull(2, 0);
+			else 
+				cs.setString(2, nomenclatura);
+			// Se obtiene la consulta
+            ResultSet rs = cs.executeQuery();
+			
+			//Llenar tabla
+			Object datos[] = new Object[12];
 
-            //Llenar tabla
             while (rs.next()) {
-
-                for(int i = 0;i<12;i++){
-                    datos[i] = rs.getObject(i+1);
-                }//Llenamos las columnas por registro
-
-                table.addRow(datos);//Añadimos la fila
+				//Llenamos las columnas por registro
+                for(int i = 0; i < 12; i++){
+                    datos[i] = rs.getObject(i + 1);
+                }
+				//Añadimos la fila
+                table.addRow(datos);
            }//while
-            conexion.close();
+			// Se cierra la conexión
+            db.getConexion().close();
         } catch (SQLException ex) {
             System.out.printf("Error getTabla Inventario SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-
-            return table;
-        }
-
+        } 
+        
+		return table;
     }//getInventario
     
-    //Este metodo se utiliza en la ventana de insercion de inventario normal, cuando se va a dar de alta un ID de un producto (Folio,-,Numero,Extensión),
-    //que arroja un verdadero si existe por lo tanto no deja insertar ese nuevo producto, y falso si no existe entonces si deja insertar dicho producto.
-    public boolean existeInventario(String id_producto) {
-
-        boolean estado = false;
-        
+	/**
+	 * 
+	 * <h1>Existe en Inventario</h1>
+	 *
+	 * <p>Este metodo se utiliza en la ventana de insercion de inventario normal, 
+	 * cuando se va a dar de alta un ID de un producto (Folio, -, Numero, Extensión),
+	 * que arroja un verdadero si existe por lo tanto no deja insertar ese nuevo producto, 
+	 * y falso si no existe entonces si deja insertar dicho producto.</p>
+	 * 
+	 * @param idProducto
+	 * @return 
+	 *		<ul>
+	 *			<li><code>true</code> si existe el producto</li>
+	 *			<li><code>false</code> si no existe el producto</li>
+	 *		</ul>
+	 *	
+	 */
+    public boolean existeInventario(String idProducto) {
         try {
-            //Consulta para saber si existe o no dicho producto
-            String sql = "select * from inventario where concat(Folio,'-',Numero,Extension) = '"+id_producto+"';";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            estado = rs.next();//Guardamos el resultado para retornar la respuesta.
-            conexion.close();
-            
+			CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_existeProducto`(?)}");
+            cs.setString(1, idProducto);
+			ResultSet rs = cs.executeQuery();
+			if (rs.next()) return rs.getInt("res") == 1;         
         } catch (SQLException ex) {
-            System.out.printf("Error al consultar el inventario en SQL");
+            System.err.printf("Error al consultar el inventario en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        } 
-            return estado;
-
+        }
+		return false;
     }//existeInventario
     
     //Este método es para llenar los combos de folio y su descripción. Se utilizan para llenar el combo en el inventario de la ventana principal
     //en la ventana para añadir productos y en el update del producto
     public String nomeclaturaFolio() {
-
-        String lista = "";
+        StringBuilder sb = new StringBuilder();
         
         try {
-            
-            String sql = "select ID_Folio,Descripcion from Folio;";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            
-            rs.next();
-            lista = rs.getString(1)+","+rs.getString(2);
+            ResultSet rs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_infoFolio`()}").executeQuery();
             
             while(rs.next()){
-                lista += ","+rs.getString(1)+","+rs.getString(2);
+				sb.append(rs.getString(1));
+				sb.append(",");
+				sb.append(rs.getString(2));
+				sb.append(",");
             }
             
-            conexion.close();
+            db.getConexion().close();
             
         } catch (SQLException ex) {
             System.out.printf("Error al obtener los folios en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
             return "";
         } 
-            return lista;
-
+        
+		return sb.toString();
     }//nomeclaturaFolio
     
     public void getBodegas(JComboBox combo) {
