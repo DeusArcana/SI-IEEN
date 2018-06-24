@@ -20,7 +20,7 @@ BEGIN
 			`Inventario`.`Ubicacion` 
 		FROM `INE`.`Inventario`
 			WHERE CONCAT(`Inventario`.`Folio`, '-', `Inventario`.`Numero`, `Inventario`.`Extension`) = `ID_Producto`;
-        
+
 END$$
 DELIMITER ;
 
@@ -36,10 +36,10 @@ BEGIN
 							ORDER BY `Inventario`.`Numero` DESC
 							LIMIT 1);
 	
-    IF @sugFolio IS NULL THEN 
+	IF @sugFolio IS NULL THEN 
 		SET @sugFolio = 0; 
 	END IF;
-    
+
 	SET @sugFolio = @sugFolio + 1;
 	SELECT @sugFolio AS 'Sugerencia_Folio';
 
@@ -50,8 +50,8 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS `usp_update_productoInventario`;
 DELIMITER $$
 CREATE PROCEDURE `usp_update_productoInventario`(IN `Nom_Prod`	VARCHAR(50), IN `Desc`	VARCHAR(500), IN `Ubic` VARCHAR(50), IN `Marc` 	VARCHAR(50),
-                                                 IN `No_S`		VARCHAR(45), IN `Modl` 	VARCHAR(100), IN `Colr`	VARCHAR(30), IN `Imgn`	LONGBLOB,
-                                                 IN `Fec_Comp`	DATE, 		 IN `Fact` 	VARCHAR(20),  IN `Impor` FLOAT,  	 IN `CLAVE` VARCHAR(20))
+												 IN `No_S`		VARCHAR(45), IN `Modl` 	VARCHAR(100), IN `Colr`	VARCHAR(30), IN `Imgn`	LONGBLOB,
+												 IN `Fec_Comp`	DATE, 		 IN `Fact` 	VARCHAR(20),  IN `Impor` FLOAT,  	 IN `CLAVE` VARCHAR(20))
 BEGIN
 
 	IF (SELECT 1 = 1 
@@ -71,7 +71,7 @@ BEGIN
 					`Inventario`.`Factura` 		= `Fact`,
 					`Inventario`.`Importe` 		= `Impor`
 				WHERE CONCAT(`Inventario`.`Folio`,'-', `Inventario`.`Numero`, `Inventario`.`Extension`) = `CLAVE`;
-        END;
+		END;
 	END IF;
 
 END$$
@@ -116,9 +116,9 @@ BEGIN
 				`Inventario`.`Importe`
 			FROM `INE`.`Inventario`
 				WHERE `Inventario`.`Estatus` = `Inv_Estatus` AND `Inventario`.`Folio` = `Inv_Folio`;
-        END;
+		END;
 	END IF;
-    END IF;
+	END IF;
 
 END$$
 DELIMITER ;
@@ -132,12 +132,12 @@ BEGIN
 			FROM `INE`.`Inventario` 
 				WHERE CONCAT(`Inventario`.`Folio`, '-', `Inventario`.`Numero`, `Inventario`.`Extension`) = `ID_Producto`) THEN
 		BEGIN
-			SELECT 1 AS 'res';        
-        END;
+			SELECT 1 AS 'res';
+		END;
 	ELSE 
 		BEGIN
 			SELECT 0 AS 'res';
-        END;
+		END;
 	END IF;
 
 END$$
@@ -152,6 +152,78 @@ BEGIN
 	SELECT `Folio`.`ID_Folio`, `Folio`.`Descripcion`
 		FROM `INE`.`Folio`
 			WHERE 1;
+
+END$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `usp_get_busquedaProducto`;
+DELIMITER $$
+CREATE PROCEDURE `usp_get_busquedaProducto`(IN `Inv_Filtro` INT, IN `Inv_Estatus` VARCHAR(35), IN `Inv_Busqueda` VARCHAR(255), IN `Inv_Folio` VARCHAR(255))
+BEGIN
+
+	IF (`Inv_Filtro` < 11) THEN
+		BEGIN
+			SELECT	CONCAT( `Inventario`.`Folio`, '-', 	`Inventario`.`Numero`, `Inventario`.`Extension`) AS 'Clave',
+				`Inventario`.`Nombre_Prod`,
+				`Inventario`.`Descripcion`,
+				`Inventario`.`Ubicacion`,
+				`Inventario`.`Marca`,
+				`Inventario`.`Observaciones`,
+				`Inventario`.`No_Serie`,
+				`Inventario`.`Modelo`,
+				`Inventario`.`Color`,
+				`Inventario`.`Fecha_Compra`,
+				`Inventario`.`Factura`,
+				`Inventario`.`Importe`,
+				CONCAT(	`Empleados`.`Nombre`, ' ', `Empleados`.`Apellido_P`, ' ', `Empleados`.`Apellido_M`) AS 'Responsable'  
+					FROM `INE`.`Vales`
+						INNER JOIN `INE`.`Detalle_Vale`		ON (`Detalle_Vale`.`ID_Vale`		= CONCAT(`Vales`.`Folio`, '-', `Vales`.`Numero`, '-', `Vales`.`Año`))  -- `Vales`.`Año` ???
+						INNER JOIN `INE`.`Inventario`		ON (`Detalle_Vale`.`ID_Producto`	= CONCAT(`Inventario`.`Folio`, '-', `Inventario`.`Numero`, `Inventario`.`Extension`))
+						INNER JOIN `INE`.`Empleados`		ON (`Empleados`.`ID_Empleado`		= `Vales`.`ID_Empleado`)
+							WHERE `Inventario`.`Estatus`= `Inv_Estatus`
+							AND 
+								CASE
+									-- Busqueda sin folio
+									WHEN `Inv_Busqueda` IS NOT NULL AND `Inv_Folio` IS NULL THEN 
+										CONCAT(`Empleados`.`Nombre`,' ',`Empleados`.`Apellido_P`,' ',`Empleados`.`Apellido_M`)	LIKE CONCAT('%', `Inv_Busqueda`, '%')
+									-- Busqueda con folio
+									WHEN `Inv_Busqueda` IS NOT NULL AND `Inv_Folio` IS NOT NULL THEN 
+										CONCAT(`Empleados`.`Nombre`,' ',`Empleados`.`Apellido_P`,' ',`Empleados`.`Apellido_M`)		LIKE CONCAT('%', `Inv_Busqueda`, '%') 
+										AND CONCAT( `Inventario`.`Folio`, '-', 	`Inventario`.`Numero`, `Inventario`.`Extension`)	LIKE CONCAT('%', `Inv_Folio`, '%')
+								END;
+		END;
+	ELSE 
+		BEGIN -- Esta parte ya funciona
+			SELECT 	CONCAT(`Inventario`.`Folio`, '-', `Inventario`.`Numero`, `Inventario`.`Extension`),
+					`Inventario`.`Nombre_Prod`,
+					`Inventario`.`Descripcion`,  
+					`Inventario`.`Ubicacion`,
+					`Inventario`.`Marca`,
+					`Inventario`.`Observaciones`,
+					`Inventario`.`No_Serie`,
+					`Inventario`.`Modelo`, 
+					`Inventario`.`Color`, 	
+					`Inventario`.`Fecha_Compra`, 
+					`Inventario`.`Factura`, 
+					`Inventario`.`Importe`
+				FROM `INE`.`Inventario`
+					WHERE `Inventario`.`Estatus`= `Inv_Estatus` -- Estatus requerido
+					AND
+						CASE -- Filtros
+							WHEN `Inv_Filtro` = 0	THEN CONCAT(`Inventario`.`Folio`, '-', `Inventario`.`Numero`, `Inventario`.`Extension`) LIKE CONCAT('%', `Inv_Busqueda`, '%')
+							WHEN `Inv_Filtro` = 1	THEN `Inventario`.`Nombre_Prod`		LIKE CONCAT('%', `Inv_Busqueda`, '%')
+							WHEN `Inv_Filtro` = 2	THEN `Inventario`.`Descripcion`		LIKE CONCAT('%', `Inv_Busqueda`, '%')
+							WHEN `Inv_Filtro` = 3	THEN `Inventario`.`Ubicacion`		LIKE CONCAT('%', `Inv_Busqueda`, '%')
+							WHEN `Inv_Filtro` = 4	THEN `Inventario`.`Marca`			LIKE CONCAT('%', `Inv_Busqueda`, '%')
+							WHEN `Inv_Filtro` = 5	THEN `Inventario`.`Observaciones`	LIKE CONCAT('%', `Inv_Busqueda`, '%')
+							WHEN `Inv_Filtro` = 6	THEN `Inventario`.`No_Serie`		LIKE CONCAT('%', `Inv_Busqueda`, '%')
+							WHEN `Inv_Filtro` = 7	THEN `Inventario`.`Modelo`			LIKE CONCAT('%', `Inv_Busqueda`, '%')
+							WHEN `Inv_Filtro` = 8	THEN `Inventario`.`Color`			LIKE CONCAT('%', `Inv_Busqueda`, '%')
+							WHEN `Inv_Filtro` = 9	THEN `Inventario`.`Fecha_Compra`	LIKE CONCAT('%', `Inv_Busqueda`, '%')
+							WHEN `Inv_Filtro` = 10	THEN `Inventario`.`Factura`			LIKE CONCAT('%', `Inv_Busqueda`, '%')
+						END;
+		END;
+	END IF;
 
 END$$
 DELIMITER ;
