@@ -174,7 +174,7 @@ public class ManejadorInventario {
         int stock = 0;
         try {
             //Hacemos el update de la resta del inventario
-            String sql = "update inventario_Granel set stock = 0,estatus = 'AGOTADO' where id_productoGranel = '"+id_producto+"' and stock = "+cantidad+";";
+            String sql = "update inventario_Granel set stock = 0,estatus = 'Agotado' where id_productoGranel = '"+id_producto+"' and stock = "+cantidad+";";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             st.executeUpdate(sql);
@@ -233,6 +233,43 @@ public class ManejadorInventario {
         return true; //Da una respuesta positiva del incremento del inventario de ese producto 
         
     }//Regresa los productos a su estado orignal (estatus y/o cantidad)
+    
+    //Este método realiza la salida de almcen ya con productos autorizados
+    public boolean autorizarSalidaAlmacen(String[] Claves,int[] Cantidad,String usuario,String id){
+        
+        try{
+                String sql = "";
+                conexion = db.getConexion();
+                Statement st = conexion.createStatement();
+                ResultSet rs;
+                
+                //Obtenemos la fecha y hora exacta del sistema
+                sql = "select now();";
+                rs = st.executeQuery(sql);
+                rs.next();
+                String fecha = rs.getString(1);
+                
+                //Actualizamos el registro, agregando el usuario que autorizo la salida de almacen y la fecha en que se realizo dicho movimiento
+                //y cambios su estado a salida autorizada
+                sql = "update solicitudsalida set estado = 'Salida Autorizada', user_autorizo = '"+usuario+"', fecha_respuesta = '"+fecha+"' where concat(Folio,'-',Num,'-',Año) = '"+id+"';";
+                st.executeUpdate(sql);
+                
+                //Ahora actualizamos los registros de detalle_Salida para agregar las cantidades que fueron autorizadas para cada productos
+                
+                for(int i = 0; i < Claves.length; i++){
+                    //Actualizamos la ubicación del producto
+                    sql = "update detalle_solicitudsalida set cantidad_autorizada = '"+Cantidad[i]+"' where id_solicitud = '"+id+"' and id_producto = '"+Claves[i]+"';";
+                    st.executeUpdate(sql);
+                }//for
+                
+                conexion.close();
+                return true;
+        } //try  
+        catch (SQLException ex) {
+            Logger.getLogger(ManagerAsignarEquipo.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }//autorizarSalidaAlmacen
     
     //Este método realiza el resguardo, en donde todos los productos seleccionados se le asignan a un responsable
     public boolean asignarInventario(String[] Claves,int[] Cantidad,String empleado,String folio){
@@ -293,7 +330,7 @@ public class ManejadorInventario {
             Logger.getLogger(ManagerAsignarEquipo.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-    }//Regresa los productos a su estado orignal (estatus y/o cantidad)
+    }//asignarInventario
     
     //Este método es para llenar el combo solamente con los empleados que tengan asignaciones (vales de resguardo) y que todavia no hayan sido
     //recogidos (vales de recolección)

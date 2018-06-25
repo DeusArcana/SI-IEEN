@@ -35,7 +35,7 @@ public class ManagerInventarioGranel {
             //Insertamos al inventario
             String sql = "insert into inventario_Granel (id_productoGranel,nombre_prod,almacen,marca,stock_min,stock,descripcion,observaciones,estatus,tipo_uso) "
                          +"values('"+clave+"','"+producto+"','"+almacen+"','"+marca+"','"+stockmin+"','"+stock+"','"
-                         +descripcion+"','"+observaciones+"','DISPONIBLE','"+tipo+"');";
+                         +descripcion+"','"+observaciones+"','Disponible','"+tipo+"');";
             st.executeUpdate(sql);
             
             //Cerramos la conexión

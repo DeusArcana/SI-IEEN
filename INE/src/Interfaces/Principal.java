@@ -79,7 +79,6 @@ public class Principal extends javax.swing.JFrame {
     ManejadorInventario manejador_inventario;
     ManagerInventarioGranel manager_inventario_granel;
     ManagerAsignarEquipo manager_asignar;
-	ManagerInventarioGranel manager_inventario_granel;
     Excel excel;
     
     public String Responsable,Cargo,Area,Tipo_de_uso,Municipio,Localidad,Responsable1,Cargo1,Area1,Tipo_de_uso1,Municipio1,Localidad1,idAtenderSalida;
@@ -2981,13 +2980,6 @@ public class Principal extends javax.swing.JFrame {
 
     private void AtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtenderActionPerformed
         // TODO add your handling code here:
-        /*
-        //Obtenemos la fila seleccionada
-        int fila = tablaSolicitudes.getSelectedRow();
-        //Abrimos la ventana para atender la solicitud y actualizar la foto del producto solicitado.
-        Ventana_AceptaSalida ob = new Ventana_AceptaSalida(this,true,tablaSolicitudes.getValueAt(fila, 0).toString(),Username);
-        ob.setVisible(true);
-        */
         cancelarVale();
         
         int fila = tablaSolicitudes.getSelectedRow();
@@ -3004,7 +2996,6 @@ public class Principal extends javax.swing.JFrame {
         comboFolioAsignacion.setVisible(false);
         btn_cancelar2.setEnabled(true);
         
-        
         //Cargamos el cardLayout en caso de encontrarse en el recolección
         CardLayout c_asignacion = (CardLayout)pn_contenedor_ventanas1.getLayout();
         c_asignacion.show(pn_contenedor_ventanas1,"c_s_asignacion");
@@ -3012,6 +3003,11 @@ public class Principal extends javax.swing.JFrame {
         //Llenamos la tabla con la información de acuerdo a la solicitud que se realizo
         tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
         tablaMAsignados.setModel(tablaGranel);
+        
+        //Llenamos la tabla con los productos en 0
+        for(int i = 0; i<tablaMInventarioA.getRowCount();i++){
+            tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(0),0,tablaMInventarioA.getValueAt(i, 4),tablaMInventarioA.getValueAt(i, 0),tablaMInventarioA.getValueAt(i, 2)});
+        }
         
     }//GEN-LAST:event_AtenderActionPerformed
 
@@ -3152,14 +3148,42 @@ public class Principal extends javax.swing.JFrame {
         boolean existe = false;
         //Buscamos en la tabla si ya existe el codigo
         for(int fila = 0;fila<tablaMAsignados.getRowCount();fila++){
-            //Si el codigo ya se habia registrado entonces sumamos uno a la cantidad
+            //Buscamos si el producto ya se habia registrado
             if(tablaMAsignados.getValueAt(fila,3).equals(codigo)){
-                int  valor = Integer.parseInt(tablaMAsignados.getValueAt(fila,1).toString());
-                valor = valor + cantidad;
-                tablaMAsignados.setValueAt(valor,fila,1);
-                tablaMAsignados.setValueAt(manager_complemento.textoNumero(valor),fila,0);
-                existe = true;
-                break;
+                
+                int solicito = Integer.parseInt(tablaMAsignados.getValueAt(fila,2).toString());
+                int autorizado = Integer.parseInt(tablaMAsignados.getValueAt(fila,1).toString());
+                int restantes = solicito - autorizado;
+                
+                
+                
+                //Verificamos que no pase del maximo (Solicitó)
+                if(cantidad > restantes){
+                    
+                    if(restantes == 0){
+                        JOptionPane.showMessageDialog(null,"Ya se asigno la cantidad máxima al producto \""+codigo+"\"");
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Usted está intentando asignarle más productos de los que se estan solicitando.\n"
+                                                     + "Se solicitan \""+solicito+"\" y ya se han autorizado \""+autorizado+"\". Por lo tanto, solo\n"
+                                                     + "puede asignar \""+restantes+"\" mas.");
+                    }
+                    //Regresamos los productos que se intentaron agregar
+                    Claves = new String[1];
+                    Cantidad = new int[1];
+                    Claves[0] = codigo;
+                    Cantidad[0] = cantidad;
+                    regresarInventario();
+                    
+                    existe = true;
+                    break;
+                }else{                
+                    int  valor = Integer.parseInt(tablaMAsignados.getValueAt(fila,1).toString());
+                    valor = valor + cantidad;
+                    tablaMAsignados.setValueAt(valor,fila,1);
+                    tablaMAsignados.setValueAt(manager_complemento.textoNumero(valor),fila,0);
+                    existe = true;
+                    break;
+                }
             }//if
             
         }//for
@@ -3307,10 +3331,10 @@ public class Principal extends javax.swing.JFrame {
                 //Regresamos el producto seleccionado
                 manejador_inventario.regresarInventario(Claves,Cantidad);
                 //Eliminamos el registro de la tabla
-                tablaGranel.removeRow(fila);
+                tablaNormal.removeRow(fila);
                 JOptionPane.showMessageDialog(null, "Se regreso al inventario el producto \""+Claves[0]+"\".");
                 tablaMInventarioA.setModel(manejador_inventario.getInventarioParaAsignacion(nomeclatura));
-
+                
                 //Vemos si queda mas de un producto
                 if(tablaNormal.getRowCount() == 0){
                     btn_generar_vale3.setEnabled(false);
@@ -3319,14 +3343,18 @@ public class Principal extends javax.swing.JFrame {
             else{
                 //Regresamos el producto seleccionado
                 manejador_inventario.regresarInventario(Claves,Cantidad);
-                //Eliminamos el registro de la tabla
-                tablaGranel.removeRow(fila);
+                //Regresamos los productos al inventario
+                tablaGranel.setValueAt(manager_complemento.textoNumero(0), fila, 0);
+                tablaGranel.setValueAt(0, fila, 1);
+                
                 JOptionPane.showMessageDialog(null, "Se regresaron \""+Cantidad[0]+"\" productos al inventario del producto \""+Claves[0]+"\".");
                 tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
-                //Vemos si queda mas de un producto
+/*                
+//Vemos si queda mas de un producto
                 if(tablaGranel.getRowCount() == 0){
                     btn_generar_vale3.setEnabled(false);
                 }
+                */
             }
             
         }//selecciono la opcion "Aceptar"
@@ -3575,18 +3603,98 @@ public class Principal extends javax.swing.JFrame {
     private void btn_generar_vale3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generar_vale3ActionPerformed
         // TODO add your handling code here:
         getDatosTablaAsignados();
-        if(manejador_inventario.asignarInventario(Claves, Cantidad, comboEmpleado.getSelectedItem().toString(),"RES")){
-            JOptionPane.showMessageDialog(null, "Se han asignado correctamente.");
-            limpiarTablaMAsignados();
-            btn_generar_vale3.setEnabled(false);
-            comboEmpleado.setSelectedIndex(0);
-
-        }else{
-            JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");
-        }
+        if(esGranel){
+            
+            if(manejador_inventario.autorizarSalidaAlmacen(Claves, Cantidad, Username,idAtenderSalida)){
+                JOptionPane.showMessageDialog(null, "Se han asignado correctamente.");
+                limpiarTablaMAsignados();
+                
+                //Habilitamos las cosas que se deshabilitaron por atender la solicitud de salida de almacen
+                rb_recoleccion1.setEnabled(true);
+                rb_inventario_granel1.setEnabled(false);
+                rb_inventario_granel1.setSelected(false);
+                rb_inventario_normal1.setEnabled(true);
+                rb_inventario_normal1.setSelected(true);
+                comboEmpleado.setSelectedIndex(0);
+                comboEmpleado.setEnabled(true);
+                btn_generar_vale3.setEnabled(false);
+                btn_cancelar2.setEnabled(false);
+                
+                //Actualizamos la tabla
+                tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
+                int solicitud = tablaSolicitudes.getRowCount();
+                if(solicitud > 0){
+                    tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
+                }//if cantidad
+                
+            }else{
+                JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");
+            }//else
+        
+        }else
+        {
+            if(manejador_inventario.asignarInventario(Claves, Cantidad, comboEmpleado.getSelectedItem().toString(),"RES")){
+                JOptionPane.showMessageDialog(null, "Se han asignado correctamente.");
+                limpiarTablaMAsignados();
+                btn_generar_vale3.setEnabled(false);
+                comboEmpleado.setSelectedIndex(0);
+            }else{
+                JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");
+            }//else
+        }//else
 
     }//GEN-LAST:event_btn_generar_vale3ActionPerformed
+    //Se pregunta si se quieren los productos que se encuentran, en caso de quererlos se asignan las existencias restantes y cambia a agotado, 
+    //si no las quiere entonces no sucede nada
+    public void cantidadMayorAlStock(String id, int comprobar, int cantidad, int fila){
+        
+        tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
+        //Preguntara si quiere lo que hay en existencia
+        String[] opciones = {"Aceptar", "Cancelar"};
+        int seleccion = JOptionPane.showOptionDialog(null, "Solo se cuenta con "+comprobar+" de exitencias para el producto "+id+".\nUsted esta solicitando "+cantidad+", ¿Desea aceptar las existencias restantes o esperar a que las agreguen al inventario?","¿Acepta las exitencias restantes?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+        if(seleccion == 0){
+            manejador_inventario.productosIgualesInventarioG(id, comprobar);
+            if(!(existeCodigoTablaMAsignados(id,comprobar))){
+                tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(comprobar),comprobar,tablaMInventarioA.getValueAt(fila, 4),id,tablaMInventarioA.getValueAt(fila, 2)});
+            }
+        }//Dio clic en aceptar
 
+        tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
+        
+    }//cantidadMayorAlStock
+    
+    //La cantidad es igual al stock entonces se queda en 0 y se cambia a "Agotado"
+    public void cantidadIgualAlStock(String id,int cantidad, int fila){
+        
+        //Se pasa el registro a la otra tabla y cambia el estado del producto a agotado(comprobación)
+        int comprobar2 = manejador_inventario.productosIgualesInventarioG(id, cantidad);
+
+        //Comprobamos si se agotaron las exitencias
+        if(comprobar2 == 0){
+            //Si es 0 entonces se cambia sin problemas y el estado cambia a agotado
+            if(!(existeCodigoTablaMAsignados(id,cantidad))){
+                tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(cantidad),cantidad,tablaMInventarioA.getValueAt(fila, 4),id,tablaMInventarioA.getValueAt(fila, 2)});
+            }
+            tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
+        }
+        //La cantidad que solicita es mayor a la que hay en el stock
+        else if(cantidad > comprobar2){
+            cantidadMayorAlStock(id,comprobar2,cantidad,fila);
+        }//cantidad > comprobar2
+        
+        //Si no entro a ninguna de las 2 de arriba, entonces se actualizo el stock agregando mas
+        //existencias, entonces se realiza el registro normalmente
+        else{
+            manejador_inventario.productosSuficientesInventarioG(id, cantidad);
+            if(!(existeCodigoTablaMAsignados(id,cantidad))){
+                tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(cantidad),cantidad,tablaMInventarioA.getValueAt(fila, 4),id,tablaMInventarioA.getValueAt(fila, 2)});
+            }
+            tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
+
+        }//else
+        
+    }//cantidadIgualAlStock
+    
     private void tablaMInventarioAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMInventarioAMouseClicked
         // TODO add your handling code here:
         if(evt.getClickCount() == 2){
@@ -3598,45 +3706,54 @@ public class Principal extends javax.swing.JFrame {
                 
                 //ES INVENTARIO A GRANELA
                 if(esGranel){
+                    
                     int cantidad = 0;
                     //Esto es para validar que ingrese solo numeros y mientras no lo haga, seguira preguntado hasta que
                     //solo teclee numeros o cancele el movimiento
                     boolean entero = true;
-                    boolean canceloCantidad = true;
-                    while(entero){
-
-                        String cadena = JOptionPane.showInputDialog("Ingrese la cantidad que desea asignar");
-                        //Cancelo la solicitud de asignacion
-                        if(cadena == null){
-                            entero=false;
-                            canceloCantidad = false;
-                        }else{
-                            try{
-                                //Si hace la conversion correctamente entonces no entra en la excepcion y se sale del ciclo
-                                cantidad = Integer.parseInt(cadena);
-                                if(cantidad > 0){
-                                    entero = false;
-                                }else{
-                                    JOptionPane.showMessageDialog(null,"Ingrese cantidades mayores a 0.");
-                                }
-                            }catch(NumberFormatException e){
-                                JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
-                                entero = true;
-                            }//try catch
-                        }
-                    }//while
-                    int solicitado = Integer.parseInt(tablaMInventarioA.getValueAt(fila, 4).toString());
-                    //Verificamos la cantidad que se quiere asignar con la que se solicito
-                    if(cantidad > solicitado){
-                        JOptionPane.showMessageDialog(null, "Se están solicitando \""+solicitado+"\" productos, y usted quiere asignar \""+cantidad+"\".\n"
-                                + "Por favor asigne una cantidad menor o igual a la solicitada.");
+                    boolean canceloCantidad = false;
+                    
+                    if(Integer.parseInt(tablaMInventarioA.getValueAt(fila, 5).toString()) == 0){
+                        JOptionPane.showMessageDialog(null,"No hay productos en el stock.");
                         tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
-                        canceloCantidad = false;
-                    }
+                    }//if 
+                    else{
+                        while(entero){
+
+                            String cadena = JOptionPane.showInputDialog("Ingrese la cantidad que desea asignar");
+                            //Cancelo la solicitud de asignacion
+                            if(cadena == null){
+                                entero=false;
+                                canceloCantidad = false;
+                            }else{
+                                try{
+                                    //Si hace la conversion correctamente entonces no entra en la excepcion y se sale del ciclo
+                                    cantidad = Integer.parseInt(cadena);
+                                    if(cantidad > 0){
+                                        entero = false;
+                                        canceloCantidad = true;
+                                    }else{
+                                        JOptionPane.showMessageDialog(null,"Ingrese cantidades mayores a 0.");
+                                    }
+                                }catch(NumberFormatException e){
+                                    JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
+                                    entero = true;
+                                }//try catch
+                            }
+                        }//while                        
+
+                        int solicitado = Integer.parseInt(tablaMInventarioA.getValueAt(fila, 4).toString());
+                        //Verificamos la cantidad que se quiere asignar con la que se solicito
+                        if(cantidad > solicitado){
+                            JOptionPane.showMessageDialog(null, "Se están solicitando \""+solicitado+"\" productos, y usted quiere asignar \""+cantidad+"\".\n"
+                                    + "Por favor asigne una cantidad menor o igual a la solicitada.");
+                            tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
+                            canceloCantidad = false;
+                        }
+                        
+                    }//else 
                     
                     if(canceloCantidad){
-                        
-                        
                         
                         btn_generar_vale3.setEnabled(true);
                         btn_cancelar2.setEnabled(true);
@@ -3677,135 +3794,32 @@ public class Principal extends javax.swing.JFrame {
                             //No se cumplio la de 0 existencias, entonces comprobamos si es igual de la cantidad que se solicita,
                             //si no, será menor.
                             else if(cantidad == comprobar){
-                                //Se pasa el registro a la otra tabla y cambia el estado del producto a agotado(comprobación)
-                                int comprobar2 = manejador_inventario.productosIgualesInventarioG(idProducto, cantidad);
-
-                                //Comprobamos si se agotaron las exitencias
-                                if(comprobar2 == 0){
-                                    //Si es 0 entonces se cambia sin problemas y el estado cambia a agotado
-                                    if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
-                                        tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(cantidad),cantidad,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
-                                    }
-                                    tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
-                                }
-                                //La canidad que solicita es mayor a la que hay en el stock
-                                else if(cantidad > comprobar2){
-                                    tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
-
-                                    //Preguntara si quiere lo que hay en existencia
-                                    String[] opciones = {"Aceptar", "Cancelar"};
-                                    int seleccion = JOptionPane.showOptionDialog(null, "Solo se cuenta con "+comprobar2+" de exitencias para el producto "+idProducto+".\nUsted esta solicitando "+cantidad+", ¿Desea aceptar las existencias restantes o esperar a que las agreguen al inventario?","¿Acepta las exitencias restantes?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
-                                    if(seleccion == 0){
-                                        manejador_inventario.productosIgualesInventarioG(idProducto, comprobar2);
-                                        if(!(existeCodigoTablaMAsignados(idProducto,comprobar2))){
-                                            tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(comprobar2),comprobar2,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
-                                        }
-                                    }//Dio clic en la opcion aceptar
-                                    else{
-                                        tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(cantidad),cantidad,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
-                                    }
-                                    tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
-                                }//cantidad > comprobar2
-
-                                //Si no entro a ninguna de las 2 de arriba, entonces se actualizo el stock agregando mas
-                                //existencias, entonces se realiza el registro normalmente
-                                else{
-                                    manejador_inventario.productosSuficientesInventarioG(idProducto, cantidad);
-                                    if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
-                                        tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(cantidad),cantidad,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
-                                    }
-                                    tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
-
-                                }//else
-
+                                cantidadIgualAlStock(idProducto,cantidad,fila);
                             }//cantidad == comprobar
 
-                            //La solicitud es mayor a la nueva actualización del stock, entonces pregunta si quiere los
-                            //de este producto que superan a lo que se está solicitando, entonces preguntará que solo se cuentan con cierta
-                            //cantitidad de exitencias y si desea aceptarla
+                            //La cantidad es mayor al stock
                             else if(cantidad > comprobar){
-                                //Se pregunta si se quieren los productos que se encuentran, en caso de quererlos
-                                //se asignan las existencias restantes y cambia a agotado, si no las quiere
-                                //entonces no sucede nada
-                                tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
-                                //Preguntara si quiere lo que hay en existencia
-                                String[] opciones = {"Aceptar", "Cancelar"};
-                                int seleccion = JOptionPane.showOptionDialog(null, "Solo se cuenta con "+comprobar+" de exitencias para el producto "+idProducto+".\nUsted esta solicitando "+cantidad+", ¿Desea aceptar las existencias restantes o esperar a que las agreguen al inventario?","¿Acepta las exitencias restantes?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
-                                if(seleccion == 0){
-                                    manejador_inventario.productosIgualesInventarioG(idProducto, comprobar);
-                                    if(!(existeCodigoTablaMAsignados(idProducto,comprobar))){
-                                        tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(comprobar),comprobar,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
-                                    }
-                                }//Dio clic en aceptar
-
-                                tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
+                                cantidadMayorAlStock(idProducto,comprobar,cantidad,fila);
                             }
                             //Si no entro a ninguna de las 3 de arriba, entonces se actualizo el stock agregando mas
-                            //existencias, entonces se realiza el registro normalmente
+                            //existencias, y ya se hizo el registro la primera vez
                             else{
-                                manejador_inventario.productosSuficientesInventarioG(idProducto, cantidad);
+                                //Se pasa el registro a la otra tabla
                                 if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
                                     tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(cantidad),cantidad,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
                                 }
                                 tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
                             }//else
-
+                            
                         }//stock > cantidad
 
                         //No se cumplio la de 0 existencias, entonces comprobamos si es igual de la cantidad que se solicita,
                         //si no, será menor.
                         else if(stock == cantidad){
-                            //Se pasa el registro a la otra tabla y cambia el estado del producto a agotado(comprobación)
-                            int comprobar2 = manejador_inventario.productosIgualesInventarioG(idProducto, cantidad);
-
-                            //Comprobamos si se agotaron las exitencias
-                            if(comprobar2 == 0){
-                                //Si es 0 entonces se cambia sin problemas y el estado cambia a agotado
-                                if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
-                                    tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(cantidad),cantidad,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
-                                }
-                                tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
-                            }
-                            //La cantidad solicitada es mayor al stock
-                            else if(cantidad > comprobar2){
-
-                                tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
-                                //Preguntara si quiere lo que hay en existencia
-                                String[] opciones = {"Aceptar", "Cancelar"};
-                                int seleccion = JOptionPane.showOptionDialog(null, "Solo se cuenta con "+comprobar2+" de exitencias para el producto "+idProducto+".\nUsted esta solicitando "+cantidad+", ¿Desea aceptar las existencias restantes o esperar a que las agreguen al inventario?","¿Acepta las exitencias restantes?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
-                                if(seleccion == 0){
-                                    manejador_inventario.productosIgualesInventarioG(idProducto, comprobar2);
-                                    if(!(existeCodigoTablaMAsignados(idProducto,comprobar2))){
-                                        tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(comprobar2),comprobar2,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
-                                    }
-                                }//Dio clic en aceptar
-
-                                tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
-                            }//cantidad > stock
-                            //Si no entro a ninguna de las 2 de arriba, entonces se actualizo el stock agregando mas
-                            //existencias, entonces se realiza el registro normalmente
-                            else{
-                                manejador_inventario.productosSuficientesInventarioG(idProducto, cantidad);
-                                if(!(existeCodigoTablaMAsignados(idProducto,cantidad))){
-                                    tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(cantidad),cantidad,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
-                                }
-                                tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
-
-                            }//else
+                            cantidadIgualAlStock(idProducto,cantidad,fila);
                         }// stock == cantidad
                         else if (stock < cantidad){
-                            tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
-                            //Preguntara si quiere lo que hay en existencia
-                            String[] opciones = {"Aceptar", "Cancelar"};
-                            int seleccion = JOptionPane.showOptionDialog(null, "Solo se cuenta con "+stock+" de exitencias para el producto "+idProducto+".\nUsted esta solicitando "+cantidad+", ¿Desea aceptar las existencias restantes o esperar a que las agreguen al inventario?","¿Acepta las exitencias restantes?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
-                            if(seleccion == 0){
-                                manejador_inventario.productosIgualesInventarioG(idProducto, stock);
-                                if(!(existeCodigoTablaMAsignados(idProducto,stock))){
-                                    tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(stock),stock,tablaMInventarioA.getValueAt(fila, 4),idProducto,tablaMInventarioA.getValueAt(fila, 2)});
-                                }
-                            }//Dio clic en la opcion aceptar
-
-                            tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
+                            cantidadMayorAlStock(idProducto,stock,cantidad,fila);
                         }//stock < cantidad
                         
                     }//canceloSolicitud

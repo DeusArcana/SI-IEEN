@@ -47,16 +47,19 @@ public class ManagerVehiculos {
     
 
     public boolean guardarImagen(String marca, String linea, String clase, String color, String modelo, String motor,
-            String kilomentraje, String matricula, String observaciones, String ruta) {
+            String kilometraje, String matricula, String observaciones, String ruta) {
         con = db.getConexion();
         String insert = "insert into vehiculos(marca, linea, clase, color, modelo, motor,kilometraje ,matricula,observaciones,imagen) values(?,?,?,?,?,?,?,?,?,?);";
         FileInputStream fi = null;
         PreparedStatement ps = null;
 
+        String insertViaticos = "insert into vehiculo_usado(kilometraje,Vehiculos_Matricula) values(?,?);";
+        
         try {
             File file = new File(ruta);
             fi = new FileInputStream(file);
 
+            //Inserción en la tabla de vehiculos para el "inventario"
             ps = con.prepareStatement(insert);
 
             ps.setString(1, marca);
@@ -65,13 +68,21 @@ public class ManagerVehiculos {
             ps.setString(4, color);
             ps.setString(5, modelo);
             ps.setString(6, motor);
-            ps.setString(7, kilomentraje);
+            ps.setString(7, kilometraje);
             ps.setString(8, matricula);
             ps.setString(9, observaciones);
             ps.setBinaryStream(10, fi);
 
             ps.executeUpdate();
 
+            //Inserción en la tabla de vehiculo usado para la parte de viaticos
+            ps = con.prepareStatement(insertViaticos);
+
+            ps.setString(1, kilometraje);
+            ps.setString(2, matricula);
+            
+            ps.executeUpdate();
+            
             return true;
 
         } catch (Exception ex) {
