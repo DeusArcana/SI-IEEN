@@ -189,7 +189,7 @@ BEGIN
 									-- Busqueda con folio
 									WHEN `Inv_Busqueda` IS NOT NULL AND `Inv_Folio` IS NOT NULL THEN 
 										CONCAT(`Empleados`.`Nombre`,' ',`Empleados`.`Apellido_P`,' ',`Empleados`.`Apellido_M`)		LIKE CONCAT('%', `Inv_Busqueda`, '%') 
-										AND CONCAT( `Inventario`.`Folio`, '-', 	`Inventario`.`Numero`, `Inventario`.`Extension`)	LIKE CONCAT('%', `Inv_Folio`, '%')
+										AND CONCAT( `Inventario`.`Folio`, '-', 	`Inventario`.`Numero`, `Inventario`.`Extension`)	LIKE CONCAT('%', `Inv_Folio`, '-', '%')
 								END;
 		END;
 	ELSE 
@@ -207,9 +207,14 @@ BEGIN
 					`Inventario`.`Factura`, 
 					`Inventario`.`Importe`
 				FROM `INE`.`Inventario`
-					WHERE `Inventario`.`Estatus`= `Inv_Estatus` -- Estatus requerido
-					AND
-						CASE -- Filtros
+					WHERE `Inventario`.`Estatus`= `Inv_Estatus` -- Filtro 1
+					AND 
+						CASE -- Filtro 2
+							WHEN `Inv_Folio` IS NOT NULL THEN `Inventario`.`Folio` = `Inv_Folio` 
+                            WHEN `Inv_Folio` IS NULL THEN 1
+						END
+                    AND
+						CASE -- Filtro 3
 							WHEN `Inv_Filtro` = 0	THEN CONCAT(`Inventario`.`Folio`, '-', `Inventario`.`Numero`, `Inventario`.`Extension`) LIKE CONCAT('%', `Inv_Busqueda`, '%')
 							WHEN `Inv_Filtro` = 1	THEN `Inventario`.`Nombre_Prod`		LIKE CONCAT('%', `Inv_Busqueda`, '%')
 							WHEN `Inv_Filtro` = 2	THEN `Inventario`.`Descripcion`		LIKE CONCAT('%', `Inv_Busqueda`, '%')
@@ -224,6 +229,25 @@ BEGIN
 						END;
 		END;
 	END IF;
+
+END$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `usp_insert_productoInventario`;
+DELIMITER $$
+CREATE PROCEDURE `usp_insert_productoInventario`(IN `Foli` 		CHAR(5),		IN `Numr` 	INT, 			IN `Extn`	CHAR(1), 	 IN `Nom_Prod`	VARCHAR(50),	
+												 IN `Desc`		VARCHAR(500),	IN `Ubic` 	VARCHAR(50), 	IN `Marc` 	VARCHAR(50), IN `Obsrv`		VARCHAR(300),
+												 IN `No_S`		VARCHAR(45),	IN `Modl` 	VARCHAR(100),	IN `Colr`	VARCHAR(30), IN `Fec_Comp`	DATE,
+												 IN `Fact` 		VARCHAR(20), 	IN `Impor` 	FLOAT, 			IN `Imgn`	LONGBLOB)
+BEGIN
+
+	INSERT INTO `INE`.`Inventario` 	(`Inventario`.`Folio`,			`Inventario`.`Numero`,		`Inventario`.`Extension`,	`Inventario`.`Nombre_Prod`,	
+									 `Inventario`.`Descripcion`, 	`Inventario`.`Ubicacion`,	`Inventario`.`Marca`, 		`Inventario`.`Observaciones`,
+									 `Inventario`.`No_Serie`, 		`Inventario`.`Modelo`, 		`Inventario`.`Color`,		`Inventario`.`Fecha_Compra`,
+									 `Inventario`.`Factura`,		`Inventario`.`Importe`, 	`Inventario`.`Imagen`) 
+		VALUES
+			(`Nom_Prod`, `Desc`, `Ubic`, `Marc`, `No_S`, `Modl`, `Colr`, `Imgn`, `Fec_Comp`, `Fact`, `Impor`)
+		;
 
 END$$
 DELIMITER ;

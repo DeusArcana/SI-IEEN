@@ -570,10 +570,11 @@ public class ManagerInventario {
     
     //Este método funciona en la pestaña de inventario, cuando se quiere buscar por un filtro mas especifico donde el usuario ingresara que esta
     //buscando de acuerdo al campo seleccionado mas aparte las opciones de nomeclatura de folio y estatus.
-    public DefaultTableModel existeProductoEspecifico(int filtro, String busqueda,String inventario,String folio,String estatus){
+    public DefaultTableModel existeProductoEspecifico(int filtro, String busqueda, String inventario, String folio, String estatus){
         boolean estado = false;
         //No dejamos editar ninguna celda
         DefaultTableModel table = new DefaultTableModel(){
+				@Override
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
                     return false;
                 }
@@ -586,93 +587,17 @@ public class ManagerInventario {
             //BUSCA EN EL INVENTARIO
             if(inventario.equals("Inventario")){
                 
-                switch(filtro){
-                    
-                    //BUSQUEDA POR CLAVE
-                    case 0:
-                        campoBusca = "concat(Folio,'-',Numero,Extension)";
-                        break;
-                    //BUSQUEDA POR NOMBRE CORTO
-                    case 1:
-                        campoBusca = "nombre_prod";
-                        break;
-                        
-                    //BUSQUEDA POR DESCRIPCION
-                    case 2:
-                        campoBusca = "descripcion";
-                        break;
-                    //BUSQUEDA POR UBICACIÓN
-                    case 3:
-                        campoBusca = "ubicacion";
-                        break;
-                    //BUSQUEDA POR MARCA
-                    case 4:
-                        campoBusca = "marca";
-                        break;
-                        
-                    //BUSQUEDA POR OBSERVACIONES
-                    case 5:
-                        campoBusca = "observaciones";
-                        break;
-                    //BUSQUEDA POR NO. SERIE
-                    case 6:
-                        campoBusca = "no_serie";
-                        break;
-                    //BUSQUEDA POR MODELO
-                    case 7:
-                        campoBusca = "modelo";
-                        break;
-                        
-                    //BUSQUEDA POR COLOR
-                    case 8:
-                        campoBusca = "color";
-                        break;
-                    //BUSQUEDA POR FECHA DE COMPRA
-                    case 9:
-                        campoBusca = "fecha_compra";
-                        break;
-                    //BUSQUEDA POR FACTURA
-                    case 10:
-                        campoBusca = "factura";
-                        break;
-                    case 11:
-                        campoBusca = "concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m)";
-                        break;
-                    
-                }//Hace la busqueda de acuerdo al filtro
-                if(filtro == 11 || (estatus.equals("Asignado") && folio.equals(""))){
-                    sql =  "select concat(i.Folio,'-',i.Numero,i.Extension) as Clave,i.nombre_prod,i.descripcion,i.ubicacion,i.marca,i.observaciones,i.no_serie,i.modelo,i.color,i.fecha_compra,i.factura,i.importe,concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) as Responsable  from vales v\n" +
-                                "inner join detalle_vale dv on (dv.id_vale = concat(v.Folio,'-',v.Numero,'-',v.Año))\n" +
-                                "inner join inventario i on (dv.id_producto = concat(i.Folio,'-',i.Numero,i.Extension))\n" +
-                                "inner join empleados e on (e.id_empleado = v.id_empleado)\n" +
-                                "where i.estatus= 'Asignado' and concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) like '%"+busqueda+"%';";
-                }else{
-                    if(filtro == 11 || (estatus.equals("Asignado") && !folio.equals(""))){
-                        sql =  "select concat(i.Folio,'-',i.Numero,i.Extension) as Clave,i.nombre_prod,i.descripcion,i.ubicacion,i.marca,i.observaciones,i.no_serie,i.modelo,i.color,i.fecha_compra,i.factura,i.importe,concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) as Responsable  from vales v\n" +
-                                "inner join detalle_vale dv on (dv.id_vale = concat(v.Folio,'-',v.Numero,'-',v.Año))\n" +
-                                "inner join inventario i on (dv.id_producto = concat(i.Folio,'-',i.Numero,i.Extension))\n" +
-                                "inner join empleados e on (e.id_empleado = v.id_empleado)\n" +
-                                "where i.estatus= 'Asignado' and concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) like '%"+busqueda+"%' and concat(i.Folio,'-',i.Numero,i.Extension) like '"+folio+"%';";
-                    }
-                    //Si no tiene nada la variable folio significa que esta buscando entre todas las nomeclaturas
-                    else if(folio.equals("")){
-                        sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe "
-                                + "from inventario where "+campoBusca+" like '%"+busqueda+"%' and estatus = '"+estatus+"';";
-                        }else if(filtro == 0){
-                            //Resultados que se quieran buscar por la clave del producto
-                            sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe "
-                                    + "from inventario where "+campoBusca+" like '"+folio+"-"+busqueda+"%' and Folio = '"+folio+"' and estatus = '"+estatus+"';";
-                        }else{
-                            //Resultados por las demas columnas
-                            sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,observaciones,no_serie,modelo,color,fecha_compra,factura,importe "
-                                    + "from inventario where "+campoBusca+" like '%"+busqueda+"%' and Folio = '"+folio+"' and estatus = '"+estatus+"';";
-                        }
-                }
-                    
-                
-                Connection c = db.getConexion();
-                Statement st = c.createStatement();    
-                ResultSet rs = st.executeQuery(sql);
+				CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_busquedaProducto`(?, ?, ?, ?)}");
+				cs.setInt(1, filtro);
+				cs.setString(2, estatus);
+				cs.setString(3, busqueda);
+
+				if (folio.equals("")) 
+					cs.setNull(4, 0);
+				else
+					cs.setString(4, folio);
+				
+                ResultSet rs = cs.executeQuery();
                 estado = rs.next();
                 int cantidadColumnas = 12;
                 //Si el estado es verdadero significa que si encontro coincidencias, entonces mostraremos dichas concidencias
@@ -690,6 +615,7 @@ public class ManagerInventario {
                     table.addColumn("Fecha Compra");
                     table.addColumn("Factura");
                     table.addColumn("Importe");
+
                     if(filtro == 11 || estatus.equals("Asignado")){
                         table.addColumn("Responsable");
                         cantidadColumnas++;
@@ -718,7 +644,7 @@ public class ManagerInventario {
                 
                 //Si estado es falso, signfica que no encontro coincidencias, entonces retornamos la tabla normal
                 }else{
-                    return getInventario(folio,estatus);
+                    return getInventario(folio, estatus);
                 }
         
             }//if(inventario)
