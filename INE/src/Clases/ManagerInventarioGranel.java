@@ -133,4 +133,44 @@ public class ManagerInventarioGranel {
         }
 
     }//getInventarioG
+		
+	    //Este metodo retorna una tabla para solicitar productos a granel
+    public DefaultTableModel tablaSolicitarInvGranel(){
+        conexion = db.getConexion();
+        DefaultTableModel table = new DefaultTableModel();
+        
+        table.addColumn("Clave");
+        table.addColumn("Nombre corto");
+        table.addColumn("Descripción");
+        
+        //Apartir de aquí se realiza el proceso para llenar la tabla con los datos que se estan buscando
+        try{
+            
+            String sql = "select id_productoGranel,nombre_prod,descripcion from inventario_granel;";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();    
+            ResultSet rs = st.executeQuery(sql);
+
+            Object datos[] = new Object[3];
+
+            //Llenamos la tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<3;i++){
+                        datos[i] = rs.getString(i+1);
+                }//Llenamos la fila
+
+                table.addRow(datos);//Añadimos la fila
+           }//while
+
+           conexion.close();
+            
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener el Inventario a granel para solicitarlo en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return table;
+        
+    }//Retorna una tabla con un checkbox en la primera columna (Solicitar Inventario a granel)
 }

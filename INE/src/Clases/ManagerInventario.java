@@ -59,20 +59,18 @@ public class ManagerInventario {
 	public String obtenerDatosProd(String clave) {
 		StringBuilder sb = new StringBuilder();
         
-        try{
-            
-			CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_infoProducto`(?)}");
+        try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_infoProducto`(?)}")){		
+			
 			cs.setString(1, clave);
             ResultSet rs = cs.executeQuery();
-					
+			cs.close();
+			
 			while (rs.next()){
 				for (int i = 1; i <= 13; i++) {
 					sb.append(rs.getString(i));
 					sb.append(",,");
 				}
 			}
-            
-			db.getConexion().close();
 			
         } catch (SQLException ex) {
             System.err.printf("Error al obtener los datos del producto \""+clave+"\" en SQL");
@@ -190,14 +188,13 @@ public class ManagerInventario {
 	 */
 	public String getSugerenciaNum(String folio) {
 
-        try {
-			CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_sugFolio`(?)}");
+        try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_sugFolio`(?)}")){
+			
 			cs.setString(1, folio);
 			ResultSet rs = cs.executeQuery();
 			
 			while(rs.next()) 
 				return rs.getString("Sugerencia_Folio");
-			db.getConexion().close();
 			
         } catch (SQLException ex) {
             System.out.printf("Error al obtener el ultimo número del folio en SQL");
@@ -207,8 +204,6 @@ public class ManagerInventario {
 		return null;
     }//sugerenciaNum
     
-    
-
 	/**
 	 *
 	 * <h1>Obtener Inventario</h1>
@@ -230,7 +225,7 @@ public class ManagerInventario {
                 }
             };
 
-        try {
+        try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_infoInventario`(?, ?)}")){
             // Se añaden los campos a la tabla
             table.addColumn("Clave");
             table.addColumn("Nombre_corto");
@@ -245,8 +240,7 @@ public class ManagerInventario {
             table.addColumn("Factura");
             table.addColumn("Importe");
 			
-			// Se crea la llamada a la DB y se añade el parámetro de estatus
-			CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_infoInventario`(?, ?)}");
+			// Se añade el parámetro de estatus
 			cs.setString(1, estatus);
 			
 			// El USP hace manejo de la consulta a ejecutar dado si el parámetro nomenclatura está vacío o no 
@@ -254,6 +248,7 @@ public class ManagerInventario {
 				cs.setNull(2, 0);
 			else 
 				cs.setString(2, nomenclatura);
+			
 			// Se obtiene la consulta
             ResultSet rs = cs.executeQuery();
 			
@@ -268,8 +263,7 @@ public class ManagerInventario {
 				//Añadimos la fila
                 table.addRow(datos);
            }//while
-			// Se cierra la conexión
-            db.getConexion().close();
+
         } catch (SQLException ex) {
             System.out.printf("Error getTabla Inventario SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
@@ -296,11 +290,13 @@ public class ManagerInventario {
 	 *	
 	 */
     public boolean existeInventario(String idProducto) {
-        try {
-			CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_existeProducto`(?)}");
+        try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_existeProducto`(?)}")) {
+			
             cs.setString(1, idProducto);
 			ResultSet rs = cs.executeQuery();
-			if (rs.next()) return rs.getInt("res") == 1;         
+			
+			if (rs.next()) return rs.getInt("res") == 1;
+			
         } catch (SQLException ex) {
             System.err.printf("Error al consultar el inventario en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
@@ -308,13 +304,20 @@ public class ManagerInventario {
 		return false;
     }//existeInventario
     
-    //Este método es para llenar los combos de folio y su descripción. Se utilizan para llenar el combo en el inventario de la ventana principal
-    //en la ventana para añadir productos y en el update del producto
-    public String nomeclaturaFolio() {
+	/**
+	 * <h1>Nomenclaturas de Folio</h1>
+	 * 
+	 * <p> Este método es para llenar los combos de folio y su descripción. </p> <br>
+	 * <p>Se utilizan para llenar el combo en el inventario de la ventana principal
+	 * en la ventana para añadir productos y en el update del producto</p>
+	 *
+	 * @return <code>String</code> separado por comas con las nomenclaturas y descripción de Folios
+	 */
+	public String nomeclaturaFolio() {
         StringBuilder sb = new StringBuilder();
         
-        try {
-            ResultSet rs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_infoFolio`()}").executeQuery();
+        try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_infoFolio`()}")) {
+            ResultSet rs = cs.executeQuery();
             
             while(rs.next()){
 				sb.append(rs.getString(1));
@@ -322,13 +325,10 @@ public class ManagerInventario {
 				sb.append(rs.getString(2));
 				sb.append(",");
             }
-            
-            db.getConexion().close();
-            
+
         } catch (SQLException ex) {
             System.out.printf("Error al obtener los folios en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
-            return "";
         } 
         
 		return sb.toString();
@@ -581,13 +581,12 @@ public class ManagerInventario {
             };
         conexion = db.getConexion();
 
-        try{
+        try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_busquedaProducto`(?, ?, ?, ?)}")) {
             String campoBusca = "";
             String sql = "";
             //BUSCA EN EL INVENTARIO
             if(inventario.equals("Inventario")){
                 
-				CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_busquedaProducto`(?, ?, ?, ?)}");
 				cs.setInt(1, filtro);
 				cs.setString(2, estatus);
 				cs.setString(3, busqueda);
@@ -752,19 +751,42 @@ public class ManagerInventario {
         //Creamos la tabla con las caracterisiticas que necesitamos
         checks.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         checks.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
+            new Object [][] {},
             //Declaramos el titulo de las columnas
             new String [] {
-                titulo+pendiente,"Clave", "Nombre corto", "Descripción", "Ubicación", "Marca", "Observaciones", "No. Serie", "Modelo", "Color","Fecha de Compra","Factura","Importe"
+                titulo + pendiente,
+				"Clave",
+				"Nombre corto",
+				"Descripción",
+				"Ubicación",
+				"Marca",
+				"Observaciones",
+				"No. Serie",
+				"Modelo",
+				"Color",
+				"Fecha de Compra",
+				"Factura",
+				"Importe"
             }
         ){
             //El tipo que sera cada columna, la primera columna un checkbox y los demas seran objetos
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class
+                java.lang.Boolean.class, 
+				java.lang.Object.class,
+				java.lang.Object.class,
+				java.lang.Object.class,
+				java.lang.Object.class,
+				java.lang.Object.class,
+				java.lang.Object.class,
+				java.lang.Object.class,
+				java.lang.Object.class,
+				java.lang.Object.class,
+				java.lang.Object.class,
+				java.lang.Object.class,
+				java.lang.Object.class
             };
 
+			@Override
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
@@ -773,6 +795,7 @@ public class ManagerInventario {
                 true, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
+			@Override
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
@@ -785,8 +808,7 @@ public class ManagerInventario {
         scroll.setBounds(30, 130, 1110, 500);
         
         table = (DefaultTableModel)checks.getModel();
-        
-        
+
         //Apartir de aquí se realiza el proceso para llenar la tabla con los datos que se estan buscando
         try{
            
@@ -927,68 +949,26 @@ public class ManagerInventario {
         
     }//Retorna una tabla con un checkbox en la primera columna de pendiente para baja/comodato/donación
     
-    //Este metodo retorna una tabla para solicitar productos a granel
-    public DefaultTableModel tablaSolicitarInvGranel(){
-        conexion = db.getConexion();
-        DefaultTableModel table = new DefaultTableModel();
-        
-        table.addColumn("Clave");
-        table.addColumn("Nombre corto");
-        table.addColumn("Descripción");
-        
-        //Apartir de aquí se realiza el proceso para llenar la tabla con los datos que se estan buscando
-        try{
-            
-            String sql = "select id_productoGranel,nombre_prod,descripcion from inventario_granel;";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();    
-            ResultSet rs = st.executeQuery(sql);
-
-            Object datos[] = new Object[3];
-
-            //Llenamos la tabla
-            while (rs.next()) {
-
-                for(int i = 0;i<3;i++){
-                        datos[i] = rs.getString(i+1);
-                }//Llenamos la fila
-
-                table.addRow(datos);//Añadimos la fila
-           }//while
-
-           conexion.close();
-            
-        } catch (SQLException ex) {
-            System.out.printf("Error al obtener el Inventario a granel para solicitarlo en SQL");
-            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return table;
-        
-    }//Retorna una tabla con un checkbox en la primera columna (Solicitar Inventario a granel)
-    
     //Este metodo actualiza el estatus de 1 o más productos a pendiente para baja/comodato/donación
-    public boolean actualizarPendientePara(String[] ids,Boolean[]cambio,String pendientePara) {
-        conexion = db.getConexion();
-        
-        String update = "";
-        PreparedStatement ps = null;
+    public boolean actualizarPendientePara(String[] IDs, Boolean[] cambio, String pendientePara) {
 
-        try {
-            for(int i = 0;i<ids.length;i++){
+        try (PreparedStatement ps = db.getConexion().prepareCall("{CALL `ine`.`usp_update_statusProductoInv`(?, ?)}")) {
+			
+			Boolean status = false;
+			
+            for(int i = 0; i < IDs.length; i++){
                 if(cambio[i]){
-                    update = "update inventario set estatus = ? where concat(Folio,'-',Numero,Extension) = '"+ids[i]+"'";
-                    ps = conexion.prepareStatement(update);
-                    ps.setString(1, pendientePara);
-                    ps.executeUpdate();
+					ps.setString(1, IDs[i]);
+                    ps.setString(2, pendientePara);
+                    status = ps.executeUpdate() != 0;
                 }
             }
-            return true;
+			
+            return status;
 
         } catch (Exception ex) {
             System.out.println("Error al actualizar el estatus pendiente "+ pendientePara + ex.getMessage());
             return false;
-
         }
 
     }//actualizarPendientePara
@@ -1014,36 +994,7 @@ public class ManagerInventario {
         return blob;
     }//leerImagen
     
-    public Vector infoProductos(String idProducto) {
-        conexion = db.getConexion();
-        Vector v = new Vector();
-        try {
-
-            Statement st = conexion.createStatement();
-            String sql = "select nombre_prod,descripcion,almacen,marca,observaciones,no_serie,tipo_uso,modelo,color from inventario where id_producto = '"+idProducto+"';";
-            ResultSet resultados = st.executeQuery(sql);
-            while (resultados.next()) {
-                String temp = "";
-                temp += "" + resultados.getString("nombre_prod") + "," + resultados.getString("descripcion") + "," + resultados.getString("almacen")
-                         + "," + resultados.getString("marca")+ "," + resultados.getString("observaciones")+ "," + resultados.getString("no_serie")
-                        + "," + resultados.getString("tipo_uso") + "," + resultados.getString("modelo")+ "," + resultados.getString("color");
-                        
-                v.add(temp);
-            }
-
-            conexion.close();
-
-        } //para el ticket
-        catch (SQLException ex) {
-            Logger.getLogger(ManagerVehiculos.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println("Error producto infoProductos");
-        }
-
-        return v;
-    }//infoVehiculos
-    
-     
-     public boolean actualizarProductoSinFoto(String clave, String producto, String almacen, String marca,String noserie, String descripcion, String observaciones,String tipo,String modelo,String color) {
+    public boolean actualizarProductoSinFoto(String clave, String producto, String almacen, String marca,String noserie, String descripcion, String observaciones,String tipo,String modelo,String color) {
         conexion = db.getConexion();
         
         String update = "update inventario set nombre_prod = ?,almacen = ?,marca = ?,no_serie = ?,descripcion = ?,observaciones = ?,tipo_uso = ?,modelo = ?,color = ? where id_producto = '"+clave+"'";
@@ -1075,6 +1026,5 @@ public class ManagerInventario {
         }
 
     }//guardarImagen
-    
     
 }//class
