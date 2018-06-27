@@ -21,7 +21,106 @@ public class ManagerInventarioGranel {
 		this.db = new Conexion();
 	}
 	
-	
+	 public DefaultTableModel existeProductoEspecifico(int filtro, String busqueda, String inventario, String folio, String estatus){
+		boolean estado = false;
+        //No dejamos editar ninguna celda
+        DefaultTableModel table = new DefaultTableModel(){
+			@Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            }
+        };
+        conexion = db.getConexion();
+		
+		String campoBusca = "";
+        
+		String sql = "";
+		
+		try{
+			switch(filtro){
+            
+            //BUSQUEDA POR CLAVE
+            case 0:
+                campoBusca = "id_productoGranel";
+                break;
+
+            //BUSQUEDA POR PRODUCTO
+            case 1:
+                campoBusca = "nombre_prod";
+                break;
+                        
+                    //BUSQUEDA POR DESCRIPCIÓN
+                    case 2:
+                        campoBusca = "descripcion";
+                        break;
+                        
+                    //BUSQUEDA POR ALMACÉN
+                    case 3:
+                        campoBusca = "almacen";
+                        break;
+
+                    //BUSQUEDA POR MARCA
+                    case 4:
+                        campoBusca = "marca";
+                        break;
+                        
+                    //BUSQUEDA POR OBSERVACIONES
+                    case 5:
+                        campoBusca = "observaciones"; 
+                        break;    
+                
+                }//Hace la busqueda de acuerdo al filtro
+            
+                sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
+                                + " where "+campoBusca+" like '"+busqueda+"%';";
+                Connection c = db.getConexion();
+                Statement st = c.createStatement();    
+                ResultSet rs = st.executeQuery(sql);
+                estado = rs.next();
+                
+                //Si estado es verdadero significa que encontro concidencia, entonces mostramos las concidencias que se encontraron en la consulta
+                if(estado){
+                    
+                    table.addColumn("Clave");
+                    table.addColumn("Producto");
+                    table.addColumn("Descripción");
+                    table.addColumn("Almacén");
+                    table.addColumn("Estatus");
+                    table.addColumn("Marca");
+                    table.addColumn("Observaciones");
+                    table.addColumn("Stock");
+                    
+                    Object datos[] = new Object[8];
+                    
+                    //Anteriormente se hizo la consulta, y como entro a este if significa que si se encontraron datos, por ende ya estamos posicionados
+                    //en el primer registro de las concidencias
+                    for(int i = 0;i<8;i++){
+                        datos[i] = rs.getObject(i+1);
+                    }//Llenamos las columnas por registro
+                    table.addRow(datos);
+                    
+                    //Proseguimos con los registros en caso de exisitir mas
+                    while (rs.next()) {
+
+                        for(int i = 0;i<8;i++){
+                            datos[i] = rs.getObject(i+1);
+                        }//Llenamos las columnas por registro
+
+                        table.addRow(datos);//Añadimos la fila
+
+                    }//while
+                    
+                    conexion.close();
+                }else{
+                    return getInventarioG(filtro);
+                }
+		} catch (SQLException ex) {
+            Logger.getLogger(ManagerInventario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+		
+
+                return table;
+	 }
 	
 	public boolean insertarInventarioG(String clave, String producto, String almacen, String marca,int stockmin, int stock, String descripcion, String observaciones,String tipo) {
 		try {

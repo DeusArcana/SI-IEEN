@@ -570,8 +570,8 @@ public class ManagerInventario {
     
     //Este método funciona en la pestaña de inventario, cuando se quiere buscar por un filtro mas especifico donde el usuario ingresara que esta
     //buscando de acuerdo al campo seleccionado mas aparte las opciones de nomeclatura de folio y estatus.
-    public DefaultTableModel existeProductoEspecifico(int filtro, String busqueda, String inventario, String folio, String estatus){
-        boolean estado = false;
+    public DefaultTableModel getBusquedaInventario(int filtro, String busqueda, String inventario, String folio, String estatus){
+
         //No dejamos editar ninguna celda
         DefaultTableModel table = new DefaultTableModel(){
 				@Override
@@ -579,164 +579,65 @@ public class ManagerInventario {
                     return false;
                 }
             };
-        conexion = db.getConexion();
 
         try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_busquedaProducto`(?, ?, ?, ?)}")) {
-            String campoBusca = "";
-            String sql = "";
-            //BUSCA EN EL INVENTARIO
-            if(inventario.equals("Inventario")){
-                
-				cs.setInt(1, filtro);
-				cs.setString(2, estatus);
-				cs.setString(3, busqueda);
+			cs.setInt(1, filtro);
+			cs.setString(2, estatus);
+			cs.setString(3, busqueda);
 
-				if (folio.equals("")) 
-					cs.setNull(4, 0);
-				else
-					cs.setString(4, folio);
+			if (folio.equals("")) 
+				cs.setNull(4, 0);
+			else
+				cs.setString(4, folio);
 				
-                ResultSet rs = cs.executeQuery();
-                estado = rs.next();
-                int cantidadColumnas = 12;
-                //Si el estado es verdadero significa que si encontro coincidencias, entonces mostraremos dichas concidencias
-                if(estado){
-                    
-                    table.addColumn("Clave");
-                    table.addColumn("Nombre_corto");
-                    table.addColumn("Descripción");
-                    table.addColumn("Ubicación");
-                    table.addColumn("Marca");
-                    table.addColumn("Observaciones");
-                    table.addColumn("No. Serie");
-                    table.addColumn("Modelo");
-                    table.addColumn("Color");
-                    table.addColumn("Fecha Compra");
-                    table.addColumn("Factura");
-                    table.addColumn("Importe");
+            ResultSet rs = cs.executeQuery();
+            
+            int cantidadColumnas = 12;
+            //Si el estado es verdadero significa que si encontro coincidencias, entonces mostraremos dichas concidencias
+            if(rs.next()){
+		        table.addColumn("Clave");
+                table.addColumn("Nombre_corto");
+                table.addColumn("Descripción");
+                table.addColumn("Ubicación");
+                table.addColumn("Marca");
+                table.addColumn("Observaciones");
+                table.addColumn("No. Serie");
+                table.addColumn("Modelo");
+                table.addColumn("Color");
+                table.addColumn("Fecha Compra");
+                table.addColumn("Factura");
+                table.addColumn("Importe");
 
-                    if(filtro == 11 || estatus.equals("Asignado")){
-                        table.addColumn("Responsable");
-                        cantidadColumnas++;
-                    }
-
-                    Object datos[] = new Object[cantidadColumnas];
-
-                    //Anteriormente se hizo la consulta, y como entro a este if significa que si se encontraron datos, por ende ya estamos posicionados
-                    //en el primer registro de las concidencias
-                    for(int i = 0;i<cantidadColumnas;i++){
-                        datos[i] = rs.getObject(i+1);
-                    }//Llenamos las columnas por registro
-                    table.addRow(datos);
-                    
-                    //Proseguimos con los registros en caso de exisitir mas
-                    while (rs.next()) {
-
-                        for(int i = 0;i<cantidadColumnas;i++){
-                            datos[i] = rs.getObject(i+1);
-                        }//Llenamos las columnas por registro
-
-                        table.addRow(datos);//Añadimos la fila
-                   }//while
-                    
-                   conexion.close();
-                
-                //Si estado es falso, signfica que no encontro coincidencias, entonces retornamos la tabla normal
-                }else{
-                    return getInventario(folio, estatus);
+                if(filtro == 11 || estatus.equals("Asignado")){
+                    table.addColumn("Responsable");
+                    cantidadColumnas++;
                 }
-        
-            }//if(inventario)
-            //BUSCA EN EL INVENTARIO A GRANEL
-            else{
-                
-                switch(filtro){
-            
-                    //BUSQUEDA POR CLAVE
-                    case 0:
-                        campoBusca = "id_productoGranel";
-                        break;
 
-                    //BUSQUEDA POR PRODUCTO
-                    case 1:
-                        campoBusca = "nombre_prod";
-                        break;
-                        
-                    //BUSQUEDA POR DESCRIPCIÓN
-                    case 2:
-                        campoBusca = "descripcion";
-                        break;
-                        
-                    //BUSQUEDA POR ALMACÉN
-                    case 3:
-                        campoBusca = "almacen";
-                        break;
+                Object datos[] = new Object[cantidadColumnas];
 
-                    //BUSQUEDA POR MARCA
-                    case 4:
-                        campoBusca = "marca";
-                        break;
-                        
-                    //BUSQUEDA POR OBSERVACIONES
-                    case 5:
-                        campoBusca = "observaciones"; 
-                        break;    
-                
-                }//Hace la busqueda de acuerdo al filtro
-            
-                sql = "select id_productoGranel,nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
-                                + " where "+campoBusca+" like '"+busqueda+"%';";
-                Connection c = db.getConexion();
-                Statement st = c.createStatement();    
-                ResultSet rs = st.executeQuery(sql);
-                estado = rs.next();
-                
-                //Si estado es verdadero significa que encontro concidencia, entonces mostramos las concidencias que se encontraron en la consulta
-                if(estado){
+                //Anteriormente se hizo la consulta, y como entro a este if significa que si se encontraron datos, por ende ya estamos posicionados
+                //en el primer registro de las concidencias
+                for(int i = 0; i < cantidadColumnas; i++){
+                    datos[i] = rs.getObject(i + 1);
+                }//Llenamos las columnas por registro
+                table.addRow(datos);
                     
-                    table.addColumn("Clave");
-                    table.addColumn("Producto");
-                    table.addColumn("Descripción");
-                    table.addColumn("Almacén");
-                    table.addColumn("Estatus");
-                    table.addColumn("Marca");
-                    table.addColumn("Observaciones");
-                    table.addColumn("Stock");
-                    
-                    Object datos[] = new Object[8];
-                    
-                    //Anteriormente se hizo la consulta, y como entro a este if significa que si se encontraron datos, por ende ya estamos posicionados
-                    //en el primer registro de las concidencias
-                    for(int i = 0;i<8;i++){
-                        datos[i] = rs.getObject(i+1);
+                //Proseguimos con los registros en caso de exisitir mas
+                while (rs.next()) {
+                    for(int i = 0; i < cantidadColumnas; i++){
+	                    datos[i] = rs.getObject(i + 1);
                     }//Llenamos las columnas por registro
-                    table.addRow(datos);
+                    table.addRow(datos);//Añadimos la fila
+	            }//while
                     
-                    //Proseguimos con los registros en caso de exisitir mas
-                    while (rs.next()) {
-
-                        for(int i = 0;i<8;i++){
-                            datos[i] = rs.getObject(i+1);
-                        }//Llenamos las columnas por registro
-
-                        table.addRow(datos);//Añadimos la fila
-
-                    }//while
-                    
-                    conexion.close();
-                }else{
-                    return manager_inventario_granel.getInventarioG(filtro);
-                }
-                
-            }//else
-            
+			}
         } //try  
         catch (SQLException ex) {
             Logger.getLogger(ManagerInventario.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return table; //Retorna el resultado, si se encontro o no
-        
+        } finally{
+			return table; //Retorna el resultado, si se encontro o no
+		}
+
     }//Buscar si existe el producto
     
     //Este metodo retorna una tabla con el formato de la tabla de inventario pero anexando una columna con un checkbox para marcar los productos que
