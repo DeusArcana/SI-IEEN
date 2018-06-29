@@ -762,6 +762,7 @@ public class ManejadorInventario {
 
     }//getInventarioEmpleadoAsignacionesPersonales
     
+    //Este método es para actualizar la cantidad del producto a granel con la cantidad ingresada
     public boolean actualizarStock(String codigo,int cantidad){
         
         try{
@@ -776,7 +777,7 @@ public class ManejadorInventario {
             st.executeUpdate(sql);
             
             //Actualizamos el stock y el estado si el stock es igual a 0
-            sql = "update inventario_granel set stock = "+cantidad+", estatus = 'DISPONIBLE' where id_productoGranel = '"+codigo+"' and stock = 0;";
+            sql = "update inventario_granel set stock = "+cantidad+", estatus = 'Disponible' where id_productoGranel = '"+codigo+"' and stock = 0;";
             st.executeUpdate(sql);
             
             conexion.close();

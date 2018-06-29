@@ -183,6 +183,22 @@
         </MenuItem>
       </SubComponents>
     </Container>
+    <Container class="javax.swing.JPopupMenu" name="MenuInventarioAsignados">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <MenuItem class="javax.swing.JMenuItem" name="ActualizarProd2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Actualizar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ActualizarProd2ActionPerformed"/>
+          </Events>
+        </MenuItem>
+      </SubComponents>
+    </Container>
     <Container class="javax.swing.JPopupMenu" name="MenuInventarioG">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
@@ -471,14 +487,6 @@
         </MenuItem>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.ButtonGroup" name="Grupo1">
-    </Component>
-    <Component class="javax.swing.ButtonGroup" name="bg_manejo_inventario">
-    </Component>
-    <Component class="javax.swing.ButtonGroup" name="bt_tipo_inventario_asignable">
-    </Component>
-    <Component class="javax.swing.ButtonGroup" name="GrupoTipoInventario">
-    </Component>
     <Container class="javax.swing.JPopupMenu" name="MenuSolicitarSalida">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
@@ -495,6 +503,14 @@
         </MenuItem>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.ButtonGroup" name="Grupo1">
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="bg_manejo_inventario">
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="bt_tipo_inventario_asignable">
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="GrupoTipoInventario">
+    </Component>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jMenu1">

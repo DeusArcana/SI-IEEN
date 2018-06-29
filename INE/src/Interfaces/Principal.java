@@ -231,6 +231,8 @@ public class Principal extends javax.swing.JFrame {
         ParaComodato1 = new javax.swing.JMenuItem();
         ParaDonacion1 = new javax.swing.JMenuItem();
         Repa_Garan1 = new javax.swing.JMenuItem();
+        MenuInventarioAsignados = new javax.swing.JPopupMenu();
+        ActualizarProd2 = new javax.swing.JMenuItem();
         MenuInventarioG = new javax.swing.JPopupMenu();
         ActualizarInfoG = new javax.swing.JMenuItem();
         MenuSolicitudes = new javax.swing.JPopupMenu();
@@ -268,12 +270,12 @@ public class Principal extends javax.swing.JFrame {
         MenuStockMin = new javax.swing.JPopupMenu();
         AgregarStock = new javax.swing.JMenuItem();
         ActualizarInfoSM = new javax.swing.JMenuItem();
+        MenuSolicitarSalida = new javax.swing.JPopupMenu();
+        CancelarSS = new javax.swing.JMenuItem();
         Grupo1 = new javax.swing.ButtonGroup();
         bg_manejo_inventario = new javax.swing.ButtonGroup();
         bt_tipo_inventario_asignable = new javax.swing.ButtonGroup();
         GrupoTipoInventario = new javax.swing.ButtonGroup();
-        MenuSolicitarSalida = new javax.swing.JPopupMenu();
-        CancelarSS = new javax.swing.JMenuItem();
         tabbedPrincipal = new javax.swing.JTabbedPane();
         pestañaInventario = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -593,6 +595,14 @@ public class Principal extends javax.swing.JFrame {
 
         Repa_Garan1.setText("Reparación/Garantía");
         MenuInventarioDevolver.add(Repa_Garan1);
+
+        ActualizarProd2.setText("Actualizar");
+        ActualizarProd2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarProd2ActionPerformed(evt);
+            }
+        });
+        MenuInventarioAsignados.add(ActualizarProd2);
 
         ActualizarInfoG.setText("Refrescar tabla");
         ActualizarInfoG.addActionListener(new java.awt.event.ActionListener() {
@@ -4362,12 +4372,22 @@ public class Principal extends javax.swing.JFrame {
                 int r = tablaInventario.rowAtPoint(evt.getPoint());
                 if (r >= 0 && r < tablaInventario.getRowCount())
                 tablaInventario.setRowSelectionInterval(r, r);
+ 
                 //Asignamos el popmenu correspondiente
+                
+                //Mostrar menú para pedientes para baja/donación/comodato
                 if(comboEstatus.getSelectedItem().toString().equals("para baja") || comboEstatus.getSelectedItem().toString().equals("para donación") || comboEstatus.getSelectedItem().toString().equals("para comodato")){
                     MenuInventarioDevolver.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-                }else{
+                }
+                //Mostrar menú de asignados
+                else if(comboEstatus.getSelectedItem().toString().equals("Asignado")){
+                    MenuInventarioAsignados.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+                }
+                //Mostrar el menú para los demás estatus
+                else{
                     MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
                 }
+                
             }//clic derecho
         }
 
@@ -4607,7 +4627,7 @@ public class Principal extends javax.swing.JFrame {
                     if(cantidad > 0){
                         entero = false;                    
                     }else{
-                        JOptionPane.showMessageDialog(null, "Solo ingrese numeros positivos");
+                        JOptionPane.showMessageDialog(null, "Solo ingrese cantidades mayores a 0.");
                     }
                 }catch(NumberFormatException e){
                     JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
@@ -5384,6 +5404,26 @@ public class Principal extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");
             }
     }//GEN-LAST:event_DevolverDisActionPerformed
+
+    private void ActualizarProd2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarProd2ActionPerformed
+        // TODO add your handling code here:
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            // If Nimbus is not available, you can set the GUI to another look and feel.
+        }
+        
+        int fila = tablaInventario.getSelectedRow();
+        String clave = tablaInventario.getValueAt(fila, 0).toString();
+                
+        updateInventario ob = new updateInventario(this, true,clave);
+        ob.setVisible(true);
+    }//GEN-LAST:event_ActualizarProd2ActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -5526,6 +5566,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem ActualizarPendientes;
     private javax.swing.JMenuItem ActualizarProd;
     private javax.swing.JMenuItem ActualizarProd1;
+    private javax.swing.JMenuItem ActualizarProd2;
     private javax.swing.JMenuItem ActualizarV;
     private javax.swing.JMenuItem AgregarStock;
     private javax.swing.JMenuItem Asignar;
@@ -5549,6 +5590,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu MenuEmpleados;
     private javax.swing.JPopupMenu MenuEntregados;
     private javax.swing.JPopupMenu MenuInventario;
+    private javax.swing.JPopupMenu MenuInventarioAsignados;
     private javax.swing.JPopupMenu MenuInventarioDevolver;
     private javax.swing.JPopupMenu MenuInventarioG;
     private javax.swing.JPopupMenu MenuPendientes;
