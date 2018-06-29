@@ -250,7 +250,7 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
         comboFiltroInventario.addItem("Color");
         comboFiltroInventario.addItem("Estatus");
         
-        tablaCoincidencias.setModel(manager_inventario.getInventarioCoincidencias(Principal.prodInventario));
+        tablaCoincidencias.setModel(manager_inventario.getBusquedaInventario(1, Principal.prodInventario, "", ""));
         
         
     }//GEN-LAST:event_formWindowOpened
@@ -364,25 +364,9 @@ public class tablaDetalleInventario extends javax.swing.JDialog {
         //Llenamos la tabla del inventario
         int filtro = comboFiltroInventario.getSelectedIndex();
         String busqueda = txtBusquedaInventario.getText();
+		
+		tablaCoincidencias.setModel(manager_inventario.getBusquedaInventario(filtro, Principal.prodInventario, busqueda, ""));
 
-        //Si no hay nada en el campo entonces buscamos todos los productos del inventario o inventario a granel
-        if(busqueda.equals("")){
-            tablaCoincidencias.setModel(manager_inventario.getInventarioCoincidencias(Principal.prodInventario));
-        }//if
-
-        else{
-
-            //Si hay coincidencias entonces muestra
-            if(manager_inventario.existeProductoCoincidenciaEspecifico(filtro, Principal.prodInventario, busqueda)){
-                tablaCoincidencias.setModel(manager_inventario.getInventarioCoincidenciasEspecifico(filtro, Principal.prodInventario, busqueda));
-            }//if
-
-            //Si no hay coincidecnias entonces mostramos el inventario o el inventario a granel
-            else{
-                tablaCoincidencias.setModel(manager_inventario.getInventarioCoincidencias(Principal.prodInventario));
-            }//Segundo else
-
-        }//Primer else
     }//GEN-LAST:event_txtBusquedaInventarioKeyReleased
 
     private void comboFiltroInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroInventarioActionPerformed

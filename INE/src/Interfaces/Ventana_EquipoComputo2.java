@@ -207,7 +207,7 @@ public class Ventana_EquipoComputo2 extends javax.swing.JDialog {
                                     String info = manager_asignar.obtenerEquipo(tablaDetalleInventario.clave);
                                     String v[] = info.split(",");
 
-                                    tablaDetalleInventario.tablaCoincidencias.setModel(manager_inventario.getInventarioCoincidencias(tablaDetalleInventario.producto));
+                                    tablaDetalleInventario.tablaCoincidencias.setModel(manager_inventario.getBusquedaInventario(1, tablaDetalleInventario.producto, "", ""));
                                     modeloAsignarEquipo.addRow(new Object[]{v[0],v[1],v[2],v[3]});
                                     
                                     manager_asignar.cambioAsignacionEquipo(clave, tablaDetalleInventario.clave,producto,claveEquipo);

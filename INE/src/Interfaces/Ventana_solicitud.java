@@ -181,7 +181,7 @@ public class Ventana_solicitud extends javax.swing.JDialog {
         if(manager_solicitud.registro_Solicitud(producto, tipo, usuario, motivo, cantidad)){
             JOptionPane.showMessageDialog(null, "La solicitud ha sido generada");
             if(Principal.banderaSolicitud == 1){
-                tablaDetalleInventario.tablaCoincidencias.setModel(manager_inventario.getInventarioCoincidencias(Principal.prodInventario));
+                tablaDetalleInventario.tablaCoincidencias.setModel(manager_inventario.getBusquedaInventario(1, Principal.prodInventario, "", ""));
             }
             this.dispose();
         }//registro_solicitud
