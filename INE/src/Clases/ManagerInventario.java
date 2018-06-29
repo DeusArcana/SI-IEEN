@@ -63,8 +63,7 @@ public class ManagerInventario {
 			
 			cs.setString(1, clave);
             ResultSet rs = cs.executeQuery();
-			cs.close();
-			
+
 			while (rs.next()){
 				for (int i = 1; i <= 13; i++) {
 					sb.append(rs.getString(i));
@@ -159,8 +158,13 @@ public class ManagerInventario {
             ps.setString(5, no_serie);
             ps.setString(6, modelo);
             ps.setString(7, color);
-            ps.setBinaryStream(8, new FileInputStream(new File(ruta)));
-            ps.setString(9, fecha_compra);
+			
+			if(ruta.equals(""))
+				ps.setNull(8, 0);
+			else
+				ps.setBinaryStream(8, new FileInputStream(new File(ruta)));
+            
+			ps.setString(9, fecha_compra);
             ps.setString(10, factura);
             ps.setFloat(11, importe);
 			ps.setString(12, clave);

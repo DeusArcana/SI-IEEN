@@ -76,7 +76,7 @@ public final class updateInventario extends javax.swing.JDialog {
         
         //Ruta para la foto por default de "no producto"
         campoRuta.setVisible(false);
-        campoRuta.setText(cargarNoImage()+"\\src\\Imagenes\\noproducto.png");
+        campoRuta.setText(cargarNoImage()+"\\src\\Imagenes\\noimage.png");
     }
     
     public String cargarNoImage() {
