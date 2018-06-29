@@ -2669,7 +2669,7 @@ public class Principal extends javax.swing.JFrame {
         }
         
         //PESTAÑA SOLICITAR I_GRANEL
-        tablaSolicitarGranel.setModel(manager_inventario.tablaSolicitarInvGranel());
+        tablaSolicitarGranel.setModel(manager_inventario_granel.tablaSolicitarInvGranel());
         
     }//GEN-LAST:event_formWindowOpened
     
@@ -4224,8 +4224,12 @@ public class Principal extends javax.swing.JFrame {
             //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
             if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
 
-            tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
-        }else{
+			if(inventario.equals("Inventario"))
+				tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+			else
+				tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+
+		}else{
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
         }
         
@@ -4499,7 +4503,10 @@ public class Principal extends javax.swing.JFrame {
 
             else{
 
-                tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
+				if(inventario.equals("Inventario"))
+					tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+				else
+					tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
 
             }//Primer else
         }//if de la consulta de inventario
@@ -4735,7 +4742,12 @@ public class Principal extends javax.swing.JFrame {
             String busqueda = txtBusqueda.getText();
             //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
             if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-            tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
+			
+            if(inventario.equals("Inventario"))
+				tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+			else
+				tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+			
         }else{
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
         }
@@ -4759,7 +4771,11 @@ public class Principal extends javax.swing.JFrame {
             String busqueda = txtBusqueda.getText();
             //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
             if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-            tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
+			
+			if(inventario.equals("Inventario"))
+				tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+			else
+				tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
             
         }else{
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
@@ -4777,8 +4793,13 @@ public class Principal extends javax.swing.JFrame {
             String busqueda = txtBusqueda.getText();
             //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
             if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-            tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
-        }else{
+            
+			if(inventario.equals("Inventario"))
+				tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+			else
+				tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+
+		}else{
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
         }
         
@@ -4850,7 +4871,10 @@ public class Principal extends javax.swing.JFrame {
                     String busqueda = txtBusqueda.getText();
                     //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
                     if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-                    tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventarios,nomeclatura,estatus));
+                    if(inventarios.equals("Inventario"))
+						tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+					else
+						tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
                     
                 }else{
                     JOptionPane.showMessageDialog(null, "No se pudo realizar el cambio pendiente "+pendientePara);
@@ -4894,7 +4918,10 @@ public class Principal extends javax.swing.JFrame {
                 String busqueda = txtBusqueda.getText();
                 //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
                 if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-                tablaInventario.setModel(manager_inventario.existeProductoEspecifico(filtro, busqueda, inventario,nomeclatura,estatus));
+				if(inventario.equals("Inventario"))
+					tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+				else
+					tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
             }else{
                 JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
             }
