@@ -21,7 +21,7 @@ public class ManagerInventarioGranel {
 		this.db = new Conexion();
 	}
 	
-	 public DefaultTableModel existeProductoEspecifico(int filtro, String busqueda, String inventario, String folio, String estatus){
+	 public DefaultTableModel getBusquedaInventario(int filtro, String busqueda, String folio, String estatus){
 		boolean estado = false;
         //No dejamos editar ninguna celda
         DefaultTableModel table = new DefaultTableModel(){
