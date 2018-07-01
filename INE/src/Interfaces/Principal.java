@@ -218,21 +218,13 @@ public class Principal extends javax.swing.JFrame {
         Asignar_usuario = new javax.swing.JMenuItem();
         MenuInventario = new javax.swing.JPopupMenu();
         ActualizarProd = new javax.swing.JMenuItem();
-        Pendiente = new javax.swing.JMenu();
-        ParaBaja = new javax.swing.JMenuItem();
-        ParaComodato = new javax.swing.JMenuItem();
-        ParaDonacion = new javax.swing.JMenuItem();
-        Repa_Garan = new javax.swing.JMenuItem();
-        MenuInventarioDevolver = new javax.swing.JPopupMenu();
-        ActualizarProd1 = new javax.swing.JMenuItem();
         DevolverDis = new javax.swing.JMenuItem();
-        Pendiente1 = new javax.swing.JMenu();
+        Pendiente = new javax.swing.JMenu();
         ParaBaja1 = new javax.swing.JMenuItem();
         ParaComodato1 = new javax.swing.JMenuItem();
         ParaDonacion1 = new javax.swing.JMenuItem();
-        Repa_Garan1 = new javax.swing.JMenuItem();
-        MenuInventarioAsignados = new javax.swing.JPopupMenu();
-        ActualizarProd2 = new javax.swing.JMenuItem();
+        Repa_Garan = new javax.swing.JMenuItem();
+        EstatusDefinitivo = new javax.swing.JMenuItem();
         MenuInventarioG = new javax.swing.JPopupMenu();
         ActualizarInfoG = new javax.swing.JMenuItem();
         MenuSolicitudes = new javax.swing.JPopupMenu();
@@ -518,54 +510,15 @@ public class Principal extends javax.swing.JFrame {
         });
         MenuInventario.add(ActualizarProd);
 
-        Pendiente.setText("Pendiente");
-
-        ParaBaja.setText("para baja");
-        ParaBaja.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ParaBajaActionPerformed(evt);
-            }
-        });
-        Pendiente.add(ParaBaja);
-
-        ParaComodato.setText("para comodato");
-        ParaComodato.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ParaComodatoActionPerformed(evt);
-            }
-        });
-        Pendiente.add(ParaComodato);
-
-        ParaDonacion.setText("para donación");
-        ParaDonacion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ParaDonacionActionPerformed(evt);
-            }
-        });
-        Pendiente.add(ParaDonacion);
-
-        MenuInventario.add(Pendiente);
-
-        Repa_Garan.setText("Reparación/Garantía");
-        MenuInventario.add(Repa_Garan);
-
-        ActualizarProd1.setText("Actualizar");
-        ActualizarProd1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarProd1ActionPerformed(evt);
-            }
-        });
-        MenuInventarioDevolver.add(ActualizarProd1);
-
         DevolverDis.setText("Devolver a disponible");
         DevolverDis.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DevolverDisActionPerformed(evt);
             }
         });
-        MenuInventarioDevolver.add(DevolverDis);
+        MenuInventario.add(DevolverDis);
 
-        Pendiente1.setText("Pendiente");
+        Pendiente.setText("Pendiente");
 
         ParaBaja1.setText("para baja");
         ParaBaja1.addActionListener(new java.awt.event.ActionListener() {
@@ -573,7 +526,7 @@ public class Principal extends javax.swing.JFrame {
                 ParaBaja1ActionPerformed(evt);
             }
         });
-        Pendiente1.add(ParaBaja1);
+        Pendiente.add(ParaBaja1);
 
         ParaComodato1.setText("para comodato");
         ParaComodato1.addActionListener(new java.awt.event.ActionListener() {
@@ -581,7 +534,7 @@ public class Principal extends javax.swing.JFrame {
                 ParaComodato1ActionPerformed(evt);
             }
         });
-        Pendiente1.add(ParaComodato1);
+        Pendiente.add(ParaComodato1);
 
         ParaDonacion1.setText("para donación");
         ParaDonacion1.addActionListener(new java.awt.event.ActionListener() {
@@ -589,20 +542,15 @@ public class Principal extends javax.swing.JFrame {
                 ParaDonacion1ActionPerformed(evt);
             }
         });
-        Pendiente1.add(ParaDonacion1);
+        Pendiente.add(ParaDonacion1);
 
-        MenuInventarioDevolver.add(Pendiente1);
+        MenuInventario.add(Pendiente);
 
-        Repa_Garan1.setText("Reparación/Garantía");
-        MenuInventarioDevolver.add(Repa_Garan1);
+        Repa_Garan.setText("Reparación/Garantía");
+        MenuInventario.add(Repa_Garan);
 
-        ActualizarProd2.setText("Actualizar");
-        ActualizarProd2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarProd2ActionPerformed(evt);
-            }
-        });
-        MenuInventarioAsignados.add(ActualizarProd2);
+        EstatusDefinitivo.setText("Cambiar a ");
+        MenuInventario.add(EstatusDefinitivo);
 
         ActualizarInfoG.setText("Refrescar tabla");
         ActualizarInfoG.addActionListener(new java.awt.event.ActionListener() {
@@ -1338,8 +1286,8 @@ public class Principal extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 1321, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 1246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1350,7 +1298,7 @@ public class Principal extends javax.swing.JFrame {
         );
 
         jPanel7.add(jPanel8);
-        jPanel8.setBounds(20, 20, 1340, 330);
+        jPanel8.setBounds(20, 20, 1270, 330);
 
         tablaStockMin.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1373,8 +1321,8 @@ public class Principal extends javax.swing.JFrame {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 1320, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 1251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1385,7 +1333,7 @@ public class Principal extends javax.swing.JFrame {
         );
 
         jPanel7.add(jPanel10);
-        jPanel10.setBounds(20, 370, 1340, 330);
+        jPanel10.setBounds(20, 370, 1270, 330);
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel7.add(jLabel9);
@@ -2409,7 +2357,7 @@ public class Principal extends javax.swing.JFrame {
             .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 1180, Short.MAX_VALUE)
         );
 
-        tabbedPrincipal.addTab("Solicitar I_granel", new javax.swing.ImageIcon(getClass().getResource("/Iconos/usuarios.png")), solicitar_granel); // NOI18N
+        tabbedPrincipal.addTab("Solicitar consumibles", new javax.swing.ImageIcon(getClass().getResource("/Iconos/usuarios.png")), solicitar_granel); // NOI18N
 
         jMenu1.setText("Archivo");
 
@@ -4369,26 +4317,62 @@ public class Principal extends javax.swing.JFrame {
         else{
             //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
             if(SwingUtilities.isRightMouseButton(evt)){
-                int r = tablaInventario.rowAtPoint(evt.getPoint());
-                if (r >= 0 && r < tablaInventario.getRowCount())
-                tablaInventario.setRowSelectionInterval(r, r);
- 
-                //Asignamos el popmenu correspondiente
                 
-                //Mostrar menú para pedientes para baja/donación/comodato
-                if(comboEstatus.getSelectedItem().toString().equals("para baja") || comboEstatus.getSelectedItem().toString().equals("para donación") || comboEstatus.getSelectedItem().toString().equals("para comodato")){
-                    MenuInventarioDevolver.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-                }
-                //Mostrar menú de asignados
-                else if(comboEstatus.getSelectedItem().toString().equals("Asignado")){
-                    MenuInventarioAsignados.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-                }
-                //Mostrar el menú para los demás estatus
-                else{
+                int r = tablaInventario.rowAtPoint(evt.getPoint());
+                if (r >= 0 && r < tablaInventario.getRowCount()){
+                    tablaInventario.setRowSelectionInterval(r, r);
+
+                    //Mostramos las opciones del popmenú de acuerdo a los filtros.
+
+                    //Selección de pendiente para baja/donación/comodato
+                    if(comboEstatus.getSelectedItem().toString().equals("para baja") || comboEstatus.getSelectedItem().toString().equals("para donación") || comboEstatus.getSelectedItem().toString().equals("para comodato")){
+
+                        DevolverDis.setVisible(true);//Cambiar el estatus a "Disponible"
+                        EstatusDefinitivo.setVisible(true);//Cambiar el estatus a "Baja/Donación/Comodato"
+                        Pendiente.setVisible(true);//Cambiar el estatus a "Pendiente para baja/donación/comodato"
+                        Repa_Garan.setVisible(true);//Cambiar el estatus a "Reparación/Garantía"
+                        ActualizarProd.setVisible(true);//Actualizar la información de un producto
+
+                        if(comboEstatus.getSelectedItem().toString().equals("para baja")) EstatusDefinitivo.setText("Cambiar a Baja");
+                        if(comboEstatus.getSelectedItem().toString().equals("para donación")) EstatusDefinitivo.setText("Cambiar a Donación");
+                        if(comboEstatus.getSelectedItem().toString().equals("para comodato")) EstatusDefinitivo.setText("Cambiar a Comodato");    
+
+                    }
+                    //Selección de Asignado
+                    else if(comboEstatus.getSelectedItem().toString().equals("Asignado")){
+                        DevolverDis.setVisible(false);//Cambiar el estatus a "Disponible"
+                        EstatusDefinitivo.setVisible(false);//Cambiar el estatus a "Baja/Donación/Comodato"
+                        Pendiente.setVisible(false);//Cambiar el estatus a "Pendiente para baja/donación/comodato"
+                        Repa_Garan.setVisible(false);//Cambiar el estatus a "Reparación/Garantía"
+                        ActualizarProd.setVisible(true);//Actualizar la información de un producto
+                    }
+                    //Selección de Baja/Donación/Comodato
+                    else if(comboEstatus.getSelectedItem().toString().equals("Baja") || comboEstatus.getSelectedItem().toString().equals("Donación") || comboEstatus.getSelectedItem().toString().equals("Comodato")){
+                        DevolverDis.setVisible(false);//Cambiar el estatus a "Disponible"
+                        EstatusDefinitivo.setVisible(false);//Cambiar el estatus a "Baja/Donación/Comodato"
+                        Pendiente.setVisible(false);//Cambiar el estatus a "Pendiente para baja/donación/comodato"
+                        Repa_Garan.setVisible(false);//Cambiar el estatus a "Reparación/Garantía"
+                        ActualizarProd.setVisible(false);//Actualizar la información de un producto
+                    }
+                    //Selección de Disponible
+                    else{
+                        DevolverDis.setVisible(false);//Cambiar el estatus a "Disponible"
+                        EstatusDefinitivo.setVisible(false);//Cambiar el estatus a "Baja/Donación/Comodato"
+                        Pendiente.setVisible(true);//Cambiar el estatus a "Pendiente para baja/donación/comodato"
+                        Repa_Garan.setVisible(true);//Cambiar el estatus a "Reparación/Garantía"
+                        ActualizarProd.setVisible(true);//Actualizar la información de un producto
+                    }
+
                     MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+
+                }//if (r >= 0 && r < tablaInventario.getRowCount())
+                
+                else{
+                    tablaInventario.setComponentPopupMenu(MenuInventario);
                 }
                 
             }//clic derecho
+
         }
 
     }//GEN-LAST:event_tablaInventarioMouseReleased
@@ -4825,41 +4809,6 @@ public class Principal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_comboFiltroActionPerformed
 
-    private void ParaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ParaBajaActionPerformed
-        // TODO add your handling code here:
-            if(manager_permisos.update_inventario(Username)){
-                int fila = tablaInventario.getSelectedRow();
-                int folio = comboFolio.getSelectedIndex();
-                String estatus = comboEstatus.getSelectedItem().toString();
-                String nomeclatura = "";
-                int filtro = comboFiltro.getSelectedIndex();
-                String busqueda = txtBusqueda.getText();
-                //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
-                if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-                pendientePara = "para baja";
-                tablaInventario.setModel(manager_inventario.cambiarEstatus("Pendiente ",pendientePara,filtro, busqueda,nomeclatura,estatus));
-                
-                
-                tablaInventario.setValueAt(true, fila, 0);
-                
-                //Mostramos los botones para aceptar los cambios o cancelar la acción
-                btnAceptarCheck.setVisible(true);
-                btnCancelarCheck.setVisible(true);
-                
-                //Deshabilitamos las demás opciones para que no actualice la tabla, si quiere cambiar los 
-                //criterios de busqueda entonces tendra que dar cancelar
-                btnAddInventario.setEnabled(false);
-                comboInventario.setEnabled(false);
-                comboEstatus.setEnabled(false);
-                comboFolio.setEnabled(false);
-                comboFiltro.setEnabled(false);
-                txtBusqueda.setEnabled(false);
-
-            }else{
-                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");
-            }
-    }//GEN-LAST:event_ParaBajaActionPerformed
-
     private void btnAceptarCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarCheckActionPerformed
         // TODO add your handling code here:
         Object[] botones = {"Aceptar","Cancelar"};
@@ -4963,70 +4912,6 @@ public class Principal extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_btnCancelarCheckActionPerformed
-
-    private void ParaComodatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ParaComodatoActionPerformed
-        // TODO add your handling code here:
-        if(manager_permisos.update_inventario(Username)){
-                int fila = tablaInventario.getSelectedRow();
-                int folio = comboFolio.getSelectedIndex();
-                String estatus = comboEstatus.getSelectedItem().toString();
-                String nomeclatura = "";
-                int filtro = comboFiltro.getSelectedIndex();
-                String busqueda = txtBusqueda.getText();
-                //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
-                if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-                pendientePara = "para comodato";
-                tablaInventario.setModel(manager_inventario.cambiarEstatus("Pendiente ",pendientePara,filtro, busqueda,nomeclatura,estatus));
-                tablaInventario.setValueAt(true, fila, 0);
-                //Mostramos los botones para aceptar los cambios o cancelar la acción
-                btnAceptarCheck.setVisible(true);
-                btnCancelarCheck.setVisible(true);
-                
-                //Deshabilitamos las demás opciones para que no actualice la tabla, si quiere cambiar los 
-                //criterios de busqueda entonces tendra que dar cancelar
-                btnAddInventario.setEnabled(false);
-                comboInventario.setEnabled(false);
-                comboEstatus.setEnabled(false);
-                comboFolio.setEnabled(false);
-                comboFiltro.setEnabled(false);
-                txtBusqueda.setEnabled(false);
-
-            }else{
-                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");
-            }
-    }//GEN-LAST:event_ParaComodatoActionPerformed
-
-    private void ParaDonacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ParaDonacionActionPerformed
-        // TODO add your handling code here:
-        if(manager_permisos.update_inventario(Username)){
-                int fila = tablaInventario.getSelectedRow();
-                int folio = comboFolio.getSelectedIndex();
-                String estatus = comboEstatus.getSelectedItem().toString();
-                String nomeclatura = "";
-                int filtro = comboFiltro.getSelectedIndex();
-                String busqueda = txtBusqueda.getText();
-                //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
-                if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-                pendientePara = "para donación";
-                tablaInventario.setModel(manager_inventario.cambiarEstatus("Pendiente ",pendientePara,filtro, busqueda,nomeclatura,estatus));
-                tablaInventario.setValueAt(true, fila, 0);
-                //Mostramos los botones para aceptar los cambios o cancelar la acción
-                btnAceptarCheck.setVisible(true);
-                btnCancelarCheck.setVisible(true);
-                
-                //Deshabilitamos las demás opciones para que no actualice la tabla, si quiere cambiar los 
-                //criterios de busqueda entonces tendra que dar cancelar
-                btnAddInventario.setEnabled(false);
-                comboInventario.setEnabled(false);
-                comboEstatus.setEnabled(false);
-                comboFolio.setEnabled(false);
-                comboFiltro.setEnabled(false);
-                txtBusqueda.setEnabled(false);
-
-            }else{
-                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");
-            }
-    }//GEN-LAST:event_ParaDonacionActionPerformed
 
     private void btnAceptarCheck1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarCheck1ActionPerformed
         // TODO add your handling code here:
@@ -5246,26 +5131,6 @@ public class Principal extends javax.swing.JFrame {
         ob.setVisible(true);
     }//GEN-LAST:event_ActualizarProdActionPerformed
 
-    private void ActualizarProd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarProd1ActionPerformed
-        // TODO add your handling code here:
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            // If Nimbus is not available, you can set the GUI to another look and feel.
-        }
-        
-        int fila = tablaInventario.getSelectedRow();
-        String clave = tablaInventario.getValueAt(fila, 0).toString();
-                
-        updateInventario ob = new updateInventario(this, true,clave);
-        ob.setVisible(true);
-    }//GEN-LAST:event_ActualizarProd1ActionPerformed
-
     private void ParaBaja1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ParaBaja1ActionPerformed
         // TODO add your handling code here:
         if(manager_permisos.update_inventario(Username)){
@@ -5404,26 +5269,6 @@ public class Principal extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");
             }
     }//GEN-LAST:event_DevolverDisActionPerformed
-
-    private void ActualizarProd2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarProd2ActionPerformed
-        // TODO add your handling code here:
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            // If Nimbus is not available, you can set the GUI to another look and feel.
-        }
-        
-        int fila = tablaInventario.getSelectedRow();
-        String clave = tablaInventario.getValueAt(fila, 0).toString();
-                
-        updateInventario ob = new updateInventario(this, true,clave);
-        ob.setVisible(true);
-    }//GEN-LAST:event_ActualizarProd2ActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -5565,8 +5410,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem ActualizarInfoV;
     private javax.swing.JMenuItem ActualizarPendientes;
     private javax.swing.JMenuItem ActualizarProd;
-    private javax.swing.JMenuItem ActualizarProd1;
-    private javax.swing.JMenuItem ActualizarProd2;
     private javax.swing.JMenuItem ActualizarV;
     private javax.swing.JMenuItem AgregarStock;
     private javax.swing.JMenuItem Asignar;
@@ -5582,6 +5425,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem EntregarParte;
     private javax.swing.JMenuItem EntregarTodo;
     private javax.swing.JMenuItem Equipos;
+    private javax.swing.JMenuItem EstatusDefinitivo;
     private javax.swing.ButtonGroup Grupo1;
     private javax.swing.ButtonGroup GrupoTipoInventario;
     private javax.swing.JPopupMenu MenuAsginados;
@@ -5590,8 +5434,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu MenuEmpleados;
     private javax.swing.JPopupMenu MenuEntregados;
     private javax.swing.JPopupMenu MenuInventario;
-    private javax.swing.JPopupMenu MenuInventarioAsignados;
-    private javax.swing.JPopupMenu MenuInventarioDevolver;
     private javax.swing.JPopupMenu MenuInventarioG;
     private javax.swing.JPopupMenu MenuPendientes;
     private javax.swing.JPopupMenu MenuPermisosP;
@@ -5603,19 +5445,14 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu MenuStockMin;
     private javax.swing.JPopupMenu MenuUsuarios;
     private javax.swing.JPopupMenu MenuVehiculos;
-    private javax.swing.JMenuItem ParaBaja;
     private javax.swing.JMenuItem ParaBaja1;
-    private javax.swing.JMenuItem ParaComodato;
     private javax.swing.JMenuItem ParaComodato1;
-    private javax.swing.JMenuItem ParaDonacion;
     private javax.swing.JMenuItem ParaDonacion1;
     private javax.swing.JMenu Pendiente;
-    private javax.swing.JMenu Pendiente1;
     private javax.swing.JMenuItem Permisos;
     private javax.swing.JMenuItem Promover;
     private javax.swing.JMenuItem Reemplazar;
     private javax.swing.JMenuItem Repa_Garan;
-    private javax.swing.JMenuItem Repa_Garan1;
     private javax.swing.JScrollPane ScrollEmpleado;
     private javax.swing.JMenuItem Servicio;
     private javax.swing.JMenuItem SolicitarBaja;

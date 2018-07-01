@@ -33,7 +33,7 @@ public class addInventario extends javax.swing.JDialog {
     ManagerPermisos manager_permisos;
     
     String folio,extension,producto,descripcion,ubicacion,marca,observaciones,noserie,color,modelo,imagen,fecha_compra,factura;
-    int numero;
+    int numero,cantidad;
     float importe;
     String [] nomeclaturas,folios;
     
@@ -73,7 +73,8 @@ public class addInventario extends javax.swing.JDialog {
         txtFolio = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        lblCantidad = new javax.swing.JLabel();
+        txtCantidad = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtMarca = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
@@ -82,6 +83,7 @@ public class addInventario extends javax.swing.JDialog {
         jLabel10 = new javax.swing.JLabel();
         txtModelo = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
         txtColor = new javax.swing.JTextField();
         comboFolio = new javax.swing.JComboBox<>();
         btnAceptar = new javax.swing.JButton();
@@ -164,10 +166,31 @@ public class addInventario extends javax.swing.JDialog {
         pn_addInventario.add(jLabel3);
         jLabel3.setBounds(30, 310, 75, 17);
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("Ubicación:");
-        pn_addInventario.add(jLabel4);
-        jLabel4.setBounds(40, 350, 70, 17);
+        lblCantidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblCantidad.setText("Cantidad:");
+        pn_addInventario.add(lblCantidad);
+        lblCantidad.setBounds(40, 410, 60, 17);
+
+        txtCantidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtCantidad.setText("1");
+        txtCantidad.setToolTipText("");
+        txtCantidad.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCantidadFocusLost(evt);
+            }
+        });
+        txtCantidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCantidadActionPerformed(evt);
+            }
+        });
+        txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyTyped(evt);
+            }
+        });
+        pn_addInventario.add(txtCantidad);
+        txtCantidad.setBounds(110, 400, 70, 30);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Marca:");
@@ -219,6 +242,11 @@ public class addInventario extends javax.swing.JDialog {
         jLabel11.setText("Color:");
         pn_addInventario.add(jLabel11);
         jLabel11.setBounds(60, 270, 37, 17);
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel14.setText("Ubicación:");
+        pn_addInventario.add(jLabel14);
+        jLabel14.setBounds(40, 350, 70, 17);
 
         txtColor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtColor.addActionListener(new java.awt.event.ActionListener() {
@@ -427,6 +455,7 @@ public class addInventario extends javax.swing.JDialog {
     }//GEN-LAST:event_txtNoSerieActionPerformed
 
     public void getInfo(){
+        cantidad = Integer.parseInt(txtCantidad.getText());
         folio = txtFolio.getText();
         numero = Integer.parseInt(txtNum.getText());
         extension = txtExtension.getText();
@@ -482,7 +511,7 @@ public class addInventario extends javax.swing.JDialog {
         getInfo();
         if (manager_permisos.alta_inventario(Principal.Username)) {
             
-            if (manager_inventario.guardarImagen(folio,numero,extension, producto, descripcion,ubicacion, marca, "Sin observaciones",noserie, modelo, color, fecha_compra, factura, importe,imagen)) {
+            if (manager_inventario.guardarImagen(folio,numero,extension, producto, descripcion,ubicacion, marca, "Sin observaciones",noserie, modelo, color, fecha_compra, factura, importe,imagen,cantidad)) {
 
                 JOptionPane.showMessageDialog(null, "Se inserto correctamente al inventario");
                 
@@ -589,6 +618,16 @@ public class addInventario extends javax.swing.JDialog {
     private void comboFolioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFolioActionPerformed
         // TODO add your handling code here:
         int folio = comboFolio.getSelectedIndex();
+        
+        if(comboFolio.getSelectedItem().toString().equals("Mobiliario y Equipo de Oficina")){
+            lblCantidad.setVisible(true);
+            txtCantidad.setVisible(true);
+        }else{
+            lblCantidad.setVisible(false);
+            txtCantidad.setVisible(false);
+        }
+        txtCantidad.setText("1");
+        
         if(folio > 0){
             txtFolio.setText(nomeclaturas[folio-1]);
             txtNum.setEnabled(true);
@@ -787,6 +826,25 @@ public class addInventario extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtImporteKeyTyped
 
+    private void txtCantidadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCantidadFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCantidadFocusLost
+
+    private void txtCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantidadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCantidadActionPerformed
+
+    private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();
+        if(caracter != evt.getKeyChar()){
+        
+        }
+        if(caracter < '0' || caracter > '9'){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCantidadKeyTyped
+
     /**
      * @param args the command line arguments
      */
@@ -842,9 +900,9 @@ public class addInventario extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -852,7 +910,9 @@ public class addInventario extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblAviso;
+    private javax.swing.JLabel lblCantidad;
     private javax.swing.JPanel pn_addInventario;
+    private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtColor;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtExtension;

@@ -81,39 +81,45 @@ public class ManagerInventario {
     }//obtenerDatosProd
     
     //realizar una inserción al inventario con imagen
-    public boolean guardarImagen(String folio,int numero,String extension, String producto, String descripcion, String ubicacion, String marca, String observaciones,String no_serie,String modelo,String color,String fecha_compra,String factura, float importe,String ruta) {
+    public boolean guardarImagen(String folio,int numero,String extension, String producto, String descripcion, String ubicacion, String marca, String observaciones,String no_serie,String modelo,String color,String fecha_compra,String factura, float importe,String ruta, int cantidad) {
         conexion = db.getConexion();
-        String insert = "insert into inventario (Folio,Numero,Extension,nombre_prod,descripcion,ubicacion,estatus,marca,observaciones,no_serie,tipo_uso,modelo,color,imagen,Fecha_Compra,Factura,Importe)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-        FileInputStream fi = null;
-        PreparedStatement ps = null;
-        
+        String insert;
+        File file;
         try {
-            File file = new File(ruta);
-            fi = new FileInputStream(file);
+            for(int i = 0; i<cantidad;i++){
+        
+                insert = "insert into inventario (Folio,Numero,Extension,nombre_prod,descripcion,ubicacion,estatus,marca,observaciones,no_serie,tipo_uso,modelo,color,imagen,Fecha_Compra,Factura,Importe)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+                FileInputStream fi = null;
+                PreparedStatement ps = null;
 
-            ps = conexion.prepareStatement(insert);
 
-            ps.setString(1, folio);
-            ps.setInt(2, numero);
-            ps.setString(3, extension);
-            ps.setString(4, producto);
-            ps.setString(5, descripcion);
-            ps.setString(6, ubicacion);
-            ps.setString(7, "Disponible");
-            ps.setString(8, marca);
-            ps.setString(9, observaciones);
-            ps.setString(10, no_serie);
-            ps.setString(11, "Sin asignación");
-            ps.setString(12, modelo);
-            ps.setString(13, color);
-            ps.setBinaryStream(14, fi);
-            ps.setString(15, fecha_compra);
-            ps.setString(16, factura);
-            ps.setFloat(17, importe);
+                    file = new File(ruta);
+                    fi = new FileInputStream(file);
 
-            ps.executeUpdate();
-            
-            return true;
+                    ps = conexion.prepareStatement(insert);
+
+                    ps.setString(1, folio);
+                    ps.setInt(2, numero + i);
+                    ps.setString(3, extension);
+                    ps.setString(4, producto);
+                    ps.setString(5, descripcion);
+                    ps.setString(6, ubicacion);
+                    ps.setString(7, "Disponible");
+                    ps.setString(8, marca);
+                    ps.setString(9, observaciones);
+                    ps.setString(10, no_serie);
+                    ps.setString(11, "Sin asignación");
+                    ps.setString(12, modelo);
+                    ps.setString(13, color);
+                    ps.setBinaryStream(14, fi);
+                    ps.setString(15, fecha_compra);
+                    ps.setString(16, factura);
+                    ps.setFloat(17, importe);
+
+                    ps.executeUpdate();
+            }//for
+
+                return true;
            
         } catch (Exception ex) {
             System.out.println("Error al guardar Imagen " + ex.getMessage());
