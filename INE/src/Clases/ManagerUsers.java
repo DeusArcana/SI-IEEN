@@ -374,35 +374,80 @@ public class ManagerUsers {
         
     }//asignarUsuario
     
-    public boolean actualizarEmpleado(String usuario, String nombres, String apellidoP, String apellidoM,String calle,String colonia, String telefono,String codigoP,String fecha,String curp,String rfc,String municipio,String localidad,String puesto) {
+    public boolean actualizarEmpleado(int id, String nombres, String apellidoP, String apellidoM,String calle,String colonia, String telefono,String codigoP,String fecha,String curp,String rfc,String municipio,String localidad) {
 
         try {
-            //Primero obtenemos el id del empleado
-            String sql = "select id_empleado from user where id_user = '"+usuario+"';";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            rs.next();
-            int empleado = rs.getInt(1);
-            
-            //Ahora actualizamos el perfil del empleado
-            sql = "update empleados set nombres = '"+nombres+"',apellido_p = '"+apellidoP+"',apellido_m = '"+apellidoM
+            //Actualizamos el perfil del empleado
+            String sql = "update empleados set nombres = '"+nombres+"',apellido_p = '"+apellidoP+"',apellido_m = '"+apellidoM
                   +"',calle = '"+calle+"',colonia = '"+colonia+"',telefono = '"+telefono+"',codigo_postal = '"+codigoP
                   +"',fecha_nacimiento = '"+fecha+"',curp = '"+curp+"',rfc = '"+rfc+"',municipio = '"+municipio+"',localidad = '"+localidad+"' "
-                  + "where id_empleado = "+empleado+";";
+                  + "where id_empleado = "+id+";";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
             st.executeUpdate(sql);
-            
-            //manager_permisos.asignarPermisos_Puesto(puesto, usuario,area);
             
             conexion.close();
             return true;
         } catch (SQLException ex) {
-            System.out.printf("Error al insertar el empleado en SQL");
+            System.out.printf("Error al actualizar el empleado en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         } 
         
     }//actualizarEmpleado
+    
+    public String obtenerDatosEmpleado(int idEmpleado) {
+
+        try {
+            //Obtenemos los datos del empleado
+            String sql = "select nombres, apellido_p, apellido_m, area, calle, colonia, telefono, codigo_postal, "
+                       + "fecha_nacimiento, curp, rfc, municipio, localidad from empleados "
+                       + "where id_empleado = "+idEmpleado+";";
+            
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            
+            //Llenamos la cadena con los datos
+            String datos = rs.getString(1);
+            for(int i = 2;i<14;i++){
+                datos += ",,"+rs.getString(i);
+            }
+            
+            conexion.close();
+            return datos;
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los datos del empleado en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        } 
+        
+    }//obtenerDatosEmpleado
+    
+    public int obtenerIdEmpleado(String usuario) {
+
+        try {
+            //Obtenemos el ID del empleado
+            String sql = "select id_empleado from user where id_user = '"+usuario+"';";
+            
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            
+            //Guardamos el id
+            int id  = rs.getInt(1);
+            
+            conexion.close();
+            return id;
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los datos del empleado en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        } 
+        
+    }//obtenerIdEmpleado
     
     public boolean passwordEquals(String usuario, String pass) {
         boolean coincidencia = false;

@@ -48,6 +48,7 @@ import Formularios.addInventarioGranel;
 import Formularios.addResguardo;
 import Formularios.addUsuarios;
 import Formularios.changePassword;
+import Formularios.updateEmpleado;
 import Formularios.updateInventario;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -57,6 +58,7 @@ import java.util.ArrayList;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JSpinner;
 import static Interfaces.ventana_modificar_vehiculo.campo;
+import java.text.ParseException;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.table.TableCellEditor;
@@ -212,6 +214,7 @@ public class Principal extends javax.swing.JFrame {
         activar = new javax.swing.JMenuItem();
         Promover = new javax.swing.JMenuItem();
         Permisos = new javax.swing.JMenuItem();
+        ActualizarEmployee = new javax.swing.JMenuItem();
         MenuEmpleados = new javax.swing.JPopupMenu();
         Actualizar = new javax.swing.JMenuItem();
         ActualizarInfoU = new javax.swing.JMenuItem();
@@ -477,6 +480,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MenuUsuarios.add(Permisos);
+
+        ActualizarEmployee.setText("Actualizar");
+        ActualizarEmployee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarEmployeeActionPerformed(evt);
+            }
+        });
+        MenuUsuarios.add(ActualizarEmployee);
 
         Actualizar.setText("Actualizar");
         Actualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -2679,13 +2690,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
         // TODO add your handling code here:
-        /*
-          banderaUser estará siempre en 1 cuando se quiera añadir un empleado o mientras no se use
-          por eso es necesario cambiarlo a dos para saber que la ventana addEmpleados se utilizarára
-          para actualizar.
-        */
         if(manager_permisos.update_user(Username)){
-        banderaUser = 2;
         try {
                 for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                     if ("Nimbus".equals(info.getName())) {
@@ -2697,11 +2702,14 @@ public class Principal extends javax.swing.JFrame {
                 // If Nimbus is not available, you can set the GUI to another look and feel.
             }
         int fila = tablaUsuarios.getSelectedRow();
-        UserUpdate = tablaUsuarios.getValueAt(fila, 0).toString();
-        System.out.println(UserUpdate);
-            //Llamamos el forumulario para actuaizar un empleado
-            addEmpleados ob = new addEmpleados(this, true);
-            ob.setVisible(true);
+        updateEmpleado ob;
+            try {
+                ob = new updateEmpleado(this, true,Integer.parseInt(tablaUsuarios.getValueAt(fila, 0).toString()),2);
+                ob.setVisible(true);
+            } catch (ParseException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
         }else{
             JOptionPane.showMessageDialog(null, "Usted no cuenta con el permiso para actualizar usuarios.");
         }
@@ -3955,8 +3963,14 @@ public class Principal extends javax.swing.JFrame {
             // If Nimbus is not available, you can set the GUI to another look and feel.
         }
         //Llamamos el forumulario para actuaizar un empleado
-        addEmpleados ob = new addEmpleados(this, true);
-        ob.setVisible(true);
+        updateEmpleado ob;
+        try {
+            ob = new updateEmpleado(this, true,manager_users.obtenerIdEmpleado(Username),1);
+            ob.setVisible(true);
+        } catch (ParseException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void tablaSolicitudesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaSolicitudesMouseReleased
@@ -5269,6 +5283,33 @@ public class Principal extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");
             }
     }//GEN-LAST:event_DevolverDisActionPerformed
+
+    private void ActualizarEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarEmployeeActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.update_user(Username)){
+        try {
+                for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                    if ("Nimbus".equals(info.getName())) {
+                        UIManager.setLookAndFeel(info.getClassName());
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                // If Nimbus is not available, you can set the GUI to another look and feel.
+            }
+        int fila = tablaUsuarios.getSelectedRow();
+        updateEmpleado ob;
+            try {
+                ob = new updateEmpleado(this, true,manager_users.obtenerIdEmpleado(tablaUsuarios.getValueAt(fila,0).toString()),2);
+                ob.setVisible(true);
+            } catch (ParseException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con el permiso para actualizar usuarios.");
+        }
+    }//GEN-LAST:event_ActualizarEmployeeActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -5400,6 +5441,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem Actualizar;
     private javax.swing.JMenuItem ActualizarAsignacionP;
     private javax.swing.JMenuItem ActualizarAsignacionPG;
+    private javax.swing.JMenuItem ActualizarEmployee;
     private javax.swing.JMenuItem ActualizarInfo;
     private javax.swing.JMenuItem ActualizarInfoG;
     private javax.swing.JMenuItem ActualizarInfoPP;
