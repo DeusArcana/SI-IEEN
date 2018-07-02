@@ -397,9 +397,15 @@ CREATE TABLE IF NOT EXISTS `INE`.`Inventario_granel` (
   `marca` VARCHAR(50) NULL,
   `observaciones` VARCHAR(300) NULL,
   `stock_min` INT NULL,
-  `stock` INT NULL
+  `stock` INT NULL)
 ENGINE = InnoDB;
 
+ALTER TABLE `Inventario_Granel`
+ADD CONSTRAINT `fk_Inventario_Granel_Folio`
+  FOREIGN KEY (`Folio`)
+  REFERENCES `Folio` (`ID_Folio`)
+  ON DELETE NO ACTION
+  ON UPDATE CASCADE;
 
 -- -----------------------------------------------------
 -- Table `INE`.`Permiso_vale`
