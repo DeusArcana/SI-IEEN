@@ -390,7 +390,6 @@ CREATE TABLE IF NOT EXISTS `INE`.`Inventario_granel` (
   `Folio` CHAR(6) NOT NULL,
   `Numero` INT NOT NULL,
   `Extension` CHAR(1) NULL,
-  `id_productoGranel` VARCHAR(30) NOT NULL,
   `nombre_prod` VARCHAR(50) NULL,
   `descripcion` VARCHAR(100) NULL,
   `almacen` VARCHAR(50) NULL,
@@ -398,8 +397,7 @@ CREATE TABLE IF NOT EXISTS `INE`.`Inventario_granel` (
   `marca` VARCHAR(50) NULL,
   `observaciones` VARCHAR(300) NULL,
   `stock_min` INT NULL,
-  `stock` INT NULL,
-  PRIMARY KEY (`id_productoGranel`))
+  `stock` INT NULL
 ENGINE = InnoDB;
 
 
