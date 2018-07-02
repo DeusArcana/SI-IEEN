@@ -406,7 +406,6 @@ ADD CONSTRAINT `fk_Inventario_Granel_Folio`
   REFERENCES `Folio` (`ID_Folio`)
   ON DELETE NO ACTION
   ON UPDATE CASCADE;
-
 -- -----------------------------------------------------
 -- Table `INE`.`Permiso_vale`
 -- -----------------------------------------------------
