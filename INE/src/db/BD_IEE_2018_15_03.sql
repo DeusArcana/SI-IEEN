@@ -50,6 +50,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `INE`.`Area` (
   `Area` VARCHAR(255) NOT NULL,
+  `Siglas`  VARCHAR(32),
   PRIMARY KEY (`Area`))
 ENGINE = InnoDB;
 
@@ -144,7 +145,6 @@ CREATE TABLE IF NOT EXISTS `INE`.`Inventario` (
   `marca` 			VARCHAR(50) NULL,
   `observaciones` 	VARCHAR(300) NULL,
   `no_serie` 		VARCHAR(45) NULL,
-  `tipo_uso` 		VARCHAR(100) NULL,
   `modelo` 			VARCHAR(100) NULL,
   `color` 			VARCHAR(30) NULL,
   `imagen` 			LONGBLOB NULL,
@@ -159,6 +159,56 @@ ADD CONSTRAINT `fk_Inventario_Folio`
   REFERENCES `Folio` (`ID_Folio`)
   ON DELETE NO ACTION
   ON UPDATE CASCADE;
+
+-- -----------------------------------------------------
+-- Table `INE`.`Productos_Asignados`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Productos_Asignados`;
+CREATE TABLE `Productos_Asignados` (
+  `ID_Producto` VARCHAR(255),
+  `Status` VARCHAR(32),
+  `Fecha_Seleccion` VARCHAR(255),
+  `Salida` TINYINT(1),
+  PRIMARY KEY `pk_ID_Producto`(`ID_Producto`)
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `INE`.`Manejo_Bienes`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Documentos`;
+CREATE TABLE `Documentos` (
+  `ID_Documento` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Clave` VARCHAR(255),
+  `Fecha_Creacion` DATE, 
+  `Fecha_Salida` 	DATE,
+  PRIMARY KEY `pk_ID_Documento`(`ID_Documento`)
+) ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `INE`.`Inv_Docs`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Inv_Docs`;
+CREATE TABLE `Inv_Docs` (
+  `ID_Producto` VARCHAR(255),
+  `ID_Documento` INT UNSIGNED 
+) ENGINE = InnoDB;
+
+ALTER TABLE `Inv_Docs`
+ADD CONSTRAINT `fk_Inv_Docs_Documentos`
+  FOREIGN KEY (`ID_Documento`)
+  REFERENCES `Documentos` (`ID_Documento`)
+  ON DELETE NO ACTION
+  ON UPDATE CASCADE;
+
+
+ALTER TABLE `Inv_Docs`
+ADD CONSTRAINT `fk_Inv_Docs_Productos_Asignados`
+  FOREIGN KEY (`ID_Producto`)
+  REFERENCES `Productos_Asignados` (`ID_Producto`)
+  ON DELETE NO ACTION
+  ON UPDATE CASCADE;
+
 
 -- -----------------------------------------------------
 -- Table `INE`.`Resguardo_personal`
@@ -337,6 +387,9 @@ ENGINE = InnoDB;
 -- Table `INE`.`Inventario_granel`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `INE`.`Inventario_granel` (
+  `Folio` CHAR(6) NOT NULL,
+  `Numero` INT NOT NULL,
+  `Extension` CHAR(1) NULL,
   `id_productoGranel` VARCHAR(30) NOT NULL,
   `nombre_prod` VARCHAR(50) NULL,
   `descripcion` VARCHAR(100) NULL,
@@ -346,7 +399,6 @@ CREATE TABLE IF NOT EXISTS `INE`.`Inventario_granel` (
   `observaciones` VARCHAR(300) NULL,
   `stock_min` INT NULL,
   `stock` INT NULL,
-  `tipo_uso` VARCHAR(100) NULL,
   PRIMARY KEY (`id_productoGranel`))
 ENGINE = InnoDB;
 
