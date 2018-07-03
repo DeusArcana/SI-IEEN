@@ -119,7 +119,7 @@ public class ManagerInventarioGranel {
             return table;
     }//getBusquedaInventarioG
 	
-    public boolean insertarInventarioG(String clave, String producto, String almacen, String marca,int stockmin, int stock, String descripcion, String observaciones) {
+    public boolean insertarInventarioG(int numero,String extension, String producto, String almacen, String marca,int stockmin, int stock, String descripcion, String observaciones) {
         try {
             //Hacemos la conexión
             conexion = db.getConexion();
@@ -129,8 +129,8 @@ public class ManagerInventarioGranel {
             ResultSet rs;
             
             //Insertamos al inventario
-            String sql = "insert into inventario_Granel (concat(Folio,'-',Numero,Extension),nombre_prod,almacen,marca,stock_min,stock,descripcion,observaciones,estatus) "
-                         +"values('"+clave+"','"+producto+"','"+almacen+"','"+marca+"','"+stockmin+"','"+stock+"','"
+            String sql = "insert into inventario_Granel (Folio,Numero,Extension,nombre_prod,almacen,marca,stock_min,stock,descripcion,observaciones,estatus) "
+                         +"values('EY-99',"+numero+",'"+extension+"','"+producto+"','"+almacen+"','"+marca+"','"+stockmin+"','"+stock+"','"
                          +descripcion+"','"+observaciones+"','Disponible');";
             st.executeUpdate(sql);
             

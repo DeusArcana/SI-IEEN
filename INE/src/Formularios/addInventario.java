@@ -319,7 +319,7 @@ public class addInventario extends javax.swing.JDialog {
         jPanel1.setBounds(380, 20, 410, 240);
 
         txtNum.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtNum.setToolTipText("Ejemplo CMP00000001");
+        txtNum.setToolTipText("");
         txtNum.setEnabled(false);
         txtNum.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -340,7 +340,7 @@ public class addInventario extends javax.swing.JDialog {
         txtNum.setBounds(180, 60, 70, 30);
 
         txtExtension.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtExtension.setToolTipText("Ejemplo CMP00000001");
+        txtExtension.setToolTipText("");
         txtExtension.setEnabled(false);
         txtExtension.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -678,34 +678,39 @@ public class addInventario extends javax.swing.JDialog {
         // TODO add your handling code here:        
     }//GEN-LAST:event_txtFolioKeyTyped
 
+    public void existeClave(){
+    
+        //Comparamos si existe o no
+        if(manager_inventario.existeInventario(txtFolio.getText()+"-"+txtNum.getText()+txtExtension.getText())){
+            //Existe, entonces pintamos en rojo los TextField
+            txtNum.setBackground(java.awt.Color.RED);
+            txtExtension.setBackground(java.awt.Color.RED);
+            btnAceptar.setEnabled(false);
+            lblAviso.setText("La clave ya se encuentra registrada.");
+        }else{
+            //Si no existe, entonces pintamos de verde los TextField
+            txtNum.setBackground(java.awt.Color.GREEN);
+            txtExtension.setBackground(java.awt.Color.GREEN);
+            btnAceptar.setEnabled(true);
+            lblAviso.setText("");
+        }
+        
+    }//existeClave
+    
     private void txtNumFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNumFocusLost
         // TODO add your handling code here:
         if(!(txtNum.getText().isEmpty())){
             
-            //Comparamos si existe o no
-            if(manager_inventario.existeInventario(txtFolio.getText()+"-"+txtNum.getText()+txtExtension.getText())){
-                //Existe, entonces pintamos en rojo los TextField
-                txtFolio.setBackground(java.awt.Color.RED);
-                txtNum.setBackground(java.awt.Color.RED);
-                txtExtension.setBackground(java.awt.Color.RED);
-                btnAceptar.setEnabled(false);
-                lblAviso.setText("La clave ya se encuentra registrada.");
-                
-            }else{
-                //Si no existe, entonces pintamos de verde los TextField
-                txtFolio.setBackground(java.awt.Color.GREEN);
-                txtNum.setBackground(java.awt.Color.GREEN);
-                txtExtension.setBackground(java.awt.Color.GREEN);
-                btnAceptar.setEnabled(true);
-                lblAviso.setText("");
-            }
-            
+            existeClave();
+            txtExtension.setEditable(true);
         }//Buscar si existe o no
         else{
             txtFolio.setBackground(java.awt.Color.WHITE);
             txtNum.setBackground(java.awt.Color.WHITE);
             txtExtension.setBackground(java.awt.Color.WHITE);
             btnAceptar.setEnabled(false);
+            txtExtension.setEditable(false);
+            txtExtension.setText("");
             lblAviso.setText("");
         }
     }//GEN-LAST:event_txtNumFocusLost
@@ -730,23 +735,7 @@ public class addInventario extends javax.swing.JDialog {
         // TODO add your handling code here:
         if(!(txtNum.getText().isEmpty() && txtExtension.getText().isEmpty())){
             
-            //Comparamos si existe o no
-            if(manager_inventario.existeInventario(txtFolio.getText()+"-"+txtNum.getText()+txtExtension.getText())){
-                //Existe, entonces pintamos en rojo los TextField
-                txtFolio.setBackground(java.awt.Color.RED);
-                txtNum.setBackground(java.awt.Color.RED);
-                txtExtension.setBackground(java.awt.Color.RED);
-                btnAceptar.setEnabled(false);
-                lblAviso.setText("La clave ya se encuentra registrada.");
-                
-            }else{
-                //Si no existe, entonces pintamos de verde los TextField
-                txtFolio.setBackground(java.awt.Color.GREEN);
-                txtNum.setBackground(java.awt.Color.GREEN);
-                txtExtension.setBackground(java.awt.Color.GREEN);
-                btnAceptar.setEnabled(true);
-                lblAviso.setText("");
-            }
+            existeClave();
             
         }//Buscar si existe o no
         else{
