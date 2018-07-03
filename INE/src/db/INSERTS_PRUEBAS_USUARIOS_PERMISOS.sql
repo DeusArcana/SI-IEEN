@@ -24,18 +24,18 @@ SET FOREIGN_KEY_CHECKS=0;
 DELETE FROM `INE`.`Area` WHERE 1;
 INSERT INTO `INE`.`Area` 
 	VALUES 
-		('Presidencia'),
-		('Secretaría General'),
-        ('Dirección Administrativa'),
-        ('Organo Interno de Control'),
-		('Unidad de Transparencia'),
-        ('Dirección Jurídica'),
-        ('Direccion de Organización y Capacitación Electoral'),
-		('Unidad Técnica de Informática y Estadística'),
-        ('Comunicación Social'),
-        ('Oficialía de Partes'),
-		('Oficialía Electoral'),
-        ('Consejos Municipales')
+		('Presidencia','P'),
+		('Secretaría General','SG'),
+        ('Dirección Administrativa','DA'),
+        ('Organo Interno de Control','OIC'),
+		('Unidad de Transparencia','UT'),
+        ('Dirección Jurídica','DJ'),
+        ('Direccion de Organización y Capacitación Electoral','DOYCE'),
+		('Unidad Técnica de Informática y Estadística','UTIE'),
+        ('Comunicación Social','CS'),
+        ('Oficialía de Partes',''),
+		('Oficialía Electoral',''),
+        ('Consejos Municipales','')
 	;
     
 -- Vacia la tabla
@@ -80,21 +80,21 @@ INSERT INTO `INE`.`Empleados` (`nombres`, `apellido_p`, `apellido_m`, `calle`, `
 --  `tipo_uso` VARCHAR(100) NULL,
 
 DELETE FROM `INE`.`Inventario_Granel` WHERE 1;
-INSERT INTO `INE`.`Inventario_Granel` (`id_productogranel`, `nombre_prod`, `descripcion`, `almacen`, `estatus`, `marca`, `observaciones`, `stock_min`, `stock`, `tipo_uso`)
+INSERT INTO `INE`.`Inventario_Granel` (`Folio`, `Numero`, `Extension`, `nombre_prod`, `descripcion`, `almacen`, `estatus`, `marca`, `observaciones`, `stock_min`, `stock`)
 	VALUES
-		('GMP00000001', 'Archivador', 'Archivador  Carta Marmoleado Verde', 'Almacen 1', 'Disponible', 'OFIX', '',10,11,'Papeleria'),
-        ('GMP00000002', 'Archivador', 'Archivador Carta Amarillo', 'Almacen 1', 'Disponible', 'SMART','',10,21,'Papeleria'),
-        ('GMP00000003', 'Archivador', 'Archivador Carta Azul', 'Almacen 1', 'Disponible', 'LEFORT','',10,13,'Papeleria' ),
-        ('GMP00000004', 'Sobre', 'Sobre con Burbuja', 'Almacen 1', 'Disponible', 'FORTEC', '18.4X30.48CM',10,15,'Papeleria'),
-        ('GMP00000005', 'Caja para Archivo', 'Caja Archivo Carta Plástica', 'Almacen 1', 'Disponible', 'OFIX', ' Medidas 38.5 x 31 x 25cm (largo-ancho-alto).',20,30,'Papeleria'),
-        ('GMP00000006', 'Caja para Archivo', 'Caja Archivo Carta Plastica Tapa Negra', 'Almacen 1', 'Disponible', 'OFIX', 'Medidas 38.5 x 31 x 25cm (largo-ancho-alto).',20,30,'Papeleria'),
-        ('GMP00000007', 'Hojas', 'Hojas para Carpeta 100H C-5 Clasico', 'Almacen 1', 'Disponible', 'SCRIBE', 'Tamaño carta. Cuadro No. 5.', 100,350,'Papeleria'),
-        ('GMP00000008', 'Boligrafo Azul', 'Boligrafo Mediano Stick Azul', 'Almacen 1', 'Disponible', 'OFIX', 'Caja con 12 piezas.', 30, 45,'Papeleria'),
-        ('GMP00000009', 'Boligrafo Rojo', 'Boligrafo Mediano Stick Rojo', 'Almacen 1', 'Disponible', 'Bic', 'Caja con 12 piezas.', 30, 45,'Papeleria'),
-        ('GMP00000010', 'Lapiz', 'Lapiz de Grafito', 'Almacen 1', 'Disponible', 'Bic', '2B Hexagonal Evolution', 40, 55,'Papeleria'),
-        ('GMP00000011', 'Lapiz', 'Lapiz de Grafito con Goma', 'Almacen 1', 'Disponible', 'Mirado', '#2 HEXAG MIRADO CJA CON 12', 50, 65,'Papeleria'),
-        ('GMP00000012', 'Goma', 'Goma para Borrar de Migajón', 'Almacen 1', 'Disponible', 'Pelikan', 'BOL/3 STRIKE 20 Bolsa con 3 piezas', 25, 30,'Papeleria'),
-        ('GMP00000013', 'Sujeta Documentos', 'SUJETADOR METAL NEGRO 25MM', 'Almacen 1', 'Disponible', 'SMART', 'Agarrapapel 25MM', 15, 20,'Papeleria')
+		('EY-99','1','', 'Archivador', 'Archivador  Carta Marmoleado Verde', 'Almacen 1', 'Disponible', 'OFIX', '',10,11),
+        ('EY-99','2','', 'Archivador', 'Archivador Carta Amarillo', 'Almacen 1', 'Disponible', 'SMART','',10,21),
+        ('EY-99','3','', 'Archivador', 'Archivador Carta Azul', 'Almacen 1', 'Disponible', 'LEFORT','',10,13 ),
+        ('EY-99','4','', 'Sobre', 'Sobre con Burbuja', 'Almacen 1', 'Disponible', 'FORTEC', '18.4X30.48CM',10,15),
+        ('EY-99','5','', 'Caja para Archivo', 'Caja Archivo Carta Plástica', 'Almacen 1', 'Disponible', 'OFIX', ' Medidas 38.5 x 31 x 25cm (largo-ancho-alto).',20,30),
+        ('EY-99','6','', 'Caja para Archivo', 'Caja Archivo Carta Plastica Tapa Negra', 'Almacen 1', 'Disponible', 'OFIX', 'Medidas 38.5 x 31 x 25cm (largo-ancho-alto).',20,30),
+        ('EY-99','7','', 'Hojas', 'Hojas para Carpeta 100H C-5 Clasico', 'Almacen 1', 'Disponible', 'SCRIBE', 'Tamaño carta. Cuadro No. 5.', 100,350),
+        ('EY-99','8','', 'Boligrafo Azul', 'Boligrafo Mediano Stick Azul', 'Almacen 1', 'Disponible', 'OFIX', 'Caja con 12 piezas.', 30, 45),
+        ('EY-99','9','', 'Boligrafo Rojo', 'Boligrafo Mediano Stick Rojo', 'Almacen 1', 'Disponible', 'Bic', 'Caja con 12 piezas.', 30, 45),
+        ('EY-99','10','', 'Lapiz', 'Lapiz de Grafito', 'Almacen 1', 'Disponible', 'Bic', '2B Hexagonal Evolution', 40, 55),
+        ('EY-99','11','', 'Lapiz', 'Lapiz de Grafito con Goma', 'Almacen 1', 'Disponible', 'Mirado', '#2 HEXAG MIRADO CJA CON 12', 50, 65),
+        ('EY-99','12','', 'Goma', 'Goma para Borrar de Migajón', 'Almacen 1', 'Disponible', 'Pelikan', 'BOL/3 STRIKE 20 Bolsa con 3 piezas', 25, 30),
+        ('EY-99','13','', 'Sujeta Documentos', 'SUJETADOR METAL NEGRO 25MM', 'Almacen 1', 'Disponible', 'SMART', 'Agarrapapel 25MM', 15, 20)
 	;
 
 DELETE FROM `INE`.`Puestos` WHERE 1;
@@ -201,20 +201,6 @@ INSERT INTO `INE`.`Permiso_Vale`
         ('Vale de reemplazo',	'Secretaria', 			false)
 	;
 
--- -----------------------------------------------------------------------------
---					INSERTS `INE`.`Folio`
--- ------------------------------------------------------------------------------
-INSERT INTO `Folio`(`Folio`.`ID_Folio`, `Folio`.`descripcion`) VALUES
-	('EY-01', 'Mobiliario y Equipo de Oficina'),
-	('EY-02', 'Equipo de Computo'),
-	('EY-03', 'Equipo de Fotografía y Video'),
-	('EY-04', 'Aire Acondicionado'),
-	('EY-05', 'Equipo de Comunicación'),
-	('EY-06', 'Equipos y Aparatos Audiovisuales'),
-	('EY-07', 'Equipo Diverso'),
-	('EY-10', 'Equipo de Transporte')
-;
-
 INSERT INTO `Bodegas`(`Bodegas`.`Nom_Bodega`) VALUES
 	('Bodega UTIE'),
 	('Bodega DOyCE'),
@@ -225,7 +211,7 @@ INSERT INTO `Bodegas`(`Bodegas`.`Nom_Bodega`) VALUES
 DELETE FROM `INE`.`User` WHERE 1;    
 INSERT INTO `INE`.`User`  (`id_user`, `id_empleado`, `documentacion`, `password`, `puesto`, `estatus`)
 	VALUES
-		('Mendez26', 1, true, '123', 'SuperUsuario', 'ACTIVO');/*,
+		('Mendez26', 1, true, '123', 'SuperUsuario', 'Activo');/*,
         ('Larry', 2, true, '123', 'Organización', 'Administración'),
         ('Leiva', 3, true, '123', 'Auxiliar', 'Almacén'),
         ('Quiñones', 4, true, '123', 'Auxiliar', 'Informática'),
@@ -271,6 +257,21 @@ INSERT INTO `INE`.`Permisos`
         ('Mendez26',	'Asignación',			true,true,true,true),
         ('Mendez26',	'Respuesta Viaticos',	true,true,true,true),
         ('Mendez26',	'Solicitud Viaticos',	true,true,true,true);
+
+-- -----------------------------------------------------------------------------
+--					INSERTS `INE`.`Folio`
+-- ------------------------------------------------------------------------------
+INSERT INTO `Folio`(`Folio`.`ID_Folio`, `Folio`.`descripcion`) VALUES
+	('EY-01', 'Mobiliario y Equipo de Oficina'),
+	('EY-02', 'Equipo de Computo'),
+	('EY-03', 'Equipo de Fotografía y Video'),
+	('EY-04', 'Aire Acondicionado'),
+	('EY-05', 'Equipo de Comunicación'),
+	('EY-06', 'Equipos y Aparatos Audiovisuales'),
+	('EY-07', 'Equipo Diverso'),
+	('EY-10', 'Equipo de Transporte'),
+    ('EY-99', 'Consumibles')
+;
         
 DELETE FROM `INE`.`Permisos_Puesto` WHERE 1;
 INSERT INTO `INE`.`Permisos_Puesto` 

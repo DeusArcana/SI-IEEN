@@ -3237,21 +3237,6 @@ public class Principal extends javax.swing.JFrame {
         return existe;
     }//Busca si existen coincidencias en la tabla para sumarlas
     
-    public void getDatosTablaRecoleccion(){
-        IDVales = new int[tablaObjetosEntregados.getRowCount()];
-        Claves = new String[tablaObjetosEntregados.getRowCount()];
-        Cantidad = new int[tablaObjetosEntregados.getRowCount()];
-        for(int i = 0;i<tablaObjetosEntregados.getRowCount();i++){
-            IDVales[i] = Integer.parseInt(tablaObjetosEntregados.getValueAt(i, 0).toString());//Obtenemos los id de los vales
-            Claves[i] = tablaObjetosEntregados.getValueAt(i, 1).toString();//Obtenemos las claves
-            Cantidad[i] = Integer.parseInt(tablaObjetosEntregados.getValueAt(i, 5).toString());//Obtenemos las cantidades
-        }//Llenar arreglos de los codigos de barras y cantidades
-    }//obtiene los datos de la tabla "tablaMAsignados"
-    
-    public void regresarRecoleccion(){
-        manejador_inventario.regresarRecoleccion(IDVales,Claves,Cantidad);
-    }
-    
     public void limpiarTablaRecoleccion(){
         
         int a = modeloObjetosEntregados.getRowCount() - 1;
@@ -3377,8 +3362,6 @@ public class Principal extends javax.swing.JFrame {
             btn_cancelar3.setEnabled(false);
             
             //Devolvemos los productos al estado anterior
-            getDatosTablaRecoleccion();
-            regresarRecoleccion();
             limpiarTablaRecoleccion();
             comboEmpleadoR.setSelectedIndex(0);
         }
@@ -3447,8 +3430,6 @@ public class Principal extends javax.swing.JFrame {
 
     private void btn_cancelar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelar3ActionPerformed
         // TODO add your handling code here:
-        getDatosTablaRecoleccion();
-        regresarRecoleccion();
         limpiarTablaRecoleccion();
         btnGenerarValeR.setEnabled(false);
         //tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
@@ -4412,32 +4393,6 @@ public class Principal extends javax.swing.JFrame {
 
     private void CancelarEntregaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarEntregaActionPerformed
         // TODO add your handling code here:
-        IDVales = new int[1];
-        Claves = new String[1];
-        Cantidad = new int[1];
-        //Obtenemos la fila
-        int fila = tablaObjetosEntregados.getSelectedRow();
-        
-        //Obtenemos el idVale, la clave y cantidad
-        IDVales[0] = Integer.parseInt(tablaObjetosEntregados.getValueAt(fila, 0).toString());
-        Claves[0] = tablaObjetosEntregados.getValueAt(fila, 1).toString();
-        Cantidad[0] = Integer.parseInt(tablaObjetosEntregados.getValueAt(fila, 5).toString());
-        
-        //Mostramos mensaje de confirmación para cancelar el producto seleccionado
-        String[] opciones = {"Aceptar", "Cancelar"};
-        int seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar el producto "+Claves[0]+"?","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
-        if(seleccion == 0){
-            //Regresamos el producto seleccionado
-            manejador_inventario.regresarRecoleccion(IDVales,Claves,Cantidad);
-            //Eliminamos el registro de la tabla
-            modeloObjetosEntregados.removeRow(fila);
-            //tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
-            JOptionPane.showMessageDialog(null, "Se cancelo la entrega del producto "+Claves[0]+".");
-            //Vemos si queda mas de un producto
-            if(modeloObjetosEntregados.getRowCount() == 0){
-                btnGenerarValeR.setEnabled(false);
-            }
-        }//selecciono la opcion "Aceptar"
     }//GEN-LAST:event_CancelarEntregaActionPerformed
 
     private void btnEditar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditar1ActionPerformed
@@ -5059,7 +5014,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnEntregarRecoleccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntregarRecoleccionActionPerformed
         // TODO add your handling code here:
-        //String []claves = new String[tablaRecoleccion.]
+        //Declaramos las variables donde guardaremos los datos para actualizarlos y entregarlos
         String ids = "";
         String claves = "";
         String ubicaciones = "";
@@ -5076,9 +5031,9 @@ public class Principal extends javax.swing.JFrame {
                     //Vemos si tiene observaciones el equipo entregado
                     if(tablaRecoleccion.getValueAt(i, 8).toString().equals("")){
                         //Si esta vacío entonces concatenamos un espacio en blanco
-                        observaciones += " ,";
+                        observaciones += " ,,";
                     }else{
-                        observaciones += tablaRecoleccion.getValueAt(i, 8).toString()+",";
+                        observaciones += tablaRecoleccion.getValueAt(i, 8).toString()+",,";
                     }
                     
                     ids += tablaRecoleccion.getValueAt(i, 1).toString()+",";
@@ -5102,7 +5057,7 @@ public class Principal extends javax.swing.JFrame {
             String [] idVales = ids.split(",");
             String [] Claves = claves.split(",");
             String [] Ubicaciones = ubicaciones.split(",");
-            String [] Observaciones = observaciones.split(",");
+            String [] Observaciones = observaciones.split(",,");
             
             //Se realiza la operación de entrega de productos y su respectivo cambio
             if(manejador_inventario.recoleccionInventario(idVales,Claves,Ubicaciones,Observaciones)){
@@ -5115,13 +5070,8 @@ public class Principal extends javax.swing.JFrame {
             }else{
                 JOptionPane.showMessageDialog(this, "Verificar con el distribuidor.");
             }
-                    
-            
-            
             
         }//registroCorrecto
-        
-        
         
     }//GEN-LAST:event_btnEntregarRecoleccionActionPerformed
 

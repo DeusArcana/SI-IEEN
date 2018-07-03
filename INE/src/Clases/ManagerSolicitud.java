@@ -81,106 +81,8 @@ public class ManagerSolicitud {
         } 
         
     }//registro_solicitud
-    
-    //Este metodo crea una tabla temporal que almacena los ids de los productos que se quieren solicitar, esto con el fin de que si el proceso se
-    //llegue a cancelar no se haya registrado todavia ninguna solicitud
-    public DefaultTableModel mostrarProductosSolicitados(String user, String ids){
-        
-        //Creamos la tabla que mostrara la información al usuario
-        DefaultTableModel table = new DefaultTableModel();
-        JTable checks = new JTable();
-        try {
-            //Hacemos la conexión
-            conexion = db.getConexion();
-            //Creamos la variable para hacer operaciones CRUD
-            Statement st = conexion.createStatement();
-            //Creamos la variable para guardar el resultado de las consultas
-            ResultSet rs;
-            
-            //Creamos la tabla temporal que albergara los ids de los productos solicitados
-            String sql = "CREATE TEMPORARY TABLE productosSolicitados_"+user+" (id_granel varchar(50));";
-            st.executeUpdate(sql);
-            
-            String[] productos = ids.split(",");
-            
-            for (String producto : productos) {
-                //Registramos los productos que se solicitaron
-                sql = "insert into productosSolicitados_"+user+" (id_granel) "
-                        +"values('"+producto+"');";
-                st.executeUpdate(sql);
-            }//Llenamos la tabla temporal
-            
-            JScrollPane scroll = new JScrollPane();
-    
-            //Creamos la tabla con las caracterisiticas que necesitamos
-            checks.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
-            checks.setModel(new javax.swing.table.DefaultTableModel(
-                new Object [][] {
-
-                },
-                //Declaramos el titulo de las columnas
-                new String [] {
-                    "Clave", "Nombre corto", "Descripción", "Marca","Solicitar"
-                }
-            ){
-                //El tipo que sera cada columna, la primera columna un checkbox y los demas seran objetos
-                Class[] types = new Class [] {
-                    java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Integer.class
-                };
-
-                public Class getColumnClass(int columnIndex) {
-                    return types [columnIndex];
-                }
-                //Esto es para indicar que columnas dejaremos editar o no
-                boolean[] canEdit = new boolean [] {
-                    false, false, false, false, true
-                };
-
-                public boolean isCellEditable(int rowIndex, int columnIndex) {
-                    return canEdit [columnIndex];
-                }
-
-              }
-
-            );
-            //Agregamos un scroll a la tabla
-            scroll.setViewportView(checks);
-            scroll.setBounds(30, 130, 1110, 500);
-
-            table = (DefaultTableModel)checks.getModel();
-            
-            sql="select ig.id_productoGranel, ig.nombre_prod, ig.descripcion, ig.marca from productosSolicitados_"+user+" dss\n" +
-                        "inner join inventario_granel ig on (ig.id_productoGranel = dss.id_granel);";
-            Object datos[] = new Object[5];
-            rs = st.executeQuery(sql);
-            //Llenar tabla
-            while (rs.next()) {
-                
-                for(int i = 0;i<4;i++){
-                    
-                datos[i] = rs.getObject(i+1);    
-                    
-                }//Llenamos las columnas por registro
-                
-                datos[4] = 1;
-                
-                table.addRow(datos);//Añadimos la fila
-           }//while
-                
-            
-            conexion.close();
-            
-        } catch (SQLException ex) {
-            System.out.printf("Error al crear la tabla temporal para mostrarla en SQL");
-            Logger.getLogger(ManagerSolicitud.class.getName()).log(Level.SEVERE, null, ex);
-            
-        } 
-        
-        return table;
-    }//registro_solicitudSalida
 
     //Este metodo realiza el registro de la solicitud de salida de almacen y retorna la tabla para que ingresen la cantidad que desean solicitar
-    //(Hace falta mejorar este método para que este sea el registro de todos los tipos de solicitudes, por el momento realiza correctamente la de solicitud de salida de almacen)
     public boolean registro_SolicitudSalida(String user, String [] Productos,int[] Cantidad){
         try {
             //Hacemos la conexión
@@ -284,9 +186,9 @@ public class ManagerSolicitud {
             
             conexion = db.getConexion();
             
-            String sql="select ig.id_productoGranel, ig.nombre_prod, ig.descripcion, ig.marca, dss.cantidad_solicitada,ig.stock from detalle_solicitudSalida dss\n" +
+            String sql="select concat(ig.Folio,'-',ig.Numero,ig.Extension), ig.nombre_prod, ig.descripcion, ig.marca, dss.cantidad_solicitada,ig.stock from detalle_solicitudSalida dss\n" +
                         "inner join solicitudsalida ss on (concat(ss.Folio,'-',ss.Num,'-',ss.Año) = dss.id_solicitud)\n" +
-                        "inner join inventario_granel ig on (ig.id_productoGranel = dss.id_producto) where dss.id_solicitud = '"+solicitud+"';";
+                        "inner join inventario_granel ig on (concat(ig.Folio,'-',ig.Numero,ig.Extension) = dss.id_producto) where dss.id_solicitud = '"+solicitud+"';";
             Statement st = conexion.createStatement();
             Object datos[] = new Object[6];
             ResultSet rs = st.executeQuery(sql);
