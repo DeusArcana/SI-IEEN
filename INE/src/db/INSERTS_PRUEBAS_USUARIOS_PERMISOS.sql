@@ -3,6 +3,59 @@ USE `INE`;
 SET SQL_SAFE_UPDATES = 0;
 -- Permite insertar los datos sin importar si es parent_table
 SET FOREIGN_KEY_CHECKS=0;
+
+DELETE FROM `INE`.`Area` WHERE 1;
+INSERT INTO `INE`.`Area` 
+	VALUES 
+        (1,'Asesor CLE',''),
+        (2,'Comunicación Social','CS'),
+        (3,'Consejo Local',''),
+        (4,'Dirección Administración','DA'),
+        (5,'Direccion de Organización y Capacitación Electoral','DOYCE'),
+        (6,'Dirección Jurídica','DJ'),
+        (7,'Organo Interno de Control','OIC'),
+        (8,'Presidencia','P'),
+        (9,'Secretaría General','SG'),
+        (10,'Unidad de Transparencia','UT'),
+		(11,'Unidad Técnica de Informática y Estadística','UTIE')
+	;
+
+DELETE FROM `INE`.`Puestos_Trabajo` WHERE 1;
+INSERT INTO `INE`.`Puestos_Trabajo` 
+	VALUES 
+        (1,1,'Asesor/a de Consejera/o',0),
+        (2,1,'Asesor/a de Consejera/o Presidente',0),
+        (3,2,'Auxiliar A',0),
+        (4,3,'Consejera/o Electoral',0),
+        (5,3,'Consejera/o Presidente',0),
+        (6,4,'Área de Nóminas, Planeación y Adquisiciones',0),
+        (7,4,'Auxiliar Administrativo',0),
+        (8,4,'Auxiliar B',0),
+        (9,4,'Auxiliar de Oficina',0),
+        (10,4,'Contador',0),
+        (11,4,'Director/a de Administración',0),
+        (12,5,'Auxiliar B',0),
+        (13,5,'Auxiliar de Oficina',0),
+        (14,5,'Coordinador/a de Organización Electoral',0),
+        (15,5,'Encargado/a del Despacho de la Coordinación de Educación Cívica',0),
+        (16,5,'Encargado/a del Despacho de la Dirección de Organización y Capacitación Electoral',0),
+        (17,6,'Abogado/a',0),
+        (18,6,'Encargado/a del Despacho de la Dirección Jurídica',0),
+        (19,7,'Auxiliar C',0),
+        (20,7,'Titular de Órgano Interno de Control',0),
+        (21,8,'Asistente de Presidencia',0),
+        (22,9,'Abogado/a A',0),
+        (23,9,'Abogado/a B',0),
+        (24,9,'Abogado/a',0),
+        (25,9,'Auxiliar C',0),
+        (26,9,'Auxiliar de Oficina',0),
+        (27,9,'Coordinador/a de Prerrogativas y Partidos Políticos',0),
+        (28,9,'Encargado/a del Despacho de la Secretaría General',0),
+        (29,10,'Abogado B',0),
+        (30,11,'Programador',0),
+        (31,11,'Titular de la Unidad Técnica de Informática y Estádistica',0)
+	;
+
 /********************************************************************************
 **		INSERTS `ine`.`empleados`
 ********************************************************************************/
@@ -20,47 +73,16 @@ SET FOREIGN_KEY_CHECKS=0;
 -- `rfc` 			VARCHAR(13) NULL,
 -- `municipio` 		VARCHAR(30) NULL,
 -- `localidad` 		VARCHAR(50) NULL,
-
-DELETE FROM `INE`.`Area` WHERE 1;
-INSERT INTO `INE`.`Area` 
-	VALUES 
-		('Presidencia','P'),
-		('Secretaría General','SG'),
-        ('Dirección Administrativa','DA'),
-        ('Organo Interno de Control','OIC'),
-		('Unidad de Transparencia','UT'),
-        ('Dirección Jurídica','DJ'),
-        ('Direccion de Organización y Capacitación Electoral','DOYCE'),
-		('Unidad Técnica de Informática y Estadística','UTIE'),
-        ('Comunicación Social','CS'),
-        ('Oficialía de Partes',''),
-		('Oficialía Electoral',''),
-        ('Consejos Municipales','')
-	;
     
 -- Vacia la tabla
 DELETE FROM `INE`.`Empleados` WHERE 1;
 -- Repara el contador
 ALTER TABLE `INE`.`Empleados` AUTO_INCREMENT = 1;
 INSERT INTO `INE`.`Empleados`(`nombres`, `apellido_p`, `apellido_m`, `calle`, `colonia`, `telefono`, `codigo_postal`, `fecha_nacimiento`,
-									`curp`, `rfc`, `municipio`, `localidad`,`area`) 
+									`curp`, `rfc`, `municipio`, `localidad`,`area`,`puesto`) 
 	VALUES 
-		('Kevin Alejandro','Méndez','Santana','Udine #18','Fracc. Bonaterra','311-162-16-71','63194','1995-09-26','MESK950926HNTNNV08','123456QWEASD','Tepic','Tepic','Dirección Administrativa')
+		('Kevin Alejandro','Méndez','Santana','Udine #18','Fracc. Bonaterra','311-162-16-71','63194','1995-09-26','MESK950926HNTNNV08','123456QWEASD','Tepic','Tepic',11,30)
 	;
-/*
-INSERT INTO `INE`.`Empleados` (`nombres`, `apellido_p`, `apellido_m`, `calle`, `colonia`, `telefono`, `codigo_postal`, `fecha_nacimiento`,
-									`curp`, `rfc`, `municipio`, `localidad`) 
-	VALUES 
-		('Larry', 'Tirado', 'Oquendo', 'C/ Cuevas de Ambrosio, 19', 'Fraccionamiento Las Rosas', '743 744 008', '63170', '1995-11-6', 'MESK950926HNTNNV08', '123456QWEASD', 'Tepic', 'Tepic'),
-        ('Endike', 'Leiva', 'Martínez', '24193 Villaquilambre','Los Arcos', '648 589 384', '63170','1996-8-9', 'MESK950926HNTNNV08',  '123456QWEASD','Tepic','Tepic'),
-        ('Ingmar', 'Pedraza', 'Quiñones', 'Bellavista, 47', 'Jardines del Valle', '778 280 380', '63170', '1997-7-6', 'MESK950926HNTNNV08', '123456QWEASD', 'Tepic', 'Tepic'),
-        ('Alex', 'Lima', 'Ferreira', 'C/ Amoladera, 69', 'La Taberna', '730 470 846', '63170', '1997-9-11', 'MESK950926HNTNNV08', '123456QWEASD', 'Tepic','Tepic'),
-        ('Emilly', 'Goncalves', 'Almeida', 'Pza. Fuensanta, 30', 'Los Robles', '730 470 846', '63170', '1993-6-6', 'MESK950926HNTNNV08', '123456QWEASD', 'Tepic', 'Tepic'),
-        ('Julieta', 'Carvalho', 'Castro', 'Prolongacion San Sebastian, 45', 'Las Brisas', '713 743 463', '63170', '1995-11-18', 'MESK950926HNTNNV08', '123456QWEASD', 'Tepic','Tepic'),
-        ('Fernanda', 'Alves', 'Correia', 'La Fontanilla, 23', 'Los Alces', '737 144 758', '63170', '1996-4-20', 'MESK950926HNTNNV08', '123456QWEASD', 'Tepic', 'Tepic'),
-        ('Carla', 'Araujo', 'Barbosa', 'Avendaño, 25', 'Moctezuma', '646 329 790', '63170', '1996-1-2', 'MESK950926HNTNNV08', '123456QWEASD', 'Tepic', 'Tepic')
-	;*/
-
 
 /***************************************************************************
 ** 			INSERTS `INE`.`Inventario_Granel`
@@ -340,6 +362,8 @@ FIELDS TERMINATED BY ','
 ESCAPED BY '"'
 LINES TERMINATED BY '\r\n' 
 (`Folio`, `Numero`, `Extension`, `NO_Serie`, `Nombre_Prod`, `Marca`, `Modelo`, `Color`, `Fecha_Compra`, `Factura`, `Importe`, `Observaciones`);
+
+UPDATE `ine`.`inventario` SET `ine`.`inventario`.`estatus` = 'Disponible';
 
 -- Return initial state
 SET SQL_SAFE_UPDATES = 1;

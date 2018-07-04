@@ -15,6 +15,43 @@ CREATE SCHEMA IF NOT EXISTS `INE` DEFAULT CHARACTER SET utf8 ;
 USE `INE` ;
 
 -- -----------------------------------------------------
+-- Table `INE`.`Puestos`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `INE`.`Puestos` (
+  `puesto` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`puesto`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `INE`.`Area`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `INE`.`Area` (
+  `ID_Area` INT NOT NULL AUTO_INCREMENT,
+  `Area` VARCHAR(255) NOT NULL,
+  `Siglas`  VARCHAR(32),
+  PRIMARY KEY (`ID_Area`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `INE`.`Puestos_Trabajo`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Puestos_Trabajo`;
+CREATE TABLE `Puestos_Trabajo` (
+  `ID_Puesto` INT NOT NULL AUTO_INCREMENT,
+  `ID_Area` INT NOT NULL,
+  `Puesto`  VARCHAR(255) NOT NULL,
+  `Sueldo`  DOUBLE NOT NULL,
+  PRIMARY KEY (`ID_Puesto`)
+) ENGINE = InnoDB;
+
+ALTER TABLE `Puestos_Trabajo`
+ADD CONSTRAINT `fk_Puestos_Trabajo_Area`
+  FOREIGN KEY (`ID_Area`)
+  REFERENCES `Area` (`ID_Area`)
+  ON DELETE NO ACTION
+  ON UPDATE CASCADE;
+  
+-- -----------------------------------------------------
 -- Table `INE`.`Empleados`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `INE`.`Empleados` (
@@ -22,7 +59,8 @@ CREATE TABLE IF NOT EXISTS `INE`.`Empleados` (
   `nombres` VARCHAR(60) NULL,
   `apellido_p` VARCHAR(30) NULL,
   `apellido_m` VARCHAR(30) NULL,
-  `area` VARCHAR(255) NULL,
+  `area` INT NOT NULL,
+  `puesto` INT NOT NULL,
   `calle` VARCHAR(100) NULL,
   `colonia` VARCHAR(30) NULL,
   `telefono` VARCHAR(18) NULL,
@@ -35,25 +73,19 @@ CREATE TABLE IF NOT EXISTS `INE`.`Empleados` (
   PRIMARY KEY (`id_empleado`))
 ENGINE = InnoDB;
 
-
--- -----------------------------------------------------
--- Table `INE`.`Puestos`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `INE`.`Puestos` (
-  `puesto` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`puesto`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `INE`.`Area`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `INE`.`Area` (
-  `Area` VARCHAR(255) NOT NULL,
-  `Siglas`  VARCHAR(32),
-  PRIMARY KEY (`Area`))
-ENGINE = InnoDB;
-
+ALTER TABLE `Empleados`
+ADD CONSTRAINT `fk_Empleados_Puestos_Trabajo`
+  FOREIGN KEY (`puesto`)
+  REFERENCES `Puestos_Trabajo` (`ID_Puesto`)
+  ON DELETE NO ACTION
+  ON UPDATE CASCADE;
+  
+ALTER TABLE `Empleados`
+ADD CONSTRAINT `fk_Empleados_Area`
+  FOREIGN KEY (`area`)
+  REFERENCES `Area` (`ID_Area`)
+  ON DELETE NO ACTION
+  ON UPDATE CASCADE;
 
 -- -----------------------------------------------------
 -- Table `INE`.`User`
