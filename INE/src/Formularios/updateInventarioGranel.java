@@ -14,26 +14,28 @@ import Interfaces.Principal;
 import java.awt.Color;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 /**
  *
  * @author kevin
  */
-public class addInventarioGranel extends javax.swing.JDialog {
+public class updateInventarioGranel extends javax.swing.JDialog {
     ManagerInventario manager_inventario;
     ManagerPermisos manager_permisos;
     ManagerInventarioGranel manager_inventario_granel;
     
-    String extension,producto,almacen,marca,descripcion,observaciones;
+    String extension,producto,almacen,marca,descripcion,observaciones,clave;
     int stockmin,stock,num;
     
     /**
      * Creates new form addInventario
 	 * @param parent
 	 * @param modal
+         * @param id
      */
-    public addInventarioGranel(java.awt.Frame parent, boolean modal) {
+    public updateInventarioGranel(java.awt.Frame parent, boolean modal, String id) {
         super(parent, modal);
         initComponents();
         
@@ -41,8 +43,21 @@ public class addInventarioGranel extends javax.swing.JDialog {
         manager_inventario = new ManagerInventario();
         manager_permisos = new ManagerPermisos();
         manager_inventario_granel = new ManagerInventarioGranel();
+        
+        //Guardamos la clave del consumible para hacer la consulta que nos traiga los datos para actualizarlo
+        this.clave = id;
+        //Cadena con todos los datos de la consulta
+        String datosConsumible = manager_inventario_granel.obtenerDatosConsumible(id);
+        //Acomodamos los datos donde van
+        colocarDatos(datosConsumible);
+        
         this.setLocationRelativeTo(null);
-        this.setTitle("Nuevo registro de consumible");
+        this.setTitle("Actualización de información de consumible");
+        
+    }
+
+    private updateInventarioGranel(JFrame jFrame, boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -71,8 +86,6 @@ public class addInventarioGranel extends javax.swing.JDialog {
         txtAreaDescripcion = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
         txtStockMin = new javax.swing.JTextField();
-        txtStock = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
         lblAviso = new javax.swing.JLabel();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -108,6 +121,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
 
         txtNum.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtNum.setToolTipText("");
+        txtNum.setEnabled(false);
         txtNum.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtNumFocusLost(evt);
@@ -128,6 +142,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
 
         txtExtension.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtExtension.setToolTipText("");
+        txtExtension.setEnabled(false);
         txtExtension.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtExtensionFocusLost(evt);
@@ -223,27 +238,6 @@ public class addInventarioGranel extends javax.swing.JDialog {
         pn_addInventario.add(txtStockMin);
         txtStockMin.setBounds(110, 210, 215, 30);
 
-        txtStock.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtStock.setText("1");
-        txtStock.setToolTipText("Ingrese cantidad numérica entera ejemplo: 10");
-        txtStock.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStockActionPerformed(evt);
-            }
-        });
-        txtStock.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtStockKeyTyped(evt);
-            }
-        });
-        pn_addInventario.add(txtStock);
-        txtStock.setBounds(110, 250, 215, 30);
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel9.setText("Stock:");
-        pn_addInventario.add(jLabel9);
-        jLabel9.setBounds(50, 260, 40, 17);
-
         lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_addInventario.add(lblAviso);
         lblAviso.setBounds(39, 241, 15, 7);
@@ -292,7 +286,33 @@ public class addInventarioGranel extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public void colocarDatos(String info){
+        
+        String datos [] = info.split(",,");
+        //Numero
+        txtNum.setText(datos[0]);
+        //Extension
+        txtExtension.setText(datos[1]);
+        //Nombre del producto
+        txtProducto.setText(datos[2]);
+        //Descripción
+        if(datos[3].equals("null")){
+            datos[3] = "Sin especificar";
+        }
+        txtAreaDescripcion.setText(datos[3]);
+        //Ubicación
+        comboUbicacion.setSelectedItem(datos[4]);
+        //Marca
+        if(datos[5].equals("null")){
+            datos[5] = "Sin especificar";
+        }
+        txtMarca.setText(datos[5]);
+        //Stock Minimo
+        if(datos[6].equals("null")){
+            datos[6] = "1";
+        }
+        txtStockMin.setText(datos[6]);
+    }//colocarDatos
     private void txtMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMarcaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMarcaActionPerformed
@@ -300,10 +320,6 @@ public class addInventarioGranel extends javax.swing.JDialog {
     private void txtStockMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockMinActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtStockMinActionPerformed
-
-    private void txtStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtStockActionPerformed
 
     public void getInfo(){
         
@@ -323,53 +339,33 @@ public class addInventarioGranel extends javax.swing.JDialog {
         }else{
             stockmin = Integer.parseInt(txtStockMin.getText());
         }
-        //Stock
-        if(txtStock.getText().isEmpty()){
-            stock = 1;
-        }else{
-            stock = Integer.parseInt(txtStock.getText());
-        }
         //Descripción
         if(txtAreaDescripcion.getText().isEmpty()){
             descripcion = "Sin descripción";
         }else{
             descripcion = txtAreaDescripcion.getText();
         }
-        
     }//getInfo
-    
-    public void clearCampos(){
-        txtProducto.setText("");
-        txtMarca.setText("");
-        txtStockMin.setText("");
-        txtStock.setText("");
-        txtAreaDescripcion.setText("");
-        txtNum.setText("");
-        txtNum.setBackground(Color.white);
-        txtExtension.setText("");
-        txtExtension.setBackground(Color.white);
-    }
     
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
         getInfo();
-        if(manager_permisos.alta_inventario(Principal.Username)){
+        if(manager_permisos.update_inventario(Principal.Username)){
             
-            if(manager_inventario_granel.insertarInventarioG(num,extension, producto, almacen, marca, stockmin, stock, descripcion)){
-                JOptionPane.showMessageDialog(null,"Se inserto correctamente al inventario");
+            if(manager_inventario_granel.actualizarInventarioG(clave, producto, almacen, marca, stockmin, descripcion)){
+                JOptionPane.showMessageDialog(null,"Se actualizo correctamente el consumible");
                 
                 if(manager_permisos.consulta_inventario(Principal.Username)){
                     Principal.tablaInventario.setModel(manager_inventario_granel.getInventarioG(Principal.comboFiltro.getSelectedIndex()));
                 }
-                
+                this.dispose();
             }else{
                 JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");
             }
             
         }else{
-            JOptionPane.showMessageDialog(null,"Le han revocado los permisos para registrar un producto a granel en el inventario.");
+            JOptionPane.showMessageDialog(null,"Le han revocado los permisos para registrar consumibles.");
         }
-        clearCampos();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void txtFolioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFolioFocusLost
@@ -411,10 +407,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         // TODO add your handling code here:
         //comboUbicacion
         manager_inventario.getBodegas(comboUbicacion);
-        
-        //Sugerencia del siguiente número
-        txtNum.setText(""+manager_inventario_granel.sugNumero());
-        
+                
     }//GEN-LAST:event_formWindowOpened
 
     private void txtNumFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNumFocusLost
@@ -524,17 +517,6 @@ public class addInventarioGranel extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtStockMinKeyTyped
 
-    private void txtStockKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtStockKeyTyped
-        // TODO add your handling code here:
-        char caracter = evt.getKeyChar();
-        if(caracter != evt.getKeyChar()){
-
-        }
-        if(caracter < '0' || caracter > '9'){
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtStockKeyTyped
-
     /**
      * @param args the command line arguments
      */
@@ -552,21 +534,23 @@ public class addInventarioGranel extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(addInventarioGranel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(updateInventarioGranel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(addInventarioGranel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(updateInventarioGranel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(addInventarioGranel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(updateInventarioGranel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(addInventarioGranel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(updateInventarioGranel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                addInventarioGranel dialog = new addInventarioGranel(new javax.swing.JFrame(), true);
+                updateInventarioGranel dialog = new updateInventarioGranel(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -591,7 +575,6 @@ public class addInventarioGranel extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAviso;
     private javax.swing.JPanel pn_addInventario;
@@ -601,7 +584,6 @@ public class addInventarioGranel extends javax.swing.JDialog {
     private javax.swing.JTextField txtMarca;
     private javax.swing.JTextField txtNum;
     private javax.swing.JTextField txtProducto;
-    private javax.swing.JTextField txtStock;
     private javax.swing.JTextField txtStockMin;
     // End of variables declaration//GEN-END:variables
 }

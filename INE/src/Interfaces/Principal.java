@@ -50,6 +50,7 @@ import Formularios.addUsuarios;
 import Formularios.changePassword;
 import Formularios.updateEmpleado;
 import Formularios.updateInventario;
+import Formularios.updateInventarioGranel;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Image;
@@ -229,7 +230,8 @@ public class Principal extends javax.swing.JFrame {
         Repa_Garan = new javax.swing.JMenuItem();
         EstatusDefinitivo = new javax.swing.JMenuItem();
         MenuInventarioG = new javax.swing.JPopupMenu();
-        ActualizarInfoG = new javax.swing.JMenuItem();
+        ActualizarConsumible = new javax.swing.JMenuItem();
+        AddStock = new javax.swing.JMenuItem();
         MenuSolicitudes = new javax.swing.JPopupMenu();
         Atender = new javax.swing.JMenuItem();
         ActualizarInfo = new javax.swing.JMenuItem();
@@ -563,13 +565,21 @@ public class Principal extends javax.swing.JFrame {
         EstatusDefinitivo.setText("Cambiar a ");
         MenuInventario.add(EstatusDefinitivo);
 
-        ActualizarInfoG.setText("Refrescar tabla");
-        ActualizarInfoG.addActionListener(new java.awt.event.ActionListener() {
+        ActualizarConsumible.setText("Actualizar consumible");
+        ActualizarConsumible.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarInfoGActionPerformed(evt);
+                ActualizarConsumibleActionPerformed(evt);
             }
         });
-        MenuInventarioG.add(ActualizarInfoG);
+        MenuInventarioG.add(ActualizarConsumible);
+
+        AddStock.setText("Agregar unidades");
+        AddStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddStockActionPerformed(evt);
+            }
+        });
+        MenuInventarioG.add(AddStock);
 
         Atender.setText("Atender...");
         Atender.addActionListener(new java.awt.event.ActionListener() {
@@ -2492,7 +2502,7 @@ public class Principal extends javax.swing.JFrame {
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
         
         if(opcion == 0){
-
+            cancelarVale();
             System.exit(0);
         }else if(opcion == 1){
             //Cerrar sesion
@@ -2703,12 +2713,12 @@ public class Principal extends javax.swing.JFrame {
             }
         int fila = tablaUsuarios.getSelectedRow();
         updateEmpleado ob;
-            try {
-                ob = new updateEmpleado(this, true,Integer.parseInt(tablaUsuarios.getValueAt(fila, 0).toString()),2);
-                ob.setVisible(true);
-            } catch (ParseException ex) {
-                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            ob = new updateEmpleado(this, true,Integer.parseInt(tablaUsuarios.getValueAt(fila, 0).toString()),2);
+            ob.setVisible(true);
+        } catch (ParseException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         }else{
             JOptionPane.showMessageDialog(null, "Usted no cuenta con el permiso para actualizar usuarios.");
@@ -4449,44 +4459,18 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tablaAsignacionPersonalMouseReleased
 
-    private void ActualizarInfoGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoGActionPerformed
+    private void ActualizarConsumibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarConsumibleActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.consulta_inventario(Username)){
-            //Llenamos la tabla del inventario
-            int folio = comboFolio.getSelectedIndex();
-            String estatus = comboEstatus.getSelectedItem().toString();
-            String nomeclatura = "";
-            //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
-            if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-        
-            int filtro = comboFiltro.getSelectedIndex();
-            String inventario = comboInventario.getSelectedItem().toString();
-            String busqueda = txtBusqueda.getText();
-
-            //Si no hay nada en el campo entonces buscamos todos los productos del inventario o inventario a granel
-            if(busqueda.equals("")){
-
-                if(inventario.equals("Inventario")){
-                    tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
-                }
-                else{
-                    tablaInventario.setModel(manager_inventario_granel.getInventarioG(filtro));
-                }
-            }//if
-
-            else{
-
-				if(inventario.equals("Inventario"))
-					tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-				else
-					tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-
-            }//Primer else
-        }//if de la consulta de inventario
+        if(manager_permisos.update_inventario(Username)){
+            int fila = tablaInventario.getSelectedRow();
+            updateInventarioGranel ob;
+            ob = new updateInventarioGranel(this, true,tablaInventario.getValueAt(fila, 0).toString());
+            ob.setVisible(true);
+        }//if del update del consumible
         else{
-        
+            JOptionPane.showMessageDialog(null,"Usted no cuenta con los permisos para actualizar un consumible o se los han revocado.");
         }
-    }//GEN-LAST:event_ActualizarInfoGActionPerformed
+    }//GEN-LAST:event_ActualizarConsumibleActionPerformed
 
     private void ActualizarInfoUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoUActionPerformed
         // TODO add your handling code here:
@@ -5260,6 +5244,53 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con el permiso para actualizar usuarios.");
         }
     }//GEN-LAST:event_ActualizarEmployeeActionPerformed
+
+    private void AddStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddStockActionPerformed
+        // TODO add your handling code here:
+        boolean entero = true;
+        boolean canceloStockMin = true;
+        int cantidad = 0;
+        int fila = tablaInventario.getSelectedRow();
+        int folio = comboFolio.getSelectedIndex();
+        while(entero){    
+            
+            String cadena = JOptionPane.showInputDialog("Ingrese las unidades que se desean agregar");
+            
+            if(cadena == null){
+                entero = false;
+                canceloStockMin = false;
+            }else{
+            
+                try{
+
+                    cantidad = Integer.parseInt(cadena);
+                    
+                    if(cantidad > 0){
+                        entero = false;                    
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Solo ingrese cantidades mayores a 0.");
+                    }
+                }catch(NumberFormatException e){
+                    JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
+                }//try catch
+                
+            }//else
+        }//while
+        if(canceloStockMin){
+
+            String codigo = tablaInventario.getValueAt(fila, 0).toString();//Obtenemos el codigo del producto
+
+            if(manejador_inventario.actualizarStock(codigo, cantidad)){
+                tablaInventario.setModel(manager_inventario_granel.getInventarioG(folio));
+                JOptionPane.showMessageDialog(null, "El inventario se actualizo exitosamente");
+            }else{
+                JOptionPane.showMessageDialog(null, "Verificar con el distribuidor");
+            }
+
+        }//canceloStockMin
+            
+        
+    }//GEN-LAST:event_AddStockActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -5391,9 +5422,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem Actualizar;
     private javax.swing.JMenuItem ActualizarAsignacionP;
     private javax.swing.JMenuItem ActualizarAsignacionPG;
+    private javax.swing.JMenuItem ActualizarConsumible;
     private javax.swing.JMenuItem ActualizarEmployee;
     private javax.swing.JMenuItem ActualizarInfo;
-    private javax.swing.JMenuItem ActualizarInfoG;
     private javax.swing.JMenuItem ActualizarInfoPP;
     private javax.swing.JMenuItem ActualizarInfoReco;
     private javax.swing.JMenuItem ActualizarInfoSM;
@@ -5403,6 +5434,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem ActualizarPendientes;
     private javax.swing.JMenuItem ActualizarProd;
     private javax.swing.JMenuItem ActualizarV;
+    private javax.swing.JMenuItem AddStock;
     private javax.swing.JMenuItem AgregarStock;
     private javax.swing.JMenuItem Asignar;
     private javax.swing.JMenuItem AsignarV;

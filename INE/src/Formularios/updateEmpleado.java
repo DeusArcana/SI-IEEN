@@ -101,6 +101,7 @@ public class updateEmpleado extends javax.swing.JDialog {
         txtLocalidad = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        lblPuesto = new javax.swing.JLabel();
         lblArea = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
 
@@ -239,6 +240,11 @@ public class updateEmpleado extends javax.swing.JDialog {
         pn_empleado.add(btnCancelar);
         btnCancelar.setBounds(390, 240, 121, 25);
 
+        lblPuesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblPuesto.setText("Puesto:");
+        pn_empleado.add(lblPuesto);
+        lblPuesto.setBounds(340, 190, 350, 17);
+
         lblArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblArea.setText("Área:");
         pn_empleado.add(lblArea);
@@ -320,6 +326,9 @@ public class updateEmpleado extends javax.swing.JDialog {
             datos[12] = "Sin especificar";
         }
         txtLocalidad.setText(datos[12]);
+        //Puesto
+        lblPuesto.setText("Puesto: "+datos[13]);
+        
         
     }//colocarDatos
     
@@ -350,6 +359,9 @@ public class updateEmpleado extends javax.swing.JDialog {
         }
         if(txtApellidoM.getText().isEmpty()){
             return 3;
+        }
+        if(txtFecha.getDate() == null){
+            return 4;
         }
         return 0;
     }//validar()
@@ -384,6 +396,10 @@ public class updateEmpleado extends javax.swing.JDialog {
                 case 3:
                     JOptionPane.showMessageDialog(null, "Por favor ingresa el apellido materno");
                     txtApellidoM.requestFocus();
+                    break;
+                case 4:
+                    JOptionPane.showMessageDialog(null, "Por favor ingresa la fecha de nacimiento del nuevo empleado");
+                    txtFecha.requestFocus();
                     break;
             }//switch
         }else{
@@ -462,6 +478,7 @@ public class updateEmpleado extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel lblArea;
+    private javax.swing.JLabel lblPuesto;
     private javax.swing.JPanel pn_empleado;
     private javax.swing.JTextField txtApellidoM;
     private javax.swing.JTextField txtApellidoP;

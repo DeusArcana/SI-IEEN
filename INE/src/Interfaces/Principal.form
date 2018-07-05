@@ -150,12 +150,20 @@
         <Property name="useNullLayout" type="boolean" value="true"/>
       </Layout>
       <SubComponents>
-        <MenuItem class="javax.swing.JMenuItem" name="ActualizarInfoG">
+        <MenuItem class="javax.swing.JMenuItem" name="ActualizarConsumible">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Refrescar tabla"/>
+            <Property name="text" type="java.lang.String" value="Actualizar consumible"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ActualizarInfoGActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ActualizarConsumibleActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="AddStock">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Agregar unidades"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AddStockActionPerformed"/>
           </Events>
         </MenuItem>
       </SubComponents>

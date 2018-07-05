@@ -408,8 +408,11 @@ public class ManagerUsers {
 
         try {
             //Obtenemos los datos del empleado
-            String sql = "select nombres, apellido_p, apellido_m, area, calle, colonia, telefono, codigo_postal, "
-                       + "fecha_nacimiento, curp, rfc, municipio, localidad from empleados "
+            String sql = "select e.nombres, e.apellido_p, e.apellido_m, a.area, e.calle, e.colonia, e.telefono, "
+                       + "e.codigo_postal,e.fecha_nacimiento, e.curp, e.rfc, e.municipio, e.localidad, "
+                       + "p.Puesto from empleados e "
+                       + "inner join area a on (e.area = a.ID_Area) "
+                       + "inner join puestos_trabajo p on (e.puesto = p.ID_Puesto) "
                        + "where id_empleado = "+idEmpleado+";";
             
             conexion = db.getConexion();
@@ -419,7 +422,7 @@ public class ManagerUsers {
             
             //Llenamos la cadena con los datos
             String datos = rs.getString(1);
-            for(int i = 2;i<14;i++){
+            for(int i = 2;i<15;i++){
                 datos += ",,"+rs.getString(i);
             }
             

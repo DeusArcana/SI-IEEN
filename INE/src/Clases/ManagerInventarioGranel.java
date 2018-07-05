@@ -118,8 +118,9 @@ public class ManagerInventarioGranel {
         }
             return table;
     }//getBusquedaInventarioG
-	
-    public boolean insertarInventarioG(int numero,String extension, String producto, String almacen, String marca,int stockmin, int stock, String descripcion, String observaciones) {
+
+    //Este método es para realizar el registro de un nuevo producto consumible
+    public boolean insertarInventarioG(int numero,String extension, String producto, String almacen, String marca,int stockmin, int stock, String descripcion) {
         try {
             //Hacemos la conexión
             conexion = db.getConexion();
@@ -129,9 +130,9 @@ public class ManagerInventarioGranel {
             ResultSet rs;
             
             //Insertamos al inventario
-            String sql = "insert into inventario_Granel (Folio,Numero,Extension,nombre_prod,almacen,marca,stock_min,stock,descripcion,observaciones,estatus) "
+            String sql = "insert into inventario_Granel (Folio,Numero,Extension,nombre_prod,almacen,marca,stock_min,stock,descripcion,estatus) "
                          +"values('EY-99',"+numero+",'"+extension+"','"+producto+"','"+almacen+"','"+marca+"','"+stockmin+"','"+stock+"','"
-                         +descripcion+"','"+observaciones+"','Disponible');";
+                         +descripcion+"','Disponible');";
             st.executeUpdate(sql);
             
             //Cerramos la conexión
@@ -146,13 +147,41 @@ public class ManagerInventarioGranel {
         
     }//insertarInventarioGranel
 	
-	public boolean existeInventarioG(String id_producto) {
+    //Este método es para actualizar la información del consumible
+    public boolean actualizarInventarioG(String clave, String producto, String almacen, String marca,int stockmin, String descripcion) {
+        try {
+            //Hacemos la conexión
+            conexion = db.getConexion();
+            //Creamos la variable para hacer operaciones CRUD
+            Statement st = conexion.createStatement();
+            //Creamos la variable para guardar el resultado de las consultas
+            ResultSet rs;
+            
+            //Actualizamos la información del consumible
+            String sql = "update inventario_granel set nombre_prod = '"+producto+"',descripcion = '"+descripcion+"'"
+                       + ",almacen='"+almacen+"',marca='"+marca+"',stock_min="+stockmin+"  "
+                       + "where concat(Folio,'-',Numero,Extension) = '"+clave+"';";
+            st.executeUpdate(sql);
+            
+            //Cerramos la conexión
+            conexion.close();
+            return true;
+            
+        } catch (SQLException ex) {
+            System.out.printf("Error al acutalizar la información de consumible \""+clave+"\" en SQL");
+            Logger.getLogger(ManagerInventario.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } 
+        
+    }//actualizarInventarioGranel
+    
+    public boolean existeInventario(String id_producto) {
 
         boolean estado = false;
         
         try {
             //Consulta para saber si existe o no dicho producto
-            String sql = "select * from inventario_Granel where concat(Folio,'-',Numero,Extension) = '"+id_producto+"';";
+            String sql = "select Folio from inventario_Granel where concat(Folio,'-',Numero,Extension) = '"+id_producto+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -167,8 +196,62 @@ public class ManagerInventarioGranel {
             return estado;
 
     }//existeInventarioG
+    
+    //Este método es para dar la sugerencia del siguiente número para darle clave al nuevo consumible
+    public int sugNumero() {
+
+        int numero = 1;
+        try {
+            //Consulta para saber si existe o no dicho producto
+            String sql = "select Numero from inventario_Granel order by Numero desc limit 1;";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            if(rs.next()){
+                numero = rs.getInt(1)+1;
+            }
+            
+            conexion.close();
+            
+        } catch (SQLException ex) {
+            System.out.printf("Error al consultar el inventario en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        } 
+            return numero;
+
+    }//sugNumero
+    
+    //Este método es para obtener la información del consumible para después actualizarlo
+    public String obtenerDatosConsumible(String clave) {
+
+        try {
+            //Obtenemos los datos del empleado
+            String sql = "select Numero, Extension, nombre_prod,descripcion,almacen,marca,stock_min,stock "
+                       + "from inventario_granel where concat(Folio,'-',Numero,Extension) = '"+clave+"';";
+            
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            
+            //Llenamos la cadena con los datos
+            String datos = rs.getString(1);
+            for(int i = 2;i<9;i++){
+                datos += ",,"+rs.getString(i);
+            }
+            
+            conexion.close();
+            return datos;
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los datos del consumible en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        } 
+        
+    }//obtenerDatosConsumible
 	
-	    public DefaultTableModel getInventarioG(int filtro) {
+    public DefaultTableModel getInventarioG(int filtro) {
         String orden = "";
         DefaultTableModel table = new DefaultTableModel();
 
