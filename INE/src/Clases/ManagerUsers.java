@@ -38,19 +38,23 @@ public class ManagerUsers {
             table.addColumn("Nombre(s)");
             table.addColumn("Apellido Paterno");
             table.addColumn("Apellido Materno");
-            table.addColumn("Telefono");
+            table.addColumn("Área");
+            table.addColumn("Puesto");
             
             //Consulta de los empleados
-            String sql = "select id_empleado,nombres,apellido_p,apellido_m,area from empleados where id_empleado not in (select id_empleado from user);";
+            String sql = "select e.id_empleado,e.nombres,e.apellido_p,e.apellido_m,a.area,p.Puesto from empleados e "
+                       + "inner join area a on (e.area = a.ID_Area) "
+                       + "inner join puestos_trabajo p on (e.puesto = p.ID_Puesto) "
+                       + "where id_empleado not in (select id_empleado from user);";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
-            Object datos[] = new Object[5];
+            Object datos[] = new Object[6];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
 
-                for(int i = 0;i<5;i++){
+                for(int i = 0;i<6;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -58,7 +62,7 @@ public class ManagerUsers {
            }//while
             conexion.close();
         } catch (SQLException ex) {
-            System.out.printf("Error getTabla Inventario SQL");
+            System.out.printf("Error al insertar un empleado en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
 
@@ -76,24 +80,28 @@ public class ManagerUsers {
             table.addColumn("Nombre(s)");
             table.addColumn("Apellido Paterno");
             table.addColumn("Apellido Materno");
-            table.addColumn("Puesto");
+            table.addColumn("Perfil");
             table.addColumn("Área");
+            table.addColumn("Puesto");
             table.addColumn("Estatus");
             
             
             
             //Consulta de los usuarios
-            String sql = "select u.id_user,e.nombres,e.apellido_p,e.apellido_m,u.puesto,e.area,u.estatus from user u " +
-                         "inner join empleados e on (u.id_empleado = e.id_empleado) where u.puesto != 'SuperUsuario' and u.id_user != '"+usuario+"';";
+            String sql = "select u.id_user,e.nombres,e.apellido_p,e.apellido_m,u.puesto,a.area,p.puesto,u.estatus from user u "
+                       + "inner join empleados e on (u.id_empleado = e.id_empleado) "
+                       + "inner join area a on (e.area = a.ID_Area) "
+                       + "inner join puestos_trabajo p on (e.puesto = p.ID_Puesto) "
+                       + "where u.puesto != 'SuperUsuario' and u.id_user != '"+usuario+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
-            Object datos[] = new Object[7];
+            Object datos[] = new Object[8];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
 
-                for(int i = 0;i<7;i++){
+                for(int i = 0;i<8;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -297,7 +305,7 @@ public class ManagerUsers {
     }//Buscar si existe el empleado
     
     public boolean insertarEmpleado(String nombres, String apellidoP, String apellidoM, String telefono,String calle, String colonia, 
-                                    String curp,String rfc,String fecha,String codigoP,String municipio,String localidad,String area) {
+                                    String curp,String rfc,String fecha,String codigoP,String municipio,String localidad,int area,int puesto) {
         try {
             //Hacemos la conexión
             conexion = db.getConexion();
@@ -307,9 +315,9 @@ public class ManagerUsers {
             ResultSet rs;
             
             //Primero insertamos al empleado
-            String sql = "insert into empleados (nombres,apellido_p,apellido_m,calle,colonia,telefono,codigo_postal,fecha_nacimiento,curp,rfc,municipio,localidad,area) "
+            String sql = "insert into empleados (nombres,apellido_p,apellido_m,calle,colonia,telefono,codigo_postal,fecha_nacimiento,curp,rfc,municipio,localidad,area,puesto) "
                          +"values('"+nombres+"','"+apellidoP+"','"+apellidoM+"','"+calle+"','"+colonia+"','"
-                         +telefono+"','"+codigoP+"','"+fecha+"','"+curp+"','"+rfc+"','"+municipio+"','"+localidad+"','"+area+"');";
+                         +telefono+"','"+codigoP+"','"+fecha+"','"+curp+"','"+rfc+"','"+municipio+"','"+localidad+"',"+area+","+puesto+");";
             st.executeUpdate(sql);
             
             return true;

@@ -89,10 +89,11 @@ public class ManagerComplemento {
 
     }//getAreas
     
-    public void getComboPuestos(JComboBox combo) {
+    //Este método es para obtener los perfiles de usuario
+    public void getComboPerfiles(JComboBox combo) {
         try{
            
-            String sql = "select * from Puestos;";
+            String sql = "select puesto from Puestos;";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -102,30 +103,56 @@ public class ManagerComplemento {
             
             conexion.close();
         } catch (SQLException ex) {
-            System.out.printf("Error al obtener los puestos para ingresarlos al combo SQL");
+            System.out.printf("Error al obtener los perfiles de usuario para ingresarlos al combo SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } 
         
     }//Obtiene todas los puestos y las mete al combobox
     
-    public void getComboAreas(JComboBox combo) {
+    public String obtenerAreas() {
+        String resultado = "";
         try{
-           
-            String sql = "select * from Area;";
+            String sql = "select ID_Area,Area from Area;";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            resultado = rs.getInt(1)+",,"+rs.getString(2);
             while(rs.next()){
-                combo.addItem(rs.getObject(1).toString());
+                resultado += ",,"+rs.getInt(1)+",,"+rs.getString(2);
             }
-            
             conexion.close();
         } catch (SQLException ex) {
             System.out.printf("Error al obtener las áreas para ingresarlos al combo SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
         
-    }//Obtiene todas los puestos y las mete al combobox
+        return resultado;
+        
+    }//Obtiene el id del area y su descripción
+    
+    //Este método es para obtener los puestos de trabajo de acuerdo al área que se selecciono
+    public String obtenerPuestos(int idArea) {
+        String resultado = "";
+        try{
+            String sql = "select ID_Puesto,Puesto from Puestos_Trabajo where ID_Area = "+idArea+";";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            resultado = rs.getInt(1)+",,"+rs.getString(2);
+            while(rs.next()){
+                resultado += ",,"+rs.getInt(1)+",,"+rs.getString(2);
+            }
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los puestos para ingresarlos al combo SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return resultado;
+        
+    }//Obtiene el id del puesto y su descripción
     
     public DefaultTableModel getResguardoPersonal(String usuario) {
 

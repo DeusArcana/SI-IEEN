@@ -163,7 +163,7 @@ public class Ventana_permisos_puesto extends javax.swing.JDialog {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         comboPuesto.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-        manager_complemento.getComboPuestos(comboPuesto);
+        manager_complemento.getComboPerfiles(comboPuesto);
     }//GEN-LAST:event_formWindowOpened
 
     public static void limpiarTablaPermisos(){

@@ -22,8 +22,10 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @author kevin
  */
 public class addEmpleados extends javax.swing.JDialog {
-    String nombres,apellido_p,apellido_m,telefono,curp,rfc,calle,colonia,fecha,codigoP,area,municipio,localidad;
+    String nombres,apellido_p,apellido_m,telefono,curp,rfc,calle,colonia,fecha,codigoP,municipio,localidad;
     boolean documentacion;
+    int area,puesto;
+    int[] ids_area,ids_puesto;
     
     ManagerUsers manager_users;
     ManagerComplemento manager_complemento;
@@ -82,6 +84,8 @@ public class addEmpleados extends javax.swing.JDialog {
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         comboArea = new javax.swing.JComboBox<>();
+        jLabel18 = new javax.swing.JLabel();
+        comboPuesto = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
 
@@ -229,6 +233,20 @@ public class addEmpleados extends javax.swing.JDialog {
         pn_empleado.add(comboArea);
         comboArea.setBounds(490, 170, 190, 23);
 
+        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel18.setText("Puesto:");
+        pn_empleado.add(jLabel18);
+        jLabel18.setBounds(432, 200, 50, 17);
+
+        comboPuesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboPuesto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboPuestoActionPerformed(evt);
+            }
+        });
+        pn_empleado.add(comboPuesto);
+        comboPuesto.setBounds(490, 200, 190, 23);
+
         jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel14.setText("Área:");
         pn_empleado.add(jLabel14);
@@ -256,19 +274,60 @@ public class addEmpleados extends javax.swing.JDialog {
         nombres = txtNombre.getText();
         apellido_p = txtApellidoP.getText();
         apellido_m = txtApellidoM.getText();
-        calle = txtCalle.getText();
-        colonia = txtColonia.getText();
-        telefono = txtTelefono.getText();
-        codigoP = txtCodigo.getText();
-        curp = txtCurp.getText();
-        rfc = txtRfc.getText();
-        municipio = txtMunicipio.getText();
-        localidad = txtLocalidad.getText();
-        area = comboArea.getSelectedItem().toString();
+        
+        //Calle
+        if(txtCalle.getText().isEmpty()){
+            calle = "Sin especificar";
+        }else{
+            calle = txtCalle.getText();
+        }
+        //Colonia
+        if(txtColonia.getText().isEmpty()){
+            colonia = "Sin especificar";
+        }else{
+            colonia = txtColonia.getText();
+        }
+        //Telefono
+        if(txtTelefono.getText().isEmpty()){
+            telefono = "Sin especificar";
+        }else{
+            telefono = txtTelefono.getText();
+        }
+        //Código Postal
+        if(txtCodigo.getText().isEmpty()){
+            codigoP = "Sin CP";
+        }else{
+            codigoP = txtCodigo.getText();
+        }
+        //CURP
+        if(txtCurp.getText().isEmpty()){
+            curp = "Sin especificar";
+        }else{
+            curp = txtCurp.getText();
+        }
+        //RFC
+        if(txtRfc.getText().isEmpty()){
+            rfc = "Sin RFC";
+        }else{
+            rfc = txtRfc.getText();
+        }
+        //Municipio
+        if(txtMunicipio.getText().isEmpty()){
+            municipio = "Sin especificar";
+        }else{
+            municipio = txtMunicipio.getText();
+        }
+        //Localidad
+        if(txtLocalidad.getText().isEmpty()){
+            localidad = "Sin especificar";
+        }else{
+            localidad = txtLocalidad.getText();
+        }
+        area = comboArea.getSelectedIndex()+1;
+        puesto = comboPuesto.getSelectedIndex()+1;
         
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         fecha = formato.format(txtFecha.getDate());
-        
     }//getInfo()
     
     private int validar(){
@@ -281,6 +340,10 @@ public class addEmpleados extends javax.swing.JDialog {
         if(txtApellidoM.getText().isEmpty()){
             return 3;
         }
+        if(txtFecha.getDate() == null){
+            return 4;
+        }
+        
         return 0;
     }//validar()
     
@@ -291,7 +354,7 @@ public class addEmpleados extends javax.swing.JDialog {
             switch(res){
                 case 0:
                     getInfo();
-                    boolean insertar = manager_users.insertarEmpleado(nombres, apellido_p, apellido_m, telefono, calle, colonia, curp, rfc, fecha, codigoP, municipio,localidad,area);
+                    boolean insertar = manager_users.insertarEmpleado(nombres, apellido_p, apellido_m, telefono, calle, colonia, curp, rfc, fecha, codigoP, municipio,localidad,area,puesto);
                     if(insertar){
                         JOptionPane.showMessageDialog(null, "El empleado "+nombres+ " "+apellido_p+ "ha sido registrado en la base de datos exitosamente.");
                         if(manager_permisos.consulta_user(Principal.Username)){
@@ -315,6 +378,10 @@ public class addEmpleados extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(null, "Por favor ingresa el apellido materno del nuevo empleado");
                     txtApellidoM.requestFocus();
                     break;
+                case 4:
+                    JOptionPane.showMessageDialog(null, "Por favor ingresa la fecha de nacimiento del nuevo empleado");
+                    txtFecha.requestFocus();
+                    break;
             }//switch
         }else{
             JOptionPane.showMessageDialog(null, "Te han revocado los permisos para registrar nuevos empleados.");
@@ -324,8 +391,17 @@ public class addEmpleados extends javax.swing.JDialog {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
+        
+        //ComboArea
+        String lista = manager_complemento.obtenerAreas();
+        String[] recoger = lista.split(",,");
+        ids_area = new int[recoger.length/2];
+        
         comboArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-        manager_complemento.getComboAreas(comboArea);
+        for(int i = 1,j = 0; i <= recoger.length;i = i+2,j++){
+            comboArea.addItem(recoger[i]);
+            ids_area[j] = Integer.parseInt(recoger[i-1]);
+        }
     }//GEN-LAST:event_formWindowOpened
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -336,7 +412,21 @@ public class addEmpleados extends javax.swing.JDialog {
 
     private void comboAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAreaActionPerformed
         // TODO add your handling code here:
+        //ComboPuesto
+        String lista = manager_complemento.obtenerPuestos(comboArea.getSelectedIndex()+1);
+        String[] recoger = lista.split(",,");
+        ids_puesto = new int[recoger.length/2];
+        
+        comboPuesto.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        for(int i = 1,j = 0; i <= recoger.length;i = i+2,j++){
+            comboPuesto.addItem(recoger[i]);
+            ids_puesto[j] = Integer.parseInt(recoger[i-1]);
+        }
     }//GEN-LAST:event_comboAreaActionPerformed
+
+    private void comboPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboPuestoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboPuestoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -384,12 +474,14 @@ public class addEmpleados extends javax.swing.JDialog {
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JComboBox<String> comboArea;
+    private javax.swing.JComboBox<String> comboPuesto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
