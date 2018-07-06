@@ -431,27 +431,24 @@ public class ManagerSolicitud {
         String sql;
         try {
             
-            table.addColumn("No. Solicitud");
-            table.addColumn("Producto");
-            table.addColumn("Motivo");
+            table.addColumn("Solicitud");
             table.addColumn("Fecha cuando se solicito");
+            table.addColumn("Consumibles");
             table.addColumn("Estado");
             
-            sql = "select s.id_solicitud,i.nombre_prod,s.motivo,date(s.fecha_solicitud) as fecha_solicitud,s.estado from detalle_solicitud ds " +
-                  "inner join solicitudes s on (s.id_solicitud = ds.id_solicitud) " +
-                  "inner join user u on (u.id_user = s.id_user) " +
-                  "inner join empleados e on (e.id_empleado = u.id_empleado) " +
-                  "inner join inventario i on (i.id_producto = ds.id_producto) where s.id_user = '"+usuario+"';";
+            sql = "select concat(ss.Folio,'-',ss.Num,'-',ss.Año), date(ss.fecha_solicitud), count(dss.id_solicitud),ss.estado from solicitudsalida ss "
+                + "inner join detalle_solicitudsalida dss on (concat(ss.Folio,'-',ss.Num,'-',ss.Año) = dss.id_solicitud) "
+                + "where id_user='"+usuario+"' group by dss.id_solicitud;";
             
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
-            Object datos[] = new Object[5];
+            Object datos[] = new Object[4];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
                 
-                for(int i = 0;i<5;i++){
+                for(int i = 0;i<4;i++){
                     
                 datos[i] = rs.getObject(i+1);    
                     
@@ -463,7 +460,7 @@ public class ManagerSolicitud {
             
             conexion.close();
         } catch (SQLException ex) {
-            System.out.printf("Error getTabla Inventario SQL");
+            System.out.printf("Error al obtener las solicitudes del usuario \""+usuario+"\" SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
 

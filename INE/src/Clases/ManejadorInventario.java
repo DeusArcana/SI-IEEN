@@ -486,28 +486,31 @@ public class ManejadorInventario {
             DefaultTableModel table = new DefaultTableModel();
 
         try {
-            table.addColumn("Vale");
             table.addColumn("Clave");
             table.addColumn("Producto");
             table.addColumn("Descripción");
+            table.addColumn("Marca");
+            table.addColumn("No. Serie");
+            table.addColumn("Modelo");
             table.addColumn("Observaciones");
-            table.addColumn("Estado");
             
             //Obtiene los productos asignados de acuerdo al empleado
-            String sql = "select v.id_vale,dv.id_producto, ig.nombre_prod,ig.descripcion,ig.observaciones,dv.estado from vales v " +
-                         "inner join detalle_vale dv on (dv.id_vale = v.id_vale) " +
-                         "inner join inventario ig on (dv.id_producto = ig.id_producto) " +
-                         "inner join user u on (u.id_user = v.id_user) " +
-                         "where u.id_user = '"+usuario+"';";
+            String sql = "select dv.id_producto, ig.nombre_prod,ig.descripcion,ig.marca,ig.no_serie,ig.modelo,ig.observaciones from vales v "
+                       + "inner join detalle_vale dv on (dv.id_vale = concat(v.Folio,'-',v.Numero,'-',v.Año)) "
+                       + "inner join inventario ig on (dv.id_producto = concat(ig.Folio,'-',ig.Numero,ig.Extension)) "
+                       + "inner join empleados e on (e.id_empleado = v.id_empleado) "
+                       + "inner join user u on (u.id_empleado = e.id_empleado) "
+                       + "where u.id_user = '"+usuario+"' and dv.estado = 'Asignado' order by ig.Numero;";
+            
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
-            Object datos[] = new Object[6];
+            Object datos[] = new Object[7];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
 
-                for(int i = 0;i<6;i++){
+                for(int i = 0;i<7;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
