@@ -55,3 +55,4 @@ INE/nbproject/project.properties
 INE/src/Clases/Conexion.java
 INE/src/db/procedimientos_test.sql
 INE/dist/README.TXT
+*.bat
