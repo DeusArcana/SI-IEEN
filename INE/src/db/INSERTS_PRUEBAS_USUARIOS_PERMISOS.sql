@@ -362,6 +362,15 @@ LINES TERMINATED BY '\r\n'
 -- ------------------------------------------------------------------------------
 UPDATE `INE`.`Inventario` SET `INE`.`Inventario`.`Estatus` = 'Disponible';
 
+-- -----------------------------------------------------------------------------
+--	Número de digitos en los números de inventario
+-- ------------------------------------------------------------------------------
+INSERT INTO `INE`.`Admin_Config`(`Admin_Config`.`INT_String_Format`) 
+	VALUES
+		(5)
+;
+
+
 -- Return initial state
 SET SQL_SAFE_UPDATES 	=	1;
 SET FOREIGN_KEY_CHECKS	=	1;

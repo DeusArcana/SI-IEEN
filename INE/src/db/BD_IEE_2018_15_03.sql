@@ -258,20 +258,6 @@ CREATE TABLE IF NOT EXISTS `INE`.`Resguardo_personal` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-
--- -----------------------------------------------------
--- Table `INE`.`Bitacora_inventario`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `INE`.`Bitacora_inventario` (
-  `nombre_prod` VARCHAR(50) NULL,
-  `movimiento` VARCHAR(35) NULL,
-  `cantidad` INT NULL,
-  `user` VARCHAR(100) NULL,
-  `fecha_movimiento` DATETIME NULL,
-  `observaciones` VARCHAR(300) NULL)
-ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `INE`.`TipoSolicitud`
 -- -----------------------------------------------------

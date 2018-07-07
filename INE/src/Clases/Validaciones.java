@@ -1,9 +1,32 @@
 package Clases;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 public class Validaciones {
-
+	private final Conexion db;
+	private final int format;
+	
+	public Validaciones() {
+		int temp = 0;
+		db = new Conexion();
+		
+		try (PreparedStatement ps = db.getConexion().prepareCall("SELECT `INT_String_Format` FROM `INE`.`Admin_Config`")) {	
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) temp = rs.getInt("INT_String_Format");
+		} catch (SQLException ex) {
+			Logger.getLogger(Validaciones.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		
+		this.format = temp;
+	}
+	
+	
+	
     /**
     * <h1>validateAlphanumeric</h1>
     * 
@@ -210,5 +233,16 @@ public class Validaciones {
     public static boolean validateAlphanumericWithSpacing(String txt,int MIN, int MAX){
         return Pattern.compile("([a-zA-Z0-9]|\u0020){" + MIN + "," + MAX + "}").matcher(txt).matches();
     }
-
+	
+	public String intFormat(int integer){
+		if(String.valueOf(integer).length() >= this.format) 
+			return String.valueOf(integer);
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(integer);
+		for (int i = String.valueOf(integer).length(); i < this.format; i++) {
+			sb.insert(0, "0");
+		}
+		return sb.toString();
+	}
 }
