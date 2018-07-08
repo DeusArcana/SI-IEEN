@@ -245,18 +245,4 @@ public class Validaciones {
 		}
 		return sb.toString();
 	}
-	
-	public static String FormatID(String ID){
-		StringBuilder sb = new StringBuilder();
-		
-		String[] array = ID.split("-");
-		
-		sb.append(array[0]);
-		sb.append("-");
-		sb.append(array[1]);
-		sb.append("-");
-		sb.append(array[2].replaceFirst("^0+(?!$)", ""));
-		
-		return sb.toString();
-	}
 }
