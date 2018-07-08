@@ -240,9 +240,23 @@ public class Validaciones {
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append(integer);
-		for (int i = String.valueOf(integer).length(); i < this.format; i++) {
+		for (int i = String.valueOf(integer).length(); i < this.format; i++) 
 			sb.insert(0, "0");
-		}
+		
+		return sb.toString();
+	}
+	
+		public static String FormatID(String ID){
+		StringBuilder sb = new StringBuilder();
+		
+		String[] array = ID.split("-");
+		
+		sb.append(array[0]);
+		sb.append("-");
+		sb.append(array[1]);
+		sb.append("-");
+		sb.append(array[2].replaceFirst("^0+(?!$)", ""));
+		
 		return sb.toString();
 	}
 }
