@@ -11,7 +11,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema INE
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `INE` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `INE` DEFAULT CHARACTER SET latin1 COLLATE latin1_spanish_ci ;
 USE `INE` ;
 
 -- -----------------------------------------------------
