@@ -400,7 +400,7 @@ public class ManagerInventarioGranel {
     }//getInventarioG
 		
 	    //Este metodo retorna una tabla para solicitar productos a granel
-    public DefaultTableModel tablaSolicitarInvGranel(){
+    public DefaultTableModel tablaSolicitarInvGranel(int indice, String busqueda){
         conexion = db.getConexion();
         DefaultTableModel table = new DefaultTableModel();
         
@@ -410,8 +410,25 @@ public class ManagerInventarioGranel {
         
         //Apartir de aquí se realiza el proceso para llenar la tabla con los datos que se estan buscando
         try{
-            
-            String sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion from inventario_granel;";
+            String campoBusca = "";
+            switch(indice){
+                case 0:
+                    campoBusca = "concat(Folio,'-',Numero,Extension)";
+                    break;
+                case 1:
+                    campoBusca = "nombre_prod";
+                    break;
+                case 2:
+                    campoBusca = "descripcion";
+                    break;
+                    
+            }//switch
+            String sql = "";
+            if(indice == 0){
+                sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion from inventario_granel where "+campoBusca+" like 'EY-99-"+busqueda+"%';";
+            }else{
+                sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion from inventario_granel where "+campoBusca+" like '"+busqueda+"%';";
+            }
             conexion = db.getConexion();
             Statement st = conexion.createStatement();    
             ResultSet rs = st.executeQuery(sql);

@@ -309,7 +309,9 @@ public class ManejadorInventario {
                 sql = "insert into vales (Folio,Numero,Año,tipo_vale,fecha_vale,id_empleado) values('"+folio+"',"+num+","+year+",'Vale de resguardo','"+fecha+"',"+id_empleado+");";
                 st.executeUpdate(sql);
                 
-                sql = "select area from empleados where id_empleado = "+id_empleado+";";
+                sql = "select a.area from empleados e "
+                    + "inner join area a on (a.ID_Area = e.area) "
+                    + "where e.id_empleado = "+id_empleado+";";
                 rs = st.executeQuery(sql);
                 rs.next();
                 String ubicacion = rs.getString(1);

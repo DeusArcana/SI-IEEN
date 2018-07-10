@@ -544,8 +544,11 @@ public class ManagerUsers {
         String empleado;
         try {
             //Consulta para saber si existe o no dicho usuario
-            String sql = "select e.nombres,e.apellido_p,e.apellido_m,e.calle,e.colonia,e.telefono,e.codigo_postal,e.fecha_nacimiento,e.curp,e.rfc,e.municipio,e.localidad,u.puesto,e.area from empleados e "
-                    + "inner join user u on (u.id_empleado = e.id_empleado)where u.id_user = '"+usuario+"';";
+            String sql = "select e.nombres,e.apellido_p,e.apellido_m,e.calle,e.colonia,e.telefono,e.codigo_postal,e.fecha_nacimiento,e.curp,e.rfc,e.municipio,e.localidad,pt.puesto,a.area from empleados e "
+                    + "inner join user u on (u.id_empleado = e.id_empleado) "
+                    + "inner join area a on (a.ID_Area = e.area) "
+                    + "inner join Puestos_Trabajo pt on (pt.ID_Puesto = e.puesto) "
+                    + "where u.id_user = '"+usuario+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);

@@ -340,7 +340,6 @@ public class Principal extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         tablaSolicitudes = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
-        jPanel10 = new javax.swing.JPanel();
         jScrollPane12 = new javax.swing.JScrollPane();
         tablaStockMin = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel9 = new javax.swing.JLabel();
@@ -397,7 +396,7 @@ public class Principal extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        manejo_inventario = new javax.swing.JPanel();
+        resguardo = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         pn_contenedor_ventanas1 = new javax.swing.JPanel();
         sp_asignacion_inventario1 = new javax.swing.JScrollPane();
@@ -440,6 +439,8 @@ public class Principal extends javax.swing.JFrame {
         tablaSolicitarGranel = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jScrollPane18 = new javax.swing.JScrollPane();
         tablaCantidadGranel = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        comboFiltroConsumibles = new javax.swing.JComboBox<>();
+        txtBusquedaConsumibles = new javax.swing.JTextField();
         btnCancelarSalida = new javax.swing.JButton();
         btnSolicitarSalida = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
@@ -786,6 +787,16 @@ public class Principal extends javax.swing.JFrame {
 
         tabbedPrincipal.setBackground(new java.awt.Color(255, 204, 204));
         tabbedPrincipal.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        tabbedPrincipal.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tabbedPrincipalFocusGained(evt);
+            }
+        });
+        tabbedPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabbedPrincipalMouseClicked(evt);
+            }
+        });
 
         pestañaInventario.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
 
@@ -1287,6 +1298,12 @@ public class Principal extends javax.swing.JFrame {
 
         tabbedPrincipal.addTab("  Vehiculos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/vehiculos.png")), vehiculos); // NOI18N
 
+        solicitudes.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                solicitudesFocusGained(evt);
+            }
+        });
+
         jPanel7.setLayout(null);
 
         tablaSolicitudes.setModel(new javax.swing.table.DefaultTableModel(
@@ -1304,26 +1321,6 @@ public class Principal extends javax.swing.JFrame {
         });
         jScrollPane6.setViewportView(tablaSolicitudes);
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 1246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
-        );
-
-        jPanel7.add(jPanel8);
-        jPanel8.setBounds(20, 20, 1270, 330);
-
         tablaStockMin.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -1339,25 +1336,31 @@ public class Principal extends javax.swing.JFrame {
         });
         jScrollPane12.setViewportView(tablaStockMin);
 
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 1246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 1251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
-        );
 
-        jPanel7.add(jPanel10);
-        jPanel10.setBounds(20, 370, 1270, 330);
+        jPanel7.add(jPanel8);
+        jPanel8.setBounds(20, 20, 1270, 650);
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel7.add(jLabel9);
@@ -1384,7 +1387,7 @@ public class Principal extends javax.swing.JFrame {
         lblNombre.setText("Nombre");
 
         lblCargo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lblCargo.setText("Cargo");
+        lblCargo.setText("Puesto");
 
         lblArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblArea.setText("Área");
@@ -1637,7 +1640,7 @@ public class Principal extends javax.swing.JFrame {
         ScrollEmpleado.setViewportView(panelEmpleado);
 
         jPanel9.add(ScrollEmpleado);
-        ScrollEmpleado.setBounds(10, 20, 1350, 740);
+        ScrollEmpleado.setBounds(10, 20, 1350, 830);
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel9.add(jLabel10);
@@ -1652,8 +1655,8 @@ public class Principal extends javax.swing.JFrame {
         empleadoLayout.setVerticalGroup(
             empleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(empleadoLayout.createSequentialGroup()
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 771, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 409, Short.MAX_VALUE))
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 854, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 326, Short.MAX_VALUE))
         );
 
         tabbedPrincipal.addTab("Empleado", new javax.swing.ImageIcon(getClass().getResource("/Iconos/vehiculos.png")), empleado); // NOI18N
@@ -1872,9 +1875,9 @@ public class Principal extends javax.swing.JFrame {
 
         tabbedPrincipal.addTab("  Configuración", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), configuracion); // NOI18N
 
-        manejo_inventario.addMouseListener(new java.awt.event.MouseAdapter() {
+        resguardo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                manejo_inventarioMouseClicked(evt);
+                resguardoMouseClicked(evt);
             }
         });
 
@@ -2228,18 +2231,18 @@ public class Principal extends javax.swing.JFrame {
         jPanel16.add(jLabel16);
         jLabel16.setBounds(0, 0, 1367, 769);
 
-        javax.swing.GroupLayout manejo_inventarioLayout = new javax.swing.GroupLayout(manejo_inventario);
-        manejo_inventario.setLayout(manejo_inventarioLayout);
-        manejo_inventarioLayout.setHorizontalGroup(
-            manejo_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout resguardoLayout = new javax.swing.GroupLayout(resguardo);
+        resguardo.setLayout(resguardoLayout);
+        resguardoLayout.setHorizontalGroup(
+            resguardoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, 1397, Short.MAX_VALUE)
         );
-        manejo_inventarioLayout.setVerticalGroup(
-            manejo_inventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        resguardoLayout.setVerticalGroup(
+            resguardoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, 1180, Short.MAX_VALUE)
         );
 
-        tabbedPrincipal.addTab("Resguardo", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), manejo_inventario); // NOI18N
+        tabbedPrincipal.addTab("Resguardo", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), resguardo); // NOI18N
 
         jPanel12.setLayout(null);
 
@@ -2304,6 +2307,25 @@ public class Principal extends javax.swing.JFrame {
         jPanel12.add(pn_tablaUsuarios1);
         pn_tablaUsuarios1.setBounds(20, 150, 1330, 500);
 
+        comboFiltroConsumibles.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboFiltroConsumibles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Clave", "Nombre", "Descripción" }));
+        comboFiltroConsumibles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboFiltroConsumiblesActionPerformed(evt);
+            }
+        });
+        jPanel12.add(comboFiltroConsumibles);
+        comboFiltroConsumibles.setBounds(30, 100, 180, 30);
+
+        txtBusquedaConsumibles.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtBusquedaConsumibles.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBusquedaConsumiblesKeyReleased(evt);
+            }
+        });
+        jPanel12.add(txtBusquedaConsumibles);
+        txtBusquedaConsumibles.setBounds(230, 100, 240, 30);
+
         btnCancelarSalida.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         btnCancelarSalida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar.png"))); // NOI18N
         btnCancelarSalida.setText("Cancelar");
@@ -2314,7 +2336,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel12.add(btnCancelarSalida);
-        btnCancelarSalida.setBounds(860, 100, 140, 30);
+        btnCancelarSalida.setBounds(1100, 100, 140, 30);
 
         btnSolicitarSalida.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         btnSolicitarSalida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar.png"))); // NOI18N
@@ -2326,7 +2348,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel12.add(btnSolicitarSalida);
-        btnSolicitarSalida.setBounds(650, 100, 140, 30);
+        btnSolicitarSalida.setBounds(890, 100, 140, 30);
 
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baner Usuarios.png"))); // NOI18N
         jPanel12.add(jLabel21);
@@ -2335,7 +2357,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel32.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel32.setText("Categoria:");
         jPanel12.add(jLabel32);
-        jLabel32.setBounds(30, 100, 90, 22);
+        jLabel32.setBounds(560, 100, 90, 22);
 
         comboFiltroUsuario1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboFiltroUsuario1.addActionListener(new java.awt.event.ActionListener() {
@@ -2344,7 +2366,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel12.add(comboFiltroUsuario1);
-        comboFiltroUsuario1.setBounds(120, 100, 210, 28);
+        comboFiltroUsuario1.setBounds(650, 100, 210, 28);
 
         fondo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel12.add(fondo1);
@@ -2582,7 +2604,7 @@ public class Principal extends javax.swing.JFrame {
         /*PESTAÑA DE MANEJADOR INVENTARIO*/
         if(manager_permisos.permisoPorVale(Username, "Vale de resguardo")){
             //Asignación
-            //tablaMInventarioA.setModel(manejador_inventario.getInventario());
+            tablaMInventarioA.setModel(manejador_inventario.getInventarioParaAsignacion(""));
             manager_users.getNombresEmpleados(comboEmpleado);
         }else{
             //Bloqueamos el uso de la asignacion
@@ -2611,7 +2633,7 @@ public class Principal extends javax.swing.JFrame {
         }
         
         //PESTAÑA SOLICITAR I_GRANEL
-        tablaSolicitarGranel.setModel(manager_inventario_granel.tablaSolicitarInvGranel());
+        tablaSolicitarGranel.setModel(manager_inventario_granel.tablaSolicitarInvGranel(0,""));
         
     }//GEN-LAST:event_formWindowOpened
     
@@ -2737,25 +2759,12 @@ public class Principal extends javax.swing.JFrame {
         
         if(manager_permisos.verTablaSolicitudes(Username) > 0){
             
-            if(!(manager_permisos.esPresidencia(Username))){
-                
-                tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
-                int solicitud = tablaSolicitudes.getRowCount();
-                if(solicitud > 0){
-                    tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
-                }//if cantidad
-                
-            }//if esPresidencia
-            else{
-                
-                tablaSolicitudes.setModel(manager_solicitud.tabla_Pendientes());
-                int pendientes = tablaSolicitudes.getRowCount();
-                if(pendientes > 0){
-                    tabbedPrincipal.setTitleAt(3, "Pendientes ("+pendientes+")");//Le damos el nombre a esa pestaña
-                }//if cantidad
-                
-            }
-            
+            tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
+            int solicitud = tablaSolicitudes.getRowCount();
+            if(solicitud > 0){
+                tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
+            }//if cantidad
+
         }//if verTablaSolicitudes
         
     }//GEN-LAST:event_formWindowActivated
@@ -2812,23 +2821,6 @@ public class Principal extends javax.swing.JFrame {
 
     private void ActualizarInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoActionPerformed
         // TODO add your handling code here:
-        /*
-            14 -> todos los tipos de solicitud
-            13 -> baja, donación y comodato
-            12 -> baja, donación y reemplazo
-            11 -> baja, comodato y reemplazo
-            10 -> baja y donación 
-            9 -> baja y comodato
-            8 -> baja y reemplazo
-            7 -> reemplazo y comodato
-            6 -> reemplazo y donación
-            5 -> comodato y donación
-            4 -> baja
-            3 -> comodato
-            2 -> donación
-            1 -> reemplazo
-            0 -> ningun permiso
-        */
         
         if(manager_permisos.verTablaSolicitudes(Username) == 0){
                 tabbedPrincipal.removeTabAt(3);//Eliminamos la pestaña
@@ -3289,9 +3281,9 @@ public class Principal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_EntregarParteActionPerformed
 
-    private void manejo_inventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_manejo_inventarioMouseClicked
+    private void resguardoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resguardoMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_manejo_inventarioMouseClicked
+    }//GEN-LAST:event_resguardoMouseClicked
 
     private void rb_recoleccion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_recoleccion1ActionPerformed
         // TODO add your handling code here:
@@ -3505,12 +3497,10 @@ public class Principal extends javax.swing.JFrame {
         if(esGranel){
             
             if(manejador_inventario.autorizarSalidaAlmacen(Claves, Cantidad, Username,idAtenderSalida)){
-                JOptionPane.showMessageDialog(null, "Se han asignado correctamente.");
                 //GENERAR VALE DE SALIDA DE ALMACEN
                 metodoVale();
                 limpiarTablaMAsignados();
-                
-                
+                tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
                 
                 //Habilitamos las cosas que se deshabilitaron por atender la solicitud de salida de almacen
                 rb_recoleccion1.setEnabled(true);
@@ -3537,7 +3527,7 @@ public class Principal extends javax.swing.JFrame {
         }else
         {
             if(manejador_inventario.asignarInventario(Claves, Cantidad, comboEmpleado.getSelectedItem().toString(),"RES")){
-                JOptionPane.showMessageDialog(null, "Se han asignado correctamente.");
+                //GENERA EL VALE DE RESGUARDO
                 metodoVale2();
                 limpiarTablaMAsignados();
                 btn_generar_vale3.setEnabled(false);
@@ -5097,7 +5087,11 @@ public void metodoVale2(){
             if(manejador_inventario.recoleccionInventario(idVales,Claves,Ubicaciones,Observaciones)){
                 
                 JOptionPane.showMessageDialog(this,"Se registro el movimiento de recolección exitosamente.");
-                
+                //Actualizamos el combo de los empleados que tienen productos asignados
+                comboEmpleadoR.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+                comboEmpleadoR.addItem("Seleccione al empleado...");
+                manejador_inventario.getEmpleadosAsignacion(comboEmpleadoR);
+                        
                 tablaRecoleccion.setModel(modeloRecoleccion);
                 btnGenerarValeR.setEnabled(false);
                 btnEntregarRecoleccion.setEnabled(false);
@@ -5341,6 +5335,56 @@ public void metodoVale2(){
             
         
     }//GEN-LAST:event_AddStockActionPerformed
+
+    private void comboFiltroConsumiblesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroConsumiblesActionPerformed
+        // TODO add your handling code here:
+        int filtro = comboFiltroConsumibles.getSelectedIndex();
+        String busqueda = txtBusquedaConsumibles.getText();
+        tablaSolicitarGranel.setModel(manager_inventario_granel.tablaSolicitarInvGranel(filtro,busqueda));
+        
+    }//GEN-LAST:event_comboFiltroConsumiblesActionPerformed
+
+    private void txtBusquedaConsumiblesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaConsumiblesKeyReleased
+        // TODO add your handling code here:
+        int filtro = comboFiltroConsumibles.getSelectedIndex();
+        String busqueda = txtBusquedaConsumibles.getText();
+        tablaSolicitarGranel.setModel(manager_inventario_granel.tablaSolicitarInvGranel(filtro,busqueda));
+    }//GEN-LAST:event_txtBusquedaConsumiblesKeyReleased
+
+    private void solicitudesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_solicitudesFocusGained
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_solicitudesFocusGained
+
+    private void tabbedPrincipalFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabbedPrincipalFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tabbedPrincipalFocusGained
+
+    private void tabbedPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabbedPrincipalMouseClicked
+        // TODO add your handling code here:
+        int indicePestañas = tabbedPrincipal.getSelectedIndex();
+        
+        switch(indicePestañas){
+        
+            case 3:
+                //PESTAÑA DE SOLICITUD
+                if(manager_permisos.verTablaSolicitudes(Username) > 0){
+
+                    tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
+                    int solicitud = tablaSolicitudes.getRowCount();
+                    if(solicitud > 0){
+                        tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
+                    }//if cantidad
+
+                }//if verTablaSolicitudes
+
+                tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
+                
+                break;
+            
+        }//switch
+        
+    }//GEN-LAST:event_tabbedPrincipalMouseClicked
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -5559,6 +5603,7 @@ public void metodoVale2(){
     private javax.swing.JComboBox<String> comboEmpleadoR;
     public static javax.swing.JComboBox<String> comboEstatus;
     public static javax.swing.JComboBox<String> comboFiltro;
+    public static javax.swing.JComboBox<String> comboFiltroConsumibles;
     private javax.swing.JComboBox<String> comboFiltroUsuario;
     private javax.swing.JComboBox<String> comboFiltroUsuario1;
     private javax.swing.JComboBox<String> comboFiltroVehiculos;
@@ -5615,7 +5660,6 @@ public void metodoVale2(){
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
@@ -5664,7 +5708,6 @@ public void metodoVale2(){
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblRfc;
     private javax.swing.JLabel lblTelefono;
-    private javax.swing.JPanel manejo_inventario;
     private javax.swing.JMenu menuOpciones;
     private javax.swing.JMenuItem menuPermisos;
     private javax.swing.JMenuItem menuPuestoArea;
@@ -5681,6 +5724,7 @@ public void metodoVale2(){
     public javax.swing.JRadioButton rb_inventario_granel1;
     public javax.swing.JRadioButton rb_inventario_normal1;
     public javax.swing.JRadioButton rb_recoleccion1;
+    private javax.swing.JPanel resguardo;
     private javax.swing.JPanel solicitar_granel;
     private javax.swing.JPanel solicitudes;
     private javax.swing.JScrollPane sp_asignacion_inventario1;
@@ -5704,6 +5748,7 @@ public void metodoVale2(){
     public static javax.swing.JTable tablaUsuarios;
     public static javax.swing.JTable tablaVehiculos;
     private javax.swing.JTextField txtBusqueda;
+    private javax.swing.JTextField txtBusquedaConsumibles;
     private javax.swing.JTextField txtBusquedaUsuario;
     private javax.swing.JTextField txtBusquedaVehiculos;
     private javax.swing.JPanel usuarios;
