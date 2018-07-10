@@ -250,6 +250,92 @@ public class ManagerInventarioGranel {
         } 
         
     }//obtenerDatosConsumible
+    
+    
+    
+    public String obtenerDatosResguardo(String clave) {
+        String datos = "";
+        try {
+            //   No inventario, no serie, descripcion, marca, modelo, color
+            //Obtenemos los datos del empleado
+            String sql = "select concat(Folio,'-',Numero,Extension),no_serie,descripcion,marca,modelo,color "
+                       + "from inventario where concat(Folio,'-',Numero,Extension) = '"+clave+"';";
+            
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            
+            //Llenamos la cadena con los datos
+            
+            for(int i = 1; i < 7;i++){
+                datos += rs.getString(i)+",,";
+            }
+            
+            conexion.close();
+            return datos;
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los datos del consumible en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        } 
+        
+    }//obtenerDatosConsumible
+    
+    public String obtenerDatosResponsableResguardo(String usuario) {
+        String datos = "";
+        try {
+            //   No inventario, no serie, descripcion, marca, modelo, color
+            //Obtenemos los datos del empleado
+            String sql = "select concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m), a.Area, pt.Puesto,municipio, localidad  from empleados "
+                    + "e inner join area a on (a.ID_Area = e.area) inner join puestos_trabajo pt on (pt.ID_Puesto = e.puesto) "
+                    +"where concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) = '"+usuario+"';";
+            
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            
+            //Llenamos la cadena con los datos
+            
+            for(int i = 1; i < 6;i++){
+                datos += rs.getString(i)+",,";
+            }
+            
+            conexion.close();
+            return datos;
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los datos del consumible en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        } 
+        
+    }//obtenerDatosConsumible
+    
+    
+    
+    public String obtenerNumeroResguardo(String año) {
+        String datos = "";
+        try {
+            //   No inventario, no serie, descripcion, marca, modelo, color
+            //Obtenemos los datos del empleado
+            String sql = "select concat(Folio,'-',Numero,'-',Año) from vales where Año = '"+año+"' order by Numero desc limit 1;";
+            
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            
+            datos = rs.getString(1);
+            conexion.close();
+            return datos;
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los datos del consumible en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        } 
+        
+    }//obtenerDatosConsumible
 	
     public DefaultTableModel getInventarioG(int filtro) {
         String orden = "";

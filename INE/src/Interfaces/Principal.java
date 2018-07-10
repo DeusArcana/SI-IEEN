@@ -7,6 +7,8 @@ package Interfaces;
 
 
 import Clases.Archivo;
+import Clases.CrearValeResguardoBienes;
+import Clases.CrearValeSalidaAlmacen;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -59,7 +61,13 @@ import java.util.ArrayList;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JSpinner;
 import static Interfaces.ventana_modificar_vehiculo.campo;
+import com.itextpdf.text.DocumentException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.table.TableCellEditor;
@@ -3498,7 +3506,11 @@ public class Principal extends javax.swing.JFrame {
             
             if(manejador_inventario.autorizarSalidaAlmacen(Claves, Cantidad, Username,idAtenderSalida)){
                 JOptionPane.showMessageDialog(null, "Se han asignado correctamente.");
+                //GENERAR VALE DE SALIDA DE ALMACEN
+                metodoVale();
                 limpiarTablaMAsignados();
+                
+                
                 
                 //Habilitamos las cosas que se deshabilitaron por atender la solicitud de salida de almacen
                 rb_recoleccion1.setEnabled(true);
@@ -3526,16 +3538,139 @@ public class Principal extends javax.swing.JFrame {
         {
             if(manejador_inventario.asignarInventario(Claves, Cantidad, comboEmpleado.getSelectedItem().toString(),"RES")){
                 JOptionPane.showMessageDialog(null, "Se han asignado correctamente.");
+                metodoVale2();
                 limpiarTablaMAsignados();
                 btn_generar_vale3.setEnabled(false);
                 comboEmpleado.setSelectedIndex(0);
             }else{
                 JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");
+                
             }//else
         }//else
 
     }//GEN-LAST:event_btn_generar_vale3ActionPerformed
-    //Se pregunta si se quieren los productos que se encuentran, en caso de quererlos se asignan las existencias restantes y cambia a agotado, 
+    
+public void metodoVale(){
+    // TODO add your handling code here:
+        
+        Object[] botones = {"Si", "No", "Cancelar"};
+                        int opcion = JOptionPane.showOptionDialog(this, "¿Al generar el vale desea abrirlo?", "Confirmación",
+                                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
+
+                        if (opcion == 0) {
+                            metodo(1);
+                        } else if (opcion == 1) {
+                            metodo(0);
+                        }
+}
+
+public void metodoVale2(){
+    // TODO add your handling code here:
+        
+        Object[] botones = {"Si", "No", "Cancelar"};
+                        int opcion = JOptionPane.showOptionDialog(this, "¿Al generar el vale desea abrirlo?", "Confirmación",
+                                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
+
+                        if (opcion == 0) {
+                            metodo2(1);
+                        } else if (opcion == 1) {
+                            metodo2(0);
+                        }
+}
+
+    public void metodo(int res) {
+        
+        //Instanciamos el objeto Calendar
+        //en fecha obtenemos la fecha y hora del sistema
+        Calendar fecha = new GregorianCalendar();
+        //Obtenemos el valor del año, mes, día,
+        //hora, minuto y segundo del sistema
+        //usando el método get y el parámetro correspondiente
+        int año = fecha.get(Calendar.YEAR);
+        int mes = fecha.get(Calendar.MONTH);
+        int dia = fecha.get(Calendar.DAY_OF_MONTH);
+        int hora = fecha.get(Calendar.HOUR_OF_DAY);
+        int minuto = fecha.get(Calendar.MINUTE);
+        int segundo = fecha.get(Calendar.SECOND);
+
+        Date date = new Date();
+        DateFormat hourdateFormat = new SimpleDateFormat("dd_MM_yyyy HH_mm_ss");
+
+        //Parse
+        String a = hourdateFormat.format(date);
+
+        String cadena = "vale_salida";
+
+        String cadena1 = "" + dia + "/" + (mes + 1) + "/" + año;
+        String cadena2 = "" + hora + ":" + minuto + ":" + segundo;
+
+        System.out.println("" + cadena1 + " " + cadena2);
+        Vector v = new Vector();
+        CrearValeSalidaAlmacen ob = new CrearValeSalidaAlmacen();
+        for(int i = 0;i<tablaMAsignados.getRowCount();i++){
+           
+           v.add(tablaMAsignados.getValueAt(i, 0).toString()
+                   +",,"+tablaMAsignados.getValueAt(i, 1).toString()
+                   +",,"+tablaMAsignados.getValueAt(i, 2).toString()
+                   +",,"+tablaMAsignados.getValueAt(i, 3).toString()+" - "+tablaMAsignados.getValueAt(i, 4).toString());
+           
+        }//Llenar vector de los codigos de barras
+        
+        try {
+            ob.createTicket("salida_almacen_"+dia+"_"+(mes+1)+"_"+año+"_"+hora+"_"+minuto+"_"+segundo, "", "", res, cadena1, cadena2,v,comboEmpleado.getSelectedItem().toString());
+        } catch (DocumentException ex) {
+            Logger.getLogger(addUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void metodo2(int res) {
+        
+        //Instanciamos el objeto Calendar
+        //en fecha obtenemos la fecha y hora del sistema
+        Calendar fecha = new GregorianCalendar();
+        //Obtenemos el valor del año, mes, día,
+        //hora, minuto y segundo del sistema
+        //usando el método get y el parámetro correspondiente
+        int año = fecha.get(Calendar.YEAR);
+        int mes = fecha.get(Calendar.MONTH);
+        int dia = fecha.get(Calendar.DAY_OF_MONTH);
+        int hora = fecha.get(Calendar.HOUR_OF_DAY);
+        int minuto = fecha.get(Calendar.MINUTE);
+        int segundo = fecha.get(Calendar.SECOND);
+
+        Date date = new Date();
+        DateFormat hourdateFormat = new SimpleDateFormat("dd_MM_yyyy HH_mm_ss");
+
+        //Parse
+        String a = hourdateFormat.format(date);
+
+        String cadena = "vale_salida";
+
+        String cadena1 = "" + dia + "/" + (mes + 1) + "/" + año;
+        String cadena2 = "" + hora + ":" + minuto + ":" + segundo;
+
+        System.out.println("" + cadena1 + " " + cadena2);
+        Vector v = new Vector();
+        
+        CrearValeResguardoBienes ob = new CrearValeResguardoBienes();
+        
+        String datosempleado = manager_inventario_granel.obtenerDatosResponsableResguardo(comboEmpleado.getSelectedItem().toString());
+        String numeroResguardo = manager_inventario_granel.obtenerNumeroResguardo(""+año);
+        for(int i = 0;i<tablaMAsignados.getRowCount();i++){
+           
+           v.add(manager_inventario_granel.obtenerDatosResguardo(tablaMAsignados.getValueAt(i, 0).toString()));
+           
+        }//Llenar vector de los codigos de barras
+        
+        try {
+            ob.createTicket("resguardo_"+dia+"_"+(mes+1)+"_"+año+"_"+hora+"_"+minuto+"_"+segundo, 
+                    res, cadena1, cadena2,v,datosempleado,numeroResguardo);
+        } catch (DocumentException ex) {
+            Logger.getLogger(addUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+//Se pregunta si se quieren los productos que se encuentran, en caso de quererlos se asignan las existencias restantes y cambia a agotado, 
     //si no las quiere entonces no sucede nada
     public void cantidadMayorAlStock(String id, int comprobar, int cantidad, int fila){
         
