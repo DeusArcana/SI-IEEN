@@ -226,7 +226,7 @@ public class ManejadorInventario {
                 conexion.close();
         } //try  
         catch (SQLException ex) {
-            Logger.getLogger(ManagerAsignarEquipo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerDocumentos.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
         
@@ -266,7 +266,7 @@ public class ManejadorInventario {
                 return true;
         } //try  
         catch (SQLException ex) {
-            Logger.getLogger(ManagerAsignarEquipo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerDocumentos.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }//autorizarSalidaAlmacen
@@ -329,7 +329,7 @@ public class ManejadorInventario {
                 return true;
         } //try  
         catch (SQLException ex) {
-            Logger.getLogger(ManagerAsignarEquipo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerDocumentos.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }//asignarInventario
@@ -476,7 +476,7 @@ public class ManejadorInventario {
                 conexion.close();
         } //try  
         catch (SQLException ex) {
-            Logger.getLogger(ManagerAsignarEquipo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManagerDocumentos.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
         

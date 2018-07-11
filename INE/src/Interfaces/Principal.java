@@ -39,7 +39,7 @@ import Clases.ManagerSolicitud;
 import Clases.ManagerComplemento;
 import Clases.ManagerVehiculos;
 import Clases.ManejadorInventario;
-import Clases.ManagerAsignarEquipo;
+import Clases.ManagerDocumentos;
 import Clases.Excel;
 import Clases.ManagerInventarioGranel;
 
@@ -49,6 +49,7 @@ import Formularios.addInventario;
 import Formularios.addInventarioGranel;
 import Formularios.addResguardo;
 import Formularios.addUsuarios;
+import Formularios.addDocument;
 import Formularios.changePassword;
 import Formularios.updateEmpleado;
 import Formularios.updateInventario;
@@ -89,7 +90,7 @@ public class Principal extends javax.swing.JFrame {
     ManagerComplemento manager_complemento;
     ManejadorInventario manejador_inventario;
     ManagerInventarioGranel manager_inventario_granel;
-    ManagerAsignarEquipo manager_asignar;
+    ManagerDocumentos manager_asignar;
     Excel excel;
     
     public String Responsable,Cargo,Area,Tipo_de_uso,Municipio,Localidad,Responsable1,Cargo1,Area1,Tipo_de_uso1,Municipio1,Localidad1,idAtenderSalida;
@@ -147,7 +148,7 @@ public class Principal extends javax.swing.JFrame {
         manager_complemento = new ManagerComplemento();
         managerVehiculos = new ManagerVehiculos();
         manejador_inventario = new ManejadorInventario();
-        manager_asignar = new ManagerAsignarEquipo();
+        manager_asignar = new ManagerDocumentos();
         excel = new Excel();
         manager_inventario_granel = new ManagerInventarioGranel();
         
@@ -889,7 +890,6 @@ public class Principal extends javax.swing.JFrame {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IEE.png"))); // NOI18N
 
         comboInventario.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        comboInventario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Inventario", "Consumibles", "Resguardos" }));
         comboInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboInventarioActionPerformed(evt);
@@ -2521,11 +2521,12 @@ public class Principal extends javax.swing.JFrame {
         //COMBOBOX
         
         //COMBOINVENTARIO
-        /*
+        
         comboInventario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboInventario.addItem("Inventario");
-        comboInventario.addItem("Inventario Granel");
-        */
+        comboInventario.addItem("Consumibles");
+        comboInventario.addItem("Resguardo");
+        
         //COMBOFILTROUSUARIO
         comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboFiltroUsuario.addItem("Usuario");
@@ -5435,12 +5436,14 @@ public void metodoVale2(){
 
     private void AddDocumentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddDocumentsActionPerformed
         // TODO add your handling code here:
-        Ventana_Documentos ob = new Ventana_Documentos(this, true);
+        addDocument ob = new addDocument(this, true);
         ob.setVisible(true);
     }//GEN-LAST:event_AddDocumentsActionPerformed
 
     private void SelectProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectProductsActionPerformed
         // TODO add your handling code here:
+        Ventana_Documentos ob = new Ventana_Documentos(this, true);
+        ob.setVisible(true);
     }//GEN-LAST:event_SelectProductsActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {

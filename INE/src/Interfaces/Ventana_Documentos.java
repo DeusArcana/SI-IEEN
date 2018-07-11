@@ -5,7 +5,7 @@
  */
 package Interfaces;
 
-import Clases.ManagerAsignarEquipo;
+import Clases.ManagerDocumentos;
 import Clases.ManagerUsers;
 import Clases.ManagerSolicitud;
 import Clases.ManagerPermisos;
@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
  * @author kevin
  */
 public class Ventana_Documentos extends javax.swing.JDialog {
-    ManagerAsignarEquipo manager_asignar;
+    ManagerDocumentos manager_documentos;
     ManagerUsers manager_users;
     ManagerSolicitud manager_solicitud;
     ManagerPermisos manager_permisos;
@@ -35,19 +35,19 @@ public class Ventana_Documentos extends javax.swing.JDialog {
         initComponents();
         
         //Asignamos memoria al objeto
-        manager_asignar = new ManagerAsignarEquipo();
+        manager_documentos = new ManagerDocumentos();
         manager_users = new ManagerUsers();
         manager_solicitud = new ManagerSolicitud();
         manager_permisos = new ManagerPermisos();
         
         //Deshabilitamos el movimiento de los encabezados de las tablas
-        tablaDetallesEquipos.getTableHeader().setReorderingAllowed(false);
-        tablaEquipoComputo.getTableHeader().setReorderingAllowed(false);
+        tablaProductosSeleccionar.getTableHeader().setReorderingAllowed(false);
+        tablaDocumentos.getTableHeader().setReorderingAllowed(false);
         
         //Obtenemos el modelo de la tabla y luego se lo asingamos de nuevo
         /*Esto con la finalidad de agregar o quitar filas de dicha tabla*/
-        modeloAsignarEquipo = (DefaultTableModel) this.tablaEquipoComputo.getModel();
-        tablaEquipoComputo.setModel(modeloAsignarEquipo);
+        modeloAsignarEquipo = (DefaultTableModel) this.tablaDocumentos.getModel();
+        tablaDocumentos.setModel(modeloAsignarEquipo);
         
     }
 
@@ -64,13 +64,13 @@ public class Ventana_Documentos extends javax.swing.JDialog {
         SolicitarReemplazo = new javax.swing.JMenuItem();
         pn_asignarEquipo = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaDetallesEquipos = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        tablaProductosSeleccionar = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jScrollPane2 = new javax.swing.JScrollPane();
-        tablaEquipoComputo = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        tablaDocumentos = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tablaDetallesEquipos1 = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        tablaDocumentosProductos = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel4 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
@@ -93,54 +93,57 @@ public class Ventana_Documentos extends javax.swing.JDialog {
             }
         });
 
-        tablaDetallesEquipos.setModel(new javax.swing.table.DefaultTableModel(
+        tablaProductosSeleccionar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Clave", "CPU", "Monitor", "Teclado", "Responsable"
+                "¿Cuáles se van?", "Clave", "Nombre Corto", "No. de serie", "Fecha"
             }
         ));
-        tablaDetallesEquipos.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaProductosSeleccionar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaDetallesEquiposMouseClicked(evt);
+                tablaProductosSeleccionarMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tablaDetallesEquipos);
+        jScrollPane1.setViewportView(tablaProductosSeleccionar);
 
-        tablaEquipoComputo.setModel(new javax.swing.table.DefaultTableModel(
+        tablaDocumentos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Clave", "Equipo", "No. Serie", "Modelo"
+                "Clave", "Fecha de inicio", "Productos asignados"
             }
         ));
-        tablaEquipoComputo.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaDocumentos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaDocumentosMouseClicked(evt);
+            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablaEquipoComputoMouseReleased(evt);
+                tablaDocumentosMouseReleased(evt);
             }
         });
-        jScrollPane2.setViewportView(tablaEquipoComputo);
+        jScrollPane2.setViewportView(tablaDocumentos);
 
         jLabel1.setText("Seleccione un documento:");
 
         jLabel2.setText("Productos a seleccionar");
 
-        tablaDetallesEquipos1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaDocumentosProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Clave", "CPU", "Monitor", "Teclado", "Responsable"
+                "Clave", "Nombre Corto", "No. de serie", "Descripción", "Observación"
             }
         ));
-        tablaDetallesEquipos1.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaDocumentosProductos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaDetallesEquipos1MouseClicked(evt);
+                tablaDocumentosProductosMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(tablaDetallesEquipos1);
+        jScrollPane3.setViewportView(tablaDocumentosProductos);
 
         jLabel4.setText("Productos del documento");
 
@@ -218,32 +221,20 @@ public class Ventana_Documentos extends javax.swing.JDialog {
     
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        tablaDetallesEquipos.setModel(manager_asignar.getConjuntosEquipoComputo());
-        
+        tablaDocumentos.setModel(manager_documentos.getDocumentos());
     }//GEN-LAST:event_formWindowOpened
     
-    private void tablaDetallesEquiposMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDetallesEquiposMouseClicked
+    private void tablaProductosSeleccionarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductosSeleccionarMouseClicked
         // TODO add your handling code here:
 
-        if(evt.getClickCount() == 1){
-            if(manager_permisos.consulta_asignacion(Principal.Username)){
-                //Obtenemos la fila donde está el equipo de computo que queremos asignar
-                int fila = tablaDetallesEquipos.getSelectedRow();
-
-                //Obtenemos las claves de los equipos de computo de ese conjunto de equipos
-                getDatosEquiposComputo(fila);
-                tablaEquipoComputo.setModel(manager_asignar.getDetallesEquipoComputo(Claves));
-            }else{
-                JOptionPane.showMessageDialog(null, "Se te revocaron los permisos para consultar los conjuntos de los equipos de computo.");
-            }
-        }//getClickCount
-    }//GEN-LAST:event_tablaDetallesEquiposMouseClicked
+        
+    }//GEN-LAST:event_tablaProductosSeleccionarMouseClicked
     public void getDatosEquiposComputo(int fila){
         Claves = new String[3];
         Equipos = new String[3];
-        Claves[0] = tablaDetallesEquipos.getValueAt(fila, 1).toString();//Obtenemos la clave CPU
-        Claves[1] = tablaDetallesEquipos.getValueAt(fila, 2).toString();//Obtenemos la clave Monitor
-        Claves[2] = tablaDetallesEquipos.getValueAt(fila, 3).toString();//Obtenemos la clave Teclado
+        Claves[0] = tablaProductosSeleccionar.getValueAt(fila, 1).toString();//Obtenemos la clave CPU
+        Claves[1] = tablaProductosSeleccionar.getValueAt(fila, 2).toString();//Obtenemos la clave Monitor
+        Claves[2] = tablaProductosSeleccionar.getValueAt(fila, 3).toString();//Obtenemos la clave Teclado
         
         //Equipos[i] = tablaEquipoComputo.getValueAt(i, 1).toString();//Obtenemos las claves
     }//getDatosTablaAsignarEquipo
@@ -252,26 +243,41 @@ public class Ventana_Documentos extends javax.swing.JDialog {
         
     }//GEN-LAST:event_formWindowClosing
 
-    private void tablaEquipoComputoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaEquipoComputoMouseReleased
+    private void tablaDocumentosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDocumentosMouseReleased
         // TODO add your handling code here:
         //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
             if(SwingUtilities.isRightMouseButton(evt)){
-                int r = tablaEquipoComputo.rowAtPoint(evt.getPoint());
-                if (r >= 0 && r < tablaEquipoComputo.getRowCount())
-                tablaEquipoComputo.setRowSelectionInterval(r, r);
+                int r = tablaDocumentos.rowAtPoint(evt.getPoint());
+                if (r >= 0 && r < tablaDocumentos.getRowCount())
+                tablaDocumentos.setRowSelectionInterval(r, r);
                 MenuComputo.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
             }//clic derecho
         
-    }//GEN-LAST:event_tablaEquipoComputoMouseReleased
+    }//GEN-LAST:event_tablaDocumentosMouseReleased
 
     private void SolicitarReemplazoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitarReemplazoActionPerformed
         // TODO add your handling code here:
         
     }//GEN-LAST:event_SolicitarReemplazoActionPerformed
 
-    private void tablaDetallesEquipos1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDetallesEquipos1MouseClicked
+    private void tablaDocumentosProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDocumentosProductosMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_tablaDetallesEquipos1MouseClicked
+    }//GEN-LAST:event_tablaDocumentosProductosMouseClicked
+
+    private void tablaDocumentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDocumentosMouseClicked
+        // TODO add your handling code here:
+        if(evt.getClickCount() == 2){
+            int fila = tablaDocumentos.getSelectedRow();
+            String id = tablaDocumentos.getValueAt(fila, 0).toString();
+            String datos [] = id.split("-");
+            
+            //Llenamos la tabla de los productos que quiere agregar al documentos
+            tablaProductosSeleccionar.setModel(manager_documentos.productosParaAsignarMenosInfo(datos[0]));
+            //Llenamos la tabla de la relación documento-productos
+            tablaDocumentosProductos.setModel(manager_documentos.getDocumentosProductos(Integer.parseInt(datos[1])));
+            
+        }//getClickCount
+    }//GEN-LAST:event_tablaDocumentosMouseClicked
 
     /**
      * @param args the command line arguments
@@ -334,8 +340,8 @@ public class Ventana_Documentos extends javax.swing.JDialog {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPanel pn_asignarEquipo;
-    private javax.swing.JTable tablaDetallesEquipos;
-    private javax.swing.JTable tablaDetallesEquipos1;
-    private javax.swing.JTable tablaEquipoComputo;
+    private javax.swing.JTable tablaDocumentos;
+    private javax.swing.JTable tablaDocumentosProductos;
+    private javax.swing.JTable tablaProductosSeleccionar;
     // End of variables declaration//GEN-END:variables
 }
