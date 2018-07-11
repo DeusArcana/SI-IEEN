@@ -7,7 +7,6 @@ package Interfaces;
 
 import Clases.ManagerAsignarEquipo;
 import Clases.ManagerUsers;
-import Clases.ManagerInventario;
 import Clases.ManagerSolicitud;
 import Clases.ManagerPermisos;
 
@@ -19,32 +18,37 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author kevin
  */
-public class Ventana_EquipoComputo2 extends javax.swing.JDialog {
+public class Ventana_Documentos extends javax.swing.JDialog {
     ManagerAsignarEquipo manager_asignar;
     ManagerUsers manager_users;
-    ManagerInventario manager_inventario;
     ManagerSolicitud manager_solicitud;
     ManagerPermisos manager_permisos;
     
     public static DefaultTableModel modeloAsignarEquipo;
     String[] Claves,Equipos;
-    public static String Clave;
+    public static String Clave,tipo_solicitud;
     /**
      * Creates new form Ventana_asignar_EquipoComputo
      */
-    public Ventana_EquipoComputo2(java.awt.Dialog parent, boolean modal) {
+    public Ventana_Documentos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         
         //Asignamos memoria al objeto
         manager_asignar = new ManagerAsignarEquipo();
         manager_users = new ManagerUsers();
-        manager_inventario = new ManagerInventario();
         manager_solicitud = new ManagerSolicitud();
         manager_permisos = new ManagerPermisos();
+        
         //Deshabilitamos el movimiento de los encabezados de las tablas
         tablaDetallesEquipos.getTableHeader().setReorderingAllowed(false);
         tablaEquipoComputo.getTableHeader().setReorderingAllowed(false);
+        
+        //Obtenemos el modelo de la tabla y luego se lo asingamos de nuevo
+        /*Esto con la finalidad de agregar o quitar filas de dicha tabla*/
+        modeloAsignarEquipo = (DefaultTableModel) this.tablaEquipoComputo.getModel();
+        tablaEquipoComputo.setModel(modeloAsignarEquipo);
+        
     }
 
     /**
@@ -57,20 +61,27 @@ public class Ventana_EquipoComputo2 extends javax.swing.JDialog {
     private void initComponents() {
 
         MenuComputo = new javax.swing.JPopupMenu();
-        Solicitar = new javax.swing.JMenuItem();
+        SolicitarReemplazo = new javax.swing.JMenuItem();
         pn_asignarEquipo = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaDetallesEquipos = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaEquipoComputo = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tablaDetallesEquipos1 = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        jLabel4 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
 
-        Solicitar.setText("Solicitar...");
-        Solicitar.addActionListener(new java.awt.event.ActionListener() {
+        SolicitarReemplazo.setText("Solicitar reemplazo");
+        SolicitarReemplazo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SolicitarActionPerformed(evt);
+                SolicitarReemplazoActionPerformed(evt);
             }
         });
-        MenuComputo.add(Solicitar);
+        MenuComputo.add(SolicitarReemplazo);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -112,25 +123,81 @@ public class Ventana_EquipoComputo2 extends javax.swing.JDialog {
         });
         jScrollPane2.setViewportView(tablaEquipoComputo);
 
+        jLabel1.setText("Seleccione un documento:");
+
+        jLabel2.setText("Productos a seleccionar");
+
+        tablaDetallesEquipos1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Clave", "CPU", "Monitor", "Teclado", "Responsable"
+            }
+        ));
+        tablaDetallesEquipos1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaDetallesEquipos1MouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tablaDetallesEquipos1);
+
+        jLabel4.setText("Productos del documento");
+
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
         javax.swing.GroupLayout pn_asignarEquipoLayout = new javax.swing.GroupLayout(pn_asignarEquipo);
         pn_asignarEquipo.setLayout(pn_asignarEquipoLayout);
         pn_asignarEquipoLayout.setHorizontalGroup(
             pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_asignarEquipoLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pn_asignarEquipoLayout.createSequentialGroup()
+                        .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pn_asignarEquipoLayout.createSequentialGroup()
+                                .addGap(43, 43, 43)
+                                .addComponent(jLabel4)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(pn_asignarEquipoLayout.createSequentialGroup()
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())))
+                    .addGroup(pn_asignarEquipoLayout.createSequentialGroup()
+                        .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 979, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 979, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18))))
         );
         pn_asignarEquipoLayout.setVerticalGroup(
             pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_asignarEquipoLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(28, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_asignarEquipoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pn_asignarEquipoLayout.createSequentialGroup()
+                        .addGap(0, 151, Short.MAX_VALUE)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pn_asignarEquipoLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                .addGap(21, 21, 21))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -141,7 +208,9 @@ public class Ventana_EquipoComputo2 extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_asignarEquipo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pn_asignarEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -149,98 +218,25 @@ public class Ventana_EquipoComputo2 extends javax.swing.JDialog {
     
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        tablaDetallesEquipos.setModel(manager_asignar.getConjuntosEquipoComputoReemplazo());
+        tablaDetallesEquipos.setModel(manager_asignar.getConjuntosEquipoComputo());
         
     }//GEN-LAST:event_formWindowOpened
     
     private void tablaDetallesEquiposMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDetallesEquiposMouseClicked
         // TODO add your handling code here:
-        Object[] botones = {"Reemplazar","Cancelar"};
-        boolean pase;
-        String claveEquipo;
-        if(evt.getClickCount() == 2){
-            if(manager_permisos.update_asignacion(Principal.Username)){
+
+        if(evt.getClickCount() == 1){
+            if(manager_permisos.consulta_asignacion(Principal.Username)){
                 //Obtenemos la fila donde está el equipo de computo que queremos asignar
                 int fila = tablaDetallesEquipos.getSelectedRow();
-                claveEquipo = tablaDetallesEquipos.getValueAt(fila, 0).toString();
-                
+
                 //Obtenemos las claves de los equipos de computo de ese conjunto de equipos
                 getDatosEquiposComputo(fila);
                 tablaEquipoComputo.setModel(manager_asignar.getDetallesEquipoComputo(Claves));
-
-                //Obtenemos el modelo de la tabla y luego se lo asingamos de nuevo
-                /*Esto con la finalidad de agregar o quitar filas de dicha tabla*/
-                modeloAsignarEquipo = (DefaultTableModel) this.tablaEquipoComputo.getModel();
-                tablaEquipoComputo.setModel(modeloAsignarEquipo);
-
-                String clave,producto;
-                //Buscamos el equipo que se quiere reemplazar
-                for(int f = 0;f<tablaEquipoComputo.getRowCount();f++){
-
-                    clave = tablaEquipoComputo.getValueAt(f, 0).toString();    
-                    producto = tablaEquipoComputo.getValueAt(f, 1).toString();
-
-                    //Si el codigo ya se habia registrado entonces preguntamos si desea reemplazarlo
-                    if(tablaDetalleInventario.producto.equals(producto)){
-
-                    int opcion = JOptionPane.showOptionDialog(this,"¿Desea reemplazar el equipo "+clave+"\n por el equipo "+tablaDetalleInventario.clave+"?", "Confirmación",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botones, botones[0]);
-
-                        //Si da reemplazar entonces lo reemplazamos
-                        if(opcion == 0){
-
-                            //Buscamos el estado del producto que vamos a remover
-                            String estado = manager_solicitud.estadoProducto(clave);
-                            if(estado.equals("REEMPLAZO AUTORIZADO")){
-                                pase = manager_asignar.desasignarEquipo(clave);
-                            }else{
-                                pase = false;
-                            }
-
-                            if(pase){
-
-                                modeloAsignarEquipo.removeRow(f);
-
-                                if(manager_asignar.asignarEquipo(tablaDetalleInventario.clave)){
-
-                                    //Obtenemos los datos del nuevo registro
-                                    String info = manager_asignar.obtenerEquipo(tablaDetalleInventario.clave);
-                                    String v[] = info.split(",");
-
-                                    tablaDetalleInventario.tablaCoincidencias.setModel(manager_inventario.getBusquedaInventario(1, tablaDetalleInventario.producto, "", ""));
-                                    modeloAsignarEquipo.addRow(new Object[]{v[0],v[1],v[2],v[3]});
-                                    
-                                    manager_asignar.cambioAsignacionEquipo(clave, tablaDetalleInventario.clave,producto,claveEquipo);
-                                    JOptionPane.showMessageDialog(null,"Se realizo correctamente el reemplazo de "+producto+"\n"+clave+" -----> "+tablaDetalleInventario.clave);
-                                    this.dispose();
-                                    break;//Terminamos el ciclo
-                                }else{
-
-                                    JOptionPane.showMessageDialog(null, "Verificar con el distribuidor");
-                                    break;//Terminamos el ciclo
-
-                                }//else
-
-                            }//desasignar
-                            else{
-                                JOptionPane.showMessageDialog(null, "Es necesario que se realice una solicitud reemplazo y dicha\nsolicitud la autoricen para reemplazar el equipo.");
-                                break;//Terminamos el ciclo
-                            }
-
-                            }//¿reemplazar?
-                            else if(opcion == 1){
-                                break;//Terminamos el ciclo
-                            }//No quiso reemplazar
-                            
-                        }//if de coincidencia
-
-                }//for
-                
             }else{
-                JOptionPane.showMessageDialog(null, "Se te han revocado los permisos para actualizar el equipo de computo.");
+                JOptionPane.showMessageDialog(null, "Se te revocaron los permisos para consultar los conjuntos de los equipos de computo.");
             }
         }//getClickCount
-            
     }//GEN-LAST:event_tablaDetallesEquiposMouseClicked
     public void getDatosEquiposComputo(int fila){
         Claves = new String[3];
@@ -256,18 +252,6 @@ public class Ventana_EquipoComputo2 extends javax.swing.JDialog {
         
     }//GEN-LAST:event_formWindowClosing
 
-    private void SolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitarActionPerformed
-        // TODO add your handling code here:
-        
-        int fila = tablaDetallesEquipos.getSelectedRow();
-        
-        Clave = tablaEquipoComputo.getValueAt(fila, 0).toString();
-        
-        Principal.banderaSolicitud = 2;
-        Ventana_solicitud ob = new Ventana_solicitud(this,true);
-        ob.setVisible(true);
-    }//GEN-LAST:event_SolicitarActionPerformed
-
     private void tablaEquipoComputoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaEquipoComputoMouseReleased
         // TODO add your handling code here:
         //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
@@ -279,6 +263,15 @@ public class Ventana_EquipoComputo2 extends javax.swing.JDialog {
             }//clic derecho
         
     }//GEN-LAST:event_tablaEquipoComputoMouseReleased
+
+    private void SolicitarReemplazoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitarReemplazoActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_SolicitarReemplazoActionPerformed
+
+    private void tablaDetallesEquipos1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDetallesEquipos1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaDetallesEquipos1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -297,21 +290,27 @@ public class Ventana_EquipoComputo2 extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Ventana_EquipoComputo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ventana_Documentos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Ventana_EquipoComputo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ventana_Documentos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Ventana_EquipoComputo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ventana_Documentos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Ventana_EquipoComputo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ventana_Documentos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Ventana_EquipoComputo dialog = new Ventana_EquipoComputo(new javax.swing.JFrame(), true);
+                Ventana_Documentos dialog = new Ventana_Documentos(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -325,11 +324,18 @@ public class Ventana_EquipoComputo2 extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPopupMenu MenuComputo;
-    private javax.swing.JMenuItem Solicitar;
+    private javax.swing.JMenuItem SolicitarReemplazo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPanel pn_asignarEquipo;
     private javax.swing.JTable tablaDetallesEquipos;
+    private javax.swing.JTable tablaDetallesEquipos1;
     private javax.swing.JTable tablaEquipoComputo;
     // End of variables declaration//GEN-END:variables
 }

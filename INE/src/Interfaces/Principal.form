@@ -141,6 +141,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Cambiar a "/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EstatusDefinitivoActionPerformed"/>
+          </Events>
         </MenuItem>
       </SubComponents>
     </Container>
@@ -546,23 +549,35 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuPermisosActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="menuPuestoArea">
-              <Properties>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Iconos/areas.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Puestos &amp; &#xc1;reas"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuPuestoAreaActionPerformed"/>
-              </Events>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="MenuSolicitud">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Permisos solicitud/vale"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MenuSolicitudActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="Documentos">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Documentos"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="AddDocuments">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Nuevo documento"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AddDocumentsActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="SelectProducts">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Seleccionar productos"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SelectProductsActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -963,9 +978,10 @@
                           <Font name="Tahoma" size="16" style="0"/>
                         </Property>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="2">
+                          <StringArray count="3">
                             <StringItem index="0" value="Inventario"/>
-                            <StringItem index="1" value="Inventario Granel"/>
+                            <StringItem index="1" value="Consumibles"/>
+                            <StringItem index="2" value="Resguardos"/>
                           </StringArray>
                         </Property>
                       </Properties>

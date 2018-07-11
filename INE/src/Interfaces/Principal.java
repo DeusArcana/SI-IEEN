@@ -457,8 +457,10 @@ public class Principal extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         menuOpciones = new javax.swing.JMenu();
         menuPermisos = new javax.swing.JMenuItem();
-        menuPuestoArea = new javax.swing.JMenuItem();
         MenuSolicitud = new javax.swing.JMenuItem();
+        Documentos = new javax.swing.JMenu();
+        AddDocuments = new javax.swing.JMenuItem();
+        SelectProducts = new javax.swing.JMenuItem();
 
         dar_baja.setText("Baja de usuario");
         dar_baja.addActionListener(new java.awt.event.ActionListener() {
@@ -567,6 +569,11 @@ public class Principal extends javax.swing.JFrame {
         MenuInventario.add(Repa_Garan);
 
         EstatusDefinitivo.setText("Cambiar a ");
+        EstatusDefinitivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EstatusDefinitivoActionPerformed(evt);
+            }
+        });
         MenuInventario.add(EstatusDefinitivo);
 
         ActualizarConsumible.setText("Actualizar consumible");
@@ -882,7 +889,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IEE.png"))); // NOI18N
 
         comboInventario.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        comboInventario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Inventario", "Inventario Granel" }));
+        comboInventario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Inventario", "Consumibles", "Resguardos" }));
         comboInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboInventarioActionPerformed(evt);
@@ -2442,15 +2449,6 @@ public class Principal extends javax.swing.JFrame {
         });
         menuOpciones.add(menuPermisos);
 
-        menuPuestoArea.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/areas.png"))); // NOI18N
-        menuPuestoArea.setText("Puestos & Áreas");
-        menuPuestoArea.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuPuestoAreaActionPerformed(evt);
-            }
-        });
-        menuOpciones.add(menuPuestoArea);
-
         MenuSolicitud.setText("Permisos solicitud/vale");
         MenuSolicitud.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2460,6 +2458,26 @@ public class Principal extends javax.swing.JFrame {
         menuOpciones.add(MenuSolicitud);
 
         jMenuBar1.add(menuOpciones);
+
+        Documentos.setText("Documentos");
+
+        AddDocuments.setText("Nuevo documento");
+        AddDocuments.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddDocumentsActionPerformed(evt);
+            }
+        });
+        Documentos.add(AddDocuments);
+
+        SelectProducts.setText("Seleccionar productos");
+        SelectProducts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SelectProductsActionPerformed(evt);
+            }
+        });
+        Documentos.add(SelectProducts);
+
+        jMenuBar1.add(Documentos);
 
         setJMenuBar(jMenuBar1);
 
@@ -2503,10 +2521,11 @@ public class Principal extends javax.swing.JFrame {
         //COMBOBOX
         
         //COMBOINVENTARIO
+        /*
         comboInventario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboInventario.addItem("Inventario");
         comboInventario.addItem("Inventario Granel");
-        
+        */
         //COMBOFILTROUSUARIO
         comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboFiltroUsuario.addItem("Usuario");
@@ -2745,12 +2764,6 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Usted no tiene acceso a los permisos estaticos de los puestos.");
         }
     }//GEN-LAST:event_menuPermisosActionPerformed
-
-    private void menuPuestoAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPuestoAreaActionPerformed
-        // TODO add your handling code here:
-        Ventana_Puestos_Area ob = new Ventana_Puestos_Area(this, true);
-        ob.setVisible(true);
-    }//GEN-LAST:event_menuPuestoAreaActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         
@@ -4397,10 +4410,10 @@ public void metodoVale2(){
                         Repa_Garan.setVisible(true);//Cambiar el estatus a "Reparación/Garantía"
                         ActualizarProd.setVisible(true);//Actualizar la información de un producto
 
-                        if(comboEstatus.getSelectedItem().toString().equals("para baja")) EstatusDefinitivo.setText("Cambiar a Baja");
-                        if(comboEstatus.getSelectedItem().toString().equals("para donación")) EstatusDefinitivo.setText("Cambiar a Donación");
-                        if(comboEstatus.getSelectedItem().toString().equals("para comodato")) EstatusDefinitivo.setText("Cambiar a Comodato");    
-
+                        if(comboEstatus.getSelectedItem().toString().equals("para baja")){ EstatusDefinitivo.setText("Cambiar a Baja"); pendientePara = "Baja";}
+                        if(comboEstatus.getSelectedItem().toString().equals("para donación")){ EstatusDefinitivo.setText("Cambiar a Donación"); pendientePara = "Donación";}
+                        if(comboEstatus.getSelectedItem().toString().equals("para comodato")){ EstatusDefinitivo.setText("Cambiar a Comodato"); pendientePara = "Comodato";}   
+                        MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
                     }
                     //Selección de Asignado
                     else if(comboEstatus.getSelectedItem().toString().equals("Asignado")){
@@ -4409,6 +4422,7 @@ public void metodoVale2(){
                         Pendiente.setVisible(false);//Cambiar el estatus a "Pendiente para baja/donación/comodato"
                         Repa_Garan.setVisible(false);//Cambiar el estatus a "Reparación/Garantía"
                         ActualizarProd.setVisible(true);//Actualizar la información de un producto
+                        MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
                     }
                     //Selección de Baja/Donación/Comodato
                     else if(comboEstatus.getSelectedItem().toString().equals("Baja") || comboEstatus.getSelectedItem().toString().equals("Donación") || comboEstatus.getSelectedItem().toString().equals("Comodato")){
@@ -4425,9 +4439,8 @@ public void metodoVale2(){
                         Pendiente.setVisible(true);//Cambiar el estatus a "Pendiente para baja/donación/comodato"
                         Repa_Garan.setVisible(true);//Cambiar el estatus a "Reparación/Garantía"
                         ActualizarProd.setVisible(true);//Actualizar la información de un producto
+                        MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
                     }
-
-                    MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
 
                 }//if (r >= 0 && r < tablaInventario.getRowCount())
                 
@@ -4805,7 +4818,7 @@ public void metodoVale2(){
     private void btnAceptarCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarCheckActionPerformed
         // TODO add your handling code here:
         Object[] botones = {"Aceptar","Cancelar"};
-        int opcion = JOptionPane.showOptionDialog(this,"¿Desea realizar el cambio de estatus pendiente "+pendientePara+"?", "Confirmación",
+        int opcion = JOptionPane.showOptionDialog(this,"¿Desea realizar el cambio de estatus a "+pendientePara+"?", "Confirmación",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
         
         if(opcion == 0){
@@ -4822,8 +4835,8 @@ public void metodoVale2(){
                 }
 
                 //Intentamos actualizar el estatus de dichos productos
-                if(manager_inventario.actualizarPendientePara(ids,cambio,pendientePara)){
-                    JOptionPane.showMessageDialog(null, "Se actualizaron con exito los registros a pendiente "+pendientePara);
+                if(manager_inventario.actualizarEstatus(ids,cambio,pendientePara)){
+                    JOptionPane.showMessageDialog(null, "Se actualizaron con exito los registros a "+pendientePara);
                     //Mostramos la tabla de acuerdo a los criterios de busqueda que estaban antes
                     int folio = comboFolio.getSelectedIndex();
                     String estatus = comboEstatus.getSelectedItem().toString();
@@ -4834,12 +4847,12 @@ public void metodoVale2(){
                     //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
                     if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
                     if(inventarios.equals("Inventario"))
-						tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-					else
-						tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+                        tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+                    else
+                        tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
                     
                 }else{
-                    JOptionPane.showMessageDialog(null, "No se pudo realizar el cambio pendiente "+pendientePara);
+                    JOptionPane.showMessageDialog(null, "No se pudo realizar el cambio a "+pendientePara);
                 }
                 
             }else{
@@ -4866,7 +4879,7 @@ public void metodoVale2(){
         // TODO add your handling code here:
         
         Object[] botones = {"Aceptar","Cancelar"};
-        int opcion = JOptionPane.showOptionDialog(this,"¿Desea cancelar la acción del cambio de estatus pendiente "+pendientePara+"?", "Confirmación",
+        int opcion = JOptionPane.showOptionDialog(this,"¿Desea cancelar la acción del cambio de estatus a "+pendientePara+"?", "Confirmación",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
         
         if(opcion == 0){
@@ -4880,10 +4893,10 @@ public void metodoVale2(){
                 String busqueda = txtBusqueda.getText();
                 //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
                 if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-				if(inventario.equals("Inventario"))
-					tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-				else
-					tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+                if(inventario.equals("Inventario"))
+                        tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+                else
+                        tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
             }else{
                 JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
             }
@@ -5237,10 +5250,10 @@ public void metodoVale2(){
                 String nomeclatura = "";
                 int filtro = comboFiltro.getSelectedIndex();
                 String busqueda = txtBusqueda.getText();
+                pendientePara = "Disponible";
                 //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
                 if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-                tablaInventario.setModel(manager_inventario.cambiarEstatus("Devolver ","a disponible",filtro, busqueda,nomeclatura,estatus));
-                
+                tablaInventario.setModel(manager_inventario.cambiarEstatus("Devolver a ",pendientePara,filtro, busqueda,nomeclatura,estatus));
                 
                 tablaInventario.setValueAt(true, fila, 0);
                 
@@ -5385,6 +5398,50 @@ public void metodoVale2(){
         }//switch
         
     }//GEN-LAST:event_tabbedPrincipalMouseClicked
+
+    private void EstatusDefinitivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EstatusDefinitivoActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.update_inventario(Username)){
+                int fila = tablaInventario.getSelectedRow();
+                int folio = comboFolio.getSelectedIndex();
+                String estatus = comboEstatus.getSelectedItem().toString();
+                String nomeclatura = "";
+                int filtro = comboFiltro.getSelectedIndex();
+                String busqueda = txtBusqueda.getText();
+                //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+                if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
+                tablaInventario.setModel(manager_inventario.cambiarEstatus("Cambiar a ",pendientePara,filtro, busqueda,nomeclatura,estatus));
+                
+                
+                tablaInventario.setValueAt(true, fila, 0);
+                
+                //Mostramos los botones para aceptar los cambios o cancelar la acción
+                btnAceptarCheck.setVisible(true);
+                btnCancelarCheck.setVisible(true);
+                
+                //Deshabilitamos las demás opciones para que no actualice la tabla, si quiere cambiar los 
+                //criterios de busqueda entonces tendra que dar cancelar
+                btnAddInventario.setEnabled(false);
+                comboInventario.setEnabled(false);
+                comboEstatus.setEnabled(false);
+                comboFolio.setEnabled(false);
+                comboFiltro.setEnabled(false);
+                txtBusqueda.setEnabled(false);
+
+            }else{
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");
+            }
+    }//GEN-LAST:event_EstatusDefinitivoActionPerformed
+
+    private void AddDocumentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddDocumentsActionPerformed
+        // TODO add your handling code here:
+        Ventana_Documentos ob = new Ventana_Documentos(this, true);
+        ob.setVisible(true);
+    }//GEN-LAST:event_AddDocumentsActionPerformed
+
+    private void SelectProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectProductsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SelectProductsActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -5528,6 +5585,7 @@ public void metodoVale2(){
     private javax.swing.JMenuItem ActualizarPendientes;
     private javax.swing.JMenuItem ActualizarProd;
     private javax.swing.JMenuItem ActualizarV;
+    private javax.swing.JMenuItem AddDocuments;
     private javax.swing.JMenuItem AddStock;
     private javax.swing.JMenuItem AgregarStock;
     private javax.swing.JMenuItem AsignarV;
@@ -5539,6 +5597,7 @@ public void metodoVale2(){
     private javax.swing.JMenuItem CancelarSS;
     private javax.swing.JMenuItem Denegar;
     private javax.swing.JMenuItem DevolverDis;
+    private javax.swing.JMenu Documentos;
     private javax.swing.JMenuItem EntregarParte;
     private javax.swing.JMenuItem EntregarTodo;
     private javax.swing.JMenuItem EstatusDefinitivo;
@@ -5570,6 +5629,7 @@ public void metodoVale2(){
     private javax.swing.JMenuItem Reemplazar;
     private javax.swing.JMenuItem Repa_Garan;
     private javax.swing.JScrollPane ScrollEmpleado;
+    private javax.swing.JMenuItem SelectProducts;
     private javax.swing.JMenuItem Servicio;
     private javax.swing.JMenuItem SolicitarBaja;
     private javax.swing.JMenu SolictarMas;
@@ -5710,7 +5770,6 @@ public void metodoVale2(){
     private javax.swing.JLabel lblTelefono;
     private javax.swing.JMenu menuOpciones;
     private javax.swing.JMenuItem menuPermisos;
-    private javax.swing.JMenuItem menuPuestoArea;
     private javax.swing.JMenuItem mi_viaticos;
     private javax.swing.JPanel panelEmpleado;
     private javax.swing.JPanel pestañaInventario;

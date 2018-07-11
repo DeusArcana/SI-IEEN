@@ -532,68 +532,70 @@ public class ManagerInventario {
 				cs.setString(4, folio);
 				
             ResultSet rs = cs.executeQuery();
-            boolean estado = rs.next();
+            
+            Object datos[] = new Object[13];
 
-            //Si el estado es verdadero significa que si encontro coincidencias, entonces mostraremos dichas concidencias
-            if(estado){
-                
-                Object datos[] = new Object[13];
+            //Proseguimos con los registros en caso de exisitir mas
+            while (rs.next()) {
 
-                //Anteriormente se hizo la consulta, y como entro a este if significa que si se encontraron datos, por ende ya estamos posicionados
-                //en el primer registro de las concidencias
                 datos[0] = Boolean.FALSE;
-                
+
                 for(int i = 1;i<13;i++){
                         datos[i] = rs.getString(i);
                 }//Llenamos la fila
-                table.addRow(datos);
-                
-                //Proseguimos con los registros en caso de exisitir mas
-                while (rs.next()) {
 
-                    datos[0] = Boolean.FALSE;
-                
-                    for(int i = 1;i<13;i++){
-                            datos[i] = rs.getString(i);
-                    }//Llenamos la fila
+                table.addRow(datos);//Añadimos la fila
+            }//while
 
-                    table.addRow(datos);//Añadimos la fila
-               }//while
-
-               conexion.close();            
-			}
-		} catch (SQLException ex) {
+            conexion.close();            
+			
+        } catch (SQLException ex) {
             System.out.printf("Error al generar la tabla para con checkbox en el Inventario SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-			return table;
-		}
+        }finally {
+            return table;
+        }
         
-    }//Retorna una tabla con un checkbox en la primera columna de pendiente para baja/comodato/donación
+    }//Retorna una tabla con un checkbox en la primera columna (cambiarEstatus)
     
     //Este metodo actualiza el estatus de 1 o más productos a pendiente para baja/comodato/donación
-    public boolean actualizarPendientePara(String[] IDs, Boolean[] cambio, String pendientePara) {
+    public boolean actualizarEstatus(String[] IDs, Boolean[] cambio, String pendientePara) {
 
         try (PreparedStatement ps = db.getConexion().prepareCall("{CALL `ine`.`usp_update_statusProductoInv`(?, ?)}")) {
 			
-			Boolean status = false;
-			
+            boolean status = false;
+            String sql = "";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            
+            sql = "select now();";
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            String fecha = rs.getString(1);
+            
+            //Recorremos todos los datos para ver cuales fueron marcados y cuales no
             for(int i = 0; i < IDs.length; i++){
+                //Si fue marcado entonces cambia el estatus
                 if(cambio[i]){
-					ps.setString(1, IDs[i]);
+                    ps.setString(1, IDs[i]);
                     ps.setString(2, pendientePara);
                     status = ps.executeUpdate() != 0;
-                }
-            }
+                    //Vemos si el estatus es para Baja/Comodato/Donación definitivo
+                    if(pendientePara.equals("Baja") || pendientePara.equals("Donación") || pendientePara.equals("Comodato")){
+                        sql = "insert into productos_asignados (ID_Producto,Status,Salida,Fecha_Seleccion) value ('"+IDs[i]+"','"+pendientePara+"',0,'"+fecha+"');";
+                        st.executeUpdate(sql);
+                    }
+                }//if(cambio[i])
+            }//for
 			
             return status;
 
         } catch (Exception ex) {
-            System.out.println("Error al actualizar el estatus pendiente "+ pendientePara + ex.getMessage());
+            System.out.println("Error al actualizar el estatus "+ pendientePara + ex.getMessage());
             return false;
         }
 
-    }//actualizarPendientePara
+    }//actualizarEstatus
     
     public Blob leerImagen(String idProducto) throws IOException {
         conexion = db.getConexion();
