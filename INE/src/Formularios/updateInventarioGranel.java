@@ -350,12 +350,12 @@ public class updateInventarioGranel extends javax.swing.JDialog {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
         getInfo();
-        if(manager_permisos.update_inventario(Principal.Username)){
+        if(manager_permisos.accesoModulo("actualizar","Inventario",Principal.Username)){
             
             if(manager_inventario_granel.actualizarInventarioG(clave, producto, almacen, marca, stockmin, descripcion)){
                 JOptionPane.showMessageDialog(null,"Se actualizo correctamente el consumible");
                 
-                if(manager_permisos.consulta_inventario(Principal.Username)){
+                if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
                     Principal.tablaInventario.setModel(manager_inventario_granel.getInventarioG(Principal.comboFiltro.getSelectedIndex()));
                 }
                 this.dispose();
@@ -364,7 +364,7 @@ public class updateInventarioGranel extends javax.swing.JDialog {
             }
             
         }else{
-            JOptionPane.showMessageDialog(null,"Le han revocado los permisos para registrar consumibles.");
+            JOptionPane.showMessageDialog(null,"No cuenta con permisos para actualizar la información del consumible.");
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 

@@ -485,21 +485,23 @@ public class ManagerDocumentos {
             table.addColumn("Color");
             table.addColumn("Factura");
             table.addColumn("Observaciones");
+            table.addColumn("Fecha de salida");
 			
             //Hacemos la conexión
             conexion = db.getConexion();
             //Creamos la variable para hacer operaciones CRUD
             Statement st = conexion.createStatement();
             //Cambiamos el estatus del equipo seleccionado
-            String sql = "select id.ID_Producto, i.nombre_prod, i.no_serie, i.descripcion, i.marca, i.modelo, i.color, i.Factura, i.observaciones from inv_docs id "
+            String sql = "select id.ID_Producto, i.nombre_prod, i.no_serie, i.descripcion, i.observaciones,pa.Fecha_Seleccion from inv_docs id "
                        + "inner join inventario i on (concat(i.Folio,'-',i.Numero,i.Extension) = id.ID_Producto) "
-                       + "where id.ID_Documento = "+id_documento+";";
+                       + "inner join productos_asignados pa on (pa.ID_Producto = id.ID_Producto) "
+                        + "where id.ID_Documento = "+id_documento+";";
             
-            Object datos[] = new Object[9];
+            Object datos[] = new Object[10];
             ResultSet rs = st.executeQuery(sql);          
             //Llenar tabla
             while (rs.next()) {
-                for(int i = 0;i<9;i++){
+                for(int i = 0;i<10;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
                 table.addRow(datos);//Añadimos la fila

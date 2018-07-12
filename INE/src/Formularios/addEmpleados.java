@@ -350,14 +350,14 @@ public class addEmpleados extends javax.swing.JDialog {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
         int res = validar();
-        if(manager_permisos.alta_user(Principal.Username)){
+        if(manager_permisos.accesoModulo("alta","Empleados",Principal.Username)){
             switch(res){
                 case 0:
                     getInfo();
                     boolean insertar = manager_users.insertarEmpleado(nombres, apellido_p, apellido_m, telefono, calle, colonia, curp, rfc, fecha, codigoP, municipio,localidad,area,puesto);
                     if(insertar){
                         JOptionPane.showMessageDialog(null, "El empleado "+nombres+ " "+apellido_p+ "ha sido registrado en la base de datos exitosamente.");
-                        if(manager_permisos.consulta_user(Principal.Username)){
+                        if(manager_permisos.accesoModulo("consulta","Empleados",Principal.Username)){
                             Principal.tablaUsuarios.setModel(manager_users.getEmpleados());
                         }
                         this.dispose();

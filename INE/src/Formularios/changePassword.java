@@ -197,51 +197,43 @@ public class changePassword extends javax.swing.JDialog {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
         int res = validar();
-        if(manager_permisos.alta_user(Principal.Username)){
-            switch(res){
-                case 0:
-                    boolean cambiar = manager_users.changePass(txtUsuario.getText(),txtAContraseña.getText(),txtNContraseña.getText());
-                    if(cambiar){
-                        JOptionPane.showMessageDialog(null, "Se actualizo la contraseña exitosamente.");
-                        if(manager_permisos.consulta_user(Principal.Username)){
-                            Principal.tablaUsuarios.setModel(manager_users.getEmpleados());
-                        }
-                        this.dispose();
-                    }else{
-                            JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
-                            this.dispose();
-                    }
-                    break;    
-                case 2:
-                    JOptionPane.showMessageDialog(null, "Por favor ingresa la anitgüa contraseña");
-                    txtAContraseña.requestFocus();
-                    limpiar();
-                    break;
-                case 3:
-                    JOptionPane.showMessageDialog(null, "Por favor ingresa la nueva contraseña");
-                    txtNContraseña.requestFocus();
-                    limpiar();
-                    break;    
-                case 4:
-                    JOptionPane.showMessageDialog(null, "Por favor ingresa la confirmación de la contraseña");
-                    txtCNContraseña.requestFocus();
-                    limpiar();
-                    break;
-                case 5:
-                    JOptionPane.showMessageDialog(null, "La antigüa contraseña no coincide con el usuario");
-                    txtUsuario.requestFocus();
-                    limpiar();
-                    break;
-                case 6:
-                    JOptionPane.showMessageDialog(null, "La nueva contraseña con la confirmación no coinciden");
-                    txtUsuario.requestFocus();
-                    limpiar();
-                    break;
-            }//switch
-        }else{
-            JOptionPane.showMessageDialog(null, "Te han revocado los permisos para asignar usuarios.");
-        }
         
+        switch(res){
+            case 0:
+                boolean cambiar = manager_users.changePass(txtUsuario.getText(),txtAContraseña.getText(),txtNContraseña.getText());
+                if(cambiar){
+                    JOptionPane.showMessageDialog(null, "Se actualizo la contraseña exitosamente.");
+                }else{
+                    JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+                }
+                this.dispose();
+                break;    
+            case 2:
+                JOptionPane.showMessageDialog(null, "Por favor ingresa la anitgüa contraseña");
+                txtAContraseña.requestFocus();
+                limpiar();
+                break;
+            case 3:
+                JOptionPane.showMessageDialog(null, "Por favor ingresa la nueva contraseña");
+                txtNContraseña.requestFocus();
+                limpiar();
+                break;    
+            case 4:
+                JOptionPane.showMessageDialog(null, "Por favor ingresa la confirmación de la contraseña");
+                txtCNContraseña.requestFocus();
+                limpiar();
+                break;
+            case 5:
+                JOptionPane.showMessageDialog(null, "La antigüa contraseña no coincide con el usuario");
+                txtUsuario.requestFocus();
+                limpiar();
+                break;
+            case 6:
+                JOptionPane.showMessageDialog(null, "La nueva contraseña con la confirmación no coinciden");
+                txtUsuario.requestFocus();
+                limpiar();
+                break;
+        }//switch        
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened

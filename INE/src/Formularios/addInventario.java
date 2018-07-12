@@ -509,7 +509,7 @@ public class addInventario extends javax.swing.JDialog {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
         getInfo();
-        if (manager_permisos.alta_inventario(Principal.Username)) {
+        if(manager_permisos.accesoModulo("alta","Inventario",Principal.Username)){
             
             if (manager_inventario.guardarImagen(folio,numero,extension, producto, descripcion,ubicacion, marca, "Sin observaciones",noserie, modelo, color, fecha_compra, factura, importe,imagen,cantidad)) {
 
@@ -521,7 +521,7 @@ public class addInventario extends javax.swing.JDialog {
                 //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
                 if(num > 0){nomeclatura = nomeclaturas[num-1];}
         
-                if (manager_permisos.consulta_inventario(Principal.Username)) {
+                if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
                     Principal.tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
                 }
 
@@ -530,7 +530,7 @@ public class addInventario extends javax.swing.JDialog {
             }
 
         } else {
-            JOptionPane.showMessageDialog(null, "Le han revocado los permisos para registrar un producto al inventario.");
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para dar de alta nuevos productos al inventario.");
         }
         clearCampos();
     }//GEN-LAST:event_btnAceptarActionPerformed

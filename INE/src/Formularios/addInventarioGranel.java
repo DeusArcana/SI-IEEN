@@ -353,12 +353,12 @@ public class addInventarioGranel extends javax.swing.JDialog {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
         getInfo();
-        if(manager_permisos.alta_inventario(Principal.Username)){
+        if(manager_permisos.accesoModulo("alta","Inventario",Principal.Username)){
             
             if(manager_inventario_granel.insertarInventarioG(num,extension, producto, almacen, marca, stockmin, stock, descripcion)){
                 JOptionPane.showMessageDialog(null,"Se inserto correctamente al inventario");
                 
-                if(manager_permisos.consulta_inventario(Principal.Username)){
+                if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
                     Principal.tablaInventario.setModel(manager_inventario_granel.getInventarioG(Principal.comboFiltro.getSelectedIndex()));
                 }
                 
@@ -367,7 +367,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
             }
             
         }else{
-            JOptionPane.showMessageDialog(null,"Le han revocado los permisos para registrar un producto a granel en el inventario.");
+            JOptionPane.showMessageDialog(null,"No cuenta con permisos para dar de alta consumibles.");
         }
         clearCampos();
     }//GEN-LAST:event_btnAceptarActionPerformed

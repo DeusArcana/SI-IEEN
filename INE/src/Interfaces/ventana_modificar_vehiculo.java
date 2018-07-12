@@ -399,8 +399,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-
-        if (manager_permisos.alta_vehiculos(Username)) {
+        if(manager_permisos.accesoModulo("actualizar","Vehiculos",Username)){
             if (validarCampos()) {
                 String ruta = campoRuta.getText();
                 if (!campoRuta.getText().isEmpty()) {
@@ -432,7 +431,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "Llene todos los campos requeridos!", "Información!", JOptionPane.INFORMATION_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Han sido revocados sus permisos para dar de alta un vehiculo.", "Información!", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para actualizar la información del vehiculo.", "Información!", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

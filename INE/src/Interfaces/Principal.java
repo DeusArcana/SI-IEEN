@@ -171,7 +171,6 @@ public class Principal extends javax.swing.JFrame {
         modeloTablaIP = (DefaultTableModel) tablaIP.getModel();
         tablaNormal = (DefaultTableModel) tablaMAsignados.getModel();
         modeloRecoleccion = (DefaultTableModel) tablaRecoleccion.getModel();
-        modeloObjetosEntregados = (DefaultTableModel) tablaObjetosEntregados.getModel();
         modeloCantidadSalida = (DefaultTableModel) tablaCantidadGranel.getModel();
         
         //Añadimos el modelo que queremos que tenga la tabla cuando se vaya a atender una solicitud de salida de almacen
@@ -219,16 +218,6 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        MenuUsuarios = new javax.swing.JPopupMenu();
-        dar_baja = new javax.swing.JMenuItem();
-        activar = new javax.swing.JMenuItem();
-        Promover = new javax.swing.JMenuItem();
-        Permisos = new javax.swing.JMenuItem();
-        ActualizarEmployee = new javax.swing.JMenuItem();
-        MenuEmpleados = new javax.swing.JPopupMenu();
-        Actualizar = new javax.swing.JMenuItem();
-        ActualizarInfoU = new javax.swing.JMenuItem();
-        Asignar_usuario = new javax.swing.JMenuItem();
         MenuInventario = new javax.swing.JPopupMenu();
         ActualizarProd = new javax.swing.JMenuItem();
         DevolverDis = new javax.swing.JMenuItem();
@@ -241,41 +230,36 @@ public class Principal extends javax.swing.JFrame {
         MenuInventarioG = new javax.swing.JPopupMenu();
         ActualizarConsumible = new javax.swing.JMenuItem();
         AddStock = new javax.swing.JMenuItem();
-        MenuSolicitudes = new javax.swing.JPopupMenu();
-        Atender = new javax.swing.JMenuItem();
-        ActualizarInfo = new javax.swing.JMenuItem();
+        MenuEmpleados = new javax.swing.JPopupMenu();
+        Actualizar = new javax.swing.JMenuItem();
+        ActualizarInfoU = new javax.swing.JMenuItem();
+        Asignar_usuario = new javax.swing.JMenuItem();
+        MenuUsuarios = new javax.swing.JPopupMenu();
+        dar_baja = new javax.swing.JMenuItem();
+        activar = new javax.swing.JMenuItem();
+        Promover = new javax.swing.JMenuItem();
+        Permisos = new javax.swing.JMenuItem();
+        ActualizarEmployee = new javax.swing.JMenuItem();
         MenuVehiculos = new javax.swing.JPopupMenu();
-        AsignarV = new javax.swing.JMenuItem();
         ActualizarV = new javax.swing.JMenuItem();
         SolictarMas = new javax.swing.JMenu();
         SolicitarBaja = new javax.swing.JMenuItem();
         Servicio = new javax.swing.JMenuItem();
         ActualizarInfoV = new javax.swing.JMenuItem();
+        MenuSolicitudes = new javax.swing.JPopupMenu();
+        Atender = new javax.swing.JMenuItem();
+        ActualizarInfo = new javax.swing.JMenuItem();
+        MenuStockMin = new javax.swing.JPopupMenu();
+        AgregarStock = new javax.swing.JMenuItem();
+        ActualizarInfoSM = new javax.swing.JMenuItem();
         MenuSolicitudesP = new javax.swing.JPopupMenu();
         ActualizarInfoSP = new javax.swing.JMenuItem();
         MenuPermisosP = new javax.swing.JPopupMenu();
         ActualizarInfoPP = new javax.swing.JMenuItem();
         MenuAsignacionP = new javax.swing.JPopupMenu();
-        Reemplazar = new javax.swing.JMenuItem();
         ActualizarAsignacionP = new javax.swing.JMenuItem();
-        MenuAsignacionPG = new javax.swing.JPopupMenu();
-        ActualizarAsignacionPG = new javax.swing.JMenuItem();
-        MenuPendientes = new javax.swing.JPopupMenu();
-        Autorizar = new javax.swing.JMenuItem();
-        Denegar = new javax.swing.JMenuItem();
-        ActualizarPendientes = new javax.swing.JMenuItem();
         MenuAsginados = new javax.swing.JPopupMenu();
         CancelarA = new javax.swing.JMenuItem();
-        MenuRecoleccion = new javax.swing.JPopupMenu();
-        EntregarTodo = new javax.swing.JMenuItem();
-        EntregarParte = new javax.swing.JMenuItem();
-        ActualizarInfoReco = new javax.swing.JMenuItem();
-        MenuEntregados = new javax.swing.JPopupMenu();
-        UpdateInfo = new javax.swing.JMenuItem();
-        CancelarEntrega = new javax.swing.JMenuItem();
-        MenuStockMin = new javax.swing.JPopupMenu();
-        AgregarStock = new javax.swing.JMenuItem();
-        ActualizarInfoSM = new javax.swing.JMenuItem();
         MenuSolicitarSalida = new javax.swing.JPopupMenu();
         CancelarSS = new javax.swing.JMenuItem();
         Grupo1 = new javax.swing.ButtonGroup();
@@ -422,8 +406,6 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane34 = new javax.swing.JScrollPane();
         tablaRecoleccion = new javax.swing.JTable();
         lb_objetos_entregados1 = new javax.swing.JLabel();
-        jScrollPane35 = new javax.swing.JScrollPane();
-        tablaObjetosEntregados = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         btnGenerarValeR = new javax.swing.JButton();
         btn_cancelar3 = new javax.swing.JButton();
         comboEmpleadoR = new javax.swing.JComboBox<>();
@@ -463,65 +445,6 @@ public class Principal extends javax.swing.JFrame {
         AddDocuments = new javax.swing.JMenuItem();
         SelectProducts = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
-
-        dar_baja.setText("Baja de usuario");
-        dar_baja.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dar_bajaActionPerformed(evt);
-            }
-        });
-        MenuUsuarios.add(dar_baja);
-
-        activar.setText("Activar usuario");
-        activar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                activarActionPerformed(evt);
-            }
-        });
-        MenuUsuarios.add(activar);
-
-        Promover.setText("Promover");
-        MenuUsuarios.add(Promover);
-
-        Permisos.setText("Permisos");
-        Permisos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PermisosActionPerformed(evt);
-            }
-        });
-        MenuUsuarios.add(Permisos);
-
-        ActualizarEmployee.setText("Actualizar");
-        ActualizarEmployee.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarEmployeeActionPerformed(evt);
-            }
-        });
-        MenuUsuarios.add(ActualizarEmployee);
-
-        Actualizar.setText("Actualizar");
-        Actualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarActionPerformed(evt);
-            }
-        });
-        MenuEmpleados.add(Actualizar);
-
-        ActualizarInfoU.setText("Refrescar tabla");
-        ActualizarInfoU.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarInfoUActionPerformed(evt);
-            }
-        });
-        MenuEmpleados.add(ActualizarInfoU);
-
-        Asignar_usuario.setText("Asignar usuario");
-        Asignar_usuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Asignar_usuarioActionPerformed(evt);
-            }
-        });
-        MenuEmpleados.add(Asignar_usuario);
 
         ActualizarProd.setText("Actualizar");
         ActualizarProd.addActionListener(new java.awt.event.ActionListener() {
@@ -568,6 +491,11 @@ public class Principal extends javax.swing.JFrame {
         MenuInventario.add(Pendiente);
 
         Repa_Garan.setText("Reparación/Garantía");
+        Repa_Garan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Repa_GaranActionPerformed(evt);
+            }
+        });
         MenuInventario.add(Repa_Garan);
 
         EstatusDefinitivo.setText("Cambiar a ");
@@ -594,6 +522,106 @@ public class Principal extends javax.swing.JFrame {
         });
         MenuInventarioG.add(AddStock);
 
+        Actualizar.setText("Actualizar");
+        Actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarActionPerformed(evt);
+            }
+        });
+        MenuEmpleados.add(Actualizar);
+
+        ActualizarInfoU.setText("Refrescar");
+        ActualizarInfoU.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarInfoUActionPerformed(evt);
+            }
+        });
+        MenuEmpleados.add(ActualizarInfoU);
+
+        Asignar_usuario.setText("Asignar usuario");
+        Asignar_usuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Asignar_usuarioActionPerformed(evt);
+            }
+        });
+        MenuEmpleados.add(Asignar_usuario);
+
+        dar_baja.setText("Baja de usuario");
+        dar_baja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dar_bajaActionPerformed(evt);
+            }
+        });
+        MenuUsuarios.add(dar_baja);
+
+        activar.setText("Activar usuario");
+        activar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                activarActionPerformed(evt);
+            }
+        });
+        MenuUsuarios.add(activar);
+
+        Promover.setText("Promover");
+        Promover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PromoverActionPerformed(evt);
+            }
+        });
+        MenuUsuarios.add(Promover);
+
+        Permisos.setText("Permisos");
+        Permisos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PermisosActionPerformed(evt);
+            }
+        });
+        MenuUsuarios.add(Permisos);
+
+        ActualizarEmployee.setText("Actualizar");
+        ActualizarEmployee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarEmployeeActionPerformed(evt);
+            }
+        });
+        MenuUsuarios.add(ActualizarEmployee);
+
+        ActualizarV.setText("Actualizar");
+        ActualizarV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarVActionPerformed(evt);
+            }
+        });
+        MenuVehiculos.add(ActualizarV);
+
+        SolictarMas.setText("Solicitar...");
+
+        SolicitarBaja.setText("Solicitud baja/comodato/donación");
+        SolicitarBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SolicitarBajaActionPerformed(evt);
+            }
+        });
+        SolictarMas.add(SolicitarBaja);
+
+        Servicio.setText("Servicio");
+        Servicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ServicioActionPerformed(evt);
+            }
+        });
+        SolictarMas.add(Servicio);
+
+        MenuVehiculos.add(SolictarMas);
+
+        ActualizarInfoV.setText("Refrescar tabla");
+        ActualizarInfoV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarInfoVActionPerformed(evt);
+            }
+        });
+        MenuVehiculos.add(ActualizarInfoV);
+
         Atender.setText("Atender...");
         Atender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -610,149 +638,6 @@ public class Principal extends javax.swing.JFrame {
         });
         MenuSolicitudes.add(ActualizarInfo);
 
-        AsignarV.setText("Asignar...");
-        MenuVehiculos.add(AsignarV);
-
-        ActualizarV.setText("Actualizar");
-        ActualizarV.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarVActionPerformed(evt);
-            }
-        });
-        MenuVehiculos.add(ActualizarV);
-
-        SolictarMas.setText("Solicitar...");
-
-        SolicitarBaja.setText("Solicitud baja/comodato/donación");
-        SolictarMas.add(SolicitarBaja);
-
-        Servicio.setText("Servicio");
-        SolictarMas.add(Servicio);
-
-        MenuVehiculos.add(SolictarMas);
-
-        ActualizarInfoV.setText("Refrescar tabla");
-        ActualizarInfoV.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarInfoVActionPerformed(evt);
-            }
-        });
-        MenuVehiculos.add(ActualizarInfoV);
-
-        ActualizarInfoSP.setText("Refrescar tabla");
-        ActualizarInfoSP.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarInfoSPActionPerformed(evt);
-            }
-        });
-        MenuSolicitudesP.add(ActualizarInfoSP);
-
-        ActualizarInfoPP.setText("Refrescar tabla");
-        ActualizarInfoPP.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarInfoPPActionPerformed(evt);
-            }
-        });
-        MenuPermisosP.add(ActualizarInfoPP);
-
-        Reemplazar.setText("Solicitar reemplazo");
-        Reemplazar.setToolTipText("");
-        Reemplazar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ReemplazarActionPerformed(evt);
-            }
-        });
-        MenuAsignacionP.add(Reemplazar);
-
-        ActualizarAsignacionP.setText("Refrescar tabla");
-        ActualizarAsignacionP.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarAsignacionPActionPerformed(evt);
-            }
-        });
-        MenuAsignacionP.add(ActualizarAsignacionP);
-
-        ActualizarAsignacionPG.setText("Refrescar tabla");
-        ActualizarAsignacionPG.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarAsignacionPGActionPerformed(evt);
-            }
-        });
-        MenuAsignacionPG.add(ActualizarAsignacionPG);
-
-        Autorizar.setText("Autorizar");
-        Autorizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AutorizarActionPerformed(evt);
-            }
-        });
-        MenuPendientes.add(Autorizar);
-
-        Denegar.setText("Denegar");
-        Denegar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DenegarActionPerformed(evt);
-            }
-        });
-        MenuPendientes.add(Denegar);
-
-        ActualizarPendientes.setText("Refrescar tabla");
-        ActualizarPendientes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarPendientesActionPerformed(evt);
-            }
-        });
-        MenuPendientes.add(ActualizarPendientes);
-
-        CancelarA.setText("Cancelar");
-        CancelarA.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CancelarAActionPerformed(evt);
-            }
-        });
-        MenuAsginados.add(CancelarA);
-
-        EntregarTodo.setText("Entrega completa");
-        EntregarTodo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EntregarTodoActionPerformed(evt);
-            }
-        });
-        MenuRecoleccion.add(EntregarTodo);
-
-        EntregarParte.setText("Entrega parcial");
-        EntregarParte.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EntregarParteActionPerformed(evt);
-            }
-        });
-        MenuRecoleccion.add(EntregarParte);
-
-        ActualizarInfoReco.setText("Refrescar tabla");
-        ActualizarInfoReco.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarInfoRecoActionPerformed(evt);
-            }
-        });
-        MenuRecoleccion.add(ActualizarInfoReco);
-
-        UpdateInfo.setText("Actualizar");
-        UpdateInfo.setToolTipText("");
-        UpdateInfo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UpdateInfoActionPerformed(evt);
-            }
-        });
-        MenuEntregados.add(UpdateInfo);
-
-        CancelarEntrega.setText("Cancelar");
-        CancelarEntrega.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CancelarEntregaActionPerformed(evt);
-            }
-        });
-        MenuEntregados.add(CancelarEntrega);
-
         AgregarStock.setText("Actualizar stock");
         AgregarStock.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -768,6 +653,38 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MenuStockMin.add(ActualizarInfoSM);
+
+        ActualizarInfoSP.setText("Refrescar");
+        ActualizarInfoSP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarInfoSPActionPerformed(evt);
+            }
+        });
+        MenuSolicitudesP.add(ActualizarInfoSP);
+
+        ActualizarInfoPP.setText("Refrescar");
+        ActualizarInfoPP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarInfoPPActionPerformed(evt);
+            }
+        });
+        MenuPermisosP.add(ActualizarInfoPP);
+
+        ActualizarAsignacionP.setText("Refrescar");
+        ActualizarAsignacionP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActualizarAsignacionPActionPerformed(evt);
+            }
+        });
+        MenuAsignacionP.add(ActualizarAsignacionP);
+
+        CancelarA.setText("Cancelar");
+        CancelarA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelarAActionPerformed(evt);
+            }
+        });
+        MenuAsginados.add(CancelarA);
 
         CancelarSS.setText("Cancelar");
         CancelarSS.addActionListener(new java.awt.event.ActionListener() {
@@ -2078,21 +1995,6 @@ public class Principal extends javax.swing.JFrame {
         lb_objetos_entregados1.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lb_objetos_entregados1.setText("Objetos Entregados");
 
-        tablaObjetosEntregados.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Vale", "Clave", "Producto", "Descripción", "Observaciones", "Cantidad"
-            }
-        ));
-        tablaObjetosEntregados.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablaObjetosEntregadosMouseReleased(evt);
-            }
-        });
-        jScrollPane35.setViewportView(tablaObjetosEntregados);
-
         btnGenerarValeR.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         btnGenerarValeR.setText("Generar Vale");
         btnGenerarValeR.setEnabled(false);
@@ -2144,14 +2046,15 @@ public class Principal extends javax.swing.JFrame {
                         .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lb_objetos_asignados1)
                             .addComponent(jScrollPane34, javax.swing.GroupLayout.PREFERRED_SIZE, 1281, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 497, Short.MAX_VALUE)
                         .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lb_objetos_entregados1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane35, javax.swing.GroupLayout.PREFERRED_SIZE, 651, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_recoleccion_inventario1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 912, Short.MAX_VALUE)
                                 .addComponent(btn_cancelar3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnGenerarValeR)))
+                                .addComponent(btnGenerarValeR))
+                            .addGroup(pn_recoleccion_inventario1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 975, Short.MAX_VALUE)
+                                .addComponent(lb_objetos_entregados1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(35, 35, 35))))
         );
         pn_recoleccion_inventario1Layout.setVerticalGroup(
@@ -2171,9 +2074,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pn_recoleccion_inventario1Layout.createSequentialGroup()
                         .addComponent(lb_objetos_entregados1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane35, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(323, 323, 323)
                         .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnGenerarValeR)
                             .addComponent(btn_cancelar3)))
@@ -2561,8 +2462,6 @@ public class Principal extends javax.swing.JFrame {
         String lista = manager_inventario.nomeclaturaFolio();
         String [] folios = lista.split(",");
         nomeclaturas = new String[folios.length/2];
-        
-        
         comboFolio.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboFolio.addItem("Todos");
         for(int i = 1,j = 0; i <= folios.length;i = i+2,j++){
@@ -2572,13 +2471,12 @@ public class Principal extends javax.swing.JFrame {
         
         //Llenado de tablas
         //USUARIOS/EMPLEADOS
-        if(manager_permisos.consulta_user(Username)){
+        if(manager_permisos.accesoModulo("consulta","Empleados",Username)){
             tablaUsuarios.setModel(manager_users.getEmpleados());
-        }else{
-            JOptionPane.showMessageDialog(null, "No tiene permisos para consultar empleados/usuarios.");
         }
+        
         //VEHICULOS
-        if(manager_permisos.consulta_vehiculos(Username)){
+        if(manager_permisos.accesoModulo("consulta","Vehiculos",Username)){
             tablaVehiculos.setModel(managerVehiculos.getVehiculos());
         }
         
@@ -2629,8 +2527,8 @@ public class Principal extends javax.swing.JFrame {
         comboEmpleadoR.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboEmpleadoR.addItem("Seleccione al empleado...");
         
-        /*PESTAÑA DE MANEJADOR INVENTARIO*/
-        if(manager_permisos.permisoPorVale(Username, "Vale de resguardo")){
+        /*PESTAÑA DE RESGUARDO*/
+        if(manager_permisos.accesoModulo("consulta","Resguardo",Username)){
             //Asignación
             tablaMInventarioA.setModel(manejador_inventario.getInventarioParaAsignacion(""));
             manager_users.getNombresEmpleados(comboEmpleado);
@@ -2644,9 +2542,9 @@ public class Principal extends javax.swing.JFrame {
             btn_cancelar2.setEnabled(false);
         }
         
-        if(manager_permisos.permisoPorVale(Username, "Vale de recolección")){
+        if(manager_permisos.accesoModulo("consulta","Resguardo",Username)){
             //Recolección
-            //manejador_inventario.getEmpleadosAsignacion(comboEmpleadoR);
+            manejador_inventario.getEmpleadosAsignacion(comboEmpleadoR);
         }else{
             //Bloqueamos el uso de la asignacion
             comboEmpleadoR.setEnabled(false);
@@ -2655,14 +2553,11 @@ public class Principal extends javax.swing.JFrame {
             btn_cancelar3.setEnabled(false);
         }
         
-        //Si no tiene ningun permiso de vale entonces le borramos la pestaña
-        if(!(manager_permisos.permisoPorVale(Username, "Vale de resguardo") || manager_permisos.permisoPorVale(Username, "Vale de recolección"))){
-            tabbedPrincipal.removeTabAt(6-pestañas);//Eliminamos la pestaña
-        }
         
         //PESTAÑA SOLICITAR I_GRANEL
-        tablaSolicitarGranel.setModel(manager_inventario_granel.tablaSolicitarInvGranel(0,""));
-        
+        if(manager_permisos.accesoModulo("alta","Solicitudes",Username)){
+            tablaSolicitarGranel.setModel(manager_inventario_granel.tablaSolicitarInvGranel(0,""));
+        }
     }//GEN-LAST:event_formWindowOpened
     
     private void infoEmpleado(){
@@ -2684,7 +2579,7 @@ public class Principal extends javax.swing.JFrame {
     private void dar_bajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dar_bajaActionPerformed
         // TODO add your handling code here:
         
-        if(manager_permisos.baja_user(Username)){
+        if(manager_permisos.accesoModulo("baja","Usuarios",Username)){
             //Obtenemos la fila y con dicha fila obtenemos el usuario
             int fila = tablaUsuarios.getSelectedRow();
             usuario = tablaUsuarios.getValueAt(fila, 0).toString();
@@ -2705,7 +2600,7 @@ public class Principal extends javax.swing.JFrame {
                 }
             }//if(opcion == 0)
         }else{
-            JOptionPane.showMessageDialog(null, "Usted no cuenta con el permiso para dar de baja usuarios.");
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para dar de baja usuarios.");
         }
         
         
@@ -2713,7 +2608,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.update_user(Username)){
+        if(manager_permisos.accesoModulo("actualizar","Empleados",Username)){
         try {
                 for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                     if ("Nimbus".equals(info.getName())) {
@@ -2734,7 +2629,7 @@ public class Principal extends javax.swing.JFrame {
         }
         
         }else{
-            JOptionPane.showMessageDialog(null, "Usted no cuenta con el permiso para actualizar usuarios.");
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para actualizar empleados.");
         }
     }//GEN-LAST:event_ActualizarActionPerformed
 
@@ -2744,34 +2639,23 @@ public class Principal extends javax.swing.JFrame {
         int fila = tablaUsuarios.getSelectedRow();
         usuario = tablaUsuarios.getValueAt(fila, 0).toString();
         
-        
         //Llamamos el formulario de los permisos
-        if(manager_permisos.consulta_permisos(Username) || manager_permisos.update_permisos(Username)){
-            if(manager_permisos.update_permisos(Username)){
-                Ventana_permisos ob = new Ventana_permisos(this, true);
-                ob.setVisible(true);
-            }else{
-                Ventana_permisos_consulta ob = new Ventana_permisos_consulta(this, true);
-                ob.setVisible(true);
-            }
+        if(manager_permisos.accesoModulo("actualizar","Usuarios",Username)){
+            Ventana_permisos ob = new Ventana_permisos(this, true);
+            ob.setVisible(true);
         }else{
-            JOptionPane.showMessageDialog(null, "No tiene permisos para visualizar los permisos o actualizarlos");
-        }
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para actualizar los permisos de los usuarios.");
+        }//else
     }//GEN-LAST:event_PermisosActionPerformed
 
     private void menuPermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPermisosActionPerformed
         // TODO add your handling code here:
-        if((manager_permisos.alta_permisos(Username) && manager_permisos.baja_permisos(Username)) || manager_permisos.consulta_permisos(Username)){
-            if(manager_permisos.alta_permisos(Username) && manager_permisos.baja_permisos(Username)){
-                Ventana_permisos_puesto ob = new Ventana_permisos_puesto(this, true);
-                ob.setVisible(true);
-            }else{
-                Ventana_permisos_puesto_consulta ob = new Ventana_permisos_puesto_consulta(this, true);
-                ob.setVisible(true);
-            }
+        if(manager_permisos.accesoModulo("actualizar","Permisos",Username)){
+            Ventana_permisos_puesto ob = new Ventana_permisos_puesto(this, true);
+            ob.setVisible(true);
         }else{
-            JOptionPane.showMessageDialog(null, "Usted no tiene acceso a los permisos estaticos de los puestos.");
-        }
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para actualizar los permisos estáticos de los puestos de trabajo.");
+        }//else
     }//GEN-LAST:event_menuPermisosActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -2824,48 +2708,18 @@ public class Principal extends javax.swing.JFrame {
 
     private void MenuSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuSolicitudActionPerformed
         // TODO add your handling code here:
-        Ventana_permisosSolicitud ob = new Ventana_permisosSolicitud(this, true);
-        
-        if((manager_permisos.alta_permisos(Username) && manager_permisos.baja_permisos(Username)) || manager_permisos.consulta_permisos(Username)){
-            if(manager_permisos.alta_permisos(Username) && manager_permisos.baja_permisos(Username)){
-                
-                banderaPermisosSolicitud = 1;
-                ob.setVisible(true);
-            }else{
-                
-                banderaPermisosSolicitud = 2;
-                ob.setVisible(true);
-            }
-        }else{
-            JOptionPane.showMessageDialog(null, "Usted no tiene acceso a los permisos de las solicitudes.");
-        }
     }//GEN-LAST:event_MenuSolicitudActionPerformed
 
     private void ActualizarInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoActionPerformed
         // TODO add your handling code here:
-        
-        if(manager_permisos.verTablaSolicitudes(Username) == 0){
-                tabbedPrincipal.removeTabAt(3);//Eliminamos la pestaña
-                pestañas++;
+        if(manager_permisos.accesoModulo("actualizar","Solicitudes",Username)){
+            tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
+            int solicitud = tablaSolicitudes.getRowCount();
+            if(solicitud > 0){
+                tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
+            }//if cantidad
         }else{
-            if(!(manager_permisos.esPresidencia(Username))){
-                
-                tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
-                int solicitud = tablaSolicitudes.getRowCount();
-                if(solicitud > 0){
-                    tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
-                }//if cantidad
-                
-            }//if esPresidencia
-            else{
-                tabbedPrincipal.setTitleAt(3, "Pendientes");//Le damos el nombre a esa pestaña
-                tablaSolicitudes.setModel(manager_solicitud.tabla_Pendientes());
-                int pendientes = tablaSolicitudes.getRowCount();
-                if(pendientes > 0){
-                    tabbedPrincipal.setTitleAt(3, "Pendientes ("+pendientes+")");//Le damos el nombre a esa pestaña
-                }//if cantidad
-                
-            }
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar las solicitudes.");
         }
     }//GEN-LAST:event_ActualizarInfoActionPerformed
     public void metodoVehiculos(){
@@ -2903,43 +2757,47 @@ public class Principal extends javax.swing.JFrame {
         
     private void ActualizarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarVActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.update_vehiculos(Username)){
+        if(manager_permisos.accesoModulo("actualizar","Vehiculos",Username)){
             
         }else{
-            JOptionPane.showMessageDialog(null, "No tiene permisos para actualizar la información del vehiculo.");
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para actualizar la información de los vehiculos.");
         }
         
     }//GEN-LAST:event_ActualizarVActionPerformed
 
     private void AtenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtenderActionPerformed
         // TODO add your handling code here:
+        
         cancelarVale();
-        
-        int fila = tablaSolicitudes.getSelectedRow();
-        idAtenderSalida = tablaSolicitudes.getValueAt(fila, 0).toString();
-        tabbedPrincipal.setSelectedIndex(6-pestañas);//Direccionamos a la pestaña de Manejador inventario
-        rb_recoleccion1.setEnabled(false);//Deshabilitamos el boton de recolección, esto para que atienda la solicitud
-        rb_inventario_granel1.setEnabled(true);//Habilitamos la de inventario a granel
-        rb_inventario_granel1.setSelected(true);//Marcamos el radio del inventario a granel
-        rb_inventario_normal1.setEnabled(false);//Deshabilitamos la de inventario
-        rb_inventario_normal1.setSelected(false);//Desmarcamos el radio del inventario
-        comboEmpleado.setSelectedItem(tablaSolicitudes.getValueAt(fila, 1).toString());//Le inidicamos el empleado que realizo la solicitud
-        comboEmpleado.setEnabled(false);//Desactivamos el combo para que no cambie el responsable
-        esGranel = true;//Activamos la banera de es a granel para saber que hacer con los botones
-        comboFolioAsignacion.setVisible(false);
-        btn_cancelar2.setEnabled(true);
-        
-        //Cargamos el cardLayout en caso de encontrarse en el recolección
-        CardLayout c_asignacion = (CardLayout)pn_contenedor_ventanas1.getLayout();
-        c_asignacion.show(pn_contenedor_ventanas1,"c_s_asignacion");
-        
-        //Llenamos la tabla con la información de acuerdo a la solicitud que se realizo
-        tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
-        tablaMAsignados.setModel(tablaGranel);
-        
-        //Llenamos la tabla con los productos en 0
-        for(int i = 0; i<tablaMInventarioA.getRowCount();i++){
-            tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(0),0,tablaMInventarioA.getValueAt(i, 4),tablaMInventarioA.getValueAt(i, 0),tablaMInventarioA.getValueAt(i, 2)});
+        if(manager_permisos.accesoModulo("actualizar","Solicitudes",Username)){
+            int fila = tablaSolicitudes.getSelectedRow();
+            idAtenderSalida = tablaSolicitudes.getValueAt(fila, 0).toString();
+            tabbedPrincipal.setSelectedIndex(6-pestañas);//Direccionamos a la pestaña de Manejador inventario
+            rb_recoleccion1.setEnabled(false);//Deshabilitamos el boton de recolección, esto para que atienda la solicitud
+            rb_inventario_granel1.setEnabled(true);//Habilitamos la de inventario a granel
+            rb_inventario_granel1.setSelected(true);//Marcamos el radio del inventario a granel
+            rb_inventario_normal1.setEnabled(false);//Deshabilitamos la de inventario
+            rb_inventario_normal1.setSelected(false);//Desmarcamos el radio del inventario
+            comboEmpleado.setSelectedItem(tablaSolicitudes.getValueAt(fila, 1).toString());//Le inidicamos el empleado que realizo la solicitud
+            comboEmpleado.setEnabled(false);//Desactivamos el combo para que no cambie el responsable
+            esGranel = true;//Activamos la banera de es a granel para saber que hacer con los botones
+            comboFolioAsignacion.setVisible(false);
+            btn_cancelar2.setEnabled(true);
+
+            //Cargamos el cardLayout en caso de encontrarse en el recolección
+            CardLayout c_asignacion = (CardLayout)pn_contenedor_ventanas1.getLayout();
+            c_asignacion.show(pn_contenedor_ventanas1,"c_s_asignacion");
+
+            //Llenamos la tabla con la información de acuerdo a la solicitud que se realizo
+            tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
+            tablaMAsignados.setModel(tablaGranel);
+
+            //Llenamos la tabla con los productos en 0
+            for(int i = 0; i<tablaMInventarioA.getRowCount();i++){
+                tablaGranel.addRow(new Object[]{manager_complemento.textoNumero(0),0,tablaMInventarioA.getValueAt(i, 4),tablaMInventarioA.getValueAt(i, 0),tablaMInventarioA.getValueAt(i, 2)});
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"No cuenta con permisos para atender las solicitudes.");
         }
         
     }//GEN-LAST:event_AtenderActionPerformed
@@ -2951,102 +2809,6 @@ public class Principal extends javax.swing.JFrame {
         this.dispose();
         
     }//GEN-LAST:event_mi_viaticosActionPerformed
-
-    private void ActualizarPendientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarPendientesActionPerformed
-        // TODO add your handling code here:
-        /*
-            14 -> todos los tipos de solicitud
-            13 -> baja, donación y comodato
-            12 -> baja, donación y reemplazo
-            11 -> baja, comodato y reemplazo
-            10 -> baja y donación 
-            9 -> baja y comodato
-            8 -> baja y reemplazo
-            7 -> reemplazo y comodato
-            6 -> reemplazo y donación
-            5 -> comodato y donación
-            4 -> baja
-            3 -> comodato
-            2 -> donación
-            1 -> reemplazo
-            0 -> ningun permiso
-        */
-        
-        if(manager_permisos.verTablaSolicitudes(Username) == 0){
-                tabbedPrincipal.removeTabAt(3);//Eliminamos la pestaña
-                pestañas++;
-        }else{
-            if(!(manager_permisos.esPresidencia(Username))){
-                
-                tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
-                int solicitud = tablaSolicitudes.getRowCount();
-                if(solicitud > 0){
-                    tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
-                }//if cantidad
-                
-            }//if esPresidencia
-            else{
-                tabbedPrincipal.setTitleAt(3, "Pendientes");//Le damos el nombre a esa pestaña
-                tablaSolicitudes.setModel(manager_solicitud.tabla_Pendientes());
-                int pendientes = tablaSolicitudes.getRowCount();
-                if(pendientes > 0){
-                    tabbedPrincipal.setTitleAt(3, "Pendientes ("+pendientes+")");//Le damos el nombre a esa pestaña
-                }//if cantidad
-                
-            }
-        }        
-    }//GEN-LAST:event_ActualizarPendientesActionPerformed
-
-    private void AutorizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AutorizarActionPerformed
-        // TODO add your handling code here:
-        //Obtenemos la fila seleccionada
-        int fila = tablaSolicitudes.getSelectedRow();
-        //Obtenemos el tipo de la solicitud
-        String solicitud = tablaSolicitudes.getValueAt(fila, 1).toString();
-        //Obtenemos el id de la solicitud
-        int idSolicitud = Integer.parseInt(tablaSolicitudes.getValueAt(fila, 0).toString());
-        //Le quitamos la palabra "Solicitud " y nos quedamos con el estado autorizado al que va a cambiar
-        String estado = solicitud.substring(10, solicitud.length());
-        
-        //PREGUNTA AUTORIZACIÓN
-        Object[] botones = {"Autorizar","Cancelar"};
-        int opcion = JOptionPane.showOptionDialog(this,"¿Está seguro de autorizar la solicitud "+idSolicitud+"?", "Confirmación",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
-        
-        if(opcion == 0){
-
-            if(manager_solicitud.respuesta_Pendiente(idSolicitud, estado.toUpperCase(), "AUTORIZADO")){
-                JOptionPane.showMessageDialog(null, "Se autorizo correctamente la solicitud.");
-            }//Se realizaron los cambios correctamente
-         
-        }//Acepto la autorización
-        
-    }//GEN-LAST:event_AutorizarActionPerformed
-
-    private void DenegarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DenegarActionPerformed
-        // TODO add your handling code here:
-        //Obtenemos la fila seleccionada
-        int fila = tablaSolicitudes.getSelectedRow();
-        //Obtenemos el tipo de la solicitud
-        String solicitud = tablaSolicitudes.getValueAt(fila, 1).toString();
-        //Obtenemos el id de la solicitud
-        int idSolicitud = Integer.parseInt(tablaSolicitudes.getValueAt(fila, 0).toString());
-        //Le quitamos la palabra "Solicitud " y nos quedamos con el estado autorizado al que va a cambiar
-        String estado = solicitud.substring(10, solicitud.length());
-        
-        //PREGUNTA AUTORIZACIÓN
-        Object[] botones = {"Denegar","Cancelar"};
-        int opcion = JOptionPane.showOptionDialog(this,"¿Está seguro de denegar la solicitud "+idSolicitud+"?", "Confirmación",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
-        
-        if(opcion == 0){
-
-            if(manager_solicitud.respuesta_Pendiente(idSolicitud, estado.toUpperCase(), "DENEGADO")){
-                JOptionPane.showMessageDialog(null, "Se autorizo correctamente la solicitud.");
-            }//Se realizaron los cambios correctamente
-         
-        }//Acepto la autorización
-    }//GEN-LAST:event_DenegarActionPerformed
     
     public boolean existeCodigoTablaSolicitarGranel(String codigo,int cantidad){
         boolean existe = false;
@@ -3186,24 +2948,7 @@ public class Principal extends javax.swing.JFrame {
         
     }//limpia la tabla "tablaMAsignados"
     
-    /*--------------------------PARA LA RECOLECCION EN LA PESTAÑA DE MANEJADOR  DE INVENTARIO-----------------------*/
-    public boolean existeCodigoTablaObjetosEntregados(String codigo,int cantidad){
-        boolean existe = false;
-        //Buscamos en la tabla si ya existe el codigo
-        for(int fila = 0;fila<tablaObjetosEntregados.getRowCount();fila++){
-            //Si el codigo ya se habia registrado entonces sumamos uno a la cantidad
-            if(tablaObjetosEntregados.getValueAt(fila,1).equals(codigo)){
-                int  valor = Integer.parseInt(tablaObjetosEntregados.getValueAt(fila,5).toString());
-                valor = valor + cantidad;
-                tablaObjetosEntregados.setValueAt(valor,fila,5);
-                existe = true;
-                break;
-            }//if
-            
-        }//for
-        return existe;
-    }//Busca si existen coincidencias en la tabla para sumarlas
-    
+    /*--------------------------PARA LA RECOLECCION EN LA PESTAÑA DE MANEJADOR  DE INVENTARIO-----------------------*/    
     public void limpiarTablaRecoleccion(){
         
         int a = modeloObjetosEntregados.getRowCount() - 1;
@@ -3278,31 +3023,6 @@ public class Principal extends javax.swing.JFrame {
         }//selecciono la opcion "Aceptar"
     }//GEN-LAST:event_CancelarAActionPerformed
 
-    private void EntregarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EntregarTodoActionPerformed
-        
-        
-    }//GEN-LAST:event_EntregarTodoActionPerformed
-
-    private void UpdateInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateInfoActionPerformed
-        // TODO add your handling code here:
-        int fila = tablaObjetosEntregados.getSelectedRow();
-        /*
-        try {
-            modificar_addInventario ob = new modificar_addInventario(this, true);
-
-            modificar_addInventario.txtClave.setText(fila, 1).toString();
-            ob.setVisible(true);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Seleccione un vehiculo!", "Información", JOptionPane.INFORMATION_MESSAGE);
-        }
-        */
-    }//GEN-LAST:event_UpdateInfoActionPerformed
-
-    private void EntregarParteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EntregarParteActionPerformed
-        
-        
-    }//GEN-LAST:event_EntregarParteActionPerformed
-
     private void resguardoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resguardoMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_resguardoMouseClicked
@@ -3311,7 +3031,7 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         CardLayout c_recoleccion = (CardLayout)pn_contenedor_ventanas1.getLayout();
         c_recoleccion.show(pn_contenedor_ventanas1,"c_s_recoleccion");
-        if(manager_permisos.permisoPorVale(Username, "Vale de recolección")){
+        if(manager_permisos.accesoModulo("consulta","Resguardo",Username)){
             comboEmpleadoR.setEnabled(true);
             tablaRecoleccion.setEnabled(true);
             btn_cancelar3.setEnabled(true);
@@ -3339,7 +3059,7 @@ public class Principal extends javax.swing.JFrame {
         CardLayout c_asignacion = (CardLayout)pn_contenedor_ventanas1.getLayout();
         c_asignacion.show(pn_contenedor_ventanas1,"c_s_asignacion");
             
-        if(manager_permisos.permisoPorVale(Username, "Vale de resguardo")){
+        if(manager_permisos.accesoModulo("consulta","Permisos",Username)){
             comboEmpleado.setEnabled(true);
             rb_inventario_normal1.setEnabled(true);
             tablaMInventarioA.setEnabled(true);
@@ -3348,7 +3068,7 @@ public class Principal extends javax.swing.JFrame {
             comboEmpleado.addItem("Seleccione al empleado...");
             manager_users.getNombresEmpleados(comboEmpleado);
         }else{
-            JOptionPane.showMessageDialog(null, "No tienes permisos para realizar vales de reguardo");
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar los productos para generar vales de resguardo.");
             //Bloqueamos el uso de la asignacion
             comboEmpleado.setEnabled(false);
             rb_inventario_normal1.setEnabled(false);
@@ -3383,10 +3103,6 @@ public class Principal extends javax.swing.JFrame {
             col.setCellEditor(new DefaultCellEditor(bodegas));
             btnEntregarRecoleccion.setEnabled(true);
             
-            if(tablaObjetosEntregados.getRowCount() > 0){
-                btnGenerarValeR.setEnabled(true);
-            }
-            
         }else{
             tablaRecoleccion.setModel(modeloRecoleccion);
             btnGenerarValeR.setEnabled(false);
@@ -3409,26 +3125,8 @@ public class Principal extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Aqui deberiamos de hacer el PDF.");
     }//GEN-LAST:event_btnGenerarValeRActionPerformed
 
-    private void tablaObjetosEntregadosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaObjetosEntregadosMouseReleased
-        // TODO add your handling code here:
-        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
-        if(SwingUtilities.isRightMouseButton(evt)){
-            int r = tablaObjetosEntregados.rowAtPoint(evt.getPoint());
-            if (r >= 0 && r < tablaObjetosEntregados.getRowCount())
-            tablaObjetosEntregados.setRowSelectionInterval(r, r);
-            MenuEntregados.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-        }//clic derecho
-    }//GEN-LAST:event_tablaObjetosEntregadosMouseReleased
-
     private void tablaRecoleccionMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaRecoleccionMouseReleased
         // TODO add your handling code here:
-        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
-        if(SwingUtilities.isRightMouseButton(evt)){
-            int r = tablaRecoleccion.rowAtPoint(evt.getPoint());
-            if (r >= 0 && r < tablaRecoleccion.getRowCount())
-            tablaRecoleccion.setRowSelectionInterval(r, r);
-            MenuRecoleccion.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-        }//clic derecho
     }//GEN-LAST:event_tablaRecoleccionMouseReleased
 
     private void comboEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpleadoActionPerformed
@@ -4047,42 +3745,19 @@ public void metodoVale2(){
 
     private void tablaSolicitudesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaSolicitudesMouseReleased
         // TODO add your handling code here:
-
-        if(!(manager_permisos.esPresidencia(Username))){
-
-            //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
-            if(SwingUtilities.isRightMouseButton(evt)){
-                int r = tablaSolicitudes.rowAtPoint(evt.getPoint());
-                if (r >= 0 && r < tablaSolicitudes.getRowCount())
-                tablaSolicitudes.setRowSelectionInterval(r, r);
-                MenuSolicitudes.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-            }//clic derecho
-
-        }else{
-            if(SwingUtilities.isRightMouseButton(evt)){
-                int r = tablaSolicitudes.rowAtPoint(evt.getPoint());
-                if (r >= 0 && r < tablaSolicitudes.getRowCount())
-                tablaSolicitudes.setRowSelectionInterval(r, r);
-                MenuPendientes.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-            }//clic derecho
-        }
+        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+        if(SwingUtilities.isRightMouseButton(evt)){
+            int r = tablaSolicitudes.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablaSolicitudes.getRowCount())
+            tablaSolicitudes.setRowSelectionInterval(r, r);
+            MenuSolicitudes.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
     }//GEN-LAST:event_tablaSolicitudesMouseReleased
 
     private void vehiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_vehiculosMouseClicked
         // TODO add your handling code here:
 
     }//GEN-LAST:event_vehiculosMouseClicked
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-        try {
-            ventana_modificar_vehiculo ob = new ventana_modificar_vehiculo(this, true);
-            campo.setText(tablaVehiculos.getValueAt(tablaVehiculos.getSelectedRow(), 4).toString());
-            ob.setVisible(true);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Seleccione un vehiculo!","Información",JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void txtBusquedaVehiculosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaVehiculosKeyReleased
         // TODO add your handling code here:
@@ -4115,11 +3790,11 @@ public void metodoVale2(){
 
     private void btnAñadirVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirVehiculoActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.alta_vehiculos(Username)){
+        if(manager_permisos.accesoModulo("alta","Vehiculos",Username)){
             ventana_añadir_vehiculo añadirVehiculo = new ventana_añadir_vehiculo(this, true);
             añadirVehiculo.setVisible(true);
         }else{
-            JOptionPane.showMessageDialog(null, "No tienes permisos para dar de alta nuevos vehiculos.");
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para dar de alta vehiculos.");
         }
     }//GEN-LAST:event_btnAñadirVehiculoActionPerformed
 
@@ -4167,9 +3842,9 @@ public void metodoVale2(){
         int filtro = comboFiltroUsuario.getSelectedIndex();
         String busqueda = txtBusquedaUsuario.getText();
         
-        if(manager_permisos.consulta_user(Username)){
-
-            if(comboEmpUsu.getSelectedItem().toString().equals("Empleados")){
+        if(comboEmpUsu.getSelectedItem().toString().equals("Empleados")){
+            
+            if(manager_permisos.accesoModulo("consulta","Empleados",Username)){
                 
                 //Si no hay nada en el campo entonces mostramos todos los empleados
                 if(busqueda.equals("")){
@@ -4184,35 +3859,28 @@ public void metodoVale2(){
                     //Si no hay coincidecnias entonces mostramos todos los empleados
                     else{
                         tablaUsuarios.setModel(manager_users.getEmpleados());
-                    }//Segundo else
+                    }//else
 
-                }//Primer else
+                }//else
                 
             }else{
-                tablaUsuarios.setModel(manager_users.getUsuarios(Username));
-                
-                //COMBOFILTROUSUARIO
-                comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-                comboFiltroUsuario.addItem("Usuario");
-                comboFiltroUsuario.addItem("Nombre");
-                comboFiltroUsuario.addItem("Apellido P");
-                comboFiltroUsuario.addItem("Apellido M");
-                comboFiltroUsuario.addItem("Cargo");
-                comboFiltroUsuario.addItem("Área");
-                
-            }
-
+                JOptionPane.showMessageDialog(null, "No tiene permisos para consultar empleados.");
+            }//else
+            
         }else{
-            JOptionPane.showMessageDialog(null, "No tiene permisos para consultar empleados/usuarios.");
-        }
-
+            if(manager_permisos.accesoModulo("consulta","Usuarios",Username)){
+            
+            }else{
+                JOptionPane.showMessageDialog(null, "No tiene permisos para consultar usuarios.");
+            }//else
+        }//else
     }//GEN-LAST:event_txtBusquedaUsuarioKeyReleased
 
     private void btnAddEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmpleadoActionPerformed
         // TODO add your handling code here:
+        
         //Llamamos el forumulario para añadir un nuevo empleado
-        banderaUser = 1;
-        if(manager_permisos.alta_user(Username)){
+        if(manager_permisos.accesoModulo("alta","Empleados",Username)){
             try {
                 for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                     if ("Nimbus".equals(info.getName())) {
@@ -4226,7 +3894,7 @@ public void metodoVale2(){
             addEmpleados ob = new addEmpleados(this, true);
             ob.setVisible(true);
         }else{
-            JOptionPane.showMessageDialog(null, "No tienes permiso para registrar nuevos empleados");
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para dar de alta empleados.");
         }
     }//GEN-LAST:event_btnAddEmpleadoActionPerformed
 
@@ -4258,7 +3926,7 @@ public void metodoVale2(){
 
     private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
         // TODO add your handling code here:
-        if(manager_permisos.consulta_inventario(Username)){
+        if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
             int folio = comboFolio.getSelectedIndex();
             String estatus = comboEstatus.getSelectedItem().toString();
             String nomeclatura = "";
@@ -4267,14 +3935,13 @@ public void metodoVale2(){
             String busqueda = txtBusqueda.getText();
             //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
             if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-
-			if(inventario.equals("Inventario"))
-				tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-			else
-				tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-
-		}else{
-            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
+                if(inventario.equals("Inventario")){
+                    tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+                }else{
+                    tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+                }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
         }
         
     }//GEN-LAST:event_txtBusquedaKeyReleased
@@ -4283,8 +3950,7 @@ public void metodoVale2(){
         // TODO add your handling code here:
         int filtro = comboFiltro.getSelectedIndex();
         
-        
-        if(manager_permisos.consulta_inventario(Username)){
+        if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
 
             if(comboInventario.getSelectedItem().toString().equals("Inventario")){
             
@@ -4343,9 +4009,9 @@ public void metodoVale2(){
         1 -> Inventario
         2 -> Inventario a granel
         */
-        if(banderaInventario == 1){
+        if(comboInventario.getSelectedItem().equals("Inventario")){
 
-            if(manager_permisos.alta_inventario(Username)){
+            if(manager_permisos.accesoModulo("alta","Inventario",Username)){
                 
                 try {
                     for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -4366,7 +4032,7 @@ public void metodoVale2(){
 
         }else{
 
-            if(manager_permisos.alta_inventario(Username)){
+            if(manager_permisos.accesoModulo("alta","Inventario",Username)){
                 try {
                     for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                         if ("Nimbus".equals(info.getName())) {
@@ -4380,7 +4046,7 @@ public void metodoVale2(){
                 addInventarioGranel ob = new addInventarioGranel(this, true);
                 ob.setVisible(true);
             }else{
-                JOptionPane.showMessageDialog(null,"No cuenta con los permisos para registrar productos nuevos a granel.");
+                JOptionPane.showMessageDialog(null,"No cuenta con los permisos para registrar consumibles.");
             }//else
 
         }//else
@@ -4482,10 +4148,6 @@ public void metodoVale2(){
         */
     }//GEN-LAST:event_tablaInventarioMouseClicked
 
-    private void CancelarEntregaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarEntregaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CancelarEntregaActionPerformed
-
     private void btnEditar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditar1ActionPerformed
         // TODO add your handling code here:
         try {
@@ -4502,18 +4164,6 @@ public void metodoVale2(){
         changePassword ob = new changePassword(this, true,Username);
         ob.setVisible(true);
     }//GEN-LAST:event_btnEditar1ActionPerformed
-
-    private void ReemplazarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReemplazarActionPerformed
-        // TODO add your handling code here:
-        int fila = tablaAsignacionPersonal.getSelectedRow();
-        //Obtenemos el id y la cantidad
-        productoIDVale = Integer.parseInt(tablaAsignacionPersonal.getValueAt(fila, 0).toString());
-        productoAsignacionReemplazo = tablaAsignacionPersonal.getValueAt(fila, 1).toString();
-        productoAREstado = tablaAsignacionPersonal.getValueAt(fila, 5).toString();
-        
-        Ventana_solicitudPersonal ob = new Ventana_solicitudPersonal(this,true);
-        ob.setVisible(true);
-    }//GEN-LAST:event_ReemplazarActionPerformed
 
     private void ActualizarAsignacionPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarAsignacionPActionPerformed
         // TODO add your handling code here:
@@ -4533,32 +4183,32 @@ public void metodoVale2(){
 
     private void ActualizarConsumibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarConsumibleActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.update_inventario(Username)){
+        if(manager_permisos.accesoModulo("actualizar","Inventario",Username)){
             int fila = tablaInventario.getSelectedRow();
             updateInventarioGranel ob;
             ob = new updateInventarioGranel(this, true,tablaInventario.getValueAt(fila, 0).toString());
             ob.setVisible(true);
         }//if del update del consumible
         else{
-            JOptionPane.showMessageDialog(null,"Usted no cuenta con los permisos para actualizar un consumible o se los han revocado.");
+            JOptionPane.showMessageDialog(null,"Usted no cuenta con los permisos para actualizar un consumible.");
         }
     }//GEN-LAST:event_ActualizarConsumibleActionPerformed
 
     private void ActualizarInfoUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoUActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.consulta_user(Username)){
+        if(manager_permisos.accesoModulo("consulta","Empleados",Username)){
             tablaUsuarios.setModel(manager_users.getEmpleados());
         }else{
-            JOptionPane.showMessageDialog(null, "Te han revocado los permisos para la consulta de empleados");
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar empleados.");
         }
     }//GEN-LAST:event_ActualizarInfoUActionPerformed
 
     private void ActualizarInfoVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoVActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.consulta_vehiculos(Username)){
+        if(manager_permisos.accesoModulo("consulta","Vehiculos",Username)){
             tablaVehiculos.setModel(managerVehiculos.getVehiculos());
         }else{
-            JOptionPane.showMessageDialog(null, "Te han revocado los permisos para la consulta de vehiculos");
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar los vehiculos.");
         }
     }//GEN-LAST:event_ActualizarInfoVActionPerformed
 
@@ -4583,16 +4233,6 @@ public void metodoVale2(){
         }//clic derecho
     }//GEN-LAST:event_tablaPermisosPersonalesMouseReleased
 
-    private void ActualizarInfoRecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoRecoActionPerformed
-        // TODO add your handling code here:
-        //tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
-    }//GEN-LAST:event_ActualizarInfoRecoActionPerformed
-
-    private void ActualizarAsignacionPGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarAsignacionPGActionPerformed
-        // TODO add your handling code here:
-        tablaAsignacionPersonal.setModel(manejador_inventario.getInventarioEmpleadoAsignacionesPersonalesG(Username));
-    }//GEN-LAST:event_ActualizarAsignacionPGActionPerformed
-
     private void tablaStockMinMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaStockMinMouseReleased
         // TODO add your handling code here:
         //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
@@ -4606,91 +4246,99 @@ public void metodoVale2(){
 
     private void AgregarStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarStockActionPerformed
         // TODO add your handling code here:
-        boolean entero = true;
-        boolean canceloStockMin = true;
-        int cantidad = 0;
-        int fila = tablaStockMin.getSelectedRow();
-        while(entero){    
-            
-            String cadena = JOptionPane.showInputDialog("Ingrese la cantidad de stock a agregar");
-            
-            if(cadena == null){
-                entero = false;
-                canceloStockMin = false;
-            }else{
-            
-                try{
+        if(manager_permisos.accesoModulo("actualizar","Inventario",Username)){
+            boolean entero = true;
+            boolean canceloStockMin = true;
+            int cantidad = 0;
+            int fila = tablaStockMin.getSelectedRow();
+            while(entero){    
 
-                    cantidad = Integer.parseInt(cadena);
-                    
-                    if(cantidad > 0){
-                        entero = false;                    
-                    }else{
-                        JOptionPane.showMessageDialog(null, "Solo ingrese cantidades mayores a 0.");
-                    }
-                }catch(NumberFormatException e){
-                    JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
-                }//try catch
-                
-            }//else
-            
-            if(canceloStockMin){
-                
-                String codigo = tablaStockMin.getValueAt(fila, 0).toString();//Obtenemos el codigo del producto
-                
-                if(manejador_inventario.actualizarStock(codigo, cantidad)){
-                    tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
-                    JOptionPane.showMessageDialog(null, "El inventario se actualizo exitosamente");
+                String cadena = JOptionPane.showInputDialog("Ingrese la cantidad de stock a agregar");
+
+                if(cadena == null){
+                    entero = false;
+                    canceloStockMin = false;
                 }else{
-                    JOptionPane.showMessageDialog(null, "Verificar con el distribuidor");
-                }
-                
-            }//canceloStockMin
-            
-        }//while
+
+                    try{
+
+                        cantidad = Integer.parseInt(cadena);
+
+                        if(cantidad > 0){
+                            entero = false;                    
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Solo ingrese cantidades mayores a 0.");
+                        }
+                    }catch(NumberFormatException e){
+                        JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
+                    }//try catch
+
+                }//else
+
+                if(canceloStockMin){
+
+                    String codigo = tablaStockMin.getValueAt(fila, 0).toString();//Obtenemos el codigo del producto
+
+                    if(manejador_inventario.actualizarStock(codigo, cantidad)){
+                        tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
+                        JOptionPane.showMessageDialog(null, "El inventario se actualizo exitosamente.");
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+                    }
+
+                }//canceloStockMin
+
+            }//while
+        }else{
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para actualizar los consumibles.");
+        }
     }//GEN-LAST:event_AgregarStockActionPerformed
 
     private void ActualizarInfoSMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoSMActionPerformed
         // TODO add your handling code here:
-        tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
+        if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
+            tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
+        }else{
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar los consumibles que estan agotados o estan por agotarse.");
+        }
     }//GEN-LAST:event_ActualizarInfoSMActionPerformed
 
     private void comboEmpUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpUsuActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.consulta_user(Username)){
-
-            if(comboEmpUsu.getSelectedItem().toString().equals("Empleados")){
+        if(comboEmpUsu.getSelectedItem().toString().equals("Empleados")){
+            if(manager_permisos.accesoModulo("consulta","Empleados",Username)){
                 tablaUsuarios.setModel(manager_users.getEmpleados());
-                tabbedPrincipal.setTitleAt(1, "Empleados");
-                //COMBOFILTROUSUARIO
-                comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-                comboFiltroUsuario.addItem("Nombre");
-                comboFiltroUsuario.addItem("Apellido P");
-                comboFiltroUsuario.addItem("Apellido M");
-                
             }else{
-                tablaUsuarios.setModel(manager_users.getUsuarios(Username));
-                tabbedPrincipal.setTitleAt(1, "Usuarios");
-                //COMBOFILTROUSUARIO
-                comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-                comboFiltroUsuario.addItem("Usuario");
-                comboFiltroUsuario.addItem("Nombre");
-                comboFiltroUsuario.addItem("Apellido P");
-                comboFiltroUsuario.addItem("Apellido M");
-                comboFiltroUsuario.addItem("Cargo");
-                comboFiltroUsuario.addItem("Área");
-                
+                JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar empleados.");
             }
-
+            tabbedPrincipal.setTitleAt(1, "Empleados");
+            //COMBOFILTROUSUARIO
+            comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+            comboFiltroUsuario.addItem("Nombre");
+            comboFiltroUsuario.addItem("Apellido P");
+            comboFiltroUsuario.addItem("Apellido M");
         }else{
-            JOptionPane.showMessageDialog(null, "No tiene permisos para consultar empleados/usuarios.");
-        }
+            if(manager_permisos.accesoModulo("consulta","Usuarios",Username)){
+                tablaUsuarios.setModel(manager_users.getUsuarios(Username));
+            }else{
+                JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar usuarios.");
+            }//else
+            tabbedPrincipal.setTitleAt(1, "Usuarios");
+            //COMBOFILTROUSUARIO
+            comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+            comboFiltroUsuario.addItem("Usuario");
+            comboFiltroUsuario.addItem("Nombre");
+            comboFiltroUsuario.addItem("Apellido P");
+            comboFiltroUsuario.addItem("Apellido M");
+            comboFiltroUsuario.addItem("Cargo");
+            comboFiltroUsuario.addItem("Área");
+        }//else
     }//GEN-LAST:event_comboEmpUsuActionPerformed
 
     private void Asignar_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Asignar_usuarioActionPerformed
         // TODO add your handling code here:
         
-        if(manager_permisos.alta_user(Username)){
+        if(manager_permisos.accesoModulo("alta","Usuarios",Username)){
             try {
                 for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                     if ("Nimbus".equals(info.getName())) {
@@ -4705,27 +4353,22 @@ public void metodoVale2(){
             int fila = tablaUsuarios.getSelectedRow();
             int id = Integer.parseInt(tablaUsuarios.getValueAt(fila, 0).toString());
             
-            
             addUsuarios ob = new addUsuarios(this, true,id);
             
-            String nombre = tablaUsuarios.getValueAt(fila, 1).toString();
-            String apPaterno = tablaUsuarios.getValueAt(fila, 2).toString();
-            String apMaterno = tablaUsuarios.getValueAt(fila, 3).toString();
-            
-            ob.txtNombre.setText(nombre);
-            ob.txtApellidoP.setText(apPaterno);
-            ob.txtApellidoM.setText(apMaterno);
+            ob.txtNombre.setText(tablaUsuarios.getValueAt(fila, 1).toString());
+            ob.txtApellidoP.setText(tablaUsuarios.getValueAt(fila, 2).toString());
+            ob.txtApellidoM.setText(tablaUsuarios.getValueAt(fila, 3).toString());
             
             
             ob.setVisible(true);
         }else{
-            JOptionPane.showMessageDialog(null, "No tienes permiso para asignar usuarios");
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para dar de alta usuarios.");
         }
     }//GEN-LAST:event_Asignar_usuarioActionPerformed
 
     private void activarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activarActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.alta_user(Username)){
+        if(manager_permisos.accesoModulo("actualizar","Usuarios",Username)){
             //Obtenemos la fila y con dicha fila obtenemos el usuario
             int fila = tablaUsuarios.getSelectedRow();
             usuario = tablaUsuarios.getValueAt(fila, 0).toString();
@@ -4746,13 +4389,13 @@ public void metodoVale2(){
                 }
             }//if(opcion == 0)
         }else{
-            JOptionPane.showMessageDialog(null, "Usted no cuenta con el permiso para activar usuarios.");
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para activar usuarios.");
         }
     }//GEN-LAST:event_activarActionPerformed
 
     private void comboFolioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFolioActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.consulta_inventario(Username)){
+        if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
             int folio = comboFolio.getSelectedIndex();
             String estatus = comboEstatus.getSelectedItem().toString();
             String nomeclatura = "";
@@ -4762,19 +4405,19 @@ public void metodoVale2(){
             //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
             if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
 			
-            if(inventario.equals("Inventario"))
-				tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-			else
-				tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-			
+            if(inventario.equals("Inventario")){
+                tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+            }else{
+                tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+            }	
         }else{
-            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
         }
     }//GEN-LAST:event_comboFolioActionPerformed
 
     private void comboEstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEstatusActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.consulta_inventario(Username)){
+        if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
             
             if(comboEstatus.getSelectedItem().toString().equals("Asignado")){
                 comboFiltro.addItem("Responsable");
@@ -4791,19 +4434,19 @@ public void metodoVale2(){
             //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
             if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
 			
-			if(inventario.equals("Inventario"))
-				tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-			else
-				tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-            
+                if(inventario.equals("Inventario")){
+                        tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+                }else{
+                        tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+                }
         }else{
-            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
         }
     }//GEN-LAST:event_comboEstatusActionPerformed
 
     private void comboFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.consulta_inventario(Username)){
+        if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
             int folio = comboFolio.getSelectedIndex();
             String estatus = comboEstatus.getSelectedItem().toString();
             String nomeclatura = "";
@@ -4812,14 +4455,13 @@ public void metodoVale2(){
             String busqueda = txtBusqueda.getText();
             //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
             if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-            
-			if(inventario.equals("Inventario"))
-				tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-			else
-				tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-
-		}else{
-            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
+                if(inventario.equals("Inventario")){
+                        tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+                }else{
+                        tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+                }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
         }
         
     }//GEN-LAST:event_comboFiltroActionPerformed
@@ -4832,7 +4474,7 @@ public void metodoVale2(){
         
         if(opcion == 0){
 
-            if(manager_permisos.consulta_inventario(Username)){
+            if(manager_permisos.accesoModulo("actualizar","Inventario",Username)){
                 DefaultTableModel inventario = (DefaultTableModel)tablaInventario.getModel();
                 Boolean[] cambio = new Boolean[inventario.getRowCount()];
                 String[] ids = new String[inventario.getRowCount()];
@@ -4865,7 +4507,7 @@ public void metodoVale2(){
                 }
                 
             }else{
-                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");                
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario.");                
             }
             
             //Ocultamos los botones para aceptar los cambios o cancelar la acción
@@ -4893,7 +4535,7 @@ public void metodoVale2(){
         
         if(opcion == 0){
 
-            if(manager_permisos.consulta_inventario(Username)){
+            if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
                 int folio = comboFolio.getSelectedIndex();
                 String estatus = comboEstatus.getSelectedItem().toString();
                 String nomeclatura = "";
@@ -4907,7 +4549,7 @@ public void metodoVale2(){
                 else
                         tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
             }else{
-                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
             }
 
             //Ocultamos los botones para aceptar los cambios o cancelar la acción
@@ -4930,19 +4572,23 @@ public void metodoVale2(){
 
     private void btnAceptarCheck1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarCheck1ActionPerformed
         // TODO add your handling code here:
-        excel.GuardarComo(tablaInventario);
+        if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
+            excel.GuardarComo(tablaInventario);
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+        }
     }//GEN-LAST:event_btnAceptarCheck1ActionPerformed
 
     private void comboFolioAsignacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFolioAsignacionActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.consulta_inventario(Username)){
+        if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
             int folio = comboFolioAsignacion.getSelectedIndex();
             String nomeclatura = "";
             //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
             if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
             tablaMInventarioA.setModel(manejador_inventario.getInventarioParaAsignacion(nomeclatura));
         }else{
-            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario o se le han revocado sus permisos para hacerlo.");
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
         }
     }//GEN-LAST:event_comboFolioAsignacionActionPerformed
 
@@ -5127,27 +4773,31 @@ public void metodoVale2(){
 
     private void ActualizarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarProdActionPerformed
         // TODO add your handling code here:
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
+        if(manager_permisos.accesoModulo("actualizar","Inventario",Username)){
+            try {
+                for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                    if ("Nimbus".equals(info.getName())) {
+                        UIManager.setLookAndFeel(info.getClassName());
+                        break;
+                    }
                 }
+            } catch (Exception e) {
+                // If Nimbus is not available, you can set the GUI to another look and feel.
             }
-        } catch (Exception e) {
-            // If Nimbus is not available, you can set the GUI to another look and feel.
+
+            int fila = tablaInventario.getSelectedRow();
+            String clave = tablaInventario.getValueAt(fila, 0).toString();
+
+            updateInventario ob = new updateInventario(this, true,clave);
+            ob.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario.");
         }
-        
-        int fila = tablaInventario.getSelectedRow();
-        String clave = tablaInventario.getValueAt(fila, 0).toString();
-                
-        updateInventario ob = new updateInventario(this, true,clave);
-        ob.setVisible(true);
     }//GEN-LAST:event_ActualizarProdActionPerformed
 
     private void ParaBaja1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ParaBaja1ActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.update_inventario(Username)){
+        if(manager_permisos.accesoModulo("baja","Inventario",Username)){
                 int fila = tablaInventario.getSelectedRow();
                 int folio = comboFolio.getSelectedIndex();
                 String estatus = comboEstatus.getSelectedItem().toString();
@@ -5176,13 +4826,13 @@ public void metodoVale2(){
                 txtBusqueda.setEnabled(false);
 
             }else{
-                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para dar de baja productos del inventario.");
             }
     }//GEN-LAST:event_ParaBaja1ActionPerformed
 
     private void ParaComodato1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ParaComodato1ActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.update_inventario(Username)){
+        if(manager_permisos.accesoModulo("actualizar","Inventario",Username)){
                 int fila = tablaInventario.getSelectedRow();
                 int folio = comboFolio.getSelectedIndex();
                 String estatus = comboEstatus.getSelectedItem().toString();
@@ -5211,13 +4861,13 @@ public void metodoVale2(){
                 txtBusqueda.setEnabled(false);
 
             }else{
-                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario.");
             }
     }//GEN-LAST:event_ParaComodato1ActionPerformed
 
     private void ParaDonacion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ParaDonacion1ActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.update_inventario(Username)){
+        if(manager_permisos.accesoModulo("actualizar","Inventario",Username)){
                 int fila = tablaInventario.getSelectedRow();
                 int folio = comboFolio.getSelectedIndex();
                 String estatus = comboEstatus.getSelectedItem().toString();
@@ -5246,13 +4896,13 @@ public void metodoVale2(){
                 txtBusqueda.setEnabled(false);
 
             }else{
-                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario.");
             }
     }//GEN-LAST:event_ParaDonacion1ActionPerformed
 
     private void DevolverDisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DevolverDisActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.update_inventario(Username)){
+        if(manager_permisos.accesoModulo("actualizar","Inventario",Username)){
                 int fila = tablaInventario.getSelectedRow();
                 int folio = comboFolio.getSelectedIndex();
                 String estatus = comboEstatus.getSelectedItem().toString();
@@ -5280,13 +4930,13 @@ public void metodoVale2(){
                 txtBusqueda.setEnabled(false);
 
             }else{
-                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario.");
             }
     }//GEN-LAST:event_DevolverDisActionPerformed
 
     private void ActualizarEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarEmployeeActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.update_user(Username)){
+        if(manager_permisos.accesoModulo("actualizar","Empleados",Username)){
         try {
                 for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                     if ("Nimbus".equals(info.getName())) {
@@ -5307,55 +4957,57 @@ public void metodoVale2(){
             }
         
         }else{
-            JOptionPane.showMessageDialog(null, "Usted no cuenta con el permiso para actualizar usuarios.");
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para actualizar empleados.");
         }
     }//GEN-LAST:event_ActualizarEmployeeActionPerformed
 
     private void AddStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddStockActionPerformed
         // TODO add your handling code here:
-        boolean entero = true;
-        boolean canceloStockMin = true;
-        int cantidad = 0;
-        int fila = tablaInventario.getSelectedRow();
-        int folio = comboFolio.getSelectedIndex();
-        while(entero){    
-            
-            String cadena = JOptionPane.showInputDialog("Ingrese las unidades que se desean agregar");
-            
-            if(cadena == null){
-                entero = false;
-                canceloStockMin = false;
-            }else{
-            
-                try{
+        if(manager_permisos.accesoModulo("actualizar","Inventario",Username)){
+            boolean entero = true;
+            boolean canceloStockMin = true;
+            int cantidad = 0;
+            int fila = tablaInventario.getSelectedRow();
+            int folio = comboFolio.getSelectedIndex();
+            while(entero){    
 
-                    cantidad = Integer.parseInt(cadena);
-                    
-                    if(cantidad > 0){
-                        entero = false;                    
-                    }else{
-                        JOptionPane.showMessageDialog(null, "Solo ingrese cantidades mayores a 0.");
-                    }
-                }catch(NumberFormatException e){
-                    JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
-                }//try catch
-                
-            }//else
-        }//while
-        if(canceloStockMin){
+                String cadena = JOptionPane.showInputDialog("Ingrese las unidades que se desean agregar");
 
-            String codigo = tablaInventario.getValueAt(fila, 0).toString();//Obtenemos el codigo del producto
+                if(cadena == null){
+                    entero = false;
+                    canceloStockMin = false;
+                }else{
 
-            if(manejador_inventario.actualizarStock(codigo, cantidad)){
-                tablaInventario.setModel(manager_inventario_granel.getInventarioG(folio));
-                JOptionPane.showMessageDialog(null, "El inventario se actualizo exitosamente");
-            }else{
-                JOptionPane.showMessageDialog(null, "Verificar con el distribuidor");
-            }
+                    try{
 
-        }//canceloStockMin
-            
-        
+                        cantidad = Integer.parseInt(cadena);
+
+                        if(cantidad > 0){
+                            entero = false;                    
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Solo ingrese cantidades mayores a 0.");
+                        }
+                    }catch(NumberFormatException e){
+                        JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
+                    }//try catch
+
+                }//else
+            }//while
+            if(canceloStockMin){
+
+                String codigo = tablaInventario.getValueAt(fila, 0).toString();//Obtenemos el codigo del producto
+
+                if(manejador_inventario.actualizarStock(codigo, cantidad)){
+                    tablaInventario.setModel(manager_inventario_granel.getInventarioG(folio));
+                    JOptionPane.showMessageDialog(null, "El inventario se actualizo exitosamente.");
+                }else{
+                    JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+                }
+
+            }//canceloStockMin   
+        }else{
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para actualizar el stock de los consumibles.");
+        }
     }//GEN-LAST:event_AddStockActionPerformed
 
     private void comboFiltroConsumiblesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroConsumiblesActionPerformed
@@ -5410,7 +5062,7 @@ public void metodoVale2(){
 
     private void EstatusDefinitivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EstatusDefinitivoActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.update_inventario(Username)){
+        if(manager_permisos.accesoModulo("actualizar","Inventario",Username)){
                 int fila = tablaInventario.getSelectedRow();
                 int folio = comboFolio.getSelectedIndex();
                 String estatus = comboEstatus.getSelectedItem().toString();
@@ -5438,7 +5090,7 @@ public void metodoVale2(){
                 txtBusqueda.setEnabled(false);
 
             }else{
-                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario o se le han revocado sus permisos para hacerlo.");
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario.");
             }
     }//GEN-LAST:event_EstatusDefinitivoActionPerformed
 
@@ -5459,6 +5111,33 @@ public void metodoVale2(){
         Ventana_ConsultaDocumentos ob = new Ventana_ConsultaDocumentos(this, true);
         ob.setVisible(true);        
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void Repa_GaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Repa_GaranActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Repa_GaranActionPerformed
+
+    private void PromoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PromoverActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PromoverActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        try {
+            ventana_modificar_vehiculo ob = new ventana_modificar_vehiculo(this, true);
+            campo.setText(tablaVehiculos.getValueAt(tablaVehiculos.getSelectedRow(), 4).toString());
+            ob.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Seleccione un vehiculo!","Información",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void SolicitarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitarBajaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SolicitarBajaActionPerformed
+
+    private void ServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ServicioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ServicioActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -5589,47 +5268,34 @@ public void metodoVale2(){
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Actualizar;
     private javax.swing.JMenuItem ActualizarAsignacionP;
-    private javax.swing.JMenuItem ActualizarAsignacionPG;
     private javax.swing.JMenuItem ActualizarConsumible;
     private javax.swing.JMenuItem ActualizarEmployee;
     private javax.swing.JMenuItem ActualizarInfo;
     private javax.swing.JMenuItem ActualizarInfoPP;
-    private javax.swing.JMenuItem ActualizarInfoReco;
     private javax.swing.JMenuItem ActualizarInfoSM;
     private javax.swing.JMenuItem ActualizarInfoSP;
     private javax.swing.JMenuItem ActualizarInfoU;
     private javax.swing.JMenuItem ActualizarInfoV;
-    private javax.swing.JMenuItem ActualizarPendientes;
     private javax.swing.JMenuItem ActualizarProd;
     private javax.swing.JMenuItem ActualizarV;
     private javax.swing.JMenuItem AddDocuments;
     private javax.swing.JMenuItem AddStock;
     private javax.swing.JMenuItem AgregarStock;
-    private javax.swing.JMenuItem AsignarV;
     private javax.swing.JMenuItem Asignar_usuario;
     private javax.swing.JMenuItem Atender;
-    private javax.swing.JMenuItem Autorizar;
     private javax.swing.JMenuItem CancelarA;
-    private javax.swing.JMenuItem CancelarEntrega;
     private javax.swing.JMenuItem CancelarSS;
-    private javax.swing.JMenuItem Denegar;
     private javax.swing.JMenuItem DevolverDis;
     private javax.swing.JMenu Documentos;
-    private javax.swing.JMenuItem EntregarParte;
-    private javax.swing.JMenuItem EntregarTodo;
     private javax.swing.JMenuItem EstatusDefinitivo;
     private javax.swing.ButtonGroup Grupo1;
     private javax.swing.ButtonGroup GrupoTipoInventario;
     private javax.swing.JPopupMenu MenuAsginados;
     private javax.swing.JPopupMenu MenuAsignacionP;
-    private javax.swing.JPopupMenu MenuAsignacionPG;
     private javax.swing.JPopupMenu MenuEmpleados;
-    private javax.swing.JPopupMenu MenuEntregados;
     private javax.swing.JPopupMenu MenuInventario;
     private javax.swing.JPopupMenu MenuInventarioG;
-    private javax.swing.JPopupMenu MenuPendientes;
     private javax.swing.JPopupMenu MenuPermisosP;
-    private javax.swing.JPopupMenu MenuRecoleccion;
     private javax.swing.JPopupMenu MenuSolicitarSalida;
     private javax.swing.JMenuItem MenuSolicitud;
     private javax.swing.JPopupMenu MenuSolicitudes;
@@ -5643,14 +5309,12 @@ public void metodoVale2(){
     private javax.swing.JMenu Pendiente;
     private javax.swing.JMenuItem Permisos;
     private javax.swing.JMenuItem Promover;
-    private javax.swing.JMenuItem Reemplazar;
     private javax.swing.JMenuItem Repa_Garan;
     private javax.swing.JScrollPane ScrollEmpleado;
     private javax.swing.JMenuItem SelectProducts;
     private javax.swing.JMenuItem Servicio;
     private javax.swing.JMenuItem SolicitarBaja;
     private javax.swing.JMenu SolictarMas;
-    private javax.swing.JMenuItem UpdateInfo;
     private javax.swing.JMenuItem activar;
     private javax.swing.ButtonGroup bg_manejo_inventario;
     private javax.swing.ButtonGroup bt_tipo_inventario_asignable;
@@ -5761,7 +5425,6 @@ public void metodoVale2(){
     private javax.swing.JScrollPane jScrollPane31;
     private javax.swing.JScrollPane jScrollPane32;
     private javax.swing.JScrollPane jScrollPane34;
-    private javax.swing.JScrollPane jScrollPane35;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
@@ -5814,7 +5477,6 @@ public void metodoVale2(){
     public static javax.swing.JTable tablaInventario;
     public javax.swing.JTable tablaMAsignados;
     public static javax.swing.JTable tablaMInventarioA;
-    public javax.swing.JTable tablaObjetosEntregados;
     private javax.swing.JTable tablaPermisosPersonales;
     public javax.swing.JTable tablaRecoleccion;
     public static javax.swing.JTable tablaResguardo;

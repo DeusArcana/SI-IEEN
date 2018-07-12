@@ -31,25 +31,33 @@ INSERT INTO `INE`.`Puestos_Trabajo`
 	VALUES 
         (1,	1,'Asesor/a de Consejera/o',0),
         (2,	1,'Asesor/a de Consejera/o Presidente',0),
+        
         (3,	2,'Auxiliar A',0),
+        
         (4,	3,'Consejera/o Electoral',0),
         (5,	3,'Consejera/o Presidente',0),
+        
         (6,	4,'Área de Nóminas, Planeación y Adquisiciones',0),
         (7,	4,'Auxiliar Administrativo',0),
         (8,	4,'Auxiliar B',0),
         (9,	4,'Auxiliar de Oficina',0),
         (10,4,'Contador',0),
         (11,4,'Director/a de Administración',0),
+        
         (12,5,'Auxiliar B',0),
         (13,5,'Auxiliar de Oficina',0),
         (14,5,'Coordinador/a de Organización Electoral',0),
         (15,5,'Encargado/a del Despacho de la Coordinación de Educación Cívica',0),
         (16,5,'Encargado/a del Despacho de la Dirección de Organización y Capacitación Electoral',0),
+        
         (17,6,'Abogado/a',0),
         (18,6,'Encargado/a del Despacho de la Dirección Jurídica',0),
+        
         (19,7,'Auxiliar C',0),
         (20,7,'Titular de Órgano Interno de Control',0),
+        
         (21,8,'Asistente de Presidencia',0),
+        
         (22,9,'Abogado/a A',0),
         (23,9,'Abogado/a B',0),
         (24,9,'Abogado/a',0),
@@ -57,7 +65,9 @@ INSERT INTO `INE`.`Puestos_Trabajo`
         (26,9,'Auxiliar de Oficina',0),
         (27,9,'Coordinador/a de Prerrogativas y Partidos Políticos',0),
         (28,9,'Encargado/a del Despacho de la Secretaría General',0),
+        
         (29,10,'Abogado B',0),
+        
         (30,11,'Programador',0),
         (31,11,'Titular de la Unidad Técnica de Informática y Estádistica',0)
 	;
@@ -101,13 +111,10 @@ DELETE FROM `INE`.`Puestos` WHERE 1;
 INSERT INTO `INE`.`Puestos`
 	VALUES 
 		('SuperUsuario'),
-		('Auxiliar'),
-		('Administración'),
-		('Jefe de departamento'),
-		('Usuario Depto.'),
-        ('Organización'),
-        ('Presidencia'),
-        ('Secretaria')
+		('Administrador'),
+        ('Auxiliar'),
+		('Asistente'),
+		('General')
 	;
     
 -- *******************************************************************************
@@ -116,10 +123,6 @@ INSERT INTO `INE`.`Puestos`
 DELETE FROM `INE`.`TipoSolicitud` WHERE 1;
 INSERT INTO `INE`.`TipoSolicitud` 
 	VALUES
-		('Solicitud Baja'),
-		('Solicitud Comodato'),
-        ('Solicitud Donación'),
-        ('Solicitud Reemplazo'),
         ('Solicitud Salida')
         
     ;
@@ -130,46 +133,11 @@ INSERT INTO `INE`.`TipoSolicitud`
 DELETE FROM `INE`.`Permisos_Solicitud` WHERE 1;
 INSERT INTO `INE`.`Permisos_Solicitud` 
 	VALUES
-		('Solicitud Baja',		'Auxiliar',				false),
-		('Solicitud Baja',		'Administración',		true),
-		('Solicitud Baja',		'Jefe de departamento',	true),
-        ('Solicitud Baja',		'Usuario Depto.',		false),
-        ('Solicitud Baja',		'Organización', 		true),
-        ('Solicitud Baja',		'Presidencia', 			true),
-        ('Solicitud Baja',		'SuperUsuario', 		true),
-        ('Solicitud Baja',		'Secretaria', 			false),
-		('Solicitud Comodato',	'Auxiliar',				false),
-		('Solicitud Comodato',	'Administración',		true),
-        ('Solicitud Comodato',	'Jefe de departamento',	true),
-        ('Solicitud Comodato',	'Usuario Depto.',		false),
-        ('Solicitud Comodato',	'Organización',	    	true),
-        ('Solicitud Comodato',	'Presidencia',	    	true),
-        ('Solicitud Comodato',	'SuperUsuario',	    	true),
-		('Solicitud Comodato',	'Secretaria', 			false),
-        ('Solicitud Donación',	'Auxiliar',				false),
-        ('Solicitud Donación',	'Administración',		true),
-        ('Solicitud Donación',	'Jefe de departamento',	true),
-        ('Solicitud Donación',	'Usuario Depto.',		false),
-        ('Solicitud Donación',	'Organización',		    true),
-        ('Solicitud Donación',	'Presidencia',		    true),
-        ('Solicitud Donación',	'SuperUsuario',	    	true),
-        ('Solicitud Donación',	'Secretaria', 			false),
-        ('Solicitud Reemplazo',	'Auxiliar',				false),
-        ('Solicitud Reemplazo',	'Administración',		true),
-        ('Solicitud Reemplazo',	'Jefe de departamento',	true),
-        ('Solicitud Reemplazo',	'Usuario Depto.',		false),
-        ('Solicitud Reemplazo',	'Organización',		    false),
-        ('Solicitud Reemplazo',	'Presidencia',		    true),
-        ('Solicitud Reemplazo',	'SuperUsuario',	    	true),
-        ('Solicitud Reemplazo',	'Secretaria', 			false),
-        ('Solicitud Salida',	'Auxiliar',				false),
-		('Solicitud Salida',	'Administración',		true),
-		('Solicitud Salida',	'Jefe de departamento',	true),
-        ('Solicitud Salida',	'Usuario Depto.',		false),
-        ('Solicitud Salida',	'Organización', 		true),
-        ('Solicitud Salida',	'Presidencia', 			true),
-        ('Solicitud Salida',	'SuperUsuario', 		true),
-        ('Solicitud Salida',	'Secretaria', 			false)
+		('Solicitud Salida',	'SuperUsuario',		true),
+		('Solicitud Salida',	'Administrador',	true),
+        ('Solicitud Salida',	'Auxiliar',			true),
+        ('Solicitud Salida',	'Asistente', 		true),
+        ('Solicitud Salida',	'General',	 		true)
 	;
     
 -- *******************************************************************************
@@ -179,8 +147,7 @@ DELETE FROM `INE`.`TipoVale` WHERE 1;
 INSERT INTO `INE`.`TipoVale` 
 	VALUES
 		('Vale de resguardo'),
-		('Vale de recolección'),
-        ('Vale de reemplazo')
+		('Vale de recolección')
     ;
 
 -- *******************************************************************************
@@ -189,30 +156,18 @@ INSERT INTO `INE`.`TipoVale`
 DELETE FROM `INE`.`Permiso_Vale` WHERE 1;
 INSERT INTO `INE`.`Permiso_Vale` 
 	VALUES
-		('Vale de resguardo',		'Auxiliar',				false),
-		('Vale de resguardo',		'Administración',		true),
-		('Vale de resguardo',		'Jefe de departamento',	true),
-        ('Vale de resguardo',		'Usuario Depto.',		false),
-        ('Vale de resguardo',		'Organización', 		true),
-        ('Vale de resguardo',		'Presidencia', 			true),
-        ('Vale de resguardo',		'SuperUsuario', 		true),
-        ('Vale de resguardo',		'Secretaria', 			false),
-		('Vale de recolección',		'Auxiliar',				false),
-		('Vale de recolección',		'Administración',		true),
-        ('Vale de recolección',		'Jefe de departamento',	true),
-        ('Vale de recolección',		'Usuario Depto.',		false),
-        ('Vale de recolección',		'Organización',	    	true),
-        ('Vale de recolección',		'Presidencia',	    	true),
-        ('Vale de recolección',		'SuperUsuario',	    	true),
-		('Vale de recolección',		'Secretaria', 			false),
-        ('Vale de reemplazo',		'Auxiliar',				false),
-        ('Vale de reemplazo',		'Administración',		true),
-        ('Vale de reemplazo',		'Jefe de departamento',	true),
-        ('Vale de reemplazo',		'Usuario Depto.',		false),
-        ('Vale de reemplazo',		'Organización',		    false),
-        ('Vale de reemplazo',		'Presidencia',		    true),
-        ('Vale de reemplazo',		'SuperUsuario',	    	true),
-        ('Vale de reemplazo',		'Secretaria', 			false)
+		('Vale de resguardo',		'SuperUsuario',		true),
+		('Vale de resguardo',		'Administrador',	true),
+		('Vale de resguardo',		'Auxiliar',			true),
+        ('Vale de resguardo',		'Asistente',		true),
+        ('Vale de resguardo',		'General', 			true),
+        
+        ('Vale de recolección',		'SuperUsuario',		true),
+		('Vale de recolección',		'Administrador',	true),
+		('Vale de recolección',		'Auxiliar',			true),
+        ('Vale de recolección',		'Asistente',		true),
+        ('Vale de recolección',		'General', 			true)
+        
 	;
 
 -- *******************************************************************************
@@ -248,11 +203,12 @@ INSERT INTO `INE`.`Modulos`
 	VALUES
 		('Usuarios'),
         ('Inventario'),
-        ('Permisos'),
+        ('Empleados'),
         ('Vehiculos'),
-        ('Asignación'),
-        ('Solicitud Viaticos'),
-        ('Respuesta Viaticos')
+        ('Solicitudes'),
+        ('Resguardo'),
+        ('Configuración'),
+        ('Permisos')
 	;
 
 -- *******************************************************************************
@@ -261,13 +217,14 @@ INSERT INTO `INE`.`Modulos`
 DELETE FROM `INE`.`Permisos` WHERE 1;
 INSERT INTO `INE`.`Permisos` 
 	VALUES
-		('Mendez26',	'Usuarios',				true, true, true, true),
-        ('Mendez26',	'Inventario',			true, true, true, true),
-        ('Mendez26',	'Permisos',				true, true, true, true),
-        ('Mendez26',	'Vehiculos',			true, true, true, true),
-        ('Mendez26',	'Asignación',			true, true, true, true),
-        ('Mendez26',	'Respuesta Viaticos',	true, true, true, true),
-        ('Mendez26',	'Solicitud Viaticos',	true, true, true, true);
+		('Mendez26',	'Usuarios',			true, true, true, true),
+        ('Mendez26',	'Inventario',		true, true, true, true),
+        ('Mendez26',	'Empleados',		true, true, true, true),
+        ('Mendez26',	'Vehiculos',		true, true, true, true),
+        ('Mendez26',	'Solicitudes',		true, true, true, true),
+        ('Mendez26',	'Resguardo',		true, true, true, true),
+        ('Mendez26',	'Configuración',	true, true, true, true),
+        ('Mendez26',	'Permisos',			true, true, true, true);
 
 -- -----------------------------------------------------------------------------
 --					INSERTS `INE`.`Folio`
@@ -290,62 +247,50 @@ INSERT INTO `Folio`(`Folio`.`ID_Folio`, `Folio`.`descripcion`) VALUES
 DELETE FROM `INE`.`Permisos_Puesto` WHERE 1;
 INSERT INTO `INE`.`Permisos_Puesto` 
 	VALUES
-		('SuperUsuario',		'Usuarios',				true, true, true, true),
-        ('SuperUsuario',		'Inventario',			true, true, true, true),
-        ('SuperUsuario',		'Permisos',				true, true, true, true),
-        ('SuperUsuario',		'Vehiculos',			true, true, true, true),
-        ('SuperUsuario',		'Asignación',			true, true, true, true),
-        ('SuperUsuario',		'Respuesta Viaticos',	true, true, true, true),
-        ('SuperUsuario',		'Solicitud Viaticos',	true, true, true, true),
-		('Auxiliar',			'Usuarios',				false, false, false, false),
-        ('Auxiliar',			'Inventario',			false, false, false, true),
-        ('Auxiliar',			'Permisos',				false, false, false, false),
-        ('Auxiliar',			'Vehiculos',			false, false, false, false),
-        ('Auxiliar',			'Asignación',			false, false, false, false),
-        ('Auxiliar',			'Respuesta Viaticos',	false, false, false, false),
-        ('Auxiliar',			'Solicitud Viaticos',	false, false, false, false),
-		('Administración',		'Usuarios',				false, false, false, false),
-        ('Administración',		'Inventario',			true, true, true, true),
-        ('Administración',		'Permisos',				false, false, false, false),
-        ('Administración',		'Vehiculos',			true, true, true, true),
-        ('Administración',		'Asignación',			true, true, true, true),
-        ('Administración',		'Respuesta Viaticos',	false, false, false, false),
-        ('Administración',		'Solicitud Viaticos',	false, false, false, false),
-		('Jefe de departamento','Usuarios',				false, false, false, false),
-        ('Jefe de departamento','Inventario',			true, true, true, true),
-        ('Jefe de departamento','Permisos',				false, false, false, false),
-        ('Jefe de departamento','Vehiculos',			false, false, false, false),
-        ('Jefe de departamento','Asignación',			false, false, false, false),
-        ('Jefe de departamento','Respuesta Viaticos',	false, false, false, false),
-        ('Jefe de departamento','Solicitud Viaticos',	false, false, false, false),
-		('Usuario Depto.',		'Usuarios',				false, false, false, false),
-        ('Usuario Depto.',		'Inventario',			false, false, false, true),
-        ('Usuario Depto.',		'Permisos',				false, false, false, false),
-        ('Usuario Depto.',		'Vehiculos',			false, false, false, false),
-        ('Usuario Depto.',		'Asignación',			false, false, false, false),
-        ('Usuario Depto.',		'Respuesta Viaticos',	false, false, false, false),
-        ('Usuario Depto.',		'Solicitud Viaticos',	false, false, false, false),
-        ('Organización',		'Usuarios',				false, false, false, false),
-        ('Organización',		'Inventario',			false, false, false, true),
-        ('Organización',		'Permisos',				false, false, false, false),
-        ('Organización',		'Vehiculos',			false, false, false, false),
-        ('Organización',		'Asignación',			false, false, false, false),
-        ('Organización',		'Respuesta Viaticos',	false, false, false, false),
-        ('Organización',		'Solicitud Viaticos',	false, false, false, false),
-        ('Presidencia',			'Usuarios',				false, false, false, false),
-        ('Presidencia',			'Inventario',			false, false, false, true),
-        ('Presidencia',			'Permisos',				false, false, false, false),
-        ('Presidencia',			'Vehiculos',			false, false, false, false),
-        ('Presidencia',			'Asignación',			false, false, false, false),
-        ('Presidencia',			'Respuesta Viaticos',	false, false, false, false),
-        ('Presidencia',			'Solicitud Viaticos',	false, false, false, false),
-        ('Secretaria',			'Usuarios',				false, false, false, false),
-        ('Secretaria',			'Inventario',			false, false, false, false),
-        ('Secretaria',			'Permisos',				false, false, false, false),
-        ('Secretaria',			'Vehiculos',			false, false, false, false),
-        ('Secretaria',			'Asignación',			false, false, false, false),
-        ('Secretaria',			'Respuesta Viaticos',	false, false, false, false),
-        ('Secretaria',			'Solicitud Viaticos',	true, true, true, true);
+		('SuperUsuario',	'Usuarios',			true, true, true, true),
+        ('SuperUsuario',	'Inventario',		true, true, true, true),
+        ('SuperUsuario',	'Empleados',		true, true, true, true),
+        ('SuperUsuario',	'Vehiculos',		true, true, true, true),
+        ('SuperUsuario',	'Solicitudes',		true, true, true, true),
+        ('SuperUsuario',	'Resguardo',		true, true, true, true),
+        ('SuperUsuario',	'Configuración',	true, true, true, true),
+        ('SuperUsuario',	'Permisos',			true, true, true, true),
+        
+        ('Administrador',	'Usuarios',			false, false, false, false),
+        ('Administrador',	'Inventario',		true, true, true, true),
+        ('Administrador',	'Empleados',		true, true, true, true),
+        ('Administrador',	'Vehiculos',		true, true, true, true),
+        ('Administrador',	'Solicitudes',		false, true, true, true),
+        ('Administrador',	'Resguardo',		true, true, true, true),
+        ('Administrador',	'Configuración',	false, false, false, false),
+        ('Administrador',	'Permisos',			false, false, false, false),
+		
+        ('Auxiliar',		'Usuarios',			false, false, false, false),
+        ('Auxiliar',		'Inventario',		true, false, false, true),
+        ('Auxiliar',		'Empleados',		false, false, false, true),
+        ('Auxiliar',		'Vehiculos',		true, false, false, true),
+        ('Auxiliar',		'Solicitudes',		false, false, true, true),
+        ('Auxiliar',		'Resguardo',		true, true, true, true),
+        ('Auxiliar',		'Configuración',	false, false, false, false),
+        ('Auxiliar',		'Permisos',			false, false, false, false),
+        
+		('Asistente',		'Usuarios',			false, false, false, false),
+        ('Asistente',		'Inventario',		false, false, false, true),
+        ('Asistente',		'Empleados',		false, false, false, true),
+        ('Asistente',		'Vehiculos',		false, false, false, true),
+        ('Asistente',		'Solicitudes',		true, false, false, false),
+        ('Asistente',		'Resguardo',		false, false, false, false),
+        ('Asistente',		'Configuración',	false, false, false, false),
+        ('Asistente',		'Permisos',			false, false, false, false),
+        
+        ('General',			'Usuarios',			false, false, false, false),
+        ('General',			'Inventario',		false, false, false, false),
+        ('General',			'Empleados',		false, false, false, false),
+        ('General',			'Vehiculos',		false, false, false, false),
+        ('General',			'Solicitudes',		false, false, false, false),
+        ('General',			'Resguardo',		false, false, false, false),
+        ('General',			'Configuración',	false, false, false, false),
+        ('General',			'Permisos',			false, false, false, false);
         
 -- -----------------------------------------------------------------------------
 --	Importación de productos desde data_test.csv para la tabla de Inventario

@@ -257,7 +257,7 @@ public class addUsuarios extends javax.swing.JDialog {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
         int res = validar();
-        if(manager_permisos.alta_user(Principal.Username)){
+        if(manager_permisos.accesoModulo("alta","Usuarios",Principal.Username)){
             switch(res){
                 case 0:
                     getInfo();
@@ -275,7 +275,7 @@ public class addUsuarios extends javax.swing.JDialog {
                         }
                         
                         JOptionPane.showMessageDialog(null, "El usuario "+usuario+ "ha sido registrado en la base de datos exitosamente.");
-                        if(manager_permisos.consulta_user(Principal.Username)){
+                        if(manager_permisos.accesoModulo("consulta","Usuarios",Principal.Username)){
                             Principal.tablaUsuarios.setModel(manager_users.getEmpleados());
                         }
                         this.dispose();
@@ -294,7 +294,7 @@ public class addUsuarios extends javax.swing.JDialog {
                     break;
             }//switch
         }else{
-            JOptionPane.showMessageDialog(null, "Te han revocado los permisos para asignar usuarios.");
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para asignar nuevos usuarios.");
         }
         
     }//GEN-LAST:event_btnAceptarActionPerformed

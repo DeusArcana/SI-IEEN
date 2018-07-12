@@ -326,24 +326,24 @@ public class ventana_añadir_vehiculo extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.alta_vehiculos(Username)){
+        if(manager_permisos.accesoModulo("alta","Vehiculos",Username)){
             if(validarCampos()){
             String ruta = campoRuta.getText();
 
             if (vehiculos.guardarImagen(campoMarca.getText(), campoLinea.getText(), campoClase.getSelectedItem().toString(), campoColor.getText(),
                      campoModelo.getValue().toString(), campoMotor.getValue().toString(), campoKilometraje.getText(), campoMatricula.getText(), campoObservaciones.getText(), ruta)) {
                 //vehiculos.guardarImagen("C:\\Users\\oscar\\OneDrive\\Documentos\\NetBeansProjects\\INE\\src\\Iconos\\asd.png", "asd");
-                JOptionPane.showMessageDialog(null, "Insertado Correctamente!", "Información!", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "¡Insertado Correctamente!", "¡Información!", JOptionPane.INFORMATION_MESSAGE);
                 Principal.tablaVehiculos.setModel(vehiculos.getVehiculos());
                 this.dispose();
             } else {
-                JOptionPane.showMessageDialog(null, "Error al insertar!", "Información!", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "¡Error al insertar!", "¡Información!", JOptionPane.WARNING_MESSAGE);
             }//else
             }else{
-                JOptionPane.showMessageDialog(null, "Llene todos los campos requeridos!", "Información!", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "¡Llene todos los campos requeridos!", "¡Información!", JOptionPane.INFORMATION_MESSAGE);
             }
         }else{
-            JOptionPane.showMessageDialog(null, "Han sido revocados sus permisos para dar de alta un vehiculo.", "Información!", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para dar de alta vehiculos.", "¡Información!", JOptionPane.INFORMATION_MESSAGE);
         }
 
 

@@ -553,7 +553,7 @@ public final class updateInventario extends javax.swing.JDialog {
         // TODO add your handling code here:
         getInfo();
         //Vemos si puede actualizar el producto
-        if (manager_permisos.update_inventario(Principal.Username)) {
+        if(manager_permisos.accesoModulo("actualizar","Inventario",Principal.Username)){
             //Actualizamos el producto
             if (manager_inventario.actualizarProducto(id,producto, descripcion,ubicacion, marca,noserie, modelo, color, fecha_compra, factura, importe,imagen)) {
 
@@ -566,7 +566,7 @@ public final class updateInventario extends javax.swing.JDialog {
                 //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
                 if(num > 0){nomeclatura = nomeclaturas[num-1];}
         
-                if (manager_permisos.consulta_inventario(Principal.Username)) {
+                if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
                     Principal.tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
                 }
                 this.dispose();
@@ -576,7 +576,7 @@ public final class updateInventario extends javax.swing.JDialog {
             }
 
         } else {
-            JOptionPane.showMessageDialog(null, "Le han revocado los permisos para actualizar la información de un producto del inventario.");
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para actualizar la información del producto.");
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 

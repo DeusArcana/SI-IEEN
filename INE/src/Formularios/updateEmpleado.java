@@ -369,14 +369,14 @@ public class updateEmpleado extends javax.swing.JDialog {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
         int res = validar();
-        if(manager_permisos.update_user(Principal.Username)){
+        if(manager_permisos.accesoModulo("actualizar","Empleados",Principal.Username)){
             switch(res){
                 case 0:
                     getInfo();
                     boolean insertar = manager_users.actualizarEmpleado(id,nombres, apellido_p, apellido_m, calle, colonia, telefono, codigoP, fecha, curp, rfc, municipio,localidad);
                     if(insertar){
                         JOptionPane.showMessageDialog(null, "El empleado "+nombres+ " "+apellido_p+ "ha sido registrado en la base de datos exitosamente.");
-                        if(manager_permisos.consulta_user(Principal.Username)){
+                        if(manager_permisos.accesoModulo("consulta","Empleados",Principal.Username)){
                             Principal.tablaUsuarios.setModel(manager_users.getEmpleados());
                         }
                         this.dispose();
@@ -403,7 +403,7 @@ public class updateEmpleado extends javax.swing.JDialog {
                     break;
             }//switch
         }else{
-            JOptionPane.showMessageDialog(null, "Te han revocado los permisos para registrar nuevos empleados.");
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para actualizar la información del empleado.");
         }
         
     }//GEN-LAST:event_btnAceptarActionPerformed
