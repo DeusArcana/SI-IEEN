@@ -20,13 +20,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Ventana_Documentos extends javax.swing.JDialog {
     ManagerDocumentos manager_documentos;
-    ManagerUsers manager_users;
-    ManagerSolicitud manager_solicitud;
-    ManagerPermisos manager_permisos;
     
-    public static DefaultTableModel modeloAsignarEquipo;
-    String[] Claves,Equipos;
-    public static String Clave,tipo_solicitud;
+    public DefaultTableModel modeloProductos,modeloDocumentoProductos;
+    int id_documento;
+    String status;
     /**
      * Creates new form Ventana_asignar_EquipoComputo
      */
@@ -36,18 +33,12 @@ public class Ventana_Documentos extends javax.swing.JDialog {
         
         //Asignamos memoria al objeto
         manager_documentos = new ManagerDocumentos();
-        manager_users = new ManagerUsers();
-        manager_solicitud = new ManagerSolicitud();
-        manager_permisos = new ManagerPermisos();
         
-        //Deshabilitamos el movimiento de los encabezados de las tablas
-        tablaProductosSeleccionar.getTableHeader().setReorderingAllowed(false);
-        tablaDocumentos.getTableHeader().setReorderingAllowed(false);
+        modeloProductos = (DefaultTableModel)tablaProductosSeleccionar.getModel();
+        modeloDocumentoProductos = (DefaultTableModel)tablaDocumentosProductos.getModel();
         
-        //Obtenemos el modelo de la tabla y luego se lo asingamos de nuevo
-        /*Esto con la finalidad de agregar o quitar filas de dicha tabla*/
-        modeloAsignarEquipo = (DefaultTableModel) this.tablaDocumentos.getModel();
-        tablaDocumentos.setModel(modeloAsignarEquipo);
+        this.setTitle("Anexar productos a un documento");
+        this.setLocationRelativeTo(null);
         
     }
 
@@ -60,11 +51,14 @@ public class Ventana_Documentos extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        MenuComputo = new javax.swing.JPopupMenu();
-        SolicitarReemplazo = new javax.swing.JMenuItem();
+        MenuProductos = new javax.swing.JPopupMenu();
+        Aceptar = new javax.swing.JMenuItem();
+        Refresh = new javax.swing.JMenuItem();
+        MenuDocumentos = new javax.swing.JPopupMenu();
+        Finalizar = new javax.swing.JMenuItem();
         pn_asignarEquipo = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaProductosSeleccionar = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        tablaProductosSeleccionar = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaDocumentos = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel1 = new javax.swing.JLabel();
@@ -75,13 +69,29 @@ public class Ventana_Documentos extends javax.swing.JDialog {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
 
-        SolicitarReemplazo.setText("Solicitar reemplazo");
-        SolicitarReemplazo.addActionListener(new java.awt.event.ActionListener() {
+        Aceptar.setText("Aceptar");
+        Aceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SolicitarReemplazoActionPerformed(evt);
+                AceptarActionPerformed(evt);
             }
         });
-        MenuComputo.add(SolicitarReemplazo);
+        MenuProductos.add(Aceptar);
+
+        Refresh.setText("Refrescar tabla");
+        Refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RefreshActionPerformed(evt);
+            }
+        });
+        MenuProductos.add(Refresh);
+
+        Finalizar.setText("Finalizar");
+        Finalizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FinalizarActionPerformed(evt);
+            }
+        });
+        MenuDocumentos.add(Finalizar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -98,7 +108,7 @@ public class Ventana_Documentos extends javax.swing.JDialog {
 
             },
             new String [] {
-                "¿Cuáles se van?", "Clave", "Nombre Corto", "No. de serie", "Fecha"
+                "¿Cuáles se van?", "Clave", "Nombre corto", "No. de serie", "Fecha"
             }
         ));
         tablaProductosSeleccionar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -135,7 +145,7 @@ public class Ventana_Documentos extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Clave", "Nombre Corto", "No. de serie", "Descripción", "Observación"
+                "Clave", "Nombre Corto", "No. de serie", "Descripción", "Observaciones"
             }
         ));
         tablaDocumentosProductos.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -182,25 +192,23 @@ public class Ventana_Documentos extends javax.swing.JDialog {
             pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_asignarEquipoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pn_asignarEquipoLayout.createSequentialGroup()
-                        .addGap(0, 151, Short.MAX_VALUE)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pn_asignarEquipoLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
-                .addGap(21, 21, 21))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -221,23 +229,14 @@ public class Ventana_Documentos extends javax.swing.JDialog {
     
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
+        //Llenamos la tabla de los documentos
         tablaDocumentos.setModel(manager_documentos.getDocumentos());
     }//GEN-LAST:event_formWindowOpened
     
     private void tablaProductosSeleccionarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductosSeleccionarMouseClicked
         // TODO add your handling code here:
-
-        
     }//GEN-LAST:event_tablaProductosSeleccionarMouseClicked
-    public void getDatosEquiposComputo(int fila){
-        Claves = new String[3];
-        Equipos = new String[3];
-        Claves[0] = tablaProductosSeleccionar.getValueAt(fila, 1).toString();//Obtenemos la clave CPU
-        Claves[1] = tablaProductosSeleccionar.getValueAt(fila, 2).toString();//Obtenemos la clave Monitor
-        Claves[2] = tablaProductosSeleccionar.getValueAt(fila, 3).toString();//Obtenemos la clave Teclado
-        
-        //Equipos[i] = tablaEquipoComputo.getValueAt(i, 1).toString();//Obtenemos las claves
-    }//getDatosTablaAsignarEquipo
+    
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
         
@@ -245,20 +244,50 @@ public class Ventana_Documentos extends javax.swing.JDialog {
 
     private void tablaDocumentosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDocumentosMouseReleased
         // TODO add your handling code here:
-        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
-            if(SwingUtilities.isRightMouseButton(evt)){
-                int r = tablaDocumentos.rowAtPoint(evt.getPoint());
-                if (r >= 0 && r < tablaDocumentos.getRowCount())
-                tablaDocumentos.setRowSelectionInterval(r, r);
-                MenuComputo.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-            }//clic derecho
-        
+        if(SwingUtilities.isRightMouseButton(evt)){
+            int r = tablaDocumentos.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablaDocumentos.getRowCount())
+            tablaDocumentos.setRowSelectionInterval(r, r);
+            MenuDocumentos.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
     }//GEN-LAST:event_tablaDocumentosMouseReleased
 
-    private void SolicitarReemplazoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitarReemplazoActionPerformed
+    private void AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarActionPerformed
         // TODO add your handling code here:
+        DefaultTableModel inventario = (DefaultTableModel)tablaProductosSeleccionar.getModel();
+        boolean selecciono = false;
+        Boolean[] cambio = new Boolean[inventario.getRowCount()];
+        String[] ids = new String[inventario.getRowCount()];
+
+        //Llenamos los arreglos con la información
+        for(int i = 0; i<ids.length; i++){
+            cambio[i] = Boolean.parseBoolean(tablaProductosSeleccionar.getValueAt(i, 0).toString());
+            ids[i] = tablaProductosSeleccionar.getValueAt(i, 1).toString();
+        }//for
         
-    }//GEN-LAST:event_SolicitarReemplazoActionPerformed
+        //Aquí vemos si por lo menos seleccionó algún producto
+        for(int i = 0; i<ids.length; i++){
+            if(cambio[i]){
+                selecciono = true;
+                break;
+            }//if
+        }//for
+        
+        if(selecciono){
+            if(manager_documentos.anexarAlDocumento(ids,cambio,id_documento)){
+                JOptionPane.showMessageDialog(null, "Se registraron exitosamente los nuevos productos al documento.");
+                
+                //Actualizamos la tabla de los productos que quiere agregar al documentos
+                tablaProductosSeleccionar.setModel(manager_documentos.productosParaAsignarMenosInfo(status));
+                //Actualizamos la tabla de la relación documento-productos
+                tablaDocumentosProductos.setModel(manager_documentos.getDocumentosProductos(id_documento));
+
+            }//if
+            else{
+                JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+            }//else
+        }//if
+    }//GEN-LAST:event_AceptarActionPerformed
 
     private void tablaDocumentosProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDocumentosProductosMouseClicked
         // TODO add your handling code here:
@@ -271,13 +300,35 @@ public class Ventana_Documentos extends javax.swing.JDialog {
             String id = tablaDocumentos.getValueAt(fila, 0).toString();
             String datos [] = id.split("-");
             
+            status = datos[0];
             //Llenamos la tabla de los productos que quiere agregar al documentos
-            tablaProductosSeleccionar.setModel(manager_documentos.productosParaAsignarMenosInfo(datos[0]));
+            tablaProductosSeleccionar.setModel(manager_documentos.productosParaAsignarMenosInfo(status));
             //Llenamos la tabla de la relación documento-productos
-            tablaDocumentosProductos.setModel(manager_documentos.getDocumentosProductos(Integer.parseInt(datos[1])));
+            id_documento = Integer.parseInt(datos[1]);
+            tablaDocumentosProductos.setModel(manager_documentos.getDocumentosProductos(id_documento));
+            
+            tablaProductosSeleccionar.setComponentPopupMenu(MenuProductos);
             
         }//getClickCount
     }//GEN-LAST:event_tablaDocumentosMouseClicked
+
+    private void RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshActionPerformed
+        // TODO add your handling code here:
+        tablaProductosSeleccionar.setModel(manager_documentos.productosParaAsignarMenosInfo(status));
+    }//GEN-LAST:event_RefreshActionPerformed
+
+    private void FinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinalizarActionPerformed
+        // TODO add your handling code here:
+        
+        if(manager_documentos.finalizarDocumento(id_documento)){
+            JOptionPane.showMessageDialog(null, "El documento ha sido finalizado exitosamente.");
+            tablaDocumentos.setModel(manager_documentos.getDocumentos());
+            tablaProductosSeleccionar.setModel(modeloProductos);
+            tablaDocumentosProductos.setModel(modeloDocumentoProductos);
+        }//if
+        
+        
+    }//GEN-LAST:event_FinalizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -329,8 +380,11 @@ public class Ventana_Documentos extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPopupMenu MenuComputo;
-    private javax.swing.JMenuItem SolicitarReemplazo;
+    private javax.swing.JMenuItem Aceptar;
+    private javax.swing.JMenuItem Finalizar;
+    private javax.swing.JPopupMenu MenuDocumentos;
+    private javax.swing.JPopupMenu MenuProductos;
+    private javax.swing.JMenuItem Refresh;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;

@@ -462,6 +462,7 @@ public class Principal extends javax.swing.JFrame {
         Documentos = new javax.swing.JMenu();
         AddDocuments = new javax.swing.JMenuItem();
         SelectProducts = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         dar_baja.setText("Baja de usuario");
         dar_baja.addActionListener(new java.awt.event.ActionListener() {
@@ -2477,6 +2478,14 @@ public class Principal extends javax.swing.JFrame {
         });
         Documentos.add(SelectProducts);
 
+        jMenuItem1.setText("Consultar documentos");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        Documentos.add(jMenuItem1);
+
         jMenuBar1.add(Documentos);
 
         setJMenuBar(jMenuBar1);
@@ -2521,7 +2530,6 @@ public class Principal extends javax.swing.JFrame {
         //COMBOBOX
         
         //COMBOINVENTARIO
-        
         comboInventario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboInventario.addItem("Inventario");
         comboInventario.addItem("Consumibles");
@@ -5445,6 +5453,12 @@ public void metodoVale2(){
         Ventana_Documentos ob = new Ventana_Documentos(this, true);
         ob.setVisible(true);
     }//GEN-LAST:event_SelectProductsActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        Ventana_ConsultaDocumentos ob = new Ventana_ConsultaDocumentos(this, true);
+        ob.setVisible(true);        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -5722,6 +5736,7 @@ public void metodoVale2(){
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel14;
