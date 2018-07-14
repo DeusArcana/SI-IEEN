@@ -381,12 +381,12 @@ public class ManejadorInventario {
             },
             //Declaramos el titulo de las columnas
             new String [] {
-                "Entregar","Vale", "Clave", "Nombre corto", "Descripción","Marca","No. Serie","Modelo", "Observaciones","Ubicación Actual","Nueva Ubicación"
+                "Entregar","Vale", "Clave", "Nombre corto", "Descripción","Marca","No. Serie","Modelo","Color", "Observaciones","Ubicación Actual","Nueva Ubicación"
             }
         ){
             //El tipo que sera cada columna, la primera columna un checkbox y los demas seran objetos
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class
+                java.lang.Boolean.class, java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -394,7 +394,7 @@ public class ManejadorInventario {
             }
             //Esto es para indicar que columnas dejaremos editar o no
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false,false, false,true,false,true
+                true, false, false, false, false, false,false, false,false,true,false,true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -412,7 +412,7 @@ public class ManejadorInventario {
         table = (DefaultTableModel)checks.getModel();
         try {
             //Obtiene los productos asignados de acuerdo al empleado (Inventario)
-            String sql = "select concat(v.Folio,'-',v.Numero,'-',v.Año), dv.id_producto, ig.nombre_prod,ig.descripcion,ig.marca,ig.no_serie,ig.modelo,ig.observaciones,ig.ubicacion from vales v "
+            String sql = "select concat(v.Folio,'-',v.Numero,'-',v.Año), dv.id_producto, ig.nombre_prod,ig.descripcion,ig.marca,ig.no_serie,ig.modelo,ig.color,ig.observaciones,ig.ubicacion from vales v "
                     + "inner join detalle_vale dv on (dv.id_vale = concat(v.Folio,'-',v.Numero,'-',v.Año)) "
                     + "inner join inventario ig on (dv.id_producto = concat(ig.Folio,'-',ig.Numero,ig.Extension)) "
                     + "inner join empleados e on (e.id_empleado = v.id_empleado) "
@@ -420,17 +420,17 @@ public class ManejadorInventario {
                     + "order by concat(v.Folio,'-',v.Numero,'-',v.Año);";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
-            Object datos[] = new Object[11];
+            Object datos[] = new Object[12];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
 
                 datos[0] = Boolean.FALSE;
-                for(int i = 1;i<10;i++){
+                for(int i = 1;i<11;i++){
                     datos[i] = rs.getObject(i);
                 }//Llenamos las columnas por registro
-                datos[10] = "Selecciona la nueva ubicación...";
+                datos[11] = "Selecciona la nueva ubicación...";
                 table.addRow(datos);//Añadimos la fila
             }//while
             

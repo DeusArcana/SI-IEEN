@@ -281,6 +281,8 @@ public class Ventana_Documentos extends javax.swing.JDialog {
                 tablaProductosSeleccionar.setModel(manager_documentos.productosParaAsignarMenosInfo(status));
                 //Actualizamos la tabla de la relación documento-productos
                 tablaDocumentosProductos.setModel(manager_documentos.getDocumentosProductos(id_documento));
+                //Acutalizamos la tabla de documentos
+                tablaDocumentos.setModel(manager_documentos.getDocumentos());
 
             }//if
             else{
@@ -293,18 +295,22 @@ public class Ventana_Documentos extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_tablaDocumentosProductosMouseClicked
 
+    public void obtenerIDEstatus(){
+        int fila = tablaDocumentos.getSelectedRow();
+        String id = tablaDocumentos.getValueAt(fila, 0).toString();
+        String datos [] = id.split("-");
+
+        status = datos[0];
+        id_documento = Integer.parseInt(datos[1]);
+    }
+    
     private void tablaDocumentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDocumentosMouseClicked
         // TODO add your handling code here:
         if(evt.getClickCount() == 2){
-            int fila = tablaDocumentos.getSelectedRow();
-            String id = tablaDocumentos.getValueAt(fila, 0).toString();
-            String datos [] = id.split("-");
-            
-            status = datos[0];
+            obtenerIDEstatus();
             //Llenamos la tabla de los productos que quiere agregar al documentos
             tablaProductosSeleccionar.setModel(manager_documentos.productosParaAsignarMenosInfo(status));
             //Llenamos la tabla de la relación documento-productos
-            id_documento = Integer.parseInt(datos[1]);
             tablaDocumentosProductos.setModel(manager_documentos.getDocumentosProductos(id_documento));
             
             tablaProductosSeleccionar.setComponentPopupMenu(MenuProductos);
@@ -319,7 +325,7 @@ public class Ventana_Documentos extends javax.swing.JDialog {
 
     private void FinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinalizarActionPerformed
         // TODO add your handling code here:
-        
+        obtenerIDEstatus();
         if(manager_documentos.finalizarDocumento(id_documento)){
             JOptionPane.showMessageDialog(null, "El documento ha sido finalizado exitosamente.");
             tablaDocumentos.setModel(manager_documentos.getDocumentos());

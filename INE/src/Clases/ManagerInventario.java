@@ -398,7 +398,7 @@ public class ManagerInventario {
             int cantidadColumnas = 12;
             //Si el estado es verdadero significa que si encontro coincidencias, entonces mostraremos dichas concidencias
             if(rs.next()){
-		        table.addColumn("Clave");
+                table.addColumn("Clave");
                 table.addColumn("Nombre_corto");
                 table.addColumn("Descripción");
                 table.addColumn("Ubicación");

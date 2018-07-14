@@ -178,7 +178,7 @@ public class ManagerDocumentos {
             //Creamos la variable para hacer operaciones CRUD
             Statement st = conexion.createStatement();
             //Cambiamos el estatus del equipo seleccionado
-            String sql = "select pa.ID_Producto, i.nombre_prod, i.no_serie, i.descripcion, i.observaciones, date(pa.Fecha_Seleccion) from productos_asignados pa "
+            String sql = "select pa.ID_Producto, i.nombre_prod, i.no_serie, date(pa.Fecha_Seleccion) from productos_asignados pa "
                        + "inner join inventario i on(concat(i.Folio,'-',i.Numero,i.Extension) = pa.ID_Producto) "
                        + "where pa.Status = '"+status+"' and pa.Salida = 0;";
             
@@ -350,7 +350,7 @@ public class ManagerDocumentos {
             Statement st = conexion.createStatement();
             //Cambiamos el estatus del equipo seleccionado
             String sql = "select concat(d.Clave,'-',d.ID_Documento),d.Fecha_Creacion, count(id.ID_Documento) from documentos d "
-                       + "inner join inv_docs id on (id.ID_Documento = d.ID_Documento) "
+                       + "left join inv_docs id on (id.ID_Documento = d.ID_Documento) "
                        + "where d.Fecha_Salida is null group by id.ID_Documento;";
             
             Object datos[] = new Object[3];
@@ -492,7 +492,7 @@ public class ManagerDocumentos {
             //Creamos la variable para hacer operaciones CRUD
             Statement st = conexion.createStatement();
             //Cambiamos el estatus del equipo seleccionado
-            String sql = "select id.ID_Producto, i.nombre_prod, i.no_serie, i.descripcion, i.observaciones,pa.Fecha_Seleccion from inv_docs id "
+            String sql = "select id.ID_Producto, i.nombre_prod, i.no_serie, i.descripcion,i.marca,i.modelo,i.color,i.factura,i.observaciones,date(pa.Fecha_Seleccion) from inv_docs id "
                        + "inner join inventario i on (concat(i.Folio,'-',i.Numero,i.Extension) = id.ID_Producto) "
                        + "inner join productos_asignados pa on (pa.ID_Producto = id.ID_Producto) "
                         + "where id.ID_Documento = "+id_documento+";";
