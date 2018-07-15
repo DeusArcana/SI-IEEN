@@ -20,6 +20,7 @@ import Clases.ManagerSoViaticos;
 
 import Interfaces.PrincipalS;
 import com.toedter.calendar.JTextFieldDateEditor;
+import java.awt.Frame;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.sql.Array;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -42,14 +44,69 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     ManagerSoViaticos manager_viaticos;
     ManagerUsers manager_users;
     ManagerVehiculos manager_vehiculo;
+    List<Object> datos=new ArrayList<Object>();
     
     public int varida[];
     Conexion cbd=new Conexion();
     Connection cn=cbd.getConexion();
     public static boolean imprimirSolicitud=false;
+    JDialog parent;
     /**
      * Creates new form addSolicitudViaticos
      */
+    public addSolicitudVehiculo(javax.swing.JDialog parent,java.awt.Frame parentVehiculo, boolean modal,
+            int empleado,String puesto,Date fecha_salida,Date fecha_llegada,
+            Object hora_salida,Object hora_llegada,boolean pernoctado,int estado,
+            int municipio,String actividad){
+        super(parentVehiculo, modal);
+        this.parent=parent;
+        initComponents();
+        JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) date_Salida.getDateEditor();
+        JTextFieldDateEditor date_Llegada_Editor=(JTextFieldDateEditor) date_Llegada.getDateEditor();
+        date_Salida.getJCalendar().setMinSelectableDate(new Date()); // sets today as minimum selectable date
+        date_Llegada.getJCalendar().setMinSelectableDate(new Date());
+        date_Salida_Editor.setEditable(false);
+        date_Llegada_Editor.setEditable(false);
+        
+        
+        //maxid();
+        //txtid.setText(varida[0]+1+"");
+        manager_viaticos = new ManagerSoViaticos();
+        manager_users = new ManagerUsers();
+        manager_vehiculo = new ManagerVehiculos();
+          
+        
+        iniciarEstados();
+        
+        AutoCompleteDecorator.decorate(this.comboEmpleados);
+        AutoCompleteDecorator.decorate(this.cmb_Vehiculo);
+        
+        
+        /////////////////////////////////
+        datos.add(empleado);
+        datos.add(puesto);
+        datos.add(fecha_salida);
+        datos.add(fecha_llegada);
+        datos.add(hora_salida);
+        datos.add(hora_llegada);
+        datos.add(pernoctado);
+        datos.add(estado);
+        datos.add(municipio);
+        datos.add(actividad);
+    }
+    private void agregarDatos(){
+        comboEmpleados.setSelectedIndex((int)datos.get(0));//Se agrega el empleado
+        txt_Puesto.setText(datos.get(1)+"");
+        date_Salida.setDate((Date)datos.get(2));
+        date_Llegada.setDate((Date)datos.get(3));
+        hora_Salida.setValue(datos.get(4));
+        hora_Llegada.setValue(datos.get(5));
+        chb_Pernoctado.setSelected((boolean)datos.get(6));
+        cmbEstado.setSelectedIndex((int)datos.get(7));
+        cmbLocalidad.setSelectedIndex((int)datos.get(8));
+        txt_Actividad.setText(datos.get(9)+"");
+        
+    }
     public addSolicitudVehiculo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -167,6 +224,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         txt_Actividad.setColumns(20);
         txt_Actividad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_Actividad.setRows(5);
+        txt_Actividad.setEnabled(false);
         jScrollPane1.setViewportView(txt_Actividad);
 
         pn_addInventario.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 251, 420, 209));
@@ -183,15 +241,19 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         pn_addInventario.add(lblAviso, new org.netbeans.lib.awtextra.AbsoluteConstraints(446, 228, 15, 233));
 
         cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione localidad" }));
-        pn_addInventario.add(cmbLocalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, -1, -1));
+        cmbLocalidad.setEnabled(false);
+        pn_addInventario.add(cmbLocalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, 230, -1));
 
         cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione estado" }));
+        cmbEstado.setEnabled(false);
         cmbEstado.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbEstadoItemStateChanged(evt);
             }
         });
-        pn_addInventario.add(cmbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, -1, -1));
+        pn_addInventario.add(cmbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, -1, -1));
+
+        date_Salida.setEnabled(false);
         pn_addInventario.add(date_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(154, 81, 215, -1));
         date_Salida.getDateEditor().addPropertyChangeListener(
             new java.beans.PropertyChangeListener() {
@@ -202,10 +264,15 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
                     }
                 }
             });
+
+            date_Llegada.setEnabled(false);
             pn_addInventario.add(date_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(154, 117, 215, -1));
+
+            chb_Pernoctado.setEnabled(false);
             pn_addInventario.add(chb_Pernoctado, new org.netbeans.lib.awtextra.AbsoluteConstraints(153, 157, -1, -1));
 
             comboEmpleados.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+            comboEmpleados.setEnabled(false);
             comboEmpleados.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     comboEmpleadosActionPerformed(evt);
@@ -277,7 +344,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
                                     .addComponent(jLabel7)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addComponent(cmb_Vehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGap(0, 142, Short.MAX_VALUE)))
+                            .addGap(0, 194, Short.MAX_VALUE)))
                     .addContainerGap())
             );
             jPanel1Layout.setVerticalGroup(
@@ -298,10 +365,14 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
                     .addContainerGap())
             );
 
-            pn_addInventario.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 40, -1, 387));
+            pn_addInventario.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 50, 510, 387));
+
+            hora_Llegada.setEnabled(false);
             pn_addInventario.add(hora_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(387, 117, -1, -1));
             JSpinner.DateEditor de2 = new JSpinner.DateEditor(hora_Llegada, "HH:mm");
             hora_Llegada.setEditor(de2);
+
+            hora_Salida.setEnabled(false);
             pn_addInventario.add(hora_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(387, 81, -1, -1));
             JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "HH:mm");
             hora_Salida.setEditor(de);
@@ -309,7 +380,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
             pn_addInventario.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-            getContentPane().add(pn_addInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 1150, 500));
+            getContentPane().add(pn_addInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 1290, 500));
 
             pack();
         }// </editor-fold>//GEN-END:initComponents
@@ -332,6 +403,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
        int indiceCarro = cmb_Vehiculo.getSelectedIndex();
         try{
             verificar_excepcion=true;
+            
             validarDatos(true,"");
             
             //inserta solicitud
@@ -349,6 +421,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         this.dispose();
+        parent.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -356,28 +429,239 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         comboEmpleados.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboEmpleados.addItem("Selecione empleado...");
         manager_users.getNombresEmpleados(comboEmpleados);
-        
+        agregarDatos();
         cmb_Vehiculo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         cmb_Vehiculo.addItem("Selecione vehiculo...");
         //manager_vehiculo.getVehiculosDisponibles(cmb_Vehiculo);
-        ResultSet res;
         try{
-            Connection cn=cbd.getConexion();
-            res=cbd.getTabla("select marca,matricula from vehiculos where Estado='Disponible'",cn);
-            List<String> autos=new ArrayList<String>();
-            while(res.next()){
-                String aux=res.getString("marca")+"-"+res.getString("matricula");
-                System.out.println(aux);
-                autos.add(aux);
-            }
-            for(int i=0;i<autos.size();i++){
-                cmb_Vehiculo.addItem(autos.get(i));
-            }
+            getAutosDisponibles();
         }catch(SQLException e){
             
         } 
     }//GEN-LAST:event_formWindowOpened
-
+    private void getAutosDisponibles() throws SQLException{
+        ResultSet res;
+        Connection cn=cbd.getConexion();
+            res=cbd.getTabla("select marca,matricula from vehiculos where Estado='Disponible'",cn);
+            SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
+            List<String> autos=new ArrayList<String>();
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+            List<Integer> autos_disponibles=getAutosDisponiblesFecha(sdf.format(date_Salida.getDate().getTime()),format.format((Date)hora_Salida.getValue())+"");
+            List<String> autos_noDisponibles=getAutosNoDisponibles(autos_disponibles,sdf.format(date_Salida.getDate().getTime()));
+            while(res.next()){
+                boolean disponible=true;//se cambia a false si el registro está en los autos no disponibles
+                String aux=res.getString("marca")+"-"+res.getString("matricula");
+                System.out.println(aux);
+                //Verificamos si el auto se encuentra en el registro de autos no disponibles
+                for(int i=0;i<autos_noDisponibles.size();i++){////ERROR AQUI, INSERTA TODOS AUNQUE NO ESTÉN DISPONIBLES.
+                    if(res.getString("matricula").equals(autos_noDisponibles.get(i))){
+                        disponible=false;
+                        i=autos_noDisponibles.size();
+                    }
+                }
+                if(disponible){
+                    autos.add(aux);
+                }
+                /*if(autos_noDisponibles.size()==0){
+                    autos.add(aux);
+                }*/
+            }
+            for(int i=0;i<autos.size();i++){
+                cmb_Vehiculo.addItem(autos.get(i));
+            }
+    }
+    private List<String> getAutosNoDisponibles(List<Integer> id,String fecha)throws SQLException{
+        //Buscamos entre las solicitudes de vehículo los vehiculos que no están disponibles
+        //a partir de los que ya se han validado que esten dispnibles
+        Connection connection=cbd.getConexion();
+        ResultSet res;
+        //Obtenemos todos los vehiculos que tienen solicitud de vehiculo a partir de la fecha de salida solicitada
+        res=cbd.getTabla("select idvehiculo_usado,vehiculos_Matricula from vehiculo_usado inner join solicitud_vehiculo on idvehiculo_usado=vehiculo_usado_idvehiculo_usado where fecha_salida>'"+fecha+"';", connection);
+        List<String> matricula_nodisponible=new ArrayList<String>();
+        while(res.next()){
+            boolean disponible=false;//Si el registro no está en los autos disponibles entonces no se puede utilizar.
+            //Recorremos todos los vehiculos disponibles y los restantes los ponemos como no disponibles
+            for(int i=0;i<id.size();i++){
+                if(res.getInt("idvehiculo_usado")==id.get(i)){
+                    disponible=true;
+                    i=id.size();
+                }
+            }
+            //si disponible es false agregamos ese vehiculo a vehiculos no disponibles
+            if(!disponible){
+                matricula_nodisponible.add(res.getString("vehiculos_Matricula"));
+            }
+        }
+            
+        return matricula_nodisponible;
+    }
+    private List<Integer> getAutosDisponiblesFecha(String fecha_solicitada,String hora_solicitada)
+    throws SQLException{
+        //Asigna al combo box los vehiculos disponibles entre fecha de salida y de llegada
+        Connection connection=cbd.getConexion();
+        List<Integer> datos=new ArrayList<Integer>();
+        ResultSet res;
+        res=cbd.getTabla("select fecha_salida,Fecha_Llegada,hora_llegada,vehiculo_usado_idvehiculo_usado from solicitud_vehiculo where estado !='C' and fecha_llegada>='"+Calendar.YEAR+
+                "-"+Calendar.MONTH+"-"+Calendar.DAY_OF_MONTH+"'",connection);
+        //En caso de que sea la primera solicitud
+        if(!res.next()){
+            datos=obtenerTodosVehiculos();
+        }
+        //Recorremos todos los registros para obtener los vehiculos que si podemos solicitar
+        while(res.next()){
+            //Obtenemos la fehca de llegada y de salida del registro de la solicitud
+            String fecha_salida_string=res.getString("fecha_salida");
+            String fecha_llegada_string=res.getString("fecha_llegada");
+            //-------------------------------------------
+            //Verificamos si la fecha solicitada es antes o después de las fechas de la solicitud
+            if(valida_fecha(fecha_solicitada,fecha_llegada_string)==2 || valida_fecha(fecha_solicitada,fecha_salida_string)==0){
+                //Si la fecha solicitada no afecta a las de la solicitud, entonces este vehiculo está disponible
+                datos.add(res.getInt("vehiculo_usado_idvehiculo_usado"));
+            }
+            //-----------------------------------
+            //Verificamos si la fecha solicitada es la misma que la de llegada del vehículo
+            if(valida_fecha(fecha_solicitada,fecha_llegada_string)==1){
+                //Tenemos que verificar la hora de salida con la hora de llegada del vehículo
+                //Separamos las horas de llegada en hora,minuto,pm o am
+                String[] hora_llegada_string=res.getString("hora_llegada").split(":");
+                int hora_llegada=Integer.parseInt(hora_llegada_string[0]);
+                int minuto_llegada=Integer.parseInt(hora_llegada_string[1]);
+                //------------------------------------------------------------
+                String horario=hora_llegada_string[2].split(" ")[1];//Obtenemos si es am o pm
+                //si es pm sumamos 12 horas para tener la horas en sistema de 24 horas
+                if(horario.equals("PM")){
+                    hora_llegada+=12;
+                }else{
+                    //Si es am entonces verificamos si la hora es a media noche
+                    if(hora_llegada==12){
+                        //Si es media noche ponemos la hora en 0
+                        hora_llegada=0;
+                    }
+                }
+                //--------------------
+                //Separamos la hora solicitada en hora,minuto, pm o am
+                String[] hora_solicitada_string=hora_solicitada.split(":");
+                int hora_solic=Integer.parseInt(hora_solicitada_string[0]);
+                int minuto_solic=Integer.parseInt(hora_solicitada_string[1]);
+                //------------------------------------------------------------
+                String horario_solic=hora_solicitada_string[2].split(" ")[1];//Obtenemos si es am o pm
+                //si es pm sumamos 12 horas para tener la horas en sistema de 24 horas
+                if(horario_solic.equals("PM")){
+                    hora_solic+=12;
+                }else{
+                    //Si es am comparamos si es media noche
+                    if(hora_solic==12){
+                        //Si es media noche ponemos la hora en 0.
+                        hora_solic=0;
+                    }
+                }
+                //-----------------
+                
+                //Comparamos las horas y si la solicitada es mayor a la de llegada, entonces el vehículo está disponible
+                if(hora_solic>hora_llegada){
+                    datos.add(res.getInt("vehiculo_usado_idvehiculo_usado"));
+                }else{
+                    if(hora_solic==hora_llegada){
+                        //Si la hora de llegada es igua a la solicitada, entonces comparamos los minutos
+                        //Comparamos los minutos, si el minuto solicitado es mayor que el de llegada, entonces el vehículo está disponible
+                        if(minuto_solic>minuto_llegada){
+                            datos.add(res.getInt("vehiculo_usado_idvehiculo_usado"));
+                        }
+                    }
+                }
+            }
+            //------------------------------------
+        }
+        //-----------------------------
+        return datos;//Regresamos la lista de vehiculos disponibles por fecha
+    }
+    private List<Integer> obtenerTodosVehiculos() {
+        List<Integer> autos=new ArrayList<Integer>();
+        //Obtenermos todos los vehiculos existentes
+        try{
+            ResultSet res=cbd.getTabla("select idvehiculo_usado from vehiculo_usado;", cn);
+            while(res.next()){
+                autos.add(Integer.parseInt(res.getString("idvehiculo_usado")));
+            }
+        }catch(SQLException e){}
+        return autos;
+    }
+    private int valida_fecha(String fecha1,String fecha2){
+        int[] fechas=separarFecha(fecha1,fecha2);
+        int year1=fechas[0];
+        int month1=fechas[1];
+        int day1=fechas[2];
+        int year2=fechas[3];
+        int month2=fechas[4];
+        int day2=fechas[5];
+        if(fecha_antes(year1,month1,day1,year2,month2,day2)){
+            return 0;
+        }
+        if(fecha_igual(year1,month1,day1,year2,month2,day2)){
+            return 1;
+        }
+        if(fecha_despues(year1,month1,day1,year2,month2,day2)){
+            return 2;
+        }
+        return -1;
+    }
+    private int[] separarFecha(String fecha1,String fecha2){
+        //Seaparamos las 2 fechas en año, mes y día y los convertimos a entero
+        String[] fecha1_array=fecha1.split("-");
+        String[] fecha2_array=fecha2.split("-");
+        int[] aux=new int[fecha1_array.length+fecha2_array.length];
+        aux[0]=Integer.parseInt(fecha1_array[0]);
+        aux[1]=Integer.parseInt(fecha1_array[1]);
+        aux[2]=Integer.parseInt(fecha1_array[2]);
+        aux[3]=Integer.parseInt(fecha2_array[0]);
+        aux[4]=Integer.parseInt(fecha2_array[1]);
+        aux[5]=Integer.parseInt(fecha2_array[2]);
+        return aux;
+    }
+    private boolean fecha_despues(int year1,int month1,int day1,int year2,int month2,int day2){
+        //Validar si la primera fecha es despues de la segunda
+        if(year1>year2){
+            return true;
+        }else{
+            if(year1==year2){
+                if(month1>month2){
+                    return true;
+                }else{
+                    if(month1==month2){
+                        if(day1>day2){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    private boolean fecha_igual(int year1,int month1,int day1,int year2,int month2,int day2){
+        //Valida si las dos fechas son iguales
+        if(year1==year2 && month1==month2 && day1==day2){
+            return true;
+        }
+        return false;
+    }
+    private boolean fecha_antes(int year1,int month1,int day1,int year2,int month2,int day2){
+        if(year1<year2){
+            return true;
+        }else{
+            if(year1==year2){
+                if(month1<month2){
+                    return true;
+                }else{
+                    if(month1==month2){
+                        if(day1<day2){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
     private void comboEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpleadosActionPerformed
         // TODO add your handling code here:
         int empleado = comboEmpleados.getSelectedIndex();
@@ -417,7 +701,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         // TODO add your handling code here:
         cmbLocalidad.removeAllItems();
         cmbLocalidad.addItem("Seleccione localidad");
-        List<String> localidades=cbd.acceder("select L.nombre from localidad L inner join estado E on L.estado_idestado=E.idestado where E.nombre='"+cmbEstado.getSelectedItem().toString()+"' order by L.nombre;");
+        List<String> localidades=cbd.acceder("select L.nombre from Localidad L inner join Estado E on L.estado_idestado=E.idestado where E.nombre='"+cmbEstado.getSelectedItem().toString()+"' order by L.nombre;");
         for(int i=0;i<localidades.size();i++){
             cmbLocalidad.addItem(localidades.get(i));
         }
@@ -451,7 +735,9 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             if(insersion){
                 JOptionPane.showMessageDialog(this, "Insersión correcta");
                 PrincipalS.tablasolic.setModel(manager_viaticos.getTasol());
-                this.setVisible(false);
+                //this.setVisible(false);
+                this.dispose();
+                parent.dispose();
             }else{
                 System.out.println("insert into Solicitud_vehiculo (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida,vehiculo_usado_idvehiculo_usado) values('"+fecha_Salida+"','"+
                         cmbLocalidad.getSelectedItem().toString()+","+cmbEstado.getSelectedItem().toString()+"'"

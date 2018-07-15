@@ -10,6 +10,7 @@ import Clases.ExceptionDatosIncompletos;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
@@ -20,6 +21,7 @@ import Clases.ManagerSoViaticos;
 
 import Interfaces.PrincipalS;
 import com.toedter.calendar.JTextFieldDateEditor;
+import java.awt.Frame;
 import java.util.Calendar;
 import java.util.Vector;
 import java.util.Date;
@@ -41,12 +43,14 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     Conexion cbd=new Conexion();
     Connection cn=cbd.getConexion();
     public static boolean imprimirSolicitud=false;
+    Frame parentVehiculo=null;
     /**
      * Creates new form addSolicitudViaticos
      */
     public addSolicitudViaticos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        parentVehiculo=parent;
         JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) date_Salida.getDateEditor();
         JTextFieldDateEditor date_Llegada_Editor=(JTextFieldDateEditor) date_Llegada.getDateEditor();
         date_Salida_Editor.setEditable(false);
@@ -64,10 +68,11 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         
     }
     private void iniciarEstados(){
-        List<String> estados=cbd.acceder("select nombre from estado;");
+        List<String> estados=cbd.acceder("select nombre from Estado;");
         for(int i=0;i<estados.size();i++){
             cmbEstado.addItem(estados.get(i));
         }
+        cmbEstado.setSelectedItem("Nayarit");
     }
 
     /**
@@ -233,6 +238,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             Statement st=cn.createStatement();
             ResultSet rs=st.executeQuery(sql);
             while(rs.next()){
+                
               datos[0]=rs.getInt("max(idSolicitud)");
             //datos[0]=rs.getString("max(idDatos)");
             varida=datos;
@@ -242,8 +248,17 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         }
     }
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-
-        try{
+       if(PrincipalS.conVehiculo==1){
+           SimpleDateFormat format=new SimpleDateFormat("HH:mm");
+         addSolicitudVehiculo asv;
+           asv = new addSolicitudVehiculo(this,parentVehiculo,true,comboEmpleados.getSelectedIndex(),
+           txt_Puesto.getText(),date_Salida.getDate(),date_Llegada.getDate(),
+           hora_Salida.getValue(),hora_Llegada.getValue(),
+           chb_Pernoctado.isSelected(),cmbEstado.getSelectedIndex(),cmbLocalidad.getSelectedIndex(),
+           txt_Actividad.getText());
+           asv.setVisible(true);
+       }else{
+           try{
             verificar_excepcion=true;
             validarDatos(true,"");
             
@@ -256,7 +271,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         }catch(NumberFormatException e){
             JOptionPane.showMessageDialog(this, "El kilometraje debe ser un numero sin letras.");
         }
-       
+       }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -286,7 +301,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         // TODO add your handling code here:
         cmbLocalidad.removeAllItems();
         cmbLocalidad.addItem("Seleccione localidad");
-        List<String> localidades=cbd.acceder("select L.nombre from localidad L inner join estado E on L.estado_idestado=E.idestado where E.nombre='"+cmbEstado.getSelectedItem().toString()+"' order by L.nombre;");
+        List<String> localidades=cbd.acceder("select L.nombre from Localidad L inner join Estado E on L.estado_idestado=E.idestado where E.nombre='"+cmbEstado.getSelectedItem().toString()+"' order by L.nombre;");
         for(int i=0;i<localidades.size();i++){
             cmbLocalidad.addItem(localidades.get(i));
         }
@@ -308,8 +323,8 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             //Con carro
             conexion.getConexion();
             SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
-            boolean insersion = insersion=conexion.ejecutar("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+cmbEstado.getSelectedItem().toString()+"'"
-                + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"')");
+            boolean insersion = insersion=conexion.ejecutar("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida,gastos_comprobar,consejero_presidente) values('"+fecha_Salida+"','"+cmbEstado.getSelectedItem().toString()+"'"
+                + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"','','')");
             
             if(insersion){
                 JOptionPane.showMessageDialog(this, "Insersión correcta");
@@ -323,7 +338,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             String carro = "Sin vehiculo";
             
             String pernoctado="No";
-            SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
+            SimpleDateFormat format=new SimpleDateFormat("HH:mm");
             String fecha_Salida=sdf.format(date_Salida.getDate().getTime());
             String fecha_Llegada=sdf.format(date_Llegada.getDate().getTime());
             System.out.print("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+cmbEstado.getSelectedItem().toString()+"'"

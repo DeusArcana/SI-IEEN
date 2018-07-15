@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -43,7 +45,7 @@ public class ManagerSoViaticos {
         try {
             
             //Consulta de los empleados
-            String sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Estado from solicitud_viatico";
+            String sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Estado from Solicitud_viatico order by idSolicitud DESC";
             //String sql="select * from solicitud_viatico";
             Statement st = cn.createStatement();
             Object datos[] = new Object[taso.getColumnCount()];
@@ -85,7 +87,7 @@ public class ManagerSoViaticos {
         try {
             
             //Consulta de los empleados
-            String sql = "select idsolicitud_vehiculo,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Estado from solicitud_vehiculo";
+            String sql = "select idsolicitud_vehiculo,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Estado from solicitud_vehiculo order by idSolicitud_vehiculo DESC";
             //String sql="select * from solicitud_viatico";
             Statement st = cn.createStatement();
             Object datos[] = new Object[taso.getColumnCount()];
@@ -149,7 +151,7 @@ public class ManagerSoViaticos {
         modelo.addColumn("Lugar");
         try {
             //conexion = db.getConexion();
-            String sql="SELECT O.Folio, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar FROM solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud";
+            String sql="SELECT O.Folio, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud";
             Statement sentencia = cn.createStatement();
             Object datos[] = new Object[5];
             ResultSet rs = sentencia.executeQuery(sql);
@@ -187,7 +189,7 @@ public class ManagerSoViaticos {
             //conexion = db.getConexion();
             Statement sentencia = cn.createStatement();
 
-            ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM solicitud_viatico WHERE Estado = 'C'");
+            ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'C'");
 
             Object datos[] = new Object[6];
             while (rs.next()) {
@@ -219,7 +221,7 @@ public class ManagerSoViaticos {
         modelo.addColumn("Lugar");
 
         try {
-            String sql="SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM solicitud_viatico WHERE Estado = 'P'";
+            String sql="SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'P'";
             //conexion = db.getConexion();
             Statement sentencia = cn.createStatement();
             ResultSet rs = sentencia.executeQuery(sql);
@@ -242,5 +244,123 @@ public class ManagerSoViaticos {
         } 
     }
        
-    
+    /*public DefaultTableModel SolicitudAr() {
+        modelo=new DefaultTableModel();
+        modelo.addColumn("Folio");
+        modelo.addColumn("Monto");
+        modelo.addColumn("Fecha de salida");
+        modelo.addColumn("Fecha de llegada");
+        modelo.addColumn("Lugar");
+        modelo.addColumn("Gastos a comprobar");
+        modelo.addColumn("Informe");
+        try {
+            //conexion = db.getConexion();
+            String sql="SELECT O.Folio, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud";
+            Statement sentencia = cn.createStatement();
+            Object datos[] = new Object[7];
+            ResultSet rs = sentencia.executeQuery(sql);
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<7;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                modelo.addRow(datos);//Añadimos la fila
+           }//while
+            //cn.close();
+
+        } catch (SQLException ex) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta de la tabla Aceptados");
+
+        }finally {
+
+            return modelo;
+        }
+    }*/
+       
+      public DefaultTableModel SolicitudAr() {
+        JTable checks = new JTable();//{  public boolean isCellEditable(int rowIndex, int colIndex){ if(colIndex == 0){return true;} else{return false; } }  };
+        JScrollPane scroll = new JScrollPane();        
+        DefaultTableModel table = new DefaultTableModel();
+        
+        //Creamos la tabla con las caracterisiticas que necesitamos
+        checks.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        checks.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            //Declaramos el titulo de las columnas
+            new String []{
+                "Folio ","Monto", "Fecha de salida", "Fecha de llegada", "Lugar", "Gastos a comprobar", "Informe"
+            }
+        ){
+            //El tipo que sera cada columna, la primera columna un checkbox y los demas seran objetos
+            Class[] types = new Class [] {
+                java.lang.Object.class, 
+                java.lang.Object.class,
+                java.lang.Object.class,
+                java.lang.Object.class,
+                java.lang.Object.class,
+                java.lang.Boolean.class,
+                java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+            //Esto es para indicar que columnas dejaremos editar o no
+            boolean[] canEdit = new boolean [] {
+                false, 
+                false,
+                false,
+                false,
+                false,
+                true, 
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+            
+          }
+        
+        );
+        //Agregamos un scroll a la tabla
+        scroll.setViewportView(checks);
+        scroll.setBounds(30, 130, 1110, 500);
+        
+        table = (DefaultTableModel)checks.getModel();
+        
+        try {
+            //conexion = db.getConexion();
+            String sql="SELECT O.Folio, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud";
+            Statement sentencia = cn.createStatement();
+            Object datos[] = new Object[7];
+            ResultSet rs = sentencia.executeQuery(sql);
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<7;i++){
+                    if(i == 5){
+                        datos[i]=rs.getBoolean(i+1);
+                    }else{
+                                            datos[i] = rs.getObject(i+1);
+                    }
+                    
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+           }//while
+            //cn.close();
+
+        } catch (SQLException ex) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta de la tabla Aceptados");
+
+        }finally {
+
+            return table;
+        }
+      } 
 }

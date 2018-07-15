@@ -16,9 +16,11 @@ import java.sql.Statement;
  * @author usuario
  */
 public class visSolicitudViaticos extends javax.swing.JDialog {
-    Conexion cbd=new Conexion();
-    Connection cn=cbd.getConexion(); 
-    int id;
+
+    Conexion cbd = new Conexion();
+    Connection cn = cbd.getConexion();
+    int id, aoc, ayc;
+
     /**
      * Creates new form visSolicitudViaticos
      */
@@ -26,8 +28,9 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-    public visSolicitudViaticos(){
-        initComponents();
+
+    public visSolicitudViaticos() {
+                initComponents();
     }
 
     /**
@@ -48,7 +51,7 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txt_Actividad = new javax.swing.JTextArea();
+        txt_Motivo = new javax.swing.JTextArea();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txt_Lugar = new javax.swing.JTextField();
@@ -58,6 +61,13 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
         txt_Fecha_Salida = new javax.swing.JTextField();
         txt_Fecha_Llegada = new javax.swing.JTextField();
         txt_Vehiculo = new javax.swing.JTextField();
+        lbl_Folio = new javax.swing.JLabel();
+        txt_Folio = new javax.swing.JTextField();
+        txt_Monto = new javax.swing.JTextField();
+        lbl_Monto = new javax.swing.JLabel();
+        lbl_Motivo = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txt_Actividad = new javax.swing.JTextArea();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -72,9 +82,11 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
         });
 
         pn_addInventario.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pn_addInventario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Nombre:");
+        pn_addInventario.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(63, 43, -1, -1));
 
         txt_Nombre.setEditable(false);
         txt_Nombre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -83,33 +95,43 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
                 txt_NombreFocusLost(evt);
             }
         });
+        pn_addInventario.add(txt_Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 40, 215, -1));
 
         txt_Puesto.setEditable(false);
         txt_Puesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        pn_addInventario.add(txt_Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 69, 215, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Puesto:");
+        pn_addInventario.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 72, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Actividad a realizar:");
+        pn_addInventario.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(402, 13, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Fecha de salida:");
+        pn_addInventario.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 104, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Fecha de llegada:");
+        pn_addInventario.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 133, -1, -1));
 
-        txt_Actividad.setEditable(false);
-        txt_Actividad.setColumns(20);
-        txt_Actividad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txt_Actividad.setRows(5);
-        jScrollPane1.setViewportView(txt_Actividad);
+        txt_Motivo.setEditable(false);
+        txt_Motivo.setColumns(20);
+        txt_Motivo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_Motivo.setRows(5);
+        jScrollPane1.setViewportView(txt_Motivo);
+
+        pn_addInventario.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 170, 350, 50));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Vehiculo:");
+        pn_addInventario.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(463, 144, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Lugar:");
+        pn_addInventario.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(77, 197, -1, -1));
 
         txt_Lugar.setEditable(false);
         txt_Lugar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -118,111 +140,52 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
                 txt_LugarActionPerformed(evt);
             }
         });
+        pn_addInventario.add(txt_Lugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 191, 215, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("Pernoctado:");
+        pn_addInventario.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 163, -1, -1));
 
         lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        pn_addInventario.add(lblAviso, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 225, 15, -1));
 
         jRadioButton1.setEnabled(false);
+        pn_addInventario.add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 163, -1, -1));
 
         txt_Fecha_Salida.setEditable(false);
+        pn_addInventario.add(txt_Fecha_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 104, 215, -1));
 
         txt_Fecha_Llegada.setEditable(false);
+        pn_addInventario.add(txt_Fecha_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 133, 215, -1));
 
         txt_Vehiculo.setEditable(false);
+        pn_addInventario.add(txt_Vehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(522, 144, 248, -1));
 
-        javax.swing.GroupLayout pn_addInventarioLayout = new javax.swing.GroupLayout(pn_addInventario);
-        pn_addInventario.setLayout(pn_addInventarioLayout);
-        pn_addInventarioLayout.setHorizontalGroup(
-            pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_addInventarioLayout.createSequentialGroup()
-                .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pn_addInventarioLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(pn_addInventarioLayout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(txt_Fecha_Salida, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pn_addInventarioLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18)
-                                .addComponent(txt_Fecha_Llegada, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pn_addInventarioLayout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addGap(18, 18, 18)
-                                .addComponent(jRadioButton1)
-                                .addGap(194, 194, 194))
-                            .addGroup(pn_addInventarioLayout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(18, 18, 18)
-                                .addComponent(txt_Lugar, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pn_addInventarioLayout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(txt_Puesto, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pn_addInventarioLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(txt_Nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(pn_addInventarioLayout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(lblAviso, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(52, 52, 52)
-                .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pn_addInventarioLayout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pn_addInventarioLayout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_Vehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(110, 110, 110)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        pn_addInventarioLayout.setVerticalGroup(
-            pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_addInventarioLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pn_addInventarioLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21)
-                        .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(txt_Vehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(pn_addInventarioLayout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                        .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(txt_Nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_Puesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(12, 12, 12)
-                        .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(txt_Fecha_Salida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(9, 9, 9)
-                        .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(txt_Fecha_Llegada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(10, 10, 10)
-                        .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(jRadioButton1))
-                        .addGap(7, 7, 7)
-                        .addGroup(pn_addInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel8)
-                            .addComponent(txt_Lugar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(11, 11, 11)
-                .addComponent(lblAviso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        lbl_Folio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbl_Folio.setText("Folio:");
+        pn_addInventario.add(lbl_Folio, new org.netbeans.lib.awtextra.AbsoluteConstraints(475, 175, -1, -1));
+
+        txt_Folio.setEditable(false);
+        pn_addInventario.add(txt_Folio, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 175, 248, -1));
+
+        txt_Monto.setEditable(false);
+        pn_addInventario.add(txt_Monto, new org.netbeans.lib.awtextra.AbsoluteConstraints(522, 201, 248, -1));
+
+        lbl_Monto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbl_Monto.setText("Monto:");
+        pn_addInventario.add(lbl_Monto, new org.netbeans.lib.awtextra.AbsoluteConstraints(463, 201, -1, -1));
+
+        lbl_Motivo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbl_Motivo.setText("Motivo:");
+        pn_addInventario.add(lbl_Motivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 170, -1, -1));
+
+        txt_Actividad.setEditable(false);
+        txt_Actividad.setColumns(20);
+        txt_Actividad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_Actividad.setRows(5);
+        jScrollPane2.setViewportView(txt_Actividad);
+
+        pn_addInventario.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(522, 13, 358, 110));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
 
@@ -262,33 +225,77 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         // TODO add your handling code here:
         try {
-            Statement sentencia = cn.createStatement();
-            ResultSet rs = sentencia.executeQuery("SELECT * FROM solicitud_viatico WHERE idSolicitud = " + id);
-            String p = "";
-            while (rs.next()) {
-                txt_Nombre.setText(rs.getString("Nombre"));
-                txt_Puesto.setText(rs.getString("Puesto"));
-                txt_Fecha_Salida.setText(rs.getString("Fecha_salida"));
-                txt_Fecha_Llegada.setText(rs.getString("Fecha_llegada"));
-                txt_Lugar.setText(rs.getString("Lugar"));
-                txt_Actividad.setText(rs.getString("Actividad"));
-                txt_Vehiculo.setText("Vehiculo");
-                p = rs.getString("Pernoctado");
-            }
-            int pern = Integer.parseInt(p);
-            if (pern == 1) {
-                jRadioButton1.setSelected(true);
+            if (ayc == 0) {
+                Statement sentencia = cn.createStatement();
+                ResultSet rs = sentencia.executeQuery("SELECT * FROM Solicitud_viatico WHERE idSolicitud = " + id);
+                String p = "";
+                while (rs.next()) {
+                    txt_Nombre.setText(rs.getString("Nombre"));
+                    txt_Puesto.setText(rs.getString("Puesto"));
+                    txt_Fecha_Salida.setText(rs.getString("Fecha_salida"));
+                    txt_Fecha_Llegada.setText(rs.getString("Fecha_llegada"));
+                    txt_Lugar.setText(rs.getString("Lugar"));
+                    txt_Actividad.setText(rs.getString("Actividad"));
+                    txt_Vehiculo.setText(rs.getString("Vehiculo"));
+                    if(aoc == 2){
+                        txt_Motivo.setText(rs.getString("Motivo"));
+                    }else{
+                        jScrollPane1.setVisible(false);
+                        lbl_Motivo.setVisible(false);
+                    }
+                    p = rs.getString("Pernoctado");
+                }
+                if ("Si".equals(p)) {
+                    jRadioButton1.setSelected(true);
+                } else {
+                    jRadioButton1.setSelected(false);
+                }
+                txt_Monto.setVisible(false);
+                lbl_Monto.setVisible(false);
+                txt_Folio.setVisible(false);
+                lbl_Folio.setVisible(false);
             } else {
-                jRadioButton1.setSelected(false);
+                Statement sentencia = cn.createStatement();
+                ResultSet rs = sentencia.executeQuery("SELECT * FROM Solicitud_viatico WHERE idSolicitud = " + id);
+                String p = "";
+                while (rs.next()) {
+                    txt_Nombre.setText(rs.getString("Nombre"));
+                    txt_Puesto.setText(rs.getString("Puesto"));
+                    txt_Fecha_Salida.setText(rs.getString("Fecha_salida"));
+                    txt_Fecha_Llegada.setText(rs.getString("Fecha_llegada"));
+                    txt_Lugar.setText(rs.getString("Lugar"));
+                    txt_Actividad.setText(rs.getString("Actividad"));
+                    txt_Vehiculo.setText(rs.getString("Vehiculo"));
+                    p = rs.getString("Pernoctado");
+                }
+                System.out.print(id);
+                ResultSet rs1 = sentencia.executeQuery("SELECT O.Folio, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.idSolicitud = "+id+" AND S.idSolicitud = O.Solicitud_idSolicitud");
+                while (rs1.next()) {
+                    txt_Folio.setText(rs1.getString("Folio"));
+                    txt_Monto.setText(rs1.getString("Monto"));
+                }
+                if ("Si".equals(p)) {
+                    jRadioButton1.setSelected(true);
+                } else {
+                    jRadioButton1.setSelected(false);
+                }
+                jScrollPane1.setVisible(false);
+                lbl_Motivo.setVisible(false);
             }
+
         } catch (SQLException ex) {
             javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
-        }
+        } /*catch (ClassNotFoundException e) {
+         e.printStackTrace();
+         }//fin del catch*/
     }//GEN-LAST:event_formWindowActivated
-    public void IdUsuario(int id) {
+    public void IdUsuario(int id, int ayc, int aoc) {
         this.id = id;
+        this.ayc = ayc;
+        this.aoc = aoc;
     }
+
     /**
      * @param args the command line arguments
      */
@@ -344,12 +351,19 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblAviso;
+    private javax.swing.JLabel lbl_Folio;
+    private javax.swing.JLabel lbl_Monto;
+    private javax.swing.JLabel lbl_Motivo;
     private javax.swing.JPanel pn_addInventario;
     private javax.swing.JTextArea txt_Actividad;
     private javax.swing.JTextField txt_Fecha_Llegada;
     private javax.swing.JTextField txt_Fecha_Salida;
+    private javax.swing.JTextField txt_Folio;
     private javax.swing.JTextField txt_Lugar;
+    private javax.swing.JTextField txt_Monto;
+    private javax.swing.JTextArea txt_Motivo;
     private javax.swing.JTextField txt_Nombre;
     private javax.swing.JTextField txt_Puesto;
     private javax.swing.JTextField txt_Vehiculo;
