@@ -184,17 +184,18 @@ public class ManagerSoViaticos {
         modelo.addColumn("Fecha de salida");
         modelo.addColumn("Fecha de llegada");
         modelo.addColumn("Lugar");
+        modelo.addColumn("Motivo");
         
         try {
             //conexion = db.getConexion();
             Statement sentencia = cn.createStatement();
 
-            ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'C'");
+            ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar,Motivo FROM Solicitud_viatico WHERE Estado = 'C' order by idSolicitud DESC");
 
-            Object datos[] = new Object[6];
+            Object datos[] = new Object[7];
             while (rs.next()) {
 
-                for(int i = 0;i<6;i++){
+                for(int i = 0;i<7;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -335,7 +336,7 @@ public class ManagerSoViaticos {
         
         try {
             //conexion = db.getConexion();
-            String sql="SELECT O.Folio, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud";
+            String sql="SELECT O.Folio, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud ORDER BY O.FOLIO DESC";
             Statement sentencia = cn.createStatement();
             Object datos[] = new Object[7];
             ResultSet rs = sentencia.executeQuery(sql);
@@ -356,11 +357,11 @@ public class ManagerSoViaticos {
             //cn.close();
 
         } catch (SQLException ex) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta de la tabla Aceptados");
+            javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta de Solicitudes Archivadas");
 
         }finally {
 
             return table;
         }
-      } 
+      }
 }

@@ -29,6 +29,7 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -141,15 +142,14 @@ public class PrincipalS extends javax.swing.JFrame {
         jPanel24 = new javax.swing.JPanel();
         jScrollPane14 = new javax.swing.JScrollPane();
         tablonaceptadas = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
-        solicanceladas = new javax.swing.JPanel();
+        solicarchivadas = new javax.swing.JPanel();
         jPanel25 = new javax.swing.JPanel();
-        jScrollPane15 = new javax.swing.JScrollPane();
-        tabloncanceladas = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
-        jLabel4 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tablonarchivadas = new javax.swing.JTable();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        tablaact2 = new javax.swing.JTable();
+        solicanceladas = new javax.swing.JPanel();
+        jPanel26 = new javax.swing.JPanel();
+        jScrollPane16 = new javax.swing.JScrollPane();
+        tabloncanceladas = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel28 = new javax.swing.JLabel();
         informe = new javax.swing.JPanel();
         jlb = new javax.swing.JLabel();
@@ -619,9 +619,8 @@ public class PrincipalS extends javax.swing.JFrame {
         jPanel23Layout.setVerticalGroup(
             jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel23Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 43, Short.MAX_VALUE))
         );
 
         solipendientes.add(jPanel23);
@@ -662,9 +661,8 @@ public class PrincipalS extends javax.swing.JFrame {
         jPanel24Layout.setVerticalGroup(
             jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel24Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 43, Short.MAX_VALUE))
         );
 
         soliaceptadas.add(jPanel24);
@@ -672,29 +670,12 @@ public class PrincipalS extends javax.swing.JFrame {
 
         menutablones.addTab("Solicitudes Aceptadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), soliaceptadas); // NOI18N
 
-        solicanceladas.addMouseListener(new java.awt.event.MouseAdapter() {
+        solicarchivadas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                solicanceladasMouseReleased(evt);
+                solicarchivadasMouseReleased(evt);
             }
         });
-        solicanceladas.setLayout(null);
-
-        tabloncanceladas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Nombre", "Puesto", "Fecha_salida", "Fecha_llegada", "Lugar"
-            }
-        ));
-        tabloncanceladas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tabloncanceladasMouseReleased(evt);
-            }
-        });
-        jScrollPane15.setViewportView(tabloncanceladas);
-
-        jLabel4.setText("  Solicitudes Canceladas");
+        solicarchivadas.setLayout(null);
 
         jScrollPane4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -717,59 +698,63 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(tablonarchivadas);
 
-        jScrollPane5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jScrollPane5MouseReleased(evt);
-            }
-        });
-
-        tablaact2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        tablaact2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablaact2MouseReleased(evt);
-            }
-        });
-        jScrollPane5.setViewportView(tablaact2);
-
         javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
         jPanel25.setLayout(jPanel25Layout);
         jPanel25Layout.setHorizontalGroup(
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane15, javax.swing.GroupLayout.DEFAULT_SIZE, 1320, Short.MAX_VALUE)
-            .addGroup(jPanel25Layout.createSequentialGroup()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 1084, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane4)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1320, Short.MAX_VALUE))
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 1320, Short.MAX_VALUE)
         );
         jPanel25Layout.setVerticalGroup(
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel25Layout.createSequentialGroup()
-                .addGap(217, 217, 217)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(46, Short.MAX_VALUE))
-            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel25Layout.createSequentialGroup()
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(45, 45, 45)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 52, Short.MAX_VALUE)))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 45, Short.MAX_VALUE))
         );
 
-        solicanceladas.add(jPanel25);
+        solicarchivadas.add(jPanel25);
         jPanel25.setBounds(0, 0, 1320, 530);
 
-        menutablones.addTab("Solicitudes Archivadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), solicanceladas); // NOI18N
+        menutablones.addTab("Solicitudes Archivadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), solicarchivadas); // NOI18N
+
+        solicanceladas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                solicanceladasMouseReleased(evt);
+            }
+        });
+        solicanceladas.setLayout(null);
+
+        tabloncanceladas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nombre", "Puesto", "Fecha_salida", "Fecha_llegada", "Lugar"
+            }
+        ));
+        tabloncanceladas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tabloncanceladasMouseReleased(evt);
+            }
+        });
+        jScrollPane16.setViewportView(tabloncanceladas);
+
+        javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
+        jPanel26.setLayout(jPanel26Layout);
+        jPanel26Layout.setHorizontalGroup(
+            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane16, javax.swing.GroupLayout.DEFAULT_SIZE, 1320, Short.MAX_VALUE)
+        );
+        jPanel26Layout.setVerticalGroup(
+            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel26Layout.createSequentialGroup()
+                .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 46, Short.MAX_VALUE))
+        );
+
+        solicanceladas.add(jPanel26);
+        jPanel26.setBounds(0, 0, 1320, 530);
+
+        menutablones.addTab("Solicitudes Canceladas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), solicanceladas); // NOI18N
 
         javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
         jPanel20.setLayout(jPanel20Layout);
@@ -1117,7 +1102,7 @@ public class PrincipalS extends javax.swing.JFrame {
         tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
         tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
         Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
-        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0");
+        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
     }//GEN-LAST:event_formWindowOpened
 
     private void mi_inventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_inventarioActionPerformed
@@ -1260,7 +1245,7 @@ public class PrincipalS extends javax.swing.JFrame {
                         while (rs.next()) {
                             idSolicitud = rs.getString("Solicitud_idSolicitud");
                         }
-                        sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'AR' WHERE (idSolicitud = " + idSolicitud + ")");
+                        sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'AR', gastos_comprobar = 'false' WHERE (idSolicitud = " + idSolicitud + ")");
                         javax.swing.JOptionPane.showMessageDialog(null, "Solicitud archivada");
                     }
                 }
@@ -1274,7 +1259,9 @@ public class PrincipalS extends javax.swing.JFrame {
         } else {
             javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
         }
+        tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
         tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
+        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
     }//GEN-LAST:event_AsignarMontoActionPerformed
 
     private void AceptarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarPActionPerformed
@@ -1382,6 +1369,7 @@ public class PrincipalS extends javax.swing.JFrame {
         } else {
             javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
         }
+        tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
         tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
 
     }//GEN-LAST:event_AceptarCActionPerformed
@@ -1463,17 +1451,6 @@ public class PrincipalS extends javax.swing.JFrame {
         conVehiculo = 1;
         asv.setVisible(true);
     }//GEN-LAST:event_SolicitarVehiculo1ActionPerformed
-
-    private void tabloncanceladasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabloncanceladasMouseReleased
-        // TODO add your handling code here:
-        if (SwingUtilities.isRightMouseButton(evt)) {
-            int r = tabloncanceladas.rowAtPoint(evt.getPoint());
-            if (r >= 0 && r < tabloncanceladas.getRowCount()) {
-                tabloncanceladas.setRowSelectionInterval(r, r);
-            }
-            MenuTablonC.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-        }//clic derecho
-    }//GEN-LAST:event_tabloncanceladasMouseReleased
 
     private void tablonaceptadasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablonaceptadasMouseReleased
         // TODO add your handling code here:
@@ -1604,8 +1581,8 @@ public class PrincipalS extends javax.swing.JFrame {
             this.tablainfo1.setModel(modelo);
             try {
                 Statement sentencia = cn.createStatement();
-                ResultSet rs = sentencia.executeQuery("SELECT I.Id_Informe, O.Folio, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'A' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND (I.Id_Informe LIKE '%" + txtbusquedasoli2.getText()
-                        + "%' OR O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%' OR I.importe_total LIKE '%" + txtbusquedasoli2.getText()+ "%') ");
+                ResultSet rs = sentencia.executeQuery("SELECT I.Id_Informe, O.Folio, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 AND (I.Id_Informe LIKE '%" + txtbusquedasoli2.getText()
+                        + "%' OR O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%' OR I.importe_total LIKE '%" + txtbusquedasoli2.getText() + "%') ORDER BY I.Id_Informe DESC");
 
                 String solicitud[] = new String[5];
                 while (rs.next()) {
@@ -1783,6 +1760,7 @@ public class PrincipalS extends javax.swing.JFrame {
         } else {
             javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
         }
+        tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
         tablonpendientes.setModel(manager_soviaticos.SolicitudP());
     }//GEN-LAST:event_CancelarPActionPerformed
 
@@ -1811,9 +1789,9 @@ public class PrincipalS extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_soliaceptadasMouseReleased
 
-    private void solicanceladasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_solicanceladasMouseReleased
+    private void solicarchivadasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_solicarchivadasMouseReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_solicanceladasMouseReleased
+    }//GEN-LAST:event_solicarchivadasMouseReleased
 
     private void txtbusquedasoli1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedasoli1KeyPressed
         // TODO add your handling code here:
@@ -1865,7 +1843,6 @@ public class PrincipalS extends javax.swing.JFrame {
                 }
             };
             modelo.addColumn("Folio");
-            modelo.addColumn("Nombre");
             modelo.addColumn("Monto");
             modelo.addColumn("Fecha de salida");
             modelo.addColumn("Fecha de llegada");
@@ -1875,18 +1852,17 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = sentencia.executeQuery("SELECT O.Folio, S.Nombre, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud AND (O.Folio LIKE '%" + txtbusquedasoli1.getText() + "%'"
-                        + "OR S.Nombre LIKE '%" + txtbusquedasoli1.getText() + "%' OR O.Monto LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
+                ResultSet rs = sentencia.executeQuery("SELECT O.Folio, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud AND (O.Folio LIKE '%" + txtbusquedasoli1.getText() + "%'"
+                        + "%' OR O.Monto LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR S.Lugar LIKE '%" + txtbusquedasoli1.getText() + "%') ");
 
-                String solicitud[] = new String[6];
+                String solicitud[] = new String[5];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("Folio");
-                    solicitud[1] = rs.getString("Nombre");
-                    solicitud[2] = rs.getString("Monto");
-                    solicitud[3] = rs.getString("Fecha_salida");
-                    solicitud[4] = rs.getString("Fecha_llegada");
-                    solicitud[5] = rs.getString("Lugar");
+                    solicitud[1] = rs.getString("Monto");
+                    solicitud[2] = rs.getString("Fecha_salida");
+                    solicitud[3] = rs.getString("Fecha_llegada");
+                    solicitud[4] = rs.getString("Lugar");
                     modelo.addRow(solicitud);
                 }
 
@@ -1896,6 +1872,9 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         }
         if (menutablones.getSelectedIndex() == 2) {
+            tablonarchivadas.setModel(SolicitudArB());
+        }
+        if (menutablones.getSelectedIndex() == 3) {
             modelo = new DefaultTableModel() {
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
                     return false;
@@ -1915,7 +1894,7 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar, Motivo FROM Solicitud_viatico WHERE Estado = 'C' AND (idSolicitud LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR Nombre LIKE '%" + txtbusquedasoli1.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
-                        + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR Motivo LIKE '%" + txtbusquedasoli1.getText() + "%')");
+                        + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR Motivo LIKE '%" + txtbusquedasoli1.getText() + "%') order by idSolicitud DESC");
 
                 String solicitud[] = new String[7];
                 while (rs.next()) {
@@ -1967,6 +1946,7 @@ public class PrincipalS extends javax.swing.JFrame {
         } else {
             javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
         }
+        tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
         tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
     }//GEN-LAST:event_CancelarAActionPerformed
 
@@ -2007,7 +1987,8 @@ public class PrincipalS extends javax.swing.JFrame {
             GaTot.setVisible(false);
             jScrollPane3.setVisible(false);
             jScrollPane1.setVisible(true);
-            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+            SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
         } else {
         }
     }//GEN-LAST:event_btnregresar1ActionPerformed
@@ -2287,6 +2268,7 @@ public class PrincipalS extends javax.swing.JFrame {
         } else {
             javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
         }
+        tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
         tablonarchivadas.setModel(manager_soviaticos.SolicitudA());
     }//GEN-LAST:event_CancelarArActionPerformed
 
@@ -2297,6 +2279,31 @@ public class PrincipalS extends javax.swing.JFrame {
             if (r >= 0 && r < tablonarchivadas.getRowCount()) {
                 tablonarchivadas.setRowSelectionInterval(r, r);
             }
+            int k = tablonarchivadas.getSelectedRow();
+            if (k >= 0) {
+                String folio = tablonarchivadas.getValueAt(k, 0).toString();
+                boolean gastosac = (boolean) tablonarchivadas.getValueAt(k, 5);
+                String idSolicitud = "";
+                try {
+
+                    Statement sentencia = cn.createStatement();
+                    ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
+                    while (rs.next()) {
+                        idSolicitud = rs.getString("Solicitud_idSolicitud");
+                    }
+                    sentencia.executeUpdate("UPDATE Solicitud_viatico SET gastos_comprobar = '" + gastosac + "' WHERE (idSolicitud = " + idSolicitud + ")");
+                    javax.swing.JOptionPane.showMessageDialog(null, "Gastos a comprobar");
+
+                } catch (SQLException ex) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+
+                } catch (NumberFormatException exp) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Ingresar solo números");
+                }//fin del catch
+
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            }
             MenuTablonAr.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
         }//clic derecho
     }//GEN-LAST:event_tablonarchivadasMouseReleased
@@ -2304,14 +2311,6 @@ public class PrincipalS extends javax.swing.JFrame {
     private void jScrollPane4MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane4MouseReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_jScrollPane4MouseReleased
-
-    private void tablaact2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaact2MouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tablaact2MouseReleased
-
-    private void jScrollPane5MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane5MouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jScrollPane5MouseReleased
 
     private void tablaactFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tablaactFocusLost
         // TODO add your handling code here:
@@ -2332,6 +2331,21 @@ public class PrincipalS extends javax.swing.JFrame {
         }
         GaTot.setText(valor + "");
     }//GEN-LAST:event_tablaactFocusGained
+
+    private void tabloncanceladasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabloncanceladasMouseReleased
+        // TODO add your handling code here:
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            int r = tabloncanceladas.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tabloncanceladas.getRowCount()) {
+                tabloncanceladas.setRowSelectionInterval(r, r);
+            }
+            MenuTablonC.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
+    }//GEN-LAST:event_tabloncanceladasMouseReleased
+
+    private void solicanceladasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_solicanceladasMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_solicanceladasMouseReleased
 
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {
@@ -2390,6 +2404,90 @@ public class PrincipalS extends javax.swing.JFrame {
         } catch (SQLException ex) {
             javax.swing.JOptionPane.showMessageDialog(null, "Error en la consultaF");
 
+        }
+    }
+
+    public DefaultTableModel SolicitudArB() {
+        JTable checks = new JTable();//{  public boolean isCellEditable(int rowIndex, int colIndex){ if(colIndex == 0){return true;} else{return false; } }  };
+        JScrollPane scroll = new JScrollPane();
+        DefaultTableModel table = new DefaultTableModel();
+
+        //Creamos la tabla con las caracterisiticas que necesitamos
+        checks.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        checks.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                //Declaramos el titulo de las columnas
+                new String[]{
+                    "Folio ", "Monto", "Fecha de salida", "Fecha de llegada", "Lugar", "Gastos a comprobar", "Informe"
+                }
+        ) {
+            //El tipo que sera cada columna, la primera columna un checkbox y los demas seran objetos
+            Class[] types = new Class[]{
+                java.lang.Object.class,
+                java.lang.Object.class,
+                java.lang.Object.class,
+                java.lang.Object.class,
+                java.lang.Object.class,
+                java.lang.Boolean.class,
+                java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+            //Esto es para indicar que columnas dejaremos editar o no
+            boolean[] canEdit = new boolean[]{
+                false,
+                false,
+                false,
+                false,
+                false,
+                true,
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+
+        }
+        );
+        //Agregamos un scroll a la tabla
+        scroll.setViewportView(checks);
+        scroll.setBounds(30, 130, 1110, 500);
+
+        table = (DefaultTableModel) checks.getModel();
+
+        try {
+            //conexion = db.getConexion();
+            String sql = "SELECT O.Folio, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud AND (O.Folio LIKE '%" + txtbusquedasoli1.getText() + "%'"
+                    + "OR O.Monto LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Lugar LIKE '%" + txtbusquedasoli1.getText() + "%'"
+                    + "OR S.gastos_comprobar LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Reporte LIKE '%" + txtbusquedasoli1.getText() + "%')ORDER BY O.FOLIO DESC";
+            Statement sentencia = cn.createStatement();
+            Object datos[] = new Object[7];
+            ResultSet rs = sentencia.executeQuery(sql);
+            //Llenar tabla
+            while (rs.next()) {
+
+                for (int i = 0; i < 7; i++) {
+                    if (i == 5) {
+                        datos[i] = rs.getBoolean(i + 1);
+                    } else {
+                        datos[i] = rs.getObject(i + 1);
+                    }
+
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+            }//while
+            //cn.close();
+
+        } catch (SQLException ex) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta de Solicitudes Archivadas");
+
+        } finally {
+
+            return table;
         }
     }
 
@@ -2485,7 +2583,6 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -2498,16 +2595,16 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel25;
+    private javax.swing.JPanel jPanel26;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane14;
-    private javax.swing.JScrollPane jScrollPane15;
+    private javax.swing.JScrollPane jScrollPane16;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel jlb;
@@ -2519,11 +2616,11 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JMenuItem mi_inventario;
     private javax.swing.JPanel soliaceptadas;
     private javax.swing.JPanel solicanceladas;
+    private javax.swing.JPanel solicarchivadas;
     private javax.swing.JPanel solicitudviaticos1;
     public static javax.swing.JTabbedPane solicviaticos;
     private javax.swing.JPanel solipendientes;
     private javax.swing.JTable tablaact;
-    private javax.swing.JTable tablaact2;
     private javax.swing.JTable tablainfo;
     private javax.swing.JTable tablainfo1;
     public static javax.swing.JTable tablasolic;
