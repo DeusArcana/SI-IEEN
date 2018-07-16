@@ -7,6 +7,7 @@ package Interfaces;
 
 
 import Clases.Archivo;
+import Clases.CrearValeRecoleccionDeBienes;
 import Clases.CrearValeResguardoBienes;
 import Clases.CrearValeSalidaAlmacen;
 import javax.swing.ImageIcon;
@@ -92,6 +93,9 @@ public class Principal extends javax.swing.JFrame {
     ManagerInventarioGranel manager_inventario_granel;
     ManagerDocumentos manager_asignar;
     Excel excel;
+    
+    Thread hilo;
+    boolean bandera;
     
     public String Responsable,Cargo,Area,Tipo_de_uso,Municipio,Localidad,Responsable1,Cargo1,Area1,Tipo_de_uso1,Municipio1,Localidad1,idAtenderSalida;
     
@@ -3241,6 +3245,20 @@ public void metodoVale2(){
                         }
 }
 
+public void metodoValeRecoleccion(){
+    // TODO add your handling code here:
+        
+        Object[] botones = {"Si", "No", "Cancelar"};
+                        int opcion = JOptionPane.showOptionDialog(this, "¿Al generar el vale desea abrirlo?", "Confirmación",
+                                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
+
+                        if (opcion == 0) {
+                            metodoRecoleccion(1);
+                        } else if (opcion == 1) {
+                            metodoRecoleccion(0);
+                        }
+}
+
     public void metodo(int res) {
         
         //Instanciamos el objeto Calendar
@@ -3328,6 +3346,79 @@ public void metodoVale2(){
         try {
             ob.createTicket("resguardo_"+dia+"_"+(mes+1)+"_"+año+"_"+hora+"_"+minuto+"_"+segundo, 
                     res, cadena1, cadena2,v,datosempleado,numeroResguardo);
+        } catch (DocumentException ex) {
+            Logger.getLogger(addUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void metodoRecoleccion(int res) {
+        
+        //Instanciamos el objeto Calendar
+        //en fecha obtenemos la fecha y hora del sistema
+        Calendar fecha = new GregorianCalendar();
+        //Obtenemos el valor del año, mes, día,
+        //hora, minuto y segundo del sistema
+        //usando el método get y el parámetro correspondiente
+        int año = fecha.get(Calendar.YEAR);
+        int mes = fecha.get(Calendar.MONTH);
+        int dia = fecha.get(Calendar.DAY_OF_MONTH);
+        int hora = fecha.get(Calendar.HOUR_OF_DAY);
+        int minuto = fecha.get(Calendar.MINUTE);
+        int segundo = fecha.get(Calendar.SECOND);
+
+        Date date = new Date();
+        DateFormat hourdateFormat = new SimpleDateFormat("dd_MM_yyyy HH_mm_ss");
+
+        //Parse
+        String a = hourdateFormat.format(date);
+
+        String cadena = "vale_salida";
+
+        String cadena1 = "" + dia + "/" + (mes + 1) + "/" + año;
+        String cadena2 = "" + hora + ":" + minuto + ":" + segundo;
+
+        System.out.println("" + cadena1 + " " + cadena2);
+        Vector v = new Vector();
+        Vector vfaltante = new Vector();
+        
+        CrearValeRecoleccionDeBienes ob = new CrearValeRecoleccionDeBienes();
+        
+        String datosempleado = manager_inventario_granel.obtenerDatosResponsableResguardo(comboEmpleadoR.getSelectedItem().toString());
+        //String numeroResguardo = manager_inventario_granel.obtenerNumeroResguardo("" + año);
+        for (int i = 0; i < tablaRecoleccion.getRowCount(); i++) {
+
+            if (Boolean.parseBoolean(tablaRecoleccion.getValueAt(i, 0).toString())) {
+                try{
+                v.add(tablaRecoleccion.getValueAt(i, 2).toString()+",,"
+                        +tablaRecoleccion.getValueAt(i, 6).toString()+",,"
+                            +tablaRecoleccion.getValueAt(i, 4).toString()+",,"
+                                    +tablaRecoleccion.getValueAt(i, 5).toString()+",,"
+                                                +tablaRecoleccion.getValueAt(i, 7).toString()+",,"
+                                                    +tablaRecoleccion.getValueAt(i, 8).toString()+",,");
+                }catch(NullPointerException e){
+                    
+                }
+            }else{
+                try{
+                vfaltante.add(tablaRecoleccion.getValueAt(i, 2).toString()+",,"
+                        +tablaRecoleccion.getValueAt(i, 6).toString()+",,"
+                            +tablaRecoleccion.getValueAt(i, 4).toString()+",,"
+                                    +tablaRecoleccion.getValueAt(i, 5).toString()+",,"
+                                                +tablaRecoleccion.getValueAt(i, 7).toString()+",,"
+                                                    +tablaRecoleccion.getValueAt(i, 8).toString()+",,");
+                }catch(NullPointerException e){
+                    
+                }
+            }
+            
+
+        }//Llenar vector de los codigos de barras
+        
+        String recoleccion = "Falta esta parte";
+        
+        try {
+            ob.createTicket("recoleccion_"+dia+"_"+(mes+1)+"_"+año+"_"+hora+"_"+minuto+"_"+segundo, 
+                    res, cadena1, cadena2,v,vfaltante, datosempleado, recoleccion);
         } catch (DocumentException ex) {
             Logger.getLogger(addUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -3588,18 +3679,36 @@ public void metodoVale2(){
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         // int limite = Integer.parseInt(campoHasta.getText());
+        
 
         String sub1 = campoip1.getValue().toString();
         String sub2 = campoip2.getValue().toString();
         String sub3 = campoip3.getValue().toString();
         int limite = Integer.parseInt(campoip4.getValue().toString());
-        try {
-            // TODO add your handling code here:
+        bandera = true;
+        // TODO add your handling code here:
+        hilo = new Thread() {
+            public void run() {
+                //Ciclo infinito
+                while (bandera) {
 
-            checkHostsReScan(sub1,sub2,sub3, limite);
-        } catch (IOException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                    try {
+                        sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        checkHostsReScan(sub1, sub2, sub3, limite);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+            }//run
+        };
+        jButton1.setEnabled(false);
+        hilo.start();
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tablaIPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaIPMouseClicked
@@ -4608,6 +4717,7 @@ public void metodoVale2(){
 
     private void btnEntregarRecoleccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntregarRecoleccionActionPerformed
         // TODO add your handling code here:
+        
         if(manager_permisos.accesoModulo("actualizar","Resguardo",Username)){
             //Declaramos las variables donde guardaremos los datos para actualizarlos y entregarlos
             String ids = "";
@@ -4624,11 +4734,11 @@ public void metodoVale2(){
                     if(!tablaRecoleccion.getValueAt(i, 10).toString().equals("Selecciona la nueva ubicación...")){
 
                         //Vemos si tiene observaciones el equipo entregado
-                        if(tablaRecoleccion.getValueAt(i, 8).toString().equals("")){
+                        if(tablaRecoleccion.getValueAt(i, 9).toString().equals("")){
                             //Si esta vacío entonces concatenamos un espacio en blanco
                             observaciones += " ,,";
                         }else{
-                            observaciones += tablaRecoleccion.getValueAt(i, 8).toString()+",,";
+                            observaciones += tablaRecoleccion.getValueAt(i, 9).toString()+",,";
                         }
 
                         ids += tablaRecoleccion.getValueAt(i, 1).toString()+",";
@@ -4657,7 +4767,8 @@ public void metodoVale2(){
                 //Se realiza la operación de entrega de productos y su respectivo cambio
                 if(manejador_inventario.recoleccionInventario(idVales,Claves,Ubicaciones,Observaciones)){
 
-                    JOptionPane.showMessageDialog(this,"Se registro el movimiento de recolección exitosamente.");
+                   // JOptionPane.showMessageDialog(this,"Se registro el movimiento de recolección exitosamente.");
+                    metodoValeRecoleccion();
                     //Actualizamos el combo de los empleados que tienen productos asignados
                     comboEmpleadoR.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
                     comboEmpleadoR.addItem("Seleccione al empleado...");
@@ -5121,6 +5232,7 @@ public void metodoVale2(){
 
             }//if
         }//for
+        
         this.setTitle("Sistema Integral - Instituto Estatal Electoral de Nayarit");
         limpiarTablas();
         for (int i = 0; i < IPS.size(); i = i + 2) {
@@ -5129,6 +5241,8 @@ public void metodoVale2(){
 
             //System.err.println("" + IPS.elementAt(i));
         }//for
+        bandera = false;
+        jButton1.setEnabled(true);
     }//method
     
     public void actualizarEstado(int i,int iterator){

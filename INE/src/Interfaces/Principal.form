@@ -3141,16 +3141,11 @@
                                               <Component id="comboEmpleadoR" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
                                               <Component id="btnEntregarRecoleccion" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="32767" attributes="0"/>
                                           </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="lb_objetos_asignados1" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="jScrollPane34" min="-2" pref="1281" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace min="35" pref="1183" max="32767" attributes="0"/>
-                                          </Group>
+                                          <Component id="lb_objetos_asignados1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jScrollPane34" min="-2" pref="1281" max="-2" attributes="0"/>
                                       </Group>
+                                      <EmptySpace max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
