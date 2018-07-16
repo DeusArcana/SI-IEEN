@@ -5,10 +5,21 @@
  */
 package Interfaces;
 
+import Clases.CrearDocumento;
 import Clases.ManagerDocumentos;
+import Clases.ManagerInventarioGranel;
 import Clases.ManagerUsers;
 import Clases.ManagerSolicitud;
 import Clases.ManagerPermisos;
+import com.itextpdf.text.DocumentException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JTable;
 import javax.swing.JOptionPane;
@@ -20,7 +31,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Ventana_Documentos extends javax.swing.JDialog {
     ManagerDocumentos manager_documentos;
-    
+    ManagerInventarioGranel manager_inventario_granel;
     public DefaultTableModel modeloProductos,modeloDocumentoProductos;
     int id_documento;
     String status;
@@ -36,6 +47,7 @@ public class Ventana_Documentos extends javax.swing.JDialog {
         
         modeloProductos = (DefaultTableModel)tablaProductosSeleccionar.getModel();
         modeloDocumentoProductos = (DefaultTableModel)tablaDocumentosProductos.getModel();
+        manager_inventario_granel = new ManagerInventarioGranel();
         
         this.setTitle("Anexar productos a un documento");
         this.setLocationRelativeTo(null);
@@ -331,11 +343,67 @@ public class Ventana_Documentos extends javax.swing.JDialog {
             tablaDocumentos.setModel(manager_documentos.getDocumentos());
             tablaProductosSeleccionar.setModel(modeloProductos);
             tablaDocumentosProductos.setModel(modeloDocumentoProductos);
+            metodoGenerarDocumento();
         }//if
         
         
     }//GEN-LAST:event_FinalizarActionPerformed
+    
+    public void metodoGenerarDocumento() {
+        // TODO add your handling code here:
 
+        Object[] botones = {"Si", "No", "Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this, "¿Al generar el documento desea abrirlo?", "Confirmación",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
+
+        if (opcion == 0) {
+            metodoDocumento(1);
+        } else if (opcion == 1) {
+            metodoDocumento(0);
+        }
+    }
+
+    public void metodoDocumento(int res) {
+
+        //Instanciamos el objeto Calendar
+        //en fecha obtenemos la fecha y hora del sistema
+        Calendar fecha = new GregorianCalendar();
+        //Obtenemos el valor del año, mes, día,
+        //hora, minuto y segundo del sistema
+        //usando el método get y el parámetro correspondiente
+        int año = fecha.get(Calendar.YEAR);
+        int mes = fecha.get(Calendar.MONTH);
+        int dia = fecha.get(Calendar.DAY_OF_MONTH);
+        int hora = fecha.get(Calendar.HOUR_OF_DAY);
+        int minuto = fecha.get(Calendar.MINUTE);
+        int segundo = fecha.get(Calendar.SECOND);
+
+        Date date = new Date();
+        DateFormat hourdateFormat = new SimpleDateFormat("dd_MM_yyyy HH_mm_ss");
+
+        //Parse
+        String a = hourdateFormat.format(date);
+
+        String cadena = "vale_salida";
+
+        String cadena1 = "" + dia + "/" + (mes + 1) + "/" + año;
+        String cadena2 = "" + hora + ":" + minuto + ":" + segundo;
+
+        System.out.println("" + cadena1 + " " + cadena2);
+        Vector datos = new Vector();
+
+
+        CrearDocumento ob = new CrearDocumento();
+        datos.add(manager_inventario_granel.obtenerDatosDocumento(id_documento));
+        
+
+        try {
+            ob.createTicket("documento_" + dia + "_" + (mes + 1) + "_" + año + "_" + hora + "_" + minuto + "_" + segundo,
+                    res, datos);
+        } catch (DocumentException ex) {
+            Logger.getLogger(Ventana_Documentos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * @param args the command line arguments
      */
