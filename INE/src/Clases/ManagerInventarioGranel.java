@@ -286,7 +286,7 @@ public class ManagerInventarioGranel {
         String datos = "";
         try {
             //   No inventario, no serie, descripcion, marca, modelo, color
-            //Obtenemos los datos del empleado
+            //Obtenemos los datos del empleado                     0                    1         2           3           4
             String sql = "select concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m), a.Area, pt.Puesto,municipio, localidad  from empleados "
                     + "e inner join area a on (a.ID_Area = e.area) inner join puestos_trabajo pt on (pt.ID_Puesto = e.puesto) "
                     +"where concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) = '"+usuario+"';";
@@ -312,6 +312,41 @@ public class ManagerInventarioGranel {
         
     }//obtenerDatosConsumible
     
+    
+    public String obtenerDatosDocumento(int clave) {
+        String datos = "";
+        try {
+            //   No inventario, no serie, descripcion, marca, modelo, color
+            //Obtenemos los datos del empleado
+            String sql = "select id.ID_Producto, i.no_serie, i.descripcion, i.marca,i.modelo, i.color from inv_docs id " +
+                "inner join inventario i on (concat(i.Folio,'-',i.Numero,i.Extension) = id.ID_Producto) " +
+                "inner join productos_asignados pa on (pa.ID_Producto = id.ID_Producto) " +
+                "where id.ID_Documento = "+clave+";";
+            
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+         
+            while (rs.next()) {
+                for (int i = 1; i < 7; i++) {
+                    if(i != 6){
+                        datos += rs.getString(i) + ",,";
+                    }else{
+                        datos += rs.getString(i) + "//";
+                    }
+                }
+                
+            }
+
+            conexion.close();
+            return datos;
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los datos del consumible en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        } 
+        
+    }//obtenerDatosConsumible
     
     
     public String obtenerNumeroResguardo(String año) {

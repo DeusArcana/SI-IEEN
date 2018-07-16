@@ -200,7 +200,7 @@ public class CrearValeRecoleccionDeBienes {
             float[] medidaCeldasFecha = {0.55f, 0.55f, 2f};
             noResguardo.setWidths(medidaCeldasFecha);
             
-            noResguardoCell = new PdfPCell(new Phrase("No. Resguardo", subFont2));
+            noResguardoCell = new PdfPCell(new Phrase("No. Recolección", subFont2));
             noResguardoCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
             noResguardoCell.setBackgroundColor(BaseColor.LIGHT_GRAY);
             numero = new PdfPCell(new Phrase(""+recoleccion, subFont2));

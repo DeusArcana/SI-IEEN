@@ -3065,7 +3065,7 @@ public class Principal extends javax.swing.JFrame {
            tablaRecoleccion.setModel(manejador_inventario.getInventarioEmpleadoAsignaciones(comboEmpleadoR.getSelectedItem().toString()));
            //Creamos el combobox y lo llenamos
             
-            TableColumn col=tablaRecoleccion.getColumnModel().getColumn(10);
+            TableColumn col=tablaRecoleccion.getColumnModel().getColumn(11);
             JComboBox bodegas = new JComboBox();
             bodegas.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
             manager_inventario.getBodegas(bodegas);
@@ -4731,7 +4731,7 @@ public void metodoValeRecoleccion(){
                 if((boolean)tablaRecoleccion.getValueAt(i, 0)){
 
                     //Verificamos que haya seleccionado la nueva ubicación del equipo o producto que entregará
-                    if(!tablaRecoleccion.getValueAt(i, 10).toString().equals("Selecciona la nueva ubicación...")){
+                    if(!tablaRecoleccion.getValueAt(i, 11).toString().equals("Selecciona la nueva ubicación...")){
 
                         //Vemos si tiene observaciones el equipo entregado
                         if(tablaRecoleccion.getValueAt(i, 9).toString().equals("")){
