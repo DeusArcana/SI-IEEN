@@ -3414,7 +3414,7 @@ public void metodoValeRecoleccion(){
 
         }//Llenar vector de los codigos de barras
         
-        String recoleccion = "Falta esta parte";
+        String recoleccion = manejador_inventario.registrarVale(comboEmpleadoR.getSelectedItem().toString(), "REC");
         
         try {
             ob.createTicket("recoleccion_"+dia+"_"+(mes+1)+"_"+año+"_"+hora+"_"+minuto+"_"+segundo, 
@@ -4766,7 +4766,6 @@ public void metodoValeRecoleccion(){
 
                 //Se realiza la operación de entrega de productos y su respectivo cambio
                 if(manejador_inventario.recoleccionInventario(idVales,Claves,Ubicaciones,Observaciones)){
-
                    // JOptionPane.showMessageDialog(this,"Se registro el movimiento de recolección exitosamente.");
                     metodoValeRecoleccion();
                     //Actualizamos el combo de los empleados que tienen productos asignados

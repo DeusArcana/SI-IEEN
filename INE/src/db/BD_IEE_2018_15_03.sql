@@ -752,13 +752,25 @@ CREATE TABLE IF NOT EXISTS `ine`.`Localidad` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
--- ====================================================================
---
--- Author:      Javier Pazos
--- Create date: 10 / 04 / 2018
--- Description: Tabla para configuración de sistema
---
--- ====================================================================
+CREATE TABLE IF NOT EXISTS `ine`.`Estado` (
+  `idEstado` INT NOT NULL AUTO_INCREMENT,
+  `Nombre` VARCHAR(45) NULL,
+  PRIMARY KEY (`idEstado`))
+ENGINE = InnoDB;
+
+
+CREATE TABLE IF NOT EXISTS `ine`.`Localidad` (
+  `idLocalidad` INT NOT NULL AUTO_INCREMENT,
+  `Estado_idEstado` INT NOT NULL,
+  `Nombre` VARCHAR(100) NULL,
+  PRIMARY KEY (`idLocalidad`),
+  INDEX `fk_Localidad_Estado1_idx` (`Estado_idEstado` ASC),
+  CONSTRAINT `fk_Localidad_Estado1`
+    FOREIGN KEY (`Estado_idEstado`)
+    REFERENCES `ine`.`Estado` (`idEstado`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `Admin_config` (
 	`INT_String_Format` INT

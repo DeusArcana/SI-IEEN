@@ -302,10 +302,14 @@ ESCAPED BY '"'
 LINES TERMINATED BY '\r\n' 
 (`Folio`, `Numero`, `Extension`, `NO_Serie`, `Nombre_Prod`, `Marca`, `Modelo`, `Color`, `Fecha_Compra`, `Factura`, `Importe`, `Observaciones`);
 
+LOAD DATA local INFILE 'C:\\Users\\kevin\\OneDrive\\Documentos\\GitHub\\SI-IEEN\\INE\\src\\db\\Estados.sql' INTO TABLE Estado(Nombre);
+LOAD DATA local INFILE 'C:\\Users\\kevin\\OneDrive\\Documentos\\GitHub\\SI-IEEN\\INE\\src\\db\\Localidades.sql' INTO TABLE Localidad(Estado_idEstado,Nombre);
+
 -- -----------------------------------------------------------------------------
 --	Dado que en la importación, no tienen un Estatus, se actualiza aquí
 -- ------------------------------------------------------------------------------
 UPDATE `INE`.`Inventario` SET `INE`.`Inventario`.`Estatus` = 'Disponible';
+UPDATE `INE`.`Inventario` SET `INE`.`Inventario`.`Descripcion` = 'Sin descripción' WHERE `INE`.`Inventario`.`Descripcion` IS NULL;
 
 -- -----------------------------------------------------------------------------
 --	Número de digitos en los números de inventario

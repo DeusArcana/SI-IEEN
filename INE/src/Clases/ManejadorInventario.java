@@ -271,62 +271,104 @@ public class ManejadorInventario {
         }
     }//autorizarSalidaAlmacen
     
+    //Este método es para registrar tanto el vale de resguardo como el de recolección
+    public String registrarVale(String empleado, String folio){
+        try{
+            String vale = "";
+            switch(folio){
+                case "RES":
+                    vale = "Vale de resguardo";
+                    break;
+                case "REC":
+                    vale = "Vale de recolección";
+                    break;
+            }
+            
+            String sql = "";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs;
+
+            //Obtenemos la fecha y hora exacta del sistema
+            sql = "select now();";
+            rs = st.executeQuery(sql);
+            rs.next();
+            String fecha = rs.getString(1);
+
+            //Buscamos el año y el numero en el que se quedo la solicitud
+            Calendar cal= Calendar.getInstance();
+            int year= cal.get(Calendar.YEAR);
+            int num = 1;
+            
+            //Obtenemos el id del empleado para encontrar el usuario
+            sql = "select id_empleado from Empleados where concat(nombres,' ',apellido_p,' ',apellido_m) = '"+empleado+"';";
+            rs = st.executeQuery(sql);
+            rs.next();
+            int id_empleado = rs.getInt(1);
+
+            sql = "select Numero from vales where año = "+year+" and Folio = '"+folio+"' order by Numero desc limit 1;";
+            rs = st.executeQuery(sql);
+            
+            //Si encuentra coincidencias entonces le sumamos uno para el siguiente vale, 
+            //en caso de no encontrarlo entonces se reinicia el contador de solicitudes con el nuevo año
+            if(rs.next()){
+                num = rs.getInt(1) + 1;
+            }
+            
+            //Insertamos el registro del vale de asignación
+            sql = "insert into vales (Folio,Numero,Año,tipo_vale,fecha_vale,id_empleado) values('"+folio+"',"+num+","+year+",'"+vale+"','"+fecha+"',"+id_empleado+");";
+            st.executeUpdate(sql);
+            
+            return folio+"-"+num+"-"+year;
+        } //try  
+        catch (SQLException ex) {
+            Logger.getLogger(ManagerDocumentos.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        }
+        
+    }//registrarVale
+    
     //Este método realiza el resguardo, en donde todos los productos seleccionados se le asignan a un responsable
     public boolean asignarInventario(String[] Claves,int[] Cantidad,String empleado,String folio){
         
         try{
-                String sql = "";
-                conexion = db.getConexion();
-                Statement st = conexion.createStatement();
-                ResultSet rs;
-                
-                //Obtenemos la fecha y hora exacta del sistema
-                sql = "select now();";
-                rs = st.executeQuery(sql);
-                rs.next();
-                String fecha = rs.getString(1);
-                
-                //Obtenemos el id del empleado para encontrar el usuario
-                sql = "select id_empleado from Empleados where concat(nombres,' ',apellido_p,' ',apellido_m) = '"+empleado+"';";
-                rs = st.executeQuery(sql);
-                rs.next();
-                int id_empleado = rs.getInt(1);
-                
-                 //Buscamos el año y el numero en el que se quedo la solicitud
-                Calendar cal= Calendar.getInstance();
-                int year= cal.get(Calendar.YEAR);
-                int num = 1;
-                
-                sql = "select Numero from vales where año = "+year+" and Folio = '"+folio+"' order by Numero desc limit 1;";
-                rs = st.executeQuery(sql);
-                //Si encuentra coincidencias entonces le sumamos uno para el siguiente vale, 
-                //en caso de no encontrarlo entonces se reinicia el contador de solicitudes con el nuevo año
-                if(rs.next()){
-                    num = rs.getInt(1) + 1;
-                }
-                
-                //Insertamos el registro del vale de asignación
-                sql = "insert into vales (Folio,Numero,Año,tipo_vale,fecha_vale,id_empleado) values('"+folio+"',"+num+","+year+",'Vale de resguardo','"+fecha+"',"+id_empleado+");";
+            String sql = "";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs;
+
+            //Obtenemos la fecha y hora exacta del sistema
+            sql = "select now();";
+            rs = st.executeQuery(sql);
+            rs.next();
+            String fecha = rs.getString(1);
+
+            //Obtenemos el id del empleado para encontrar el usuario
+            sql = "select id_empleado from Empleados where concat(nombres,' ',apellido_p,' ',apellido_m) = '"+empleado+"';";
+            rs = st.executeQuery(sql);
+            rs.next();
+            int id_empleado = rs.getInt(1);
+
+            String vale = registrarVale(empleado,folio);
+
+            sql = "select a.area from empleados e "
+                + "inner join area a on (a.ID_Area = e.area) "
+                + "where e.id_empleado = "+id_empleado+";";
+            rs = st.executeQuery(sql);
+            rs.next();
+            String ubicacion = rs.getString(1);
+
+            for(int i = 0; i < Claves.length; i++){
+                //Insertamos los datos en la tabla "detalle_vale"
+                sql = "insert into detalle_vale (id_vale,id_producto,cantidad,estado)values('"+vale+"','"+Claves[i]+"',"+Cantidad[i]+",'Asignado');";
                 st.executeUpdate(sql);
-                
-                sql = "select a.area from empleados e "
-                    + "inner join area a on (a.ID_Area = e.area) "
-                    + "where e.id_empleado = "+id_empleado+";";
-                rs = st.executeQuery(sql);
-                rs.next();
-                String ubicacion = rs.getString(1);
-                
-                for(int i = 0; i < Claves.length; i++){
-                    //Insertamos los datos en la tabla "detalle_vale"
-                    sql = "insert into detalle_vale (id_vale,id_producto,cantidad,estado)values('"+folio+"-"+num+"-"+year+"','"+Claves[i]+"',"+Cantidad[i]+",'Asignado');";
-                    st.executeUpdate(sql);
-                    //Actualizamos la ubicación del producto
-                    sql = "update inventario set ubicacion = '"+ubicacion+"' where concat(Folio,'-',Numero,Extension) = '"+Claves[i]+"';";
-                    st.executeUpdate(sql);
-                }//for
-                
-                conexion.close();
-                return true;
+                //Actualizamos la ubicación del producto
+                sql = "update inventario set ubicacion = '"+ubicacion+"' where concat(Folio,'-',Numero,Extension) = '"+Claves[i]+"';";
+                st.executeUpdate(sql);
+            }//for
+
+            conexion.close();
+            return true;
         } //try  
         catch (SQLException ex) {
             Logger.getLogger(ManagerDocumentos.class.getName()).log(Level.SEVERE, null, ex);
