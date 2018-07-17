@@ -81,13 +81,15 @@ public class ManagerSoViaticos {
         taso.addColumn("Actividad");
         taso.addColumn("Pernoctado");
         taso.addColumn("Puesto");
-        taso.addColumn("Fecha_llegada");
+        taso.addColumn("Fecha llegada");
+        taso.addColumn("Hora salida");
+        taso.addColumn("Hora llegada");
         taso.addColumn("Estado");
 
         try {
             
             //Consulta de los empleados
-            String sql = "select idsolicitud_vehiculo,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Estado from solicitud_vehiculo order by idSolicitud_vehiculo DESC";
+            String sql = "select idsolicitud_vehiculo,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_salida,Fecha_llegada,Hora_salida,Hora_llegada,Estado from solicitud_vehiculo order by idSolicitud_vehiculo DESC";
             //String sql="select * from solicitud_viatico";
             Statement st = cn.createStatement();
             Object datos[] = new Object[taso.getColumnCount()];

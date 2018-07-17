@@ -494,25 +494,30 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `INE`.`Solicitud_viatico`
+-- Table `ine`.`solicitud_viatico`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `INE`.`Solicitud_viatico` (
-  `idSolicitud` INT NOT NULL AUTO_INCREMENT,
-  `Fecha_salida` DATE NULL,
-  `Lugar` VARCHAR(100) NULL,
-  `Nombre` VARCHAR(100) NULL,
-  `Actividad` VARCHAR(500) NULL,
-  `Pernoctado` VARCHAR(10) NULL,
-  `Vehiculo` VARCHAR(100) NULL,
-  `Puesto` VARCHAR(50) NULL,
-  `Fecha_llegada` DATE NULL,
-  `Estado` VARCHAR(45) NULL,
-  `Reporte` VARCHAR(1) NULL,
-  `Motivo` VARCHAR(500) NULL,
-  `Hora_Salida` varchar(20) NULL,
-  `Hora_Llegada` varchar(20) NULL,
+DROP TABLE IF EXISTS `ine`.`solicitud_viatico` ;
+
+CREATE TABLE IF NOT EXISTS `ine`.`solicitud_viatico` (
+  `idSolicitud` INT(11) NOT NULL AUTO_INCREMENT,
+  `Fecha_salida` DATE NULL DEFAULT NULL,
+  `Lugar` VARCHAR(100) NULL DEFAULT NULL,
+  `Nombre` VARCHAR(100) NULL DEFAULT NULL,
+  `Actividad` VARCHAR(500) NULL DEFAULT NULL,
+  `Pernoctado` VARCHAR(10) NULL DEFAULT NULL,
+  `Puesto` VARCHAR(50) NULL DEFAULT NULL,
+  `Fecha_llegada` DATE NULL DEFAULT NULL,
+  `Estado` VARCHAR(45) NULL DEFAULT NULL,
+  `Reporte` VARCHAR(1) NULL DEFAULT NULL,
+  `Motivo` VARCHAR(500) NULL DEFAULT NULL,
+  `Hora_Salida` VARCHAR(20) NULL DEFAULT NULL,
+  `Hora_Llegada` VARCHAR(20) NULL DEFAULT NULL,
+  `gastos_comprobar` VARCHAR(45) NULL,
+  `consejero_presidente` VARCHAR(45) NULL,
   PRIMARY KEY (`idSolicitud`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+AUTO_INCREMENT = 3
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -541,53 +546,64 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `INE`.`Informe`
+-- Table `ine`.`informe`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `INE`.`Informe` (
-  `Id_Informe` INT NOT NULL AUTO_INCREMENT,
-  `Observaciones` VARCHAR(200) NULL,
-  `Observaciones_Vehiculo` VARCHAR(200) NULL,
-  `Solicitud_idSolicitud` INT NOT NULL,
+DROP TABLE IF EXISTS `ine`.`informe` ;
+
+CREATE TABLE IF NOT EXISTS `ine`.`informe` (
+  `Id_Informe` INT(11) NOT NULL AUTO_INCREMENT,
+  `Observaciones` VARCHAR(200) NULL DEFAULT NULL,
+  `Observaciones_Vehiculo` VARCHAR(200) NULL DEFAULT NULL,
+  `Solicitud_idSolicitud` INT(11) NOT NULL,
+  `importe_total` FLOAT NULL,
   PRIMARY KEY (`Id_Informe`),
   INDEX `fk_Informe_Solicitud_viatico1_idx` (`Solicitud_idSolicitud` ASC),
   CONSTRAINT `fk_Informe_Solicitud_viatico1`
     FOREIGN KEY (`Solicitud_idSolicitud`)
-    REFERENCES `INE`.`Solicitud_viatico` (`idSolicitud`)
+    REFERENCES `ine`.`solicitud_viatico` (`idSolicitud`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `INE`.`Gastos`
+-- Table `ine`.`gastos`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `INE`.`Gastos` (
-  `Id_Gastos` INT NOT NULL AUTO_INCREMENT,
-  `Precio` VARCHAR(20) NULL,
-  `Descripcion` VARCHAR(200) NULL,
+DROP TABLE IF EXISTS `ine`.`gastos` ;
+
+CREATE TABLE IF NOT EXISTS `ine`.`gastos` (
+  `Id_Gastos` INT(11) NOT NULL AUTO_INCREMENT,
+  `Precio` VARCHAR(20) NULL DEFAULT NULL,
+  `Descripcion` VARCHAR(200) NULL DEFAULT NULL,
+  `Factura` VARCHAR(45) NULL,
   PRIMARY KEY (`Id_Gastos`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `INE`.`Informe_Gastos`
+-- Table `ine`.`informe_gastos`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `INE`.`Informe_Gastos` (
-  `Gastos_Id_Gastos` INT NOT NULL,
-  `Informe_Id_Informe` INT NOT NULL,
+DROP TABLE IF EXISTS `ine`.`informe_gastos` ;
+
+CREATE TABLE IF NOT EXISTS `ine`.`informe_gastos` (
+  `Gastos_Id_Gastos` INT(11) NOT NULL,
+  `Informe_Id_Informe` INT(11) NOT NULL,
   INDEX `fk_Informe_Gastos_Gastos1_idx` (`Gastos_Id_Gastos` ASC),
   INDEX `fk_Informe_Gastos_Informe1_idx` (`Informe_Id_Informe` ASC),
   CONSTRAINT `fk_Informe_Gastos_Gastos1`
     FOREIGN KEY (`Gastos_Id_Gastos`)
-    REFERENCES `INE`.`Gastos` (`Id_Gastos`)
+    REFERENCES `ine`.`gastos` (`Id_Gastos`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Informe_Gastos_Informe1`
     FOREIGN KEY (`Informe_Id_Informe`)
-    REFERENCES `INE`.`Informe` (`Id_Informe`)
+    REFERENCES `ine`.`informe` (`Id_Informe`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -658,6 +674,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `ine`.`solicitud_vehiculo`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `ine`.`solicitud_vehiculo` ;
+
 CREATE TABLE IF NOT EXISTS `ine`.`solicitud_vehiculo` (
   `idsolicitud_vehiculo` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(100) NULL,
@@ -679,6 +697,57 @@ CREATE TABLE IF NOT EXISTS `ine`.`solicitud_vehiculo` (
   CONSTRAINT `fk_solicitud_vehiculo_vehiculo_usado1`
     FOREIGN KEY (`vehiculo_usado_idvehiculo_usado`)
     REFERENCES `ine`.`vehiculo_usado` (`idvehiculo_usado`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `ine`.`vehiculo_viatico`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ine`.`vehiculo_viatico` ;
+
+CREATE TABLE IF NOT EXISTS `ine`.`vehiculo_viatico` (
+  `solicitud_vehiculo_idsolicitud_vehiculo` INT NOT NULL,
+  `solicitud_viatico_idSolicitud` INT(11) NOT NULL,
+  PRIMARY KEY (`solicitud_vehiculo_idsolicitud_vehiculo`, `solicitud_viatico_idSolicitud`),
+  INDEX `fk_vehiculo_viatico_solicitud_viatico1_idx` (`solicitud_viatico_idSolicitud` ASC),
+  CONSTRAINT `fk_vehiculo_viatico_solicitud_vehiculo1`
+    FOREIGN KEY (`solicitud_vehiculo_idsolicitud_vehiculo`)
+    REFERENCES `ine`.`solicitud_vehiculo` (`idsolicitud_vehiculo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_vehiculo_viatico_solicitud_viatico1`
+    FOREIGN KEY (`solicitud_viatico_idSolicitud`)
+    REFERENCES `ine`.`solicitud_viatico` (`idSolicitud`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `ine`.`Estado`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ine`.`Estado` ;
+
+CREATE TABLE IF NOT EXISTS `ine`.`Estado` (
+  `idEstado` INT NOT NULL AUTO_INCREMENT,
+  `Nombre` VARCHAR(45) NULL,
+  PRIMARY KEY (`idEstado`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `ine`.`Localidad`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `ine`.`Localidad` ;
+
+CREATE TABLE IF NOT EXISTS `ine`.`Localidad` (
+  `idLocalidad` INT NOT NULL AUTO_INCREMENT,
+  `Estado_idEstado` INT NOT NULL,
+  `Nombre` VARCHAR(100) NULL,
+  PRIMARY KEY (`idLocalidad`),
+  INDEX `fk_Localidad_Estado1_idx` (`Estado_idEstado` ASC),
+  CONSTRAINT `fk_Localidad_Estado1`
+    FOREIGN KEY (`Estado_idEstado`)
+    REFERENCES `ine`.`Estado` (`idEstado`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

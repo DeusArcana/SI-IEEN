@@ -442,7 +442,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     private void getAutosDisponibles() throws SQLException{
         ResultSet res;
         Connection cn=cbd.getConexion();
-            res=cbd.getTabla("select marca,matricula from vehiculos where Estado='Disponible'",cn);
+            res=cbd.getTabla("select marca,matricula from vehiculos",cn);
             SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
             List<String> autos=new ArrayList<String>();
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
@@ -476,7 +476,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         Connection connection=cbd.getConexion();
         ResultSet res;
         //Obtenemos todos los vehiculos que tienen solicitud de vehiculo a partir de la fecha de salida solicitada
-        res=cbd.getTabla("select idvehiculo_usado,vehiculos_Matricula from vehiculo_usado inner join solicitud_vehiculo on idvehiculo_usado=vehiculo_usado_idvehiculo_usado where fecha_salida>'"+fecha+"';", connection);
+        res=cbd.getTabla("select idvehiculo_usado,vehiculos_Matricula from vehiculo_usado inner join solicitud_vehiculo on idvehiculo_usado=vehiculo_usado_idvehiculo_usado where fecha_salida>='"+fecha+"';", connection);
         List<String> matricula_nodisponible=new ArrayList<String>();
         while(res.next()){
             boolean disponible=false;//Si el registro no está en los autos disponibles entonces no se puede utilizar.
@@ -501,13 +501,19 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         Connection connection=cbd.getConexion();
         List<Integer> datos=new ArrayList<Integer>();
         ResultSet res;
-        res=cbd.getTabla("select fecha_salida,Fecha_Llegada,hora_llegada,vehiculo_usado_idvehiculo_usado from solicitud_vehiculo where estado !='C' and fecha_llegada>='"+Calendar.YEAR+
-                "-"+Calendar.MONTH+"-"+Calendar.DAY_OF_MONTH+"'",connection);
+        Date fechaActual=new Date();
+        int year=fechaActual.getYear()+1900;
+        res=cbd.getTabla("select fecha_salida,Fecha_Llegada,hora_llegada,vehiculo_usado_idvehiculo_usado from solicitud_vehiculo where estado !='C' and fecha_llegada>='"+year+
+                "-"+fechaActual.getMonth()+"-"+fechaActual.getDate()+"'",connection);
+        String fcad="select fecha_salida,Fecha_Llegada,hora_llegada,vehiculo_usado_idvehiculo_usado from solicitud_vehiculo where estado !='C' and fecha_llegada>='"+year+
+                "-"+fechaActual.getMonth()+"-"+fechaActual.getDate()+"'";
         //En caso de que sea la primera solicitud
         if(!res.next()){
             datos=obtenerTodosVehiculos();
         }
         //Recorremos todos los registros para obtener los vehiculos que si podemos solicitar
+        res=cbd.getTabla("select fecha_salida,Fecha_Llegada,hora_llegada,vehiculo_usado_idvehiculo_usado from solicitud_vehiculo where estado !='C' and fecha_llegada>='"+year+
+                "-"+fechaActual.getMonth()+"-"+fechaActual.getDate()+"'",connection);
         while(res.next()){
             //Obtenemos la fehca de llegada y de salida del registro de la solicitud
             String fecha_salida_string=res.getString("fecha_salida");

@@ -1081,7 +1081,18 @@ public class PrincipalS extends javax.swing.JFrame {
     }//GEN-LAST:event_MenuSolicitudActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-
+        txtobvia.enable(false);
+        txtobveh.enable(false);
+        btnregresar.setVisible(false);
+        btnguardar.setVisible(false);
+        tablasolic.setModel(manager_soviaticos.getTasol());
+        tablasolicvehiculo.setModel(manager_soviaticos.getTasolVehiculo());
+        tablonpendientes.setModel(manager_soviaticos.SolicitudP());
+        tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
+        tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
+        tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
+        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
     }//GEN-LAST:event_formWindowActivated
 
     private void btnAddInventario2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddInventario2ActionPerformed
