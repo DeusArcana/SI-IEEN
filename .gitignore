@@ -56,3 +56,11 @@ INE/src/Clases/Conexion.java
 INE/src/db/procedimientos_test.sql
 INE/dist/README.TXT
 *.bat
+INE/src/db/Datos/data_test.csv
+INE/src/db/Datos/data_test.xlsx
+INE/src/db/Datos/INVENTARIO-CONSUMIBLES-PRUEBA.xlsx
+INE/src/db/Datos/INVENTARIOO-2016-PRUEBA.xlsx
+INE/src/db/IEEN_Model.dbs
+INE/src/db/IEEN_Model.dbs.bak
+INE/src/db/model.html
+INE/src/db/model.html
