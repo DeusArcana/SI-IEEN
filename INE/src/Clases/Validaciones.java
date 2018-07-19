@@ -9,20 +9,27 @@ import java.util.regex.Pattern;
 
 public class Validaciones {
 	private final Conexion db;
-	private final int format;
+	private final int FORMATO_DIGITOS;
 	
+	/**
+	 * <h1>Validaciones</h1>
+	 * 
+	 * <p>Al mandar llamar al constructor, se extrae de la base de datos el 
+	 * número de dígitos que se desea que contenga el formato de ID del producto
+	 * en el Inventario</p>
+	 */
 	public Validaciones() {
 		int temp = 0;
 		db = new Conexion();
 		
-		try (PreparedStatement ps = db.getConexion().prepareCall("SELECT `INT_String_Format` FROM `INE`.`Admin_Config`")) {	
+		try (PreparedStatement ps = db.getConexion().prepareCall("CALL `ine`.`usp_get_concatZeros`()")) {	
 			ResultSet rs = ps.executeQuery();
-			if(rs.next()) temp = rs.getInt("INT_String_Format");
+			if(rs.next()) temp = rs.getInt("res");
 		} catch (SQLException ex) {
 			Logger.getLogger(Validaciones.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		
-		this.format = temp;
+		this.FORMATO_DIGITOS = temp;
 	}
 	
 	
@@ -170,7 +177,6 @@ public class Validaciones {
         return Pattern.compile("([a-z]){" + MIN + "," + MAX + "}").matcher(txt).matches();
     }
     
-    
     /**
     * <h1>validateClaveInventario</h1>
     * 
@@ -196,7 +202,8 @@ public class Validaciones {
     * @param txt Cadena a validar
     * @return TRUE si la cadena solo contiene el formato especificado, FALSE caso contrario
     */
-    public static boolean validateClaveInventarioGranel(String txt){
+
+	public static boolean validateClaveInventarioGranel(String txt){
         return Pattern.compile( "GMP([0-9]{8})").matcher(txt).matches();
     }
     
@@ -234,27 +241,66 @@ public class Validaciones {
         return Pattern.compile("([a-zA-Z0-9]|\u0020){" + MIN + "," + MAX + "}").matcher(txt).matches();
     }
 	
-	public String intFormat(int integer){
-		if(String.valueOf(integer).length() >= this.format) 
+	/**
+	 *<h1>Concatenar Ceros</h1>
+	 * 
+	 * <p>Añade los ceros a la izquierda para el número dado</p>
+	 * 
+	 * @param integer valor que se desea convertir
+	 * @return <code>String</code> con el formato deseado
+	 */
+	public String concatZeros(int integer){
+		// Si el número de digitos es mayor o igual al deseado, se retorna solo la cadena del numero
+		if(String.valueOf(integer).length() >= this.FORMATO_DIGITOS) 
 			return String.valueOf(integer);
 		
+		// Objeto para construir la cadena
 		StringBuilder sb = new StringBuilder();
+		// Se añade el número
 		sb.append(integer);
-		for (int i = String.valueOf(integer).length(); i < this.format; i++) 
+		
+		// Adición de los ceros
+		for (int i = String.valueOf(integer).length(); i < this.FORMATO_DIGITOS; i++) 
 			sb.insert(0, "0");
 		
 		return sb.toString();
 	}
 	
-		public static String FormatID(String ID){
+	/**
+	 * <h1>Extraer Ceros</h1>
+	 * 
+	 * <p>Se extraen los ceros a la izquierda del formato de ID de un producto
+	 * del inventario, para su correcta busqueda en la base de datos</p>
+	 * 
+	 * <p>Se hace la asunción que el formato de ID no cambia</p>
+	 * 
+	 * <ul>
+	 *	<li>Folio : FY-[0 - 99]</li>
+	 *	<li>Guion : - </li>
+	 *	<li>Número de Producto </li>
+	 *	<li>Extensión</li>
+	 * </ul>
+	 * 
+	 * @param ID del producto de inventario
+	 * @return	<code>String</code> del ID del producto, sin ceros a la izquierda
+	 *		en el Número del Producto
+	 */
+	public static String extractZeros(String ID){
+		// Objeto para la cadena
 		StringBuilder sb = new StringBuilder();
 		
+		// Se separa la cadena en guión
 		String[] array = ID.split("-");
 		
+		// Se añaden los datos a la cadena
 		sb.append(array[0]);
 		sb.append("-");
 		sb.append(array[1]);
 		sb.append("-");
+		// Se eliminan los ceros a la izquiera con una expresión regular
+		// **	Dado que solo se eliminan los ceros a la izquierda, es decir que 
+		//		solo se eliminan elementos al principio de la cadena, no importa si el 
+		//		ID del producto cuenta con una extensión o no.
 		sb.append(array[2].replaceFirst("^0+(?!$)", ""));
 		
 		return sb.toString();
