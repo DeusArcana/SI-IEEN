@@ -182,6 +182,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         SpinnerDateModel sdm=new SpinnerDateModel(date,null
             ,null,Calendar.HOUR_OF_DAY);
         hora_Salida = new javax.swing.JSpinner(sdm);
+        btn_Editar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -377,6 +378,14 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "HH:mm");
             hora_Salida.setEditor(de);
 
+            btn_Editar.setText("Editar");
+            btn_Editar.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btn_EditarActionPerformed(evt);
+                }
+            });
+            pn_addInventario.add(btn_Editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 250, 120, 40));
+
             jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
             pn_addInventario.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -476,7 +485,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         Connection connection=cbd.getConexion();
         ResultSet res;
         //Obtenemos todos los vehiculos que tienen solicitud de vehiculo a partir de la fecha de salida solicitada
-        res=cbd.getTabla("select idvehiculo_usado,vehiculos_Matricula from vehiculo_usado inner join solicitud_vehiculo on idvehiculo_usado=vehiculo_usado_idvehiculo_usado where fecha_salida>='"+fecha+"';", connection);
+        res=cbd.getTabla("select idvehiculo_usado,vehiculos_Matricula from vehiculo_usado inner join solicitud_vehiculo on idvehiculo_usado=vehiculo_usado_idvehiculo_usado inner join vehiculo_viatico on idsolicitud_vehiculo=solicitud_vehiculo_idSolicitud_vehiculo inner join solicitud_viatico on solicitud_viatico_idSolicitud=idSolicitud where fecha_salida>='"+fecha+"';", connection);
         List<String> matricula_nodisponible=new ArrayList<String>();
         while(res.next()){
             boolean disponible=false;//Si el registro no está en los autos disponibles entonces no se puede utilizar.
@@ -503,16 +512,16 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         ResultSet res;
         Date fechaActual=new Date();
         int year=fechaActual.getYear()+1900;
-        res=cbd.getTabla("select fecha_salida,Fecha_Llegada,hora_llegada,vehiculo_usado_idvehiculo_usado from solicitud_vehiculo where estado !='C' and fecha_llegada>='"+year+
+        res=cbd.getTabla("select fecha_salida,Fecha_Llegada,hora_llegada,vehiculo_usado_idvehiculo_usado from solicitud_vehiculo inner join vehiculo_viatico on idsolicitud_vehiculo=solicitud_vehiculo_idSolicitud_vehiculo inner join solicitud_viatico on solicitud_viatico_idSolicitud=idSolicitud where estado !='C' and fecha_llegada>='"+year+
                 "-"+fechaActual.getMonth()+"-"+fechaActual.getDate()+"'",connection);
-        String fcad="select fecha_salida,Fecha_Llegada,hora_llegada,vehiculo_usado_idvehiculo_usado from solicitud_vehiculo where estado !='C' and fecha_llegada>='"+year+
+        String fcad="select fecha_salida,Fecha_Llegada,hora_llegada,vehiculo_usado_idvehiculo_usado from solicitud_vehiculo inner join vehiculo_viatico on idsolicitud_vehiculo=solicitud_vehiculo_idSolicitud_vehiculo inner join solicitud_viatico on solicitud_viatico_idSolicitud=idSolicitud where estado !='C' and fecha_llegada>='"+year+
                 "-"+fechaActual.getMonth()+"-"+fechaActual.getDate()+"'";
         //En caso de que sea la primera solicitud
         if(!res.next()){
             datos=obtenerTodosVehiculos();
         }
         //Recorremos todos los registros para obtener los vehiculos que si podemos solicitar
-        res=cbd.getTabla("select fecha_salida,Fecha_Llegada,hora_llegada,vehiculo_usado_idvehiculo_usado from solicitud_vehiculo where estado !='C' and fecha_llegada>='"+year+
+        res=cbd.getTabla("select fecha_salida,Fecha_Llegada,hora_llegada,vehiculo_usado_idvehiculo_usado from solicitud_vehiculo inner join vehiculo_viatico on idsolicitud_vehiculo=solicitud_vehiculo_idSolicitud_vehiculo inner join solicitud_viatico on solicitud_viatico_idSolicitud=idSolicitud where estado !='C' and fecha_llegada>='"+year+
                 "-"+fechaActual.getMonth()+"-"+fechaActual.getDate()+"'",connection);
         while(res.next()){
             //Obtenemos la fehca de llegada y de salida del registro de la solicitud
@@ -712,6 +721,11 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             cmbLocalidad.addItem(localidades.get(i));
         }
     }//GEN-LAST:event_cmbEstadoItemStateChanged
+
+    private void btn_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EditarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btn_EditarActionPerformed
     public void insertar_Solicitud(int ConCarro){
         try{
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
@@ -733,10 +747,17 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             //Inserción de solicitud
             SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
             conexion.getConexion();
-            boolean insersion = insersion=conexion.ejecutar("insert into Solicitud_vehiculo (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida,vehiculo_usado_idvehiculo_usado) values('"+fecha_Salida+"','"+
+            boolean insersion = insersion=conexion.ejecutar("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+
                     cmbLocalidad.getSelectedItem().toString()+","+cmbEstado.getSelectedItem().toString()+"'"
-                + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+cmb_Vehiculo.getSelectedItem().toString()+"'"
-                + ",'"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"',"+idVehiculo_usado+")");
+                + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"')");
+            insersion=conexion.ejecutar("insert into solicitud_vehiculo(vehiculo_usado_idvehiculo_usado,vehiculo)values("+idVehiculo_usado+",'"+arr[0]+"')");
+            res=cbd.getTabla("select idSolicitud from solicitud_viatico where Actividad='"+txt_Actividad.getText()+"' and Nombre='"+comboEmpleados.getSelectedItem().toString()+"';", cn);
+            res.next();
+            String idSolViatico=res.getString("idSolicitud");
+            res=cbd.getTabla("select idSolicitud_vehiculo from solicitud_vehiculo order by idSolicitud_vehiculo DESC", cn);
+            res.next();
+            String idSolVehiculo=res.getString("idSolicitud_vehiculo");
+            insersion=conexion.ejecutar("insert into vehiculo_viatico(solicitud_vehiculo_idSolicitud_vehiculo,solicitud_viatico_idSolicitud)values("+idSolVehiculo+","+idSolViatico+")");
             
             if(insersion){
                 JOptionPane.showMessageDialog(this, "Insersión correcta");
@@ -890,6 +911,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btn_Editar;
     private javax.swing.JCheckBox chb_Pernoctado;
     private javax.swing.JComboBox<String> cmbEstado;
     private javax.swing.JComboBox<String> cmbLocalidad;

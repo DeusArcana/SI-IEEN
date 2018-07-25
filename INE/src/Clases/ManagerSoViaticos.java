@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JScrollPane;
@@ -43,12 +45,16 @@ public class ManagerSoViaticos {
         taso.addColumn("Estado");
 
         try {
-            
             //Consulta de los empleados
             String sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Estado from Solicitud_viatico order by idSolicitud DESC";
             //String sql="select * from solicitud_viatico";
             Statement st = cn.createStatement();
             Object datos[] = new Object[taso.getColumnCount()];
+            ResultSet sol_vehiculos_query=st.executeQuery("select solicitud_viatico_idSolicitud from vehiculo_viatico");
+            List<Integer> sol_vehiculos=new ArrayList<Integer>();
+            while(sol_vehiculos_query.next()){
+                sol_vehiculos.add(sol_vehiculos_query.getInt("solicitud_viatico_idSolicitud"));
+            }
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
@@ -57,8 +63,15 @@ public class ManagerSoViaticos {
                 for(int i = 0;i<taso.getColumnCount();i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
-
-                taso.addRow(datos);//Añadimos la fila
+                boolean insertar=true;
+                for(int i=0;i<sol_vehiculos.size();i++){
+                    if(rs.getInt("idSolicitud")==sol_vehiculos.get(i)){
+                        insertar=false;
+                    }
+                }
+                if(insertar){
+                    taso.addRow(datos);//Añadimos la fila
+                }
            }//while
             //cn.close();
         } catch (SQLException ex) {
@@ -89,7 +102,7 @@ public class ManagerSoViaticos {
         try {
             
             //Consulta de los empleados
-            String sql = "select idsolicitud_vehiculo,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_salida,Fecha_llegada,Hora_salida,Hora_llegada,Estado from solicitud_vehiculo order by idSolicitud_vehiculo DESC";
+            String sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_salida,Fecha_llegada,Hora_salida,Hora_llegada,Estado from solicitud_viatico inner join vehiculo_viatico on idSolicitud=solicitud_viatico_idSolicitud order by idSolicitud DESC;";
             //String sql="select * from solicitud_viatico";
             Statement st = cn.createStatement();
             Object datos[] = new Object[taso.getColumnCount()];

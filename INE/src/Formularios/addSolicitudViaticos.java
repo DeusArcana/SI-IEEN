@@ -287,7 +287,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowOpened
 
     private void comboEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpleadosActionPerformed
-        // TODO add your handling code here:
+    // TODO add your handling code here:
         int empleado = comboEmpleados.getSelectedIndex();
         if(empleado > 0){
             txt_Puesto.setText(manager_users.obtenerPuesto(comboEmpleados.getSelectedItem().toString()));
