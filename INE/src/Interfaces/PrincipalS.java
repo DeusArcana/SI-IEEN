@@ -2054,7 +2054,7 @@ public class PrincipalS extends javax.swing.JFrame {
             try {
                 Statement sentencia = cn.createStatement();
                 String vehiculo = "";
-                ResultSet rs = sentencia.executeQuery("SELECT S.Vehiculo FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Folio = " + folio);
+                ResultSet rs = sentencia.executeQuery("select SV.Vehiculo from solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=SV.idSolicitud_vehiculo WHERE S.Estado = 'AR' AND S.Reporte = '0' AND O.Folio = " + folio);
                 while (rs.next()) {
                     vehiculo = rs.getString("Vehiculo");
                 }
