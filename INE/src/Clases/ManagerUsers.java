@@ -71,6 +71,110 @@ public class ManagerUsers {
 
     }//getEmpleados
     
+    //Este método es para obtener una tabla con toda la información de los empleados y proporcionarla en el documento de Excel
+    public DefaultTableModel getEmpleadosExcel() {
+
+        DefaultTableModel table = new DefaultTableModel();
+
+        try {
+            table.addColumn("Nombre(s)");
+            table.addColumn("Apellido Paterno");
+            table.addColumn("Apellido Materno");
+            table.addColumn("Calle");
+            table.addColumn("Colonia");
+            table.addColumn("Telefono");
+            table.addColumn("Código Postal");
+            table.addColumn("Fecha de Nacimiento");
+            table.addColumn("CURP");
+            table.addColumn("RFC");
+            table.addColumn("Municipio");
+            table.addColumn("Localidad");
+            table.addColumn("Área");
+            table.addColumn("Puesto");
+            
+            //Consulta de los empleados
+            String sql = "select e.nombres, e.apellido_p, e.apellido_m, e.calle, e.colonia, e.telefono, e.codigo_postal, e.fecha_nacimiento, e.curp, "
+                       + "e.rfc, e.municipio, e.localidad, a.area, pt.Puesto from empleados e "
+                       + "inner join area a on (a.ID_Area = e.area) "
+                       + "inner join puestos_trabajo pt on (pt.ID_Puesto = e.puesto);";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            Object datos[] = new Object[14];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<14;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+           }//while
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error obtener la tabla de empleados con toda la información en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//getEmpleadosExcel
+    
+    //Este método es para obtener una tabla con toda la información de los usuarios y proporcionarla en el documento de Excel
+    public DefaultTableModel getUsuariosExcel() {
+
+        DefaultTableModel table = new DefaultTableModel();
+
+        try {
+            table.addColumn("Usuario");
+            table.addColumn("Nombre(s)");
+            table.addColumn("Apellido Paterno");
+            table.addColumn("Apellido Materno");
+            table.addColumn("Calle");
+            table.addColumn("Colonia");
+            table.addColumn("Telefono");
+            table.addColumn("Código Postal");
+            table.addColumn("Fecha de Nacimiento");
+            table.addColumn("CURP");
+            table.addColumn("RFC");
+            table.addColumn("Municipio");
+            table.addColumn("Localidad");
+            table.addColumn("Área");
+            table.addColumn("Puesto");
+            
+            //Consulta de los empleados
+            String sql = "select u.id_user, e.nombres, e.apellido_p, e.apellido_m, e.calle, e.colonia, e.telefono, e.codigo_postal, e.fecha_nacimiento, "
+                       + "e.curp, e.rfc, e.municipio, e.localidad, a.area, pt.Puesto from empleados e "
+                       + "inner join area a on (a.ID_Area = e.area) "
+                       + "inner join puestos_trabajo pt on (pt.ID_Puesto = e.puesto) "
+                       + "inner join user u on (u.id_empleado = e.id_empleado);";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            Object datos[] = new Object[15];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<15;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+           }//while
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error obtener la tabla de empleados con toda la información en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//getUsuariosExcel
+    
     public DefaultTableModel getUsuarios(String usuario) {
 
         DefaultTableModel table = new DefaultTableModel();

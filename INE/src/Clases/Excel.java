@@ -26,7 +26,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 public class Excel {
     private HSSFWorkbook libro;
     private JFileChooser fileChooser;
-    private FileNameExtensionFilter filter = new FileNameExtensionFilter("Hoja de excel","xls");
+    private FileNameExtensionFilter filter = new FileNameExtensionFilter("Hoja de excel","xlsx");
     private boolean isopen =false;//bandera de control para saber si se abrio un archivo
     private ArrayList contenido = new ArrayList();//almacena los registros leidos de *.txt
     private int index = 0; //lleva control del registro actualmente visible

@@ -237,8 +237,8 @@ public class ManagerInventario {
 
         try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_infoInventario`(?, ?)}")){
             // Se añaden los campos a la tabla
-            table.addColumn("Clave");
-            table.addColumn("Nombre_corto");
+            table.addColumn("No. Inventario");
+            table.addColumn("Nombre corto");
             table.addColumn("Descripción");
             table.addColumn("Ubicación");
             table.addColumn("Marca");
@@ -313,6 +313,34 @@ public class ManagerInventario {
         }
 		return false;
     }//existeInventario
+    
+        /**
+	 * 
+	 * <h1>Cantidad en Inventario</h1>
+	 *
+	 * <p>Este metodo se utiliza para mostrar la cantidad de productos que se visualizan
+         * en la tabla de invetario.</p>
+	 * 
+	 * @param idProducto
+	 * @return 
+	 *		<ul>
+	 *			<li><code>n</code> la cantidad de productos que se encontraron</li>
+	 *			<li><code>0</code> si no se encontraron coincidencias</li>
+	 *		</ul>
+	 *	
+	 */
+    public boolean cantidadInventario(String idProducto) {
+        try {
+			
+            
+			
+        } catch (Exception ex) {
+            System.err.printf("Error al consultar el inventario en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+		return false;
+    }//existeInventario
+    
     
 	/**
 	 * <h1>Nomenclaturas de Folio</h1>
@@ -398,8 +426,8 @@ public class ManagerInventario {
             int cantidadColumnas = 12;
             //Si el estado es verdadero significa que si encontro coincidencias, entonces mostraremos dichas concidencias
             if(rs.next()){
-                table.addColumn("Clave");
-                table.addColumn("Nombre_corto");
+                table.addColumn("No. Inventario");
+                table.addColumn("Nombre corto");
                 table.addColumn("Descripción");
                 table.addColumn("Ubicación");
                 table.addColumn("Marca");

@@ -10,9 +10,9 @@ SET FOREIGN_KEY_CHECKS	=	0;
 DELETE FROM `INE`.`Area` WHERE 1;
 INSERT INTO `INE`.`Area` 
 	VALUES 
-        (1,	'Asesor CLE',''),
+        (1,	'Asesor CLE','ASE'),
         (2,	'Comunicación Social','CS'),
-        (3,	'Consejo Local',''),
+        (3,	'Consejo Local','CLE'),
         (4,	'Dirección Administración','DA'),
         (5,	'Direccion de Organización y Capacitación Electoral','DOYCE'),
         (6,	'Dirección Jurídica','DJ'),

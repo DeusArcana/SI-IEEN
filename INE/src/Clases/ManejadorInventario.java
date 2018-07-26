@@ -38,7 +38,7 @@ public class ManejadorInventario {
         DefaultTableModel table = new DefaultTableModel();
 
         try {
-            table.addColumn("Clave");
+            table.addColumn("No. Inventario");
             table.addColumn("Producto");
             table.addColumn("Descripción");
             table.addColumn("Almacén");
@@ -82,7 +82,7 @@ public class ManejadorInventario {
 
         try {
             
-            table.addColumn("Clave");
+            table.addColumn("No. Inventario");
             table.addColumn("Nombre_corto");
             table.addColumn("Descripción");
             table.addColumn("Ubicación");
@@ -530,7 +530,7 @@ public class ManejadorInventario {
             DefaultTableModel table = new DefaultTableModel();
 
         try {
-            table.addColumn("Clave");
+            table.addColumn("No. Inventario");
             table.addColumn("Producto");
             table.addColumn("Descripción");
             table.addColumn("Marca");
@@ -577,7 +577,7 @@ public class ManejadorInventario {
 
         try {
             table.addColumn("Vale");
-            table.addColumn("Clave");
+            table.addColumn("No. Inventario");
             table.addColumn("Producto");
             table.addColumn("Descripción");
             table.addColumn("Observaciones");
@@ -713,7 +713,7 @@ public class ManejadorInventario {
             DefaultTableModel table = new DefaultTableModel();
 
         try {
-            table.addColumn("Clave");
+            table.addColumn("No. Inventario");  
             table.addColumn("Producto");
             table.addColumn("Descripción");
             table.addColumn("Observaciones");
