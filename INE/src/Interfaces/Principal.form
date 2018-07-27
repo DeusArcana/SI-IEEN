@@ -1009,20 +1009,12 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane1" pref="986" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jScrollPane1" alignment="0" pref="1006" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane1" pref="333" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jScrollPane1" alignment="0" pref="355" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -1177,7 +1169,13 @@
                       <Font name="Tahoma" size="18" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="0"/>
+                      <StringArray count="5">
+                        <StringItem index="0" value="Nombre"/>
+                        <StringItem index="1" value="Apellido P"/>
+                        <StringItem index="2" value="Apellido M"/>
+                        <StringItem index="3" value="Area"/>
+                        <StringItem index="4" value="Puesto"/>
+                      </StringArray>
                     </Property>
                   </Properties>
                   <Events>
@@ -1198,7 +1196,10 @@
                       <Font name="Tahoma" size="18" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="0"/>
+                      <StringArray count="2">
+                        <StringItem index="0" value="Empleados"/>
+                        <StringItem index="1" value="Usuarios"/>
+                      </StringArray>
                     </Property>
                   </Properties>
                   <Events>
@@ -2010,6 +2011,9 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Nombre"/>
                           </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                          </AuxValues>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblCargo">
                           <Properties>
@@ -2018,6 +2022,9 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Puesto"/>
                           </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                          </AuxValues>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblArea">
                           <Properties>
@@ -2026,6 +2033,9 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="&#xc1;rea"/>
                           </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                          </AuxValues>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblDomicilio">
                           <Properties>
@@ -2034,6 +2044,9 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Domicilio"/>
                           </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                          </AuxValues>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblTelefono">
                           <Properties>
@@ -2042,6 +2055,9 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Telefono"/>
                           </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                          </AuxValues>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblCurp">
                           <Properties>
@@ -2050,6 +2066,9 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="CURP"/>
                           </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                          </AuxValues>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblRfc">
                           <Properties>
@@ -2058,6 +2077,9 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="RFC"/>
                           </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                          </AuxValues>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblMunicipio">
                           <Properties>
@@ -2066,6 +2088,9 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Municipio"/>
                           </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                          </AuxValues>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblLocalidad">
                           <Properties>
@@ -2074,6 +2099,9 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Localidad"/>
                           </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                          </AuxValues>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblCodigo">
                           <Properties>
@@ -2082,6 +2110,9 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="C.P."/>
                           </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                          </AuxValues>
                         </Component>
                         <Component class="javax.swing.JLabel" name="lblFecha">
                           <Properties>
@@ -2090,6 +2121,9 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Fecha de nacimiento"/>
                           </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                          </AuxValues>
                         </Component>
                         <Component class="javax.swing.JButton" name="btnEditar">
                           <Properties>

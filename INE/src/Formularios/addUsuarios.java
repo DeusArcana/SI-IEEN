@@ -275,9 +275,6 @@ public class addUsuarios extends javax.swing.JDialog {
                         }
                         
                         JOptionPane.showMessageDialog(null, "El usuario "+usuario+ "ha sido registrado en la base de datos exitosamente.");
-                        if(manager_permisos.accesoModulo("consulta","Usuarios",Principal.Username)){
-                            Principal.tablaUsuarios.setModel(manager_users.getEmpleados());
-                        }
                         this.dispose();
                     }else{
                             JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");

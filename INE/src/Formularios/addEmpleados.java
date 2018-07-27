@@ -14,6 +14,7 @@ import com.alee.laf.WebLookAndFeel;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -22,9 +23,9 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @author kevin
  */
 public class addEmpleados extends javax.swing.JDialog {
-    String nombres,apellido_p,apellido_m,telefono,curp,rfc,calle,colonia,fecha,codigoP,municipio,localidad;
+    String nombres,apellido_p,apellido_m,telefono,curp,rfc,calle,colonia,fecha,codigoP,municipio,localidad,busqueda;
     boolean documentacion;
-    int area,puesto;
+    int area,puesto,filtro;
     int[] ids_area,ids_puesto;
     
     ManagerUsers manager_users;
@@ -33,10 +34,11 @@ public class addEmpleados extends javax.swing.JDialog {
     /**
      * Creates new form addEmpleados
      */
-    public addEmpleados(java.awt.Frame parent, boolean modal) {
+    public addEmpleados(java.awt.Frame parent, boolean modal, int filtro, String busqueda) {
         super(parent, modal);
         initComponents();
-        
+        this.busqueda = busqueda;
+        this.filtro = filtro;
         //Asignamos memoria a los objetos
         manager_users = new ManagerUsers();
         manager_complemento = new ManagerComplemento();
@@ -45,6 +47,10 @@ public class addEmpleados extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
         this.setTitle("Registro de nuevo empleado");
         
+    }
+
+    private addEmpleados(JFrame jFrame, boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -323,8 +329,8 @@ public class addEmpleados extends javax.swing.JDialog {
         }else{
             localidad = txtLocalidad.getText();
         }
-        area = comboArea.getSelectedIndex()+1;
-        puesto = comboPuesto.getSelectedIndex()+1;
+        area = ids_area[comboArea.getSelectedIndex()];
+        puesto = ids_puesto[comboPuesto.getSelectedIndex()];
         
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         fecha = formato.format(txtFecha.getDate());
@@ -358,7 +364,7 @@ public class addEmpleados extends javax.swing.JDialog {
                     if(insertar){
                         JOptionPane.showMessageDialog(null, "El empleado "+nombres+ " "+apellido_p+ "ha sido registrado en la base de datos exitosamente.");
                         if(manager_permisos.accesoModulo("consulta","Empleados",Principal.Username)){
-                            Principal.tablaUsuarios.setModel(manager_users.getEmpleados());
+                            Principal.tablaUsuarios.setModel(manager_users.getEmpleados(Principal.Username,filtro,busqueda));
                         }
                         this.dispose();
                     }else{

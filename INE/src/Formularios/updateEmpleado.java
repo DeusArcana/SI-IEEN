@@ -25,9 +25,9 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @author kevin
  */
 public class updateEmpleado extends javax.swing.JDialog {
-    String nombres,apellido_p,apellido_m,telefono,curp,rfc,calle,colonia,fecha,codigoP,area,municipio,localidad;
+    String nombres,apellido_p,apellido_m,telefono,curp,rfc,calle,colonia,fecha,codigoP,area,municipio,localidad,busqueda;
     boolean documentacion;
-    int id;
+    int id,filtro, bandera;
     
     ManagerUsers manager_users;
     ManagerComplemento manager_complemento;
@@ -35,14 +35,17 @@ public class updateEmpleado extends javax.swing.JDialog {
     /**
      * Creates new form addEmpleados
      */
-    public updateEmpleado(java.awt.Frame parent, boolean modal, int idEmpleado, int bandera) throws ParseException {
+    public updateEmpleado(java.awt.Frame parent, boolean modal, int idEmpleado, int bandera, int filtro, String busqueda) throws ParseException {
         super(parent, modal);
         initComponents();
-        
+        this.bandera = bandera;
         //Está bandera es para saber si se llama de la pestaña de empleados o si se llama para actualizar su perfil
         if(bandera == 1){
             txtRfc.setEditable(false);
         }
+        
+        this.filtro = filtro;
+        this.busqueda = busqueda;
         
         //Asignamos memoria a los objetos
         manager_users = new ManagerUsers();
@@ -101,8 +104,8 @@ public class updateEmpleado extends javax.swing.JDialog {
         txtLocalidad = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        lblPuesto = new javax.swing.JLabel();
-        lblArea = new javax.swing.JLabel();
+        labelPuesto = new javax.swing.JLabel();
+        labelArea = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -240,15 +243,15 @@ public class updateEmpleado extends javax.swing.JDialog {
         pn_empleado.add(btnCancelar);
         btnCancelar.setBounds(390, 240, 121, 25);
 
-        lblPuesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lblPuesto.setText("Puesto:");
-        pn_empleado.add(lblPuesto);
-        lblPuesto.setBounds(340, 190, 350, 17);
+        labelPuesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelPuesto.setText("Puesto:");
+        pn_empleado.add(labelPuesto);
+        labelPuesto.setBounds(340, 190, 350, 17);
 
-        lblArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lblArea.setText("Área:");
-        pn_empleado.add(lblArea);
-        lblArea.setBounds(360, 170, 330, 17);
+        labelArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        labelArea.setText("Área:");
+        pn_empleado.add(labelArea);
+        labelArea.setBounds(360, 170, 330, 17);
 
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         pn_empleado.add(jLabel17);
@@ -278,7 +281,7 @@ public class updateEmpleado extends javax.swing.JDialog {
         //Apellido Materno
         txtApellidoM.setText(datos[2]);
         //Área
-        lblArea.setText("Área: "+datos[3]);
+        labelArea.setText("Área: "+datos[3]);
         //Calle
         if(datos[4].equals("null")){
             datos[4] = "Sin especificar";
@@ -327,7 +330,7 @@ public class updateEmpleado extends javax.swing.JDialog {
         }
         txtLocalidad.setText(datos[12]);
         //Puesto
-        lblPuesto.setText("Puesto: "+datos[13]);
+        labelPuesto.setText("Puesto: "+datos[13]);
         
         
     }//colocarDatos
@@ -375,9 +378,26 @@ public class updateEmpleado extends javax.swing.JDialog {
                     getInfo();
                     boolean insertar = manager_users.actualizarEmpleado(id,nombres, apellido_p, apellido_m, calle, colonia, telefono, codigoP, fecha, curp, rfc, municipio,localidad);
                     if(insertar){
-                        JOptionPane.showMessageDialog(null, "El empleado "+nombres+ " "+apellido_p+ "ha sido registrado en la base de datos exitosamente.");
-                        if(manager_permisos.accesoModulo("consulta","Empleados",Principal.Username)){
-                            Principal.tablaUsuarios.setModel(manager_users.getEmpleados());
+                        if(bandera == 1){
+                            String cadena = manager_users.infoEmpleado(Principal.Username);
+                            String separador [] = cadena.split(",");
+                            Principal.lblNombre.setText("Nombre: "+separador[0]+" "+separador[1]+" "+separador[2]);
+                            Principal.lblDomicilio.setText("Domicilio: "+separador[4]+" "+separador[3]);
+                            Principal.lblTelefono.setText("Telefono: "+separador[5]);
+                            Principal.lblCodigo.setText("C.P.: "+separador[6]);
+                            Principal.lblFecha.setText("Fecha de nacimiento: "+separador[7]);
+                            Principal.lblCurp.setText("CURP: "+separador[8]);
+                            Principal.lblRfc.setText("RFC: "+separador[9]);
+                            Principal.lblMunicipio.setText("Municipio: "+separador[10]);
+                            Principal.lblLocalidad.setText("Localidad: "+separador[11]);
+                            Principal.lblCargo.setText("Puesto: "+separador[12]);
+                            labelArea.setText("Área: "+separador[13]);
+                            JOptionPane.showMessageDialog(null, "Sus datos se actualizaron exitosamente");
+                        }else{
+                            JOptionPane.showMessageDialog(null, "El empleado "+nombres+ " "+apellido_p+ "ha sido actualizado exitosamente.");
+                            if(manager_permisos.accesoModulo("consulta","Empleados",Principal.Username)){
+                                Principal.tablaUsuarios.setModel(manager_users.getEmpleados(Principal.Username,filtro,busqueda));
+                            }
                         }
                         this.dispose();
                     }else{
@@ -477,8 +497,8 @@ public class updateEmpleado extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel lblArea;
-    private javax.swing.JLabel lblPuesto;
+    private javax.swing.JLabel labelArea;
+    private javax.swing.JLabel labelPuesto;
     private javax.swing.JPanel pn_empleado;
     private javax.swing.JTextField txtApellidoM;
     private javax.swing.JTextField txtApellidoP;

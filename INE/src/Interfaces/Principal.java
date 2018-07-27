@@ -961,17 +961,11 @@ public class Principal extends javax.swing.JFrame {
         pn_tablaUsuarios.setLayout(pn_tablaUsuariosLayout);
         pn_tablaUsuariosLayout.setHorizontalGroup(
             pn_tablaUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_tablaUsuariosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 986, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1006, Short.MAX_VALUE)
         );
         pn_tablaUsuariosLayout.setVerticalGroup(
             pn_tablaUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_tablaUsuariosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
         );
 
         jPanel5.add(pn_tablaUsuarios);
@@ -1019,6 +1013,7 @@ public class Principal extends javax.swing.JFrame {
         txtBusquedaUsuario.setBounds(390, 100, 290, 30);
 
         comboFiltroUsuario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Apellido P", "Apellido M", "Area", "Puesto" }));
         comboFiltroUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboFiltroUsuarioActionPerformed(evt);
@@ -1028,6 +1023,7 @@ public class Principal extends javax.swing.JFrame {
         comboFiltroUsuario.setBounds(150, 100, 210, 28);
 
         comboEmpUsu.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        comboEmpUsu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Empleados", "Usuarios" }));
         comboEmpUsu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboEmpUsuActionPerformed(evt);
@@ -2448,19 +2444,8 @@ public class Principal extends javax.swing.JFrame {
         }
         //---------------------------------- PESTAÑA INVENTARIO --------------------------------------//
         
-        //COMBOFILTROUSUARIO
-        comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-        comboFiltroUsuario.addItem("Usuario");
-        comboFiltroUsuario.addItem("Nombre");
-        comboFiltroUsuario.addItem("Apellido P");
-        comboFiltroUsuario.addItem("Apellido M");
-        comboFiltroUsuario.addItem("Cargo");
-        comboFiltroUsuario.addItem("Área");
         
-        //COMBOEMPUSU
-        comboEmpUsu.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-        comboEmpUsu.addItem("Empleados");
-        comboEmpUsu.addItem("Usuarios");
+        //---------------------------------- PESTAÑA DE EMPLEADOS Y USUARIOS --------------------------------------//
         
         //COMBOFILTROVEHICULOS
         comboFiltroVehiculos.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
@@ -2471,11 +2456,6 @@ public class Principal extends javax.swing.JFrame {
         comboFiltroVehiculos.addItem("Matricula");
         
         //Llenado de tablas
-        //USUARIOS/EMPLEADOS
-        if(manager_permisos.accesoModulo("consulta","Empleados",Username)){
-            tablaUsuarios.setModel(manager_users.getEmpleados());
-        }
-        
         //VEHICULOS
         if(manager_permisos.accesoModulo("consulta","Vehiculos",Username)){
             tablaVehiculos.setModel(managerVehiculos.getVehiculos());
@@ -2600,7 +2580,7 @@ public class Principal extends javax.swing.JFrame {
 
                 if(manager_users.estatusUsuario(usuario,"Baja")){
                     JOptionPane.showMessageDialog(null, "El usuario se a dado de baja exisitosamente.");
-                    tablaUsuarios.setModel(manager_users.getUsuarios(Username));
+                    buscarEmpleados();
                 }//if(eliminarEmpleado())
                 else{
                         JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
@@ -2616,6 +2596,8 @@ public class Principal extends javax.swing.JFrame {
     private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
         // TODO add your handling code here:
         if(manager_permisos.accesoModulo("actualizar","Empleados",Username)){
+            int filtro = comboFiltroUsuario.getSelectedIndex();
+            String busqueda = txtBusquedaUsuario.getText();
         try {
                 for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                     if ("Nimbus".equals(info.getName())) {
@@ -2629,7 +2611,7 @@ public class Principal extends javax.swing.JFrame {
         int fila = tablaUsuarios.getSelectedRow();
         updateEmpleado ob;
         try {
-            ob = new updateEmpleado(this, true,Integer.parseInt(tablaUsuarios.getValueAt(fila, 0).toString()),2);
+            ob = new updateEmpleado(this, true,Integer.parseInt(tablaUsuarios.getValueAt(fila, 0).toString()),2,filtro,busqueda);
             ob.setVisible(true);
         } catch (ParseException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
@@ -3791,7 +3773,6 @@ public void metodoValeRecoleccion(){
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
-        banderaUser = 3;
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -3805,7 +3786,9 @@ public void metodoValeRecoleccion(){
         //Llamamos el forumulario para actuaizar un empleado
         updateEmpleado ob;
         try {
-            ob = new updateEmpleado(this, true,manager_users.obtenerIdEmpleado(Username),1);
+            int filtro = comboFiltroUsuario.getSelectedIndex();
+            String busqueda = txtBusquedaUsuario.getText();
+            ob = new updateEmpleado(this, true,manager_users.obtenerIdEmpleado(Username),1,filtro,busqueda);
             ob.setVisible(true);
         } catch (ParseException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
@@ -3905,50 +3888,46 @@ public void metodoValeRecoleccion(){
 
     private void comboFiltroUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroUsuarioActionPerformed
         // TODO add your handling code here:
+        buscarEmpleados();
     }//GEN-LAST:event_comboFiltroUsuarioActionPerformed
-
-    private void txtBusquedaUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaUsuarioKeyReleased
-        // TODO add your handling code here:
+    public void buscarEmpleados(){
+        
         int filtro = comboFiltroUsuario.getSelectedIndex();
         String busqueda = txtBusquedaUsuario.getText();
         
+        //comboEmpleado/Usuario
         if(comboEmpUsu.getSelectedItem().toString().equals("Empleados")){
             
             if(manager_permisos.accesoModulo("consulta","Empleados",Username)){
-                
-                //Si no hay nada en el campo entonces mostramos todos los empleados
-                if(busqueda.equals("")){
-                    tablaUsuarios.setModel(manager_users.getEmpleados());
-                }//if
-                else{
-                    //Si hay coincidencias entonces los muestra
-                    if(manager_users.existeEmpleado(filtro, busqueda, Username)){
-                        tablaUsuarios.setModel(manager_users.getEmpleadosCoincidencia(Username,filtro,busqueda));
-                    }//if
-
-                    //Si no hay coincidecnias entonces mostramos todos los empleados
-                    else{
-                        tablaUsuarios.setModel(manager_users.getEmpleados());
-                    }//else
-
-                }//else
-                
+                tablaUsuarios.setModel(manager_users.getEmpleados(Username,filtro,busqueda));
             }else{
-                JOptionPane.showMessageDialog(null, "No tiene permisos para consultar empleados.");
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultar empleados.");
+                tablaUsuarios.setModel(new DefaultTableModel());
             }//else
             
         }else{
             if(manager_permisos.accesoModulo("consulta","Usuarios",Username)){
-            
+                tablaUsuarios.setModel(manager_users.getUsuarios(Username,filtro,busqueda));
             }else{
-                JOptionPane.showMessageDialog(null, "No tiene permisos para consultar usuarios.");
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultar usuarios.");
+                tablaUsuarios.setModel(new DefaultTableModel());
             }//else
         }//else
+        
+    }
+    private void txtBusquedaUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaUsuarioKeyReleased
+        // TODO add your handling code here:
+        if((manager_permisos.accesoModulo("consulta","Empleados",Username) && comboEmpUsu.getSelectedItem().toString().equals("Empleados") ) || (manager_permisos.accesoModulo("consulta","Usuarios",Username) && comboEmpUsu.getSelectedItem().toString().equals("Usuarios"))){
+            buscarEmpleados();
+        }else{
+            tablaUsuarios.setModel(new DefaultTableModel());
+        }
     }//GEN-LAST:event_txtBusquedaUsuarioKeyReleased
 
     private void btnAddEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmpleadoActionPerformed
         // TODO add your handling code here:
-        
+        int filtro = comboFiltroUsuario.getSelectedIndex();
+        String busqueda = txtBusquedaUsuario.getText();
         //Llamamos el forumulario para añadir un nuevo empleado
         if(manager_permisos.accesoModulo("alta","Empleados",Username)){
             try {
@@ -3961,7 +3940,7 @@ public void metodoValeRecoleccion(){
             } catch (Exception e) {
                 // If Nimbus is not available, you can set the GUI to another look and feel.
             }
-            addEmpleados ob = new addEmpleados(this, true);
+            addEmpleados ob = new addEmpleados(this, true, filtro, busqueda);
             ob.setVisible(true);
         }else{
             JOptionPane.showMessageDialog(null, "No cuenta con permisos para dar de alta empleados.");
@@ -4248,11 +4227,7 @@ public void metodoValeRecoleccion(){
 
     private void ActualizarInfoUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoUActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.accesoModulo("consulta","Empleados",Username)){
-            tablaUsuarios.setModel(manager_users.getEmpleados());
-        }else{
-            JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar empleados.");
-        }
+        
     }//GEN-LAST:event_ActualizarInfoUActionPerformed
 
     private void ActualizarInfoVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoVActionPerformed
@@ -4357,33 +4332,29 @@ public void metodoValeRecoleccion(){
 
     private void comboEmpUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpUsuActionPerformed
         // TODO add your handling code here:
+        int filtro = comboFiltroUsuario.getSelectedIndex();
+        String busqueda = txtBusquedaUsuario.getText();
+        
         if(comboEmpUsu.getSelectedItem().toString().equals("Empleados")){
-            if(manager_permisos.accesoModulo("consulta","Empleados",Username)){
-                tablaUsuarios.setModel(manager_users.getEmpleados());
-            }else{
-                JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar empleados.");
-            }
-            tabbedPrincipal.setTitleAt(1, "Empleados");
+            tabbedPrincipal.setTitleAt(1, "Empleados");//Le damos el nombre de "Empleados" a la pestaña 
             //COMBOFILTROUSUARIO
             comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
             comboFiltroUsuario.addItem("Nombre");
             comboFiltroUsuario.addItem("Apellido P");
             comboFiltroUsuario.addItem("Apellido M");
+            comboFiltroUsuario.addItem("Área");
+            comboFiltroUsuario.addItem("Puesto");
         }else{
-            if(manager_permisos.accesoModulo("consulta","Usuarios",Username)){
-                tablaUsuarios.setModel(manager_users.getUsuarios(Username));
-            }else{
-                JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar usuarios.");
-            }//else
-            tabbedPrincipal.setTitleAt(1, "Usuarios");
+            tabbedPrincipal.setTitleAt(1, "Usuarios");//Le damos el nombre de "Usuarios" a la pestaña
             //COMBOFILTROUSUARIO
             comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
             comboFiltroUsuario.addItem("Usuario");
             comboFiltroUsuario.addItem("Nombre");
             comboFiltroUsuario.addItem("Apellido P");
             comboFiltroUsuario.addItem("Apellido M");
-            comboFiltroUsuario.addItem("Cargo");
+            comboFiltroUsuario.addItem("Perfil");
             comboFiltroUsuario.addItem("Área");
+            comboFiltroUsuario.addItem("Puesto");
         }//else
     }//GEN-LAST:event_comboEmpUsuActionPerformed
 
@@ -4434,7 +4405,7 @@ public void metodoValeRecoleccion(){
 
                 if(manager_users.estatusUsuario(usuario,"Activo")){
                     JOptionPane.showMessageDialog(null, "El usuario se encuentra activo nuevamente.");
-                    tablaUsuarios.setModel(manager_users.getUsuarios(Username));
+                    buscarEmpleados();
                 }//if(eliminarEmpleado())
                 else{
                         JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
@@ -4961,6 +4932,8 @@ public void metodoValeRecoleccion(){
     private void ActualizarEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarEmployeeActionPerformed
         // TODO add your handling code here:
         if(manager_permisos.accesoModulo("actualizar","Empleados",Username)){
+            int filtro = comboFiltroUsuario.getSelectedIndex();
+            String busqueda = txtBusquedaUsuario.getText();
         try {
                 for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                     if ("Nimbus".equals(info.getName())) {
@@ -4974,7 +4947,7 @@ public void metodoValeRecoleccion(){
         int fila = tablaUsuarios.getSelectedRow();
         updateEmpleado ob;
             try {
-                ob = new updateEmpleado(this, true,manager_users.obtenerIdEmpleado(tablaUsuarios.getValueAt(fila,0).toString()),2);
+                ob = new updateEmpleado(this, true,manager_users.obtenerIdEmpleado(tablaUsuarios.getValueAt(fila,0).toString()),2,filtro,busqueda);
                 ob.setVisible(true);
             } catch (ParseException ex) {
                 Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
@@ -5063,12 +5036,22 @@ public void metodoValeRecoleccion(){
         int indicePestañas = tabbedPrincipal.getSelectedIndex();
         
         switch(indicePestañas){
+            //Pestaña de inventario
             case 0:
                 if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
                     realizarBusquedaInventario();
                 }else{
                     tablaInventario.setModel(new DefaultTableModel());
                 }//else
+                break;
+            //Pestaña de empleados y usuarios
+            case 1:
+                if( (manager_permisos.accesoModulo("consulta","Empleados",Username) && comboEmpUsu.getSelectedItem().toString().equals("Empleados") ) || 
+                        (manager_permisos.accesoModulo("consulta","Usuarios",Username) && comboEmpUsu.getSelectedItem().toString().equals("Usuarios"))){
+                    buscarEmpleados();
+                }else{
+                    tablaUsuarios.setModel(new DefaultTableModel());
+                }
                 break;
             case 3:
                 //PESTAÑA DE SOLICITUD
@@ -5184,11 +5167,14 @@ public void metodoValeRecoleccion(){
     private void btnAceptarCheck2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarCheck2ActionPerformed
         // TODO add your handling code here:
         Excel excel = new Excel();
+        int filtro = comboFiltroUsuario.getSelectedIndex();
+        String busqueda = txtBusquedaUsuario.getText();
+        
         if(comboEmpUsu.getSelectedItem().toString().equals("Empleados")){
             
             if(manager_permisos.accesoModulo("consulta","Empleados",Username)){
                 JTable tablaEmpleadosExcel = new JTable();
-                tablaEmpleadosExcel.setModel(manager_users.getEmpleadosExcel());
+                tablaEmpleadosExcel.setModel(manager_users.getEmpleadosExcel(Username,filtro,busqueda));
                 excel.GuardarComo(tablaEmpleadosExcel);
             }else{
                 JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar empleados.");
@@ -5198,7 +5184,7 @@ public void metodoValeRecoleccion(){
             
             if(manager_permisos.accesoModulo("consulta","Usuarios",Username)){
                 JTable tablaUsuariosExcel = new JTable();
-                tablaUsuariosExcel.setModel(manager_users.getUsuariosExcel());
+                tablaUsuariosExcel.setModel(manager_users.getUsuariosExcel(Username,filtro,busqueda));
                 excel.GuardarComo(tablaUsuariosExcel);
             }else{
                 JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar usuarios.");
@@ -5509,18 +5495,18 @@ public void metodoValeRecoleccion(){
     private javax.swing.JLabel lb_objetos_asignables3;
     private javax.swing.JLabel lb_objetos_asignables4;
     private javax.swing.JLabel lb_objetos_asignados1;
-    private javax.swing.JLabel lblArea;
-    private javax.swing.JLabel lblCargo;
-    private javax.swing.JLabel lblCodigo;
-    private javax.swing.JLabel lblCurp;
-    private javax.swing.JLabel lblDomicilio;
-    private javax.swing.JLabel lblFecha;
-    private javax.swing.JLabel lblLocalidad;
-    private javax.swing.JLabel lblMunicipio;
-    private javax.swing.JLabel lblNombre;
+    public static javax.swing.JLabel lblArea;
+    public static javax.swing.JLabel lblCargo;
+    public static javax.swing.JLabel lblCodigo;
+    public static javax.swing.JLabel lblCurp;
+    public static javax.swing.JLabel lblDomicilio;
+    public static javax.swing.JLabel lblFecha;
+    public static javax.swing.JLabel lblLocalidad;
+    public static javax.swing.JLabel lblMunicipio;
+    public static javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblProductosTotales;
-    private javax.swing.JLabel lblRfc;
-    private javax.swing.JLabel lblTelefono;
+    public static javax.swing.JLabel lblRfc;
+    public static javax.swing.JLabel lblTelefono;
     private javax.swing.JMenu menuOpciones;
     private javax.swing.JMenuItem menuPermisos;
     private javax.swing.JMenuItem mi_viaticos;
