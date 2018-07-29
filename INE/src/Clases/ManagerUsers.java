@@ -84,6 +84,86 @@ public class ManagerUsers {
                        + "e.rfc, e.municipio, e.localidad, a.area, pt.Puesto from empleados e "
                        + "inner join area a on (a.ID_Area = e.area) "
                        + "inner join puestos_trabajo pt on (pt.ID_Puesto = e.puesto) "
+                       + "where "+tipoBusqueda+" like '%"+busqueda+"%' and e.id_empleado not in (select id_empleado from user where id_user = '"+usuario+"');";;
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            Object datos[] = new Object[14];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<14;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+           }//while
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error obtener la tabla de empleados con toda la información en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//getEmpleadosExcel
+    //Este método es para obtener una tabla con toda la información de los empleados sin usuario y proporcionarla en el documento de Excel
+    public DefaultTableModel getEmpleadosSinUsuarioExcel(int filtro,String busqueda) {
+
+        DefaultTableModel table = new DefaultTableModel();
+
+        try {
+            
+            /*
+            filtro = 0; Nombres
+            filtro = 1; Apellido P
+            filtro = 2; Apellido M
+            */
+            String tipoBusqueda = "";
+            switch(filtro){
+
+                case 0:
+                    tipoBusqueda = "e.nombres";
+                    break;
+
+                case 1:
+                    tipoBusqueda = "e.apellido_p";
+                    break;
+
+                case 2:
+                    tipoBusqueda = "e.apellido_m";
+                    break;    
+                case 3:
+                    tipoBusqueda = "a.area";
+                    break;    
+                case 4:
+                    tipoBusqueda = "pt.puesto";
+                    break;    
+
+            }//Buscamos el nombre de la columna con lo que vamos a buscar la coincidencia
+            
+            table.addColumn("Nombre(s)");
+            table.addColumn("Apellido Paterno");
+            table.addColumn("Apellido Materno");
+            table.addColumn("Calle");
+            table.addColumn("Colonia");
+            table.addColumn("Telefono");
+            table.addColumn("Código Postal");
+            table.addColumn("Fecha de Nacimiento");
+            table.addColumn("CURP");
+            table.addColumn("RFC");
+            table.addColumn("Municipio");
+            table.addColumn("Localidad");
+            table.addColumn("Área");
+            table.addColumn("Puesto");
+            
+            //Consulta de los empleados
+            String sql = "select e.nombres, e.apellido_p, e.apellido_m, e.calle, e.colonia, e.telefono, e.codigo_postal, e.fecha_nacimiento, e.curp, "
+                       + "e.rfc, e.municipio, e.localidad, a.area, pt.Puesto from empleados e "
+                       + "inner join area a on (a.ID_Area = e.area) "
+                       + "inner join puestos_trabajo pt on (pt.ID_Puesto = e.puesto) "
                        + "where "+tipoBusqueda+" like '%"+busqueda+"%' and e.id_empleado not in (select id_empleado from user);";;
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
@@ -263,7 +343,7 @@ public class ManagerUsers {
 
     }//getUsuarios
     
-    public DefaultTableModel getEmpleados(String usuario,int filtro,String busqueda) {
+    public DefaultTableModel getEmpleadosSinUsuario(int filtro,String busqueda) {
 
         DefaultTableModel table = new DefaultTableModel();
         String tipoBusqueda = "";
@@ -326,6 +406,69 @@ public class ManagerUsers {
         }
 
     }//getEmpleadosCoincidencia
+    public DefaultTableModel getEmpleados(String usuario,int filtro,String busqueda) {
+
+        DefaultTableModel table = new DefaultTableModel();
+        String tipoBusqueda = "";
+        try{
+            switch(filtro){
+
+                case 0:
+                    tipoBusqueda = "e.nombres";
+                    break;
+
+                case 1:
+                    tipoBusqueda = "e.apellido_p";
+                    break;
+
+                case 2:
+                    tipoBusqueda = "e.apellido_m";
+                    break;
+                case 3:
+                    tipoBusqueda = "a.area";
+                    break;    
+                case 4:
+                    tipoBusqueda = "p.puesto";
+                    break;
+
+            }//Buscamos el nombre de la columna con lo que vamos a buscar la coincidencia
+
+            table.addColumn("ID");
+            table.addColumn("Nombre(s)");
+            table.addColumn("Apellido Paterno");
+            table.addColumn("Apellido Materno");
+            table.addColumn("Area");
+            table.addColumn("Puesto");
+            
+            //Consulta de los empleados
+            String sql = "select e.id_empleado,e.nombres,e.apellido_p,e.apellido_m,a.area,p.puesto from empleados e "
+                       + "inner join area a on (e.area = a.ID_Area) "
+                       + "inner join puestos_trabajo p on (e.puesto = p.ID_Puesto) "
+                       + "where "+tipoBusqueda+" like '%"+busqueda+"%' and e.id_empleado not in (select id_empleado from user where id_user = '"+usuario+"');";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            Object datos[] = new Object[6];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+
+                for(int i = 0;i<6;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+           }//while
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error getTabla Inventario SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//getEmpleados
     
     public boolean existeEmpleado(int filtro, String busqueda,String usuario){
         boolean estado = false;

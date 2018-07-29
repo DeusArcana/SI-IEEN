@@ -224,23 +224,23 @@ public class Principal extends javax.swing.JFrame {
         ParaBaja1 = new javax.swing.JMenuItem();
         ParaComodato1 = new javax.swing.JMenuItem();
         ParaDonacion1 = new javax.swing.JMenuItem();
-        Repa_Garan = new javax.swing.JMenuItem();
+        NoDisponible = new javax.swing.JMenuItem();
         EstatusDefinitivo = new javax.swing.JMenuItem();
         MenuInventarioG = new javax.swing.JPopupMenu();
         ActualizarConsumible = new javax.swing.JMenuItem();
         AddStock = new javax.swing.JMenuItem();
         MenuEmpleados = new javax.swing.JPopupMenu();
         Actualizar = new javax.swing.JMenuItem();
-        ActualizarInfoU = new javax.swing.JMenuItem();
         Asignar_usuario = new javax.swing.JMenuItem();
         activarE = new javax.swing.JMenuItem();
         bajaE = new javax.swing.JMenuItem();
+        ExportarEmpleados = new javax.swing.JMenuItem();
         MenuUsuarios = new javax.swing.JPopupMenu();
         dar_baja = new javax.swing.JMenuItem();
         activar = new javax.swing.JMenuItem();
-        Promover = new javax.swing.JMenuItem();
         Permisos = new javax.swing.JMenuItem();
         ActualizarEmployee = new javax.swing.JMenuItem();
+        ExportarUsuarios = new javax.swing.JMenuItem();
         MenuVehiculos = new javax.swing.JPopupMenu();
         ActualizarV = new javax.swing.JMenuItem();
         SolictarMas = new javax.swing.JMenu();
@@ -290,10 +290,8 @@ public class Principal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         usuarios = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        pn_tablaUsuarios = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaUsuarios = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
-        btnAceptarCheck2 = new javax.swing.JButton();
         btnAddEmpleado = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -490,13 +488,13 @@ public class Principal extends javax.swing.JFrame {
 
         MenuInventario.add(Pendiente);
 
-        Repa_Garan.setText("Reparación/Garantía");
-        Repa_Garan.addActionListener(new java.awt.event.ActionListener() {
+        NoDisponible.setText("Cambiar a No Disponible");
+        NoDisponible.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Repa_GaranActionPerformed(evt);
+                NoDisponibleActionPerformed(evt);
             }
         });
-        MenuInventario.add(Repa_Garan);
+        MenuInventario.add(NoDisponible);
 
         EstatusDefinitivo.setText("Cambiar a ");
         EstatusDefinitivo.addActionListener(new java.awt.event.ActionListener() {
@@ -530,14 +528,6 @@ public class Principal extends javax.swing.JFrame {
         });
         MenuEmpleados.add(Actualizar);
 
-        ActualizarInfoU.setText("Refrescar");
-        ActualizarInfoU.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarInfoUActionPerformed(evt);
-            }
-        });
-        MenuEmpleados.add(ActualizarInfoU);
-
         Asignar_usuario.setText("Asignar usuario");
         Asignar_usuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -562,6 +552,14 @@ public class Principal extends javax.swing.JFrame {
         });
         MenuEmpleados.add(bajaE);
 
+        ExportarEmpleados.setText("jMenuItem2");
+        ExportarEmpleados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExportarEmpleadosActionPerformed(evt);
+            }
+        });
+        MenuEmpleados.add(ExportarEmpleados);
+
         dar_baja.setText("Baja de usuario");
         dar_baja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -578,14 +576,6 @@ public class Principal extends javax.swing.JFrame {
         });
         MenuUsuarios.add(activar);
 
-        Promover.setText("Promover");
-        Promover.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PromoverActionPerformed(evt);
-            }
-        });
-        MenuUsuarios.add(Promover);
-
         Permisos.setText("Permisos");
         Permisos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -601,6 +591,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MenuUsuarios.add(ActualizarEmployee);
+
+        ExportarUsuarios.setText("jMenuItem2");
+        ExportarUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExportarUsuariosActionPerformed(evt);
+            }
+        });
+        MenuUsuarios.add(ExportarUsuarios);
 
         ActualizarV.setText("Actualizar");
         ActualizarV.addActionListener(new java.awt.event.ActionListener() {
@@ -939,9 +937,6 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel5.setLayout(null);
 
-        pn_tablaUsuarios.setBackground(new java.awt.Color(255, 255, 255));
-        pn_tablaUsuarios.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-
         tablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -957,31 +952,8 @@ public class Principal extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tablaUsuarios);
 
-        javax.swing.GroupLayout pn_tablaUsuariosLayout = new javax.swing.GroupLayout(pn_tablaUsuarios);
-        pn_tablaUsuarios.setLayout(pn_tablaUsuariosLayout);
-        pn_tablaUsuariosLayout.setHorizontalGroup(
-            pn_tablaUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1006, Short.MAX_VALUE)
-        );
-        pn_tablaUsuariosLayout.setVerticalGroup(
-            pn_tablaUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
-        );
-
-        jPanel5.add(pn_tablaUsuarios);
-        pn_tablaUsuarios.setBounds(20, 150, 1010, 360);
-
-        btnAceptarCheck2.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
-        btnAceptarCheck2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar.png"))); // NOI18N
-        btnAceptarCheck2.setText("Exportar");
-        btnAceptarCheck2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnAceptarCheck2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAceptarCheck2ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnAceptarCheck2);
-        btnAceptarCheck2.setBounds(1090, 260, 119, 41);
+        jPanel5.add(jScrollPane1);
+        jScrollPane1.setBounds(30, 150, 1050, 402);
 
         btnAddEmpleado.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         btnAddEmpleado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar.png"))); // NOI18N
@@ -992,7 +964,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel5.add(btnAddEmpleado);
-        btnAddEmpleado.setBounds(1090, 210, 140, 30);
+        btnAddEmpleado.setBounds(1090, 150, 140, 30);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baner Usuarios.png"))); // NOI18N
         jPanel5.add(jLabel2);
@@ -1023,7 +995,7 @@ public class Principal extends javax.swing.JFrame {
         comboFiltroUsuario.setBounds(150, 100, 210, 28);
 
         comboEmpUsu.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        comboEmpUsu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Empleados", "Usuarios" }));
+        comboEmpUsu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Empleados sin usuario", "Empleados", "Usuarios" }));
         comboEmpUsu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboEmpUsuActionPerformed(evt);
@@ -3896,7 +3868,16 @@ public void metodoValeRecoleccion(){
         String busqueda = txtBusquedaUsuario.getText();
         
         //comboEmpleado/Usuario
-        if(comboEmpUsu.getSelectedItem().toString().equals("Empleados")){
+        if(comboEmpUsu.getSelectedItem().toString().equals("Empleados sin usuario")){
+            
+            if(manager_permisos.accesoModulo("consulta","Empleados",Username)){
+                tablaUsuarios.setModel(manager_users.getEmpleadosSinUsuario(filtro,busqueda));
+            }else{
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultar empleados.");
+                tablaUsuarios.setModel(new DefaultTableModel());
+            }//else
+
+        }else if(comboEmpUsu.getSelectedItem().toString().equals("Empleados")){
             
             if(manager_permisos.accesoModulo("consulta","Empleados",Username)){
                 tablaUsuarios.setModel(manager_users.getEmpleados(Username,filtro,busqueda));
@@ -3946,32 +3927,6 @@ public void metodoValeRecoleccion(){
             JOptionPane.showMessageDialog(null, "No cuenta con permisos para dar de alta empleados.");
         }
     }//GEN-LAST:event_btnAddEmpleadoActionPerformed
-
-    private void tablaUsuariosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseReleased
-        // TODO add your handling code here:
-        
-        if(comboEmpUsu.getSelectedItem().toString().equals("Empleados")){
-            //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
-            if(SwingUtilities.isRightMouseButton(evt)){
-                int r = tablaUsuarios.rowAtPoint(evt.getPoint());
-                if (r >= 0 && r < tablaUsuarios.getRowCount())
-                tablaUsuarios.setRowSelectionInterval(r, r);
-                MenuEmpleados.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-            }//clic derecho    
-        }else{
-            //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
-            if(SwingUtilities.isRightMouseButton(evt)){
-                int r = tablaUsuarios.rowAtPoint(evt.getPoint());
-                if (r >= 0 && r < tablaUsuarios.getRowCount())
-                tablaUsuarios.setRowSelectionInterval(r, r);
-                MenuUsuarios.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-            }//clic derecho
-
-        }
-        
-        
-
-    }//GEN-LAST:event_tablaUsuariosMouseReleased
 
     private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
         // TODO add your handling code here:
@@ -4113,7 +4068,7 @@ public void metodoValeRecoleccion(){
                         DevolverDis.setVisible(true);//Cambiar el estatus a "Disponible"
                         EstatusDefinitivo.setVisible(true);//Cambiar el estatus a "Baja/Donación/Comodato"
                         Pendiente.setVisible(true);//Cambiar el estatus a "Pendiente para baja/donación/comodato"
-                        Repa_Garan.setVisible(true);//Cambiar el estatus a "Reparación/Garantía"
+                        NoDisponible.setVisible(true);//Cambiar el estatus a "Reparación/Garantía"
                         ActualizarProd.setVisible(true);//Actualizar la información de un producto
 
                         if(comboEstatus.getSelectedItem().toString().equals("para baja")){ EstatusDefinitivo.setText("Cambiar a Baja"); pendientePara = "Baja";}
@@ -4126,7 +4081,7 @@ public void metodoValeRecoleccion(){
                         DevolverDis.setVisible(false);//Cambiar el estatus a "Disponible"
                         EstatusDefinitivo.setVisible(false);//Cambiar el estatus a "Baja/Donación/Comodato"
                         Pendiente.setVisible(false);//Cambiar el estatus a "Pendiente para baja/donación/comodato"
-                        Repa_Garan.setVisible(false);//Cambiar el estatus a "Reparación/Garantía"
+                        NoDisponible.setVisible(false);//Cambiar el estatus a "Reparación/Garantía"
                         ActualizarProd.setVisible(true);//Actualizar la información de un producto
                         MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
                     }
@@ -4135,7 +4090,7 @@ public void metodoValeRecoleccion(){
                         DevolverDis.setVisible(false);//Cambiar el estatus a "Disponible"
                         EstatusDefinitivo.setVisible(false);//Cambiar el estatus a "Baja/Donación/Comodato"
                         Pendiente.setVisible(false);//Cambiar el estatus a "Pendiente para baja/donación/comodato"
-                        Repa_Garan.setVisible(false);//Cambiar el estatus a "Reparación/Garantía"
+                        NoDisponible.setVisible(false);//Cambiar el estatus a "Reparación/Garantía"
                         ActualizarProd.setVisible(false);//Actualizar la información de un producto
                     }
                     //Selección de Disponible
@@ -4143,7 +4098,7 @@ public void metodoValeRecoleccion(){
                         DevolverDis.setVisible(false);//Cambiar el estatus a "Disponible"
                         EstatusDefinitivo.setVisible(false);//Cambiar el estatus a "Baja/Donación/Comodato"
                         Pendiente.setVisible(true);//Cambiar el estatus a "Pendiente para baja/donación/comodato"
-                        Repa_Garan.setVisible(true);//Cambiar el estatus a "Reparación/Garantía"
+                        NoDisponible.setVisible(true);//Cambiar el estatus a "Reparación/Garantía"
                         ActualizarProd.setVisible(true);//Actualizar la información de un producto
                         MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
                     }
@@ -4162,21 +4117,6 @@ public void metodoValeRecoleccion(){
 
     private void tablaInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaInventarioMouseClicked
         // TODO add your handling code here:
-        /*
-        if(banderaInventario == 1){
-
-            if(evt.getClickCount() == 2){
-                //Obtenemos la fila donde está nuestro nombre del producto que queremos obtener
-                int fila = tablaInventario.getSelectedRow();
-                //Guardamos nuestro criterio de busqueda para la tabla de coincidencias
-                prodInventario = tablaInventario.getValueAt(fila, 0).toString();
-                //Mandamos a llamar la ventana de las coincidencias
-                tablaDetalleInventario ob = new tablaDetalleInventario(this,true);
-                ob.setVisible(true);
-            }//getClickCount
-
-        }//if
-        */
     }//GEN-LAST:event_tablaInventarioMouseClicked
 
     private void btnEditar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditar1ActionPerformed
@@ -4224,11 +4164,6 @@ public void metodoValeRecoleccion(){
             JOptionPane.showMessageDialog(null,"Usted no cuenta con los permisos para actualizar un consumible.");
         }
     }//GEN-LAST:event_ActualizarConsumibleActionPerformed
-
-    private void ActualizarInfoUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoUActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_ActualizarInfoUActionPerformed
 
     private void ActualizarInfoVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoVActionPerformed
         // TODO add your handling code here:
@@ -4335,8 +4270,12 @@ public void metodoValeRecoleccion(){
         int filtro = comboFiltroUsuario.getSelectedIndex();
         String busqueda = txtBusquedaUsuario.getText();
         
-        if(comboEmpUsu.getSelectedItem().toString().equals("Empleados")){
+        if(!(comboEmpUsu.getSelectedItem().toString().equals("Usuarios"))){
             tabbedPrincipal.setTitleAt(1, "Empleados");//Le damos el nombre de "Empleados" a la pestaña 
+            
+            //Botón para agregar empleados
+            btnAddEmpleado.setVisible(true);
+            
             //COMBOFILTROUSUARIO
             comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
             comboFiltroUsuario.addItem("Nombre");
@@ -4344,7 +4283,17 @@ public void metodoValeRecoleccion(){
             comboFiltroUsuario.addItem("Apellido M");
             comboFiltroUsuario.addItem("Área");
             comboFiltroUsuario.addItem("Puesto");
+            
+            //PopuMenu
+            if(!(comboEmpUsu.getSelectedItem().toString().equals("Empleados"))){
+                Asignar_usuario.setVisible(true);
+            }else{
+                Asignar_usuario.setVisible(false);
+            }
+            
         }else{
+            btnAddEmpleado.setVisible(false);
+            
             tabbedPrincipal.setTitleAt(1, "Usuarios");//Le damos el nombre de "Usuarios" a la pestaña
             //COMBOFILTROUSUARIO
             comboFiltroUsuario.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
@@ -5046,7 +4995,7 @@ public void metodoValeRecoleccion(){
                 break;
             //Pestaña de empleados y usuarios
             case 1:
-                if( (manager_permisos.accesoModulo("consulta","Empleados",Username) && comboEmpUsu.getSelectedItem().toString().equals("Empleados") ) || 
+                if( (manager_permisos.accesoModulo("consulta","Empleados",Username) && (comboEmpUsu.getSelectedItem().toString().equals("Empleados") || comboEmpUsu.getSelectedItem().toString().equals("Empleados sin usuario")) ) || 
                         (manager_permisos.accesoModulo("consulta","Usuarios",Username) && comboEmpUsu.getSelectedItem().toString().equals("Usuarios"))){
                     buscarEmpleados();
                 }else{
@@ -5125,13 +5074,9 @@ public void metodoValeRecoleccion(){
         ob.setVisible(true);        
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void Repa_GaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Repa_GaranActionPerformed
+    private void NoDisponibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NoDisponibleActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_Repa_GaranActionPerformed
-
-    private void PromoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PromoverActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PromoverActionPerformed
+    }//GEN-LAST:event_NoDisponibleActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
@@ -5164,34 +5109,74 @@ public void metodoValeRecoleccion(){
         // TODO add your handling code here:
     }//GEN-LAST:event_bajaEActionPerformed
 
-    private void btnAceptarCheck2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarCheck2ActionPerformed
+    private void tablaUsuariosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseReleased
         // TODO add your handling code here:
-        Excel excel = new Excel();
-        int filtro = comboFiltroUsuario.getSelectedIndex();
-        String busqueda = txtBusquedaUsuario.getText();
-        
-        if(comboEmpUsu.getSelectedItem().toString().equals("Empleados")){
-            
-            if(manager_permisos.accesoModulo("consulta","Empleados",Username)){
-                JTable tablaEmpleadosExcel = new JTable();
-                tablaEmpleadosExcel.setModel(manager_users.getEmpleadosExcel(Username,filtro,busqueda));
-                excel.GuardarComo(tablaEmpleadosExcel);
-            }else{
-                JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar empleados.");
-            }
-            
+
+        if(!(comboEmpUsu.getSelectedItem().toString().equals("Usuarios"))){
+            //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+            if(SwingUtilities.isRightMouseButton(evt)){
+                int r = tablaUsuarios.rowAtPoint(evt.getPoint());
+                if (r >= 0 && r < tablaUsuarios.getRowCount())
+                tablaUsuarios.setRowSelectionInterval(r, r);
+                MenuEmpleados.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+            }//clic derecho
         }else{
             
-            if(manager_permisos.accesoModulo("consulta","Usuarios",Username)){
-                JTable tablaUsuariosExcel = new JTable();
-                tablaUsuariosExcel.setModel(manager_users.getUsuariosExcel(Username,filtro,busqueda));
-                excel.GuardarComo(tablaUsuariosExcel);
-            }else{
-                JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar usuarios.");
-            }//else
-            
+            //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+            if(SwingUtilities.isRightMouseButton(evt)){
+                int r = tablaUsuarios.rowAtPoint(evt.getPoint());
+                if (r >= 0 && r < tablaUsuarios.getRowCount())
+                tablaUsuarios.setRowSelectionInterval(r, r);
+                
+                if(tablaUsuarios.getValueAt(r, 7).equals("Activo")){
+                    dar_baja.setVisible(true);
+                    activar.setVisible(false);
+                }else{
+                    dar_baja.setVisible(false);
+                    activar.setVisible(true);
+                }
+                
+                MenuUsuarios.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+            }//clic derecho
+
+        }
+
+    }//GEN-LAST:event_tablaUsuariosMouseReleased
+
+    private void ExportarUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarUsuariosActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.accesoModulo("consulta","Usuarios",Username)){
+            Excel excel = new Excel();
+            int filtro = comboFiltroUsuario.getSelectedIndex();
+            String busqueda = txtBusquedaUsuario.getText();
+            JTable tablaUsuariosExcel = new JTable();
+            tablaUsuariosExcel.setModel(manager_users.getUsuariosExcel(Username,filtro,busqueda));
+            excel.GuardarComo(tablaUsuariosExcel);
+        }else{
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar usuarios.");
         }//else
-    }//GEN-LAST:event_btnAceptarCheck2ActionPerformed
+            
+    }//GEN-LAST:event_ExportarUsuariosActionPerformed
+
+    private void ExportarEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarEmpleadosActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.accesoModulo("consulta","Empleados",Username)){
+            Excel excel = new Excel();
+            int filtro = comboFiltroUsuario.getSelectedIndex();
+            String busqueda = txtBusquedaUsuario.getText();
+            JTable tablaEmpleadosExcel = new JTable();
+            
+            if(comboEmpUsu.getSelectedItem().toString().equals("Empleados")){
+                tablaEmpleadosExcel.setModel(manager_users.getEmpleadosExcel(Username,filtro,busqueda));
+            }else{
+                tablaEmpleadosExcel.setModel(manager_users.getEmpleadosSinUsuarioExcel(filtro,busqueda));
+            }
+            
+            excel.GuardarComo(tablaEmpleadosExcel);
+        }else{
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar empleados.");
+        }
+    }//GEN-LAST:event_ExportarEmpleadosActionPerformed
        
     public void cargarImagen(String matricula) throws IOException, SQLException {
         
@@ -5331,7 +5316,6 @@ public void metodoValeRecoleccion(){
     private javax.swing.JMenuItem ActualizarInfoPP;
     private javax.swing.JMenuItem ActualizarInfoSM;
     private javax.swing.JMenuItem ActualizarInfoSP;
-    private javax.swing.JMenuItem ActualizarInfoU;
     private javax.swing.JMenuItem ActualizarInfoV;
     private javax.swing.JMenuItem ActualizarProd;
     private javax.swing.JMenuItem ActualizarV;
@@ -5346,6 +5330,8 @@ public void metodoValeRecoleccion(){
     private javax.swing.JMenuItem DevolverDis;
     private javax.swing.JMenu Documentos;
     private javax.swing.JMenuItem EstatusDefinitivo;
+    private javax.swing.JMenuItem ExportarEmpleados;
+    private javax.swing.JMenuItem ExportarUsuarios;
     private javax.swing.ButtonGroup Grupo1;
     private javax.swing.ButtonGroup GrupoTipoInventario;
     private javax.swing.JPopupMenu MenuAsginados;
@@ -5360,13 +5346,12 @@ public void metodoValeRecoleccion(){
     private javax.swing.JPopupMenu MenuStockMin;
     private javax.swing.JPopupMenu MenuUsuarios;
     private javax.swing.JPopupMenu MenuVehiculos;
+    private javax.swing.JMenuItem NoDisponible;
     private javax.swing.JMenuItem ParaBaja1;
     private javax.swing.JMenuItem ParaComodato1;
     private javax.swing.JMenuItem ParaDonacion1;
     private javax.swing.JMenu Pendiente;
     private javax.swing.JMenuItem Permisos;
-    private javax.swing.JMenuItem Promover;
-    private javax.swing.JMenuItem Repa_Garan;
     private javax.swing.JScrollPane ScrollEmpleado;
     private javax.swing.JMenuItem SelectProducts;
     private javax.swing.JMenuItem Servicio;
@@ -5379,7 +5364,6 @@ public void metodoValeRecoleccion(){
     private javax.swing.ButtonGroup bt_tipo_inventario_asignable;
     private javax.swing.JButton btnAceptarCheck;
     private javax.swing.JButton btnAceptarCheck1;
-    private javax.swing.JButton btnAceptarCheck2;
     private javax.swing.JButton btnAddEmpleado;
     private javax.swing.JButton btnAddInventario;
     private javax.swing.JButton btnAñadirResguardo;
@@ -5397,7 +5381,7 @@ public void metodoValeRecoleccion(){
     private javax.swing.JSpinner campoip2;
     private javax.swing.JSpinner campoip3;
     private javax.swing.JSpinner campoip4;
-    private javax.swing.JComboBox<String> comboEmpUsu;
+    public static javax.swing.JComboBox<String> comboEmpUsu;
     private javax.swing.JComboBox<String> comboEmpleado;
     private javax.swing.JComboBox<String> comboEmpleadoR;
     public static javax.swing.JComboBox<String> comboEstatus;
@@ -5516,7 +5500,6 @@ public void metodoValeRecoleccion(){
     private javax.swing.JPanel pn_asignacion_inventario1;
     private javax.swing.JPanel pn_contenedor_ventanas1;
     private javax.swing.JPanel pn_recoleccion_inventario1;
-    private javax.swing.JPanel pn_tablaUsuarios;
     private javax.swing.JPanel pn_tablaUsuarios1;
     private javax.swing.JRadioButton rb_asignacion1;
     public javax.swing.JRadioButton rb_inventario_granel1;

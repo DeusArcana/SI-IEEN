@@ -10,6 +10,7 @@ import Clases.ManagerComplemento;
 import Clases.ManagerPermisos;
 
 import Interfaces.Principal;
+import static Interfaces.Principal.comboEmpUsu;
 import com.alee.laf.WebLookAndFeel;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
@@ -18,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author kevin
@@ -364,7 +366,14 @@ public class addEmpleados extends javax.swing.JDialog {
                     if(insertar){
                         JOptionPane.showMessageDialog(null, "El empleado "+nombres+ " "+apellido_p+ "ha sido registrado en la base de datos exitosamente.");
                         if(manager_permisos.accesoModulo("consulta","Empleados",Principal.Username)){
-                            Principal.tablaUsuarios.setModel(manager_users.getEmpleados(Principal.Username,filtro,busqueda));
+                            if(comboEmpUsu.getSelectedItem().toString().equals("Empleados sin usuario")){
+                                Principal.tablaUsuarios.setModel(manager_users.getEmpleadosSinUsuario(filtro,busqueda));
+                            }else{
+                                Principal.tablaUsuarios.setModel(manager_users.getEmpleados(Principal.Username,filtro,busqueda));
+                            }
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Han revocado sus permisos para consulta de empleados");
+                            Principal.tablaUsuarios.setModel(new DefaultTableModel());
                         }
                         this.dispose();
                     }else{
