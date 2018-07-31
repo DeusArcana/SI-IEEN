@@ -9,8 +9,10 @@ import javax.swing.JTable;
 import Clases.ManagerPermisos;
 import Clases.ManagerComplemento;
 import Clases.ManagerVehiculos;
+import Clases.enviarFotoVehiculo;
 import static Interfaces.Principal.Username;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,6 +20,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -33,7 +36,13 @@ import javax.swing.table.DefaultTableModel;
 public class ventana_añadir_vehiculo extends javax.swing.JDialog {
     ManagerVehiculos vehiculos;
     ManagerPermisos manager_permisos;
+    enviarFotoVehiculo managerPostVehiculo;
     public static DefaultTableModel modelo;
+    
+    private String path, absolute_path, name;
+    private int returnVal;
+    File[] rutas;
+    int contadorRutas;
     /**
      * Creates new form Ventana_permisos_puesto
      */
@@ -43,6 +52,7 @@ public class ventana_añadir_vehiculo extends javax.swing.JDialog {
         campoRuta.setVisible(false);
         this.setLocationRelativeTo(null);
         
+        managerPostVehiculo = new enviarFotoVehiculo();
         vehiculos = new ManagerVehiculos();
         manager_permisos = new ManagerPermisos();
         
@@ -101,6 +111,7 @@ public class ventana_añadir_vehiculo extends javax.swing.JDialog {
         btnImagen = new javax.swing.JButton();
         contenedor = new javax.swing.JLabel();
         campoRuta = new javax.swing.JTextField();
+        contadorImg = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -257,7 +268,11 @@ public class ventana_añadir_vehiculo extends javax.swing.JDialog {
 
         campoRuta.setText("C:\\Users\\kevin\\Desktop\\INE\\src\\Imagenes\\noimage.png");
         pn_permisos.add(campoRuta);
-        campoRuta.setBounds(219, 210, 380, 30);
+        campoRuta.setBounds(219, 210, 130, 30);
+
+        contadorImg.setText("Imagenes:");
+        pn_permisos.add(contadorImg);
+        contadorImg.setBounds(520, 220, 200, 14);
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         fondo.setText("jLabel1");
@@ -326,23 +341,26 @@ public class ventana_añadir_vehiculo extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.accesoModulo("alta","Vehiculos",Username)){
-            if(validarCampos()){
-            String ruta = campoRuta.getText();
+        if (manager_permisos.accesoModulo("alta", "Vehiculos", Username)) {
+            if (validarCampos()) {
+                //String ruta = campoRuta.getText();
 
-            if (vehiculos.guardarImagen(campoMarca.getText(), campoLinea.getText(), campoClase.getSelectedItem().toString(), campoColor.getText(),
-                     campoModelo.getValue().toString(), campoMotor.getValue().toString(), campoKilometraje.getText(), campoMatricula.getText(), campoObservaciones.getText(), ruta)) {
-                //vehiculos.guardarImagen("C:\\Users\\oscar\\OneDrive\\Documentos\\NetBeansProjects\\INE\\src\\Iconos\\asd.png", "asd");
-                JOptionPane.showMessageDialog(null, "¡Insertado Correctamente!", "¡Información!", JOptionPane.INFORMATION_MESSAGE);
-                Principal.tablaVehiculos.setModel(vehiculos.getVehiculos());
-                this.dispose();
+                if (vehiculos.guardarImagen(campoMarca.getText(), campoLinea.getText(), campoClase.getSelectedItem().toString(), campoColor.getText(),
+                        campoModelo.getValue().toString(), campoMotor.getValue().toString(), campoKilometraje.getText(), campoMatricula.getText(), campoObservaciones.getText())) {
+                    // Para crear la carpeta se concatena la marca el color y la placa del vehiculo
+                    String nombreParametro = campoMarca.getText() + "_" + campoColor.getText() + "_" + campoMatricula.getText();
+                    managerPostVehiculo.prepararImagenes(rutas, nombreParametro, contadorRutas);
+                    //vehiculos.guardarImagen("C:\\Users\\oscar\\OneDrive\\Documentos\\NetBeansProjects\\INE\\src\\Iconos\\asd.png", "asd");
+                    JOptionPane.showMessageDialog(null, "¡Insertado Correctamente!", "¡Información!", JOptionPane.INFORMATION_MESSAGE);
+                    Principal.tablaVehiculos.setModel(vehiculos.getVehiculos());
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "¡Error al insertar!", "¡Información!", JOptionPane.WARNING_MESSAGE);
+                }//else
             } else {
-                JOptionPane.showMessageDialog(null, "¡Error al insertar!", "¡Información!", JOptionPane.WARNING_MESSAGE);
-            }//else
-            }else{
                 JOptionPane.showMessageDialog(null, "¡Llene todos los campos requeridos!", "¡Información!", JOptionPane.INFORMATION_MESSAGE);
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "No cuenta con permisos para dar de alta vehiculos.", "¡Información!", JOptionPane.INFORMATION_MESSAGE);
         }
 
@@ -351,28 +369,38 @@ public class ventana_añadir_vehiculo extends javax.swing.JDialog {
 
     private void btnImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImagenActionPerformed
         // TODO add your handling code here:
-        JFileChooser fc = new JFileChooser();
+       JFileChooser chooser = new JFileChooser(System.getProperty("user.home")+"\\Pictures");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagenes JPG,GIF & PNG", "jpg", "gif","png");
+        chooser.setMultiSelectionEnabled(true);
+        chooser.setFileFilter(filter);
+        returnVal = chooser.showOpenDialog(this);
+        
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            name = chooser.getSelectedFile().getName();
+            absolute_path = chooser.getSelectedFile().getAbsolutePath();
+            path = chooser.getSelectedFile().getPath();
+            
+            rutas = chooser.getSelectedFiles();
+            contadorRutas = chooser.getSelectedFiles().length;
+            //System.out.println("Archivo: " + name);
+            //System.out.println("Absolute Path: " + absolute_path);
+            //System.out.println("Path: " + path);
+            BufferedImage img = null;
+            contadorImg.setText(""+contadorRutas);
+            contadorImg.setVisible(true);
+            
+            try {
+                img = ImageIO.read(new File(absolute_path));
+                Image dimg = img.getScaledInstance(contenedor.getWidth(), contenedor.getHeight(), Image.SCALE_SMOOTH);
+                ImageIcon image = new ImageIcon(dimg);
+                contenedor.setText("");
+                contenedor.setIcon(image);
+                this.jButton1.setEnabled(true);
+            } catch (IOException e) {
+                System.err.println(e.toString());
+            }
 
-//        fc.setFileFilter(new FileNameExtensionFilter(".PNG", ".png"));
-//        fc.setFileFilter(new FileNameExtensionFilter(".JPG", "Archivos de imagen"));
-//        fc.setFileFilter(new FileNameExtensionFilter(".BMP", "Archivos de imagen"));
-//        fc.setFileFilter(new FileNameExtensionFilter(".JPEG", "Archivos de imagen")); 
-        int respuesta = fc.showOpenDialog(this);
-        //Comprobar si se ha pulsado Aceptar
-        if (respuesta == JFileChooser.APPROVE_OPTION) {
-            //Mostrar el nombre del archvivo en un campo de texto
-            campoRuta.setText(fc.getSelectedFile().toString());
-
-        }//if
-        String path = campoRuta.getText();
-        URL url = this.getClass().getResource(path);
-        System.err.println("" + path);
-        ImageIcon imagen = new ImageIcon(path);
-        ImageIcon icono = new ImageIcon(imagen.getImage().getScaledInstance(contenedor.getWidth(), contenedor.getHeight(), Image.SCALE_DEFAULT));
-        contenedor.setIcon(icono);
-//        ImageIcon image = new ImageIcon(i);
-//        imagenVehiculo.setIcon(image);
-//        this.repaint();
+        }
         
     }//GEN-LAST:event_btnImagenActionPerformed
 
@@ -469,6 +497,7 @@ public class ventana_añadir_vehiculo extends javax.swing.JDialog {
     private javax.swing.JSpinner campoMotor;
     private javax.swing.JTextArea campoObservaciones;
     private javax.swing.JTextField campoRuta;
+    private javax.swing.JLabel contadorImg;
     private javax.swing.JLabel contenedor;
     private javax.swing.JLabel fondo;
     private javax.swing.JPanel imagenVehiculo;

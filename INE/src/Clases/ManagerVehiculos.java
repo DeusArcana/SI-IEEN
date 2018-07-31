@@ -47,17 +47,16 @@ public class ManagerVehiculos {
     
 
     public boolean guardarImagen(String marca, String linea, String clase, String color, String modelo, String motor,
-            String kilometraje, String matricula, String observaciones, String ruta) {
+            String kilometraje, String matricula, String observaciones) {
         con = db.getConexion();
-        String insert = "insert into vehiculos(marca, linea, clase, color, modelo, motor,kilometraje ,matricula,observaciones,imagen) values(?,?,?,?,?,?,?,?,?,?);";
-        FileInputStream fi = null;
+        String insert = "insert into vehiculos(marca, linea, clase, color, modelo, motor,kilometraje ,matricula,observaciones) values(?,?,?,?,?,?,?,?,?);";
+       
         PreparedStatement ps = null;
 
         String insertViaticos = "insert into vehiculo_usado(kilometraje,Vehiculos_Matricula) values(?,?);";
         
         try {
-            File file = new File(ruta);
-            fi = new FileInputStream(file);
+            
 
             //Inserción en la tabla de vehiculos para el "inventario"
             ps = con.prepareStatement(insert);
@@ -71,7 +70,6 @@ public class ManagerVehiculos {
             ps.setString(7, kilometraje);
             ps.setString(8, matricula);
             ps.setString(9, observaciones);
-            ps.setBinaryStream(10, fi);
 
             ps.executeUpdate();
 

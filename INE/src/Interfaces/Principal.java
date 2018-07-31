@@ -64,12 +64,15 @@ import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JSpinner;
 import static Interfaces.ventana_modificar_vehiculo.campo;
 import com.itextpdf.text.DocumentException;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.table.TableCellEditor;
@@ -92,6 +95,10 @@ public class Principal extends javax.swing.JFrame {
     ManejadorInventario manejador_inventario;
     ManagerInventarioGranel manager_inventario_granel;
     ManagerDocumentos manager_asignar;
+    
+    
+    int contadorRutas, nFoto;
+    String banderaFoto, auxiliarFoto;
     
     Thread hilo;
     boolean bandera;
@@ -168,7 +175,7 @@ public class Principal extends javax.swing.JFrame {
         tablaResguardo.getTableHeader().setReorderingAllowed(false);
         tablaMInventarioA.getTableHeader().setReorderingAllowed(false);
         tablaMAsignados.getTableHeader().setReorderingAllowed(false);
-        
+        nFoto = 0;
         //Obtenemos el modelo de la tabla 
         modeloTablaIP = (DefaultTableModel) tablaIP.getModel();
         tablaNormal = (DefaultTableModel) tablaMAsignados.getModel();
@@ -196,8 +203,7 @@ public class Principal extends javax.swing.JFrame {
         etiquetaKilometraje.setText("");
         etiquetaAño.setText("");
         campoObservaciones.setText("");
-        campoObservaciones.setEditable(false);
-        zoom.setVisible(false);
+        campoObservaciones.setEditable(false);      
         
         //Aplicamos el autocompletar a los combo
         AutoCompleteDecorator.decorate(this.comboEmpleado);
@@ -314,7 +320,8 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane11 = new javax.swing.JScrollPane();
         campoObservaciones = new javax.swing.JTextArea();
         fondoVehiculo = new javax.swing.JPanel();
-        zoom = new javax.swing.JButton();
+        izquierdaBtn = new javax.swing.JButton();
+        derechaBtn = new javax.swing.JButton();
         imagenVehiculo = new javax.swing.JLabel();
         btnAñadirVehiculo = new javax.swing.JButton();
         comboFiltroVehiculos = new javax.swing.JComboBox<>();
@@ -1099,15 +1106,25 @@ public class Principal extends javax.swing.JFrame {
 
         fondoVehiculo.setLayout(null);
 
-        zoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/look.png"))); // NOI18N
-        zoom.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        zoom.addActionListener(new java.awt.event.ActionListener() {
+        izquierdaBtn.setText("<");
+        izquierdaBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        izquierdaBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                zoomActionPerformed(evt);
+                izquierdaBtnActionPerformed(evt);
             }
         });
-        fondoVehiculo.add(zoom);
-        zoom.setBounds(360, 200, 30, 30);
+        fondoVehiculo.add(izquierdaBtn);
+        izquierdaBtn.setBounds(160, 200, 40, 23);
+
+        derechaBtn.setText(">");
+        derechaBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        derechaBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                derechaBtnActionPerformed(evt);
+            }
+        });
+        fondoVehiculo.add(derechaBtn);
+        derechaBtn.setBounds(210, 200, 41, 23);
 
         imagenVehiculo.setBackground(new java.awt.Color(255, 204, 204));
         fondoVehiculo.add(imagenVehiculo);
@@ -2692,21 +2709,25 @@ public class Principal extends javax.swing.JFrame {
         campoObservaciones.setText(temporal[8]);
         
         etiquetaEstado.setText(temporal[9]);
+
+        //System.err.println(""+tablaVehiculos.getValueAt(fila, 4).toString());
+        //Obtener
         
-        try {
-            //System.err.println(""+tablaVehiculos.getValueAt(fila, 4).toString());
-            cargarImagen(tablaVehiculos.getValueAt(fila, 4).toString());
-        } catch (IOException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //reset a botones
+        nFoto = 0;
+        izquierdaBtn.setEnabled(true);
+        derechaBtn.setEnabled(true);
+        // Para crear la carpeta se concatena la marca el color y la placa del vehiculo
+        auxiliarFoto = tablaVehiculos.getValueAt(fila, 0).toString() + "_"
+                + tablaVehiculos.getValueAt(fila, 3).toString() + "_" + tablaVehiculos.getValueAt(fila, 4).toString();
+        cargarImagen(auxiliarFoto,nFoto);
+
         etiquetaMarca.setVisible(true);
         etiquetaLinea.setVisible(true);
         etiquetaKilometraje.setVisible(true);
         etiquetaAño.setVisible(true);
         campoObservaciones.setVisible(true);
-        zoom.setVisible(true);
+       
     }
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
          // TODO add your handling code here:
@@ -3822,12 +3843,6 @@ public void metodoValeRecoleccion(){
             JOptionPane.showMessageDialog(null, "No cuenta con permisos para dar de alta vehiculos.");
         }
     }//GEN-LAST:event_btnAñadirVehiculoActionPerformed
-
-    private void zoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zoomActionPerformed
-        // TODO add your handling code here:
-        ventanaZoom ob = new ventanaZoom(this, true);
-        ob.setVisible(true);
-    }//GEN-LAST:event_zoomActionPerformed
 
     private void tablaVehiculosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaVehiculosKeyReleased
         // TODO add your handling code here:
@@ -5177,24 +5192,62 @@ public void metodoValeRecoleccion(){
             JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar empleados.");
         }
     }//GEN-LAST:event_ExportarEmpleadosActionPerformed
-       
-    public void cargarImagen(String matricula) throws IOException, SQLException {
-        
-        Image i = null;
-        i = javax.imageio.ImageIO.read(managerVehiculos.leerImagen(matricula).getBinaryStream());
-//        ImageIcon image = new ImageIcon(i);
-//        imagenVehiculo.setIcon(image);
-//        this.repaint();
-        try {
-            ImageIcon fot = new ImageIcon(i);
-            ImageIcon icono = new ImageIcon(fot.getImage().getScaledInstance(imagenVehiculo.getWidth(), imagenVehiculo.getHeight(), Image.SCALE_DEFAULT));
-            imagenVehiculo.setIcon(icono);
-            this.repaint();
-        } catch (java.lang.NullPointerException e) {
-            JOptionPane.showMessageDialog(null, "Error al obtener la imagen!", "Información!", JOptionPane.WARNING_MESSAGE);
 
-        }//catch
-               
+    private void izquierdaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_izquierdaBtnActionPerformed
+        // TODO add your handling code here:
+
+        // TODO add your handling code here:
+        nFoto--;
+        banderaFoto = "i";
+        derechaBtn.setEnabled(true);
+
+        cargarImagen(auxiliarFoto,nFoto);
+    }//GEN-LAST:event_izquierdaBtnActionPerformed
+
+    private void derechaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_derechaBtnActionPerformed
+        // TODO add your handling code here:
+        nFoto++;
+        banderaFoto = "d";
+        izquierdaBtn.setEnabled(true);
+
+        cargarImagen(auxiliarFoto,nFoto);
+    }//GEN-LAST:event_derechaBtnActionPerformed
+       
+    public void cargarImagen(String busqueda,int numero){
+        
+        //FUNCIONA
+        BufferedImage img = null;
+        String ip = "";
+        try {
+            //Creamos un archivo FileReader que obtiene lo que tenga el archivo
+            FileReader lector = new FileReader("cnfg.ntw");
+
+            //El contenido de lector se guarda en un BufferedReader
+            BufferedReader contenido = new BufferedReader(lector);
+
+            ip = contenido.readLine();
+        } catch (Exception e) {
+
+        }
+        try {
+            // agregar la IP dinamicamente OJO
+            
+            String cadena = "\\\\"+ip+"\\imagenes\\vehiculos\\" + busqueda+ "\\" + busqueda + numero+".png";
+            System.out.println("" + cadena);
+            img = ImageIO.read(new File(cadena));
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            if (banderaFoto.equals("i")) {
+                izquierdaBtn.setEnabled(false);
+                nFoto++;
+            } else {
+                derechaBtn.setEnabled(false);
+                nFoto--;
+            }
+        }
+        Image dimg = img.getScaledInstance(imagenVehiculo.getWidth(), imagenVehiculo.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(dimg);
+        imagenVehiculo.setIcon(image);
     }
 //METODOS PARA IPS
     
@@ -5395,6 +5448,7 @@ public void metodoValeRecoleccion(){
     private javax.swing.JComboBox<String> comboInventario;
     private javax.swing.JPanel configuracion;
     private javax.swing.JMenuItem dar_baja;
+    private javax.swing.JButton derechaBtn;
     private javax.swing.JPanel empleado;
     private javax.swing.JLabel etiquetaAño;
     private javax.swing.JLabel etiquetaEstado;
@@ -5408,6 +5462,7 @@ public void metodoValeRecoleccion(){
     private javax.swing.JMenuItem itemAnterior;
     private javax.swing.JMenuItem itemSalir;
     private javax.swing.JMenuItem itemSiguiente;
+    private javax.swing.JButton izquierdaBtn;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -5533,6 +5588,5 @@ public void metodoValeRecoleccion(){
     private javax.swing.JTextField txtBusquedaVehiculos;
     private javax.swing.JPanel usuarios;
     private javax.swing.JPanel vehiculos;
-    private javax.swing.JButton zoom;
     // End of variables declaration//GEN-END:variables
 }
