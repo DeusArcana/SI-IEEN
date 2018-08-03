@@ -329,14 +329,6 @@ public class Principal extends javax.swing.JFrame {
         txtBusquedaVehiculos = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        solicitudes = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
-        jPanel8 = new javax.swing.JPanel();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        tablaSolicitudes = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
-        jScrollPane12 = new javax.swing.JScrollPane();
-        tablaStockMin = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
-        jLabel9 = new javax.swing.JLabel();
         empleado = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         ScrollEmpleado = new javax.swing.JScrollPane();
@@ -369,27 +361,6 @@ public class Principal extends javax.swing.JFrame {
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        configuracion = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        tablaBD = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
-        jButton4 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        tablaIP = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
-        jPanel15 = new javax.swing.JPanel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        campoip3 = new javax.swing.JSpinner();
-        campoip4 = new javax.swing.JSpinner();
-        campoip2 = new javax.swing.JSpinner();
-        campoip1 = new javax.swing.JSpinner();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         resguardo = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         pn_contenedor_ventanas1 = new javax.swing.JPanel();
@@ -436,6 +407,35 @@ public class Principal extends javax.swing.JFrame {
         jLabel32 = new javax.swing.JLabel();
         comboFiltroUsuario1 = new javax.swing.JComboBox<>();
         fondo1 = new javax.swing.JLabel();
+        solicitudes = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tablaSolicitudes = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        jScrollPane12 = new javax.swing.JScrollPane();
+        tablaStockMin = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        jLabel9 = new javax.swing.JLabel();
+        configuracion = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tablaBD = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        jButton4 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tablaIP = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        jPanel15 = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        campoip3 = new javax.swing.JSpinner();
+        campoip4 = new javax.swing.JSpinner();
+        campoip2 = new javax.swing.JSpinner();
+        campoip1 = new javax.swing.JSpinner();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itemAnterior = new javax.swing.JMenuItem();
@@ -495,7 +495,7 @@ public class Principal extends javax.swing.JFrame {
 
         MenuInventario.add(Pendiente);
 
-        NoDisponible.setText("Cambiar a No Disponible");
+        NoDisponible.setText("Cambiar a no disponible");
         NoDisponible.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NoDisponibleActionPerformed(evt);
@@ -591,7 +591,7 @@ public class Principal extends javax.swing.JFrame {
         });
         MenuEmpleados.add(bajaE);
 
-        ExportarEmpleados.setText("jMenuItem2");
+        ExportarEmpleados.setText("Exportar a excel");
         ExportarEmpleados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ExportarEmpleadosActionPerformed(evt);
@@ -631,7 +631,7 @@ public class Principal extends javax.swing.JFrame {
         });
         MenuUsuarios.add(ActualizarEmployee);
 
-        ExportarUsuarios.setText("jMenuItem2");
+        ExportarUsuarios.setText("Exportar a excel");
         ExportarUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ExportarUsuariosActionPerformed(evt);
@@ -952,7 +952,7 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tablaUsuarios);
 
         jPanel5.add(jScrollPane1);
-        jScrollPane1.setBounds(30, 150, 1050, 402);
+        jScrollPane1.setBounds(30, 150, 1240, 402);
 
         btnAddEmpleado.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         btnAddEmpleado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar.png"))); // NOI18N
@@ -963,7 +963,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel5.add(btnAddEmpleado);
-        btnAddEmpleado.setBounds(1090, 150, 140, 30);
+        btnAddEmpleado.setBounds(1130, 100, 140, 30);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baner Usuarios.png"))); // NOI18N
         jPanel5.add(jLabel2);
@@ -1243,87 +1243,6 @@ public class Principal extends javax.swing.JFrame {
 
         tabbedPrincipal.addTab("  Vehiculos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/vehiculos.png")), vehiculos); // NOI18N
 
-        solicitudes.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                solicitudesFocusGained(evt);
-            }
-        });
-
-        jPanel7.setLayout(null);
-
-        tablaSolicitudes.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Solicitud", "Usuario que solicito", "Fecha que se solicito", "Estado"
-            }
-        ));
-        tablaSolicitudes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablaSolicitudesMouseReleased(evt);
-            }
-        });
-        jScrollPane6.setViewportView(tablaSolicitudes);
-
-        tablaStockMin.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Clave", "Producto", "Descripción", "Observaciones", "Stock", "Estado"
-            }
-        ));
-        tablaStockMin.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablaStockMinMouseReleased(evt);
-            }
-        });
-        jScrollPane12.setViewportView(tablaStockMin);
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 1246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 1251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel7.add(jPanel8);
-        jPanel8.setBounds(20, 20, 1270, 650);
-
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
-        jPanel7.add(jLabel9);
-        jLabel9.setBounds(0, 0, 1367, 769);
-
-        javax.swing.GroupLayout solicitudesLayout = new javax.swing.GroupLayout(solicitudes);
-        solicitudes.setLayout(solicitudesLayout);
-        solicitudesLayout.setHorizontalGroup(
-            solicitudesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 1397, Short.MAX_VALUE)
-        );
-        solicitudesLayout.setVerticalGroup(
-            solicitudesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 1180, Short.MAX_VALUE)
-        );
-
-        tabbedPrincipal.addTab("Solicitudes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/vehiculos.png")), solicitudes); // NOI18N
-
         empleado.setComponentPopupMenu(MenuSolicitudesP);
 
         jPanel9.setLayout(null);
@@ -1506,9 +1425,9 @@ public class Principal extends javax.swing.JFrame {
                     .addGroup(panelEmpleadoLayout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addGroup(panelEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 811, Short.MAX_VALUE)
-                            .addComponent(jScrollPane8))
-                        .addContainerGap(20, Short.MAX_VALUE))
+                            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 792, Short.MAX_VALUE)
+                            .addComponent(jScrollPane9))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEmpleadoLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel23)
@@ -1520,13 +1439,12 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jLabel26)
                 .addGap(386, 386, 386))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEmpleadoLayout.createSequentialGroup()
-                .addContainerGap(42, Short.MAX_VALUE)
-                .addGroup(panelEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelEmpleadoLayout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addComponent(jLabel27)))
-                .addGap(56, 56, 56))
+                .addContainerGap(104, Short.MAX_VALUE)
+                .addComponent(jLabel27)
+                .addGap(1090, 1090, 1090))
+            .addGroup(panelEmpleadoLayout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         panelEmpleadoLayout.setVerticalGroup(
             panelEmpleadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1605,220 +1523,6 @@ public class Principal extends javax.swing.JFrame {
         );
 
         tabbedPrincipal.addTab("Empleado", new javax.swing.ImageIcon(getClass().getResource("/Iconos/vehiculos.png")), empleado); // NOI18N
-
-        configuracion.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                configuracionMouseClicked(evt);
-            }
-        });
-
-        jPanel4.setLayout(null);
-
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Herramienta de configuración de red", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
-
-        tablaBD.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "PC", "IP", "Estado", "Permiso CRUD"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tablaBD.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaBDMouseClicked(evt);
-            }
-        });
-        jScrollPane5.setViewportView(tablaBD);
-
-        jButton4.setText(" Quitar ");
-        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
-        jButton3.setText("Agregar");
-        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        tablaIP.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "PC", "IP", "Estado"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tablaIP.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaIPMouseClicked(evt);
-            }
-        });
-        jScrollPane4.setViewportView(tablaIP);
-
-        jPanel15.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel18.setText(".");
-
-        jLabel17.setText(".");
-
-        jLabel19.setText(".");
-
-        campoip3.setModel(new javax.swing.SpinnerNumberModel(0, 0, 255, 1));
-
-        campoip4.setModel(new javax.swing.SpinnerNumberModel(20, 1, 255, 1));
-
-        campoip2.setModel(new javax.swing.SpinnerNumberModel(168, 1, 255, 1));
-
-        campoip1.setModel(new javax.swing.SpinnerNumberModel(192, 1, 255, 1));
-
-        jButton1.setText(" Escanear todo");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText(" Añadir subred");
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
-        jPanel15.setLayout(jPanel15Layout);
-        jPanel15Layout.setHorizontalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel15Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addComponent(campoip1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel17)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campoip2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel18)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campoip3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel19)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campoip4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(116, 116, 116))
-                    .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-        );
-        jPanel15Layout.setVerticalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel15Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoip1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(campoip2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel17)
-                    .addComponent(jLabel18)
-                    .addComponent(campoip3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(campoip4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel19))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(21, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(89, 89, 89)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 87, Short.MAX_VALUE))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        jPanel4.add(jPanel2);
-        jPanel2.setBounds(10, 90, 1340, 290);
-
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baner config.png"))); // NOI18N
-        jPanel4.add(jLabel7);
-        jLabel7.setBounds(10, 10, 1350, 80);
-
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
-        jPanel4.add(jLabel3);
-        jLabel3.setBounds(0, 0, 1367, 769);
-
-        javax.swing.GroupLayout configuracionLayout = new javax.swing.GroupLayout(configuracion);
-        configuracion.setLayout(configuracionLayout);
-        configuracionLayout.setHorizontalGroup(
-            configuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 1397, Short.MAX_VALUE)
-        );
-        configuracionLayout.setVerticalGroup(
-            configuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 1180, Short.MAX_VALUE)
-        );
-
-        tabbedPrincipal.addTab("  Configuración", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), configuracion); // NOI18N
 
         resguardo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -2275,6 +1979,301 @@ public class Principal extends javax.swing.JFrame {
 
         tabbedPrincipal.addTab("Solicitar consumibles", new javax.swing.ImageIcon(getClass().getResource("/Iconos/usuarios.png")), solicitar_granel); // NOI18N
 
+        solicitudes.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                solicitudesFocusGained(evt);
+            }
+        });
+
+        jPanel7.setLayout(null);
+
+        tablaSolicitudes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Solicitud", "Usuario que solicito", "Fecha que se solicito", "Estado"
+            }
+        ));
+        tablaSolicitudes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablaSolicitudesMouseReleased(evt);
+            }
+        });
+        jScrollPane6.setViewportView(tablaSolicitudes);
+
+        tablaStockMin.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Clave", "Producto", "Descripción", "Observaciones", "Stock", "Estado"
+            }
+        ));
+        tablaStockMin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablaStockMinMouseReleased(evt);
+            }
+        });
+        jScrollPane12.setViewportView(tablaStockMin);
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 1246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 1251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel7.add(jPanel8);
+        jPanel8.setBounds(20, 20, 1270, 650);
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
+        jPanel7.add(jLabel9);
+        jLabel9.setBounds(0, 0, 1367, 769);
+
+        javax.swing.GroupLayout solicitudesLayout = new javax.swing.GroupLayout(solicitudes);
+        solicitudes.setLayout(solicitudesLayout);
+        solicitudesLayout.setHorizontalGroup(
+            solicitudesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 1397, Short.MAX_VALUE)
+        );
+        solicitudesLayout.setVerticalGroup(
+            solicitudesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 1180, Short.MAX_VALUE)
+        );
+
+        tabbedPrincipal.addTab("Solicitudes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/vehiculos.png")), solicitudes); // NOI18N
+
+        configuracion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                configuracionMouseClicked(evt);
+            }
+        });
+
+        jPanel4.setLayout(null);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Herramienta de configuración de red", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+
+        tablaBD.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "PC", "IP", "Estado", "Permiso CRUD"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tablaBD.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaBDMouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(tablaBD);
+
+        jButton4.setText(" Quitar ");
+        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Agregar");
+        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        tablaIP.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "PC", "IP", "Estado"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tablaIP.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaIPMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tablaIP);
+
+        jPanel15.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel18.setText(".");
+
+        jLabel17.setText(".");
+
+        jLabel19.setText(".");
+
+        campoip3.setModel(new javax.swing.SpinnerNumberModel(0, 0, 255, 1));
+
+        campoip4.setModel(new javax.swing.SpinnerNumberModel(20, 1, 255, 1));
+
+        campoip2.setModel(new javax.swing.SpinnerNumberModel(168, 1, 255, 1));
+
+        campoip1.setModel(new javax.swing.SpinnerNumberModel(192, 1, 255, 1));
+
+        jButton1.setText(" Escanear todo");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText(" Añadir subred");
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addComponent(campoip1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoip2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoip3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoip4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(116, 116, 116))
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(campoip1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoip2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17)
+                    .addComponent(jLabel18)
+                    .addComponent(campoip3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoip4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(89, 89, 89)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 87, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jPanel4.add(jPanel2);
+        jPanel2.setBounds(10, 90, 1340, 290);
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baner config.png"))); // NOI18N
+        jPanel4.add(jLabel7);
+        jLabel7.setBounds(10, 10, 1350, 80);
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
+        jPanel4.add(jLabel3);
+        jLabel3.setBounds(0, 0, 1367, 769);
+
+        javax.swing.GroupLayout configuracionLayout = new javax.swing.GroupLayout(configuracion);
+        configuracion.setLayout(configuracionLayout);
+        configuracionLayout.setHorizontalGroup(
+            configuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 1397, Short.MAX_VALUE)
+        );
+        configuracionLayout.setVerticalGroup(
+            configuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 1180, Short.MAX_VALUE)
+        );
+
+        tabbedPrincipal.addTab("  Configuración", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), configuracion); // NOI18N
+
         jMenu1.setText("Archivo");
 
         itemAnterior.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_LEFT, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
@@ -2401,8 +2400,9 @@ public class Principal extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         pestañas = 0;
+        //activarConfirmacion = 2
         
-        //---------------------------------- PESTAÑA INVENTARIO --------------------------------------//
+        //---------------------------------- PESTAÑA INVENTARIO --------------------------------------// 0
         //comboFolio
         String lista = manager_inventario.nomeclaturaFolio();
         String [] folios = lista.split(",");
@@ -2424,10 +2424,9 @@ public class Principal extends javax.swing.JFrame {
             if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
             tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
         }
-        //---------------------------------- PESTAÑA INVENTARIO --------------------------------------//
-        
-        
-        //---------------------------------- PESTAÑA DE EMPLEADOS Y USUARIOS --------------------------------------//
+        //---------------------------------- PESTAÑA INVENTARIO --------------------------------------// 0
+
+        //--------------------------- PESTAÑA DE EMPLEADOS Y USUARIOS --------------------------------// 1
         
         //COMBOFILTROVEHICULOS
         comboFiltroVehiculos.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
@@ -2437,60 +2436,28 @@ public class Principal extends javax.swing.JFrame {
         comboFiltroVehiculos.addItem("Color");
         comboFiltroVehiculos.addItem("Matricula");
         
-        //Llenado de tablas
-        //VEHICULOS
+        //--------------------------- PESTAÑA DE EMPLEADOS Y USUARIOS --------------------------------// 1
+        
+        //---------------------------------- PESTAÑA VEHICULOS --------------------------------------// 2
+        
         if(manager_permisos.accesoModulo("consulta","Vehiculos",Username)){
             tablaVehiculos.setModel(managerVehiculos.getVehiculos());
         }
         
-        /*PESTAÑA DE SOLICITUDES*/
-        if(manager_permisos.verTablaSolicitudes(Username) == 0){
-                tabbedPrincipal.removeTabAt(3);//Eliminamos la pestaña
-                pestañas++;
-        }else{
-            if(!(manager_permisos.esPresidencia(Username))){
-                
-                tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
-                int solicitud = tablaSolicitudes.getRowCount();
-                if(solicitud > 0){
-                    tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
-                }//if cantidad
-                
-            }//if esPresidencia
-            else{
-                tabbedPrincipal.setTitleAt(3, "Pendientes");//Le damos el nombre a esa pestaña
-                tablaSolicitudes.setModel(manager_solicitud.tabla_Pendientes());
-                int pendientes = tablaSolicitudes.getRowCount();
-                if(pendientes > 0){
-                    tabbedPrincipal.setTitleAt(3, "Pendientes ("+pendientes+")");//Le damos el nombre a esa pestaña
-                }//if cantidad
-                
-            }
-        }
+        //---------------------------------- PESTAÑA VEHICULOS --------------------------------------// 2
         
-        tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
+        //-------------------------------- PESTAÑA EMPLEADO PERSONAL --------------------------------// 3
         
+        tabbedPrincipal.setTitleAt(3, Username.toUpperCase());//Le damos el nombre a esa pestaña
         
-        /*PESTAÑA DE EMPLEADO*/
-        tabbedPrincipal.setTitleAt(4-pestañas, Username.toUpperCase());//Le damos el nombre a esa pestaña
-        tablaResguardo.setModel(manager_complemento.getResguardoPersonal(Username));
-        tablaSolicitudesPersonal.setModel(manager_solicitud.tabla_Solicitudes_Personales(Username));
-        tablaPermisosPersonales.setModel(manager_permisos.getPermisos(tablaPermisosPersonales,Username));
-        tablaAsignacionPersonal.setModel(manejador_inventario.getInventarioEmpleadoAsignacionesPersonales(Username));
+        //-------------------------------- PESTAÑA EMPLEADO PERSONAL --------------------------------//3
         
-        /*PESTAÑA CONFIGURACIÓN*/
-        if(!(manager_permisos.esSuperUsuario(Username))){
-            tabbedPrincipal.removeTabAt(5-pestañas);//Eliminamos la pestaña
-            pestañas++;
-        }
-        
+        //----------------------------------- PESTAÑA RESGUARDO -------------------------------------// 4
         comboEmpleado.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboEmpleado.addItem("Seleccione al empleado...");
         
         comboEmpleadoR.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboEmpleadoR.addItem("Seleccione al empleado...");
-        
-        /*PESTAÑA DE RESGUARDO*/
         
         //comboFolioAsignacion
         comboFolioAsignacion.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
@@ -2521,12 +2488,43 @@ public class Principal extends javax.swing.JFrame {
             comboEmpleadoR.setEnabled(false);
             tablaRecoleccion.setEnabled(false);
         }
+        //----------------------------------- PESTAÑA RESGUARDO -------------------------------------// 4
         
-        
-        //PESTAÑA SOLICITAR I_GRANEL
+        //----------------------------------- PESTAÑA SOLICITAR GRANEL -------------------------------------// 5
         if(manager_permisos.accesoModulo("alta","Solicitudes",Username)){
             tablaSolicitarGranel.setModel(manager_inventario_granel.tablaSolicitarInvGranel(0,""));
         }
+        
+        //----------------------------------- PESTAÑA SOLICITAR GRANEL -------------------------------------// 5
+                
+        //-------------------------------- PESTAÑA SOLICITUDES --------------------------------------// 6
+        
+        /*PESTAÑA DE SOLICITUDES*/
+        if(!(manager_permisos.accesoModulo("consulta","Solicitudes",Username))){
+                tabbedPrincipal.removeTabAt(6);//Eliminamos la pestaña
+                pestañas++;
+        }else{
+            tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
+            int solicitud = tablaSolicitudes.getRowCount();
+            if(solicitud > 0){
+                tabbedPrincipal.setTitleAt(6, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
+            }//if cantidad
+            else{
+                tabbedPrincipal.setTitleAt(6, "Solicitudes");//Le damos el nombre a esa pestaña
+            }
+        }//if(!(manager_permisos.accesoModulo("consulta","Solicitudes",Username)))
+        
+        tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
+        
+        //-------------------------------- PESTAÑA SOLICITUDES --------------------------------------// 6
+        
+        //--------------------------------- PESTAÑA CONFIGURACION -----------------------------------// 7
+        
+        if(!(manager_permisos.esSuperUsuario(Username))){
+            tabbedPrincipal.removeTabAt(7-pestañas);//Eliminamos la pestaña
+        }
+        //--------------------------------- PESTAÑA CONFIGURACION -----------------------------------// 7
+        
     }//GEN-LAST:event_formWindowOpened
     
     private void infoEmpleado(){
@@ -2633,16 +2631,6 @@ public class Principal extends javax.swing.JFrame {
         
         tablaBD.setModel(manajerMySQL.getPermisosMySQL());
         infoEmpleado();
-        
-        if(manager_permisos.verTablaSolicitudes(Username) > 0){
-            
-            tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
-            int solicitud = tablaSolicitudes.getRowCount();
-            if(solicitud > 0){
-                tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
-            }//if cantidad
-
-        }//if verTablaSolicitudes
         
     }//GEN-LAST:event_formWindowActivated
     
@@ -4207,7 +4195,7 @@ public void metodoValeRecoleccion(){
 
     private void ActualizarInfoPPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoPPActionPerformed
         // TODO add your handling code here:
-        tablaPermisosPersonales.setModel(manager_permisos.getPermisos(tablaPermisosPersonales,Username));
+        tablaPermisosPersonales.setModel(manager_permisos.getPermisos(false,Username));
     }//GEN-LAST:event_ActualizarInfoPPActionPerformed
 
     private void tablaPermisosPersonalesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPermisosPersonalesMouseReleased
@@ -4911,20 +4899,37 @@ public void metodoValeRecoleccion(){
                     tablaUsuarios.setModel(new DefaultTableModel());
                 }
                 break;
+            //Pestaña personal del empleado que se logueo
             case 3:
-                //PESTAÑA DE SOLICITUD
-                if(manager_permisos.verTablaSolicitudes(Username) > 0){
-
-                    tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
-                    int solicitud = tablaSolicitudes.getRowCount();
-                    if(solicitud > 0){
-                        tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
-                    }//if cantidad
-
-                }//if verTablaSolicitudes
-
-                tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
+                DefaultTableModel limpiarTabla = new DefaultTableModel();
+                tablaResguardo.setModel(limpiarTabla);
+                tablaResguardo.setModel(manager_complemento.getResguardoPersonal(Username));
                 
+                tablaSolicitudesPersonal.setModel(limpiarTabla);
+                tablaSolicitudesPersonal.setModel(manager_solicitud.tabla_Solicitudes_Personales(Username));
+                
+                tablaPermisosPersonales.setModel(limpiarTabla);
+                tablaPermisosPersonales.setModel(manager_permisos.getPermisos(false,Username));
+                
+                tablaAsignacionPersonal.setModel(limpiarTabla);
+                tablaAsignacionPersonal.setModel(manejador_inventario.getInventarioEmpleadoAsignacionesPersonales(Username));
+                break;
+            //Pestaña de solicitud y stock minimo
+            case 6:
+                if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
+                    if(manager_permisos.verTablaSolicitudes(Username) > 0){
+
+                        tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
+                        int solicitud = tablaSolicitudes.getRowCount();
+                        if(solicitud > 0){
+                            tabbedPrincipal.setTitleAt(6, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
+                        }else{
+                            tabbedPrincipal.setTitleAt(6, "Solicitudes");//Le damos el nombre a esa pestaña    
+                        }
+                    }//if verTablaSolicitudes
+
+                    tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
+                }                
                 break;
             
         }//switch

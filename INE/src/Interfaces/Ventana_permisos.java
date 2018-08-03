@@ -33,7 +33,7 @@ public class Ventana_permisos extends javax.swing.JDialog {
         tablaPermisos.getTableHeader().setReorderingAllowed(false);
         
         //Llenamos la tabla con la información del usuario
-        tablaPermisos.setModel(manager_permisos.getPermisos(tablaPermisos,Principal.usuario));
+        tablaPermisos.setModel(manager_permisos.getPermisos(true,Principal.usuario));
         
     }
 
