@@ -235,7 +235,7 @@ public class ManejadorInventario {
     }//Regresa los productos a su estado orignal (estatus y/o cantidad)
     
     //Este método realiza la salida de almcen ya con productos autorizados
-    public boolean autorizarSalidaAlmacen(String[] Claves,int[] Cantidad,String usuario,String id){
+    public boolean estatusSalidaAlmacen(String[] Claves,int[] Cantidad,String usuario,String id,String estatus){
         
         try{
                 String sql = "";
@@ -251,7 +251,7 @@ public class ManejadorInventario {
                 
                 //Actualizamos el registro, agregando el usuario que autorizo la salida de almacen y la fecha en que se realizo dicho movimiento
                 //y cambios su estado a salida autorizada
-                sql = "update solicitudsalida set estado = 'Salida Autorizada', user_autorizo = '"+usuario+"', fecha_respuesta = '"+fecha+"' where concat(Folio,'-',Num,'-',Año) = '"+id+"';";
+                sql = "update solicitudsalida set estado = 'Salida "+estatus+"', user_autorizo = '"+usuario+"', fecha_respuesta = '"+fecha+"' where concat(Folio,'-',Num,'-',Año) = '"+id+"';";
                 st.executeUpdate(sql);
                 
                 //Ahora actualizamos los registros de detalle_Salida para agregar las cantidades que fueron autorizadas para cada productos

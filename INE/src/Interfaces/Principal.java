@@ -124,6 +124,13 @@ public class Principal extends javax.swing.JFrame {
     
     //Esta bandera es para desplegar el menu de aceptar o cancelar cuando se quiere cambiar el estatus del inventario
     public static int activarConfirmacion = 2;
+    
+    //Esta bandera es para saber si necesita volver a iniciar componentes o no (Asignación)
+    public static int refrescarResguardoAsignacion = 2;
+    
+    //Esta bandera es para saber si necesita volver a iniciar componentes o no (Recolección)
+    public static int refrescarResguardoRecoleccion = 2;
+    
     /*PESTAÑA DE MANEJADOR KEVIN*/
     //Esta bandera es para conocer si selecciono un empleado al momento de querer asignar equipos
     boolean empleadoSeleccionado = false;
@@ -256,21 +263,20 @@ public class Principal extends javax.swing.JFrame {
         SolicitarBaja = new javax.swing.JMenuItem();
         Servicio = new javax.swing.JMenuItem();
         ActualizarInfoV = new javax.swing.JMenuItem();
+        MenuAsginados = new javax.swing.JPopupMenu();
+        CancelarA = new javax.swing.JMenuItem();
         MenuSolicitudes = new javax.swing.JPopupMenu();
         Atender = new javax.swing.JMenuItem();
-        ActualizarInfo = new javax.swing.JMenuItem();
         CancelarSolicitud = new javax.swing.JMenuItem();
         MenuStockMin = new javax.swing.JPopupMenu();
         AgregarStock = new javax.swing.JMenuItem();
         ActualizarInfoSM = new javax.swing.JMenuItem();
         MenuSolicitudesP = new javax.swing.JPopupMenu();
         ActualizarInfoSP = new javax.swing.JMenuItem();
-        MenuPermisosP = new javax.swing.JPopupMenu();
-        ActualizarInfoPP = new javax.swing.JMenuItem();
         MenuAsignacionP = new javax.swing.JPopupMenu();
         ActualizarAsignacionP = new javax.swing.JMenuItem();
-        MenuAsginados = new javax.swing.JPopupMenu();
-        CancelarA = new javax.swing.JMenuItem();
+        MenuPermisosP = new javax.swing.JPopupMenu();
+        ActualizarInfoPP = new javax.swing.JMenuItem();
         MenuSolicitarSalida = new javax.swing.JPopupMenu();
         CancelarSS = new javax.swing.JMenuItem();
         Grupo1 = new javax.swing.ButtonGroup();
@@ -379,6 +385,8 @@ public class Principal extends javax.swing.JFrame {
         comboEmpleado = new javax.swing.JComboBox<>();
         lb_objetos_asignables4 = new javax.swing.JLabel();
         comboFolioAsignacion = new javax.swing.JComboBox<>();
+        comboArea = new javax.swing.JComboBox<>();
+        lblAreaAsignacion = new javax.swing.JLabel();
         sp_recoleccion_inventario1 = new javax.swing.JScrollPane();
         pn_recoleccion_inventario1 = new javax.swing.JPanel();
         lb_empleado3 = new javax.swing.JLabel();
@@ -675,6 +683,14 @@ public class Principal extends javax.swing.JFrame {
         });
         MenuVehiculos.add(ActualizarInfoV);
 
+        CancelarA.setText("Cancelar");
+        CancelarA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelarAActionPerformed(evt);
+            }
+        });
+        MenuAsginados.add(CancelarA);
+
         Atender.setText("Atender...");
         Atender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -682,14 +698,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MenuSolicitudes.add(Atender);
-
-        ActualizarInfo.setText("Refrescar tabla");
-        ActualizarInfo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarInfoActionPerformed(evt);
-            }
-        });
-        MenuSolicitudes.add(ActualizarInfo);
 
         CancelarSolicitud.setText("Cancelar");
         CancelarSolicitud.addActionListener(new java.awt.event.ActionListener() {
@@ -723,14 +731,6 @@ public class Principal extends javax.swing.JFrame {
         });
         MenuSolicitudesP.add(ActualizarInfoSP);
 
-        ActualizarInfoPP.setText("Refrescar");
-        ActualizarInfoPP.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarInfoPPActionPerformed(evt);
-            }
-        });
-        MenuPermisosP.add(ActualizarInfoPP);
-
         ActualizarAsignacionP.setText("Refrescar");
         ActualizarAsignacionP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -739,13 +739,13 @@ public class Principal extends javax.swing.JFrame {
         });
         MenuAsignacionP.add(ActualizarAsignacionP);
 
-        CancelarA.setText("Cancelar");
-        CancelarA.addActionListener(new java.awt.event.ActionListener() {
+        ActualizarInfoPP.setText("Refrescar");
+        ActualizarInfoPP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CancelarAActionPerformed(evt);
+                ActualizarInfoPPActionPerformed(evt);
             }
         });
-        MenuAsginados.add(CancelarA);
+        MenuPermisosP.add(ActualizarInfoPP);
 
         CancelarSS.setText("Cancelar");
         CancelarSS.addActionListener(new java.awt.event.ActionListener() {
@@ -1629,6 +1629,17 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        comboArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboArea.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboAreaActionPerformed(evt);
+            }
+        });
+
+        lblAreaAsignacion.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblAreaAsignacion.setText("Área:");
+
         javax.swing.GroupLayout pn_asignacion_inventario1Layout = new javax.swing.GroupLayout(pn_asignacion_inventario1);
         pn_asignacion_inventario1.setLayout(pn_asignacion_inventario1Layout);
         pn_asignacion_inventario1Layout.setHorizontalGroup(
@@ -1639,7 +1650,11 @@ public class Principal extends javax.swing.JFrame {
                     .addGroup(pn_asignacion_inventario1Layout.createSequentialGroup()
                         .addComponent(lb_objetos_asignables4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(comboEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblAreaAsignacion)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(pn_asignacion_inventario1Layout.createSequentialGroup()
                             .addComponent(btn_cancelar2, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1670,7 +1685,9 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lb_objetos_asignables4))
+                    .addComponent(lb_objetos_asignables4)
+                    .addComponent(comboArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAreaAsignacion))
                 .addGap(18, 18, 18)
                 .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2396,24 +2413,98 @@ public class Principal extends javax.swing.JFrame {
             ob.setVisible(true);   
         }
     }//GEN-LAST:event_formWindowClosing
+    
+    private void comboNomeclaturasFolio(JComboBox combo){
+        String lista = manager_inventario.nomeclaturaFolio();
+        String [] folios = lista.split(",");
+        nomeclaturas = new String[folios.length/2];
+        combo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        combo.addItem("Todos");
+        for(int i = 1,j = 0; i <= folios.length;i = i+2,j++){
+            combo.addItem(folios[i]);
+            nomeclaturas[j] = folios[i-1];
+        }
+    }//comboNomeclaturasFolio
+    
+    private void realizarResguardoAsignacion(){
+        if(manager_permisos.accesoModulo("consulta","Resguardo",Username)){
+            if(refrescarResguardoAsignacion == 2){
+                comboNomeclaturasFolio(comboFolioAsignacion);
 
+                //ComboArea
+                String lista = manager_complemento.obtenerAreas();
+                String[] recoger = lista.split(",,");
+
+                comboArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+                for(int i = 1; i <= recoger.length;i = i+2){
+                    comboArea.addItem(recoger[i]);
+                }
+                tablaMInventarioA.setModel(manejador_inventario.getInventarioParaAsignacion(""));
+                refrescarResguardoAsignacion = 1;
+                
+                //Desbloqueamos el uso de la asignacion
+                comboEmpleado.setEnabled(true);
+                tablaMInventarioA.setEnabled(true);
+                btn_generar_vale3.setEnabled(true);
+                btn_cancelar2.setEnabled(true);
+                comboArea.setEnabled(true);
+                comboFolioAsignacion.setEnabled(true);
+            }//if(refrescarResguardoAsignacion == 2)
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas para el resguardo.");
+            refrescarResguardoAsignacion = 2;
+            
+            //Bloqueamos el uso de la asignacion
+            comboEmpleado.setEnabled(false);
+            tablaMInventarioA.setEnabled(false);
+            btn_generar_vale3.setEnabled(false);
+            btn_cancelar2.setEnabled(false);
+            comboArea.setEnabled(false);
+            comboFolioAsignacion.setEnabled(false);
+            
+            //Regresamos los productos si es que selecciono alguno
+            getDatosTablaAsignados();
+            regresarInventario();
+            limpiarTablaMAsignados();
+            comboEmpleado.setSelectedIndex(0);   
+        }
+    }//realizarResguardoAsignacion
+    
+    private void realizarResguardoRecoleccion(){ 
+        if(manager_permisos.accesoModulo("consulta","Resguardo",Username)){
+            if(refrescarResguardoRecoleccion == 2){
+                //Actualizamos el combo de los empleados que tienen productos asignados
+                comboEmpleadoR.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+                comboEmpleadoR.addItem("Seleccione al empleado...");
+                manejador_inventario.getEmpleadosAsignacion(comboEmpleadoR);
+                
+                refrescarResguardoRecoleccion = 1;
+                
+                //Desbloqueamos el uso de la asignacion
+                comboEmpleadoR.setEnabled(true);
+                tablaRecoleccion.setEnabled(true);
+            }
+        }else{
+            refrescarResguardoRecoleccion = 2;
+            JOptionPane.showMessageDialog(null, "No tienes permisos para realizar vales de recolección");
+            
+            //Bloqueamos el uso de la asignacion
+            comboEmpleadoR.setEnabled(false);
+            tablaRecoleccion.setEnabled(false);
+            
+            //Devolvemos los productos al estado anterior
+            limpiarTablaRecoleccion();
+            comboEmpleadoR.setSelectedIndex(0);
+        }
+    }//realizarResguardoAsignacion
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         pestañas = 0;
         //activarConfirmacion = 2
         
-        //---------------------------------- PESTAÑA INVENTARIO --------------------------------------// 0
-        //comboFolio
-        String lista = manager_inventario.nomeclaturaFolio();
-        String [] folios = lista.split(",");
-        nomeclaturas = new String[folios.length/2];
-        comboFolio.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-        comboFolio.addItem("Todos");
-        for(int i = 1,j = 0; i <= folios.length;i = i+2,j++){
-            comboFolio.addItem(folios[i]);
-            nomeclaturas[j] = folios[i-1];
-        }
-
+        //---------------------------------- PESTAÑA INVENTARIO --------------------------------------// 0  
+        comboNomeclaturasFolio(comboFolio);
+        
         if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
             int folio = comboFolio.getSelectedIndex();
             String estatus = comboEstatus.getSelectedItem().toString();
@@ -2428,7 +2519,6 @@ public class Principal extends javax.swing.JFrame {
 
         //--------------------------- PESTAÑA DE EMPLEADOS Y USUARIOS --------------------------------// 1
         
-        //COMBOFILTROVEHICULOS
         comboFiltroVehiculos.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboFiltroVehiculos.addItem("Marca");
         comboFiltroVehiculos.addItem("Linea");
@@ -2453,40 +2543,15 @@ public class Principal extends javax.swing.JFrame {
         //-------------------------------- PESTAÑA EMPLEADO PERSONAL --------------------------------//3
         
         //----------------------------------- PESTAÑA RESGUARDO -------------------------------------// 4
+                //---------- Asignación -----------//
         comboEmpleado.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboEmpleado.addItem("Seleccione al empleado...");
         
         comboEmpleadoR.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboEmpleadoR.addItem("Seleccione al empleado...");
         
-        //comboFolioAsignacion
-        comboFolioAsignacion.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-        comboFolioAsignacion.addItem("Todos");
-        for(int i = 1,j = 0; i <= folios.length;i = i+2,j++){
-            comboFolioAsignacion.addItem(folios[i]);
-        }
-        
-        if(manager_permisos.accesoModulo("consulta","Resguardo",Username)){
-            //Asignación
-            tablaMInventarioA.setModel(manejador_inventario.getInventarioParaAsignacion(""));
-            manager_users.getNombresEmpleados(comboEmpleado);
-        }else{
-            //Bloqueamos el uso de la asignacion
-            comboEmpleado.setEnabled(false);
-            rb_inventario_normal1.setEnabled(false);
-            rb_inventario_granel1.setEnabled(false);
-            tablaMInventarioA.setEnabled(false);
-            btn_generar_vale3.setEnabled(false);
-            btn_cancelar2.setEnabled(false);
-        }
-        
-        if(manager_permisos.accesoModulo("consulta","Resguardo",Username)){
-            //Recolección
-            manejador_inventario.getEmpleadosAsignacion(comboEmpleadoR);
-        }else{
-            //Bloqueamos el uso de la asignacion
-            comboEmpleadoR.setEnabled(false);
-            tablaRecoleccion.setEnabled(false);
+        if(manager_permisos.accesoModulo("consulta","Resguardo",Username) && rb_asignacion1.isSelected()){
+            realizarResguardoAsignacion();
         }
         //----------------------------------- PESTAÑA RESGUARDO -------------------------------------// 4
         
@@ -2500,10 +2565,7 @@ public class Principal extends javax.swing.JFrame {
         //-------------------------------- PESTAÑA SOLICITUDES --------------------------------------// 6
         
         /*PESTAÑA DE SOLICITUDES*/
-        if(!(manager_permisos.accesoModulo("consulta","Solicitudes",Username))){
-                tabbedPrincipal.removeTabAt(6);//Eliminamos la pestaña
-                pestañas++;
-        }else{
+        if(manager_permisos.accesoModulo("consulta","Solicitudes",Username)){
             tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
             int solicitud = tablaSolicitudes.getRowCount();
             if(solicitud > 0){
@@ -2512,16 +2574,15 @@ public class Principal extends javax.swing.JFrame {
             else{
                 tabbedPrincipal.setTitleAt(6, "Solicitudes");//Le damos el nombre a esa pestaña
             }
-        }//if(!(manager_permisos.accesoModulo("consulta","Solicitudes",Username)))
-        
-        tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
+            tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
+        }
         
         //-------------------------------- PESTAÑA SOLICITUDES --------------------------------------// 6
         
         //--------------------------------- PESTAÑA CONFIGURACION -----------------------------------// 7
         
         if(!(manager_permisos.esSuperUsuario(Username))){
-            tabbedPrincipal.removeTabAt(7-pestañas);//Eliminamos la pestaña
+            tabbedPrincipal.removeTabAt(7);//Eliminamos la pestaña
         }
         //--------------------------------- PESTAÑA CONFIGURACION -----------------------------------// 7
         
@@ -2598,7 +2659,7 @@ public class Principal extends javax.swing.JFrame {
         }
         
         }else{
-            JOptionPane.showMessageDialog(null, "No cuenta con permisos para actualizar empleados.");
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar la información de empleados.");
         }
     }//GEN-LAST:event_ActualizarActionPerformed
 
@@ -2664,19 +2725,6 @@ public class Principal extends javax.swing.JFrame {
             //Cerrar sesion
         }
     }//GEN-LAST:event_itemSalirActionPerformed
-
-    private void ActualizarInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoActionPerformed
-        // TODO add your handling code here:
-        if(manager_permisos.accesoModulo("actualizar","Solicitudes",Username)){
-            tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
-            int solicitud = tablaSolicitudes.getRowCount();
-            if(solicitud > 0){
-                tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
-            }//if cantidad
-        }else{
-            JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar las solicitudes.");
-        }
-    }//GEN-LAST:event_ActualizarInfoActionPerformed
     public void metodoVehiculos(){
         int fila = tablaVehiculos.getSelectedRow();
         Vector vVehiculos = managerVehiculos.infoVehiculos(tablaVehiculos.getValueAt(fila, 4).toString());
@@ -2731,7 +2779,7 @@ public class Principal extends javax.swing.JFrame {
         if(manager_permisos.accesoModulo("actualizar","Solicitudes",Username)){
             int fila = tablaSolicitudes.getSelectedRow();
             idAtenderSalida = tablaSolicitudes.getValueAt(fila, 0).toString();
-            tabbedPrincipal.setSelectedIndex(6-pestañas);//Direccionamos a la pestaña de Manejador inventario
+            tabbedPrincipal.setSelectedIndex(4);//Direccionamos a la pestaña de Manejador inventario
             rb_recoleccion1.setEnabled(false);//Deshabilitamos el boton de recolección, esto para que atienda la solicitud
             rb_inventario_granel1.setEnabled(true);//Habilitamos la de inventario a granel
             rb_inventario_granel1.setSelected(true);//Marcamos el radio del inventario a granel
@@ -2742,6 +2790,8 @@ public class Principal extends javax.swing.JFrame {
             esGranel = true;//Activamos la banera de es a granel para saber que hacer con los botones
             comboFolioAsignacion.setVisible(false);
             btn_cancelar2.setEnabled(true);
+            comboArea.setVisible(false);
+            lblAreaAsignacion.setVisible(false);
 
             //Cargamos el cardLayout en caso de encontrarse en el recolección
             CardLayout c_asignacion = (CardLayout)pn_contenedor_ventanas1.getLayout();
@@ -2950,6 +3000,8 @@ public class Principal extends javax.swing.JFrame {
                 //Vemos si queda mas de un producto
                 if(tablaNormal.getRowCount() == 0){
                     btn_generar_vale3.setEnabled(false);
+                    btn_cancelar2.setEnabled(false);
+                    
                 }
             }//esGranel
             else{
@@ -2980,56 +3032,14 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         CardLayout c_recoleccion = (CardLayout)pn_contenedor_ventanas1.getLayout();
         c_recoleccion.show(pn_contenedor_ventanas1,"c_s_recoleccion");
-        if(manager_permisos.accesoModulo("consulta","Resguardo",Username)){
-            comboEmpleadoR.setEnabled(true);
-            tablaRecoleccion.setEnabled(true);
-            //Actualizamos el combo de los empleados que tienen productos asignados
-            comboEmpleadoR.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-            comboEmpleadoR.addItem("Seleccione al empleado...");
-            manejador_inventario.getEmpleadosAsignacion(comboEmpleadoR);
-            
-        }else{
-            JOptionPane.showMessageDialog(null, "No tienes permisos para realizar vales de recolección");
-            //Bloqueamos el uso de la asignacion
-            comboEmpleadoR.setEnabled(false);
-            tablaRecoleccion.setEnabled(false);
-            
-            //Devolvemos los productos al estado anterior
-            limpiarTablaRecoleccion();
-            comboEmpleadoR.setSelectedIndex(0);
-        }
+        realizarResguardoRecoleccion();
     }//GEN-LAST:event_rb_recoleccion1ActionPerformed
 
     private void rb_asignacion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb_asignacion1ActionPerformed
         // TODO add your handling code here:
         CardLayout c_asignacion = (CardLayout)pn_contenedor_ventanas1.getLayout();
         c_asignacion.show(pn_contenedor_ventanas1,"c_s_asignacion");
-            
-        if(manager_permisos.accesoModulo("consulta","Resguardo",Username)){
-            comboEmpleado.setEnabled(true);
-            rb_inventario_normal1.setEnabled(true);
-            tablaMInventarioA.setEnabled(true);
-            btn_cancelar2.setEnabled(true);
-            comboEmpleado.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-            comboEmpleado.addItem("Seleccione al empleado...");
-            manager_users.getNombresEmpleados(comboEmpleado);
-        }else{
-            JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar los productos para generar vales de resguardo.");
-            //Bloqueamos el uso de la asignacion
-            comboEmpleado.setEnabled(false);
-            rb_inventario_normal1.setEnabled(false);
-            rb_inventario_granel1.setEnabled(false);
-            tablaMInventarioA.setEnabled(false);
-            btn_generar_vale3.setEnabled(false);
-            btn_cancelar2.setEnabled(false);
-            
-            //Regresamos los productos si es que selecciono alguno
-            getDatosTablaAsignados();
-            regresarInventario();
-            limpiarTablaMAsignados();
-            comboEmpleado.setSelectedIndex(0);
-            
-        }
+        realizarResguardoAsignacion();
     }//GEN-LAST:event_rb_asignacion1ActionPerformed
 
     private void comboEmpleadoRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpleadoRActionPerformed
@@ -3064,6 +3074,10 @@ public class Principal extends javax.swing.JFrame {
         //si es diferente de 0 entonces ya selecciono un empleado
         if(comboEmpleado.getSelectedIndex() != 0){
             empleadoSeleccionado = true;
+            if(tablaMAsignados.getRowCount() > 0){
+                btn_generar_vale3.setEnabled(true);
+            }
+            
         }else{
             empleadoSeleccionado = false;
             btn_generar_vale3.setEnabled(false);
@@ -3123,6 +3137,8 @@ public class Principal extends javax.swing.JFrame {
                     comboEmpleado.setEnabled(true);
                     btn_generar_vale3.setEnabled(false);
                     btn_cancelar2.setEnabled(false);
+                    comboArea.setVisible(true);
+                    lblAreaAsignacion.setVisible(true);
                 }
                 else{
                     cancelarVale();
@@ -3137,11 +3153,10 @@ public class Principal extends javax.swing.JFrame {
         getDatosTablaAsignados();
         if(esGranel){
             
-            if(manejador_inventario.autorizarSalidaAlmacen(Claves, Cantidad, Username,idAtenderSalida)){
+            if(manejador_inventario.estatusSalidaAlmacen(Claves, Cantidad, Username,idAtenderSalida,"Autorizada")){
                 //GENERAR VALE DE SALIDA DE ALMACEN
                 metodoVale();
                 limpiarTablaMAsignados();
-                tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
                 
                 //Habilitamos las cosas que se deshabilitaron por atender la solicitud de salida de almacen
                 rb_recoleccion1.setEnabled(true);
@@ -3153,14 +3168,26 @@ public class Principal extends javax.swing.JFrame {
                 comboEmpleado.setEnabled(true);
                 btn_generar_vale3.setEnabled(false);
                 btn_cancelar2.setEnabled(false);
+                comboArea.setVisible(true);
+                lblAreaAsignacion.setVisible(true);
                 
-                //Actualizamos la tabla
-                tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
-                int solicitud = tablaSolicitudes.getRowCount();
-                if(solicitud > 0){
-                    tabbedPrincipal.setTitleAt(3, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
-                }//if cantidad
-                
+                if(manager_permisos.accesoModulo("consulta","Solicitudes",Username)){
+                    //Actualizamos la tabla
+                    tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
+                    int solicitud = tablaSolicitudes.getRowCount();
+                    if(solicitud > 0){
+                        tabbedPrincipal.setTitleAt(6, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
+                    }else{
+                        tabbedPrincipal.setTitleAt(6, "Solicitudes");//Le damos el nombre a esa pestaña
+                    }
+                    tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
+                }else{
+                    JOptionPane.showMessageDialog(null,"Tus permisos para consultar las solicitudes y productos con stock mínimo han sido revocados.");
+                    DefaultTableModel tablaLimpia = new DefaultTableModel();
+                    tablaStockMin.setModel(tablaLimpia);
+                    tablaSolicitudes.setModel(tablaLimpia);
+                    tabbedPrincipal.setTitleAt(6, "Solicitudes");//Le damos el nombre a esa pestaña
+                }
             }else{
                 JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");
             }//else
@@ -3257,7 +3284,7 @@ public void metodoValeRecoleccion(){
            v.add(tablaMAsignados.getValueAt(i, 0).toString()
                    +",,"+tablaMAsignados.getValueAt(i, 1).toString()
                    +",,"+tablaMAsignados.getValueAt(i, 2).toString()
-                   +",,"+tablaMAsignados.getValueAt(i, 3).toString()+" - "+tablaMAsignados.getValueAt(i, 4).toString());
+                   +",,"+tablaMAsignados.getValueAt(i, 4).toString());
            
         }//Llenar vector de los codigos de barras
         
@@ -4348,7 +4375,7 @@ public void metodoValeRecoleccion(){
             
             ob.setVisible(true);
         }else{
-            JOptionPane.showMessageDialog(null, "No cuenta con permisos para dar de alta usuarios.");
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para dar de alta usuarios.");
         }
     }//GEN-LAST:event_Asignar_usuarioActionPerformed
 
@@ -4914,6 +4941,38 @@ public void metodoValeRecoleccion(){
                 tablaAsignacionPersonal.setModel(limpiarTabla);
                 tablaAsignacionPersonal.setModel(manejador_inventario.getInventarioEmpleadoAsignacionesPersonales(Username));
                 break;
+            //Pestaña personal del empleado que se logueo
+            case 4:
+                if(rb_asignacion1.isSelected()){
+                    if(manager_permisos.accesoModulo("consulta","Resguardo",Username)){
+                        realizarResguardoAsignacion();//Asignación
+                    }else{
+                        refrescarResguardoAsignacion = 2;
+                        //Bloqueamos el uso de la asignacion
+                        comboEmpleado.setEnabled(false);
+                        rb_inventario_normal1.setEnabled(false);
+                        rb_inventario_granel1.setEnabled(false);
+                        tablaMInventarioA.setEnabled(false);
+                        btn_generar_vale3.setEnabled(false);
+                        btn_cancelar2.setEnabled(false);
+                    }
+                }else{
+                    if(manager_permisos.accesoModulo("consulta","Resguardo",Username)){
+                        realizarResguardoRecoleccion();
+                    }else{
+                        refrescarResguardoRecoleccion = 2;
+                        
+                        //Bloqueamos el uso de la asignacion
+                        comboEmpleadoR.setEnabled(false);
+                        tablaRecoleccion.setEnabled(false);
+
+                        //Devolvemos los productos al estado anterior
+                        limpiarTablaRecoleccion();
+                        comboEmpleadoR.setSelectedIndex(0);
+                    }
+                }//else
+                
+                break;
             //Pestaña de solicitud y stock minimo
             case 6:
                 if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
@@ -4929,6 +4988,11 @@ public void metodoValeRecoleccion(){
                     }//if verTablaSolicitudes
 
                     tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
+                }else{
+                    DefaultTableModel tablaLimpia = new DefaultTableModel();
+                    tablaStockMin.setModel(tablaLimpia);
+                    tablaSolicitudes.setModel(tablaLimpia);
+                    tabbedPrincipal.setTitleAt(6, "Solicitudes");//Le damos el nombre a esa pestaña
                 }                
                 break;
             
@@ -5041,6 +5105,50 @@ public void metodoValeRecoleccion(){
 
     private void CancelarSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarSolicitudActionPerformed
         // TODO add your handling code here:
+        cancelarVale();
+        if(manager_permisos.accesoModulo("baja","Solicitudes",Username)){
+            /* 1.- Llenamos las tablas con los datos de los productos para cancelar la solicitud*/
+            int fila = tablaSolicitudes.getSelectedRow();
+            idAtenderSalida = tablaSolicitudes.getValueAt(fila, 0).toString();
+            
+            JTable tablaCancelacion = new JTable();
+            tablaCancelacion.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
+            
+            /* 2.- Obtenemos los datos de los productos para cancelar la solicitud*/
+            Claves = new String[tablaCancelacion.getRowCount()];
+            Cantidad = new int[tablaCancelacion.getRowCount()];
+
+            for(int i = 0;i<tablaCancelacion.getRowCount();i++){
+                Claves[i] = tablaCancelacion.getValueAt(i, 0).toString();//Obtenemos las claves
+                Cantidad[i] = 0;//Porque se cancelo la solicitud
+            }//Llenar vector de los codigos de barras
+            
+            if(manejador_inventario.estatusSalidaAlmacen(Claves, Cantidad, Username,idAtenderSalida,"Cancelada")){
+                JOptionPane.showMessageDialog(null,"Solicitud cancelada con exito.");
+                
+                if(manager_permisos.accesoModulo("consulta","Solicitudes",Username)){
+                    tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
+                    int solicitud = tablaSolicitudes.getRowCount();
+                    if(solicitud > 0){
+                        tabbedPrincipal.setTitleAt(6, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
+                    }else{
+                        tabbedPrincipal.setTitleAt(6, "Solicitudes");//Le damos el nombre a esa pestaña    
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null,"Tus permisos para consultar las solicitudes y productos con stock mínimo han sido revocados.");
+                    DefaultTableModel tablaLimpia = new DefaultTableModel();
+                    tablaStockMin.setModel(tablaLimpia);
+                    tablaSolicitudes.setModel(tablaLimpia);
+                    tabbedPrincipal.setTitleAt(6, "Solicitudes");//Le damos el nombre a esa pestaña
+                }
+
+                tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
+            }else{
+                JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");
+            }
+        }else{
+        
+        }
     }//GEN-LAST:event_CancelarSolicitudActionPerformed
 
     private void activarEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activarEActionPerformed
@@ -5124,7 +5232,7 @@ public void metodoValeRecoleccion(){
             
             }
         }else{
-            JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar empleados.");
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para consultar la infomración de empleados.");
         }
     }//GEN-LAST:event_ExportarEmpleadosActionPerformed
 
@@ -5198,20 +5306,23 @@ public void metodoValeRecoleccion(){
                 //Intentamos actualizar el estatus de dichos productos
                 if(manager_inventario.actualizarEstatus(ids,cambio,pendientePara)){
                     JOptionPane.showMessageDialog(null, "Se actualizaron con exito los registros a "+pendientePara);
-                    //Mostramos la tabla de acuerdo a los criterios de busqueda que estaban antes
-                    int folio = comboFolio.getSelectedIndex();
-                    String estatus = comboEstatus.getSelectedItem().toString();
-                    String nomeclatura = "";
-                    int filtro = comboFiltro.getSelectedIndex();
-                    String inventarios = comboInventario.getSelectedItem().toString();
-                    String busqueda = txtBusqueda.getText();
-                    //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
-                    if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-                    if(inventarios.equals("Inventario"))
-                        tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-                    else
-                        tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-                    
+                    if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
+                        //Mostramos la tabla de acuerdo a los criterios de busqueda que estaban antes
+                        int folio = comboFolio.getSelectedIndex();
+                        String estatus = comboEstatus.getSelectedItem().toString();
+                        String nomeclatura = "";
+                        int filtro = comboFiltro.getSelectedIndex();
+                        String inventarios = comboInventario.getSelectedItem().toString();
+                        String busqueda = txtBusqueda.getText();
+                        //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+                        if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
+                        if(inventarios.equals("Inventario"))
+                            tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+                        else
+                            tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Tu permiso para consultar el inventario ha sido revocado.");
+                    }
                 }else{
                     JOptionPane.showMessageDialog(null, "No se pudo realizar el cambio a "+pendientePara);
                 }
@@ -5256,7 +5367,7 @@ public void metodoValeRecoleccion(){
                 else
                         tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
             }else{
-                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+                JOptionPane.showMessageDialog(null,"Tu permiso para consultar el inventario ha sido revocado.");
             }
 
             //Bandera para activar el popuMenu de aceptar o cancelar
@@ -5272,6 +5383,13 @@ public void metodoValeRecoleccion(){
             
         }
     }//GEN-LAST:event_CancelarEstatusActionPerformed
+
+    private void comboAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAreaActionPerformed
+        // TODO add your handling code here:
+        comboEmpleado.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        comboEmpleado.addItem("Seleccione al empleado...");
+        manager_users.getNombresEmpleados(comboEmpleado,comboArea.getSelectedIndex()+1);
+    }//GEN-LAST:event_comboAreaActionPerformed
        
     public void cargarImagen(String busqueda,int numero){
         
@@ -5426,7 +5544,6 @@ public void metodoValeRecoleccion(){
     private javax.swing.JMenuItem ActualizarAsignacionP;
     private javax.swing.JMenuItem ActualizarConsumible;
     private javax.swing.JMenuItem ActualizarEmployee;
-    private javax.swing.JMenuItem ActualizarInfo;
     private javax.swing.JMenuItem ActualizarInfoPP;
     private javax.swing.JMenuItem ActualizarInfoSM;
     private javax.swing.JMenuItem ActualizarInfoSP;
@@ -5496,6 +5613,7 @@ public void metodoValeRecoleccion(){
     private javax.swing.JSpinner campoip2;
     private javax.swing.JSpinner campoip3;
     private javax.swing.JSpinner campoip4;
+    private javax.swing.JComboBox<String> comboArea;
     public static javax.swing.JComboBox<String> comboEmpUsu;
     private javax.swing.JComboBox<String> comboEmpleado;
     private javax.swing.JComboBox<String> comboEmpleadoR;
@@ -5597,6 +5715,7 @@ public void metodoValeRecoleccion(){
     private javax.swing.JLabel lb_objetos_asignables4;
     private javax.swing.JLabel lb_objetos_asignados1;
     public static javax.swing.JLabel lblArea;
+    private javax.swing.JLabel lblAreaAsignacion;
     public static javax.swing.JLabel lblCargo;
     public static javax.swing.JLabel lblCodigo;
     public static javax.swing.JLabel lblCurp;
