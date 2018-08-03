@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Clases;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,17 +12,15 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import Clases.ManagerInventario;
-import javax.swing.DefaultCellEditor;
-import javax.swing.table.TableColumn;
+
 /**
  *
  * @author kevin
  */
 public class ManejadorInventario {
-    private Connection conexion;
-    private Conexion db;
-    ManagerInventario manager_inventario;
+    private		Connection			conexion;
+    private		Conexion			db;
+    private		ManagerInventario	manager_inventario;
     
     public ManejadorInventario(){
         db = new Conexion();
@@ -34,10 +28,12 @@ public class ManejadorInventario {
     }//constructor
     
     public DefaultTableModel getInventarioG() {
-        
+        // Objeto de la tabla
         DefaultTableModel table = new DefaultTableModel();
-
-        try {
+		
+		// Se prepara la llamada al SP, que se destruye al finalizar el TRY-CATCH
+        try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_infoInventarioGranel`(?, ?}")){
+			// Se agregan las columnas al objeto de la tabla
             table.addColumn("Clave");
             table.addColumn("Producto");
             table.addColumn("Descripción");
@@ -46,29 +42,29 @@ public class ManejadorInventario {
             table.addColumn("Observaciones");
             table.addColumn("Stock");
             
-            
-            //Consulta de los empleados
-            String sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,almacen,marca,observaciones,stock from Inventario_granel where estatus = 'Disponible';";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            Object datos[] = new Object[7];
-            ResultSet rs = st.executeQuery(sql);
+			// Se agregan los parámetros de búsqueda al SP
+            cs.setString(1, "Disponible");
+			cs.setNull(2, 0);
+			
+			// Ejecución del SP
+            ResultSet rs = cs.executeQuery();
+			
+			// Llenar tabla
+			Object datos[] = new Object[7];
 
-            //Llenar tabla
             while (rs.next()) {
-
-                for(int i = 0;i<7;i++){
-                    datos[i] = rs.getObject(i+1);
-                }//Llenamos las columnas por registro
-
-                table.addRow(datos);//Añadimos la fila
+				// Llenamos las columnas por registro
+                for(int i = 0; i < 7; i++){
+                    datos[i] = rs.getObject(i + 1);
+                }
+				// Añadimos la fila
+                table.addRow(datos);
            }//while
-            conexion.close();
+			
         } catch (SQLException ex) {
-            System.out.printf("Error getTabla Inventario SQL");
+            System.err.printf("Error getTabla Inventario SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-
             return table;
         }
 
@@ -76,12 +72,13 @@ public class ManejadorInventario {
 
     //Este método retorna la tabla de inventario normal solo con los productos disponibles, esto para mostrarse en el Manejador Inventario
     //cuando se quiere realizar una asignación
-    public DefaultTableModel getInventarioParaAsignacion(String nomeclatura) {
-        String orden = "";
+    public DefaultTableModel getInventarioParaAsignacion(String nomenclatura) {
+        // Objeto para la tabla
         DefaultTableModel table = new DefaultTableModel();
-
-        try {
-            
+		
+		// Se prepara la llamada al SP, que se destruye al finalizar el TRY-CATCH
+        try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_inventarioParaAsignacion`(?, ?)}")){
+            // Se agregan las columnas al objeto de la tabla
             table.addColumn("Clave");
             table.addColumn("Nombre_corto");
             table.addColumn("Descripción");
@@ -90,41 +87,32 @@ public class ManejadorInventario {
             table.addColumn("No. Serie");
             table.addColumn("Modelo");
             
-            String sql = "";
-            if(nomeclatura.equals("")){
-                //Consulta de los empleados
-                sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,no_serie,modelo "
-                        + "from inventario where estatus = 'Disponible';";
-            }else{
-                sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,ubicacion,marca,no_serie,modelo "
-                    + "from inventario where Folio = '"+nomeclatura+"' and estatus = 'Disponible';";
-            }
-            
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            Object datos[] = new Object[7];
-            ResultSet rs = st.executeQuery(sql);
-
+			// Se agregan los parámetros de búsqueda al SP
+            cs.setString(1, "Disponible");
+			cs.setString(2, nomenclatura);
+			
+			// Ejecución del SP
+			ResultSet rs = cs.executeQuery();
+			
             //Llenar tabla
+            Object datos[] = new Object[7];
+
             while (rs.next()) {
-
-                for(int i = 0;i<7;i++){
-                    datos[i] = rs.getObject(i+1);
-                }//Llenamos las columnas por registro
-
-                table.addRow(datos);//Añadimos la fila
+				//Llenamos las columnas por registro
+                for(int i = 0; i < 7; i++){
+                    datos[i] = rs.getObject(i + 1);
+                }
+				//Añadimos la fila
+                table.addRow(datos);
            }//while
-            conexion.close();
-            
         } catch (SQLException ex) {
             System.out.printf("Error getTabla Inventario SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-
             return table;
         }
 
-    }//getInventario
+    }//getInventarioParaAsignación
     
     public int cantidadInventarioG(String id_producto) {
 
