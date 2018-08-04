@@ -356,14 +356,14 @@ public class ManagerInventario {
         
         try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_infoFolio`()}")) {
             ResultSet rs = cs.executeQuery();
-            
+          
             while(rs.next()){
-				sb.append(rs.getString(1));
-				sb.append(",");
-				sb.append(rs.getString(2));
-				sb.append(",");
+                sb.append(rs.getString(1));
+                sb.append(",");
+                sb.append(rs.getString(2));
+                sb.append(",");
             }
-
+            
         } catch (SQLException ex) {
             System.out.printf("Error al obtener los folios en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);

@@ -5,7 +5,7 @@ BEGIN
 
 	SELECT `Folio`.`ID_Folio`, `Folio`.`Descripcion`
 		FROM `INE`.`Folio`
-			WHERE 1;
+			WHERE `Folio`.`ID_Folio` != 'EY-10' and `Folio`.`ID_Folio` != 'EY-99';
 
 END$$
 DELIMITER ;
