@@ -52,7 +52,7 @@ public class ManagerLogin {
     private int coincidencia(String user, String password) {
         try {
             
-            String sql = "select * from User where id_user = '" + user + "' and password = '" + password + "' and estatus = 'Activo';";
+            String sql = "select * from User where id_user = BINARY '" + user + "' and password = BINARY '" + password + "' and estatus = 'Activo';";
             conexion = db.getConexion(); //obtenemos conexion 
             Statement st = conexion.createStatement(); //crear obteno de consulta
             ResultSet rs = st.executeQuery(sql); //ejecutar consulta
