@@ -114,27 +114,22 @@ public class ManejadorInventario {
 
     }//getInventarioParaAsignación
     
-    public int cantidadInventarioG(String id_producto) {
+	public int cantidadInventarioG(String ID_Producto) {
+		// Se prepara la llamada al SP, que se destruye al finalizar el TRY-CATCH
+		try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_stockInvGranel`(?)}")) {
+			// Se agregan el parámetro de búsqueda al SP
+			cs.setString(1, ID_Producto);
+			// Ejecución del SP
+			ResultSet rs = cs.executeQuery();
+			// Retorno del valor obtenido
+			if (rs.next()) return rs.getInt("res");
 
-        int cantidad;
-        
-        try {
-            //Consulta para saber si existe o no dicho producto
-            String sql = "select stock from inventario_Granel where concat(Folio,'-',Numero,Extension) = '"+id_producto+"';";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            rs.next();//Guardamos el resultado para retornar la respuesta.
-            cantidad = rs.getInt(1);
-            conexion.close();
-            return cantidad;
-        } catch (SQLException ex) {
-            System.out.printf("Error al consultar el inventario en SQL");
-            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
-            return -1;
-        } 
-
-    }//cantidadInventarioG
+		} catch (SQLException ex) {
+			System.err.printf("Error al consultar el inventario en SQL");
+			Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return - 1;
+	}//cantidadInventarioG
     
     public int productosSuficientesInventarioG(String id_producto,int cantidad) {
         int stock = 0;
