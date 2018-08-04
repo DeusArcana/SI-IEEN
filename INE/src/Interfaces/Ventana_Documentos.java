@@ -399,7 +399,7 @@ public class Ventana_Documentos extends javax.swing.JDialog {
 
         try {
             ob.createTicket("documento_" + dia + "_" + (mes + 1) + "_" + año + "_" + hora + "_" + minuto + "_" + segundo,
-                    res, datos);
+                    res, datos, cadena1);
         } catch (DocumentException ex) {
             Logger.getLogger(Ventana_Documentos.class.getName()).log(Level.SEVERE, null, ex);
         }

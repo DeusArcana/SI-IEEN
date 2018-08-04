@@ -78,59 +78,23 @@ public class CrearValeSalidaAlmacen {
             }//ifelse
         }//if else
         
-        this.multa = multa;
-        this.infra = infra;
-        this.faltante = faltante;
-        this.prestamo = prestamo;
-        this.t1 = t1;
-        this.comision = comision;
-        this.bono = bono;
-        this.sueldo = sueldo;
-        this.t2 = t2;
-        this.totalPaga = totalPaga;
         
-        this.fechaPago = fechaPago;
-        this.fechaIni = fechaIni;
-        this.fechaFin = fechaFin;
-        
-        this.trab = trab;
-        this.horaExtra = horaExtra;
-        this.horaFalta = horaFalta;
     }//constructor
     
    
 
    
-    private static Font numero = new Font(Font.FontFamily.HELVETICA, 40,
-            Font.BOLD);
-
-    private static Font estilo = new Font(Font.FontFamily.HELVETICA, 22,
-            Font.BOLD);
+    private static Font elements = new Font(Font.FontFamily.COURIER, 10,
+            Font.NORMAL);
     private static Font Mex = new Font(Font.FontFamily.HELVETICA, 10,
             Font.BOLD);
 
-    private static Font codigo = new Font(Font.FontFamily.COURIER, 12,
+    private static Font subFont2 = new Font(Font.FontFamily.HELVETICA, 8,
             Font.NORMAL);
-    
-     private static Font catFont = new Font(Font.FontFamily.HELVETICA, 12,
+    private static Font subFont3 = new Font(Font.FontFamily.HELVETICA, 8,
             Font.BOLD);
-    private static Font elements = new Font(Font.FontFamily.COURIER, 10,
-            Font.NORMAL);
-    private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 14,
-            Font.BOLD);
-    private static Font subFont2 = new Font(Font.FontFamily.HELVETICA, 10,
-            Font.NORMAL);
-    private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 8,
-            Font.BOLD);
-    private static Font smallBold0 = new Font(Font.FontFamily.TIMES_ROMAN, 8,
-            Font.NORMAL);
-    private static Font smallBold3 = new Font(Font.FontFamily.TIMES_ROMAN, 10,
-            Font.NORMAL);
 
-    private static Font smallBold2 = new Font(Font.FontFamily.HELVETICA, 10,
-            Font.NORMAL);
-    
-    private static Font elements2 = new Font(Font.FontFamily.COURIER, 8,
+    private static Font elements2 = new Font(Font.FontFamily.HELVETICA, 7,
             Font.NORMAL);
     
     
@@ -229,26 +193,26 @@ public class CrearValeSalidaAlmacen {
                 String temporal[] = productos.get(i).toString().split(",,");
                 //Cantidad numero y letra
                 PdfPCell cell;
-                cell = new PdfPCell(new Phrase("" + temporal[0], subFont2));
+                cell = new PdfPCell(new Phrase("" + temporal[0].toUpperCase(), subFont2));
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 
 
                 //autorizó
                 PdfPCell cell1;
 
-                cell1 = new PdfPCell(new Phrase("" + temporal[1], subFont2));
+                cell1 = new PdfPCell(new Phrase("" + temporal[1].toUpperCase(), subFont2));
                 cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
 
                 //solicitó
                 PdfPCell cell2;
 
-                cell2 = new PdfPCell(new Phrase("" +(temporal[2]), subFont2));
+                cell2 = new PdfPCell(new Phrase("" +(temporal[2]).toUpperCase(), subFont2));
                 cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
                 
                 //producto
                 PdfPCell cell3;
 
-                cell3 = new PdfPCell(new Phrase("" +(temporal[3]), subFont2));
+                cell3 = new PdfPCell(new Phrase("" +(temporal[3]).toUpperCase(), subFont2));
                 cell3.setHorizontalAlignment(Element.ALIGN_LEFT);
                 
                 
@@ -263,9 +227,9 @@ public class CrearValeSalidaAlmacen {
             
             // ärea de firmas
             PdfPTable tablaFirmas = new PdfPTable(3);
-            PdfPCell firma1 = new PdfPCell(new Phrase("Vo.Bo\n\n\n____________________\nDirección\nAdministrativa", subFont2));
-            PdfPCell firma2 = new PdfPCell(new Phrase("Autorizó\n\n\n____________________\nNombre y Firma del\nResponsable del Area Solicitante", subFont2));
-            PdfPCell firma3 = new PdfPCell(new Phrase("Recibió\n\n\n____________________\nNombre y Firma", subFont2));
+            PdfPCell firma1 = new PdfPCell(new Phrase("Vo.Bo\n\n\n\n____________________\nDirección\nAdministrativa", subFont2));
+            PdfPCell firma2 = new PdfPCell(new Phrase("Autorizó\n\n\n\n____________________\nNombre y Firma del\nResponsable del Area Solicitante", subFont2));
+            PdfPCell firma3 = new PdfPCell(new Phrase("Recibió\n\n\n"+empleado+"\n____________________\nNombre y Firma", subFont2));
             
             firma1.setBorderColor(BaseColor.WHITE);
             firma2.setBorderColor(BaseColor.WHITE);
