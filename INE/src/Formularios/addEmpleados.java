@@ -364,7 +364,7 @@ public class addEmpleados extends javax.swing.JDialog {
                     getInfo();
                     boolean insertar = manager_users.insertarEmpleado(nombres, apellido_p, apellido_m, telefono, calle, colonia, curp, rfc, fecha, codigoP, municipio,localidad,area,puesto);
                     if(insertar){
-                        JOptionPane.showMessageDialog(null, "El empleado "+nombres+ " "+apellido_p+ "ha sido registrado en la base de datos exitosamente.");
+                        JOptionPane.showMessageDialog(null, "El empleado \""+nombres+" "+apellido_p+"\" ha sido registrado en la base de datos exitosamente.");
                         if(manager_permisos.accesoModulo("consulta","Empleados",Principal.Username)){
                             if(comboEmpUsu.getSelectedItem().toString().equals("Empleados sin usuario")){
                                 Principal.tablaUsuarios.setModel(manager_users.getEmpleadosSinUsuario(filtro,busqueda));

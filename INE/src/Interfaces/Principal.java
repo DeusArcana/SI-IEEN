@@ -181,7 +181,7 @@ public class Principal extends javax.swing.JFrame {
         tablaVehiculos.getTableHeader().setReorderingAllowed(false);
         tablaSolicitudesPersonal.getTableHeader().setReorderingAllowed(false);
         tablaSolicitudes.getTableHeader().setReorderingAllowed(false);
-        tablaResguardo.getTableHeader().setReorderingAllowed(false);
+        tablaResguardoPersonal.getTableHeader().setReorderingAllowed(false);
         tablaMInventarioA.getTableHeader().setReorderingAllowed(false);
         tablaMAsignados.getTableHeader().setReorderingAllowed(false);
         nFoto = 0;
@@ -263,6 +263,8 @@ public class Principal extends javax.swing.JFrame {
         SolicitarBaja = new javax.swing.JMenuItem();
         Servicio = new javax.swing.JMenuItem();
         ActualizarInfoV = new javax.swing.JMenuItem();
+        MenuResguardoPersonal = new javax.swing.JPopupMenu();
+        QuitarResguardo = new javax.swing.JMenuItem();
         MenuAsginados = new javax.swing.JPopupMenu();
         CancelarA = new javax.swing.JMenuItem();
         MenuSolicitudes = new javax.swing.JPopupMenu();
@@ -354,7 +356,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         btnEditar1 = new javax.swing.JButton();
         jScrollPane7 = new javax.swing.JScrollPane();
-        tablaResguardo = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        tablaResguardoPersonal = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         btnAñadirResguardo = new javax.swing.JButton();
         jScrollPane8 = new javax.swing.JScrollPane();
         tablaSolicitudesPersonal = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
@@ -682,6 +684,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MenuVehiculos.add(ActualizarInfoV);
+
+        QuitarResguardo.setText("Eliminar registro");
+        QuitarResguardo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                QuitarResguardoActionPerformed(evt);
+            }
+        });
+        MenuResguardoPersonal.add(QuitarResguardo);
 
         CancelarA.setText("Cancelar");
         CancelarA.addActionListener(new java.awt.event.ActionListener() {
@@ -1303,7 +1313,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        tablaResguardo.setModel(new javax.swing.table.DefaultTableModel(
+        tablaResguardoPersonal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -1311,7 +1321,12 @@ public class Principal extends javax.swing.JFrame {
                 "Producto", "Fecha de ingreso", "Observaciones"
             }
         ));
-        jScrollPane7.setViewportView(tablaResguardo);
+        tablaResguardoPersonal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablaResguardoPersonalMouseReleased(evt);
+            }
+        });
+        jScrollPane7.setViewportView(tablaResguardoPersonal);
 
         btnAñadirResguardo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnAñadirResguardo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar.png"))); // NOI18N
@@ -4929,8 +4944,8 @@ public void metodoValeRecoleccion(){
             //Pestaña personal del empleado que se logueo
             case 3:
                 DefaultTableModel limpiarTabla = new DefaultTableModel();
-                tablaResguardo.setModel(limpiarTabla);
-                tablaResguardo.setModel(manager_complemento.getResguardoPersonal(Username));
+                tablaResguardoPersonal.setModel(limpiarTabla);
+                tablaResguardoPersonal.setModel(manager_complemento.getResguardoPersonal(Username));
                 
                 tablaSolicitudesPersonal.setModel(limpiarTabla);
                 tablaSolicitudesPersonal.setModel(manager_solicitud.tabla_Solicitudes_Personales(Username));
@@ -5390,6 +5405,22 @@ public void metodoValeRecoleccion(){
         comboEmpleado.addItem("Seleccione al empleado...");
         manager_users.getNombresEmpleados(comboEmpleado,comboArea.getSelectedIndex()+1);
     }//GEN-LAST:event_comboAreaActionPerformed
+
+    private void tablaResguardoPersonalMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaResguardoPersonalMouseReleased
+        // TODO add your handling code here:
+        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+            if(SwingUtilities.isRightMouseButton(evt)){
+                int r = tablaResguardoPersonal.rowAtPoint(evt.getPoint());
+                if (r >= 0 && r < tablaResguardoPersonal.getRowCount())
+                tablaResguardoPersonal.setRowSelectionInterval(r, r);
+                MenuResguardoPersonal.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+            }//clic derecho
+    }//GEN-LAST:event_tablaResguardoPersonalMouseReleased
+
+    private void QuitarResguardoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QuitarResguardoActionPerformed
+        // TODO add your handling code here:
+        int fila = tablaResguardoPersonal.getSelectedRow();
+    }//GEN-LAST:event_QuitarResguardoActionPerformed
        
     public void cargarImagen(String busqueda,int numero){
         
@@ -5575,6 +5606,7 @@ public void metodoValeRecoleccion(){
     private javax.swing.JPopupMenu MenuInventario;
     private javax.swing.JPopupMenu MenuInventarioG;
     private javax.swing.JPopupMenu MenuPermisosP;
+    private javax.swing.JPopupMenu MenuResguardoPersonal;
     private javax.swing.JPopupMenu MenuSolicitarSalida;
     private javax.swing.JPopupMenu MenuSolicitudes;
     private javax.swing.JPopupMenu MenuSolicitudesP;
@@ -5587,6 +5619,7 @@ public void metodoValeRecoleccion(){
     private javax.swing.JMenuItem ParaDonacion;
     private javax.swing.JMenu Pendiente;
     private javax.swing.JMenuItem Permisos;
+    private javax.swing.JMenuItem QuitarResguardo;
     private javax.swing.JScrollPane ScrollEmpleado;
     private javax.swing.JMenuItem SelectProducts;
     private javax.swing.JMenuItem Servicio;
@@ -5756,7 +5789,7 @@ public void metodoValeRecoleccion(){
     public static javax.swing.JTable tablaMInventarioA;
     private javax.swing.JTable tablaPermisosPersonales;
     public javax.swing.JTable tablaRecoleccion;
-    public static javax.swing.JTable tablaResguardo;
+    public static javax.swing.JTable tablaResguardoPersonal;
     public static javax.swing.JTable tablaSolicitarGranel;
     public static javax.swing.JTable tablaSolicitudes;
     public static javax.swing.JTable tablaSolicitudesPersonal;

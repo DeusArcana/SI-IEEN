@@ -122,7 +122,7 @@ public class addResguardo extends javax.swing.JDialog {
         // TODO add your handling code here:
         if(manager_complemento.insertarResguardo(Principal.Username, txtNombre.getText(), txtAObservaciones.getText())){
             JOptionPane.showMessageDialog(null, "Se registro exitosamente el producto en su resguardo personal.");
-            Principal.tablaResguardo.setModel(manager_complemento.getResguardoPersonal(Principal.Username));
+            Principal.tablaResguardoPersonal.setModel(manager_complemento.getResguardoPersonal(Principal.Username));
             this.dispose();
         }else{
             JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");

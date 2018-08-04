@@ -161,19 +161,20 @@ public class ManagerComplemento {
         try {
             table.addColumn("Producto");
             table.addColumn("Fecha de ingreso");
+            table.addColumn("Hora de ingreso");
             table.addColumn("Observaciones");
             
             //Consulta de los empleados
-            String sql = "select nombre_prod,date(fecha_alta),observaciones from resguardo_personal where id_user = '"+usuario+"';";
+            String sql = "select nombre_prod,date(fecha_alta),time(fecha_alta),observaciones from resguardo_personal where id_user = '"+usuario+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
-            Object[] datos = new Object[3];
+            Object[] datos = new Object[4];
             
             //Llenar tabla
             while (rs.next()) {
                 
-                for(int i = 0;i<3;i++){
+                for(int i = 0;i<4;i++){
                     datos[i] = rs.getString(i+1);
                 }
                 
@@ -184,7 +185,7 @@ public class ManagerComplemento {
             //Cerramos la conexión
             conexion.close();
         } catch (SQLException ex) {
-            System.out.printf("Error getTabla Inventario SQL");
+            System.out.printf("Error al obtener el resguardo personal del usuario \""+usuario+"\" SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
 
