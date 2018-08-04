@@ -160,9 +160,13 @@ public class CrearValeSalidaAlmacen {
             
             // Tabla encabezados Cantidad    Autorizada     Articulo
             PdfPCell encabezado1 = new PdfPCell(new Phrase("Cantidad", subFont2));
+            encabezado1.setBackgroundColor(BaseColor.LIGHT_GRAY);
             PdfPCell encabezado2 = new PdfPCell(new Phrase("Autorizó", subFont2));
+            encabezado2.setBackgroundColor(BaseColor.LIGHT_GRAY);
             PdfPCell encabezado22 = new PdfPCell(new Phrase("Solicitó", subFont2));
+            encabezado22.setBackgroundColor(BaseColor.LIGHT_GRAY);
             PdfPCell encabezado3 = new PdfPCell(new Phrase("Articulo", subFont2));
+            encabezado3.setBackgroundColor(BaseColor.LIGHT_GRAY);
             
             encabezado1.setHorizontalAlignment(ALIGN_CENTER);
             encabezado2.setHorizontalAlignment(ALIGN_CENTER);
@@ -227,9 +231,9 @@ public class CrearValeSalidaAlmacen {
             
             // ärea de firmas
             PdfPTable tablaFirmas = new PdfPTable(3);
-            PdfPCell firma1 = new PdfPCell(new Phrase("Vo.Bo\n\n\n\n____________________\nDirección\nAdministrativa", subFont2));
-            PdfPCell firma2 = new PdfPCell(new Phrase("Autorizó\n\n\n\n____________________\nNombre y Firma del\nResponsable del Area Solicitante", subFont2));
-            PdfPCell firma3 = new PdfPCell(new Phrase("Recibió\n\n\n"+empleado+"\n____________________\nNombre y Firma", subFont2));
+            PdfPCell firma1 = new PdfPCell(new Phrase("Vo.Bo\n\n\n\n\n____________________\nDirección\nAdministrativa", subFont2));
+            PdfPCell firma2 = new PdfPCell(new Phrase("Autorizó\n\n\n\n\n____________________\nNombre y Firma del\nResponsable del Area Solicitante", subFont2));
+            PdfPCell firma3 = new PdfPCell(new Phrase("Recibió\n\n\n\n"+empleado+"\n____________________\nNombre y Firma", subFont2));
             
             firma1.setBorderColor(BaseColor.WHITE);
             firma2.setBorderColor(BaseColor.WHITE);
