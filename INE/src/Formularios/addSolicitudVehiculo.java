@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import Clases.ManagerUsers;
 import Clases.ManagerVehiculos;
 import Clases.ManagerSoViaticos;
+import Clases.ManagerComplemento;
 
 import Interfaces.PrincipalS;
 import com.toedter.calendar.JTextFieldDateEditor;
@@ -44,6 +45,8 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     ManagerSoViaticos manager_viaticos;
     ManagerUsers manager_users;
     ManagerVehiculos manager_vehiculo;
+    ManagerComplemento manager_complemento;
+    
     List<Object> datos=new ArrayList<Object>();
     
     public int varida[];
@@ -74,6 +77,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         manager_viaticos = new ManagerSoViaticos();
         manager_users = new ManagerUsers();
         manager_vehiculo = new ManagerVehiculos();
+        manager_complemento = new ManagerComplemento();
           
         
         iniciarEstados();
@@ -148,6 +152,8 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     private void initComponents() {
 
         pn_addInventario = new javax.swing.JPanel();
+        comboArea = new javax.swing.JComboBox<>();
+        lblAreaAsignacion = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         txt_Puesto = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -197,6 +203,19 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         pn_addInventario.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         pn_addInventario.setPreferredSize(new java.awt.Dimension(1150, 500));
         pn_addInventario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        comboArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboArea.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboAreaActionPerformed(evt);
+            }
+        });
+        pn_addInventario.add(comboArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, -1, -1));
+
+        lblAreaAsignacion.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblAreaAsignacion.setText("Área:");
+        pn_addInventario.add(lblAreaAsignacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Nombre:");
@@ -435,9 +454,19 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
+        
+        //ComboArea
+        String lista = manager_complemento.obtenerAreas();
+        String[] recoger = lista.split(",,");
+
+        comboArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        for(int i = 1; i <= recoger.length;i = i+2){
+            comboArea.addItem(recoger[i]);
+        }
+        
         comboEmpleados.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboEmpleados.addItem("Selecione empleado...");
-        manager_users.getNombresEmpleados(comboEmpleados);
+        manager_users.getNombresEmpleados(comboEmpleados,1);
         agregarDatos();
         cmb_Vehiculo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         cmb_Vehiculo.addItem("Selecione vehiculo...");
@@ -726,6 +755,13 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btn_EditarActionPerformed
+
+    private void comboAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAreaActionPerformed
+        // TODO add your handling code here:
+        comboEmpleados.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        comboEmpleados.addItem("Seleccione al empleado...");
+        manager_users.getNombresEmpleados(comboEmpleados,comboArea.getSelectedIndex()+1);
+    }//GEN-LAST:event_comboAreaActionPerformed
     public void insertar_Solicitud(int ConCarro){
         try{
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
@@ -916,6 +952,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> cmbEstado;
     private javax.swing.JComboBox<String> cmbLocalidad;
     private javax.swing.JComboBox cmb_Vehiculo;
+    private javax.swing.JComboBox<String> comboArea;
     private javax.swing.JComboBox<String> comboEmpleados;
     private com.toedter.calendar.JDateChooser date_Llegada;
     private com.toedter.calendar.JDateChooser date_Salida;
@@ -935,6 +972,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblAreaAsignacion;
     private javax.swing.JLabel lblAviso;
     private javax.swing.JPanel pn_addInventario;
     private javax.swing.JTextArea txtADescripcion;

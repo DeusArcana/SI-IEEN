@@ -815,7 +815,7 @@ public class ManagerUsers {
     public void getNombresEmpleados(JComboBox combo,int area) {
         try{
            
-            String sql = "select concat(nombres,' ',apellido_p,' ',apellido_m) from Empleados where area = "+area+";";
+            String sql = "select concat(nombres,' ',apellido_p,' ',apellido_m) from Empleados where area = "+area+"; and estatus = 'Activo'";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -842,19 +842,7 @@ public class ManagerUsers {
             ResultSet rs;
 
             //Obtenemos el id del empleado para dar con su usuario
-            String sql = "select id_empleado from Empleados where concat(nombres,' ',apellido_p,' ',apellido_m) = '"+empleado+"';";
-            rs = st.executeQuery(sql);
-            rs.next();
-            int idEmpleado = rs.getInt(1);
-            
-            //Ahora obtenemos el usuario gracias al id del empleado
-            sql = "select u.id_user from user u inner join empleados e on(e.id_empleado = u.id_empleado) where e.id_empleado = "+idEmpleado+";";
-            rs = st.executeQuery(sql);
-            rs.next();
-            String usuario = rs.getString(1);
-            
-            //Ahora obtenemos el usuario gracias al id del empleado
-            sql = "select puesto from user where id_user = '"+usuario+"';";
+            String sql = "select pt.puesto from empleados e inner join puestos_trabajo pt on (pt.ID_Puesto = e.puesto) where concat(nombres,' ',apellido_p,' ',apellido_m) = '"+empleado+"';";
             rs = st.executeQuery(sql);
             rs.next();
             String puesto = rs.getString(1);
@@ -864,7 +852,7 @@ public class ManagerUsers {
             return puesto;
             
         } catch (SQLException ex) {
-            System.out.printf("Error al obtener los nombres de los empleados para ingresarlos al combo SQL");
+            System.out.printf("Error al obtener el nombre del puesto del empleado \""+empleado+"\" SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
             return "";
         } 

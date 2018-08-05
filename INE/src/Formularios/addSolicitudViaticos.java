@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import Clases.ManagerUsers;
 import Clases.ManagerVehiculos;
 import Clases.ManagerSoViaticos;
+import Clases.ManagerComplemento;
 
 import Interfaces.PrincipalS;
 import com.toedter.calendar.JTextFieldDateEditor;
@@ -40,6 +41,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     ManagerSoViaticos manager_viaticos;
     ManagerUsers manager_users;
     ManagerVehiculos manager_vehiculo;
+    ManagerComplemento manager_complemento;
     
     public int varida[];
     Conexion cbd=new Conexion();
@@ -64,6 +66,8 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         manager_viaticos = new ManagerSoViaticos();
         manager_users = new ManagerUsers();
         manager_vehiculo = new ManagerVehiculos();
+        manager_complemento = new ManagerComplemento();
+        
         iniciarEstados();
         
         AutoCompleteDecorator.decorate(this.comboEmpleados);
@@ -297,20 +301,18 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        comboEmpleados.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-        cmbArea.addItem("Seleccione area ..");
-        try {
-            cn=cbd.getConexion();
-            ResultSet rs=cbd.getTabla("select * from area;", cn);
-            while(rs.next()){
-                cmbArea.addItem(rs.getString("ID_Area")+"-"+rs.getString("area"));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(addSolicitudViaticos.class.getName()).log(Level.SEVERE, null, ex);
+        //ComboArea
+        String lista = manager_complemento.obtenerAreas();
+        String[] recoger = lista.split(",,");
+
+        cmbArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        for(int i = 1; i <= recoger.length;i = i+2){
+            cmbArea.addItem(recoger[i]);
         }
         
+        comboEmpleados.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboEmpleados.addItem("Selecione empleado...");
-        manager_users.getNombresEmpleados(comboEmpleados);
+        manager_users.getNombresEmpleados(comboEmpleados,1);
     }//GEN-LAST:event_formWindowOpened
 
     private void comboEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpleadosActionPerformed
@@ -336,12 +338,9 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
 
     private void cmbAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAreaActionPerformed
         // TODO add your handling code here:
-        comboEmpleados.removeAllItems();
+        comboEmpleados.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboEmpleados.addItem("Selecione empleado...");
-        if(cmbArea.getSelectedIndex()>0){
-            int area=Integer.parseInt(cmbArea.getSelectedItem().toString().split("-")[0]);
-            manager_users.getNombresEmpleados(comboEmpleados,area);
-        }
+        manager_users.getNombresEmpleados(comboEmpleados,cmbArea.getSelectedIndex()+1);
     }//GEN-LAST:event_cmbAreaActionPerformed
     public void insertar_Solicitud(int ConCarro){
         try{
