@@ -195,41 +195,39 @@ public class ManejadorInventario {
 	}// Regresa los productos a su estado orignal (estatus y/o cantidad)
     
     //Este método realiza la salida de almcen ya con productos autorizados
-    public boolean autorizarSalidaAlmacen(String[] Claves,int[] Cantidad,String usuario,String id){
-        
-        try{
-                String sql = "";
-                conexion = db.getConexion();
-                Statement st = conexion.createStatement();
-                ResultSet rs;
-                
-                //Obtenemos la fecha y hora exacta del sistema
-                sql = "select now();";
-                rs = st.executeQuery(sql);
-                rs.next();
-                String fecha = rs.getString(1);
-                
-                //Actualizamos el registro, agregando el usuario que autorizo la salida de almacen y la fecha en que se realizo dicho movimiento
-                //y cambios su estado a salida autorizada
-                sql = "update solicitudsalida set estado = 'Salida Autorizada', user_autorizo = '"+usuario+"', fecha_respuesta = '"+fecha+"' where concat(Folio,'-',Num,'-',Año) = '"+id+"';";
-                st.executeUpdate(sql);
-                
-                //Ahora actualizamos los registros de detalle_Salida para agregar las cantidades que fueron autorizadas para cada productos
-                
-                for(int i = 0; i < Claves.length; i++){
-                    //Actualizamos la ubicación del producto
-                    sql = "update detalle_solicitudsalida set cantidad_autorizada = '"+Cantidad[i]+"' where id_solicitud = '"+id+"' and id_producto = '"+Claves[i]+"';";
-                    st.executeUpdate(sql);
-                }//for
-                
-                conexion.close();
-                return true;
-        } //try  
-        catch (SQLException ex) {
-            Logger.getLogger(ManagerDocumentos.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-    }//autorizarSalidaAlmacen
+	public boolean autorizarSalidaAlmacen(String[] Claves, int[] Cantidad, String Usuario, String ID){
+		// Se preparan la llamadas a los SPs, que se destruyen al finalizar el TRY-CATCH
+		try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_update_autorizarSalida`(?, ?)}");
+			 PreparedStatement ps = db.getConexion().prepareStatement("{CALL `ine`.`usp_update_autorizarDetalleSalida`(?, ?, ?)}")) {
+
+			// Se agregan los parámetros de búsqueda a primer SP para hacer UPDATE en SolicitudSalida
+			cs.setString(1, Usuario);
+			cs.setString(2, ID);
+
+			// Si no se actualiza ningún registro, retorna FALSE
+			if(cs.executeUpdate() == 0)
+				return false;
+
+			//Ahora actualizamos los registros de Detalle_SolicitudSalida para agregar las cantidades que fueron autorizadas para cada productos
+			int row_count = 0;
+
+			for(int i = 0; i < Claves.length; i++){
+				// Se agregan los parámetros de búsqueda al segundo SP, estos cambian con cada iteración
+				ps.setString(1, ID);
+				ps.setString(2, Claves[i]);
+				ps.setInt(3, Cantidad[i]);
+				// Se cuentan el número de registros afectados
+				row_count = row_count + ps.executeUpdate();
+			}//for
+
+			// Si no se afecta ningún registro, retorna FALSE
+			return row_count != 0;
+
+		} catch (SQLException ex) {
+			Logger.getLogger(ManagerDocumentos.class.getName()).log(Level.SEVERE, null, ex);
+			return false;
+		}
+	}//autorizarSalidaAlmacen
     
     //Este método es para registrar tanto el vale de resguardo como el de recolección
     public String registrarVale(String empleado, String folio){
