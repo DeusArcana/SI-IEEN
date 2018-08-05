@@ -2,6 +2,7 @@ package Clases;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -152,7 +153,7 @@ public class ManejadorInventario {
 	public int productosIgualesInventarioG(String ID_Producto, int Cantidad) {
 		// Se prepara la llamada al SP, que se destruye al finalizar el TRY-CATCH
 		try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_update_stockInvGranel`(?, ?)}")) {
-			// Se agregan el parámetro de búsqueda al SP
+			// Se agregan los parámetros de búsqueda al SP
 			cs.setString(1, ID_Producto);
 			cs.setInt(2, Cantidad);
 			// Ejecución del SP
@@ -169,45 +170,29 @@ public class ManejadorInventario {
     
     //Este método es para cancelar la acción de asignación de uno o mas productos en la pestaña de manejador de inventario, se usa cuando
     //cancelas un producto, cuando presionas el boton cancelar o cuando se cierra la ventana y quedaron los productos sin generar el vale
-    public boolean regresarInventario(String[] Claves,int[] Cantidad){
-        
-        try{
-                String sql = "";
-                conexion = db.getConexion();
-                Statement st = conexion.createStatement();
-                ResultSet rs;
-                for(int i = 0; i < Claves.length; i++){
-                    //Buscamos si es de inventario o de granel
-                    sql = "select * from inventario where concat(Folio,'-',Numero,Extension) = '"+Claves[i]+"';";
-                    rs = st.executeQuery(sql);
-                    System.out.println("Hicimos la consulta para ver si es inventario o granel");
-                    //Si entra es a inventario
-                    if(rs.next()){
-                        sql = "update inventario set estatus = 'Disponible' where concat(Folio,'-',Numero,Extension) = '"+Claves[i]+"';";
-                        st.executeUpdate(sql);
-                        System.out.println("Es inventario normal y cambio el estatus a disponible");
-                    }
-                    //Si no entra es a granel
-                    else{
-                        sql = "update inventario_granel set stock = stock + "+Cantidad[i]+" where concat(Folio,'-',Numero,Extension) = '"+Claves[i]+"' and stock > 0;";
-                        st.executeUpdate(sql);
-                        System.out.println("Llego a querer hacer el update para sumarle la cantidad que se le quito");
-                        
-                        sql = "update inventario_granel set estatus = 'Disponible', stock = "+Cantidad[i]+" where concat(Folio,'-',Numero,Extension) = '"+Claves[i]+"' and stock = 0;";
-                        st.executeUpdate(sql);
-                        System.out.println("Llego a querer hacer el update para ponerlo disponible si el stock es 0");
-                    }
-                }//for
-                conexion.close();
-        } //try  
-        catch (SQLException ex) {
-            Logger.getLogger(ManagerDocumentos.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-        
-        return true; //Da una respuesta positiva del incremento del inventario de ese producto 
-        
-    }//Regresa los productos a su estado orignal (estatus y/o cantidad)
+	public boolean regresarInventario(String[] Claves, int[] Cantidad){
+		// Se prepara la llamada al SP, que se destruye al finalizar el TRY-CATCH
+		try (PreparedStatement ps = db.getConexion().prepareStatement("{CALL `ine`.`usp_update_regresarInventarios`(?, ?)}")) {
+			// Permite saber cuantos registros se han actualizado
+			int row_count = 0;
+			// Actualización de los productos
+			for(int i = 0; i < Claves.length; i++){
+				// Se agregan los parámetros de búsqueda al SP
+				ps.setString(1, Claves[i]);
+				ps.setInt(2, Cantidad[i]);
+				// Ejecución del SP y añade al contador el número de registros afectados
+				row_count = row_count + ps.executeUpdate();
+			}// for
+
+			// TRUE el número de filas afectadas es diferente de cero
+			return row_count != 0;
+		} //try
+		catch (SQLException ex) {
+			System.err.printf("Error al actualizar el inventario en SQL");
+			Logger.getLogger(ManagerDocumentos.class.getName()).log(Level.SEVERE, null, ex);
+			return false;
+		}
+	}// Regresa los productos a su estado orignal (estatus y/o cantidad)
     
     //Este método realiza la salida de almcen ya con productos autorizados
     public boolean autorizarSalidaAlmacen(String[] Claves,int[] Cantidad,String usuario,String id){
