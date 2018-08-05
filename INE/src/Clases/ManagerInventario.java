@@ -88,7 +88,7 @@ public class ManagerInventario {
         try {
             for(int i = 0; i<cantidad;i++){
         
-                insert = "insert into inventario (Folio,Numero,Extension,nombre_prod,descripcion,ubicacion,estatus,marca,observaciones,no_serie,tipo_uso,modelo,color,imagen,Fecha_Compra,Factura,Importe)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+                insert = "insert into inventario (Folio,Numero,Extension,nombre_prod,descripcion,ubicacion,estatus,marca,observaciones,no_serie,modelo,color,imagen,Fecha_Compra,Factura,Importe)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
                 FileInputStream fi = null;
                 PreparedStatement ps = null;
 
@@ -108,13 +108,12 @@ public class ManagerInventario {
                     ps.setString(8, marca);
                     ps.setString(9, observaciones);
                     ps.setString(10, no_serie);
-                    ps.setString(11, "Sin asignación");
-                    ps.setString(12, modelo);
-                    ps.setString(13, color);
-                    ps.setBinaryStream(14, fi);
-                    ps.setString(15, fecha_compra);
-                    ps.setString(16, factura);
-                    ps.setFloat(17, importe);
+                    ps.setString(11, modelo);
+                    ps.setString(12, color);
+                    ps.setBinaryStream(13, fi);
+                    ps.setString(14, fecha_compra);
+                    ps.setString(15, factura);
+                    ps.setFloat(16, importe);
 
                     ps.executeUpdate();
             }//for

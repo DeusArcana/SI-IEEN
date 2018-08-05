@@ -288,7 +288,7 @@
       <SubComponents>
         <MenuItem class="javax.swing.JMenuItem" name="QuitarResguardo">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Eliminar registro"/>
+            <Property name="text" type="java.lang.String" value="Salida del producto"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="QuitarResguardoActionPerformed"/>
@@ -702,7 +702,7 @@
                       <Font name="Tahoma" size="14" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="10">
+                      <StringArray count="9">
                         <StringItem index="0" value="Disponible"/>
                         <StringItem index="1" value="No disponible"/>
                         <StringItem index="2" value="para baja"/>
@@ -711,8 +711,7 @@
                         <StringItem index="5" value="Baja"/>
                         <StringItem index="6" value="Donaci&#xf3;n"/>
                         <StringItem index="7" value="Comodato"/>
-                        <StringItem index="8" value="Reparaci&#xf3;n/Garant&#xed;a"/>
-                        <StringItem index="9" value="Asignado"/>
+                        <StringItem index="8" value="Asignado"/>
                       </StringArray>
                     </Property>
                   </Properties>
@@ -1602,7 +1601,7 @@
                 <Container class="javax.swing.JScrollPane" name="ScrollEmpleado">
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="10" y="20" width="1350" height="830"/>
+                      <AbsoluteConstraints x="10" y="20" width="1340" height="830"/>
                     </Constraint>
                   </Constraints>
 
@@ -2173,7 +2172,7 @@
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
+                      <AbsoluteConstraints x="0" y="0" width="1400" height="-1"/>
                     </Constraint>
                   </Constraints>
                 </Component>
@@ -2615,13 +2614,21 @@
                                               <Component id="lb_empleado3" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="comboEmpleadoR" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Component id="lblAreaAsignacion1" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="comboArea1" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Component id="lblAreaAsignacion2" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="comboAño" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="309" max="-2" attributes="0"/>
                                               <Component id="btnEntregarRecoleccion" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <Component id="lb_objetos_asignados1" min="-2" max="-2" attributes="0"/>
                                           <Component id="jScrollPane34" min="-2" pref="1281" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace max="32767" attributes="0"/>
+                                      <EmptySpace pref="49" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -2634,6 +2641,14 @@
                                               <Group type="103" groupAlignment="3" attributes="0">
                                                   <Component id="lb_empleado3" alignment="3" min="-2" max="-2" attributes="0"/>
                                                   <Component id="comboEmpleadoR" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                                                      <Component id="comboArea1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="lblAreaAsignacion1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                      <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                                                          <Component id="comboAño" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                          <Component id="lblAreaAsignacion2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                      </Group>
+                                                  </Group>
                                               </Group>
                                               <EmptySpace type="separate" max="-2" attributes="0"/>
                                           </Group>
@@ -2644,14 +2659,43 @@
                                           </Group>
                                       </Group>
                                       <Component id="lb_objetos_asignados1" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="jScrollPane34" min="-2" pref="383" max="-2" attributes="0"/>
-                                      <EmptySpace pref="150" max="32767" attributes="0"/>
+                                      <EmptySpace pref="323" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
                           </Layout>
                           <SubComponents>
+                            <Component class="javax.swing.JComboBox" name="comboArea1">
+                              <Properties>
+                                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                  <Font name="Tahoma" size="14" style="0"/>
+                                </Property>
+                                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                                  <StringArray count="4">
+                                    <StringItem index="0" value="Item 1"/>
+                                    <StringItem index="1" value="Item 2"/>
+                                    <StringItem index="2" value="Item 3"/>
+                                    <StringItem index="3" value="Item 4"/>
+                                  </StringArray>
+                                </Property>
+                              </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboArea1ActionPerformed"/>
+                              </Events>
+                              <AuxValues>
+                                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                              </AuxValues>
+                            </Component>
+                            <Component class="javax.swing.JLabel" name="lblAreaAsignacion1">
+                              <Properties>
+                                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                  <Font name="Yu Gothic UI" size="18" style="0"/>
+                                </Property>
+                                <Property name="text" type="java.lang.String" value="&#xc1;rea:"/>
+                              </Properties>
+                            </Component>
                             <Component class="javax.swing.JLabel" name="lb_empleado3">
                               <Properties>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -2795,6 +2839,30 @@
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEntregarRecoleccionActionPerformed"/>
                               </Events>
+                            </Component>
+                            <Component class="javax.swing.JLabel" name="lblAreaAsignacion2">
+                              <Properties>
+                                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                  <Font name="Yu Gothic UI" size="18" style="0"/>
+                                </Property>
+                                <Property name="text" type="java.lang.String" value="A&#xf1;o:"/>
+                              </Properties>
+                            </Component>
+                            <Component class="javax.swing.JComboBox" name="comboA&#xf1;o">
+                              <Properties>
+                                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                                  <Font name="Tahoma" size="14" style="0"/>
+                                </Property>
+                                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                                  <StringArray count="0"/>
+                                </Property>
+                              </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboA&#xf1;oActionPerformed"/>
+                              </Events>
+                              <AuxValues>
+                                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                              </AuxValues>
                             </Component>
                           </SubComponents>
                         </Container>

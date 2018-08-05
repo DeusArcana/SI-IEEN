@@ -78,9 +78,9 @@ INSERT INTO `INE`.`Puestos_Trabajo`
 DELETE FROM `INE`.`Empleados` WHERE 1;
 ALTER TABLE `INE`.`Empleados` AUTO_INCREMENT = 1;
 INSERT INTO `INE`.`Empleados`(`nombres`, `apellido_p`, `apellido_m`, `calle`, `colonia`, `telefono`, `codigo_postal`, `fecha_nacimiento`,
-									`curp`, `rfc`, `municipio`, `localidad`,`area`,`puesto`) 
+									`curp`, `rfc`, `municipio`, `localidad`,`area`,`puesto`,`estatus`) 
 	VALUES 
-		('Kevin Alejandro','Méndez','Santana','Udine #18','Fracc. Bonaterra','311-162-16-71','63194','1995-09-26','MESK950926HNTNNV08','123456QWEASD','Tepic','Tepic',11,30)
+		('Kevin Alejandro','Méndez','Santana','Udine #18','Fracc. Bonaterra','311-162-16-71','63194','1995-09-26','MESK950926HNTNNV08','123456QWEASD','Tepic','Tepic',11,30,'Activo')
 	;
 
 -- ***************************************************************************

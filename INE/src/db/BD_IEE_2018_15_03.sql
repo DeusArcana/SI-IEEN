@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS `INE`.`Empleados` (
   `rfc` VARCHAR(13) NULL,
   `municipio` VARCHAR(30) NULL,
   `localidad` VARCHAR(50) NULL,
+  `estatus` VARCHAR(50) NULL,
   PRIMARY KEY (`id_empleado`))
 ENGINE = InnoDB;
 
@@ -159,8 +160,10 @@ CREATE TABLE IF NOT EXISTS `Folio` (
 -- Table `INE`.`Bodegas`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `INE`.`Bodegas` (
+  `ID_Bodega` INT NOT NULL AUTO_INCREMENT,
   `Nom_Bodega` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`Nom_Bodega`))
+  `ID_Responsable` INT NULL,
+  PRIMARY KEY (`ID_Bodega`))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -172,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `INE`.`Inventario` (
   `Extension` 		CHAR(1) NULL,
   `nombre_prod` 	VARCHAR(50) NULL,
   `descripcion` 	VARCHAR(500) NULL,
-  `ubicacion` 		VARCHAR(50) NULL,
+  `ubicacion` 		VARCHAR(255) NULL,
   `estatus` 		VARCHAR(35) NULL,
   `marca` 			VARCHAR(50) NULL,
   `observaciones` 	VARCHAR(300) NULL,
@@ -212,7 +215,8 @@ CREATE TABLE `Documentos` (
   `ID_Documento` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `Clave` VARCHAR(255),
   `Fecha_Creacion` DATE, 
-  `Fecha_Salida` 	DATE,
+  `Fecha_Salida` DATE,
+  `No_Acta` VARCHAR(255) NULL,
   PRIMARY KEY `pk_ID_Documento`(`ID_Documento`)
 ) ENGINE = InnoDB;
 
@@ -250,7 +254,7 @@ CREATE TABLE IF NOT EXISTS `INE`.`Resguardo_personal` (
   `nombre_prod` VARCHAR(50) NULL,
   `fecha_alta` DATETIME NULL,
   `observaciones` VARCHAR(300) NULL,
-  PRIMARY KEY (`id_user`),
+  `fecha_salida` DATETIME NULL,
   CONSTRAINT `fk_Resguardo_personal_User1`
     FOREIGN KEY (`id_user`)
     REFERENCES `INE`.`User` (`id_user`)
