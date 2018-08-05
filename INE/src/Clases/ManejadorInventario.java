@@ -130,50 +130,42 @@ public class ManejadorInventario {
 		}
 		return - 1;
 	}//cantidadInventarioG
-    
-    public int productosSuficientesInventarioG(String id_producto,int cantidad) {
-        int stock = 0;
-        try {
-            //Hacemos el update de la resta del inventario
-            String sql = "update inventario_Granel set stock = stock - "+cantidad+" where concat(Folio,'-',Numero,Extension) = '"+id_producto+"' and stock > "+cantidad+";";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            st.executeUpdate(sql);
-            //Obtenemos el stock del producto para saber si se realizo o no el update
-            sql = "select stock from inventario_Granel where concat(Folio,'-',Numero,Extension) = '"+id_producto+"';";
-            ResultSet rs = st.executeQuery(sql);
-            rs.next();
-            stock = rs.getInt(1);
-            conexion.close();
-            return stock;
-        } catch (SQLException ex) {
-            System.out.printf("Error al consultar el inventario a granel en SQL");
-            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
-            return -1;
-        }
-    }//productosSuficientesInventarioG
-    
-    public int productosIgualesInventarioG(String id_producto,int cantidad) {
-        int stock = 0;
-        try {
-            //Hacemos el update de la resta del inventario
-            String sql = "update inventario_Granel set stock = 0,estatus = 'Agotado' where concat(Folio,'-',Numero,Extension) = '"+id_producto+"' and stock = "+cantidad+";";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            st.executeUpdate(sql);
-            //Obtenemos el stock del producto para saber si se realizo o no el update
-            sql = "select stock from inventario_Granel where concat(Folio,'-',Numero,Extension) = '"+id_producto+"';";
-            ResultSet rs = st.executeQuery(sql);
-            rs.next();
-            stock = rs.getInt(1);
-            conexion.close();
-            return stock;
-        } catch (SQLException ex) {
-            System.out.printf("Error al consultar el inventario en SQL");
-            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
-            return -1;
-        }
-    }//productosIgualesInventarioG
+
+	public int productosSuficientesInventarioG(String ID_Producto, int Cantidad) {
+		// Se prepara la llamada al SP, que se destruye al finalizar el TRY-CATCH
+		try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_update_stockInvGranel`(?, ?)}")) {
+			// Se agregan el parámetro de búsqueda al SP
+			cs.setString(1, ID_Producto);
+			cs.setInt(2, Cantidad);
+			// Ejecución del SP
+			ResultSet rs = cs.executeQuery();
+			// Retorno del valor obtenido
+			if (rs.next()) return rs.getInt("res");
+
+		} catch (SQLException ex) {
+			System.err.printf("Error al consultar el inventario en SQL");
+			Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return - 1;
+	}//productosSuficientesInventarioG
+
+	public int productosIgualesInventarioG(String ID_Producto, int Cantidad) {
+		// Se prepara la llamada al SP, que se destruye al finalizar el TRY-CATCH
+		try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_update_stockInvGranel`(?, ?)}")) {
+			// Se agregan el parámetro de búsqueda al SP
+			cs.setString(1, ID_Producto);
+			cs.setInt(2, Cantidad);
+			// Ejecución del SP
+			ResultSet rs = cs.executeQuery();
+			// Retorno del valor obtenido
+			if (rs.next()) return rs.getInt("res");
+
+		} catch (SQLException ex) {
+			System.err.printf("Error al consultar el inventario en SQL");
+			Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return - 1;
+	}//productosIgualesInventarioG
     
     //Este método es para cancelar la acción de asignación de uno o mas productos en la pestaña de manejador de inventario, se usa cuando
     //cancelas un producto, cuando presionas el boton cancelar o cuando se cierra la ventana y quedaron los productos sin generar el vale
