@@ -378,7 +378,7 @@ public class ManejadorInventario {
     
     //Este método es para llenar el combo solamente con los empleados que tengan asignaciones (vales de resguardo) y que todavia no hayan sido
     //recogidos (vales de recolección)
-    public void getEmpleadosAsignacion(JComboBox combo) {
+    public void getEmpleadosAsignacion(JComboBox combo,int area) {
         try{
            
             String sql = "select concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) as Empleado from empleados e " +
@@ -389,7 +389,7 @@ public class ManejadorInventario {
                          "inner join empleados e on (e.id_empleado = v.id_empleado) " +
                          "inner join detalle_vale dv on (dv.id_vale = concat(v.Folio,'-',v.Numero,'-',v.Año)) " +
                          "inner join inventario i on (dv.id_producto = concat(i.Folio,'-',i.Numero,i.Extension))) " +
-                         ") group by concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m);";
+                         ") and e.area = "+area+" group by concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m);";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -405,10 +405,36 @@ public class ManejadorInventario {
         
     }//Obtiene todas los nombres de los empleados que tienen productos asignados
     
+    //Este método es para llenar el combo solamente con los empleados que tengan asignaciones (vales de resguardo) y que todavia no hayan sido
+    //recogidos (vales de recolección)
+    public void getAñoEmpleadoAsignacion(JComboBox combo,String empleado) {
+        try{
+           
+            String sql = "select v.Año from vales v "
+                    + "inner join detalle_vale dv on (dv.id_vale = concat(v.Folio,'-',v.Numero,'-',v.Año)) "
+                    + "inner join inventario ig on (dv.id_producto = concat(ig.Folio,'-',ig.Numero,ig.Extension)) "
+                    + "inner join empleados e on (e.id_empleado = v.id_empleado) "
+                    + "where concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m)= '"+empleado+"' and dv.estado = 'Asignado' "
+                    + "group by v.año order by v.Año desc;";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                combo.addItem(rs.getObject(1).toString());
+            }
+            
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los años de acuerdo al empleado para ver los vales de esa fecha SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+    }//Obtiene todas los nombres de los empleados que tienen productos asignados
+    
     /*Este método es para obtener los productos que fueron asignados a un empleado, se mostraran todos los productos de todos los vales que esten a su
     nombre, y solo se mostaran aquellos productos que aun tengan en su estado "Asignado" (significa que aun no los entregan en su vale de recolección).
     Se genera la tabla con su respectiva información y en la columna principal se le asigna un checkbox para marcar los productos que quiera entregar.*/
-    public DefaultTableModel getInventarioEmpleadoAsignaciones(String empleado) {
+    public DefaultTableModel getInventarioEmpleadoAsignaciones(String empleado, int año) {
             
         DefaultTableModel table = new DefaultTableModel();
         JTable checks = new JTable();
@@ -458,7 +484,7 @@ public class ManejadorInventario {
                     + "inner join detalle_vale dv on (dv.id_vale = concat(v.Folio,'-',v.Numero,'-',v.Año)) "
                     + "inner join inventario ig on (dv.id_producto = concat(ig.Folio,'-',ig.Numero,ig.Extension)) "
                     + "inner join empleados e on (e.id_empleado = v.id_empleado) "
-                    + "where concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m)= '"+empleado+"' and dv.estado = 'Asignado' "
+                    + "where concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m)= '"+empleado+"' and dv.estado = 'Asignado' and v.Año = "+año+" "
                     + "order by concat(v.Folio,'-',v.Numero,'-',v.Año);";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();

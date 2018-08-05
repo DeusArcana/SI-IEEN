@@ -16,6 +16,11 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ActualizarProdActionPerformed"/>
           </Events>
         </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="AddObservacion">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="A&#xf1;adir observaciones"/>
+          </Properties>
+        </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="DevolverDis">
           <Properties>
             <Property name="text" type="java.lang.String" value="Devolver a disponible"/>
@@ -63,20 +68,20 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="NoDisponibleActionPerformed"/>
           </Events>
         </MenuItem>
-        <MenuItem class="javax.swing.JMenuItem" name="EstatusDefinitivo">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Cambiar a "/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EstatusDefinitivoActionPerformed"/>
-          </Events>
-        </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="ExcelInventario">
           <Properties>
             <Property name="text" type="java.lang.String" value="Exportar a excel"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ExcelInventarioActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="EstatusDefinitivo">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Cambiar a "/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EstatusDefinitivoActionPerformed"/>
           </Events>
         </MenuItem>
       </SubComponents>
@@ -1041,6 +1046,32 @@
                     </Component>
                   </SubComponents>
                 </Container>
+                <Component class="javax.swing.JComboBox" name="comboEmpUsuEstatus">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="18" style="0"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="3">
+                        <StringItem index="0" value="Todos"/>
+                        <StringItem index="1" value="Activo"/>
+                        <StringItem index="2" value="Baja"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboEmpUsuEstatusActionPerformed"/>
+                  </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="700" y="100" width="180" height="-1"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
                 <Component class="javax.swing.JButton" name="btnAddEmpleado">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -1149,7 +1180,7 @@
                   </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="750" y="100" width="210" height="-1"/>
+                      <AbsoluteConstraints x="900" y="100" width="210" height="-1"/>
                     </Constraint>
                   </Constraints>
                 </Component>
@@ -2638,16 +2669,18 @@
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
                                               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="3" attributes="0">
-                                                  <Component id="lb_empleado3" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="comboEmpleadoR" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                  <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                                                      <Component id="comboAño" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="lblAreaAsignacion2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="103" groupAlignment="3" attributes="0">
                                                       <Component id="comboArea1" alignment="3" min="-2" max="-2" attributes="0"/>
                                                       <Component id="lblAreaAsignacion1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                      <Group type="103" alignment="3" groupAlignment="3" attributes="0">
-                                                          <Component id="comboAño" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                          <Component id="lblAreaAsignacion2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                      </Group>
+                                                  </Group>
+                                                  <Group type="103" groupAlignment="3" attributes="0">
+                                                      <Component id="lb_empleado3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="comboEmpleadoR" alignment="3" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                               <EmptySpace type="separate" max="-2" attributes="0"/>

@@ -230,14 +230,15 @@ public class Principal extends javax.swing.JFrame {
 
         MenuInventario = new javax.swing.JPopupMenu();
         ActualizarProd = new javax.swing.JMenuItem();
+        AddObservacion = new javax.swing.JMenuItem();
         DevolverDis = new javax.swing.JMenuItem();
         Pendiente = new javax.swing.JMenu();
         ParaBaja = new javax.swing.JMenuItem();
         ParaComodato = new javax.swing.JMenuItem();
         ParaDonacion = new javax.swing.JMenuItem();
         NoDisponible = new javax.swing.JMenuItem();
-        EstatusDefinitivo = new javax.swing.JMenuItem();
         ExcelInventario = new javax.swing.JMenuItem();
+        EstatusDefinitivo = new javax.swing.JMenuItem();
         MenuInventarioG = new javax.swing.JPopupMenu();
         ActualizarConsumible = new javax.swing.JMenuItem();
         AddStock = new javax.swing.JMenuItem();
@@ -306,6 +307,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaUsuarios = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        comboEmpUsuEstatus = new javax.swing.JComboBox<>();
         btnAddEmpleado = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -473,6 +475,9 @@ public class Principal extends javax.swing.JFrame {
         });
         MenuInventario.add(ActualizarProd);
 
+        AddObservacion.setText("Añadir observaciones");
+        MenuInventario.add(AddObservacion);
+
         DevolverDis.setText("Devolver a disponible");
         DevolverDis.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -517,14 +522,6 @@ public class Principal extends javax.swing.JFrame {
         });
         MenuInventario.add(NoDisponible);
 
-        EstatusDefinitivo.setText("Cambiar a ");
-        EstatusDefinitivo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EstatusDefinitivoActionPerformed(evt);
-            }
-        });
-        MenuInventario.add(EstatusDefinitivo);
-
         ExcelInventario.setText("Exportar a excel");
         ExcelInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -532,6 +529,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MenuInventario.add(ExcelInventario);
+
+        EstatusDefinitivo.setText("Cambiar a ");
+        EstatusDefinitivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EstatusDefinitivoActionPerformed(evt);
+            }
+        });
+        MenuInventario.add(EstatusDefinitivo);
 
         ActualizarConsumible.setText("Actualizar consumible");
         ActualizarConsumible.addActionListener(new java.awt.event.ActionListener() {
@@ -968,6 +973,16 @@ public class Principal extends javax.swing.JFrame {
         jPanel5.add(jScrollPane1);
         jScrollPane1.setBounds(30, 150, 1240, 402);
 
+        comboEmpUsuEstatus.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        comboEmpUsuEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Activo", "Baja" }));
+        comboEmpUsuEstatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboEmpUsuEstatusActionPerformed(evt);
+            }
+        });
+        jPanel5.add(comboEmpUsuEstatus);
+        comboEmpUsuEstatus.setBounds(700, 100, 180, 28);
+
         btnAddEmpleado.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         btnAddEmpleado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar.png"))); // NOI18N
         btnAddEmpleado.setText("  Agregar");
@@ -1015,7 +1030,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel5.add(comboEmpUsu);
-        comboEmpUsu.setBounds(750, 100, 210, 28);
+        comboEmpUsu.setBounds(900, 100, 210, 28);
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel5.add(fondo);
@@ -1820,15 +1835,16 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pn_recoleccion_inventario1Layout.createSequentialGroup()
                         .addGap(33, 33, 33)
-                        .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lb_empleado3)
-                            .addComponent(comboEmpleadoR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(comboAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblAreaAsignacion2))
                             .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(comboArea1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lblAreaAsignacion1)
-                                .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(comboAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblAreaAsignacion2))))
+                                .addComponent(lblAreaAsignacion1))
+                            .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lb_empleado3)
+                                .addComponent(comboEmpleadoR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_recoleccion_inventario1Layout.createSequentialGroup()
                         .addContainerGap()
@@ -3982,7 +3998,7 @@ public void metodoValeRecoleccion(){
         if(comboEmpUsu.getSelectedItem().toString().equals("Empleados sin usuario")){
             
             if(manager_permisos.accesoModulo("consulta","Empleados",Username)){
-                tablaUsuarios.setModel(manager_users.getEmpleadosSinUsuario(filtro,busqueda));
+                tablaUsuarios.setModel(manager_users.getEmpleadosSinUsuario(filtro,busqueda,comboEmpUsuEstatus.getSelectedItem().toString()));
             }else{
                 JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultar empleados.");
                 tablaUsuarios.setModel(new DefaultTableModel());
@@ -3991,7 +4007,7 @@ public void metodoValeRecoleccion(){
         }else if(comboEmpUsu.getSelectedItem().toString().equals("Empleados")){
             
             if(manager_permisos.accesoModulo("consulta","Empleados",Username)){
-                tablaUsuarios.setModel(manager_users.getEmpleados(Username,filtro,busqueda));
+                tablaUsuarios.setModel(manager_users.getEmpleados(Username,filtro,busqueda,comboEmpUsuEstatus.getSelectedItem().toString()));
             }else{
                 JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultar empleados.");
                 tablaUsuarios.setModel(new DefaultTableModel());
@@ -3999,7 +4015,7 @@ public void metodoValeRecoleccion(){
             
         }else{
             if(manager_permisos.accesoModulo("consulta","Usuarios",Username)){
-                tablaUsuarios.setModel(manager_users.getUsuarios(Username,filtro,busqueda));
+                tablaUsuarios.setModel(manager_users.getUsuarios(Username,filtro,busqueda,comboEmpUsuEstatus.getSelectedItem().toString()));
             }else{
                 JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultar usuarios.");
                 tablaUsuarios.setModel(new DefaultTableModel());
@@ -4167,6 +4183,15 @@ public void metodoValeRecoleccion(){
         else{
             //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
             if(SwingUtilities.isRightMouseButton(evt)){
+                AddObservacion.setVisible(false);
+                DevolverDis.setVisible(false);//Cambiar el estatus a "Disponible"
+                EstatusDefinitivo.setVisible(false);//Cambiar el estatus a "Baja/Donación/Comodato"
+                Pendiente.setVisible(false);//Cambiar el estatus a "Pendiente para baja/donación/comodato"
+                    ParaBaja.setVisible(false);
+                    ParaComodato.setVisible(false);
+                    ParaDonacion.setVisible(false);
+                NoDisponible.setVisible(false);//Cambiar el estatus a "Reparación/Garantía"
+                ActualizarProd.setVisible(false);//Actualizar la información de un producto
                 
                 int r = tablaInventario.rowAtPoint(evt.getPoint());
                 if (r >= 0 && r < tablaInventario.getRowCount()){
@@ -4187,7 +4212,6 @@ public void metodoValeRecoleccion(){
                                 ParaBaja.setVisible(true);
                                 ParaComodato.setVisible(true);
                                 ParaDonacion.setVisible(true);
-                            NoDisponible.setVisible(false);//Cambiar el estatus a "Reparación/Garantía"
                             ActualizarProd.setVisible(true);//Actualizar la información de un producto
 
                             if(comboEstatus.getSelectedItem().toString().equals("para baja")){ EstatusDefinitivo.setText("Cambiar a Baja"); pendientePara = "Baja"; ParaBaja.setVisible(false);}
@@ -4195,37 +4219,20 @@ public void metodoValeRecoleccion(){
                             if(comboEstatus.getSelectedItem().toString().equals("para comodato")){ EstatusDefinitivo.setText("Cambiar a Comodato"); pendientePara = "Comodato";ParaComodato.setVisible(false);}   
                             MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
                         }
-                        //Selección de Asignado
-                        else if(comboEstatus.getSelectedItem().toString().equals("Asignado")){
-                            DevolverDis.setVisible(false);//Cambiar el estatus a "Disponible"
-                            EstatusDefinitivo.setVisible(false);//Cambiar el estatus a "Baja/Donación/Comodato"
-                            Pendiente.setVisible(false);//Cambiar el estatus a "Pendiente para baja/donación/comodato"
-                            NoDisponible.setVisible(false);//Cambiar el estatus a "Reparación/Garantía"
-                            ActualizarProd.setVisible(true);//Actualizar la información de un producto
-                            MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-                        }
-                        //Selección de Baja/Donación/Comodato
-                        else if(comboEstatus.getSelectedItem().toString().equals("Baja") || comboEstatus.getSelectedItem().toString().equals("Donación") || comboEstatus.getSelectedItem().toString().equals("Comodato")){
-                            DevolverDis.setVisible(false);//Cambiar el estatus a "Disponible"
-                            EstatusDefinitivo.setVisible(false);//Cambiar el estatus a "Baja/Donación/Comodato"
-                            Pendiente.setVisible(false);//Cambiar el estatus a "Pendiente para baja/donación/comodato"
-                            NoDisponible.setVisible(false);//Cambiar el estatus a "Reparación/Garantía"
+                        //Selección de Baja/Donación/Comodato o asginado
+                        else if(comboEstatus.getSelectedItem().toString().equals("Baja") || comboEstatus.getSelectedItem().toString().equals("Donación") || comboEstatus.getSelectedItem().toString().equals("Comodato") || comboEstatus.getSelectedItem().toString().equals("Asignado")){
                             ActualizarProd.setVisible(true);//Actualizar la información de un producto
                             MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
                         }
                         //Selección de No Disponible
                         else if(comboEstatus.getSelectedItem().toString().equals("No disponible")){
                             DevolverDis.setVisible(true);//Cambiar el estatus a "Disponible"
-                            EstatusDefinitivo.setVisible(false);//Cambiar el estatus a "Baja/Donación/Comodato"
-                            Pendiente.setVisible(false);//Cambiar el estatus a "Pendiente para baja/donación/comodato"
-                            NoDisponible.setVisible(false);//Cambiar el estatus a "Reparación/Garantía"
                             ActualizarProd.setVisible(true);//Actualizar la información de un producto
                             MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
                         }
                         //Selección de Disponible
                         else{
-                            DevolverDis.setVisible(false);//Cambiar el estatus a "Disponible"
-                            EstatusDefinitivo.setVisible(false);//Cambiar el estatus a "Baja/Donación/Comodato"
+                            AddObservacion.setVisible(true);
                             Pendiente.setVisible(true);//Cambiar el estatus a "Pendiente para baja/donación/comodato"
                                 ParaBaja.setVisible(true);
                                 ParaComodato.setVisible(true);
@@ -4397,9 +4404,6 @@ public void metodoValeRecoleccion(){
 
     private void comboEmpUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpUsuActionPerformed
         // TODO add your handling code here:
-        int filtro = comboFiltroUsuario.getSelectedIndex();
-        String busqueda = txtBusquedaUsuario.getText();
-        
         if(!(comboEmpUsu.getSelectedItem().toString().equals("Usuarios"))){
             tabbedPrincipal.setTitleAt(1, "Empleados");//Le damos el nombre de "Empleados" a la pestaña 
             
@@ -5011,6 +5015,23 @@ public void metodoValeRecoleccion(){
                 break;
             //Pestaña de empleados y usuarios
             case 1:
+                if(comboEmpUsuEstatus.getSelectedItem().equals("Todos")){
+                    activarE.setVisible(false);
+                    bajaE.setVisible(false);
+                    dar_baja.setVisible(false);
+                    activar.setVisible(false);
+                }else if(comboEmpUsuEstatus.getSelectedItem().equals("Activo")){
+                    activarE.setVisible(true);
+                    bajaE.setVisible(false);
+                    dar_baja.setVisible(false);
+                    activar.setVisible(true);
+                }else{
+                    activarE.setVisible(false);
+                    bajaE.setVisible(true);
+                    dar_baja.setVisible(true);
+                    activar.setVisible(false);
+                }
+                
                 if( (manager_permisos.accesoModulo("consulta","Empleados",Username) && (comboEmpUsu.getSelectedItem().toString().equals("Empleados") || comboEmpUsu.getSelectedItem().toString().equals("Empleados sin usuario")) ) || 
                         (manager_permisos.accesoModulo("consulta","Usuarios",Username) && comboEmpUsu.getSelectedItem().toString().equals("Usuarios"))){
                     buscarEmpleados();
@@ -5244,10 +5265,56 @@ public void metodoValeRecoleccion(){
 
     private void activarEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activarEActionPerformed
         // TODO add your handling code here:
+        if(manager_permisos.accesoModulo("actualizar","Empleados",Username)){
+            //Obtenemos la fila y con dicha fila obtenemos el usuario
+            int fila = tablaUsuarios.getSelectedRow();
+            String empleado = tablaUsuarios.getValueAt(fila, 1).toString()+" "+tablaUsuarios.getValueAt(fila, 2).toString()+" "+tablaUsuarios.getValueAt(fila, 3).toString();
+            //Creamos un cuadro de dialogo para que confirme la eliminación del usuario o la cancele
+            Object[] botones = {"Confirmar","Cancelar"};
+            int opcion = JOptionPane.showOptionDialog(this,"¿Activar al empleado \""+empleado+"\"?", "Confirmación",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+
+            //Acepta eliminar al usuario
+            if(opcion == 0){
+
+                if(manager_users.estatusEmpleado(Integer.parseInt(tablaUsuarios.getValueAt(fila, 0).toString()),"Activo")){
+                    JOptionPane.showMessageDialog(null, "El empleado \""+empleado+"\" se encuentra activo nuevamente.");
+                    buscarEmpleados();
+                }//if(eliminarEmpleado())
+                else{
+                        JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+                }
+            }//if(opcion == 0)
+        }else{
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para activar empleados.");
+        }
     }//GEN-LAST:event_activarEActionPerformed
 
     private void bajaEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bajaEActionPerformed
         // TODO add your handling code here:
+        if(manager_permisos.accesoModulo("baja","Empleados",Username)){
+            //Obtenemos la fila y con dicha fila obtenemos el usuario
+            int fila = tablaUsuarios.getSelectedRow();
+            String empleado = tablaUsuarios.getValueAt(fila, 1).toString()+" "+tablaUsuarios.getValueAt(fila, 2).toString()+" "+tablaUsuarios.getValueAt(fila, 3).toString();
+            //Creamos un cuadro de dialogo para que confirme la eliminación del usuario o la cancele
+            Object[] botones = {"Confirmar","Cancelar"};
+            int opcion = JOptionPane.showOptionDialog(this,"¿Dar de baja al empleado \""+empleado+"\"?", "Confirmación",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+
+            //Acepta eliminar al usuario
+            if(opcion == 0){
+
+                if(manager_users.estatusEmpleado(Integer.parseInt(tablaUsuarios.getValueAt(fila, 0).toString()),"Baja")){
+                    JOptionPane.showMessageDialog(null, "El empleado \""+empleado+"\" se ha dado de baja.");
+                    buscarEmpleados();
+                }//if(eliminarEmpleado())
+                else{
+                        JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+                }
+            }//if(opcion == 0)
+        }else{
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para dar de baja empleados.");
+        }
     }//GEN-LAST:event_bajaEActionPerformed
 
     private void tablaUsuariosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseReleased
@@ -5268,14 +5335,6 @@ public void metodoValeRecoleccion(){
                 int r = tablaUsuarios.rowAtPoint(evt.getPoint());
                 if (r >= 0 && r < tablaUsuarios.getRowCount())
                 tablaUsuarios.setRowSelectionInterval(r, r);
-                
-                if(tablaUsuarios.getValueAt(r, 7).equals("Activo")){
-                    dar_baja.setVisible(true);
-                    activar.setVisible(false);
-                }else{
-                    dar_baja.setVisible(false);
-                    activar.setVisible(true);
-                }
                 
                 MenuUsuarios.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
             }//clic derecho
@@ -5528,6 +5587,27 @@ public void metodoValeRecoleccion(){
     private void comboAñoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAñoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboAñoActionPerformed
+
+    private void comboEmpUsuEstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpUsuEstatusActionPerformed
+        // TODO add your handling code here:
+        if(comboEmpUsuEstatus.getSelectedItem().equals("Todos")){
+            activarE.setVisible(false);
+            bajaE.setVisible(false);
+            dar_baja.setVisible(false);
+            activar.setVisible(false);
+        }else if(comboEmpUsuEstatus.getSelectedItem().equals("Activo")){
+            activarE.setVisible(false);
+            bajaE.setVisible(true);
+            dar_baja.setVisible(true);
+            activar.setVisible(false);
+        }else{
+            activarE.setVisible(true);
+            bajaE.setVisible(false);
+            dar_baja.setVisible(false);
+            activar.setVisible(true);
+        }
+        buscarEmpleados();
+    }//GEN-LAST:event_comboEmpUsuEstatusActionPerformed
        
     public void cargarImagen(String busqueda,int numero){
         
@@ -5689,6 +5769,7 @@ public void metodoValeRecoleccion(){
     private javax.swing.JMenuItem ActualizarProd;
     private javax.swing.JMenuItem ActualizarV;
     private javax.swing.JMenuItem AddDocuments;
+    private javax.swing.JMenuItem AddObservacion;
     private javax.swing.JMenuItem AddStock;
     private javax.swing.JMenuItem AgregarStock;
     private javax.swing.JMenuItem Asignar_usuario;
@@ -5757,6 +5838,7 @@ public void metodoValeRecoleccion(){
     private javax.swing.JComboBox<String> comboArea1;
     private javax.swing.JComboBox<String> comboAño;
     public static javax.swing.JComboBox<String> comboEmpUsu;
+    public static javax.swing.JComboBox<String> comboEmpUsuEstatus;
     private javax.swing.JComboBox<String> comboEmpleado;
     private javax.swing.JComboBox<String> comboEmpleadoR;
     public static javax.swing.JComboBox<String> comboEstatus;
