@@ -9,7 +9,7 @@ import javax.swing.JTable;
 import Clases.ManagerPermisos;
 import Clases.ManagerComplemento;
 import Clases.ManagerVehiculos;
-import Clases.enviarFotoVehiculo;
+import Clases.enviarFotoPOST;
 import static Interfaces.Principal.Username;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -36,7 +36,7 @@ import javax.swing.table.DefaultTableModel;
 public class ventana_añadir_vehiculo extends javax.swing.JDialog {
     ManagerVehiculos vehiculos;
     ManagerPermisos manager_permisos;
-    enviarFotoVehiculo managerPostVehiculo;
+    enviarFotoPOST managerPost;
     public static DefaultTableModel modelo;
     
     private String path, absolute_path, name;
@@ -52,7 +52,7 @@ public class ventana_añadir_vehiculo extends javax.swing.JDialog {
         campoRuta.setVisible(false);
         this.setLocationRelativeTo(null);
         
-        managerPostVehiculo = new enviarFotoVehiculo();
+        managerPost = new enviarFotoPOST();
         vehiculos = new ManagerVehiculos();
         manager_permisos = new ManagerPermisos();
         
@@ -68,6 +68,7 @@ public class ventana_añadir_vehiculo extends javax.swing.JDialog {
         campoObservaciones.setLineWrap(true);
         
         campoRuta.setText(cargarNoImage()+"\\src\\Imagenes\\noimage.png");
+        contadorImg.setVisible(false);
 
     }
     
@@ -270,7 +271,7 @@ public class ventana_añadir_vehiculo extends javax.swing.JDialog {
         pn_permisos.add(campoRuta);
         campoRuta.setBounds(219, 210, 130, 30);
 
-        contadorImg.setText("Imagenes:");
+        contadorImg.setText("0");
         pn_permisos.add(contadorImg);
         contadorImg.setBounds(520, 220, 200, 14);
 
@@ -346,10 +347,10 @@ public class ventana_añadir_vehiculo extends javax.swing.JDialog {
                 //String ruta = campoRuta.getText();
 
                 if (vehiculos.guardarImagen(campoMarca.getText(), campoLinea.getText(), campoClase.getSelectedItem().toString(), campoColor.getText(),
-                        campoModelo.getValue().toString(), campoMotor.getValue().toString(), campoKilometraje.getText(), campoMatricula.getText(), campoObservaciones.getText())) {
+                        campoModelo.getValue().toString(), campoMotor.getValue().toString(), campoKilometraje.getText(), campoMatricula.getText(), campoObservaciones.getText(),contadorImg.getText())) {
                     // Para crear la carpeta se concatena la marca el color y la placa del vehiculo
                     String nombreParametro = campoMarca.getText() + "_" + campoColor.getText() + "_" + campoMatricula.getText();
-                    managerPostVehiculo.prepararImagenes(rutas, nombreParametro, contadorRutas);
+                    managerPost.prepararImagenesVehiculo(rutas, nombreParametro, contadorRutas);
                     //vehiculos.guardarImagen("C:\\Users\\oscar\\OneDrive\\Documentos\\NetBeansProjects\\INE\\src\\Iconos\\asd.png", "asd");
                     JOptionPane.showMessageDialog(null, "¡Insertado Correctamente!", "¡Información!", JOptionPane.INFORMATION_MESSAGE);
                     Principal.tablaVehiculos.setModel(vehiculos.getVehiculos());
@@ -369,33 +370,33 @@ public class ventana_añadir_vehiculo extends javax.swing.JDialog {
 
     private void btnImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImagenActionPerformed
         // TODO add your handling code here:
-       JFileChooser chooser = new JFileChooser(System.getProperty("user.home")+"\\Pictures");
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagenes JPG,GIF & PNG", "jpg", "gif","png");
+        JFileChooser chooser = new JFileChooser(System.getProperty("user.home") + "\\Pictures");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagenes JPG,GIF & PNG", "jpg", "gif", "png");
         chooser.setMultiSelectionEnabled(true);
         chooser.setFileFilter(filter);
         returnVal = chooser.showOpenDialog(this);
-        
+
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             name = chooser.getSelectedFile().getName();
             absolute_path = chooser.getSelectedFile().getAbsolutePath();
             path = chooser.getSelectedFile().getPath();
-            
+
             rutas = chooser.getSelectedFiles();
             contadorRutas = chooser.getSelectedFiles().length;
             //System.out.println("Archivo: " + name);
             //System.out.println("Absolute Path: " + absolute_path);
             //System.out.println("Path: " + path);
             BufferedImage img = null;
-            contadorImg.setText(""+contadorRutas);
+            contadorImg.setText("" + contadorRutas);
             contadorImg.setVisible(true);
-            
+
             try {
                 img = ImageIO.read(new File(absolute_path));
                 Image dimg = img.getScaledInstance(contenedor.getWidth(), contenedor.getHeight(), Image.SCALE_SMOOTH);
                 ImageIcon image = new ImageIcon(dimg);
                 contenedor.setText("");
                 contenedor.setIcon(image);
-                this.jButton1.setEnabled(true);
+                //this.jButton1.setEnabled(true);
             } catch (IOException e) {
                 System.err.println(e.toString());
             }

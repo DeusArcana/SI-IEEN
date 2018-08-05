@@ -346,7 +346,6 @@ public class Ventana_Documentos extends javax.swing.JDialog {
             metodoGenerarDocumento();
         }//if
         
-        
     }//GEN-LAST:event_FinalizarActionPerformed
     
     public void metodoGenerarDocumento() {

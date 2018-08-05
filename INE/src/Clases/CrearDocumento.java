@@ -318,6 +318,8 @@ public class CrearDocumento {
             }//for
             
             
+            
+            
            
             
             //AGREGAR AL DOCUMENTO ----------------------------------------------------------------
@@ -335,6 +337,30 @@ public class CrearDocumento {
             doc.add(table);
             
             
+            table.setWidthPercentage(100f);
+            for (int j = 0; j < temporal.length; j++) {
+                PdfPTable tituloFoto = new PdfPTable(1);
+                // TItulos
+                String aux[] = temporal[j].split(",,");
+
+                PdfPCell cell;
+                cell = new PdfPCell(new Phrase(aux[0].toUpperCase() + ": ", subFont2));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+                if (Integer.parseInt(aux[6]) != 0) {
+                    tituloFoto.addCell(cell);
+                    doc.add(tituloFoto);
+                    
+                }
+                for (int i = 0; i < Integer.parseInt(aux[6]); i++) {
+                    // FOtos de cada producto
+                    Image imagen = Image.getInstance("\\\\192.168.1.69\\imagenes\\inventario\\" + aux[0] + "\\" + aux[0] + i + ".png");
+                    imagen.scaleAbsoluteWidth(80f);
+                    imagen.scaleAbsoluteHeight(80f);
+
+                    doc.add(imagen);
+                }
+            }
             
             archivo_nombre = pdfFilename;
 

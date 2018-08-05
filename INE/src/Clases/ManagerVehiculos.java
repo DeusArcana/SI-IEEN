@@ -47,9 +47,9 @@ public class ManagerVehiculos {
     
 
     public boolean guardarImagen(String marca, String linea, String clase, String color, String modelo, String motor,
-            String kilometraje, String matricula, String observaciones) {
+            String kilometraje, String matricula, String observaciones, String cantidad) {
         con = db.getConexion();
-        String insert = "insert into vehiculos(marca, linea, clase, color, modelo, motor,kilometraje ,matricula,observaciones) values(?,?,?,?,?,?,?,?,?);";
+        String insert = "insert into vehiculos(marca, linea, clase, color, modelo, motor,kilometraje ,matricula,observaciones,cantidad_fotos,Estado) values(?,?,?,?,?,?,?,?,?,?,?);";
        
         PreparedStatement ps = null;
 
@@ -70,6 +70,8 @@ public class ManagerVehiculos {
             ps.setString(7, kilometraje);
             ps.setString(8, matricula);
             ps.setString(9, observaciones);
+            ps.setString(10, cantidad);
+            ps.setString(11, "Disponible");
 
             ps.executeUpdate();
 

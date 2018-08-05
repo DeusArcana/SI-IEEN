@@ -295,20 +295,20 @@ INSERT INTO `INE`.`Permisos_Puesto`
 -- -----------------------------------------------------------------------------
 --	Importación de productos desde data_test.csv para la tabla de Inventario
 -- ------------------------------------------------------------------------------
-LOAD DATA LOCAL INFILE 'C:\\Users\\kevin\\OneDrive\\Documentos\\GitHub\\SI-IEEN\\INE\\src\\db\\data_test.csv' 
+LOAD DATA LOCAL INFILE 'C:\\Users\\oscar\\Documents\\GitHub\\SI-IEEN\\INE\\src\\db\\data_test.csv' 
 REPLACE INTO TABLE `INE`.`Inventario` 
 FIELDS TERMINATED BY ',' 
 ESCAPED BY '"'
 LINES TERMINATED BY '\r\n' 
 (`Folio`, `Numero`, `Extension`, `NO_Serie`, `Nombre_Prod`, `Marca`, `Modelo`, `Color`, `Fecha_Compra`, `Factura`, `Importe`, `Observaciones`);
 
-LOAD DATA local INFILE 'C:\\Users\\kevin\\OneDrive\\Documentos\\GitHub\\SI-IEEN\\INE\\src\\db\\Estados.sql' INTO TABLE Estado(Nombre);
-LOAD DATA local INFILE 'C:\\Users\\kevin\\OneDrive\\Documentos\\GitHub\\SI-IEEN\\INE\\src\\db\\Localidades.sql' INTO TABLE Localidad(Estado_idEstado,Nombre);
+LOAD DATA local INFILE 'C:\\Users\\oscar\\Documents\\GitHub\\SI-IEEN\\INE\\src\\db\\Estados.sql' INTO TABLE Estado(Nombre);
+LOAD DATA local INFILE 'C:\\Users\\oscar\\Documents\\GitHub\\SI-IEEN\\INE\\src\\db\\Localidades.sql' INTO TABLE Localidad(Estado_idEstado,Nombre);
 
 -- -----------------------------------------------------------------------------
 --	Dado que en la importación, no tienen un Estatus, se actualiza aquí
 -- ------------------------------------------------------------------------------
-UPDATE `INE`.`Inventario` SET `INE`.`Inventario`.`Estatus` = 'Disponible';
+UPDATE `INE`.`Inventario` SET `INE`.`Inventario`.`Estatus` = 'Disponible', `INE`.`Inventario`.`cantidad_fotos` = 0;
 UPDATE `INE`.`Inventario` SET `INE`.`Inventario`.`Descripcion` = 'Sin descripción' WHERE `INE`.`Inventario`.`Descripcion` IS NULL;
 
 -- -----------------------------------------------------------------------------

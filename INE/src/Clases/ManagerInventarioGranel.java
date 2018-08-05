@@ -318,7 +318,7 @@ public class ManagerInventarioGranel {
         try {
             //   No inventario, no serie, descripcion, marca, modelo, color
             //Obtenemos los datos del empleado
-            String sql = "select id.ID_Producto, i.no_serie, i.descripcion, i.marca,i.modelo, i.color from inv_docs id " +
+            String sql = "select id.ID_Producto, i.no_serie, i.descripcion, i.marca,i.modelo, i.color, i.cantidad_fotos from inv_docs id " +
                 "inner join inventario i on (concat(i.Folio,'-',i.Numero,i.Extension) = id.ID_Producto) " +
                 "inner join productos_asignados pa on (pa.ID_Producto = id.ID_Producto) " +
                 "where id.ID_Documento = "+clave+";";
@@ -326,10 +326,12 @@ public class ManagerInventarioGranel {
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
-         
+            
+            
             while (rs.next()) {
-                for (int i = 1; i < 7; i++) {
-                    if(i != 6){
+                for (int i = 1; i < 8; i++) {
+                    // if funciona para encontrar el final de la consulta
+                    if(i != 7){
                         datos += rs.getString(i) + ",,";
                     }else{
                         datos += rs.getString(i) + "//";

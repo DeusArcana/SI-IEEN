@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `INE`.`Inventario` (
   `no_serie` 		VARCHAR(45) NULL,
   `modelo` 			VARCHAR(100) NULL,
   `color` 			VARCHAR(30) NULL,
-  `imagen` 			LONGBLOB NULL,
+  `cantidad_fotos` 	INT NULL,
   `Fecha_Compra` 	DATE NOT NULL,
   `Factura` 		VARCHAR(20),
   `Importe` 		FLOAT
@@ -404,6 +404,14 @@ CREATE TABLE IF NOT EXISTS `INE`.`Permisos_Solicitud` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `INE`.`Categorias`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Categorias` (
+  `ID_Categoria` CHAR(6) NOT NULL,
+  `Nom_Categoria` VARCHAR(255),
+  PRIMARY KEY `pk_ID_Categoria`(`ID_Categoria`)
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `INE`.`Inventario_granel`
@@ -419,7 +427,8 @@ CREATE TABLE IF NOT EXISTS `INE`.`Inventario_granel` (
   `marca` VARCHAR(50) NULL,
   `observaciones` VARCHAR(300) NULL,
   `stock_min` INT NULL,
-  `stock` INT NULL)
+  `stock` INT NULL,
+  `categoria` VARCHAR(50) NULL)
 ENGINE = InnoDB;
 
 ALTER TABLE `Inventario_Granel`
@@ -623,7 +632,7 @@ CREATE TABLE IF NOT EXISTS `INE`.`Vehiculos` (
   `Motor` VARCHAR(45) NULL,
   `Matricula` VARCHAR(45) NOT NULL,
   `Observaciones` VARCHAR(1000) NULL,
-  `Imagen` LONGBLOB NULL,
+  `cantidad_fotos` INT NULL,
   `Estado` VARCHAR(100) NULL,
   PRIMARY KEY (`Matricula`))
 ENGINE = InnoDB;
