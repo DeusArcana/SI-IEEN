@@ -438,7 +438,7 @@ public class ManagerSolicitud {
             
             sql = "select concat(ss.Folio,'-',ss.Num,'-',ss.Año), date(ss.fecha_solicitud), count(dss.id_solicitud),ss.estado from solicitudsalida ss "
                 + "inner join detalle_solicitudsalida dss on (concat(ss.Folio,'-',ss.Num,'-',ss.Año) = dss.id_solicitud) "
-                + "where id_user='"+usuario+"' group by dss.id_solicitud;";
+                + "where id_user='"+usuario+"' group by dss.id_solicitud order by ss.fecha_solicitud desc;";
             
             conexion = db.getConexion();
             Statement st = conexion.createStatement();

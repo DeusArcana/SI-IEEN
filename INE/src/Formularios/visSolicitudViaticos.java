@@ -236,7 +236,7 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
                     txt_Fecha_Llegada.setText(rs.getString("Fecha_llegada"));
                     txt_Lugar.setText(rs.getString("Lugar"));
                     txt_Actividad.setText(rs.getString("Actividad"));
-                    txt_Vehiculo.setText(rs.getString("Vehiculo"));
+                    //txt_Vehiculo.setText(rs.getString("Vehiculo"));
                     if(aoc == 2){
                         txt_Motivo.setText(rs.getString("Motivo"));
                     }else{
@@ -244,6 +244,10 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
                         lbl_Motivo.setVisible(false);
                     }
                     p = rs.getString("Pernoctado");
+                }
+                ResultSet vehiculo = sentencia.executeQuery("select * from vehiculo_viatico VV  inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where VV.solicitud_viatico_idSolicitud= " + id);
+                while(vehiculo.next()){
+                    txt_Vehiculo.setText(vehiculo.getString("vehiculos_Matricula")+vehiculo.getString("Vehiculo"));
                 }
                 if ("Si".equals(p)) {
                     jRadioButton1.setSelected(true);
@@ -265,8 +269,11 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
                     txt_Fecha_Llegada.setText(rs.getString("Fecha_llegada"));
                     txt_Lugar.setText(rs.getString("Lugar"));
                     txt_Actividad.setText(rs.getString("Actividad"));
-                    txt_Vehiculo.setText(rs.getString("Vehiculo"));
                     p = rs.getString("Pernoctado");
+                }
+                ResultSet vehiculo = sentencia.executeQuery("select * from vehiculo_viatico VV  inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where VV.solicitud_viatico_idSolicitud= " + id);
+                while(vehiculo.next()){
+                    txt_Vehiculo.setText(vehiculo.getString("vehiculos_Matricula")+vehiculo.getString("Vehiculo"));
                 }
                 System.out.print(id);
                 ResultSet rs1 = sentencia.executeQuery("SELECT O.Folio, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.idSolicitud = "+id+" AND S.idSolicitud = O.Solicitud_idSolicitud");

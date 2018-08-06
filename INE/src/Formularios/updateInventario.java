@@ -8,6 +8,7 @@ package Formularios;
 import Clases.ManagerInventario;
 import Clases.ManagerPermisos;
 import Clases.Validaciones;
+import Clases.enviarFotoPOST;
 
 import Interfaces.Principal;
 import static Interfaces.Principal.comboEstatus;
@@ -16,13 +17,18 @@ import static Interfaces.Principal.nomeclaturas;
 import com.sun.glass.events.KeyEvent;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 //import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
@@ -32,11 +38,16 @@ import javax.swing.JOptionPane;
 public final class updateInventario extends javax.swing.JDialog {
     ManagerInventario manager_inventario;
     ManagerPermisos manager_permisos;
+    enviarFotoPOST managerPOST;
     
     String folio,extension,producto,descripcion,ubicacion,marca,observaciones,noserie,color,modelo,imagen,fecha_compra,factura;
     String id;
     int numero;
     float importe;
+    private String path, absolute_path, name;
+    private int returnVal;
+    File[] rutas;
+    int contadorRutas;
     String [] nomeclaturas,folios;
     
     /**
@@ -47,9 +58,12 @@ public final class updateInventario extends javax.swing.JDialog {
         initComponents();
         this.setLocationRelativeTo(null);
         
+        this.setTitle("Actualización de información del produto \""+ClaveProd+"\"");
+        
         //Asginamos memoria al objeto
         manager_inventario = new ManagerInventario();
         manager_permisos = new ManagerPermisos();
+        managerPOST = new enviarFotoPOST();
         
         //Esto es para obtener todos las nomeclturas y sus descripciones
         String lista = manager_inventario.nomeclaturaFolio();
@@ -75,8 +89,8 @@ public final class updateInventario extends javax.swing.JDialog {
         colocarDatos(datosProd);
         
         //Ruta para la foto por default de "no producto"
-        campoRuta.setVisible(false);
-        campoRuta.setText(cargarNoImage()+"\\src\\Imagenes\\noimage.png");
+//        campoRuta.setVisible(false);
+    //    campoRuta.setText(cargarNoImage()+"\\src\\Imagenes\\noimage.png");
     }
     
     public String cargarNoImage() {
@@ -183,6 +197,8 @@ public final class updateInventario extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         btnImagen = new javax.swing.JButton();
         imagenProducto = new javax.swing.JLabel();
+        izquierdaBtn = new javax.swing.JButton();
+        derechaBtn = new javax.swing.JButton();
         txtNum = new javax.swing.JTextField();
         txtExtension = new javax.swing.JTextField();
         txtDescripcion = new javax.swing.JTextField();
@@ -193,8 +209,8 @@ public final class updateInventario extends javax.swing.JDialog {
         jLabel13 = new javax.swing.JLabel();
         txtFecha = new com.toedter.calendar.JDateChooser();
         jLabel6 = new javax.swing.JLabel();
-        campoRuta = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        contadorImg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -367,7 +383,7 @@ public final class updateInventario extends javax.swing.JDialog {
         jPanel1.setLayout(null);
 
         btnImagen.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
-        btnImagen.setText("...");
+        btnImagen.setText("+");
         btnImagen.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnImagen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -375,9 +391,29 @@ public final class updateInventario extends javax.swing.JDialog {
             }
         });
         jPanel1.add(btnImagen);
-        btnImagen.setBounds(360, 210, 30, 20);
+        btnImagen.setBounds(360, 210, 40, 20);
         jPanel1.add(imagenProducto);
         imagenProducto.setBounds(0, 0, 410, 240);
+
+        izquierdaBtn.setText("<");
+        izquierdaBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        izquierdaBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                izquierdaBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(izquierdaBtn);
+        izquierdaBtn.setBounds(150, 210, 40, 23);
+
+        derechaBtn.setText(">");
+        derechaBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        derechaBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                derechaBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(derechaBtn);
+        derechaBtn.setBounds(200, 210, 41, 23);
 
         pn_addInventario.add(jPanel1);
         jPanel1.setBounds(380, 20, 410, 240);
@@ -488,13 +524,15 @@ public final class updateInventario extends javax.swing.JDialog {
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         pn_addInventario.add(jLabel6);
         jLabel6.setBounds(0, 0, 860, 510);
-        pn_addInventario.add(campoRuta);
-        campoRuta.setBounds(600, 340, 240, 20);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Clave:");
         pn_addInventario.add(jLabel7);
         jLabel7.setBounds(60, 70, 38, 17);
+
+        contadorImg.setText("0");
+        pn_addInventario.add(contadorImg);
+        contadorImg.setBounds(520, 220, 200, 14);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -538,7 +576,7 @@ public final class updateInventario extends javax.swing.JDialog {
         }else{
             descripcion = txtDescripcion.getText();
         }
-        imagen = campoRuta.getText();
+   //     imagen = campoRuta.getText();
         importe = Float.parseFloat(txtImporte.getText());
         if(txtFactura.getText().isEmpty()){
             factura = "Sin capturar";
@@ -556,7 +594,8 @@ public final class updateInventario extends javax.swing.JDialog {
         if(manager_permisos.accesoModulo("actualizar","Inventario",Principal.Username)){
             //Actualizamos el producto
             if (manager_inventario.actualizarProducto(id,producto, descripcion,ubicacion, marca,noserie, modelo, color, fecha_compra, factura, importe,imagen)) {
-
+                String nombreParametro = txtFolio.getText() + "-" + txtNum.getText()+ txtExtension.getText();
+                managerPOST.prepararImagenesInventario(rutas, nombreParametro, contadorRutas); 
                 JOptionPane.showMessageDialog(null, "Se actualizo correctamente el producto \""+id+"\"");
                 
                 //Actualizamos al tabla de inventario de acuerdo a lo que ya se tenia seleccionado anteriormente
@@ -568,6 +607,9 @@ public final class updateInventario extends javax.swing.JDialog {
         
                 if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
                     Principal.tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
+                }else{
+                    Principal.tablaInventario.setModel(new DefaultTableModel());
+                    JOptionPane.showMessageDialog(null, "Le han revoado los permisos para consultar el inventario.");
                 }
                 this.dispose();
 
@@ -599,36 +641,44 @@ public final class updateInventario extends javax.swing.JDialog {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
          // TODO add your handling code here:
-        ImageIcon imgThisImg = new ImageIcon(campoRuta.getText());
-        ImageIcon icono = new ImageIcon(imgThisImg.getImage().getScaledInstance(imagenProducto.getWidth(), imagenProducto.getHeight(), Image.SCALE_DEFAULT));
-        imagenProducto.setIcon(icono);
+       
         
     }//GEN-LAST:event_formWindowOpened
 
     private void btnImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImagenActionPerformed
         // TODO add your handling code here:
-        JFileChooser fc = new JFileChooser();
+        JFileChooser chooser = new JFileChooser(System.getProperty("user.home") + "\\Pictures");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagenes JPG,GIF & PNG", "jpg", "gif", "png");
+        chooser.setMultiSelectionEnabled(true);
+        chooser.setFileFilter(filter);
+        returnVal = chooser.showOpenDialog(this);
 
-        //        fc.setFileFilter(new FileNameExtensionFilter(".PNG", ".png"));
-        //        fc.setFileFilter(new FileNameExtensionFilter(".JPG", "Archivos de imagen"));
-        //        fc.setFileFilter(new FileNameExtensionFilter(".BMP", "Archivos de imagen"));
-        //        fc.setFileFilter(new FileNameExtensionFilter(".JPEG", "Archivos de imagen"));
-        int respuesta = fc.showOpenDialog(this);
-        //Comprobar si se ha pulsado Aceptar
-        if (respuesta == JFileChooser.APPROVE_OPTION) {
-            //Mostrar el nombre del archvivo en un campo de texto
-            campoRuta.setText(fc.getSelectedFile().toString());
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            name = chooser.getSelectedFile().getName();
+            absolute_path = chooser.getSelectedFile().getAbsolutePath();
+            path = chooser.getSelectedFile().getPath();
 
-        }//if
-        String path = campoRuta.getText();
-        URL url = this.getClass().getResource(path);
-        System.err.println("" + path);
-        ImageIcon imagen = new ImageIcon(path);
-        ImageIcon icono = new ImageIcon(imagen.getImage().getScaledInstance(imagenProducto.getWidth(), imagenProducto.getHeight(), Image.SCALE_DEFAULT));
-        imagenProducto.setIcon(icono);
-        //        ImageIcon image = new ImageIcon(i);
-        //        imagenVehiculo.setIcon(image);
-        //        this.repaint();
+            rutas = chooser.getSelectedFiles();
+            contadorRutas = chooser.getSelectedFiles().length;
+            //System.out.println("Archivo: " + name);
+            //System.out.println("Absolute Path: " + absolute_path);
+            //System.out.println("Path: " + path);
+            BufferedImage img = null;
+            contadorImg.setText("" + contadorRutas);
+            contadorImg.setVisible(true);
+
+            try {
+                img = ImageIO.read(new File(absolute_path));
+                Image dimg = img.getScaledInstance(imagenProducto.getWidth(), imagenProducto.getHeight(), Image.SCALE_SMOOTH);
+                ImageIcon image = new ImageIcon(dimg);
+                imagenProducto.setText("");
+                imagenProducto.setIcon(image);
+                //this.jButton1.setEnabled(true);
+            } catch (IOException e) {
+                System.err.println(e.toString());
+            }
+
+        }
 
     }//GEN-LAST:event_btnImagenActionPerformed
 
@@ -722,6 +772,26 @@ public final class updateInventario extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtImporteKeyTyped
 
+    private void izquierdaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_izquierdaBtnActionPerformed
+        // TODO add your handling code here:
+
+        // TODO add your handling code here:
+//        nFoto--;
+//        banderaFoto = "i";
+//        derechaBtn.setEnabled(true);
+//
+//        cargarImagen(auxiliarFoto,nFoto);
+    }//GEN-LAST:event_izquierdaBtnActionPerformed
+
+    private void derechaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_derechaBtnActionPerformed
+        // TODO add your handling code here:
+//        nFoto++;
+//        banderaFoto = "d";
+//        izquierdaBtn.setEnabled(true);
+//
+//        cargarImagen(auxiliarFoto,nFoto);
+    }//GEN-LAST:event_derechaBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -768,10 +838,12 @@ public final class updateInventario extends javax.swing.JDialog {
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnImagen;
-    private javax.swing.JTextField campoRuta;
     private javax.swing.JComboBox<String> comboFolio;
     private javax.swing.JComboBox comboUbicacion;
+    private javax.swing.JLabel contadorImg;
+    private javax.swing.JButton derechaBtn;
     private javax.swing.JLabel imagenProducto;
+    private javax.swing.JButton izquierdaBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

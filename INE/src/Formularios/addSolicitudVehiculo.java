@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import Clases.ManagerUsers;
 import Clases.ManagerVehiculos;
 import Clases.ManagerSoViaticos;
+import Clases.ManagerComplemento;
 
 import Interfaces.PrincipalS;
 import com.toedter.calendar.JTextFieldDateEditor;
@@ -44,6 +45,8 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     ManagerSoViaticos manager_viaticos;
     ManagerUsers manager_users;
     ManagerVehiculos manager_vehiculo;
+    ManagerComplemento manager_complemento;
+    
     List<Object> datos=new ArrayList<Object>();
     
     public int varida[];
@@ -55,9 +58,9 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
      * Creates new form addSolicitudViaticos
      */
     public addSolicitudVehiculo(javax.swing.JDialog parent,java.awt.Frame parentVehiculo, boolean modal,
-            int empleado,String puesto,Date fecha_salida,Date fecha_llegada,
+            String empleado,String puesto,Date fecha_salida,Date fecha_llegada,
             Object hora_salida,Object hora_llegada,boolean pernoctado,int estado,
-            int municipio,String actividad){
+            int municipio,String actividad,String area){
         super(parentVehiculo, modal);
         this.parent=parent;
         initComponents();
@@ -74,11 +77,12 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         manager_viaticos = new ManagerSoViaticos();
         manager_users = new ManagerUsers();
         manager_vehiculo = new ManagerVehiculos();
+        manager_complemento = new ManagerComplemento();
           
         
         iniciarEstados();
         
-        AutoCompleteDecorator.decorate(this.comboEmpleados);
+        //AutoCompleteDecorator.decorate(this.comboEmpleados);
         AutoCompleteDecorator.decorate(this.cmb_Vehiculo);
         
         
@@ -93,9 +97,10 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         datos.add(estado);
         datos.add(municipio);
         datos.add(actividad);
+        datos.add(area);
     }
     private void agregarDatos(){
-        comboEmpleados.setSelectedIndex((int)datos.get(0));//Se agrega el empleado
+        txtEmpleados.setText(datos.get(0)+"");//Se agrega el empleado
         txt_Puesto.setText(datos.get(1)+"");
         date_Salida.setDate((Date)datos.get(2));
         date_Llegada.setDate((Date)datos.get(3));
@@ -105,6 +110,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         cmbEstado.setSelectedIndex((int)datos.get(7));
         cmbLocalidad.setSelectedIndex((int)datos.get(8));
         txt_Actividad.setText(datos.get(9)+"");
+        txtArea.setText(datos.get(10)+"");
         
     }
     public addSolicitudVehiculo(java.awt.Frame parent, boolean modal) {
@@ -127,7 +133,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         
         iniciarEstados();
         
-        AutoCompleteDecorator.decorate(this.comboEmpleados);
+        //AutoCompleteDecorator.decorate(this.comboEmpleados);
         AutoCompleteDecorator.decorate(this.cmb_Vehiculo);
         
     }
@@ -148,6 +154,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     private void initComponents() {
 
         pn_addInventario = new javax.swing.JPanel();
+        lblAreaAsignacion = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         txt_Puesto = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -159,12 +166,11 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         lblAviso = new javax.swing.JLabel();
-        cmbLocalidad = new javax.swing.JComboBox<>();
-        cmbEstado = new javax.swing.JComboBox<>();
+        cmbLocalidad = new javax.swing.JComboBox<String>();
+        cmbEstado = new javax.swing.JComboBox<String>();
         date_Salida = new com.toedter.calendar.JDateChooser();
         date_Llegada = new com.toedter.calendar.JDateChooser();
         chb_Pernoctado = new javax.swing.JCheckBox();
-        comboEmpleados = new javax.swing.JComboBox<>();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -183,6 +189,8 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             ,null,Calendar.HOUR_OF_DAY);
         hora_Salida = new javax.swing.JSpinner(sdm);
         btn_Editar = new javax.swing.JButton();
+        txtEmpleados = new javax.swing.JTextField();
+        txtArea = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -197,6 +205,10 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         pn_addInventario.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         pn_addInventario.setPreferredSize(new java.awt.Dimension(1150, 500));
         pn_addInventario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblAreaAsignacion.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        lblAreaAsignacion.setText("Área:");
+        pn_addInventario.add(lblAreaAsignacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Nombre:");
@@ -241,11 +253,11 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_addInventario.add(lblAviso, new org.netbeans.lib.awtextra.AbsoluteConstraints(446, 228, 15, 233));
 
-        cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione localidad" }));
+        cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione localidad" }));
         cmbLocalidad.setEnabled(false);
         pn_addInventario.add(cmbLocalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, 230, -1));
 
-        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione estado" }));
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione estado" }));
         cmbEstado.setEnabled(false);
         cmbEstado.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -271,15 +283,6 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
 
             chb_Pernoctado.setEnabled(false);
             pn_addInventario.add(chb_Pernoctado, new org.netbeans.lib.awtextra.AbsoluteConstraints(153, 157, -1, -1));
-
-            comboEmpleados.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-            comboEmpleados.setEnabled(false);
-            comboEmpleados.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    comboEmpleadosActionPerformed(evt);
-                }
-            });
-            pn_addInventario.add(comboEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(154, 14, -1, -1));
 
             btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
@@ -386,6 +389,19 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             });
             pn_addInventario.add(btn_Editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 250, 120, 40));
 
+            txtEmpleados.setEditable(false);
+            txtEmpleados.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+            txtEmpleados.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    txtEmpleadosActionPerformed(evt);
+                }
+            });
+            pn_addInventario.add(txtEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 220, -1));
+
+            txtArea.setEditable(false);
+            txtArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+            pn_addInventario.add(txtArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, 160, -1));
+
             jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
             pn_addInventario.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -435,9 +451,12 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        comboEmpleados.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-        comboEmpleados.addItem("Selecione empleado...");
-        manager_users.getNombresEmpleados(comboEmpleados);
+        
+        //ComboArea
+        String lista = manager_complemento.obtenerAreas();
+        String[] recoger = lista.split(",,");
+
+        
         agregarDatos();
         cmb_Vehiculo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         cmb_Vehiculo.addItem("Selecione vehiculo...");
@@ -677,17 +696,6 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         }
         return false;
     }
-    private void comboEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpleadosActionPerformed
-        // TODO add your handling code here:
-        int empleado = comboEmpleados.getSelectedIndex();
-        if(empleado > 0){
-            txt_Puesto.setText(manager_users.obtenerPuesto(comboEmpleados.getSelectedItem().toString()));
-        }else{
-            txt_Puesto.setText("");
-        }
-        
-    }//GEN-LAST:event_comboEmpleadosActionPerformed
-
     private void cmb_VehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_VehiculoActionPerformed
         // TODO add your handling code here:
         if(cmb_Vehiculo.getSelectedIndex() != 0){
@@ -726,6 +734,10 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btn_EditarActionPerformed
+
+    private void txtEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmpleadosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmpleadosActionPerformed
     public void insertar_Solicitud(int ConCarro){
         try{
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
@@ -749,9 +761,9 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             conexion.getConexion();
             boolean insersion = insersion=conexion.ejecutar("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+
                     cmbLocalidad.getSelectedItem().toString()+","+cmbEstado.getSelectedItem().toString()+"'"
-                + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"')");
+                + ",'"+txtEmpleados.getText()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"')");
             insersion=conexion.ejecutar("insert into solicitud_vehiculo(vehiculo_usado_idvehiculo_usado,vehiculo)values("+idVehiculo_usado+",'"+arr[0]+"')");
-            res=cbd.getTabla("select idSolicitud from solicitud_viatico where Actividad='"+txt_Actividad.getText()+"' and Nombre='"+comboEmpleados.getSelectedItem().toString()+"';", cn);
+            res=cbd.getTabla("select idSolicitud from solicitud_viatico where Actividad='"+txt_Actividad.getText()+"' and Nombre='"+txtEmpleados.getText()+"';", cn);
             res.next();
             String idSolViatico=res.getString("idSolicitud");
             res=cbd.getTabla("select idSolicitud_vehiculo from solicitud_vehiculo order by idSolicitud_vehiculo DESC", cn);
@@ -768,7 +780,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             }else{
                 System.out.println("insert into Solicitud_vehiculo (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida,vehiculo_usado_idvehiculo_usado) values('"+fecha_Salida+"','"+
                         cmbLocalidad.getSelectedItem().toString()+","+cmbEstado.getSelectedItem().toString()+"'"
-                + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+cmb_Vehiculo.getSelectedItem().toString()+"'"
+                + ",'"+txtEmpleados.getText()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+cmb_Vehiculo.getSelectedItem().toString()+"'"
                 + ",'"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"',"+idVehiculo_usado+")");
                 JOptionPane.showMessageDialog(this, "Error al insertar pero no excepción");
             }
@@ -828,14 +840,14 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
                 cad+="\n-No se ha insertado el lugar, escriba el lugar y vuelva a intentarlo";
             }
         }
-        if(comboEmpleados.getSelectedItem().toString().equals("Selecione empleado...")){
+        /*if(comboEmpleados.getSelectedItem().toString().equals("Selecione empleado...")){
             if(cad.equals("")){
                 cad+="-No se ha seleccionado el empleado, seleccione uno de los empleados y vuelva a intentarlo";
             }
             else{
                 cad+="\n-No se ha seleccionado el empleado, seleccione uno de los empleados y vuelva a intentarlo";
             }
-        }
+        }*/
         if(txt_Puesto.getText().equals("")){
             if(cad.equals("")){
                 cad+="-No se ha insertado el puesto del empleado, escriba el nombre del empleado y vuelva a intentarlo";
@@ -916,7 +928,6 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> cmbEstado;
     private javax.swing.JComboBox<String> cmbLocalidad;
     private javax.swing.JComboBox cmb_Vehiculo;
-    private javax.swing.JComboBox<String> comboEmpleados;
     private com.toedter.calendar.JDateChooser date_Llegada;
     private com.toedter.calendar.JDateChooser date_Salida;
     private javax.swing.JSpinner hora_Llegada;
@@ -935,9 +946,12 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblAreaAsignacion;
     private javax.swing.JLabel lblAviso;
     private javax.swing.JPanel pn_addInventario;
     private javax.swing.JTextArea txtADescripcion;
+    private javax.swing.JTextField txtArea;
+    private javax.swing.JTextField txtEmpleados;
     private javax.swing.JTextField txtKilometraje;
     private javax.swing.JTextArea txt_Actividad;
     private javax.swing.JTextField txt_Puesto;

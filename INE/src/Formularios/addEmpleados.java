@@ -367,9 +367,9 @@ public class addEmpleados extends javax.swing.JDialog {
                         JOptionPane.showMessageDialog(null, "El empleado \""+nombres+" "+apellido_p+"\" ha sido registrado en la base de datos exitosamente.");
                         if(manager_permisos.accesoModulo("consulta","Empleados",Principal.Username)){
                             if(comboEmpUsu.getSelectedItem().toString().equals("Empleados sin usuario")){
-                                Principal.tablaUsuarios.setModel(manager_users.getEmpleadosSinUsuario(filtro,busqueda));
+                                Principal.tablaUsuarios.setModel(manager_users.getEmpleadosSinUsuario(filtro,busqueda,Principal.comboEmpUsuEstatus.getSelectedItem().toString()));
                             }else{
-                                Principal.tablaUsuarios.setModel(manager_users.getEmpleados(Principal.Username,filtro,busqueda));
+                                Principal.tablaUsuarios.setModel(manager_users.getEmpleados(Principal.Username,filtro,busqueda,Principal.comboEmpUsuEstatus.getSelectedItem().toString()));
                             }
                         }else{
                             JOptionPane.showMessageDialog(null, "Han revocado sus permisos para consulta de empleados");

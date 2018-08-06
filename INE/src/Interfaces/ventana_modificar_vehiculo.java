@@ -9,16 +9,21 @@ import javax.swing.JTable;
 import Clases.ManagerPermisos;
 import Clases.ManagerComplemento;
 import Clases.ManagerVehiculos;
+import Clases.enviarFotoPOST;
 import static Interfaces.Principal.Username;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -37,7 +42,13 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
     ManagerVehiculos vehiculos;
     ManagerPermisos manager_permisos;
     public static DefaultTableModel modelo;
-
+    enviarFotoPOST managerPost;
+    
+    private String path, absolute_path, name;
+    private int returnVal;
+    File[] rutas;
+    int contadorRutas;
+    
     /**
      * Creates new form Ventana_permisos_puesto
      */
@@ -50,13 +61,13 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
 
         vehiculos = new ManagerVehiculos();
         manager_permisos = new ManagerPermisos();
+        managerPost = new enviarFotoPOST();
 
         //Quitar la coma al spinner
         JSpinner.NumberEditor editor = new JSpinner.NumberEditor(campoMotor, "#");
         campoMotor.setEditor(editor);
         //Quitar editable a spinner
         ((DefaultEditor) campoMotor.getEditor()).getTextField().setEditable(false);
-
         JSpinner.NumberEditor editor2 = new JSpinner.NumberEditor(campoModelo, "#");
         campoModelo.setEditor(editor2);
         //Quitar editable a spinner
@@ -64,7 +75,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         campoMatricula.setEditable(false);
         campoObservaciones.setLineWrap(true);
 
-        // campoRuta.setText(cargarNoImage()+"\\src\\Imagenes\\noimage.png");
+        
         
     }
 
@@ -104,6 +115,8 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         imagenVehiculo = new javax.swing.JPanel();
         btnImagen = new javax.swing.JButton();
         contenedor = new javax.swing.JLabel();
+        contadorImg = new javax.swing.JLabel();
+        nuevasFotos = new javax.swing.JLabel();
         campoRuta = new javax.swing.JTextField();
         campo = new javax.swing.JTextField();
         fondo = new javax.swing.JLabel();
@@ -246,7 +259,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         imagenVehiculo.setLayout(null);
 
         btnImagen.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
-        btnImagen.setText("...");
+        btnImagen.setText("+");
         btnImagen.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnImagen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -254,16 +267,24 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
             }
         });
         imagenVehiculo.add(btnImagen);
-        btnImagen.setBounds(160, 160, 30, 20);
+        btnImagen.setBounds(160, 170, 40, 20);
         imagenVehiculo.add(contenedor);
         contenedor.setBounds(0, 0, 200, 190);
 
         pn_permisos.add(imagenVehiculo);
         imagenVehiculo.setBounds(520, 10, 200, 190);
+
+        contadorImg.setText("0");
+        pn_permisos.add(contadorImg);
+        contadorImg.setBounds(610, 220, 50, 14);
+
+        nuevasFotos.setText("0");
+        pn_permisos.add(nuevasFotos);
+        nuevasFotos.setBounds(520, 220, 50, 14);
         pn_permisos.add(campoRuta);
         campoRuta.setBounds(219, 210, 140, 30);
         pn_permisos.add(campo);
-        campo.setBounds(530, 210, 120, 20);
+        campo.setBounds(400, 210, 50, 20);
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         fondo.setText("jLabel1");
@@ -310,30 +331,12 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         campoMotor.setValue(Integer.parseInt(temporal[6]));
         campoMatricula.setText(temporal[7]);
         campoObservaciones.setText(temporal[8]);
-        
-        cargarImagen(temporal[7]);
+        contadorImg.setText(temporal[9]);
     }
     
     
     
-    public void cargarImagen(String matricula) throws IOException, SQLException {
-        
-        Image i = null;
-        i = javax.imageio.ImageIO.read(vehiculos.leerImagen(matricula).getBinaryStream());
-//        ImageIcon image = new ImageIcon(i);
-//        imagenVehiculo.setIcon(image);
-//        this.repaint();
-        try {
-            ImageIcon fot = new ImageIcon(i);
-            ImageIcon icono = new ImageIcon(fot.getImage().getScaledInstance(contenedor.getWidth(), contenedor.getHeight(), Image.SCALE_DEFAULT));
-            contenedor.setIcon(icono);
-            this.repaint();
-        } catch (java.lang.NullPointerException e) {
-            JOptionPane.showMessageDialog(null, "Error al obtener la imagen!", "Información!", JOptionPane.WARNING_MESSAGE);
-
-        }//catch
-               
-    }
+    
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         try {
             cargarDatos();
@@ -405,7 +408,10 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
                 if (!campoRuta.getText().isEmpty()) {
                     if (vehiculos.actualizarVehiculo(campoMarca.getText(), campoLinea.getText(), campoClase.getSelectedItem().toString(), campoColor.getText(),
                             campoModelo.getValue().toString(), campoMotor.getValue().toString(), campoKilometraje.getText(),
-                            campoMatricula.getText(), campoObservaciones.getText(), ruta)) {
+                            campoMatricula.getText(), campoObservaciones.getText(), contadorRutas+Integer.parseInt(contadorImg.getText()))) {
+                        String nombreParametro = campoMarca.getText() + "_" + campoColor.getText() + "_" + campoMatricula.getText();
+                        managerPost.prepararImagenesVehiculoActualizar(rutas, nombreParametro, contadorRutas,Integer.parseInt(contadorImg.getText()));
+                        System.out.println(""+rutas+"\n"+ nombreParametro+"\n"+ contadorRutas+"\n"+Integer.parseInt(contadorImg.getText()));
                         //vehiculos.guardarImagen("C:\\Users\\oscar\\OneDrive\\Documentos\\NetBeansProjects\\INE\\src\\Iconos\\asd.png", "asd");
                         JOptionPane.showMessageDialog(null, "Informacion actualizada correctamente!", "Información!", JOptionPane.INFORMATION_MESSAGE);
                         Principal.tablaVehiculos.setModel(vehiculos.getVehiculos());
@@ -416,12 +422,15 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
                     
                 } else {
                     //en este metodo la informacion se guarda sin cambios en la imagen
-                    if (vehiculos.actualizarVehiculoSinFoto(campoMarca.getText(), campoLinea.getText(), campoClase.getSelectedItem().toString(), campoColor.getText(),
+                    if (vehiculos.actualizarVehiculo(campoMarca.getText(), campoLinea.getText(), campoClase.getSelectedItem().toString(), campoColor.getText(),
                             campoModelo.getValue().toString(), campoMotor.getValue().toString(), campoKilometraje.getText(),
-                            campoMatricula.getText(), campoObservaciones.getText())) {
-                        //vehiculos.guardarImagen("C:\\Users\\oscar\\OneDrive\\Documentos\\NetBeansProjects\\INE\\src\\Iconos\\asd.png", "asd");
+                            campoMatricula.getText(), campoObservaciones.getText(), contadorRutas+Integer.parseInt(contadorImg.getText()))) {
+                        String nombreParametro = campoMarca.getText() + "_" + campoColor.getText() + "_" + campoMatricula.getText();
                         JOptionPane.showMessageDialog(null, "Informacion actualizada correctamente!", "Información!", JOptionPane.INFORMATION_MESSAGE);
                         this.dispose();
+                        managerPost.prepararImagenesVehiculoActualizar(rutas, nombreParametro, contadorRutas,Integer.parseInt(contadorImg.getText()));
+                        
+                        
                     } else {
                         JOptionPane.showMessageDialog(null, "Error al actualizar!", "Información!", JOptionPane.WARNING_MESSAGE);
                     }//else
@@ -437,28 +446,38 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
 
     private void btnImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImagenActionPerformed
         // TODO add your handling code here:
-        JFileChooser fc = new JFileChooser();
+        JFileChooser chooser = new JFileChooser(System.getProperty("user.home") + "\\Pictures");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagenes JPG,GIF & PNG", "jpg", "gif", "png");
+        chooser.setMultiSelectionEnabled(true);
+        chooser.setFileFilter(filter);
+        returnVal = chooser.showOpenDialog(this);
 
-//        fc.setFileFilter(new FileNameExtensionFilter(".PNG", ".png"));
-//        fc.setFileFilter(new FileNameExtensionFilter(".JPG", "Archivos de imagen"));
-//        fc.setFileFilter(new FileNameExtensionFilter(".BMP", "Archivos de imagen"));
-//        fc.setFileFilter(new FileNameExtensionFilter(".JPEG", "Archivos de imagen")); 
-        int respuesta = fc.showOpenDialog(this);
-        //Comprobar si se ha pulsado Aceptar
-        if (respuesta == JFileChooser.APPROVE_OPTION) {
-            //Mostrar el nombre del archvivo en un campo de texto
-            campoRuta.setText(fc.getSelectedFile().toString());
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            name = chooser.getSelectedFile().getName();
+            absolute_path = chooser.getSelectedFile().getAbsolutePath();
+            path = chooser.getSelectedFile().getPath();
 
-        }//if
-        String path = campoRuta.getText();
-        URL url = this.getClass().getResource(path);
-        System.err.println("" + path);
-        ImageIcon imagen = new ImageIcon(path);
-        ImageIcon icono = new ImageIcon(imagen.getImage().getScaledInstance(contenedor.getWidth(), contenedor.getHeight(), Image.SCALE_DEFAULT));
-        contenedor.setIcon(icono);
-//        ImageIcon image = new ImageIcon(i);
-//        imagenVehiculo.setIcon(image);
-//        this.repaint();
+            rutas = chooser.getSelectedFiles();
+            contadorRutas = chooser.getSelectedFiles().length;
+            //System.out.println("Archivo: " + name);
+            //System.out.println("Absolute Path: " + absolute_path);
+            //System.out.println("Path: " + path);
+            BufferedImage img = null;
+            nuevasFotos.setText("" + contadorRutas);
+            nuevasFotos.setVisible(true);
+
+            try {
+                img = ImageIO.read(new File(absolute_path));
+                Image dimg = img.getScaledInstance(contenedor.getWidth(), contenedor.getHeight(), Image.SCALE_SMOOTH);
+                ImageIcon image = new ImageIcon(dimg);
+                contenedor.setText("");
+                contenedor.setIcon(image);
+                //this.jButton1.setEnabled(true);
+            } catch (IOException e) {
+                System.err.println(e.toString());
+            }
+
+        }
 
     }//GEN-LAST:event_btnImagenActionPerformed
 
@@ -478,7 +497,9 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
 
         }
     }//GEN-LAST:event_campoKilometrajeKeyTyped
-
+    
+    
+    
     public static void limpiarTablaPermisos() {
         int a = modelo.getRowCount() - 1;
         for (int i = 0; i <= a; i++) {
@@ -572,6 +593,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
     private javax.swing.JSpinner campoMotor;
     private javax.swing.JTextArea campoObservaciones;
     private javax.swing.JTextField campoRuta;
+    private javax.swing.JLabel contadorImg;
     private javax.swing.JLabel contenedor;
     private javax.swing.JLabel fondo;
     private javax.swing.JPanel imagenVehiculo;
@@ -587,6 +609,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel nuevasFotos;
     private javax.swing.JPanel pn_permisos;
     // End of variables declaration//GEN-END:variables
 }

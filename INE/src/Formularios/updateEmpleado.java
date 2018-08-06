@@ -27,9 +27,10 @@ import javax.swing.table.DefaultTableModel;
  * @author kevin
  */
 public class updateEmpleado extends javax.swing.JDialog {
-    String nombres,apellido_p,apellido_m,telefono,curp,rfc,calle,colonia,fecha,codigoP,area,municipio,localidad,busqueda;
+    String nombres,apellido_p,apellido_m,telefono,curp,rfc,calle,colonia,fecha,codigoP,municipio,localidad,busqueda;
     boolean documentacion;
-    int id,filtro, bandera;
+    int id,filtro, bandera,area,puesto;
+    int[] ids_area,ids_puesto;
     
     ManagerUsers manager_users;
     ManagerComplemento manager_complemento;
@@ -44,6 +45,8 @@ public class updateEmpleado extends javax.swing.JDialog {
         //Está bandera es para saber si se llama de la pestaña de empleados o si se llama para actualizar su perfil
         if(bandera == 1){
             txtRfc.setEditable(false);
+            comboArea.setEnabled(false);
+            comboPuesto.setEnabled(false);
         }
         
         this.filtro = filtro;
@@ -58,6 +61,18 @@ public class updateEmpleado extends javax.swing.JDialog {
         this.id = idEmpleado;
         //Cadena con todos los datos de la consulta
         String datosEmpleado = manager_users.obtenerDatosEmpleado(id);
+        
+        //ComboArea
+        String lista = manager_complemento.obtenerAreas();
+        String[] recoger = lista.split(",,");
+        ids_area = new int[recoger.length/2];
+        
+        comboArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        for(int i = 1,j = 0; i <= recoger.length;i = i+2,j++){
+            comboArea.addItem(recoger[i]);
+            ids_area[j] = Integer.parseInt(recoger[i-1]);
+        }
+        
         //Acomodamos los datos donde van
         colocarDatos(datosEmpleado);
         
@@ -80,6 +95,10 @@ public class updateEmpleado extends javax.swing.JDialog {
     private void initComponents() {
 
         pn_empleado = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        comboArea = new javax.swing.JComboBox<>();
+        jLabel18 = new javax.swing.JLabel();
+        comboPuesto = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -106,8 +125,6 @@ public class updateEmpleado extends javax.swing.JDialog {
         txtLocalidad = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        labelPuesto = new javax.swing.JLabel();
-        labelArea = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -118,6 +135,34 @@ public class updateEmpleado extends javax.swing.JDialog {
         });
 
         pn_empleado.setLayout(null);
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel14.setText("Área:");
+        pn_empleado.add(jLabel14);
+        jLabel14.setBounds(450, 170, 32, 17);
+
+        comboArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboAreaActionPerformed(evt);
+            }
+        });
+        pn_empleado.add(comboArea);
+        comboArea.setBounds(490, 170, 190, 23);
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel18.setText("Puesto:");
+        pn_empleado.add(jLabel18);
+        jLabel18.setBounds(432, 200, 50, 17);
+
+        comboPuesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboPuesto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboPuestoActionPerformed(evt);
+            }
+        });
+        pn_empleado.add(comboPuesto);
+        comboPuesto.setBounds(490, 200, 190, 23);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Nombre(s):");
@@ -245,16 +290,6 @@ public class updateEmpleado extends javax.swing.JDialog {
         pn_empleado.add(btnCancelar);
         btnCancelar.setBounds(390, 240, 121, 25);
 
-        labelPuesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        labelPuesto.setText("Puesto:");
-        pn_empleado.add(labelPuesto);
-        labelPuesto.setBounds(340, 190, 350, 17);
-
-        labelArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        labelArea.setText("Área:");
-        pn_empleado.add(labelArea);
-        labelArea.setBounds(360, 170, 330, 17);
-
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         pn_empleado.add(jLabel17);
         jLabel17.setBounds(0, 0, 720, 290);
@@ -283,7 +318,7 @@ public class updateEmpleado extends javax.swing.JDialog {
         //Apellido Materno
         txtApellidoM.setText(datos[2]);
         //Área
-        labelArea.setText("Área: "+datos[3]);
+        comboArea.setSelectedItem(datos[3]);
         //Calle
         if(datos[4].equals("null")){
             datos[4] = "Sin especificar";
@@ -332,7 +367,7 @@ public class updateEmpleado extends javax.swing.JDialog {
         }
         txtLocalidad.setText(datos[12]);
         //Puesto
-        labelPuesto.setText("Puesto: "+datos[13]);
+        comboPuesto.setSelectedItem(datos[13]);
         
         
     }//colocarDatos
@@ -352,6 +387,9 @@ public class updateEmpleado extends javax.swing.JDialog {
         
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         fecha = formato.format(txtFecha.getDate());
+        
+        area = ids_area[comboArea.getSelectedIndex()];
+        puesto = ids_puesto[comboPuesto.getSelectedIndex()];
         
     }//getInfo()
     
@@ -378,7 +416,7 @@ public class updateEmpleado extends javax.swing.JDialog {
             switch(res){
                 case 0:
                     getInfo();
-                    boolean insertar = manager_users.actualizarEmpleado(id,nombres, apellido_p, apellido_m, calle, colonia, telefono, codigoP, fecha, curp, rfc, municipio,localidad);
+                    boolean insertar = manager_users.actualizarEmpleado(id,nombres, apellido_p, apellido_m, calle, colonia, telefono, codigoP, fecha, curp, rfc, municipio,localidad,area,puesto);
                     if(insertar){
                         if(bandera == 1){
                             String cadena = manager_users.infoEmpleado(Principal.Username);
@@ -393,15 +431,15 @@ public class updateEmpleado extends javax.swing.JDialog {
                             Principal.lblMunicipio.setText("Municipio: "+separador[10]);
                             Principal.lblLocalidad.setText("Localidad: "+separador[11]);
                             Principal.lblCargo.setText("Puesto: "+separador[12]);
-                            labelArea.setText("Área: "+separador[13]);
+                            Principal.lblArea.setText("Área: "+separador[13]);
                             JOptionPane.showMessageDialog(null, "Sus datos se actualizaron exitosamente");
                         }else{
                             JOptionPane.showMessageDialog(null, "El empleado "+nombres+ " "+apellido_p+ "ha sido actualizado exitosamente.");
                             if(manager_permisos.accesoModulo("consulta","Empleados",Principal.Username)){
                                 if(comboEmpUsu.getSelectedItem().toString().equals("Empleados sin usuario")){
-                                    Principal.tablaUsuarios.setModel(manager_users.getEmpleadosSinUsuario(filtro,busqueda));
+                                    Principal.tablaUsuarios.setModel(manager_users.getEmpleadosSinUsuario(filtro,busqueda,Principal.comboEmpUsuEstatus.getSelectedItem().toString()));
                                 }else{
-                                    Principal.tablaUsuarios.setModel(manager_users.getEmpleados(Principal.Username,filtro,busqueda));
+                                    Principal.tablaUsuarios.setModel(manager_users.getEmpleados(Principal.Username,filtro,busqueda,Principal.comboEmpUsuEstatus.getSelectedItem().toString()));
                                 }
                             }else{
                                 JOptionPane.showMessageDialog(null, "Han revocado sus permisos para consulta de empleados");
@@ -446,6 +484,24 @@ public class updateEmpleado extends javax.swing.JDialog {
          this.dispose();
         
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void comboAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAreaActionPerformed
+        // TODO add your handling code here:
+        //ComboPuesto
+        String lista = manager_complemento.obtenerPuestos(comboArea.getSelectedIndex()+1);
+        String[] recoger = lista.split(",,");
+        ids_puesto = new int[recoger.length/2];
+
+        comboPuesto.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        for(int i = 1,j = 0; i <= recoger.length;i = i+2,j++){
+            comboPuesto.addItem(recoger[i]);
+            ids_puesto[j] = Integer.parseInt(recoger[i-1]);
+        }
+    }//GEN-LAST:event_comboAreaActionPerformed
+
+    private void comboPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboPuestoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboPuestoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -493,11 +549,15 @@ public class updateEmpleado extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JComboBox<String> comboArea;
+    private javax.swing.JComboBox<String> comboPuesto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -506,8 +566,6 @@ public class updateEmpleado extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel labelArea;
-    private javax.swing.JLabel labelPuesto;
     private javax.swing.JPanel pn_empleado;
     private javax.swing.JTextField txtApellidoM;
     private javax.swing.JTextField txtApellidoP;
