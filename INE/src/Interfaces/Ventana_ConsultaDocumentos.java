@@ -45,6 +45,8 @@ public class Ventana_ConsultaDocumentos extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        MenuDocumentos = new javax.swing.JPopupMenu();
+        AsignarActa = new javax.swing.JMenuItem();
         pn_asignarEquipo = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaDocumentos = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
@@ -55,6 +57,14 @@ public class Ventana_ConsultaDocumentos extends javax.swing.JDialog {
         jSeparator2 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
         comboEstatus = new javax.swing.JComboBox<>();
+
+        AsignarActa.setText("Asignar acta");
+        AsignarActa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AsignarActaActionPerformed(evt);
+            }
+        });
+        MenuDocumentos.add(AsignarActa);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -71,7 +81,7 @@ public class Ventana_ConsultaDocumentos extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Clave", "Fecha de inicio", "Productos asignados"
+                "Clave", "Fecha de inicio", "Productos asignados", "No. Acta"
             }
         ));
         tablaDocumentos.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -185,6 +195,14 @@ public class Ventana_ConsultaDocumentos extends javax.swing.JDialog {
 
     private void tablaDocumentosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDocumentosMouseReleased
         // TODO add your handling code here:
+        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+            if(SwingUtilities.isRightMouseButton(evt)){
+                int r = tablaDocumentos.rowAtPoint(evt.getPoint());
+                if (r >= 0 && r < tablaDocumentos.getRowCount())
+                tablaDocumentos.setRowSelectionInterval(r, r);
+                
+                MenuDocumentos.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+            }//clic derecho
     }//GEN-LAST:event_tablaDocumentosMouseReleased
 
     private void tablaDocumentosProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDocumentosProductosMouseClicked
@@ -211,6 +229,45 @@ public class Ventana_ConsultaDocumentos extends javax.swing.JDialog {
         //Llenamos la tabla de los documentos
         tablaDocumentos.setModel(manager_documentos.getDocumentosFiltro(estatus));
     }//GEN-LAST:event_comboEstatusActionPerformed
+
+    private void AsignarActaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AsignarActaActionPerformed
+        // TODO add your handling code here:
+        int fila = tablaDocumentos.getSelectedRow();
+        //Esto es para validar que ingrese solo numeros y mientras no lo haga, seguira preguntado hasta que
+        //solo teclee numeros o cancele el movimiento
+        boolean string = true;
+        boolean cancelo = true;
+        String cadena = null;
+        while(string){
+            cadena = JOptionPane.showInputDialog("Ingrese el No. de Acta");
+            //Cancelo la solicitud de asignacion
+            if(cadena == null){
+                string = false;
+                cancelo = false;
+            }else{
+                if(!cadena.equals("")){
+                    string = false;
+                    cancelo = true;
+                }else{
+                    JOptionPane.showMessageDialog(null,"No deje el campo vacio por favor.");
+                }
+            }
+        }//while                        
+
+        if(cancelo){
+            if(manager_documentos.asignarActa(tablaDocumentos.getValueAt(fila, 0).toString(), cadena)){
+                JOptionPane.showMessageDialog(null, "No. de acta \""+cadena+"\" asignado correctamente.");
+                String estatus = comboEstatus.getSelectedItem().toString();
+
+                //Llenamos la tabla de los documentos
+                tablaDocumentos.setModel(manager_documentos.getDocumentosFiltro(estatus));
+            }else{
+                JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+            }
+        }
+        
+        
+    }//GEN-LAST:event_AsignarActaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -270,6 +327,8 @@ public class Ventana_ConsultaDocumentos extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem AsignarActa;
+    private javax.swing.JPopupMenu MenuDocumentos;
     private javax.swing.JComboBox<String> comboEstatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
