@@ -160,14 +160,14 @@ public class ManagerVehiculos {
         try {
 
             Statement st = con.createStatement();
-            String sql = "select marca,linea,clase,kilometraje,modelo,color,motor,matricula,observaciones,estado from vehiculos where matricula = '"+matricula+"';";
+            String sql = "select marca,linea,clase,kilometraje,modelo,color,motor,matricula,observaciones,cantidad_fotos,estado from vehiculos where matricula = '"+matricula+"';";
             ResultSet resultados = st.executeQuery(sql);
             while (resultados.next()) {
                 String temp = "";
                 temp += "" + resultados.getString("marca") + "," + resultados.getString("linea") + "," + resultados.getString("clase")
                          + "," + resultados.getString("kilometraje")+ "," + resultados.getString("modelo")+ "," + resultados.getString("color")
                         + "," + resultados.getString("motor") + "," + resultados.getString("matricula")+ "," + resultados.getString("observaciones")
-                        + "," + resultados.getString("estado");
+                        + "," + resultados.getString("cantidad_fotos") + "," + resultados.getString("estado");
                 v.add(temp);
             }
 
@@ -253,16 +253,16 @@ public class ManagerVehiculos {
     }//getEmpleados   
     
     public boolean actualizarVehiculo(String marca, String linea, String clase, String color, String modelo, String motor,
-            String kilomentraje, String matricula, String observaciones, String ruta) {
+            String kilomentraje, String matricula, String observaciones, int cantidad) {
         con = db.getConexion();
         
-        String update = "update vehiculos set marca = ?, linea = ?,clase = ?,color = ?,modelo = ?,motor = ?,kilometraje = ?,observaciones = ?,imagen = ? where matricula = '"+matricula+"'";
-        FileInputStream fi = null;
+        String update = "update vehiculos set marca = ?, linea = ?,clase = ?,color = ?,modelo = ?,motor = ?,kilometraje = ?,observaciones = ?,cantidad_fotos = ? where matricula = '"+matricula+"'";
+        
         PreparedStatement ps = null;
 
         try {
-            File file = new File(ruta);
-            fi = new FileInputStream(file);
+            
+            
 
              ps = con.prepareStatement(update);
 
@@ -274,7 +274,7 @@ public class ManagerVehiculos {
             ps.setString(6, motor);
             ps.setString(7, kilomentraje);
             ps.setString(8, observaciones);
-            ps.setBinaryStream(9, fi);
+            ps.setInt(9, cantidad);
 
             ps.executeUpdate();
 

@@ -2818,7 +2818,7 @@ public class Principal extends javax.swing.JFrame {
         etiquetaAño.setText(temporal[4]);
         campoObservaciones.setText(temporal[8]);
         
-        etiquetaEstado.setText(temporal[9]);
+        etiquetaEstado.setText(temporal[10]);
 
         //System.err.println(""+tablaVehiculos.getValueAt(fila, 4).toString());
         //Obtener
