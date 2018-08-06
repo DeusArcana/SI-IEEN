@@ -815,7 +815,7 @@ public class ManagerUsers {
     public void getNombresEmpleados(JComboBox combo,int area) {
         try{
            
-            String sql = "select concat(nombres,' ',apellido_p,' ',apellido_m) from Empleados where area = "+area+"; and estatus = 'Activo'";
+            String sql = "select concat(nombres,' ',apellido_p,' ',apellido_m) from Empleados where area = "+area+" and estatus = 'Activo'";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);

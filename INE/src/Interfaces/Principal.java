@@ -51,6 +51,7 @@ import Formularios.addInventarioGranel;
 import Formularios.addResguardo;
 import Formularios.addUsuarios;
 import Formularios.addDocument;
+import Formularios.addObservaciones;
 import Formularios.changePassword;
 import Formularios.updateEmpleado;
 import Formularios.updateInventario;
@@ -476,6 +477,11 @@ public class Principal extends javax.swing.JFrame {
         MenuInventario.add(ActualizarProd);
 
         AddObservacion.setText("Añadir observaciones");
+        AddObservacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddObservacionActionPerformed(evt);
+            }
+        });
         MenuInventario.add(AddObservacion);
 
         DevolverDis.setText("Devolver a disponible");
@@ -2662,7 +2668,7 @@ public class Principal extends javax.swing.JFrame {
         
         //--------------------------------- PESTAÑA CONFIGURACION -----------------------------------// 7
         
-        if(!(manager_permisos.esSuperUsuario(Username))){
+        if(manager_permisos.accesoModulo("consulta","Configuracion",Username)){
             tabbedPrincipal.removeTabAt(7);//Eliminamos la pestaña
         }
         //--------------------------------- PESTAÑA CONFIGURACION -----------------------------------// 7
@@ -3757,52 +3763,57 @@ public void metodoValeRecoleccion(){
         // TODO add your handling code here:
 
         // int limite = Integer.parseInt(campoHasta.getText());
-
-        String sub1 = campoip1.getValue().toString();
-        String sub2 = campoip2.getValue().toString();
-        String sub3 = campoip3.getValue().toString();
-        int limite = Integer.parseInt(campoip4.getValue().toString());
-        try {
-            // TODO add your handling code here:
-
-            checkHosts(sub1,sub2,sub3, limite);
-        } catch (IOException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        if(manager_permisos.accesoModulo("alta","Configuracion",Username)){
+            String sub1 = campoip1.getValue().toString();
+            String sub2 = campoip2.getValue().toString();
+            String sub3 = campoip3.getValue().toString();
+            int limite = Integer.parseInt(campoip4.getValue().toString());
+            try {
+                // TODO add your handling code here:
+                checkHosts(sub1,sub2,sub3, limite);
+            } catch (IOException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Usted no cuenta con permisos para dar de alta nuevas IPs");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         // int limite = Integer.parseInt(campoHasta.getText());
-        
+        if(manager_permisos.accesoModulo("consulta","Configuracion",Username)){
 
-        String sub1 = campoip1.getValue().toString();
-        String sub2 = campoip2.getValue().toString();
-        String sub3 = campoip3.getValue().toString();
-        int limite = Integer.parseInt(campoip4.getValue().toString());
-        bandera = true;
-        // TODO add your handling code here:
-        hilo = new Thread() {
-            public void run() {
-                //Ciclo infinito
-                while (bandera) {
+            String sub1 = campoip1.getValue().toString();
+            String sub2 = campoip2.getValue().toString();
+            String sub3 = campoip3.getValue().toString();
+            int limite = Integer.parseInt(campoip4.getValue().toString());
+            bandera = true;
+            // TODO add your handling code here:
+            hilo = new Thread() {
+                public void run() {
+                    //Ciclo infinito
+                    while (bandera) {
 
-                    try {
-                        sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        try {
+                            sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            checkHostsReScan(sub1, sub2, sub3, limite);
+                        } catch (IOException ex) {
+                            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
                     }
-                    try {
-                        checkHostsReScan(sub1, sub2, sub3, limite);
-                    } catch (IOException ex) {
-                        Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                }
-            }//run
-        };
-        jButton1.setEnabled(false);
-        hilo.start();
+                }//run
+            };
+            jButton1.setEnabled(false);
+            hilo.start();
+        }else{
+            JOptionPane.showMessageDialog(null,"Usted no cuenta con permisos para consultar las IP de los equipos.");
+        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -3813,44 +3824,49 @@ public void metodoValeRecoleccion(){
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        // TODO add your handling code here:
-        try{
-            System.out.println(tablaIP.getValueAt(tablaIP.getSelectedRow(),0)+" "+tablaIP.getValueAt(tablaIP.getSelectedRow(),1));
-            if(manajerMySQL.insertarUsuarioBD("PC70", tablaIP.getValueAt(tablaIP.getSelectedRow(),1).toString())){
-                JOptionPane.showMessageDialog(null,"Permisos creados con exito!","Información!",JOptionPane.INFORMATION_MESSAGE);
+        if(manager_permisos.accesoModulo("alta","Configuracion",Username)){
+            try{
+                System.out.println(tablaIP.getValueAt(tablaIP.getSelectedRow(),0)+" "+tablaIP.getValueAt(tablaIP.getSelectedRow(),1));
+                if(manajerMySQL.insertarUsuarioBD("PC70", tablaIP.getValueAt(tablaIP.getSelectedRow(),1).toString())){
+                    JOptionPane.showMessageDialog(null,"Permisos creados con exito!","Información!",JOptionPane.INFORMATION_MESSAGE);
 
-                manajerMySQL.insertarPrivilegios(
-                    tablaIP.getValueAt(tablaIP.getSelectedRow(),0).toString(),
-                    tablaIP.getValueAt(tablaIP.getSelectedRow(),1).toString(),
-                    tablaIP.getValueAt(tablaIP.getSelectedRow(),2).toString());
-                modeloTablaIP.removeRow(tablaIP.getSelectedRow());
-            }else{
-                JOptionPane.showMessageDialog(null, "Error al asignar Permisos","Advertencia!",JOptionPane.WARNING_MESSAGE);
-            }//else
-        }catch(java.lang.ArrayIndexOutOfBoundsException e){
-            //JOptionPane.showMessageDialog(null,"Seleccione una dirección!","Información!",JOptionPane.INFORMATION_MESSAGE);
+                    manajerMySQL.insertarPrivilegios(
+                        tablaIP.getValueAt(tablaIP.getSelectedRow(),0).toString(),
+                        tablaIP.getValueAt(tablaIP.getSelectedRow(),1).toString(),
+                        tablaIP.getValueAt(tablaIP.getSelectedRow(),2).toString());
+                    modeloTablaIP.removeRow(tablaIP.getSelectedRow());
+                }else{
+                    JOptionPane.showMessageDialog(null, "Error al asignar Permisos","Advertencia!",JOptionPane.WARNING_MESSAGE);
+                }//else
+            }catch(java.lang.ArrayIndexOutOfBoundsException e){
+                //JOptionPane.showMessageDialog(null,"Seleccione una dirección!","Información!",JOptionPane.INFORMATION_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Usted no cuenta con permisos para dar de alta nuevas IPs");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        //System.out.println(tablaIP.getValueAt(tablaIP.getSelectedRow(),0)+" "+tablaIP.getValueAt(tablaIP.getSelectedRow(),1));
-        //System.out.println(tablaIP.getValueAt(tablaIP.getSelectedRow(),0)+" "+tablaIP.getValueAt(tablaIP.getSelectedRow(),1));
-        try {
-            if (manajerMySQL.quitarUsuarioBD(tablaBD.getValueAt(tablaBD.getSelectedRow(), 0).toString(), tablaBD.getValueAt(tablaBD.getSelectedRow(), 1).toString())) {
-                //regresar los datos a la tabla de ip
+        if(manager_permisos.accesoModulo("baja","Configuracion",Username)){
+            try {
+                if (manajerMySQL.quitarUsuarioBD(tablaBD.getValueAt(tablaBD.getSelectedRow(), 0).toString(), tablaBD.getValueAt(tablaBD.getSelectedRow(), 1).toString())) {
+                    //regresar los datos a la tabla de ip
 
-                manajerMySQL.borrarPrivilegios(tablaBD.getValueAt(tablaBD.getSelectedRow(), 1).toString());
-                //regresar los datos al modelo de ip para poder reasignar
-                modeloTablaIP.addRow(new Object[]{""+tablaBD.getValueAt(tablaBD.getSelectedRow(), 0).toString(),
-                    ""+tablaBD.getValueAt(tablaBD.getSelectedRow(), 1).toString(),"Conectado"});
+                    manajerMySQL.borrarPrivilegios(tablaBD.getValueAt(tablaBD.getSelectedRow(), 1).toString());
+                    //regresar los datos al modelo de ip para poder reasignar
+                    modeloTablaIP.addRow(new Object[]{""+tablaBD.getValueAt(tablaBD.getSelectedRow(), 0).toString(),
+                        ""+tablaBD.getValueAt(tablaBD.getSelectedRow(), 1).toString(),"Conectado"});
 
-            JOptionPane.showMessageDialog(null, "Permisos retirados con exito!", "Información!", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Permisos retirados con exito!", "Información!", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(null, "Error al retirar Permisos","Advertencia!",JOptionPane.WARNING_MESSAGE);
+            }
+            }catch(java.lang.ArrayIndexOutOfBoundsException e){
+                // JOptionPane.showMessageDialog(null,"Seleccione una dirección!","Información!",JOptionPane.INFORMATION_MESSAGE);
+            }
         }else{
-            JOptionPane.showMessageDialog(null, "Error al retirar Permisos","Advertencia!",JOptionPane.WARNING_MESSAGE);
-        }
-        }catch(java.lang.ArrayIndexOutOfBoundsException e){
-            // JOptionPane.showMessageDialog(null,"Seleccione una dirección!","Información!",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Usted no cuenta con permisos para dar de baja IPs");
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -4101,7 +4117,7 @@ public void metodoValeRecoleccion(){
                     tablaInventario.setModel(new DefaultTableModel());
                 }//else
                 
-            }else{
+            }else if(comboInventario.getSelectedItem().toString().equals("Consumibles")){
                 banderaInventario = 2;
                 if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
                     tablaInventario.setModel(manager_inventario_granel.getInventarioG(filtro));
@@ -4117,6 +4133,7 @@ public void metodoValeRecoleccion(){
                 comboFiltro.addItem("Almacén");
                 comboFiltro.addItem("Marca");
                 comboFiltro.addItem("Observaciones");
+                comboFiltro.addItem("Estatus");
             }
     }//GEN-LAST:event_comboInventarioActionPerformed
 
@@ -4560,27 +4577,30 @@ public void metodoValeRecoleccion(){
 
     private void btnSolicitarSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarSalidaActionPerformed
         // TODO add your handling code here:
-        String [] ids = new String[tablaCantidadGranel.getRowCount()];
-        int[] Cantidad = new int[tablaCantidadGranel.getRowCount()];
-                   
-        for(int i = 0; i<tablaCantidadGranel.getRowCount();i++){
-            
-            Cantidad[i] = Integer.parseInt(tablaCantidadGranel.getValueAt(i, 3).toString());
-            ids[i] = tablaCantidadGranel.getValueAt(i, 0).toString();
-             
-            
-        }//Recorremos toda la tabla para ver que solicito y cuanto
-        
-        //Realizamos el registro
-        if(manager_solicitud.registro_SolicitudSalida(Username, ids, Cantidad)){
-            JOptionPane.showMessageDialog(null, "Se realizo correctamente la solicitud de salida de almacen.");
-            limpiarTablaCantidadGranel();
-            btnCancelarSalida.setEnabled(false);
-            btnSolicitarSalida.setEnabled(false);
-            
+        if(manager_permisos.accesoModulo("alta","Solicitudes",Username)){
+            String [] ids = new String[tablaCantidadGranel.getRowCount()];
+            int[] Cantidad = new int[tablaCantidadGranel.getRowCount()];
+
+            for(int i = 0; i<tablaCantidadGranel.getRowCount();i++){
+
+                Cantidad[i] = Integer.parseInt(tablaCantidadGranel.getValueAt(i, 3).toString());
+                ids[i] = tablaCantidadGranel.getValueAt(i, 0).toString();
+
+
+            }//Recorremos toda la tabla para ver que solicito y cuanto
+
+            //Realizamos el registro
+            if(manager_solicitud.registro_SolicitudSalida(Username, ids, Cantidad)){
+                JOptionPane.showMessageDialog(null, "Se realizo correctamente la solicitud de salida de almacen.");
+                limpiarTablaCantidadGranel();
+                btnCancelarSalida.setEnabled(false);
+                btnSolicitarSalida.setEnabled(false);
+
+            }else{
+                JOptionPane.showMessageDialog(null, "No se pudo realizar la solicitud de salida de almacen, verificar con el distribuidor.");
+            }
         }else{
-            JOptionPane.showMessageDialog(null, "No se pudo realizar la solicitud de salida de almacen, verificar con el distribuidor.");
-            this.dispose();
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para solicitar salidas de almacén.");
         }
     }//GEN-LAST:event_btnSolicitarSalidaActionPerformed
 
@@ -5108,6 +5128,11 @@ public void metodoValeRecoleccion(){
                     tabbedPrincipal.setTitleAt(6, "Solicitudes");//Le damos el nombre a esa pestaña
                 }                
                 break;
+            case 7:
+                if(manager_permisos.accesoModulo("consulta","Configuracion",Username)){
+                    tabbedPrincipal.removeTabAt(7);//Eliminamos la pestaña
+                }                
+                break;
             
         }//switch
         
@@ -5414,6 +5439,7 @@ public void metodoValeRecoleccion(){
                 excel.GuardarComo(tablaInventario);
             }else{
                 JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+                tablaInventario.setModel(new DefaultTableModel());
             }
         }catch(NullPointerException e){
         
@@ -5472,6 +5498,7 @@ public void metodoValeRecoleccion(){
                             tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
                     }else{
                         JOptionPane.showMessageDialog(null,"Tu permiso para consultar el inventario ha sido revocado.");
+                        tablaInventario.setModel(new DefaultTableModel());
                     }
                 }else{
                     JOptionPane.showMessageDialog(null, "No se pudo realizar el cambio a "+pendientePara);
@@ -5518,6 +5545,7 @@ public void metodoValeRecoleccion(){
                         tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
             }else{
                 JOptionPane.showMessageDialog(null,"Tu permiso para consultar el inventario ha sido revocado.");
+                tablaInventario.setModel(new DefaultTableModel());
             }
 
             //Bandera para activar el popuMenu de aceptar o cancelar
@@ -5608,6 +5636,30 @@ public void metodoValeRecoleccion(){
         }
         buscarEmpleados();
     }//GEN-LAST:event_comboEmpUsuEstatusActionPerformed
+
+    private void AddObservacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddObservacionActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.accesoModulo("actualizar","Inventario",Username)){
+            try {
+                for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                    if ("Nimbus".equals(info.getName())) {
+                        UIManager.setLookAndFeel(info.getClassName());
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                // If Nimbus is not available, you can set the GUI to another look and feel.
+            }
+
+            int fila = tablaInventario.getSelectedRow();
+            String clave = tablaInventario.getValueAt(fila, 0).toString();
+
+            addObservaciones ob = new addObservaciones(this, true,clave,tablaInventario.getValueAt(fila, 1).toString());
+            ob.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para agregar observaciones a un producto del inventario.");
+        }
+    }//GEN-LAST:event_AddObservacionActionPerformed
        
     public void cargarImagen(String busqueda,int numero){
         

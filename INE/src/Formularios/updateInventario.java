@@ -28,6 +28,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 //import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
@@ -56,6 +57,8 @@ public final class updateInventario extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        this.setTitle("Actualización de información del produto \""+ClaveProd+"\"");
         
         //Asginamos memoria al objeto
         manager_inventario = new ManagerInventario();
@@ -604,6 +607,9 @@ public final class updateInventario extends javax.swing.JDialog {
         
                 if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
                     Principal.tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
+                }else{
+                    Principal.tablaInventario.setModel(new DefaultTableModel());
+                    JOptionPane.showMessageDialog(null, "Le han revoado los permisos para consultar el inventario.");
                 }
                 this.dispose();
 

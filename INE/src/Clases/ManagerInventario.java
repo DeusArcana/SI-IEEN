@@ -644,7 +644,6 @@ public class ManagerInventario {
         conexion = db.getConexion();
         
         String update = "update inventario set nombre_prod = ?,almacen = ?,marca = ?,no_serie = ?,descripcion = ?,observaciones = ?,tipo_uso = ?,modelo = ?,color = ? where id_producto = '"+clave+"'";
-        FileInputStream fi = null;
         PreparedStatement ps = null;
 
         try {
@@ -671,6 +670,42 @@ public class ManagerInventario {
 
         }
 
-    }//guardarImagen
+    }//actualizarProductoSinFoto
+    
+    public boolean agregarObservaciones(String clave, String observaciones) {
+        conexion = db.getConexion();
+        boolean estado = false;
+        try {
+            
+            String sql = "update inventario set observaciones = '"+observaciones+"' where concat(Folio,'-',Numero,Extension) = '"+clave+"'";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            st.executeUpdate(sql);
+            
+            conexion.close();
+        } catch (Exception ex) {
+            System.out.println("Error al agregar observaciones al producto \""+clave+"\".");
+        }
+        return estado;
+    }//agregarObservaciones
+    
+    public String observacionesProducto(String clave) {
+        conexion = db.getConexion();
+        String observaciones = "";
+        try {
+            
+            String sql = "select observaciones from inventario where concat(Folio,'-',Numero,Extension) = '"+clave+"'";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            observaciones = rs.getString(1);
+            
+            conexion.close();
+        } catch (Exception ex) {
+            System.out.println("Error al agregar observaciones al producto \""+clave+"\".");
+        }
+        return observaciones;
+    }//agregarObservaciones
     
 }//class

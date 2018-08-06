@@ -67,11 +67,15 @@ public class ManagerInventarioGranel {
                 case 5:
                     campoBusca = "observaciones"; 
                     break;    
+                //BUSQUEDA POR ESTATUS
+                case 6:
+                    campoBusca = "estatus"; 
+                    break;    
 
             }//Hace la busqueda de acuerdo al filtro
             
             sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
-                            + " where "+campoBusca+" like '"+busqueda+"%';";
+                            + " where "+campoBusca+" like '%"+busqueda+"%';";
             Connection c = db.getConexion();
             Statement st = c.createStatement();    
             ResultSet rs = st.executeQuery(sql);
@@ -406,6 +410,10 @@ public class ManagerInventarioGranel {
                     break;
                 case 5:
                     orden = "order by observaciones";
+                    break;
+                //BUSQUEDA POR ESTATUS
+                case 6:
+                    orden = "order by estatus"; 
                     break;
             }
             

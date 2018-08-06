@@ -5,10 +5,12 @@
  */
 package Formularios;
 
-import Clases.ManagerComplemento;
+import Clases.ManagerInventario;
+import Clases.ManagerPermisos;
 import Interfaces.Principal;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,19 +18,27 @@ import javax.swing.JOptionPane;
  */
 public class addObservaciones extends javax.swing.JDialog {
     
-    ManagerComplemento manager_complemento;
+    ManagerInventario manager_inventario;
+    ManagerPermisos manager_permisos;
     
     /**
      * Creates new form addResguardo
      */
-    public addObservaciones(java.awt.Frame parent, boolean modal,String clave) {
+    public addObservaciones(java.awt.Frame parent, boolean modal,String clave,String nom) {
         super(parent, modal);
         initComponents();
         
         //Asignamos memoria al objeto
-        manager_complemento = new ManagerComplemento();
+        manager_inventario = new ManagerInventario();
+        manager_permisos = new ManagerPermisos();
+        
         this.setLocationRelativeTo(null);
         txtAObservaciones.setLineWrap(true);
+        
+        txtClave.setText(clave);
+        txtNombre.setText(nom);
+        txtAObservaciones.setText(manager_inventario.observacionesProducto(clave));
+        this.setTitle("Observaciones al producto \""+clave+"\"");
     }
 
     private addObservaciones(JFrame jFrame, boolean b) {
@@ -138,12 +148,21 @@ public class addObservaciones extends javax.swing.JDialog {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        if(manager_complemento.insertarResguardo(Principal.Username, txtClave.getText(), txtAObservaciones.getText())){
-            JOptionPane.showMessageDialog(null, "Se registro exitosamente el producto en su resguardo personal.");
-            Principal.tablaResguardoPersonal.setModel(manager_complemento.getResguardoPersonal(Principal.Username));
+        if(manager_permisos.accesoModulo("actualizar","Inventario",Principal.Username)){
+            manager_inventario.agregarObservaciones(txtClave.getText(), txtAObservaciones.getText());
+            JOptionPane.showMessageDialog(null, "Observaciones agregadas con exito al producto \""+txtClave.getText()+"\".");
+            if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
+                //Actualizamos al tabla de inventario de acuerdo a lo que ya se tenia seleccionado anteriormente
+                String estatus = Principal.comboEstatus.getSelectedItem().toString();
+                Principal.tablaInventario.setModel(manager_inventario.getInventario("",estatus));
+            }else{
+                Principal.tablaInventario.setModel(new DefaultTableModel());
+                JOptionPane.showMessageDialog(null, "Le han revoado los permisos para consultar el inventario.");
+            }
             this.dispose();
         }else{
-            JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+            JOptionPane.showMessageDialog(null, "Le han revocado el permiso para añadir observaciones a los productos.");
+            this.dispose();
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
