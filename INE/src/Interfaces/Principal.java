@@ -451,6 +451,9 @@ public class Principal extends javax.swing.JFrame {
         campoip1 = new javax.swing.JSpinner();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        cajaIP = new javax.swing.JTextField();
+        jButton6 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -2253,6 +2256,7 @@ public class Principal extends javax.swing.JFrame {
 
         jButton2.setText(" Añadir subred");
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton2.setEnabled(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -2306,13 +2310,29 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
+        jLabel15.setText("Añadir IP manualmente:");
+
+        jButton6.setText("Añadir");
+        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(cajaIP, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2327,19 +2347,25 @@ public class Principal extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(89, 89, 89)
                                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(20, 20, 20)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 87, Short.MAX_VALUE))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel15)
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(cajaIP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton6))))
+                        .addGap(0, 73, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -2668,7 +2694,7 @@ public class Principal extends javax.swing.JFrame {
         
         //--------------------------------- PESTAÑA CONFIGURACION -----------------------------------// 7
         
-        if(manager_permisos.accesoModulo("consulta","Configuracion",Username)){
+        if(!manager_permisos.accesoModulo("consulta","Configuración",Username)){
             tabbedPrincipal.removeTabAt(7);//Eliminamos la pestaña
         }
         //--------------------------------- PESTAÑA CONFIGURACION -----------------------------------// 7
@@ -5129,7 +5155,7 @@ public void metodoValeRecoleccion(){
                 }                
                 break;
             case 7:
-                if(manager_permisos.accesoModulo("consulta","Configuracion",Username)){
+                if(!manager_permisos.accesoModulo("consulta","Configuración",Username)){
                     tabbedPrincipal.removeTabAt(7);//Eliminamos la pestaña
                 }                
                 break;
@@ -5660,6 +5686,30 @@ public void metodoValeRecoleccion(){
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para agregar observaciones a un producto del inventario.");
         }
     }//GEN-LAST:event_AddObservacionActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+         // TODO add your handling code here:
+         
+        // Verificamos que no esté vacio el campo
+        if (!cajaIP.getText().isEmpty()) {
+            // Verificamos si la ip hace ping
+            if (pingManual(cajaIP.getText())) {
+
+                if (manajerMySQL.insertarUsuarioBD("PC70", cajaIP.getText())) {
+                    JOptionPane.showMessageDialog(null, "Permisos creados con exito!", "Información!", JOptionPane.INFORMATION_MESSAGE);
+
+                    manajerMySQL.insertarPrivilegios("IP Manual", cajaIP.getText(), "Activo");
+                    cajaIP.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al asignar Permisos", "Advertencia!", JOptionPane.WARNING_MESSAGE);
+                }//else
+
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Introduce una IP Válida!", "Atención!", JOptionPane.INFORMATION_MESSAGE);
+        }
+         
+    }//GEN-LAST:event_jButton6ActionPerformed
        
     public void cargarImagen(String busqueda,int numero){
         
@@ -5725,6 +5775,25 @@ public void metodoValeRecoleccion(){
             //System.err.println("" + IPS.elementAt(i));
         }//for
     }//method
+    
+    public boolean pingManual(String ip) {
+        InetAddress ping;
+        boolean res = false;
+        try {
+            ping = InetAddress.getByName(ip);
+            if (ping.isReachable(5000)) {
+                res = true;
+                System.out.println(ip + " - responde!");
+            }else{
+                JOptionPane.showMessageDialog(null,"La IP: "+ip+" no responde!","Información", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+        return res;
+    }
+
+
         
     public void checkHostsReScan(String sub1, String sub2, String sub3, int limite) throws UnknownHostException, IOException {
         String subnet = sub1+"." + sub2+"." + sub3;
@@ -5881,6 +5950,7 @@ public void metodoValeRecoleccion(){
     private javax.swing.JButton btnSolicitarSalida;
     public javax.swing.JButton btn_cancelar2;
     public javax.swing.JButton btn_generar_vale3;
+    private javax.swing.JTextField cajaIP;
     private javax.swing.JTextArea campoObservaciones;
     private javax.swing.JSpinner campoip1;
     private javax.swing.JSpinner campoip2;
@@ -5924,12 +5994,14 @@ public void metodoValeRecoleccion(){
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
