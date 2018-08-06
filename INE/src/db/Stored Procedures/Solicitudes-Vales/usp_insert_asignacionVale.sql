@@ -46,10 +46,11 @@ BEGIN
     -- Se busca el área del empleado
 	SET @Area_Empl = (SELECT `Empleados`.`Area`
 						FROM `INE`.`Empleados`
+                        INNER JOIN `INE`.`Area` ON `Area`.`ID_Area` = `Empleados`.`ID_Area`
 							WHERE `Empleados`.`ID_Empleado` = @ID_Empl);
 
     -- Se hace la selección a manera de retorno de datos
-	SELECT @Area_Empl AS 'Area_Empleado', CONCAT(`Vales`.`Folio`, '-', `Vales`.`Numero`, '-', `Vales`.`Año`) AS 'ID_Vale'
+	SELECT @ID_Empl AS 'ID_Empleado', @Area_Empl AS 'Area_Empleado', CONCAT(`Vales`.`Folio`, '-', `Vales`.`Numero`, '-', `Vales`.`Año`) AS 'ID_Vale'
 		FROM `INE`.`Vales`
 			WHERE	`Vales`.`Folio` 	= `Inv_Folio`
 			AND  	`Vales`.`Numero` 	= @Numero_Vls
