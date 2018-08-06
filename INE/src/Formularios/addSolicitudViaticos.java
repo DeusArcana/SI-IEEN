@@ -271,11 +271,11 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
        if(PrincipalS.conVehiculo==1){
            SimpleDateFormat format=new SimpleDateFormat("HH:mm");
          addSolicitudVehiculo asv;
-           asv = new addSolicitudVehiculo(this,parentVehiculo,true,comboEmpleados.getSelectedIndex(),
+           asv = new addSolicitudVehiculo(this,parentVehiculo,true,comboEmpleados.getSelectedItem()+"",
            txt_Puesto.getText(),date_Salida.getDate(),date_Llegada.getDate(),
            hora_Salida.getValue(),hora_Llegada.getValue(),
            chb_Pernoctado.isSelected(),cmbEstado.getSelectedIndex(),cmbLocalidad.getSelectedIndex(),
-           txt_Actividad.getText());
+           txt_Actividad.getText(),cmbArea.getSelectedItem()+"");
            asv.setVisible(true);
        }else{
            try{
@@ -363,11 +363,11 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                 + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"','','')");
             
             if(insersion){
-                JOptionPane.showMessageDialog(this, "Insersión correcta");
+                JOptionPane.showMessageDialog(this, "Solicitud de viáticos registrada");
                 PrincipalS.tablasolic.setModel(manager_viaticos.getTasol());
                 this.setVisible(false);
             }else{
-                JOptionPane.showMessageDialog(this, "Error al insertar pero no excepción");
+                JOptionPane.showMessageDialog(this, "Error al insertar");
             }
         }catch(Exception e){
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");

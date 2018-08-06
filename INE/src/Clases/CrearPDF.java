@@ -18,6 +18,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -161,7 +164,7 @@ public class CrearPDF {
             
         }
     }
-    public void generarPDFSolicitud(String id) throws FileNotFoundException, DocumentException{
+    public void generarPDFSolicitud(String id) throws FileNotFoundException, DocumentException, SQLException{
         String path="C:\\Reportes_Viaticos\\prueba.pdf";
         try{
         File f=new File(path);
@@ -204,7 +207,7 @@ public class CrearPDF {
         BaseFont bfNoNegritas=BaseFont.createFont(BaseFont.COURIER,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
         PdfContentByte cb=writer.getDirectContent();
         cb.setFontAndSize(bf,16);
-        Image image=Image.getInstance(getClass().getResource("/Imagenes/icono.png"));
+        Image image=Image.getInstance(getClass().getResource("/Imagenes/IEE.png"));
         document.add(image);
         cb.beginText();
         //Label solicitud de viáticos
@@ -264,8 +267,10 @@ public class CrearPDF {
         cb.setTextMatrix(150,475);
         cb.showText(datos.get(0));
         //Vehiculo
-        datos=conexion.acceder("select vehiculo from solicitud_viatico where idSolicitud="+id);
-        if(!datos.get(0).equals("Seleccione el vehículo")){
+        Conexion cbd=new Conexion();
+        Connection cn=cbd.getConexion();
+        ResultSet rs=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+id,cn);
+        if(rs.next()){
             //Label vehiculo
             cb.setFontAndSize(bfNoNegritas,12);
             cb.setTextMatrix(50,375);
@@ -273,7 +278,7 @@ public class CrearPDF {
             //Vehiculo base de datos
             cb.setFontAndSize(bf,12);
             cb.setTextMatrix(180,375);
-            cb.showText(datos.get(0));
+            cb.showText(rs.getString("Vehiculo"));
         }
         //Label V° B°
         cb.setFontAndSize(bfNoNegritas,12);
@@ -340,7 +345,7 @@ public class CrearPDF {
         BaseFont bfNoNegritas=BaseFont.createFont(BaseFont.COURIER,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
         PdfContentByte cb=writer.getDirectContent();
         cb.setFontAndSize(bf,16);
-        Image image=Image.getInstance(getClass().getResource("/Imagenes/icono.png"));
+        Image image=Image.getInstance(getClass().getResource("/Imagenes/IEE.png"));
         document.add(image);
         cb.beginText();
         //Label Folio
@@ -474,7 +479,7 @@ public class CrearPDF {
             
         }
     }
-    public void oficio_comision(String folio) throws DocumentException{
+    public void oficio_comision(String folio) throws DocumentException, SQLException{
         String path="C:\\Reportes_Viaticos\\prueba.pdf";
         try{
             File f=new File(path);
@@ -493,7 +498,7 @@ public class CrearPDF {
             BaseFont bfNoNegritas=BaseFont.createFont(BaseFont.COURIER,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
             PdfContentByte cb=writer.getDirectContent();
             cb.setFontAndSize(bf,16);
-            Image image=Image.getInstance(getClass().getResource("/Imagenes/icono.png"));
+            Image image=Image.getInstance(getClass().getResource("/Imagenes/IEE.png"));
             document.add(image);
             cb.beginText();
             //Label Folio
@@ -562,7 +567,7 @@ public class CrearPDF {
             //Fecha llegada base de datos
             cb.setFontAndSize(bf, size);
             cb.setTextMatrix(265,500);
-            datos=conexion.acceder("select S.fecha_llegada from solicitud__viatico S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
+            datos=conexion.acceder("select S.fecha_llegada from solicitud_viatico S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
             cb.showText(datos.get(0));
             //Label en la localidad de
             cb.setFontAndSize(bfNoNegritas, size);
@@ -585,15 +590,19 @@ public class CrearPDF {
             datos=conexion.acceder("select S.vehiculo from solicitud_viatico S INNER JOIN oficio_comision O ON S.idSolicitud=O.Solicitud_idSolicitud WHERE folio="+folio);
             //Vehiculo
             int espacio=0;
-            if(!datos.get(0).equals("Seleccione el vehículo")){
+            Conexion cbd=new Conexion();
+            Connection cn=cbd.getConexion();
+            ResultSet rs=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo INNER JOIN oficio_comision O ON VV.solicitud_viatico_idSolicitud=O.Solicitud_idSolicitud where O.folio="+folio,cn);
+            if(rs.next()){
                 espacio=-60;
-                cb.setFontAndSize(bfNoNegritas, size);
+                //Label vehiculo
+                cb.setFontAndSize(bfNoNegritas,12);
                 cb.setTextMatrix(50,350);
-                cb.showText("Vehiculo:");
+                cb.showText("Vehiculo: ");
                 //Vehiculo base de datos
-                cb.setFontAndSize(bf, size);
+                cb.setFontAndSize(bf,12);
                 cb.setTextMatrix(150,350);
-                cb.showText(datos.get(0));
+                cb.showText(rs.getString("Vehiculo"));
             }
             //Label autorizado
             cb.setFontAndSize(bfNoNegritas, size);
@@ -641,7 +650,7 @@ public class CrearPDF {
             BaseFont bfNoNegritas=BaseFont.createFont(BaseFont.COURIER,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
             PdfContentByte cb=writer.getDirectContent();
             cb.setFontAndSize(bf,16);
-            Image image=Image.getInstance(getClass().getResource("/Imagenes/icono.png"));
+            Image image=Image.getInstance(getClass().getResource("/Imagenes/IEE.png"));
             document.add(image);
             int size=12;
             cb.beginText();
