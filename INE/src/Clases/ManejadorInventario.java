@@ -289,25 +289,14 @@ public class ManejadorInventario {
     //Este método es para llenar el combo solamente con los empleados que tengan asignaciones (vales de resguardo) y que todavia no hayan sido
     //recogidos (vales de recolección)
     public void getEmpleadosAsignacion(JComboBox combo) {
-        try{
-           
-            String sql = "select concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) as Empleado from empleados e " +
-                         "where e.id_empleado in ( " +
-                         "select e.id_empleado as Empleado from empleados e " +
-                         "where e.id_empleado in ( " +
-                         "select v.id_empleado from vales v " +
-                         "inner join empleados e on (e.id_empleado = v.id_empleado) " +
-                         "inner join detalle_vale dv on (dv.id_vale = concat(v.Folio,'-',v.Numero,'-',v.Año)) " +
-                         "inner join inventario i on (dv.id_producto = concat(i.Folio,'-',i.Numero,i.Extension))) " +
-                         ") group by concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m);";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+        try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_empleadosAsignacion`()}")){
+
+            ResultSet rs = cs.executeQuery();
+			
             while(rs.next()){
                 combo.addItem(rs.getObject(1).toString());
             }
-            
-            conexion.close();
+			
         } catch (SQLException ex) {
             System.out.printf("Error al obtener los nombres de los empleados para ingresarlos al combo SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
