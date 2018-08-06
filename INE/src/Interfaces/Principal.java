@@ -3414,11 +3414,12 @@ public void metodoValeRecoleccion(){
 
         }//Llenar vector de los codigos de barras
         
-        String recoleccion = manejador_inventario.registrarVale(comboEmpleadoR.getSelectedItem().toString(), "REC");
-        
+        String values = manejador_inventario.registrarVale(comboEmpleadoR.getSelectedItem().toString(), "REC");
+        String[] recoleccion = values.split(",,");
+		
         try {
             ob.createTicket("recoleccion_"+dia+"_"+(mes+1)+"_"+año+"_"+hora+"_"+minuto+"_"+segundo, 
-                    res, cadena1, cadena2,v,vfaltante, datosempleado, recoleccion);
+                    res, cadena1, cadena2,v,vfaltante, datosempleado, recoleccion[0]);
         } catch (DocumentException ex) {
             Logger.getLogger(addUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }

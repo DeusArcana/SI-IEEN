@@ -241,8 +241,19 @@ public class ManejadorInventario {
 			// Ejecución del SP
 			ResultSet rs = cs.executeQuery();
 			
-			// Retorno del ID del Vale creado
-			if (rs.next()) return rs.getString("ID_Vale");
+			StringBuilder sb = new StringBuilder();
+						
+			if (rs.next()){
+				sb.append(rs.getString("ID_Vale"));
+				sb.append(",,");
+				sb.append(rs.getString("ID_Empleado"));
+				sb.append(",,");
+				sb.append(rs.getString("Area_Empleado"));
+			}
+			
+			// Retorno del una cadena con la consulta realizada
+			return sb.toString();
+			
 		} catch (SQLException ex) {
 			System.err.printf("Error al actualizar el inventario en SQL");
  			Logger.getLogger(ManagerDocumentos.class.getName()).log(Level.SEVERE, null, ex);
@@ -251,52 +262,29 @@ public class ManejadorInventario {
     }//registrarVale
     
     //Este método realiza el resguardo, en donde todos los productos seleccionados se le asignan a un responsable
-    public boolean asignarInventario(String[] Claves,int[] Cantidad,String empleado,String folio){
-        
-        try{
-            String sql = "";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            ResultSet rs;
+    public boolean asignarInventario(String[] Claves, int[] Cantidad, String Empleado, String Folio){
+		
+		try (PreparedStatement ps = db.getConexion().prepareStatement("{CALL `ine`.`usp_insert_asignacionInventario`(?, ?, ?, ?)}")) {
 
-            //Obtenemos la fecha y hora exacta del sistema
-            sql = "select now();";
-            rs = st.executeQuery(sql);
-            rs.next();
-            String fecha = rs.getString(1);
-
-            //Obtenemos el id del empleado para encontrar el usuario
-            sql = "select id_empleado from Empleados where concat(nombres,' ',apellido_p,' ',apellido_m) = '"+empleado+"';";
-            rs = st.executeQuery(sql);
-            rs.next();
-            int id_empleado = rs.getInt(1);
-
-            String vale = registrarVale(empleado,folio);
-
-            sql = "select a.area from empleados e "
-                + "inner join area a on (a.ID_Area = e.area) "
-                + "where e.id_empleado = "+id_empleado+";";
-            rs = st.executeQuery(sql);
-            rs.next();
-            String ubicacion = rs.getString(1);
-
-            for(int i = 0; i < Claves.length; i++){
-                //Insertamos los datos en la tabla "detalle_vale"
-                sql = "insert into detalle_vale (id_vale,id_producto,cantidad,estado)values('"+vale+"','"+Claves[i]+"',"+Cantidad[i]+",'Asignado');";
-                st.executeUpdate(sql);
-                //Actualizamos la ubicación del producto
-                sql = "update inventario set ubicacion = '"+ubicacion+"' where concat(Folio,'-',Numero,Extension) = '"+Claves[i]+"';";
-                st.executeUpdate(sql);
-            }//for
-
-            conexion.close();
-            return true;
-        } //try  
-        catch (SQLException ex) {
-            Logger.getLogger(ManagerDocumentos.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-    }//asignarInventario
+            String values = registrarVale(Empleado, Folio);
+			String[] array = values.split(",,");
+			int row_count = 0;
+			
+			for(int i = 0; i < Claves.length; i++){
+				ps.setString(1, array[0]);
+				ps.setString(2, Claves[i]);
+				ps.setInt(3, Cantidad[i]);
+				ps.setString(3, array[2]);
+				
+				row_count = row_count + ps.executeUpdate();
+			}//for
+			
+			return row_count != 0;
+		} catch (SQLException ex) {
+			Logger.getLogger(ManagerDocumentos.class.getName()).log(Level.SEVERE, null, ex);
+			return false;
+		}
+	}//asignarInventario
     
     //Este método es para llenar el combo solamente con los empleados que tengan asignaciones (vales de resguardo) y que todavia no hayan sido
     //recogidos (vales de recolección)
