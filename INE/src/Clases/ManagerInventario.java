@@ -308,14 +308,17 @@ public class ManagerInventario {
 		return false;
     }//existeInventario
     
-        /**
+     /**
 	 * 
 	 * <h1>Cantidad en Inventario</h1>
 	 *
 	 * <p>Este metodo se utiliza para mostrar la cantidad de productos que se visualizan
-         * en la tabla de invetario.</p>
+     * en la tabla de inventario.</p>
 	 * 
-	 * @param idProducto
+	 * @param filtro
+	 * @param busqueda
+	 * @param folio
+	 * @param estatus
 	 * @return 
 	 *		<ul>
 	 *			<li><code>n</code> la cantidad de productos que se encontraron</li>
@@ -323,16 +326,35 @@ public class ManagerInventario {
 	 *		</ul>
 	 *	
 	 */
-    public boolean cantidadInventario(String idProducto) {
-        try {
+    public int cantidadInventario(int filtro, String busqueda, String folio, String estatus) {
+        try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_countBusquedaProducto`(?, ?, ?, ?)}")){
 			
-            
+			cs.setInt(1, filtro);
+			
+			if (estatus.equals("")) 
+				cs.setNull(2, 0);
+			else
+				cs.setString(2, estatus);
+			
+			if (busqueda.equals("")) 
+				cs.setNull(3, 0);
+			else
+				cs.setString(3, busqueda);
+
+			if (folio.equals("")) 
+				cs.setNull(4, 0);
+			else
+				cs.setString(4, folio);
+			
+            ResultSet rs = cs.executeQuery();
+			
+			if(rs.next()) return rs.getInt(1);
 			
         } catch (Exception ex) {
             System.err.printf("Error al consultar el inventario en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         }
-		return false;
+		return 0;
     }//existeInventario
     
     
