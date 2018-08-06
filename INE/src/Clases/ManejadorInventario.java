@@ -230,60 +230,24 @@ public class ManejadorInventario {
 	}//autorizarSalidaAlmacen
     
     //Este método es para registrar tanto el vale de resguardo como el de recolección
-    public String registrarVale(String empleado, String folio){
-        try{
-            String vale = "";
-            switch(folio){
-                case "RES":
-                    vale = "Vale de resguardo";
-                    break;
-                case "REC":
-                    vale = "Vale de recolección";
-                    break;
-            }
-            
-            String sql = "";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            ResultSet rs;
-
-            //Obtenemos la fecha y hora exacta del sistema
-            sql = "select now();";
-            rs = st.executeQuery(sql);
-            rs.next();
-            String fecha = rs.getString(1);
-
-            //Buscamos el año y el numero en el que se quedo la solicitud
-            Calendar cal= Calendar.getInstance();
-            int year= cal.get(Calendar.YEAR);
-            int num = 1;
-            
-            //Obtenemos el id del empleado para encontrar el usuario
-            sql = "select id_empleado from Empleados where concat(nombres,' ',apellido_p,' ',apellido_m) = '"+empleado+"';";
-            rs = st.executeQuery(sql);
-            rs.next();
-            int id_empleado = rs.getInt(1);
-
-            sql = "select Numero from vales where año = "+year+" and Folio = '"+folio+"' order by Numero desc limit 1;";
-            rs = st.executeQuery(sql);
-            
-            //Si encuentra coincidencias entonces le sumamos uno para el siguiente vale, 
-            //en caso de no encontrarlo entonces se reinicia el contador de solicitudes con el nuevo año
-            if(rs.next()){
-                num = rs.getInt(1) + 1;
-            }
-            
-            //Insertamos el registro del vale de asignación
-            sql = "insert into vales (Folio,Numero,Año,tipo_vale,fecha_vale,id_empleado) values('"+folio+"',"+num+","+year+",'"+vale+"','"+fecha+"',"+id_empleado+");";
-            st.executeUpdate(sql);
-            
-            return folio+"-"+num+"-"+year;
-        } //try  
-        catch (SQLException ex) {
-            Logger.getLogger(ManagerDocumentos.class.getName()).log(Level.SEVERE, null, ex);
-            return "";
-        }
-        
+	public String registrarVale(String Empleado, String Folio){
+		// Se prepara la llamada al SP, que se destruye al finalizar el TRY-CATCH
+		try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_insert_asignacionVale`(?, ?)}"))  {
+			
+			// Se agregan los parámetros de ejecución al SP
+			cs.setString(1, Empleado);
+			cs.setString(2, Folio);
+			
+			// Ejecución del SP
+			ResultSet rs = cs.executeQuery();
+			
+			// Retorno del ID del Vale creado
+			if (rs.next()) return rs.getString("ID_Vale");
+		} catch (SQLException ex) {
+			System.err.printf("Error al actualizar el inventario en SQL");
+ 			Logger.getLogger(ManagerDocumentos.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return "";
     }//registrarVale
     
     //Este método realiza el resguardo, en donde todos los productos seleccionados se le asignan a un responsable
