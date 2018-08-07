@@ -52,6 +52,7 @@ public class CrearValeRecoleccionDeBienes {
     private float multa,infra,faltante,prestamo,t1,comision,bono,sueldo,t2,totalPaga,horaExtra,horaFalta;
     private String fechaPago,fechaIni,fechaFin, trab;
     private File directorio;
+    enviarPDF ob;
     private File archivo;
     private String path, archivo_nombre;
   //  private infoTicket info;
@@ -64,7 +65,7 @@ public class CrearValeRecoleccionDeBienes {
         path = "C:\\SIIEEN\\vales\\recoleccion\\";
         directorio = new File(path);
     //    info = new infoTicket();
-        
+        ob = new enviarPDF();
         if (directorio.exists()) {
             archivo_nombre = "nomina_" + ".pdf";
             archivo = new File(directorio, archivo_nombre);
@@ -518,6 +519,8 @@ public class CrearValeRecoleccionDeBienes {
         } finally {
             if (doc != null) {
                 doc.close();
+                System.out.println("PDF****************************************");
+                ob.prepararPDF("C:\\SIIEEN\\vales\\recoleccion\\" + archivo_nombre + ".pdf","3");
             }
             if (docWriter != null) {
                 docWriter.close();

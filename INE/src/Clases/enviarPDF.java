@@ -26,7 +26,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 public class enviarPDF {
     
 
-    public void prepararPDF(String ruta) {
+    public void prepararPDF(String ruta,String tipopdf) {
         String ip = "";
         try {
             //Creamos un archivo FileReader que obtiene lo que tenga el archivo
@@ -46,6 +46,7 @@ public class enviarPDF {
         FileBody fileBody = new FileBody(img, ContentType.DEFAULT_BINARY);
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+        builder.addTextBody("tipo", tipopdf);
         builder.addPart("imageUploaded", fileBody);
         HttpEntity entity = builder.build();
         try {

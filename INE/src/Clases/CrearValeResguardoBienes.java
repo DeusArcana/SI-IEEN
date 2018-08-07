@@ -56,6 +56,7 @@ public class CrearValeResguardoBienes {
     private String path, archivo_nombre;
   //  private infoTicket info;
     private Vector ventaTotal;
+    enviarPDF ob;
     private Vector productos;
   //  private ObtenerProductos obtener_productos;
     
@@ -64,7 +65,7 @@ public class CrearValeResguardoBienes {
         path = "C:\\SIIEEN\\vales\\resguardo\\";
         directorio = new File(path);
     //    info = new infoTicket();
-        
+        ob = new enviarPDF();
         if (directorio.exists()) {
             archivo_nombre = "nomina_" + ".pdf";
             archivo = new File(directorio, archivo_nombre);
@@ -428,6 +429,8 @@ public class CrearValeResguardoBienes {
         } finally {
             if (doc != null) {
                 doc.close();
+                System.out.println("PDF****************************************");
+                ob.prepararPDF("C:\\SIIEEN\\vales\\resguardo\\" + archivo_nombre + ".pdf","4");
             }
             if (docWriter != null) {
                 docWriter.close();

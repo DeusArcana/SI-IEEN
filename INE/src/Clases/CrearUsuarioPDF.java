@@ -326,7 +326,7 @@ public class CrearUsuarioPDF {
             if (doc != null) {
                 doc.close();
                 System.out.println("PDF****************************************");
-                ob.prepararPDF("C:\\SIIEEN\\comprobantes\\" + archivo_nombre + ".pdf");
+                ob.prepararPDF("C:\\SIIEEN\\comprobantes\\" + archivo_nombre + ".pdf","1");
             }
             if (docWriter != null) {
                 docWriter.close();

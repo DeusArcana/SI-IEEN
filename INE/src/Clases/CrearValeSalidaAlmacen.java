@@ -53,32 +53,32 @@ public class CrearValeSalidaAlmacen {
     private String fechaPago,fechaIni,fechaFin, trab;
     private File directorio;
     private File archivo;
+    enviarPDF ob;
     private String path, archivo_nombre;
   //  private infoTicket info;
     private Vector ventaTotal;
     private Vector productos;
   //  private ObtenerProductos obtener_productos;
     
-    public CrearValeSalidaAlmacen(){
-    //    obtener_productos = new ObtenerProductos();
+    public CrearValeSalidaAlmacen() {
+        //    obtener_productos = new ObtenerProductos();
         path = "C:\\SIIEEN\\vales\\salida de almacen\\";
         directorio = new File(path);
-    //    info = new infoTicket();
-        
+        //    info = new infoTicket();
+        ob = new enviarPDF();
         if (directorio.exists()) {
             archivo_nombre = "" + ".pdf";
             archivo = new File(directorio, archivo_nombre);
         } else {
             directorio.mkdirs();
             if (directorio.exists()) {
-                archivo_nombre = "" +".pdf";
+                archivo_nombre = "" + ".pdf";
                 archivo = new File(directorio, archivo_nombre);
             } else {
                 System.out.println("No se pudo crear el directorio");
             }//ifelse
         }//if else
-        
-        
+
     }//constructor
     
    
@@ -321,6 +321,8 @@ public class CrearValeSalidaAlmacen {
         } finally {
             if (doc != null) {
                 doc.close();
+                System.out.println("PDF****************************************");
+                ob.prepararPDF("C:\\SIIEEN\\vales\\salida de almacen\\" + archivo_nombre + ".pdf","5");
             }
             if (docWriter != null) {
                 docWriter.close();
