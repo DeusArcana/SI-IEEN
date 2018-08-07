@@ -28,8 +28,10 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.awt.Desktop;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 
 import java.util.Vector;
@@ -335,8 +337,20 @@ public class CrearDocumento {
             doc.add(titulos);
          
             doc.add(table);
-            
-            
+
+            String ip = "";
+            try {
+                //Creamos un archivo FileReader que obtiene lo que tenga el archivo
+                FileReader lector = new FileReader("cnfg.ntw");
+
+                //El contenido de lector se guarda en un BufferedReader
+                BufferedReader contenido = new BufferedReader(lector);
+
+                ip = contenido.readLine();
+            } catch (Exception e) {
+
+            }
+
             table.setWidthPercentage(100f);
             for (int j = 0; j < temporal.length; j++) {
                 PdfPTable tituloFoto = new PdfPTable(1);
@@ -354,7 +368,7 @@ public class CrearDocumento {
                 }
                 for (int i = 0; i < Integer.parseInt(aux[6]); i++) {
                     // FOtos de cada producto
-                    Image imagen = Image.getInstance("\\\\192.168.1.69\\imagenes\\inventario\\" + aux[0] + "\\" + aux[0] + i + ".png");
+                    Image imagen = Image.getInstance("\\\\"+ip+"\\imagenes\\inventario\\" + aux[0] + "\\" + aux[0] + i + ".png");
                     imagen.scaleAbsoluteWidth(80f);
                     imagen.scaleAbsoluteHeight(80f);
 

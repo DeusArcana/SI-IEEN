@@ -1225,6 +1225,8 @@ public class PrincipalS extends javax.swing.JFrame {
                 pdf.oficio_comision(folio);
             } catch (DocumentException ex) {
                 Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
@@ -2111,6 +2113,8 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         } catch (DocumentException ex) {
             Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_ConsultarInfActionPerformed
 
@@ -2182,6 +2186,8 @@ public class PrincipalS extends javax.swing.JFrame {
                 pdf.oficio_comision(folio);
             } catch (DocumentException ex) {
                 Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
@@ -2196,6 +2202,8 @@ public class PrincipalS extends javax.swing.JFrame {
             try {
                 pdf.pdfFolio(folio);
             } catch (DocumentException ex) {
+                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
                 Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
