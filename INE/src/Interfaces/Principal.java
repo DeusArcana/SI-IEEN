@@ -78,6 +78,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  *
@@ -2627,6 +2628,7 @@ public class Principal extends javax.swing.JFrame {
             //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
             if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
             tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+			lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario.cantidadInventario(filtro, busqueda, nomeclatura,estatus))));
         }
         //---------------------------------- PESTAÑA INVENTARIO --------------------------------------// 0
 
@@ -3991,7 +3993,7 @@ public void metodoValeRecoleccion(){
     private void btnAñadirVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirVehiculoActionPerformed
         // TODO add your handling code here:
         if(manager_permisos.accesoModulo("alta","Vehiculos",Username)){
-            ventana_añadir_vehiculo añadirVehiculo = new ventana_añadir_vehiculo(this, true);
+            ventana_anadir_vehiculo añadirVehiculo = new ventana_anadir_vehiculo(this, true);
             añadirVehiculo.setVisible(true);
         }else{
             JOptionPane.showMessageDialog(null, "No cuenta con permisos para dar de alta vehiculos.");
@@ -4139,6 +4141,7 @@ public void metodoValeRecoleccion(){
                     //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
                     if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
                     tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+					lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario.cantidadInventario(filtro, busqueda, nomeclatura,estatus))));
                 }else{
                     tablaInventario.setModel(new DefaultTableModel());
                 }//else
@@ -4570,6 +4573,7 @@ public void metodoValeRecoleccion(){
             if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
                 if(inventario.equals("Inventario")){
                         tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+						lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario.cantidadInventario(filtro, busqueda, nomeclatura,estatus))));
                 }else{
                         tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
                 }
@@ -5518,9 +5522,10 @@ public void metodoValeRecoleccion(){
                         String busqueda = txtBusqueda.getText();
                         //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
                         if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-                        if(inventarios.equals("Inventario"))
+                        if(inventarios.equals("Inventario")){
                             tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-                        else
+							lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario.cantidadInventario(filtro, busqueda, nomeclatura,estatus))));
+						} else
                             tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
                     }else{
                         JOptionPane.showMessageDialog(null,"Tu permiso para consultar el inventario ha sido revocado.");
@@ -5565,9 +5570,10 @@ public void metodoValeRecoleccion(){
                 String busqueda = txtBusqueda.getText();
                 //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
                 if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-                if(inventario.equals("Inventario"))
-                        tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-                else
+                if(inventario.equals("Inventario")){
+					tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+					lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario.cantidadInventario(filtro, busqueda, nomeclatura,estatus))));
+				} else
                         tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
             }else{
                 JOptionPane.showMessageDialog(null,"Tu permiso para consultar el inventario ha sido revocado.");

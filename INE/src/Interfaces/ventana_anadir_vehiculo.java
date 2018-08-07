@@ -33,7 +33,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author kevin
  */
-public class ventana_añadir_vehiculo extends javax.swing.JDialog {
+public class ventana_anadir_vehiculo extends javax.swing.JDialog {
     ManagerVehiculos vehiculos;
     ManagerPermisos manager_permisos;
     enviarFotoPOST managerPost;
@@ -46,7 +46,7 @@ public class ventana_añadir_vehiculo extends javax.swing.JDialog {
     /**
      * Creates new form Ventana_permisos_puesto
      */
-    public ventana_añadir_vehiculo(java.awt.Frame parent, boolean modal) {
+    public ventana_anadir_vehiculo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         campoRuta.setVisible(false);
@@ -446,14 +446,30 @@ public class ventana_añadir_vehiculo extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ventana_añadir_vehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ventana_anadir_vehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ventana_añadir_vehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ventana_anadir_vehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ventana_añadir_vehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ventana_anadir_vehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ventana_añadir_vehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ventana_anadir_vehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -474,7 +490,7 @@ public class ventana_añadir_vehiculo extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ventana_añadir_vehiculo dialog = new ventana_añadir_vehiculo(new javax.swing.JFrame(), true);
+                ventana_anadir_vehiculo dialog = new ventana_anadir_vehiculo(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
