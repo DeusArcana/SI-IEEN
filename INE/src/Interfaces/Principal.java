@@ -462,6 +462,7 @@ public class Principal extends javax.swing.JFrame {
         itemAnterior = new javax.swing.JMenuItem();
         itemSiguiente = new javax.swing.JMenuItem();
         mi_viaticos = new javax.swing.JMenuItem();
+        mi_pases = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         itemSalir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -991,7 +992,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel5.add(comboEmpUsuEstatus);
-        comboEmpUsuEstatus.setBounds(700, 100, 180, 28);
+        comboEmpUsuEstatus.setBounds(700, 100, 180, 32);
 
         btnAddEmpleado.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         btnAddEmpleado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar.png"))); // NOI18N
@@ -1030,7 +1031,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel5.add(comboFiltroUsuario);
-        comboFiltroUsuario.setBounds(150, 100, 210, 28);
+        comboFiltroUsuario.setBounds(150, 100, 210, 32);
 
         comboEmpUsu.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboEmpUsu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Empleados sin usuario", "Empleados", "Usuarios" }));
@@ -1040,7 +1041,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel5.add(comboEmpUsu);
-        comboEmpUsu.setBounds(900, 100, 210, 28);
+        comboEmpUsu.setBounds(900, 100, 210, 32);
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel5.add(fondo);
@@ -1145,7 +1146,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         fondoVehiculo.add(izquierdaBtn);
-        izquierdaBtn.setBounds(160, 200, 40, 23);
+        izquierdaBtn.setBounds(160, 200, 40, 30);
 
         derechaBtn.setText(">");
         derechaBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1155,7 +1156,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         fondoVehiculo.add(derechaBtn);
-        derechaBtn.setBounds(210, 200, 41, 23);
+        derechaBtn.setBounds(210, 200, 20, 30);
 
         imagenVehiculo.setBackground(new java.awt.Color(255, 204, 204));
         fondoVehiculo.add(imagenVehiculo);
@@ -1239,7 +1240,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel6.add(comboFiltroVehiculos);
-        comboFiltroVehiculos.setBounds(160, 40, 210, 28);
+        comboFiltroVehiculos.setBounds(160, 40, 210, 32);
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel20.setText("Busqueda por ");
@@ -2057,7 +2058,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel12.add(comboFiltroUsuario1);
-        comboFiltroUsuario1.setBounds(650, 100, 210, 28);
+        comboFiltroUsuario1.setBounds(650, 100, 210, 32);
 
         fondo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel12.add(fondo1);
@@ -2423,6 +2424,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(mi_viaticos);
+
+        mi_pases.setText("Pases E/S");
+        mi_pases.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_pasesActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mi_pases);
         jMenu1.add(jSeparator1);
 
         itemSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
@@ -5716,6 +5725,17 @@ public void metodoValeRecoleccion(){
         }
          
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void mi_pasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_pasesActionPerformed
+        // TODO add your handling code here:
+        try {
+            PrincipalP a = new PrincipalP();
+            a.setVisible(true);
+            this.dispose();
+        } catch (Exception ex) { 
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mi_pasesActionPerformed
        
     public void cargarImagen(String busqueda,int numero){
         
@@ -6085,6 +6105,7 @@ public void metodoValeRecoleccion(){
     public static javax.swing.JLabel lblTelefono;
     private javax.swing.JMenu menuOpciones;
     private javax.swing.JMenuItem menuPermisos;
+    private javax.swing.JMenuItem mi_pases;
     private javax.swing.JMenuItem mi_viaticos;
     private javax.swing.JPanel panelEmpleado;
     private javax.swing.JPanel pestañaInventario;
