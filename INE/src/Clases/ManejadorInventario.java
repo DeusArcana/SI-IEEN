@@ -307,12 +307,11 @@ public class ManejadorInventario {
     /*Este método es para obtener los productos que fueron asignados a un empleado, se mostraran todos los productos de todos los vales que esten a su
     nombre, y solo se mostaran aquellos productos que aun tengan en su estado "Asignado" (significa que aun no los entregan en su vale de recolección).
     Se genera la tabla con su respectiva información y en la columna principal se le asigna un checkbox para marcar los productos que quiera entregar.*/
-    public DefaultTableModel getInventarioEmpleadoAsignaciones(String empleado) {
+    public DefaultTableModel getInventarioEmpleadoAsignaciones(String Empleado) {
             
-        DefaultTableModel table = new DefaultTableModel();
+        DefaultTableModel table;
         JTable checks = new JTable();
         JScrollPane scroll = new JScrollPane();
-        conexion = db.getConexion();
         
         //Creamos la tabla con las caracterisiticas que necesitamos
         checks.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
@@ -322,22 +321,57 @@ public class ManejadorInventario {
             },
             //Declaramos el titulo de las columnas
             new String [] {
-                "Entregar","Vale", "Clave", "Nombre corto", "Descripción","Marca","No. Serie","Modelo","Color", "Observaciones","Ubicación Actual","Nueva Ubicación"
+                "Entregar",
+				"Vale",
+				"Clave",
+				"Nombre corto",
+				"Descripción",
+				"Marca",
+				"No. Serie",
+				"Modelo",
+				"Color",
+				"Observaciones",
+				"Ubicación Actual",
+				"Nueva Ubicación"
             }
         ){
             //El tipo que sera cada columna, la primera columna un checkbox y los demas seran objetos
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class
+                java.lang.Boolean.class,
+				java.lang.Object.class,
+				java.lang.Object.class,
+				java.lang.Object.class,
+				java.lang.Object.class,
+				java.lang.Object.class,
+				java.lang.Object.class,
+				java.lang.Object.class,
+				java.lang.Object.class,
+				java.lang.Object.class,
+				java.lang.Object.class,
+				java.lang.Object.class
             };
 
+			@Override
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
             //Esto es para indicar que columnas dejaremos editar o no
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false,false, false,false,true,false,true
+                true,
+				false,
+				false,
+				false,
+				false,
+				false,
+				false,
+				false,
+				false,
+				true,
+				false,
+				true
             };
 
+			@Override
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
@@ -350,37 +384,33 @@ public class ManejadorInventario {
         scroll.setBounds(30, 130, 1110, 500);
         
         /*FALTA AGREGAR UN COMBOBOX EN LA COLUMNA DE UBICACIÓN*/
-        table = (DefaultTableModel)checks.getModel();
-        try {
-            //Obtiene los productos asignados de acuerdo al empleado (Inventario)
-            String sql = "select concat(v.Folio,'-',v.Numero,'-',v.Año), dv.id_producto, ig.nombre_prod,ig.descripcion,ig.marca,ig.no_serie,ig.modelo,ig.color,ig.observaciones,ig.ubicacion from vales v "
-                    + "inner join detalle_vale dv on (dv.id_vale = concat(v.Folio,'-',v.Numero,'-',v.Año)) "
-                    + "inner join inventario ig on (dv.id_producto = concat(ig.Folio,'-',ig.Numero,ig.Extension)) "
-                    + "inner join empleados e on (e.id_empleado = v.id_empleado) "
-                    + "where concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m)= '"+empleado+"' and dv.estado = 'Asignado' "
-                    + "order by concat(v.Folio,'-',v.Numero,'-',v.Año);";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
+        table = (DefaultTableModel) checks.getModel();
+		
+        try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_insert_productosAsignaciones`(?, ?)}")) {
+            cs.setString(1, Empleado);
+			cs.setString(2, "Asignado");
+
             Object datos[] = new Object[12];
-            ResultSet rs = st.executeQuery(sql);
+			
+            ResultSet rs = cs.executeQuery();
 
             //Llenar tabla
             while (rs.next()) {
-
                 datos[0] = Boolean.FALSE;
-                for(int i = 1;i<11;i++){
+				//Llenamos las columnas por registro				
+                for(int i = 1; i < 11; i++){
                     datos[i] = rs.getObject(i);
-                }//Llenamos las columnas por registro
+                }
+				
                 datos[11] = "Selecciona la nueva ubicación...";
-                table.addRow(datos);//Añadimos la fila
+				//Añadimos la fila
+                table.addRow(datos);
             }//while
-            
-            conexion.close();
+
         } catch (SQLException ex) {
             System.out.printf("Error al obtener la información de los productos que fueron asignados a un responsable en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-
             return table;
         }
 
