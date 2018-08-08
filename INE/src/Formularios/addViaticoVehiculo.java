@@ -21,6 +21,7 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
     Conexion cbd=new Conexion();
     Connection cn=cbd.getConexion();
     int idSolicitudVehiculo=-1;
+    int idSolicitudViatico=-1;
     String idSolicitud;//Guarda el id de la solicitud
     String fecha;//Guarda la fecha que viene de la otra pantalla
     /**
@@ -37,10 +38,15 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
         refrescarPantalla(idSolicitud,fecha);
     }
     public void refrescarPantalla(String idSolicitud,String fecha){
-        idSolicitudVehiculo=Integer.parseInt(idSolicitud);
+        idSolicitudViatico=Integer.parseInt(idSolicitud);
+        String idSolicitudVe="";
         try{
+            ResultSet res=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_viatico SVI on VV.solicitud_viatico_idSolicitud=SVI.idSolicitud where SVI.idSolicitud="+idSolicitud, cn);
+            while(res.next()){
+                idSolicitudVe=res.getString("solicitud_vehiculo_idSolicitud_vehiculo");
+            }
             //Obtenemos todos los empleados que están asociados a esta solicitud de vehiculo
-            ResultSet res=cbd.getTabla("select * from vehiculo_viatico where solicitud_vehiculo_idsolicitud_vehiculo="+idSolicitud+";", cn); 
+            res=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_viatico SVI on VV.solicitud_viatico_idSolicitud=SVI.idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo where SV.idsolicitud_vehiculo="+idSolicitudVe+";", cn); 
             List<String> empleadosAsignados=new ArrayList<String>();
             while(res.next()){
                 empleadosAsignados.add(res.getString("solicitud_viatico_idSolicitud"));
@@ -79,9 +85,10 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
         DefaultTableModel model=new DefaultTableModel();
         model.addColumn("Nombre");
         //Agregamos el nombre de la persona que hizo la solicitud del vehiculo
-        ResultSet res=cbd.getTabla("select nombre from solicitud_vehiculo where idSolicitud_Vehiculo="+idSolicitudVehiculo, cn);
+        ResultSet res=cbd.getTabla("select nombre,idsolicitud_vehiculo from solicitud_vehiculo SV inner join vehiculo_viatico VV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join solicitud_viatico SVI on VV.solicitud_viatico_idSolicitud=SVI.idSolicitud where SVI.idSolicitud="+idSolicitudViatico, cn);
         while(res.next()){
             model.addRow(new Object[]{res.getString("nombre")+"(Solicitante)"});
+            idSolicitudVehiculo=Integer.parseInt(res.getString("idsolicitud_vehiculo"));
         }
         //sacamos los nombres de los empleados asignados.
         if(empleados.size()>0){
