@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
@@ -418,41 +417,27 @@ public class ManejadorInventario {
     
     /*Este método es para regresar al inventario los productos que fueron marcados, se cambia el estus de los productos y tambien de la 
     tabla detalle_vales, para que ya no aparezca asignada*/
-    public boolean recoleccionInventario(String []idVales,String []Claves,String []Ubicaciones,String []Observaciones){
+    public boolean recoleccionInventario(String[] ID_Vales, String[] Claves, String[] Ubicaciones, String[] Observaciones){
         
-        try{
-                String sql = "";
-                conexion = db.getConexion();
-                Statement st = conexion.createStatement();
-                ResultSet rs;
-                
-                //Obtenemos la fecha del sistema
-                sql = "select now();";
-                rs = st.executeQuery(sql);
-                rs.next();
-                String fecha = rs.getString(1); 
-                
-                //Actualizamos el detalle del vale, para marcar los productos que fueron entregados
-                for(int i = 0; i< idVales.length;i++){
-                    sql = "update detalle_vale set estado = 'Entregado', fecha_entrega = '"+fecha+"' where id_producto = '"+Claves[i]+"' and id_vale = '"+idVales[i]+"';";
-                    st.executeUpdate(sql);
-                }//for
-                
-                //Actualizamos la información del producto, en donde se vuelve disponible, se agregan observaciones(si las tuvo) y su ubicación
-                for(int i = 0; i< idVales.length;i++){
-                    sql = "update inventario set estatus = 'Disponible', ubicacion = '"+Ubicaciones[i]+"', observaciones = '"+Observaciones[i]+"' where concat(Folio,'-',Numero,Extension) = '"+Claves[i]+"';";
-                    st.executeUpdate(sql);
-                }//for                
-                
-                conexion.close();
-        } //try  
-        catch (SQLException ex) {
+        try (PreparedStatement ps = db.getConexion().prepareStatement("{CALL `ine`.`usp_update_recoleccionInventario`(?, ?, ?, ?)}")){
+            int row_count = 0;
+
+            for(int i = 0; i< ID_Vales.length;i++){
+                ps.setString(1, ID_Vales[i]);
+				ps.setString(2, Claves[i]);
+				ps.setString(3, Ubicaciones[i]);
+				ps.setString(4, Observaciones[i]);
+				
+				row_count = row_count + ps.executeUpdate();
+            }//for
+
+			return row_count != 0;
+
+        } catch (SQLException ex) {
             Logger.getLogger(ManagerDocumentos.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-        
-        return true;
-        
+
     }//Regresa los productos a su estado orignal (estatus y/o cantidad)
     
     public DefaultTableModel getInventarioEmpleadoAsignacionesPersonales(String usuario) {
