@@ -440,10 +440,10 @@ public class ManejadorInventario {
 
     }//Regresa los productos a su estado orignal (estatus y/o cantidad)
     
-    public DefaultTableModel getInventarioEmpleadoAsignacionesPersonales(String usuario) {
-            DefaultTableModel table = new DefaultTableModel();
+    public DefaultTableModel getInventarioEmpleadoAsignacionesPersonales(String Usuario) {
+        DefaultTableModel table = new DefaultTableModel();
 
-        try {
+        try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_empleadoAsignacionPersonal`(?, ?)}")) {
             table.addColumn("Clave");
             table.addColumn("Producto");
             table.addColumn("Descripción");
@@ -452,39 +452,28 @@ public class ManejadorInventario {
             table.addColumn("Modelo");
             table.addColumn("Observaciones");
             
-            //Obtiene los productos asignados de acuerdo al empleado
-            String sql = "select dv.id_producto, ig.nombre_prod,ig.descripcion,ig.marca,ig.no_serie,ig.modelo,ig.observaciones from vales v "
-                       + "inner join detalle_vale dv on (dv.id_vale = concat(v.Folio,'-',v.Numero,'-',v.Año)) "
-                       + "inner join inventario ig on (dv.id_producto = concat(ig.Folio,'-',ig.Numero,ig.Extension)) "
-                       + "inner join empleados e on (e.id_empleado = v.id_empleado) "
-                       + "inner join user u on (u.id_empleado = e.id_empleado) "
-                       + "where u.id_user = '"+usuario+"' and dv.estado = 'Asignado' order by ig.Numero;";
-            
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
+            cs.setString(1, Usuario);
+			cs.setString(2, "Asignado");
+
+			ResultSet rs = cs.executeQuery();
             Object datos[] = new Object[7];
-            ResultSet rs = st.executeQuery(sql);
-
-            //Llenar tabla
-            while (rs.next()) {
-
-                for(int i = 0;i<7;i++){
-                    datos[i] = rs.getObject(i+1);
-                }//Llenamos las columnas por registro
-
-                table.addRow(datos);//Añadimos la fila
-            }//while
             
-            conexion.close();
+            // Llenar tabla
+            while (rs.next()) {
+				// Llenamos las columnas por registro
+                for(int i = 0; i < 7; i++){
+                    datos[i] = rs.getObject(i + 1);
+                }
+				// Añadimos la fila
+                table.addRow(datos);
+            }// while
         } catch (SQLException ex) {
             System.out.printf("Error getTabla Inventario SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-
             return table;
         }
-
-    }//getInventarioEmpleadoAsignacionesPersonales
+    }// getInventarioEmpleadoAsignacionesPersonales
     
     public DefaultTableModel getInventarioEmpleadoAsignacionesPersonalesG(String usuario) {
             DefaultTableModel table = new DefaultTableModel();
