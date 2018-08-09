@@ -178,6 +178,7 @@ public class PrincipalS extends javax.swing.JFrame {
         itemAnterior = new javax.swing.JMenuItem();
         itemSiguiente = new javax.swing.JMenuItem();
         mi_inventario = new javax.swing.JMenuItem();
+        mi_pases = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         itemSalir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -833,13 +834,13 @@ public class PrincipalS extends javax.swing.JFrame {
 
         jLabel2.setText("Observaciones Vehículo");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(810, 320, 150, 17);
+        jLabel2.setBounds(810, 320, 150, 18);
         jPanel1.add(GaTot);
-        GaTot.setBounds(210, 440, 240, 27);
+        GaTot.setBounds(210, 440, 240, 28);
 
         jLabel3.setText("Gasto total");
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(140, 440, 70, 17);
+        jLabel3.setBounds(140, 440, 70, 18);
 
         btnguardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/guardarsol.png"))); // NOI18N
         btnguardar.setText("Guardar");
@@ -961,6 +962,14 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         jMenu1.add(mi_inventario);
+
+        mi_pases.setText("Pases E/S");
+        mi_pases.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_pasesActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mi_pases);
         jMenu1.add(jSeparator1);
 
         itemSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
@@ -2366,6 +2375,17 @@ public class PrincipalS extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_solicanceladasMouseReleased
 
+    private void mi_pasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_pasesActionPerformed
+        // TODO add your handling code here:
+        try {
+            PrincipalP a = new PrincipalP();
+            a.setVisible(true);
+            this.dispose();
+        } catch (Exception ex) { 
+            Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mi_pasesActionPerformed
+
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -2633,6 +2653,7 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuPuestoArea;
     private javax.swing.JTabbedPane menutablones;
     private javax.swing.JMenuItem mi_inventario;
+    private javax.swing.JMenuItem mi_pases;
     private javax.swing.JPanel soliaceptadas;
     private javax.swing.JPanel solicanceladas;
     private javax.swing.JPanel solicarchivadas;
