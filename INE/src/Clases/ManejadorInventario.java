@@ -475,10 +475,10 @@ public class ManejadorInventario {
         }
     }// getInventarioEmpleadoAsignacionesPersonales
     
-    public DefaultTableModel getInventarioEmpleadoAsignacionesPersonalesG(String usuario) {
+    public DefaultTableModel getInventarioEmpleadoAsignacionesPersonalesG(String Usuario) {
             DefaultTableModel table = new DefaultTableModel();
 
-        try {
+        try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_empleadoAsignacionPersonalGrnl`(?)}")) {
             table.addColumn("Vale");
             table.addColumn("Clave");
             table.addColumn("Producto");
@@ -486,33 +486,24 @@ public class ManejadorInventario {
             table.addColumn("Observaciones");
             table.addColumn("Cantidad");
             
-            //Obtiene los productos asignados de acuerdo al empleado
-            String sql = "select v.id_vale,dv.id_producto, ig.nombre_prod,ig.descripcion,ig.observaciones,dv.cantidad from vales v " +
-                         "inner join detalle_vale dv on (dv.id_vale = v.id_vale) " +
-                         "inner join inventario_granel ig on (dv.id_producto = concat(ig.Folio,'-',ig.Numero,ig.Extension)) " +
-                         "inner join user u on (u.id_user = v.id_user) " +
-                         "where u.id_user = '"+usuario+"';";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
+            cs.setString(1, Usuario);
             Object datos[] = new Object[6];
-            ResultSet rs = st.executeQuery(sql);
+            ResultSet rs = cs.executeQuery();
 
             //Llenar tabla
             while (rs.next()) {
-
-                for(int i = 0;i<6;i++){
-                    datos[i] = rs.getObject(i+1);
-                }//Llenamos las columnas por registro
-
-                table.addRow(datos);//Añadimos la fila
+				//Llenamos las columnas por registro
+                for(int i = 0; i < 6; i++){
+                    datos[i] = rs.getObject(i + 1);
+                }
+				//Añadimos la fila
+                table.addRow(datos);
             }//while
-            
-            conexion.close();
+
         } catch (SQLException ex) {
             System.out.printf("Error getTabla Inventario SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-
             return table;
         }
 
