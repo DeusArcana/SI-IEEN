@@ -1,6 +1,6 @@
-DROP PROCEDURE IF EXISTS `usp_insert_productosAsignaciones`;
+DROP PROCEDURE IF EXISTS `usp_get_productosAsignaciones`;
 DELIMITER $$
-CREATE PROCEDURE `usp_insert_productosAsignaciones`(IN `Nombre_Empleado` VARCHAR(255), IN `Estado_Vale` VARCHAR(255))
+CREATE PROCEDURE `usp_get_productosAsignaciones`(IN `Nombre_Empleado` VARCHAR(255), IN `Estado_Vale` VARCHAR(255))
 BEGIN
 
 	SELECT 	CONCAT(`Vales`.`Folio` ,'-', `Vales`.`Numero`, '-', `Vales`.`Año`), 
