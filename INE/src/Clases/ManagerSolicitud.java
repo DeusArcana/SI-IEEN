@@ -118,8 +118,8 @@ public class ManagerSolicitud {
             
             for (int i = 0; i<Productos.length;i++) {
                 //Registramos los productos que se solicitaron
-                sql = "insert into detalle_solicitudSalida (id_solicitud,id_producto,cantidad_solicitada) "
-                        +"values('SALIDA-"+num+"-"+year+"','" + Productos[i] + "',"+Cantidad[i]+");";
+                sql = "insert into detalle_solicitudSalida (id_solicitud,id_producto,cantidad_solicitada,cantidad_autorizada) "
+                        +"values('SALIDA-"+num+"-"+year+"','" + Productos[i] + "',"+Cantidad[i]+",0);";
                 st.executeUpdate(sql);
             }
             
@@ -346,7 +346,7 @@ public class ManagerSolicitud {
             sql = "select concat(ss.Folio,'-',ss.Num,'-',ss.Año) as ID, concat(e.nombres,' ',e.apellido_p, ' ', e.apellido_m) as Empleado,\n" +
                     "date(ss.fecha_solicitud), ss.estado from solicitudsalida ss\n" +
                     "inner join user u on (u.id_user = ss.id_user) inner join empleados e on (e.id_empleado = u.id_empleado) "
-                    + "where ss.estado in(select tipo_solicitud from vista_permisosSolicitud where puesto = '"+puesto+"');";
+                    + "where ss.estado in(select tipo_solicitud from vista_permisosSolicitud where puesto = '"+puesto+"') order by concat(ss.Folio,'-',ss.Num,'-',ss.Año) desc;";
             
             Object datos[] = new Object[4];
             rs = st.executeQuery(sql);
@@ -379,7 +379,6 @@ public class ManagerSolicitud {
     public DefaultTableModel tabla_SolicitudesEstatus(String user,String estatus) {
         
         DefaultTableModel table = new DefaultTableModel();
-        String sql="";
         try {
             
             switch(estatus){
@@ -400,22 +399,16 @@ public class ManagerSolicitud {
             table.addColumn("Fecha cuando se atendió");
             table.addColumn("Estado");
             
-            sql = "select puesto from user where id_user = '"+user+"';";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            rs.next();
-            String puesto = rs.getString(1);
-            
-            
-            sql = "select concat(ss.Folio,'-',ss.Num,'-',ss.Año) as ID, concat(e.nombres,' ',e.apellido_p, ' ', e.apellido_m) as Empleado, "
+            String sql = "select concat(ss.Folio,'-',ss.Num,'-',ss.Año) as ID, concat(e.nombres,' ',e.apellido_p, ' ', e.apellido_m) as Empleado, "
                     + "date(ss.fecha_solicitud),date(ss.fecha_respuesta), ss.estado from solicitudsalida ss "
                     + "inner join user u on (u.id_user = ss.id_user) "
                     + "inner join empleados e on (e.id_empleado = u.id_empleado) "
-                    + "where "+estatus+";";
+                    + "where "+estatus+" order by concat(ss.Folio,'-',ss.Num,'-',ss.Año) desc;";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
             
             Object datos[] = new Object[5];
-            rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {

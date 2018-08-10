@@ -5298,46 +5298,42 @@ public void metodoValeRecoleccion(){
         // TODO add your handling code here:
         cancelarVale();
         if(manager_permisos.accesoModulo("baja","Solicitudes",Username)){
-            /* 1.- Llenamos las tablas con los datos de los productos para cancelar la solicitud*/
             int fila = tablaSolicitudes.getSelectedRow();
-            idAtenderSalida = tablaSolicitudes.getValueAt(fila, 0).toString();
-            
-            JTable tablaCancelacion = new JTable();
-            tablaCancelacion.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
-            
-            /* 2.- Obtenemos los datos de los productos para cancelar la solicitud*/
-            Claves = new String[tablaCancelacion.getRowCount()];
-            Cantidad = new int[tablaCancelacion.getRowCount()];
+            idAtenderSalida = tablaSolicitudes.getValueAt(fila,0).toString();
+            Object[] botones = {"Aceptar","Cancelar"};
+            int opcion = JOptionPane.showOptionDialog(this,"¿Desea cancelar la solicitud \""+idAtenderSalida+"\"?", "Confirmación",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
 
-            for(int i = 0;i<tablaCancelacion.getRowCount();i++){
-                Claves[i] = tablaCancelacion.getValueAt(i, 0).toString();//Obtenemos las claves
-                Cantidad[i] = 0;//Porque se cancelo la solicitud
-            }//Llenar vector de los codigos de barras
+            if(opcion == 0){
             
-            if(manejador_inventario.estatusSalidaAlmacen(Claves, Cantidad, Username,idAtenderSalida,"Cancelada")){
-                JOptionPane.showMessageDialog(null,"Solicitud cancelada con exito.");
-                
-                if(manager_permisos.accesoModulo("consulta","Solicitudes",Username)){
-                    tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
-                    int solicitud = tablaSolicitudes.getRowCount();
-                    if(solicitud > 0){
-                        tabbedPrincipal.setTitleAt(6, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
+                Claves = new String[0];
+                Cantidad = new int[0];
+
+                if(manejador_inventario.estatusSalidaAlmacen(Claves, Cantidad, Username,idAtenderSalida,"Cancelada")){
+                    JOptionPane.showMessageDialog(null,"Solicitud cancelada con exito.");
+
+                    if(manager_permisos.accesoModulo("consulta","Solicitudes",Username)){
+                        tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
+                        int solicitud = tablaSolicitudes.getRowCount();
+                        if(solicitud > 0){
+                            tabbedPrincipal.setTitleAt(6, "Solicitudes ("+solicitud+")");//Le damos el nombre a esa pestaña
+                        }else{
+                            tabbedPrincipal.setTitleAt(6, "Solicitudes");//Le damos el nombre a esa pestaña    
+                        }
                     }else{
-                        tabbedPrincipal.setTitleAt(6, "Solicitudes");//Le damos el nombre a esa pestaña    
+                        JOptionPane.showMessageDialog(null,"Tus permisos para consultar las solicitudes y productos con stock mínimo han sido revocados.");
+                        tablaStockMin.setModel(new DefaultTableModel());
+                        tablaSolicitudes.setModel(new DefaultTableModel());
+                        tabbedPrincipal.setTitleAt(6, "Solicitudes");//Le damos el nombre a esa pestaña
                     }
-                }else{
-                    JOptionPane.showMessageDialog(null,"Tus permisos para consultar las solicitudes y productos con stock mínimo han sido revocados.");
-                    tablaStockMin.setModel(new DefaultTableModel());
-                    tablaSolicitudes.setModel(new DefaultTableModel());
-                    tabbedPrincipal.setTitleAt(6, "Solicitudes");//Le damos el nombre a esa pestaña
-                }
 
-                tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
-            }else{
-                JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");
+                    tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
+                }else{
+                    JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");
+                }
             }
         }else{
-        
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para cancelar solicitudes.");
         }
     }//GEN-LAST:event_CancelarSolicitudActionPerformed
 
@@ -5364,7 +5360,7 @@ public void metodoValeRecoleccion(){
                 }
             }//if(opcion == 0)
         }else{
-            JOptionPane.showMessageDialog(null, "No cuenta con permisos para activar empleados.");
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para activar empleados.");
         }
     }//GEN-LAST:event_activarEActionPerformed
 

@@ -394,16 +394,15 @@ public class ManagerDocumentos {
             //Cambiamos el estatus del equipo seleccionado
             switch(filtro){
                 case "Finalizados":
-                    sql = "select concat(Clave,'-',ID_Documento),Fecha_Creacion, Fecha_Salida,No_Acta from documentos where Fecha_Salida is not null;";
+                    sql = "select concat(Clave,'-',ID_Documento),Fecha_Creacion, Fecha_Salida,No_Acta from documentos where Fecha_Salida is not null order by concat(Clave,'-',ID_Documento) desc;";
                     break;
                 case "En selección":
-                    sql = "select concat(Clave,'-',ID_Documento),Fecha_Creacion, Fecha_Salida,No_Acta from documentos where Fecha_Salida is null;";
+                    sql = "select concat(Clave,'-',ID_Documento),Fecha_Creacion, Fecha_Salida,No_Acta from documentos where Fecha_Salida is null order by concat(Clave,'-',ID_Documento) desc;";
                     break;
                 default:
-                    sql = "select concat(Clave,'-',ID_Documento),Fecha_Creacion, Fecha_Salida,No_Acta from documentos;";
+                    sql = "select concat(Clave,'-',ID_Documento),Fecha_Creacion, Fecha_Salida,No_Acta from documentos order by concat(Clave,'-',ID_Documento) desc;";
                     break;
-            }//switch
-            
+            }//switch            
             
             Object datos[] = new Object[5];
             ResultSet rs = st.executeQuery(sql);          

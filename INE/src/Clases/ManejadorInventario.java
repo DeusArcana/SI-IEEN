@@ -254,13 +254,14 @@ public class ManejadorInventario {
                 sql = "update solicitudsalida set estado = 'Salida "+estatus+"', user_autorizo = '"+usuario+"', fecha_respuesta = '"+fecha+"' where concat(Folio,'-',Num,'-',Año) = '"+id+"';";
                 st.executeUpdate(sql);
                 
-                //Ahora actualizamos los registros de detalle_Salida para agregar las cantidades que fueron autorizadas para cada productos
-                
-                for(int i = 0; i < Claves.length; i++){
-                    //Actualizamos la ubicación del producto
-                    sql = "update detalle_solicitudsalida set cantidad_autorizada = '"+Cantidad[i]+"' where id_solicitud = '"+id+"' and id_producto = '"+Claves[i]+"';";
-                    st.executeUpdate(sql);
-                }//for
+                if(!(estatus.equals("Cancelada"))){
+                    //Ahora actualizamos los registros de detalle_Salida para agregar las cantidades que fueron autorizadas para cada productos
+                    for(int i = 0; i < Claves.length; i++){
+                        //Actualizamos la ubicación del producto
+                        sql = "update detalle_solicitudsalida set cantidad_autorizada = '"+Cantidad[i]+"' where id_solicitud = '"+id+"' and id_producto = '"+Claves[i]+"';";
+                        st.executeUpdate(sql);
+                    }//for
+                }
                 
                 conexion.close();
                 return true;
