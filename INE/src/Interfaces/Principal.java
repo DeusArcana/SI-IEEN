@@ -465,13 +465,15 @@ public class Principal extends javax.swing.JFrame {
         mi_pases = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         itemSalir = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
         menuOpciones = new javax.swing.JMenu();
         menuPermisos = new javax.swing.JMenuItem();
         Documentos = new javax.swing.JMenu();
         AddDocuments = new javax.swing.JMenuItem();
         SelectProducts = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        Estadisticas = new javax.swing.JMenu();
+        ConsultarSolicitudes = new javax.swing.JMenuItem();
+        ConsultarConsumibles = new javax.swing.JMenuItem();
 
         ActualizarProd.setText("Actualizar");
         ActualizarProd.addActionListener(new java.awt.event.ActionListener() {
@@ -992,7 +994,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel5.add(comboEmpUsuEstatus);
-        comboEmpUsuEstatus.setBounds(700, 100, 180, 32);
+        comboEmpUsuEstatus.setBounds(700, 100, 180, 28);
 
         btnAddEmpleado.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         btnAddEmpleado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar.png"))); // NOI18N
@@ -1031,7 +1033,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel5.add(comboFiltroUsuario);
-        comboFiltroUsuario.setBounds(150, 100, 210, 32);
+        comboFiltroUsuario.setBounds(150, 100, 210, 28);
 
         comboEmpUsu.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboEmpUsu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Empleados sin usuario", "Empleados", "Usuarios" }));
@@ -1041,7 +1043,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel5.add(comboEmpUsu);
-        comboEmpUsu.setBounds(900, 100, 210, 32);
+        comboEmpUsu.setBounds(900, 100, 210, 28);
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel5.add(fondo);
@@ -1146,7 +1148,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         fondoVehiculo.add(izquierdaBtn);
-        izquierdaBtn.setBounds(160, 200, 40, 30);
+        izquierdaBtn.setBounds(160, 200, 40, 23);
 
         derechaBtn.setText(">");
         derechaBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1156,7 +1158,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         fondoVehiculo.add(derechaBtn);
-        derechaBtn.setBounds(210, 200, 20, 30);
+        derechaBtn.setBounds(210, 200, 41, 23);
 
         imagenVehiculo.setBackground(new java.awt.Color(255, 204, 204));
         fondoVehiculo.add(imagenVehiculo);
@@ -1240,7 +1242,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel6.add(comboFiltroVehiculos);
-        comboFiltroVehiculos.setBounds(160, 40, 210, 32);
+        comboFiltroVehiculos.setBounds(160, 40, 210, 28);
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel20.setText("Busqueda por ");
@@ -2058,7 +2060,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel12.add(comboFiltroUsuario1);
-        comboFiltroUsuario1.setBounds(650, 100, 210, 32);
+        comboFiltroUsuario1.setBounds(650, 100, 210, 28);
 
         fondo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         jPanel12.add(fondo1);
@@ -2446,9 +2448,6 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
-
         menuOpciones.setText("Permisos");
 
         menuPermisos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/permisos.png"))); // NOI18N
@@ -2489,6 +2488,21 @@ public class Principal extends javax.swing.JFrame {
         Documentos.add(jMenuItem1);
 
         jMenuBar1.add(Documentos);
+
+        Estadisticas.setText("Estadísticas");
+
+        ConsultarSolicitudes.setText("Consultar solicitudes");
+        ConsultarSolicitudes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConsultarSolicitudesActionPerformed(evt);
+            }
+        });
+        Estadisticas.add(ConsultarSolicitudes);
+
+        ConsultarConsumibles.setText("Estadísticas de consumibles");
+        Estadisticas.add(ConsultarConsumibles);
+
+        jMenuBar1.add(Estadisticas);
 
         setJMenuBar(jMenuBar1);
 
@@ -5736,6 +5750,12 @@ public void metodoValeRecoleccion(){
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_mi_pasesActionPerformed
+
+    private void ConsultarSolicitudesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarSolicitudesActionPerformed
+        // TODO add your handling code here:
+        Ventana_ConsultaSolicitudes ob = new Ventana_ConsultaSolicitudes(this, true);
+        ob.setVisible(true);
+    }//GEN-LAST:event_ConsultarSolicitudesActionPerformed
        
     public void cargarImagen(String busqueda,int numero){
         
@@ -5925,8 +5945,11 @@ public void metodoValeRecoleccion(){
     private javax.swing.JMenuItem CancelarEstatus;
     private javax.swing.JMenuItem CancelarSS;
     private javax.swing.JMenuItem CancelarSolicitud;
+    private javax.swing.JMenuItem ConsultarConsumibles;
+    private javax.swing.JMenuItem ConsultarSolicitudes;
     private javax.swing.JMenuItem DevolverDis;
     private javax.swing.JMenu Documentos;
+    private javax.swing.JMenu Estadisticas;
     private javax.swing.JMenuItem EstatusDefinitivo;
     private javax.swing.JMenuItem ExcelConsumibles;
     private javax.swing.JMenuItem ExcelInventario;
@@ -6049,7 +6072,6 @@ public void metodoValeRecoleccion(){
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;

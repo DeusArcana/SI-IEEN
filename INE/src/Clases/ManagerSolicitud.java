@@ -348,7 +348,7 @@ public class ManagerSolicitud {
                     "inner join user u on (u.id_user = ss.id_user) inner join empleados e on (e.id_empleado = u.id_empleado) "
                     + "where ss.estado in(select tipo_solicitud from vista_permisosSolicitud where puesto = '"+puesto+"');";
             
-            Object datos[] = new Object[5];
+            Object datos[] = new Object[4];
             rs = st.executeQuery(sql);
 
             //Llenar tabla
@@ -374,6 +374,64 @@ public class ManagerSolicitud {
         }
 
     }//tabla_Solicitudes --> Muestra las solicitudes que puedes ver de acuerdo la tabla de permisos_solicitudes
+    
+    //Este método muestra la tabla de solicitudes de acuerdo a los permisos que tienes por solicitud (Autorizada/Cancelada)
+    public DefaultTableModel tabla_SolicitudesEstatus(String user,String estatus) {
+        
+        DefaultTableModel table = new DefaultTableModel();
+        String sql="";
+        try {
+            
+            if(estatus.equals("Todos")){
+                estatus = "";
+            }
+            
+            table.addColumn("Solicitud");
+            table.addColumn("Empleado que solicitó");
+            table.addColumn("Fecha cuando se solicitó");
+            table.addColumn("Fecha cuando se atendió");
+            table.addColumn("Estado");
+            
+            sql = "select puesto from user where id_user = '"+user+"';";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            String puesto = rs.getString(1);
+            
+            
+            sql = "select concat(ss.Folio,'-',ss.Num,'-',ss.Año) as ID, concat(e.nombres,' ',e.apellido_p, ' ', e.apellido_m) as Empleado, "
+                    + "date(ss.fecha_solicitud),date(ss.fecha_respuesta), ss.estado from solicitudsalida ss "
+                    + "inner join user u on (u.id_user = ss.id_user) "
+                    + "inner join empleados e on (e.id_empleado = u.id_empleado) "
+                    + "where estado in(select tipo_solicitud from vista_permisosSolicitud where puesto = '"+puesto+"') and ss.estado like '%"+estatus+"%';";
+            
+            Object datos[] = new Object[5];
+            rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+                
+                for(int i = 0;i<4;i++){
+                    
+                datos[i] = rs.getObject(i+1);    
+                    
+                }//Llenamos las columnas por registro
+                
+                table.addRow(datos);//Añadimos la fila
+           }//while
+                
+            
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error get tabla solicitudes autorizadas o canceladas SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//tabla_SolicitudesEstatus --> Muestra las solicitudes que puedes ver de acuerdo la tabla de permisos_solicitudes
     
     public DefaultTableModel tabla_Pendientes() {
         

@@ -209,7 +209,11 @@ INSERT INTO `INE`.`Modulos`
         ('Solicitudes'),
         ('Resguardo'),
         ('Configuración'),
-        ('Permisos')
+        ('Permisos'),
+        ('Solicitud Viaticos'),
+        ('Tablon Solicitudes'),
+        ('Informe'),
+        ('Pase Salida')
 	;
 
 -- *******************************************************************************
@@ -218,14 +222,19 @@ INSERT INTO `INE`.`Modulos`
 DELETE FROM `INE`.`Permisos` WHERE 1;
 INSERT INTO `INE`.`Permisos` 
 	VALUES
-		('Mendez26',	'Usuarios',			true, true, true, true),
-        ('Mendez26',	'Inventario',		true, true, true, true),
-        ('Mendez26',	'Empleados',		true, true, true, true),
-        ('Mendez26',	'Vehiculos',		true, true, true, true),
-        ('Mendez26',	'Solicitudes',		true, true, true, true),
-        ('Mendez26',	'Resguardo',		true, true, true, true),
-        ('Mendez26',	'Configuración',	true, true, true, true),
-        ('Mendez26',	'Permisos',			true, true, true, true);
+		('Mendez26',	'Usuarios',				true, true, true, true),
+        ('Mendez26',	'Inventario',			true, true, true, true),
+        ('Mendez26',	'Empleados',			true, true, true, true),
+        ('Mendez26',	'Vehiculos',			true, true, true, true),
+        ('Mendez26',	'Solicitudes',			true, true, true, true),
+        ('Mendez26',	'Resguardo',			true, true, true, true),
+        ('Mendez26',	'Configuración',		true, true, true, true),
+        ('Mendez26',	'Permisos',				true, true, true, true),
+        ('Mendez26',	'Solicitud Viaticos',	true, true, true, true),
+        ('Mendez26',	'Tablon Solicitudes',	true, true, true, true),
+        ('Mendez26',	'Informe',				true, true, true, true),
+        ('Mendez26',	'Pase Salida',			true, true, true, true);
+        
 
 -- -----------------------------------------------------------------------------
 --					INSERTS `INE`.`Folio`
@@ -256,6 +265,10 @@ INSERT INTO `INE`.`Permisos_Puesto`
         ('SuperUsuario',	'Resguardo',		true, true, true, true),
         ('SuperUsuario',	'Configuración',	true, true, true, true),
         ('SuperUsuario',	'Permisos',			true, true, true, true),
+        ('SuperUsuario',	'Solicitud Viaticos',	true, true, true, true),
+        ('SuperUsuario',	'Tablon Solicitudes',	true, true, true, true),
+        ('SuperUsuario',	'Informe',				true, true, true, true),
+        ('SuperUsuario',	'Pase Salida',			true, true, true, true),
         
         ('Administrador',	'Usuarios',			false, false, false, false),
         ('Administrador',	'Inventario',		true, true, true, true),
@@ -265,7 +278,11 @@ INSERT INTO `INE`.`Permisos_Puesto`
         ('Administrador',	'Resguardo',		true, true, true, true),
         ('Administrador',	'Configuración',	false, false, false, false),
         ('Administrador',	'Permisos',			false, false, false, false),
-		
+		('Administrador',	'Solicitud Viaticos',	true, true, true, true),
+        ('Administrador',	'Tablon Solicitudes',	false, false, false, false),
+        ('Administrador',	'Informe',				false, false, false, false),
+        ('Administrador',	'Pase Salida',			true, false, false, true),
+        
         ('Auxiliar',		'Usuarios',			false, false, false, false),
         ('Auxiliar',		'Inventario',		true, false, false, true),
         ('Auxiliar',		'Empleados',		false, false, false, true),
@@ -274,6 +291,10 @@ INSERT INTO `INE`.`Permisos_Puesto`
         ('Auxiliar',		'Resguardo',		true, true, true, true),
         ('Auxiliar',		'Configuración',	false, false, false, false),
         ('Auxiliar',		'Permisos',			false, false, false, false),
+        ('Auxiliar',	'Solicitud Viaticos',	false, false, false, false),
+        ('Auxiliar',	'Tablon Solicitudes',	false, false, false, false),
+        ('Auxiliar',	'Informe',				false, false, false, false),
+        ('Auxiliar',	'Pase Salida',			false, false, false, false),
         
 		('Asistente',		'Usuarios',			false, false, false, false),
         ('Asistente',		'Inventario',		false, false, false, true),
@@ -283,6 +304,10 @@ INSERT INTO `INE`.`Permisos_Puesto`
         ('Asistente',		'Resguardo',		false, false, false, false),
         ('Asistente',		'Configuración',	false, false, false, false),
         ('Asistente',		'Permisos',			false, false, false, false),
+        ('Asistente',		'Solicitud Viaticos',	true, false, true, true),
+        ('Asistente',		'Tablon Solicitudes',	false, false, false, false),
+        ('Asistente',		'Informe',				false, false, false, false),
+        ('Asistente',		'Pase Salida',			false, false, false, false),
         
         ('General',			'Usuarios',			false, false, false, false),
         ('General',			'Inventario',		false, false, false, false),
@@ -291,7 +316,11 @@ INSERT INTO `INE`.`Permisos_Puesto`
         ('General',			'Solicitudes',		false, false, false, false),
         ('General',			'Resguardo',		false, false, false, false),
         ('General',			'Configuración',	false, false, false, false),
-        ('General',			'Permisos',			false, false, false, false);
+        ('General',			'Permisos',			false, false, false, false),
+        ('General',		'Solicitud Viaticos',	false, false, false, false),
+        ('General',		'Tablon Solicitudes',	false, false, false, false),
+        ('General',		'Informe',				false, false, false, false),
+        ('General',		'Pase Salida',			false, false, false, false);
         
 -- -----------------------------------------------------------------------------
 --	Importación de productos desde data_test.csv para la tabla de Inventario
