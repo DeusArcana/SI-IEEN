@@ -133,10 +133,11 @@ public class ManejadorInventario {
 
 	public int productosSuficientesInventarioG(String ID_Producto, int Cantidad) {
 		// Se prepara la llamada al SP, que se destruye al finalizar el TRY-CATCH
-		try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_update_stockInvGranel`(?, ?)}")) {
+		try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_update_stockInvGranel`(?, ?, ?)}")) {
 			// Se agregan el parámetro de búsqueda al SP
 			cs.setString(1, ID_Producto);
 			cs.setInt(2, Cantidad);
+			cs.setInt(3, 1);
 			// Ejecución del SP
 			ResultSet rs = cs.executeQuery();
 			// Retorno del valor obtenido
@@ -151,10 +152,11 @@ public class ManejadorInventario {
 
 	public int productosIgualesInventarioG(String ID_Producto, int Cantidad) {
 		// Se prepara la llamada al SP, que se destruye al finalizar el TRY-CATCH
-		try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_update_stockInvGranel`(?, ?)}")) {
+		try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_update_stockInvGranel`(?, ?, ?)}")) {
 			// Se agregan los parámetros de búsqueda al SP
 			cs.setString(1, ID_Producto);
 			cs.setInt(2, Cantidad);
+			cs.setInt(3, 1);
 			// Ejecución del SP
 			ResultSet rs = cs.executeQuery();
 			// Retorno del valor obtenido
@@ -584,30 +586,24 @@ public class ManejadorInventario {
     }//getInventarioEmpleadoAsignacionesPersonales
     
     //Este método es para actualizar la cantidad del producto a granel con la cantidad ingresada
-    public boolean actualizarStock(String codigo,int cantidad){
+    public boolean actualizarStock(String ID_Producto, int Cantidad){
         
-        try{
-            //Hacemos la conexión
-            conexion = db.getConexion();
-            //Creamos la variable para hacer operaciones CRUD
-            Statement st = conexion.createStatement();
-            
-            //Actualizamos el stock y el estado si el stock es igual a 0
-            String sql = "update inventario_granel set stock = stock + "+cantidad+" where concat(Folio,'-',Numero,Extension) = '"+codigo+"' and stock > 0;";
-            st.executeUpdate(sql);
-            
-            //Actualizamos el stock y el estado si el stock es igual a 0
-            sql = "update inventario_granel set stock = "+cantidad+", estatus = 'Disponible' where concat(Folio,'-',Numero,Extension) = '"+codigo+"' and stock = 0;";
-            st.executeUpdate(sql);
-            
-            conexion.close();
-            return true;
+        try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_update_stockInvGranel`(?, ?, ?)}")){
+            cs.setString(1, ID_Producto);
+			cs.setInt(2, Cantidad);
+			cs.setInt(3, 2);
+			
+			ResultSet rs = cs.executeQuery();
+			
+			if (rs.next()) return rs.getInt("res") == 1; 
+			
         }catch(SQLException ex){
             System.out.printf("Error al querer actualizar el stock SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+
         }
-        
+       
+		return false; 
     }//actualizarStock
     
 }//class
