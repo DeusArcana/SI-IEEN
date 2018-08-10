@@ -382,8 +382,16 @@ public class ManagerSolicitud {
         String sql="";
         try {
             
-            if(estatus.equals("Todos")){
-                estatus = "";
+            switch(estatus){
+                case "Todos":
+                    estatus = "ss.estado != 'Solicitud Salida';";
+                    break;
+                case "Autorizado":
+                    estatus = "ss.estado = 'Salida Autorizada'";
+                    break;
+                case "Cancelado":
+                    estatus = "ss.estado = 'Salida Cancelada'";
+                    break;
             }
             
             table.addColumn("Solicitud");
@@ -404,7 +412,7 @@ public class ManagerSolicitud {
                     + "date(ss.fecha_solicitud),date(ss.fecha_respuesta), ss.estado from solicitudsalida ss "
                     + "inner join user u on (u.id_user = ss.id_user) "
                     + "inner join empleados e on (e.id_empleado = u.id_empleado) "
-                    + "where estado in(select tipo_solicitud from vista_permisosSolicitud where puesto = '"+puesto+"') and ss.estado like '%"+estatus+"%';";
+                    + "where "+estatus+";";
             
             Object datos[] = new Object[5];
             rs = st.executeQuery(sql);
@@ -412,7 +420,7 @@ public class ManagerSolicitud {
             //Llenar tabla
             while (rs.next()) {
                 
-                for(int i = 0;i<4;i++){
+                for(int i = 0;i<5;i++){
                     
                 datos[i] = rs.getObject(i+1);    
                     
@@ -432,6 +440,53 @@ public class ManagerSolicitud {
         }
 
     }//tabla_SolicitudesEstatus --> Muestra las solicitudes que puedes ver de acuerdo la tabla de permisos_solicitudes
+    
+    //Este metodo muestra una tabla con los pedidos de productos que se quieren para realizar la solicitud de salida de almacen,
+    //esto para que indiquen la cantidad de productos que requieren cada uno.
+    public DefaultTableModel consumibles_SolicitudSalida(String solicitud) {
+        
+        DefaultTableModel table = new DefaultTableModel();
+        try {
+            
+            table.addColumn("Clave");
+            table.addColumn("Nombre corto");
+            table.addColumn("Descripción");
+            table.addColumn("Marca");
+            table.addColumn("Solicitó");
+            table.addColumn("Stock");
+            
+            conexion = db.getConexion();
+            
+            String sql="select concat(ig.Folio,'-',ig.Numero,ig.Extension), ig.nombre_prod, ig.descripcion, ig.marca, dss.cantidad_solicitada,ig.stock from detalle_solicitudSalida dss\n" +
+                        "inner join solicitudsalida ss on (concat(ss.Folio,'-',ss.Num,'-',ss.Año) = dss.id_solicitud)\n" +
+                        "inner join inventario_granel ig on (concat(ig.Folio,'-',ig.Numero,ig.Extension) = dss.id_producto) where dss.id_solicitud = '"+solicitud+"';";
+            Statement st = conexion.createStatement();
+            Object datos[] = new Object[6];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+                
+                for(int i = 0;i<6;i++){
+                    
+                datos[i] = rs.getObject(i+1);    
+                    
+                }//Llenamos las columnas por registro
+                
+                table.addRow(datos);//Añadimos la fila
+           }//while
+                
+            
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los productos de la solicitud de la salida de almacen SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//tabla_SolicitudSalida --> Muestra los productos que estan asignados a una solicitud
     
     public DefaultTableModel tabla_Pendientes() {
         
