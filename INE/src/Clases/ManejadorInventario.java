@@ -1,11 +1,9 @@
 package Clases;
 
 import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
@@ -18,16 +16,21 @@ import javax.swing.table.DefaultTableModel;
  * @author kevin
  */
 public class ManejadorInventario {
-    private		Connection			conexion;
-    private		Conexion			db;
-    private		ManagerInventario	manager_inventario;
+    private final	Conexion	db;
     
     public ManejadorInventario(){
         db = new Conexion();
-        manager_inventario = new ManagerInventario();
     }//constructor
     
-    public DefaultTableModel getInventarioG() {
+	/**
+	 * <h1>Obtener Inventario a Granel</h1>
+	 * 
+	 * <p>Obtiene todos aquellos productos disponibles del
+	 * inventario a granel</p>
+	 *
+	 * @return <code>DefaultTableModel</code> con los productos de la tabla
+	 */
+	public DefaultTableModel getInventarioG() {
         // Objeto de la tabla
         DefaultTableModel table = new DefaultTableModel();
 		
@@ -70,8 +73,15 @@ public class ManejadorInventario {
 
     }//getInventarioG
 
-    //Este método retorna la tabla de inventario normal solo con los productos disponibles, esto para mostrarse en el Manejador Inventario
-    //cuando se quiere realizar una asignación
+	/**
+	 * <h1>Obtener Inventario para Asignacion</h1>
+	 * 
+	 *  <p>Este método retorna la tabla de inventario normal solo con los productos disponibles, esto para mostrarse en el Manejador Inventario
+	 *	cuando se quiere realizar una asignación</p>
+	 * 
+	 * @param nomenclatura de el ID del producto
+	 * @return <code>DefaultTableModel</code> con los productos de inventario a granel
+	 */
     public DefaultTableModel getInventarioParaAsignacion(String nomenclatura) {
         // Objeto para la tabla
         DefaultTableModel table = new DefaultTableModel();
@@ -114,6 +124,14 @@ public class ManejadorInventario {
 
     }//getInventarioParaAsignación
     
+	/**
+	 * <h1>Cantidad Inventario a Granel</h1>
+	 * 
+	 * <p>Obtiene el Stock actual de un producto dado su ID</p>
+	 *
+	 * @param ID_Producto 
+	 * @return <code>Int</code> con el stock del producto
+	 */
 	public int cantidadInventarioG(String ID_Producto) {
 		// Se prepara la llamada al SP, que se destruye al finalizar el TRY-CATCH
 		try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_stockInvGranel`(?)}")) {
@@ -131,6 +149,15 @@ public class ManejadorInventario {
 		return - 1;
 	}//cantidadInventarioG
 
+	/**
+	 * <h1>Productos Suficientes Inventario a Granel</h1>
+	 * 
+	 * <p>Realiza la resta del stock según el producto dado</p>
+	 *
+	 * @param ID_Producto
+	 * @param Cantidad
+	 * @return <code>Int</code> con el Stock actual del producto
+	 */
 	public int productosSuficientesInventarioG(String ID_Producto, int Cantidad) {
 		// Se prepara la llamada al SP, que se destruye al finalizar el TRY-CATCH
 		try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_update_stockInvGranel`(?, ?, ?)}")) {
@@ -150,6 +177,15 @@ public class ManejadorInventario {
 		return - 1;
 	}//productosSuficientesInventarioG
 
+	/**
+	 * <h1>Productos Iguales Inventario a Granel</h1>
+	 * 
+	 * <p>Realiza la resta del stock según el producto dado</p>
+	 *
+	 * @param ID_Producto
+	 * @param Cantidad
+	 * @return <code>Int</code> con el Stock actual del producto
+	 */
 	public int productosIgualesInventarioG(String ID_Producto, int Cantidad) {
 		// Se prepara la llamada al SP, que se destruye al finalizar el TRY-CATCH
 		try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_update_stockInvGranel`(?, ?, ?)}")) {
@@ -169,8 +205,21 @@ public class ManejadorInventario {
 		return - 1;
 	}//productosIgualesInventarioG
     
-    //Este método es para cancelar la acción de asignación de uno o mas productos en la pestaña de manejador de inventario, se usa cuando
-    //cancelas un producto, cuando presionas el boton cancelar o cuando se cierra la ventana y quedaron los productos sin generar el vale
+	/**
+	 * <h1>Regresar Inventario</h1>
+	 * 
+	 * <p>Este método es para cancelar la acción de asignación de uno o mas productos en la pestaña de manejador de inventario, se usa cuando
+	 * cancelas un producto, cuando presionas el boton cancelar o cuando se cierra la ventana y quedaron los productos sin generar el vale</p>
+	 *
+	 * @param Claves referente al ID del producto
+	 * @param Cantidad a devolver
+	 * @return
+	 *		<ul>
+	 *			<li><code>true</code> si las operaciones fueron correctas</li>
+	 *			<li><code>false</code> si alguna operación no fue realizada</li>
+	 *		</ul>
+	 * 
+	 */
 	public boolean regresarInventario(String[] Claves, int[] Cantidad){
 		// Se prepara la llamada al SP, que se destruye al finalizar el TRY-CATCH
 		try (PreparedStatement ps = db.getConexion().prepareStatement("{CALL `ine`.`usp_update_regresarInventarios`(?, ?)}")) {
@@ -195,7 +244,21 @@ public class ManejadorInventario {
 		}
 	}// Regresa los productos a su estado orignal (estatus y/o cantidad)
     
-    //Este método realiza la salida de almcen ya con productos autorizados
+	/**
+	 * <h1>Autorizar Salida del Almacen</h1>
+	 * 
+	 * <p>Este método realiza la salida de almcen ya con productos autorizados</p>
+	 *
+	 * @param Claves
+	 * @param Cantidad
+	 * @param Usuario
+	 * @param ID
+	 * @return
+	 *		<ul>
+	 *			<li><code>true</code> si las operaciones fueron correctas</li>
+	 *			<li><code>false</code> si alguna operación no fue realizada</li>
+	 *		</ul>
+	 */
 	public boolean autorizarSalidaAlmacen(String[] Claves, int[] Cantidad, String Usuario, String ID){
 		// Se preparan la llamadas a los SPs, que se destruyen al finalizar el TRY-CATCH
 		try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_update_autorizarSalida`(?, ?)}");
@@ -230,7 +293,24 @@ public class ManejadorInventario {
 		}
 	}//autorizarSalidaAlmacen
     
-    //Este método es para registrar tanto el vale de resguardo como el de recolección
+	/**
+	 * <h1>Registrar Vale</h1>
+	 * 
+	 * <p>Este método es para registrar tanto el vale de resguardo como el de recolección</p>
+	 *
+	 * @param Empleado - Nombre completo del Empleado
+	 * @param Folio	- Tipo de Folio del que será el Vale
+	 *		<ul>
+	 *			<li><code>RES</code> - Vale de Resguardo</li>
+	 *			<li><code>REC</code> - Vale de Recolección</li>
+	 *		</ul>
+	 * @return <code>String</code> formado por:
+	 *		<ul>
+	 *			<li><code>ID_Vale</code> del vale creado en la operacion</li>
+	 *			<li><code>ID_Empleado</code> dado el nombre que se da como parámetro</li>
+	 *			<li><code>Area_Empleado</code> dado el nombre del empleado dado como parámetro</li>
+	 *		</ul>
+	 */
 	public String registrarVale(String Empleado, String Folio){
 		// Se prepara la llamada al SP, que se destruye al finalizar el TRY-CATCH
 		try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_insert_asignacionVale`(?, ?)}"))  {
@@ -241,7 +321,7 @@ public class ManejadorInventario {
 			
 			// Ejecución del SP
 			ResultSet rs = cs.executeQuery();
-			
+			// Construccion del String
 			StringBuilder sb = new StringBuilder();
 						
 			if (rs.next()){
@@ -262,15 +342,30 @@ public class ManejadorInventario {
 		return "";
     }//registrarVale
     
-    //Este método realiza el resguardo, en donde todos los productos seleccionados se le asignan a un responsable
+	/**
+	 * <h1>Asignar Inventario</h1>
+	 * 
+	 * <p>Este método realiza el resguardo, en donde todos los productos seleccionados se le asignan a un responsable</p>
+	 *
+	 * @param Claves - ID de los productos a asignar
+	 * @param Cantidad - a asignar en el <em>Detalle_Vale</em>
+	 * @param Empleado - Nombre del empleado
+	 * @param Folio - Folio del producto
+	 * @return
+	 *		<ul>
+	 *			<li><code>true</code> si las operaciones fueron correctas</li>
+	 *			<li><code>false</code> si alguna operación no fue realizada</li>
+	 *		</ul>
+	 */
     public boolean asignarInventario(String[] Claves, int[] Cantidad, String Empleado, String Folio){
-		
+		// Se prepara la llamada al SP, que se destruye al finalizar el TRY-CATCH
 		try (PreparedStatement ps = db.getConexion().prepareStatement("{CALL `ine`.`usp_insert_asignacionInventario`(?, ?, ?, ?)}")) {
-
+			// Se obtienen los valores para el SP
             String values = registrarVale(Empleado, Folio);
 			String[] array = values.split(",,");
 			int row_count = 0;
 			
+			// Ejecución del SP
 			for(int i = 0; i < Claves.length; i++){
 				ps.setString(1, array[0]);
 				ps.setString(2, Claves[i]);
@@ -280,6 +375,7 @@ public class ManejadorInventario {
 				row_count = row_count + ps.executeUpdate();
 			}//for
 			
+			// Retorna true si el número de filas afectadas es diferente de cero
 			return row_count != 0;
 		} catch (SQLException ex) {
 			Logger.getLogger(ManagerDocumentos.class.getName()).log(Level.SEVERE, null, ex);
@@ -287,13 +383,20 @@ public class ManejadorInventario {
 		}
 	}//asignarInventario
     
-    //Este método es para llenar el combo solamente con los empleados que tengan asignaciones (vales de resguardo) y que todavia no hayan sido
-    //recogidos (vales de recolección)
+	/**
+	 * <h1>Obtener Empleados con Asignaciones</h1>
+	 * 
+	 * <p>Este método es para llenar el combo solamente con los empleados que tengan asignaciones
+	 * (vales de resguardo) y que todavia no hayan sido recogidos (vales de recolección)</p>
+	 *
+	 * @param combo - en el que se rellenan los resultados obtenidos
+	 */
     public void getEmpleadosAsignacion(JComboBox combo) {
-        try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_empleadosAsignacion`()}")){
-
+        // Se prepara la llamada al SP, que se destruye al finalizar el TRY-CATCH
+		try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_empleadosAsignacion`()}")){
+			// Ejecución del SP
             ResultSet rs = cs.executeQuery();
-			
+			// Actualización de resultados
             while(rs.next()){
                 combo.addItem(rs.getObject(1).toString());
             }
@@ -305,9 +408,21 @@ public class ManejadorInventario {
         
     }//Obtiene todas los nombres de los empleados que tienen productos asignados
     
-    /*Este método es para obtener los productos que fueron asignados a un empleado, se mostraran todos los productos de todos los vales que esten a su
-    nombre, y solo se mostaran aquellos productos que aun tengan en su estado "Asignado" (significa que aun no los entregan en su vale de recolección).
-    Se genera la tabla con su respectiva información y en la columna principal se le asigna un checkbox para marcar los productos que quiera entregar.*/
+	/**
+	 * <h1>Obtener Inventario Asignaciones a Empleados</h1>
+	 * 
+	 * <p>Este método es para obtener los productos que fueron asignados a un empleado.</p>
+	 * 
+	 * <p>Se mostraran todos los productos de todos los vales que esten a su nombre, 
+	 * y solo se mostaran aquellos productos que aun tengan en su estado "Asignado" 
+	 * (significa que aun no los entregan en su vale de recolección).</p>
+	 * 
+	 * <p>Se genera la tabla con su respectiva información y en la columna principal 
+	 * se le asigna un checkbox para marcar los productos que quiera entregar.</p>
+	 *
+	 * @param Empleado - Nombre Completo
+	 * @return <code>DefaultTableModel</code> con los resultados obtenidos de la consulta
+	 */
     public DefaultTableModel getInventarioEmpleadoAsignaciones(String Empleado) {
             
         DefaultTableModel table;
@@ -417,13 +532,28 @@ public class ManejadorInventario {
 
     }//getInventarioEmpleadoAsignaciones
     
-    /*Este método es para regresar al inventario los productos que fueron marcados, se cambia el estus de los productos y tambien de la 
-    tabla detalle_vales, para que ya no aparezca asignada*/
+	/**
+	 * <h1>Recolección de Inventario</h1>
+	 * 
+	 * <p>Este método es para regresar al inventario los productos que fueron marcados,
+	 * se cambia el estatus de los productos y tambien de la tabla <em>Detalle_Vale</em>, 
+	 * para que ya no aparezca asignada</p>
+	 *
+	 * @param ID_Vales - de la tabla Detalle_Vale
+	 * @param Claves - de los productos
+	 * @param Ubicaciones - de los productos
+	 * @param Observaciones - de los productos
+	 * @return
+	 *		<ul>
+	 *			<li><code>true</code> si las operaciones fueron correctas</li>
+	 *			<li><code>false</code> si alguna operación no fue realizada</li>
+	 *		</ul>
+	 */
     public boolean recoleccionInventario(String[] ID_Vales, String[] Claves, String[] Ubicaciones, String[] Observaciones){
-        
+        // Se prepara la llamada al SP, que se destruye al finalizar el TRY-CATCH
         try (PreparedStatement ps = db.getConexion().prepareStatement("{CALL `ine`.`usp_update_recoleccionInventario`(?, ?, ?, ?)}")){
             int row_count = 0;
-
+			// Ejecución del SP
             for(int i = 0; i< ID_Vales.length;i++){
                 ps.setString(1, ID_Vales[i]);
 				ps.setString(2, Claves[i]);
@@ -432,7 +562,8 @@ public class ManejadorInventario {
 				
 				row_count = row_count + ps.executeUpdate();
             }//for
-
+			
+			// Si no se afecta ningún registro, retorna FALSE
 			return row_count != 0;
 
         } catch (SQLException ex) {
@@ -442,7 +573,19 @@ public class ManejadorInventario {
 
     }//Regresa los productos a su estado orignal (estatus y/o cantidad)
     
-    public DefaultTableModel getInventarioEmpleadoAsignacionesPersonales(String Usuario) {
+	/**
+	 * <h1>Obtener Inventario Asignaciones a Usuarios</h1>
+	 * 
+	 * <p>Este método es para obtener los productos que fueron asignados a un empleado.</p>
+	 * 
+	 * <p>Se mostraran todos los productos de todos los vales que esten a su nombre, 
+	 * y solo se mostaran aquellos productos que aun tengan en su estado "Asignado" 
+	 * (significa que aun no los entregan en su vale de recolección).</p>
+	 *
+	 * @param Usuario - ID
+	 * @return <code>DefaultTableModel</code> con los resultados obtenidos de la consulta
+	 */
+	public DefaultTableModel getInventarioEmpleadoAsignacionesPersonales(String Usuario) {
         DefaultTableModel table = new DefaultTableModel();
 
         try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_empleadoAsignacionPersonal`(?, ?)}")) {
@@ -574,8 +717,7 @@ public class ManejadorInventario {
 				//Añadimos la fila
                 table.addRow(datos);
             }//while
-            
-            conexion.close();
+
         } catch (SQLException ex) {
             System.out.printf("Error getTabla Inventario SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
@@ -585,7 +727,19 @@ public class ManejadorInventario {
 
     }//getInventarioEmpleadoAsignacionesPersonales
     
-    //Este método es para actualizar la cantidad del producto a granel con la cantidad ingresada
+	/**
+	 * <h1>Actualizar Inventario</h1>
+	 * 
+	 * <p>Este método es para actualizar la cantidad del producto a granel con la cantidad ingresada</p>
+	 *
+	 * @param ID_Producto
+	 * @param Cantidad
+	 * @return 
+	 *		<ul>
+	 *			<li><code>true</code> si la operacion fue correcta</li>
+	 *			<li><code>false</code> si la operación no fue realizada</li>
+	 *		</ul>
+	 */
     public boolean actualizarStock(String ID_Producto, int Cantidad){
         
         try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_update_stockInvGranel`(?, ?, ?)}")){
