@@ -533,77 +533,44 @@ public class ManejadorInventario {
     
     public boolean actualizar_Solicitud(int idSol,String empleado){
         
-        try {
-            //Hacemos la conexión
-            conexion = db.getConexion();
-            //Creamos la variable para hacer operaciones CRUD
-            Statement st = conexion.createStatement();
-            
-            //Actualizamos la solicitud
-            String sql = "update solicitudes set estado = 'PENDIENTE PERSONAL' where id_solicitud = "+idSol+"";
-            st.executeUpdate(sql);
-            
-            //Obtenemos el id del producto
-            sql = "select id_producto from detalle_solicitud where id_solicitud = "+idSol+";";
-            ResultSet rs = st.executeQuery(sql);
-            rs.next();
-            String idProd = rs.getString(1);
-            System.out.println("encontre el producto: "+idProd);
-            
-            //Obtenemos el id del vale
-            sql = "select v.id_vale from vales v " +
-                   "inner join detalle_vale dv on (dv.id_vale = v.id_vale) " +
-                   "inner join inventario ig on (dv.id_producto = ig.id_producto) " +
-                   "inner join user u on (u.id_user = v.id_user) " +
-                   "inner join empleados e on (e.id_empleado = u.id_empleado) " +
-                   "where concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m) = '"+empleado+"' and dv.estado = 'SOLICITUD' and ig.id_producto = '"+idProd+"';";
-            rs = st.executeQuery(sql);
-            rs.next();
-            int idVale = rs.getInt(1);
-                        System.out.println("encontre el vale: "+idVale);
-            //Actualizamos el estatus del producto
-            sql = "update detalle_vale set estado = 'PENDIENTE' where id_producto = '"+idProd+"' and id_vale = "+idVale+";";
-            st.executeUpdate(sql);
-                        System.out.println("Actualice todo");
-
-            //Cerramos la conexión
-            conexion.close();
-            return true;
+        try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_update_registroSolicitud`(?, ?)}")){
+            cs.setInt(1, idSol);
+			cs.setString(2, empleado);
+			
+            ResultSet rs = cs.executeQuery();
+			
+			if (rs.next()) return rs.getInt("res") == 1;
             
         } catch (SQLException ex) {
             System.out.printf("Error al insertar la solicitud en SQL");
             Logger.getLogger(ManagerSolicitud.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
         } 
-        
+		
+		return false;
     }//actualizar_Solicitud
     
     public DefaultTableModel getInventarioStockMin() {
-            DefaultTableModel table = new DefaultTableModel();
+        DefaultTableModel table = new DefaultTableModel();
 
-        try {
+        try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_inventarioStockMin`()}")) {
             table.addColumn("Clave");
             table.addColumn("Producto");
             table.addColumn("Descripción");
             table.addColumn("Observaciones");
             table.addColumn("Cantidad");
             table.addColumn("Estado");
-            
-            //Obtiene los productos que tienen su stock menor o igual que el stock minimo
-            String sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,observaciones,stock,estatus from inventario_granel where stock_min >= stock;";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
+
             Object datos[] = new Object[6];
-            ResultSet rs = st.executeQuery(sql);
+            ResultSet rs = cs.executeQuery();
 
             //Llenar tabla
             while (rs.next()) {
-
+				// Llenamos las columnas por registro
                 for(int i = 0;i<6;i++){
                     datos[i] = rs.getObject(i+1);
-                }//Llenamos las columnas por registro
-
-                table.addRow(datos);//Añadimos la fila
+                }
+				//Añadimos la fila
+                table.addRow(datos);
             }//while
             
             conexion.close();
@@ -611,7 +578,6 @@ public class ManejadorInventario {
             System.out.printf("Error getTabla Inventario SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-
             return table;
         }
 
