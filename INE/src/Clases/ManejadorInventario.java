@@ -509,51 +509,26 @@ public class ManejadorInventario {
 
     }//getInventarioEmpleadoAsignacionesPersonales
     
-    public boolean registro_Solicitud(int idVale,String idProd, String tipo,String user,String motivo,int cantidad){
+    public boolean registro_Solicitud(int idVale, String idProd, String tipo, String user, String motivo, int cantidad){
         
-        try {
-            //Hacemos la conexión
-            conexion = db.getConexion();
-            //Creamos la variable para hacer operaciones CRUD
-            Statement st = conexion.createStatement();
-            //Creamos la variable para guardar el resultado de las consultas
-            ResultSet rs;
-            
-            //Obtenemos la fecha del sistema
-            String sql = "select now();";
-            rs = st.executeQuery(sql);
-            rs.next();
-            String fecha = rs.getString(1); 
-            
-            //Registramos la solicitud
-            sql = "insert into Solicitudes (tipo_solicitud,id_user,motivo,cantidad,fecha_solicitud,estado) "
-                        +"values('"+tipo+"','"+user+"','"+motivo+"',"+cantidad+",'"+fecha+"','SOLICITUD PERSONAL');";
-            st.executeUpdate(sql);
-            
-            //Cambiamos el estatus del equipo seleccionado
-            sql = "update detalle_vale set estado = 'SOLICITUD' where id_producto = '"+idProd+"' and id_vale = "+idVale+";";
-            st.executeUpdate(sql);
-            
-            //Buscamos el id de la solicitud
-            sql = "select id_solicitud from Solicitudes where fecha_solicitud = '"+fecha+"';";
-            rs = st.executeQuery(sql);
-            rs.next();
-            String idSol = rs.getString(1); 
-            
-            //Realizamos el registro de los detalles de la solicitud
-            sql = "insert into Detalle_solicitud values("+idSol+",'"+idProd+"');";
-            st.executeUpdate(sql);
-            
-            //Cerramos la conexión
-            conexion.close();
-            return true;
+        try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_insert_registroSolicitud`(?, ?, ?, ?, ?, ?)}")) {
+			cs.setInt(1, idVale);
+			cs.setString(2, idProd);
+			cs.setString(3, tipo);
+			cs.setString(4, user);
+			cs.setString(5, motivo);
+			cs.setInt(6, cantidad);
+			
+            ResultSet rs = cs.executeQuery();
+			
+			if (rs.next()) return rs.getInt("res") == 1;
             
         } catch (SQLException ex) {
             System.out.printf("Error al insertar la solicitud en SQL");
             Logger.getLogger(ManagerSolicitud.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        } 
-        
+        }
+		
+        return false;
     }//registro_solicitud
     
     public boolean actualizar_Solicitud(int idSol,String empleado){
