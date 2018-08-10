@@ -5,6 +5,7 @@
  */
 package Clases;
 
+import Interfaces.Principal;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,7 +31,20 @@ public class ManagerSoViaticos {
         modelo = new DefaultTableModel();
         
     }//Constructor
-
+    public boolean isAdmin() throws SQLException{
+        ResultSet rs=cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"';", cn);
+        rs.next();
+        String puesto=rs.getString("puesto");
+        if(puesto.equals("SuperUsuario") || puesto.equals("Administrador")){
+            return true;
+        }
+        return false;
+    }
+    public String getNombre(String user) throws SQLException{
+        ResultSet rs=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+user+"';", cn);
+        rs.next();
+        return rs.getString(0);
+    }
        public DefaultTableModel getTasol() {
 
         DefaultTableModel taso = new DefaultTableModel();
@@ -46,7 +60,12 @@ public class ManagerSoViaticos {
 
         try {
             //Consulta de los empleados
-            String sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Estado from Solicitud_viatico order by idSolicitud DESC";
+            String sql="";
+            if(isAdmin()){
+                sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Estado from Solicitud_viatico order by idSolicitud DESC";
+            }else{
+                sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Estado from Solicitud_viatico where nombre='"+getNombre(Principal.Username)+"' order by idSolicitud DESC";
+            }
             //String sql="select * from solicitud_viatico";
             Statement st = cn.createStatement();
             Object datos[] = new Object[taso.getColumnCount()];

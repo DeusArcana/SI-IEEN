@@ -471,11 +471,12 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         ResultSet res;
         Connection cn=cbd.getConexion();
             res=cbd.getTabla("select marca,matricula from vehiculos",cn);
-            SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
+            SimpleDateFormat format=new SimpleDateFormat("h:mm a");
             List<String> autos=new ArrayList<String>();
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-            List<Integer> autos_disponibles=getAutosDisponiblesFecha(sdf.format(date_Salida.getDate().getTime()),format.format((Date)hora_Salida.getValue())+"");
-            List<String> autos_noDisponibles=getAutosNoDisponibles(autos_disponibles,sdf.format(date_Salida.getDate().getTime()));
+            //List<Integer> autos_disponibles=getAutosDisponiblesFecha(sdf.format(date_Salida.getDate().getTime()),format.format((Date)hora_Salida.getValue())+"");
+            //List<String> autos_noDisponibles=getAutosNoDisponibles(autos_disponibles,sdf.format(date_Salida.getDate().getTime()));
+            List<String> autos_noDisponibles=vehiculosNoDisp(sdf.format(date_Salida.getDate().getTime()),sdf.format(date_Llegada.getDate().getTime()),format.format((Date)hora_Salida.getValue()),format.format((Date)hora_Llegada.getValue()));
             while(res.next()){
                 boolean disponible=true;//se cambia a false si el registro está en los autos no disponibles
                 String aux=res.getString("marca")+"-"+res.getString("matricula");
@@ -871,6 +872,105 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         }
     }
     
+    
+    
+    public List<String> vehiculosNoDisp(String fss,String fls,String hss,String hls) throws SQLException{
+        List<String> autos=new ArrayList<String>();
+        List<String[]> solicitudes=new ArrayList<String[]>();
+        
+        ResultSet rs=cbd.getTabla("select * from solicitud_vehiculo SV inner join vehiculo_viatico VV on SV.idsolicitud_vehiculo=VV.solicitud_vehiculo_idsolicitud_vehiculo inner join solicitud_viatico SVI on VV.solicitud_viatico_idSolicitud=SVI.idSolicitud inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where (fecha_salida>='"+fss+"' or fecha_llegada>='"+fls+"') and estado!='C'", cn);
+        while(rs.next()){
+            String[] aux=new String[5];
+            aux[0]=rs.getString("fecha_salida");
+            aux[1]=rs.getString("fecha_llegada");
+            aux[2]=rs.getString("hora_salida");
+            aux[3]=rs.getString("hora_llegada");
+            aux[4]=rs.getString("vehiculos_Matricula");
+            solicitudes.add(aux);
+        }
+        for(int i=0;i<solicitudes.size();i++){
+            if(valida_fecha(fss,solicitudes.get(i)[0])==2){
+                if(!(valida_fecha(fss,solicitudes.get(i)[1])==2)){
+                    if(valida_fecha(fss,solicitudes.get(i)[1])==1){
+                        if(valida_hora(hss,solicitudes.get(i)[3])==0){
+                            autos.add(solicitudes.get(i)[4]);
+                        }
+                    }else{
+                        autos.add(solicitudes.get(i)[4]);
+                    }
+                }
+            }else{
+                if(valida_fecha(fss,solicitudes.get(i)[0])==0){
+                    if(!(valida_fecha(fls,solicitudes.get(i)[0])==0 || valida_fecha(fls,solicitudes.get(i)[0])==1)){
+                        autos.add(solicitudes.get(i)[4]);
+                    }else{
+                        if(valida_fecha(fls,solicitudes.get(i)[0])==1){
+                            if(valida_hora(hls,solicitudes.get(i)[2])==2){
+                                autos.add(solicitudes.get(i)[4]);
+                            }
+                        }
+                    }
+                }else{
+                    if(valida_fecha(fss,solicitudes.get(i)[0])==1){
+                        if(valida_fecha(fls,solicitudes.get(i)[0])==1){
+                            if(!(valida_hora(hss,solicitudes.get(i)[2])==0 && (!(valida_hora(hls,solicitudes.get(i)[2])==2)))||(valida_hora(hss,solicitudes.get(i)[3])==2)){
+                                autos.add(solicitudes.get(i)[4]);
+                            }
+                        }else{
+                            if(!(valida_fecha(fls,solicitudes.get(i)[1])==2)){
+                                autos.add(solicitudes.get(i)[4]);
+                            }else{
+                                if(valida_fecha(solicitudes.get(i)[0],solicitudes.get(i)[1])==1){
+                                    if(valida_hora(hss,solicitudes.get(i)[3])==0){
+                                        autos.add(solicitudes.get(i)[4]);
+                                    }
+                                }else{
+                                    if(!(valida_fecha(fss,solicitudes.get(i)[1])==0)){
+                                        if(valida_fecha(fss,solicitudes.get(i)[1])==1){
+                                            if(valida_hora(hss,solicitudes.get(i)[3])==0){
+                                                autos.add(solicitudes.get(i)[4]);
+                                            }
+                                        }
+                                    }else{
+                                        autos.add(solicitudes.get(i)[4]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return autos;
+    }
+    public int valida_hora(String hora1,String hora2){
+        String[] hora1_split=hora1.split(":");
+        String[] hora2_split=hora2.split(":");
+        int hora1_num;
+        int hora2_num;
+        hora1_num=Integer.parseInt(hora1_split[0]);
+        hora2_num=Integer.parseInt(hora2_split[0]);
+        if(hora1_split[1].split(" ")[1].equals("PM")){
+            hora1_num+=12;
+        }
+        if(hora2_split[2].split(" ")[1].equals("PM")){
+            hora2_num+=12;
+        }
+        String aux1=hora1_num+"";
+        String aux2=hora2_num+"";
+        hora1_num=Integer.parseInt(aux1+hora1_split[1].split(" ")[0]);
+        hora2_num=Integer.parseInt(aux2+hora2_split[2].split(" ")[0]);
+        if(hora1_num<hora2_num){
+            return 0;
+        }
+        if(hora1_num==hora2_num){
+            return 1;
+        }
+        if(hora1_num>hora2_num){
+            return 2;
+        }
+        return -1;
+    }
     private boolean verificar_excepcion=true;
     /**
      * @param args the command line arguments
