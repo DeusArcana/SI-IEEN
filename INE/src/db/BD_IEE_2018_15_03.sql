@@ -28,7 +28,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `INE`.`Area` (
   `ID_Area` INT NOT NULL AUTO_INCREMENT,
   `Area` VARCHAR(255) NOT NULL,
-  `Siglas`  VARCHAR(32),
+  `Siglas` VARCHAR(32),
   PRIMARY KEY (`ID_Area`))
 ENGINE = InnoDB;
 
@@ -41,6 +41,14 @@ CREATE TABLE `Puestos_Trabajo` (
   `ID_Area` INT NOT NULL,
   `Puesto`  VARCHAR(255) NOT NULL,
   `Sueldo`  DOUBLE NOT NULL,
+  `SinPernoctar100` float null,
+  `Pernoctando100` float null,
+  `SinPernoctar30100` float null,
+  `Pernoctando30100` float null,
+  `SinPernoctarBDB` float null,
+  `PernoctandoBDB` float null,
+  `SinPernoctarFDE` float null,
+  `PernoctandoFDE` float null,
   PRIMARY KEY (`ID_Puesto`)
 ) ENGINE = InnoDB;
 
