@@ -1599,60 +1599,6 @@ public class PrincipalS extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnregresarActionPerformed
 
-    private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
-        // TODO add your handling code here:
-        try {
-            int s = JOptionPane.showConfirmDialog(null, "¿Esta seguro?", "Alerta!", JOptionPane.YES_NO_OPTION);
-            if (s == JOptionPane.YES_OPTION) {
-                String id = "";
-                Statement sentencia = cn.createStatement();
-                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = " + folio);
-                while (rs.next()) {
-                    id = rs.getString("Solicitud_idSolicitud");
-                }
-
-                sentencia.executeUpdate("UPDATE Solicitud_viatico SET Reporte = '1' WHERE (idSolicitud = " + id + ")");
-                String idInforme = "";
-                ResultSet rs2 = sentencia.executeQuery("SELECT MAX(id_informe) AS id_informe FROM Informe");
-                while (rs2.next()) {
-                    idInforme = rs2.getString("id_informe");
-                }
-                if (c == 1) {
-                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Solicitud_idSolicitud,importe_total) VALUES('" + txtobvia.getText() + "','" + txtobveh.getText() + "'," + id + "," + GaTot.getText() + ")");
-                    String idGastos = "";
-                    int filas = tablaact.getRowCount();
-                    if (filas != 0) {
-                        for (int j = 0; filas > j; j++) {
-                            sentencia.execute("INSERT INTO Gastos (Precio,Descripcion,Factura) VALUES('" + tablaact.getValueAt(j, 1).toString() + "','" + tablaact.getValueAt(j, 0).toString() + "','" + tablaact.getValueAt(j, 2).toString() + "')");
-                            ResultSet rs3 = sentencia.executeQuery("SELECT MAX(id_Gastos) AS id_Gastos FROM Gastos");
-                            while (rs3.next()) {
-                                idGastos = rs3.getString("id_Gastos");
-                            }
-                            sentencia.execute("INSERT INTO Informe_Gastos VALUES(" + idGastos + "," + idInforme + ")");
-                        }
-                    }
-                    javax.swing.JOptionPane.showMessageDialog(null, "Reporte Generado");
-                } else {
-                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Solicitud_idSolicitud) VALUES('" + txtobvia.getText() + "','" + txtobveh.getText() + "'," + id + ")");
-                    javax.swing.JOptionPane.showMessageDialog(null, "Reporte Generado");
-                }
-                if (c == 1) {
-                    txtobvia.enable(false);
-                    txtobveh.enable(false);
-                    tablaact.enable(false);
-                    GaTot.enable(false);
-                } else {
-                    txtobvia.enable(false);
-                    txtobveh.enable(false);
-                }
-            } else {
-            }
-        } catch (SQLException ex) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Error al generar reporte");
-
-        }
-    }//GEN-LAST:event_btnguardarActionPerformed
-
     private void txtbusquedasoli2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedasoli2KeyReleased
         // TODO add your handling code here:
         if (menuInforme.getSelectedIndex() == 0) {
@@ -2438,6 +2384,60 @@ public class PrincipalS extends javax.swing.JFrame {
         // TODO add your handling code here:
         guardargac.setVisible(false);
     }//GEN-LAST:event_guardargacFocusLost
+
+    private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
+        // TODO add your handling code here:
+        try {
+            int s = JOptionPane.showConfirmDialog(null, "¿Esta seguro?", "Alerta!", JOptionPane.YES_NO_OPTION);
+            if (s == JOptionPane.YES_OPTION) {
+                String id = "";
+                Statement sentencia = cn.createStatement();
+                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = " + folio);
+                while (rs.next()) {
+                    id = rs.getString("Solicitud_idSolicitud");
+                }
+
+                sentencia.executeUpdate("UPDATE Solicitud_viatico SET Reporte = '1' WHERE (idSolicitud = " + id + ")");
+                String idInforme = "";
+                ResultSet rs2 = sentencia.executeQuery("SELECT MAX(id_informe) AS id_informe FROM Informe");
+                while (rs2.next()) {
+                    idInforme = rs2.getString("id_informe");
+                }
+                if (c == 1) {
+                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Solicitud_idSolicitud,importe_total) VALUES('" + txtobvia.getText() + "','" + txtobveh.getText() + "'," + id + "," + GaTot.getText() + ")");
+                    String idGastos = "";
+                    int filas = tablaact.getRowCount();
+                    if (filas != 0) {
+                        for (int j = 0; filas > j; j++) {
+                            sentencia.execute("INSERT INTO Gastos (Precio,Descripcion,Factura) VALUES('" + tablaact.getValueAt(j, 1).toString() + "','" + tablaact.getValueAt(j, 0).toString() + "','" + tablaact.getValueAt(j, 2).toString() + "')");
+                            ResultSet rs3 = sentencia.executeQuery("SELECT MAX(id_Gastos) AS id_Gastos FROM Gastos");
+                            while (rs3.next()) {
+                                idGastos = rs3.getString("id_Gastos");
+                            }
+                            sentencia.execute("INSERT INTO Informe_Gastos VALUES(" + idGastos + "," + idInforme + ")");
+                        }
+                    }
+                    javax.swing.JOptionPane.showMessageDialog(null, "Reporte Generado");
+                } else {
+                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Solicitud_idSolicitud) VALUES('" + txtobvia.getText() + "','" + txtobveh.getText() + "'," + id + ")");
+                    javax.swing.JOptionPane.showMessageDialog(null, "Reporte Generado");
+                }
+                if (c == 1) {
+                    txtobvia.enable(false);
+                    txtobveh.enable(false);
+                    tablaact.enable(false);
+                    GaTot.enable(false);
+                } else {
+                    txtobvia.enable(false);
+                    txtobveh.enable(false);
+                }
+            } else {
+            }
+        } catch (SQLException ex) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Error al generar reporte");
+
+        }
+    }//GEN-LAST:event_btnguardarActionPerformed
 
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {

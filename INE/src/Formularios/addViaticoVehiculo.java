@@ -33,6 +33,7 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
     public addViaticoVehiculo(java.awt.Frame parent,boolean modal,String idSolicitud,String fecha){
         super(parent,modal);
         initComponents();
+        this.setLocationRelativeTo(null);
         this.idSolicitud=idSolicitud;
         this.fecha=fecha;
         refrescarPantalla(idSolicitud,fecha);
@@ -129,18 +130,19 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         cmbEmpleados.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(cmbEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 100, 228, -1));
+        getContentPane().add(cmbEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 228, -1));
 
         jLabel1.setText("Seleccione el id de la solicitud de viático y el empleado");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 65, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         btnAceptar.setText("Aceptar");
+        btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAceptarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, 140, 40));
+        getContentPane().add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, 140, 40));
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -158,12 +160,13 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(433, 12, -1, 344));
 
         btnListo.setText("Listo");
+        btnListo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnListo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnListoActionPerformed(evt);
             }
         });
-        getContentPane().add(btnListo, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 280, 170, 60));
+        getContentPane().add(btnListo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, 140, 40));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 897, 369));
@@ -199,22 +202,7 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(addViaticoVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(addViaticoVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(addViaticoVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(addViaticoVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+        
         //</editor-fold>
 
         /* Create and display the form */

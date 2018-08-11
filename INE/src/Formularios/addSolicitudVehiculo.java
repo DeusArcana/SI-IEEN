@@ -64,6 +64,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         super(parentVehiculo, modal);
         this.parent=parent;
         initComponents();
+        this.setLocationRelativeTo(null);
         JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) date_Salida.getDateEditor();
         JTextFieldDateEditor date_Llegada_Editor=(JTextFieldDateEditor) date_Llegada.getDateEditor();
         date_Salida.getJCalendar().setMinSelectableDate(new Date()); // sets today as minimum selectable date
@@ -166,8 +167,8 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         lblAviso = new javax.swing.JLabel();
-        cmbLocalidad = new javax.swing.JComboBox<String>();
-        cmbEstado = new javax.swing.JComboBox<String>();
+        cmbLocalidad = new javax.swing.JComboBox<>();
+        cmbEstado = new javax.swing.JComboBox<>();
         date_Salida = new com.toedter.calendar.JDateChooser();
         date_Llegada = new com.toedter.calendar.JDateChooser();
         chb_Pernoctado = new javax.swing.JCheckBox();
@@ -216,7 +217,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
 
         txt_Puesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_Puesto.setEnabled(false);
-        pn_addInventario.add(txt_Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(154, 45, 215, -1));
+        pn_addInventario.add(txt_Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, 215, 25));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Puesto:");
@@ -253,11 +254,11 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_addInventario.add(lblAviso, new org.netbeans.lib.awtextra.AbsoluteConstraints(446, 228, 15, 233));
 
-        cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione localidad" }));
+        cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione localidad" }));
         cmbLocalidad.setEnabled(false);
         pn_addInventario.add(cmbLocalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, 230, -1));
 
-        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione estado" }));
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione estado" }));
         cmbEstado.setEnabled(false);
         cmbEstado.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -267,7 +268,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         pn_addInventario.add(cmbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, -1, -1));
 
         date_Salida.setEnabled(false);
-        pn_addInventario.add(date_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(154, 81, 215, -1));
+        pn_addInventario.add(date_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 215, 25));
         date_Salida.getDateEditor().addPropertyChangeListener(
             new java.beans.PropertyChangeListener() {
                 @Override
@@ -279,7 +280,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             });
 
             date_Llegada.setEnabled(false);
-            pn_addInventario.add(date_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(154, 117, 215, -1));
+            pn_addInventario.add(date_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 120, 215, 25));
 
             chb_Pernoctado.setEnabled(false);
             pn_addInventario.add(chb_Pernoctado, new org.netbeans.lib.awtextra.AbsoluteConstraints(153, 157, -1, -1));
@@ -287,22 +288,24 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
             btnAceptar.setText("Aceptar");
+            btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             btnAceptar.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     btnAceptarActionPerformed(evt);
                 }
             });
-            pn_addInventario.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 450, -1, -1));
+            pn_addInventario.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 440, -1, -1));
 
             btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
             btnCancelar.setText("Cancelar");
+            btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             btnCancelar.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     btnCancelarActionPerformed(evt);
                 }
             });
-            pn_addInventario.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(814, 450, -1, -1));
+            pn_addInventario.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 440, -1, -1));
 
             jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             jLabel7.setText("Vehiculo:");
@@ -348,13 +351,13 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
                                     .addComponent(jLabel7)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addComponent(cmb_Vehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGap(0, 194, Short.MAX_VALUE)))
+                            .addGap(0, 209, Short.MAX_VALUE)))
                     .addContainerGap())
             );
             jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                    .addContainerGap()
+                    .addGap(775, 775, 775)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel7)
                         .addComponent(cmb_Vehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -365,23 +368,24 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
                     .addGap(18, 18, 18)
                     .addComponent(jLabel11)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
                     .addContainerGap())
             );
 
-            pn_addInventario.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 50, 510, 387));
+            pn_addInventario.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 10, 510, 387));
 
             hora_Llegada.setEnabled(false);
-            pn_addInventario.add(hora_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(387, 117, -1, -1));
+            pn_addInventario.add(hora_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, -1, -1));
             JSpinner.DateEditor de2 = new JSpinner.DateEditor(hora_Llegada, "HH:mm");
             hora_Llegada.setEditor(de2);
 
             hora_Salida.setEnabled(false);
-            pn_addInventario.add(hora_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(387, 81, -1, -1));
+            pn_addInventario.add(hora_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 90, -1, -1));
             JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "HH:mm");
             hora_Salida.setEditor(de);
 
             btn_Editar.setText("Editar");
+            btn_Editar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             btn_Editar.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     btn_EditarActionPerformed(evt);
@@ -396,16 +400,16 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
                     txtEmpleadosActionPerformed(evt);
                 }
             });
-            pn_addInventario.add(txtEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 220, -1));
+            pn_addInventario.add(txtEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 220, 25));
 
             txtArea.setEditable(false);
             txtArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            pn_addInventario.add(txtArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, 160, -1));
+            pn_addInventario.add(txtArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, 160, 25));
 
             jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
-            pn_addInventario.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+            pn_addInventario.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 1320, 510));
 
-            getContentPane().add(pn_addInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 1290, 500));
+            getContentPane().add(pn_addInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1310, 500));
 
             pack();
         }// </editor-fold>//GEN-END:initComponents
@@ -981,22 +985,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(addSolicitudVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(addSolicitudVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(addSolicitudVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(addSolicitudVehiculo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+        
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>

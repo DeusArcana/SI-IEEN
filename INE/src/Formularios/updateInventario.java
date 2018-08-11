@@ -196,9 +196,9 @@ public final class updateInventario extends javax.swing.JDialog {
         comboUbicacion = new javax.swing.JComboBox();
         jPanel1 = new javax.swing.JPanel();
         btnImagen = new javax.swing.JButton();
-        imagenProducto = new javax.swing.JLabel();
         izquierdaBtn = new javax.swing.JButton();
         derechaBtn = new javax.swing.JButton();
+        imagenProducto = new javax.swing.JLabel();
         txtNum = new javax.swing.JTextField();
         txtExtension = new javax.swing.JTextField();
         txtDescripcion = new javax.swing.JTextField();
@@ -392,8 +392,6 @@ public final class updateInventario extends javax.swing.JDialog {
         });
         jPanel1.add(btnImagen);
         btnImagen.setBounds(360, 210, 40, 20);
-        jPanel1.add(imagenProducto);
-        imagenProducto.setBounds(0, 0, 410, 240);
 
         izquierdaBtn.setText("<");
         izquierdaBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -414,6 +412,8 @@ public final class updateInventario extends javax.swing.JDialog {
         });
         jPanel1.add(derechaBtn);
         derechaBtn.setBounds(200, 210, 41, 23);
+        jPanel1.add(imagenProducto);
+        imagenProducto.setBounds(0, 0, 410, 240);
 
         pn_addInventario.add(jPanel1);
         jPanel1.setBounds(380, 20, 410, 240);
@@ -801,22 +801,7 @@ public final class updateInventario extends javax.swing.JDialog {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(addInventarioGranel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(addInventarioGranel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(addInventarioGranel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(addInventarioGranel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+        
         //</editor-fold>
         
         /* Create and display the dialog */
