@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import Clases.ManagerUsers;
 import Clases.ManagerVehiculos;
 import Clases.ManagerSoViaticos;
+import Clases.ManagerComplemento;
 
 import Interfaces.PrincipalS;
 import com.toedter.calendar.JTextFieldDateEditor;
@@ -26,6 +27,8 @@ import java.util.Calendar;
 import java.util.Vector;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -38,6 +41,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     ManagerSoViaticos manager_viaticos;
     ManagerUsers manager_users;
     ManagerVehiculos manager_vehiculo;
+    ManagerComplemento manager_complemento;
     
     public int varida[];
     Conexion cbd=new Conexion();
@@ -50,6 +54,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     public addSolicitudViaticos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
         parentVehiculo=parent;
         JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) date_Salida.getDateEditor();
         JTextFieldDateEditor date_Llegada_Editor=(JTextFieldDateEditor) date_Llegada.getDateEditor();
@@ -62,6 +67,8 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         manager_viaticos = new ManagerSoViaticos();
         manager_users = new ManagerUsers();
         manager_vehiculo = new ManagerVehiculos();
+        manager_complemento = new ManagerComplemento();
+        
         iniciarEstados();
         
         AutoCompleteDecorator.decorate(this.comboEmpleados);
@@ -111,6 +118,8 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         SpinnerDateModel sdm2=new SpinnerDateModel(date,null
             ,null,Calendar.HOUR_OF_DAY);
         hora_Llegada = new javax.swing.JSpinner(sdm2);
+        jLabel7 = new javax.swing.JLabel();
+        cmbArea = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -127,7 +136,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Nombre:");
-        pn_addInventario.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(82, 18, -1, -1));
+        pn_addInventario.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
 
         txt_Puesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_Puesto.setEnabled(false);
@@ -154,7 +163,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         txt_Actividad.setRows(5);
         jScrollPane1.setViewportView(txt_Actividad);
 
-        pn_addInventario.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 251, 440, 209));
+        pn_addInventario.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 251, 460, 209));
 
         cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione estado" }));
         cmbEstado.addItemListener(new java.awt.event.ItemListener() {
@@ -193,7 +202,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                     comboEmpleadosActionPerformed(evt);
                 }
             });
-            pn_addInventario.add(comboEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(154, 14, -1, -1));
+            pn_addInventario.add(comboEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, -1, -1));
 
             cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione localidad" }));
             pn_addInventario.add(cmbLocalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, -1, -1));
@@ -201,6 +210,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
             btnAceptar.setText("Aceptar");
+            btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             btnAceptar.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     btnAceptarActionPerformed(evt);
@@ -211,6 +221,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
             btnCancelar.setText("Cancelar");
+            btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             btnCancelar.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     btnCancelarActionPerformed(evt);
@@ -224,10 +235,22 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             JSpinner.DateEditor de2 = new JSpinner.DateEditor(hora_Llegada, "HH:mm");
             hora_Llegada.setEditor(de2);
 
-            jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
-            pn_addInventario.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+            jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+            jLabel7.setText("Area:");
+            pn_addInventario.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, -1, -1));
 
-            getContentPane().add(pn_addInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 700, 520));
+            cmbArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+            cmbArea.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    cmbAreaActionPerformed(evt);
+                }
+            });
+            pn_addInventario.add(cmbArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 220, -1));
+
+            jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
+            pn_addInventario.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 570, 520));
+
+            getContentPane().add(pn_addInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 520));
 
             pack();
         }// </editor-fold>//GEN-END:initComponents
@@ -251,11 +274,11 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
        if(PrincipalS.conVehiculo==1){
            SimpleDateFormat format=new SimpleDateFormat("HH:mm");
          addSolicitudVehiculo asv;
-           asv = new addSolicitudVehiculo(this,parentVehiculo,true,comboEmpleados.getSelectedIndex(),
+           asv = new addSolicitudVehiculo(this,parentVehiculo,true,comboEmpleados.getSelectedItem()+"",
            txt_Puesto.getText(),date_Salida.getDate(),date_Llegada.getDate(),
            hora_Salida.getValue(),hora_Llegada.getValue(),
            chb_Pernoctado.isSelected(),cmbEstado.getSelectedIndex(),cmbLocalidad.getSelectedIndex(),
-           txt_Actividad.getText());
+           txt_Actividad.getText(),cmbArea.getSelectedItem()+"");
            asv.setVisible(true);
        }else{
            try{
@@ -281,13 +304,22 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
+        //ComboArea
+        String lista = manager_complemento.obtenerAreas();
+        String[] recoger = lista.split(",,");
+
+        cmbArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        for(int i = 1; i <= recoger.length;i = i+2){
+            cmbArea.addItem(recoger[i]);
+        }
+        
         comboEmpleados.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboEmpleados.addItem("Selecione empleado...");
-        manager_users.getNombresEmpleados(comboEmpleados);
+        manager_users.getNombresEmpleados(comboEmpleados,1);
     }//GEN-LAST:event_formWindowOpened
 
     private void comboEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpleadosActionPerformed
-        // TODO add your handling code here:
+    // TODO add your handling code here:
         int empleado = comboEmpleados.getSelectedIndex();
         if(empleado > 0){
             txt_Puesto.setText(manager_users.obtenerPuesto(comboEmpleados.getSelectedItem().toString()));
@@ -306,6 +338,13 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             cmbLocalidad.addItem(localidades.get(i));
         }
     }//GEN-LAST:event_cmbEstadoItemStateChanged
+
+    private void cmbAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAreaActionPerformed
+        // TODO add your handling code here:
+        comboEmpleados.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        comboEmpleados.addItem("Selecione empleado...");
+        manager_users.getNombresEmpleados(comboEmpleados,cmbArea.getSelectedIndex()+1);
+    }//GEN-LAST:event_cmbAreaActionPerformed
     public void insertar_Solicitud(int ConCarro){
         try{
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
@@ -327,11 +366,11 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                 + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"','','')");
             
             if(insersion){
-                JOptionPane.showMessageDialog(this, "Insersión correcta");
+                JOptionPane.showMessageDialog(this, "Solicitud de viáticos registrada");
                 PrincipalS.tablasolic.setModel(manager_viaticos.getTasol());
                 this.setVisible(false);
             }else{
-                JOptionPane.showMessageDialog(this, "Error al insertar pero no excepción");
+                JOptionPane.showMessageDialog(this, "Error al insertar");
             }
         }catch(Exception e){
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
@@ -430,22 +469,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(addSolicitudViaticos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(addSolicitudViaticos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(addSolicitudViaticos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(addSolicitudViaticos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+        
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -469,6 +493,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JCheckBox chb_Pernoctado;
+    private javax.swing.JComboBox cmbArea;
     private javax.swing.JComboBox<String> cmbEstado;
     private javax.swing.JComboBox<String> cmbLocalidad;
     private javax.swing.JComboBox<String> comboEmpleados;
@@ -483,6 +508,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAviso;

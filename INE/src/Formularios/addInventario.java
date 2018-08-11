@@ -8,6 +8,7 @@ package Formularios;
 import Clases.ManagerInventario;
 import Clases.ManagerPermisos;
 import Clases.Validaciones;
+import Clases.enviarFotoPOST;
 
 import Interfaces.Principal;
 import static Interfaces.Principal.comboEstatus;
@@ -16,12 +17,16 @@ import static Interfaces.Principal.nomeclaturas;
 import com.sun.glass.events.KeyEvent;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 //import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
@@ -31,11 +36,18 @@ import javax.swing.JOptionPane;
 public class addInventario extends javax.swing.JDialog {
     ManagerInventario manager_inventario;
     ManagerPermisos manager_permisos;
+    enviarFotoPOST managerPOST;
     
-    String folio,extension,producto,descripcion,ubicacion,marca,observaciones,noserie,color,modelo,imagen,fecha_compra,factura;
+    String folio,extension,producto,descripcion,ubicacion,marca,observaciones,noserie,color,modelo,fecha_compra,factura;
     int numero,cantidad;
     float importe;
     String [] nomeclaturas,folios;
+    
+    
+    private String path, absolute_path, name;
+    private int returnVal;
+    File[] rutas;
+    int contadorRutas;
     
     /**
      * Creates new form addInventario
@@ -47,10 +59,12 @@ public class addInventario extends javax.swing.JDialog {
         //Asginamos memoria al objeto
         manager_inventario = new ManagerInventario();
         manager_permisos = new ManagerPermisos();
+        managerPOST = new enviarFotoPOST();
         
         this.setLocationRelativeTo(null);
         campoRuta.setVisible(false);
         campoRuta.setText(cargarNoImage()+"\\src\\Imagenes\\noproducto.png");
+        contadorImg.setVisible(false);
     }
     
     public String cargarNoImage() {
@@ -96,6 +110,7 @@ public class addInventario extends javax.swing.JDialog {
         txtExtension = new javax.swing.JTextField();
         txtDescripcion = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
+        contadorImg = new javax.swing.JLabel();
         txtFactura = new javax.swing.JTextField();
         txtImporte = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
@@ -374,6 +389,10 @@ public class addInventario extends javax.swing.JDialog {
         pn_addInventario.add(jLabel9);
         jLabel9.setBounds(300, 350, 51, 17);
 
+        contadorImg.setText("0");
+        pn_addInventario.add(contadorImg);
+        contadorImg.setBounds(660, 270, 6, 14);
+
         txtFactura.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtFactura.setToolTipText("Ejemplo CMP00000001");
         txtFactura.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -478,7 +497,7 @@ public class addInventario extends javax.swing.JDialog {
         }else{
             descripcion = txtDescripcion.getText();
         }
-        imagen = campoRuta.getText();
+        
         importe = Float.parseFloat(txtImporte.getText());
         if(txtFactura.getText().isEmpty()){
             factura = "Sin capturar";
@@ -511,8 +530,9 @@ public class addInventario extends javax.swing.JDialog {
         getInfo();
         if(manager_permisos.accesoModulo("alta","Inventario",Principal.Username)){
             
-            if (manager_inventario.guardarImagen(folio,numero,extension, producto, descripcion,ubicacion, marca, "Sin observaciones",noserie, modelo, color, fecha_compra, factura, importe,imagen,cantidad)) {
-
+            if (manager_inventario.guardarImagen(folio,numero,extension, producto, descripcion,ubicacion, marca, "Sin observaciones",noserie, modelo, color,contadorImg.getText(), fecha_compra, factura, importe,cantidad)) {
+                String nombreParametro = txtFolio.getText() + "-" + txtNum.getText()+ txtExtension.getText();
+                managerPOST.prepararImagenesInventario(rutas, nombreParametro, contadorRutas);   
                 JOptionPane.showMessageDialog(null, "Se inserto correctamente al inventario");
                 
                 int num = comboFolio.getSelectedIndex();
@@ -578,28 +598,55 @@ public class addInventario extends javax.swing.JDialog {
 
     private void btnImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImagenActionPerformed
         // TODO add your handling code here:
-        JFileChooser fc = new JFileChooser();
+        
+        JFileChooser chooser = new JFileChooser(System.getProperty("user.home") + "\\Pictures");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagenes JPG,GIF & PNG", "jpg", "gif", "png");
+        chooser.setMultiSelectionEnabled(true);
+        chooser.setFileFilter(filter);
+        returnVal = chooser.showOpenDialog(this);
 
-        //        fc.setFileFilter(new FileNameExtensionFilter(".PNG", ".png"));
-        //        fc.setFileFilter(new FileNameExtensionFilter(".JPG", "Archivos de imagen"));
-        //        fc.setFileFilter(new FileNameExtensionFilter(".BMP", "Archivos de imagen"));
-        //        fc.setFileFilter(new FileNameExtensionFilter(".JPEG", "Archivos de imagen"));
-        int respuesta = fc.showOpenDialog(this);
-        //Comprobar si se ha pulsado Aceptar
-        if (respuesta == JFileChooser.APPROVE_OPTION) {
-            //Mostrar el nombre del archvivo en un campo de texto
-            campoRuta.setText(fc.getSelectedFile().toString());
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            name = chooser.getSelectedFile().getName();
+            absolute_path = chooser.getSelectedFile().getAbsolutePath();
+            path = chooser.getSelectedFile().getPath();
 
-        }//if
-        String path = campoRuta.getText();
-        URL url = this.getClass().getResource(path);
-        System.err.println("" + path);
-        ImageIcon imagen = new ImageIcon(path);
-        ImageIcon icono = new ImageIcon(imagen.getImage().getScaledInstance(imagenProducto.getWidth(), imagenProducto.getHeight(), Image.SCALE_DEFAULT));
-        imagenProducto.setIcon(icono);
-        //        ImageIcon image = new ImageIcon(i);
-        //        imagenVehiculo.setIcon(image);
-        //        this.repaint();
+            rutas = chooser.getSelectedFiles();
+            contadorRutas = chooser.getSelectedFiles().length;
+            //System.out.println("Archivo: " + name);
+            //System.out.println("Absolute Path: " + absolute_path);
+            //System.out.println("Path: " + path);
+            BufferedImage img = null;
+            contadorImg.setText("" + contadorRutas);
+            contadorImg.setVisible(true);
+
+            try {
+                img = ImageIO.read(new File(absolute_path));
+                Image dimg = img.getScaledInstance(imagenProducto.getWidth(), imagenProducto.getHeight(), Image.SCALE_SMOOTH);
+                ImageIcon image = new ImageIcon(dimg);
+                imagenProducto.setText("");
+                imagenProducto.setIcon(image);
+                //this.jButton1.setEnabled(true);
+            } catch (IOException e) {
+                System.err.println(e.toString());
+            }
+
+        }
+        
+        
+//        JFileChooser fc = new JFileChooser();
+//        int respuesta = fc.showOpenDialog(this);
+//        //Comprobar si se ha pulsado Aceptar
+//        if (respuesta == JFileChooser.APPROVE_OPTION) {
+//            //Mostrar el nombre del archvivo en un campo de texto
+//            campoRuta.setText(fc.getSelectedFile().toString());
+//
+//        }//if
+//        String path = campoRuta.getText();
+//        URL url = this.getClass().getResource(path);
+//        System.err.println("" + path);
+//        ImageIcon imagen = new ImageIcon(path);
+//        ImageIcon icono = new ImageIcon(imagen.getImage().getScaledInstance(imagenProducto.getWidth(), imagenProducto.getHeight(), Image.SCALE_DEFAULT));
+//        imagenProducto.setIcon(icono);
 
     }//GEN-LAST:event_btnImagenActionPerformed
 
@@ -843,22 +890,7 @@ public class addInventario extends javax.swing.JDialog {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(addInventarioGranel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(addInventarioGranel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(addInventarioGranel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(addInventarioGranel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+        
         //</editor-fold>
         
         /* Create and display the dialog */
@@ -883,6 +915,7 @@ public class addInventario extends javax.swing.JDialog {
     private javax.swing.JTextField campoRuta;
     private javax.swing.JComboBox<String> comboFolio;
     private javax.swing.JComboBox comboUbicacion;
+    private javax.swing.JLabel contadorImg;
     private javax.swing.JLabel imagenProducto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

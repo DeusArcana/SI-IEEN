@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,16 +28,63 @@ public class ManagerPermisos {
         db = new Conexion();
     }//Constructor
     
-    public DefaultTableModel getPermisos(JTable tabla,String usuario) {
+    public DefaultTableModel getPermisos(boolean editar,String usuario) {
         
-        DefaultTableModel table = new DefaultTableModel();
-        table = (DefaultTableModel) tabla.getModel();
+        JTable checks = new JTable();
+        JScrollPane scroll = new JScrollPane();
+        conexion = db.getConexion();
+        
+        DefaultTableModel table;
+        
+        //Creamos la tabla con las caracterisiticas que necesitamos
+        checks.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        checks.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {},
+            //Declaramos el titulo de las columnas
+            new String [] {
+                "Modulo",
+                "Alta",
+                "Baja",
+                "Actualizar",
+                "Consulta"
+            }
+        ){
+            //El tipo que sera cada columna, la primera columna un checkbox y los demas seran objetos
+            Class[] types = new Class [] { 
+                java.lang.Object.class,
+                java.lang.Boolean.class,
+                java.lang.Boolean.class,
+                java.lang.Boolean.class,
+                java.lang.Boolean.class
+            };
+
+			@Override
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+            //Esto es para indicar que columnas dejaremos editar o no
+            boolean[] canEdit = new boolean [] {
+                false, editar, editar, editar, editar
+            };
+
+			@Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+            
+          }
+        
+        );
+        //Agregamos un scroll a la tabla
+        scroll.setViewportView(checks);
+        scroll.setBounds(30, 130, 1110, 500);
+        
+        table = (DefaultTableModel)checks.getModel();
         
         try {
             
             //Consulta de los productos
             String sql = "select modulo,alta,baja,actualizar,consulta from permisos where id_user = '"+usuario+"';";
-            conexion = db.getConexion();
             Statement st = conexion.createStatement();
             Object datos[] = new Object[5];
             ResultSet rs = st.executeQuery(sql);
@@ -62,7 +110,7 @@ public class ManagerPermisos {
             
             conexion.close();
         } catch (SQLException ex) {
-            System.out.printf("Error getTabla Inventario SQL");
+            System.out.printf("Error al obtener los permisos del usuario \""+usuario+"\"SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
 
@@ -315,73 +363,7 @@ public class ManagerPermisos {
         
         return estado;
     }//esSuperUsuario
-    
-    public boolean esPresidencia(String usuario){
-        String puesto;
-        boolean estado = false;
-        conexion = db.getConexion();
-        
-        try {
-            Statement st = conexion.createStatement();
-            //Obtenemos el puesto del usuario
-            String sql = "select puesto from user where id_user = '"+usuario+"';";
-            ResultSet rs = st.executeQuery(sql);
-            rs.next();
-            puesto = rs.getString(1);
-            
-            if(puesto.equals("Presidencia")){
-               estado = true;
-            }
-            
-            conexion.close();
-        } //try  
-        
-        catch (SQLException ex) {
-            Logger.getLogger(ManagerPermisos.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }//Catch//Catch//Catch//Catch
-        
-        return estado;
-    }//esPresidencia
-    
-    public boolean permisosVale(String tipo, boolean usuario, boolean auxiliar, boolean jefe, boolean administracion, boolean organizacion){
-    
-        conexion = db.getConexion();
-        
-        try {
-            Statement st = conexion.createStatement();
-            //Realizamos los nuevos cambios para los permisos de atender la solicitudes de baja o comodato o donación
-            String sql = "update permiso_vale set permiso = "+usuario+" where puesto = 'Usuario Depto.' and tipo_vale = '"+tipo+"';";
-            st.executeUpdate(sql);
-            System.out.println("Se actualizo la secretaria");
-            
-            sql = "update permiso_vale set permiso = "+auxiliar+" where puesto = 'Auxiliar' and tipo_vale = '"+tipo+"';";
-            st.executeUpdate(sql);
-            System.out.println("Se actualizo el auxiliar");
-            
-            sql = "update permiso_vale set permiso = "+administracion+" where puesto = 'Administración' and tipo_vale = '"+tipo+"';";
-            st.executeUpdate(sql);
-            System.out.println("Se actualizo el supervisor");
-            
-            sql = "update permiso_vale set permiso = "+jefe+" where puesto = 'Jefe de departamento' and tipo_vale = '"+tipo+"';";
-            st.executeUpdate(sql);
-            System.out.println("Se actualizo el jefe");
-            
-            sql = "update permiso_vale set permiso = "+organizacion+" where puesto = 'Organización' and tipo_vale = '"+tipo+"';";
-            st.executeUpdate(sql);
-            System.out.println("Se actualizo la organización");
-            
-            conexion.close();
-            return true;
-        } //try  
-        
-        catch (SQLException ex) {
-            Logger.getLogger(ManagerPermisos.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }//Catch//Catch//Catch//Catch
-        
-    }//permisosSolicitud
-    
+   
     public boolean usuario_Vale(String tipo){
         boolean estado;
         conexion = db.getConexion();

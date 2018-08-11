@@ -10,7 +10,7 @@ import Clases.ManagerComplemento;
 import Clases.ManagerPermisos;
 
 import Interfaces.Principal;
-import com.alee.laf.WebLookAndFeel;
+import static Interfaces.Principal.comboEmpUsu;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -20,14 +20,16 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author kevin
  */
 public class updateEmpleado extends javax.swing.JDialog {
-    String nombres,apellido_p,apellido_m,telefono,curp,rfc,calle,colonia,fecha,codigoP,area,municipio,localidad;
+    String nombres,apellido_p,apellido_m,telefono,curp,rfc,calle,colonia,fecha,codigoP,municipio,localidad,busqueda;
     boolean documentacion;
-    int id;
+    int id,filtro, bandera,area,puesto;
+    int[] ids_area,ids_puesto;
     
     ManagerUsers manager_users;
     ManagerComplemento manager_complemento;
@@ -35,14 +37,19 @@ public class updateEmpleado extends javax.swing.JDialog {
     /**
      * Creates new form addEmpleados
      */
-    public updateEmpleado(java.awt.Frame parent, boolean modal, int idEmpleado, int bandera) throws ParseException {
+    public updateEmpleado(java.awt.Frame parent, boolean modal, int idEmpleado, int bandera, int filtro, String busqueda) throws ParseException {
         super(parent, modal);
         initComponents();
-        
+        this.bandera = bandera;
         //Está bandera es para saber si se llama de la pestaña de empleados o si se llama para actualizar su perfil
         if(bandera == 1){
             txtRfc.setEditable(false);
+            comboArea.setEnabled(false);
+            comboPuesto.setEnabled(false);
         }
+        
+        this.filtro = filtro;
+        this.busqueda = busqueda;
         
         //Asignamos memoria a los objetos
         manager_users = new ManagerUsers();
@@ -53,6 +60,18 @@ public class updateEmpleado extends javax.swing.JDialog {
         this.id = idEmpleado;
         //Cadena con todos los datos de la consulta
         String datosEmpleado = manager_users.obtenerDatosEmpleado(id);
+        
+        //ComboArea
+        String lista = manager_complemento.obtenerAreas();
+        String[] recoger = lista.split(",,");
+        ids_area = new int[recoger.length/2];
+        
+        comboArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        for(int i = 1,j = 0; i <= recoger.length;i = i+2,j++){
+            comboArea.addItem(recoger[i]);
+            ids_area[j] = Integer.parseInt(recoger[i-1]);
+        }
+        
         //Acomodamos los datos donde van
         colocarDatos(datosEmpleado);
         
@@ -75,6 +94,10 @@ public class updateEmpleado extends javax.swing.JDialog {
     private void initComponents() {
 
         pn_empleado = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        comboArea = new javax.swing.JComboBox<>();
+        jLabel18 = new javax.swing.JLabel();
+        comboPuesto = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -101,8 +124,6 @@ public class updateEmpleado extends javax.swing.JDialog {
         txtLocalidad = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        lblPuesto = new javax.swing.JLabel();
-        lblArea = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -114,6 +135,34 @@ public class updateEmpleado extends javax.swing.JDialog {
 
         pn_empleado.setLayout(null);
 
+        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel14.setText("Área:");
+        pn_empleado.add(jLabel14);
+        jLabel14.setBounds(450, 170, 32, 17);
+
+        comboArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboAreaActionPerformed(evt);
+            }
+        });
+        pn_empleado.add(comboArea);
+        comboArea.setBounds(490, 170, 190, 23);
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel18.setText("Puesto:");
+        pn_empleado.add(jLabel18);
+        jLabel18.setBounds(432, 200, 50, 17);
+
+        comboPuesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboPuesto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboPuestoActionPerformed(evt);
+            }
+        });
+        pn_empleado.add(comboPuesto);
+        comboPuesto.setBounds(490, 200, 190, 23);
+
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Nombre(s):");
         pn_empleado.add(jLabel1);
@@ -121,7 +170,7 @@ public class updateEmpleado extends javax.swing.JDialog {
 
         txtNombre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtNombre);
-        txtNombre.setBounds(118, 11, 202, 23);
+        txtNombre.setBounds(118, 11, 202, 25);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Apellido Paterno:");
@@ -130,7 +179,7 @@ public class updateEmpleado extends javax.swing.JDialog {
 
         txtApellidoP.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtApellidoP);
-        txtApellidoP.setBounds(118, 40, 202, 23);
+        txtApellidoP.setBounds(118, 40, 202, 25);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Apellido Materno:");
@@ -139,7 +188,7 @@ public class updateEmpleado extends javax.swing.JDialog {
 
         txtApellidoM.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtApellidoM);
-        txtApellidoM.setBounds(118, 69, 202, 23);
+        txtApellidoM.setBounds(118, 69, 202, 25);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Calle:");
@@ -148,7 +197,7 @@ public class updateEmpleado extends javax.swing.JDialog {
 
         txtCalle.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtCalle);
-        txtCalle.setBounds(118, 98, 202, 23);
+        txtCalle.setBounds(118, 98, 202, 25);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Colonia:");
@@ -157,7 +206,7 @@ public class updateEmpleado extends javax.swing.JDialog {
 
         txtColonia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtColonia);
-        txtColonia.setBounds(118, 127, 202, 23);
+        txtColonia.setBounds(118, 127, 202, 25);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setText("Telefono:");
@@ -166,7 +215,7 @@ public class updateEmpleado extends javax.swing.JDialog {
 
         txtTelefono.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtTelefono);
-        txtTelefono.setBounds(487, 11, 202, 23);
+        txtTelefono.setBounds(487, 11, 202, 25);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Código Postal:");
@@ -175,7 +224,7 @@ public class updateEmpleado extends javax.swing.JDialog {
 
         txtCodigo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtCodigo);
-        txtCodigo.setBounds(487, 40, 202, 23);
+        txtCodigo.setBounds(487, 40, 202, 25);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("CURP:");
@@ -184,7 +233,7 @@ public class updateEmpleado extends javax.swing.JDialog {
 
         txtCurp.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtCurp);
-        txtCurp.setBounds(487, 69, 202, 23);
+        txtCurp.setBounds(487, 69, 202, 25);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("RFC:");
@@ -193,14 +242,14 @@ public class updateEmpleado extends javax.swing.JDialog {
 
         txtRfc.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtRfc);
-        txtRfc.setBounds(487, 98, 202, 23);
+        txtRfc.setBounds(487, 98, 202, 25);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("Fecha de nacimiento:");
         pn_empleado.add(jLabel10);
         jLabel10.setBounds(353, 130, 130, 17);
         pn_empleado.add(txtFecha);
-        txtFecha.setBounds(487, 130, 202, 20);
+        txtFecha.setBounds(487, 130, 202, 25);
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel15.setText("Municipio:");
@@ -209,7 +258,7 @@ public class updateEmpleado extends javax.swing.JDialog {
 
         txtMunicipio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtMunicipio);
-        txtMunicipio.setBounds(118, 156, 202, 23);
+        txtMunicipio.setBounds(118, 156, 202, 25);
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel16.setText("Localidad:");
@@ -218,37 +267,31 @@ public class updateEmpleado extends javax.swing.JDialog {
 
         txtLocalidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtLocalidad);
-        txtLocalidad.setBounds(118, 185, 202, 23);
+        txtLocalidad.setBounds(118, 185, 202, 25);
 
         btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
         btnAceptar.setText("Aceptar");
+        btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAceptarActionPerformed(evt);
             }
         });
         pn_empleado.add(btnAceptar);
-        btnAceptar.setBounds(220, 240, 121, 25);
+        btnAceptar.setBounds(220, 240, 121, 33);
 
         btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
             }
         });
         pn_empleado.add(btnCancelar);
-        btnCancelar.setBounds(390, 240, 121, 25);
-
-        lblPuesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lblPuesto.setText("Puesto:");
-        pn_empleado.add(lblPuesto);
-        lblPuesto.setBounds(340, 190, 350, 17);
-
-        lblArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lblArea.setText("Área:");
-        pn_empleado.add(lblArea);
-        lblArea.setBounds(360, 170, 330, 17);
+        btnCancelar.setBounds(390, 240, 121, 33);
 
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         pn_empleado.add(jLabel17);
@@ -278,7 +321,7 @@ public class updateEmpleado extends javax.swing.JDialog {
         //Apellido Materno
         txtApellidoM.setText(datos[2]);
         //Área
-        lblArea.setText("Área: "+datos[3]);
+        comboArea.setSelectedItem(datos[3]);
         //Calle
         if(datos[4].equals("null")){
             datos[4] = "Sin especificar";
@@ -327,7 +370,7 @@ public class updateEmpleado extends javax.swing.JDialog {
         }
         txtLocalidad.setText(datos[12]);
         //Puesto
-        lblPuesto.setText("Puesto: "+datos[13]);
+        comboPuesto.setSelectedItem(datos[13]);
         
         
     }//colocarDatos
@@ -347,6 +390,9 @@ public class updateEmpleado extends javax.swing.JDialog {
         
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         fecha = formato.format(txtFecha.getDate());
+        
+        area = ids_area[comboArea.getSelectedIndex()];
+        puesto = ids_puesto[comboPuesto.getSelectedIndex()];
         
     }//getInfo()
     
@@ -373,11 +419,35 @@ public class updateEmpleado extends javax.swing.JDialog {
             switch(res){
                 case 0:
                     getInfo();
-                    boolean insertar = manager_users.actualizarEmpleado(id,nombres, apellido_p, apellido_m, calle, colonia, telefono, codigoP, fecha, curp, rfc, municipio,localidad);
+                    boolean insertar = manager_users.actualizarEmpleado(id,nombres, apellido_p, apellido_m, calle, colonia, telefono, codigoP, fecha, curp, rfc, municipio,localidad,area,puesto);
                     if(insertar){
-                        JOptionPane.showMessageDialog(null, "El empleado "+nombres+ " "+apellido_p+ "ha sido registrado en la base de datos exitosamente.");
-                        if(manager_permisos.accesoModulo("consulta","Empleados",Principal.Username)){
-                            Principal.tablaUsuarios.setModel(manager_users.getEmpleados());
+                        if(bandera == 1){
+                            String cadena = manager_users.infoEmpleado(Principal.Username);
+                            String separador [] = cadena.split(",");
+                            Principal.lblNombre.setText("Nombre: "+separador[0]+" "+separador[1]+" "+separador[2]);
+                            Principal.lblDomicilio.setText("Domicilio: "+separador[4]+" "+separador[3]);
+                            Principal.lblTelefono.setText("Telefono: "+separador[5]);
+                            Principal.lblCodigo.setText("C.P.: "+separador[6]);
+                            Principal.lblFecha.setText("Fecha de nacimiento: "+separador[7]);
+                            Principal.lblCurp.setText("CURP: "+separador[8]);
+                            Principal.lblRfc.setText("RFC: "+separador[9]);
+                            Principal.lblMunicipio.setText("Municipio: "+separador[10]);
+                            Principal.lblLocalidad.setText("Localidad: "+separador[11]);
+                            Principal.lblCargo.setText("Puesto: "+separador[12]);
+                            Principal.lblArea.setText("Área: "+separador[13]);
+                            JOptionPane.showMessageDialog(null, "Sus datos se actualizaron exitosamente");
+                        }else{
+                            JOptionPane.showMessageDialog(null, "El empleado "+nombres+ " "+apellido_p+ "ha sido actualizado exitosamente.");
+                            if(manager_permisos.accesoModulo("consulta","Empleados",Principal.Username)){
+                                if(comboEmpUsu.getSelectedItem().toString().equals("Empleados sin usuario")){
+                                    Principal.tablaUsuarios.setModel(manager_users.getEmpleadosSinUsuario(filtro,busqueda,Principal.comboEmpUsuEstatus.getSelectedItem().toString()));
+                                }else{
+                                    Principal.tablaUsuarios.setModel(manager_users.getEmpleados(Principal.Username,filtro,busqueda,Principal.comboEmpUsuEstatus.getSelectedItem().toString()));
+                                }
+                            }else{
+                                JOptionPane.showMessageDialog(null, "Han revocado sus permisos para consulta de empleados");
+                                Principal.tablaUsuarios.setModel(new DefaultTableModel());
+                            }
                         }
                         this.dispose();
                     }else{
@@ -418,6 +488,24 @@ public class updateEmpleado extends javax.swing.JDialog {
         
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void comboAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAreaActionPerformed
+        // TODO add your handling code here:
+        //ComboPuesto
+        String lista = manager_complemento.obtenerPuestos(comboArea.getSelectedIndex()+1);
+        String[] recoger = lista.split(",,");
+        ids_puesto = new int[recoger.length/2];
+
+        comboPuesto.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        for(int i = 1,j = 0; i <= recoger.length;i = i+2,j++){
+            comboPuesto.addItem(recoger[i]);
+            ids_puesto[j] = Integer.parseInt(recoger[i-1]);
+        }
+    }//GEN-LAST:event_comboAreaActionPerformed
+
+    private void comboPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboPuestoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboPuestoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -427,22 +515,7 @@ public class updateEmpleado extends javax.swing.JDialog {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(updateEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(updateEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(updateEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(updateEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+        
         //</editor-fold>
         //</editor-fold>
 
@@ -464,11 +537,15 @@ public class updateEmpleado extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JComboBox<String> comboArea;
+    private javax.swing.JComboBox<String> comboPuesto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -477,8 +554,6 @@ public class updateEmpleado extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel lblArea;
-    private javax.swing.JLabel lblPuesto;
     private javax.swing.JPanel pn_empleado;
     private javax.swing.JTextField txtApellidoM;
     private javax.swing.JTextField txtApellidoP;

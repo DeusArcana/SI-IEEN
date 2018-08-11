@@ -33,11 +33,12 @@ public class ManejadorInventario {
 	public DefaultTableModel getInventarioG() {
         // Objeto de la tabla
         DefaultTableModel table = new DefaultTableModel();
-		
+	
 		// Se prepara la llamada al SP, que se destruye al finalizar el TRY-CATCH
         try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_infoInventarioGranel`(?, ?}")){
-			// Se agregan las columnas al objeto de la tabla
-            table.addColumn("Clave");
+			      // Se agregan las columnas al objeto de la tabla
+            table.addColumn("No. Inventario");
+
             table.addColumn("Producto");
             table.addColumn("Descripción");
             table.addColumn("Almacén");
@@ -85,11 +86,10 @@ public class ManejadorInventario {
     public DefaultTableModel getInventarioParaAsignacion(String nomenclatura) {
         // Objeto para la tabla
         DefaultTableModel table = new DefaultTableModel();
-		
 		// Se prepara la llamada al SP, que se destruye al finalizar el TRY-CATCH
         try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_inventarioParaAsignacion`(?, ?)}")){
             // Se agregan las columnas al objeto de la tabla
-            table.addColumn("Clave");
+            table.addColumn("No. Inventario");
             table.addColumn("Nombre_corto");
             table.addColumn("Descripción");
             table.addColumn("Ubicación");
@@ -408,6 +408,32 @@ public class ManejadorInventario {
         
     }//Obtiene todas los nombres de los empleados que tienen productos asignados
     
+    //Este método es para llenar el combo solamente con los empleados que tengan asignaciones (vales de resguardo) y que todavia no hayan sido
+    //recogidos (vales de recolección)
+    public void getAñoEmpleadoAsignacion(JComboBox combo,String empleado) {
+        try{
+           
+            String sql = "select v.Año from vales v "
+                    + "inner join detalle_vale dv on (dv.id_vale = concat(v.Folio,'-',v.Numero,'-',v.Año)) "
+                    + "inner join inventario ig on (dv.id_producto = concat(ig.Folio,'-',ig.Numero,ig.Extension)) "
+                    + "inner join empleados e on (e.id_empleado = v.id_empleado) "
+                    + "where concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m)= '"+empleado+"' and dv.estado = 'Asignado' "
+                    + "group by v.año order by v.Año desc;";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                combo.addItem(rs.getObject(1).toString());
+            }
+            
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los años de acuerdo al empleado para ver los vales de esa fecha SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+    }//Obtiene todas los nombres de los empleados que tienen productos asignados
+    
 	/**
 	 * <h1>Obtener Inventario Asignaciones a Empleados</h1>
 	 * 
@@ -504,8 +530,7 @@ public class ManejadorInventario {
 		
         try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_insert_productosAsignaciones`(?, ?)}")) {
             cs.setString(1, Empleado);
-			cs.setString(2, "Asignado");
-
+			      cs.setString(2, "Asignado");
             Object datos[] = new Object[12];
 			
             ResultSet rs = cs.executeQuery();
@@ -589,7 +614,7 @@ public class ManejadorInventario {
         DefaultTableModel table = new DefaultTableModel();
 
         try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_empleadoAsignacionPersonal`(?, ?)}")) {
-            table.addColumn("Clave");
+            table.addColumn("No. Inventario");
             table.addColumn("Producto");
             table.addColumn("Descripción");
             table.addColumn("Marca");
@@ -625,7 +650,7 @@ public class ManejadorInventario {
 
         try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_empleadoAsignacionPersonalGrnl`(?)}")) {
             table.addColumn("Vale");
-            table.addColumn("Clave");
+            table.addColumn("No. Inventario");
             table.addColumn("Producto");
             table.addColumn("Descripción");
             table.addColumn("Observaciones");
@@ -698,7 +723,7 @@ public class ManejadorInventario {
         DefaultTableModel table = new DefaultTableModel();
 
         try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_inventarioStockMin`()}")) {
-            table.addColumn("Clave");
+            table.addColumn("No. Inventario");  
             table.addColumn("Producto");
             table.addColumn("Descripción");
             table.addColumn("Observaciones");

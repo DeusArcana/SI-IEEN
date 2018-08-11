@@ -26,9 +26,10 @@ public class ManagerInventario {
     ManagerInventarioGranel manager_inventario_granel;
     private Connection conexion;
     private final Conexion db;
-    
+    Validaciones v;
     public ManagerInventario(){
         db = new Conexion();
+		this.v  = new Validaciones();
     }//Constructor
     
 
@@ -81,46 +82,40 @@ public class ManagerInventario {
     }//obtenerDatosProd
     
     //realizar una inserción al inventario con imagen
-    public boolean guardarImagen(String folio,int numero,String extension, String producto, String descripcion, String ubicacion, String marca, String observaciones,String no_serie,String modelo,String color,String fecha_compra,String factura, float importe,String ruta, int cantidad) {
+    public boolean guardarImagen(String folio, int numero, String extension, String producto, String descripcion, String ubicacion, String marca, String observaciones, String no_serie, String modelo, String color,String cantidadFotos,String fecha_compra, String factura, float importe, int cantidad) {
         conexion = db.getConexion();
         String insert;
-        File file;
         try {
-            for(int i = 0; i<cantidad;i++){
-        
-                insert = "insert into inventario (Folio,Numero,Extension,nombre_prod,descripcion,ubicacion,estatus,marca,observaciones,no_serie,tipo_uso,modelo,color,imagen,Fecha_Compra,Factura,Importe)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-                FileInputStream fi = null;
+            for (int i = 0; i < cantidad; i++) {
+
+                insert = "insert into inventario (Folio,Numero,Extension,nombre_prod,descripcion,ubicacion,estatus,marca,observaciones,no_serie,modelo,color,cantidad_fotos,Fecha_Compra,Factura,Importe)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+
                 PreparedStatement ps = null;
 
+                ps = conexion.prepareStatement(insert);
 
-                    file = new File(ruta);
-                    fi = new FileInputStream(file);
+                ps.setString(1, folio);
+                ps.setInt(2, numero + i);
+                ps.setString(3, extension);
+                ps.setString(4, producto);
+                ps.setString(5, descripcion);
+                ps.setString(6, ubicacion);
+                ps.setString(7, "Disponible");
+                ps.setString(8, marca);
+                ps.setString(9, observaciones);
+                ps.setString(10, no_serie);
+                ps.setString(11, modelo);
+                ps.setString(12, color);
+                ps.setString(13, cantidadFotos);
+                ps.setString(14, fecha_compra);
+                ps.setString(15, factura);
+                ps.setFloat(16, importe);
 
-                    ps = conexion.prepareStatement(insert);
-
-                    ps.setString(1, folio);
-                    ps.setInt(2, numero + i);
-                    ps.setString(3, extension);
-                    ps.setString(4, producto);
-                    ps.setString(5, descripcion);
-                    ps.setString(6, ubicacion);
-                    ps.setString(7, "Disponible");
-                    ps.setString(8, marca);
-                    ps.setString(9, observaciones);
-                    ps.setString(10, no_serie);
-                    ps.setString(11, "Sin asignación");
-                    ps.setString(12, modelo);
-                    ps.setString(13, color);
-                    ps.setBinaryStream(14, fi);
-                    ps.setString(15, fecha_compra);
-                    ps.setString(16, factura);
-                    ps.setFloat(17, importe);
-
-                    ps.executeUpdate();
+                ps.executeUpdate();
             }//for
 
-                return true;
-           
+            return true;
+
         } catch (Exception ex) {
             System.out.println("Error al guardar Imagen " + ex.getMessage());
             return false;
@@ -237,8 +232,8 @@ public class ManagerInventario {
 
         try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_infoInventario`(?, ?)}")){
             // Se añaden los campos a la tabla
-            table.addColumn("Clave");
-            table.addColumn("Nombre_corto");
+            table.addColumn("No. Inventario");
+            table.addColumn("Nombre corto");
             table.addColumn("Descripción");
             table.addColumn("Ubicación");
             table.addColumn("Marca");
@@ -314,6 +309,56 @@ public class ManagerInventario {
 		return false;
     }//existeInventario
     
+     /**
+	 * 
+	 * <h1>Cantidad en Inventario</h1>
+	 *
+	 * <p>Este metodo se utiliza para mostrar la cantidad de productos que se visualizan
+     * en la tabla de inventario.</p>
+	 * 
+	 * @param filtro
+	 * @param busqueda
+	 * @param folio
+	 * @param estatus
+	 * @return 
+	 *		<ul>
+	 *			<li><code>n</code> la cantidad de productos que se encontraron</li>
+	 *			<li><code>0</code> si no se encontraron coincidencias</li>
+	 *		</ul>
+	 *	
+	 */
+    public int cantidadInventario(int filtro, String busqueda, String folio, String estatus) {
+        try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_countBusquedaProducto`(?, ?, ?, ?)}")){
+			
+			cs.setInt(1, filtro);
+			
+			if (estatus.equals("")) 
+				cs.setNull(2, 0);
+			else
+				cs.setString(2, estatus);
+			
+			if (busqueda.equals("")) 
+				cs.setNull(3, 0);
+			else
+				cs.setString(3, busqueda);
+
+			if (folio.equals("")) 
+				cs.setNull(4, 0);
+			else
+				cs.setString(4, folio);
+			
+            ResultSet rs = cs.executeQuery();
+			
+			if(rs.next()) return rs.getInt(1);
+			
+        } catch (Exception ex) {
+            System.err.printf("Error al consultar el inventario en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+		return 0;
+    }//existeInventario
+    
+    
 	/**
 	 * <h1>Nomenclaturas de Folio</h1>
 	 * 
@@ -328,14 +373,14 @@ public class ManagerInventario {
         
         try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_infoFolio`()}")) {
             ResultSet rs = cs.executeQuery();
-            
+          
             while(rs.next()){
-				sb.append(rs.getString(1));
-				sb.append(",");
-				sb.append(rs.getString(2));
-				sb.append(",");
+                sb.append(rs.getString(1));
+                sb.append(",");
+                sb.append(rs.getString(2));
+                sb.append(",");
             }
-
+            
         } catch (SQLException ex) {
             System.out.printf("Error al obtener los folios en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
@@ -398,8 +443,8 @@ public class ManagerInventario {
             int cantidadColumnas = 12;
             //Si el estado es verdadero significa que si encontro coincidencias, entonces mostraremos dichas concidencias
             if(rs.next()){
-                table.addColumn("Clave");
-                table.addColumn("Nombre_corto");
+                table.addColumn("No. Inventario");
+                table.addColumn("Nombre corto");
                 table.addColumn("Descripción");
                 table.addColumn("Ubicación");
                 table.addColumn("Marca");
@@ -420,14 +465,16 @@ public class ManagerInventario {
 
                 //Anteriormente se hizo la consulta, y como entro a este if significa que si se encontraron datos, por ende ya estamos posicionados
                 //en el primer registro de las concidencias
-                for(int i = 0; i < cantidadColumnas; i++){
+				datos[0] = v.constructID(rs.getObject(1).toString());
+                for(int i = 1; i < cantidadColumnas; i++){
                     datos[i] = rs.getObject(i + 1);
                 }//Llenamos las columnas por registro
                 table.addRow(datos);
                     
                 //Proseguimos con los registros en caso de exisitir mas
                 while (rs.next()) {
-                    for(int i = 0; i < cantidadColumnas; i++){
+					datos[0] = v.constructID(rs.getObject(1).toString());
+                    for(int i = 1; i < cantidadColumnas; i++){
 	                    datos[i] = rs.getObject(i + 1);
                     }//Llenamos las columnas por registro
                     table.addRow(datos);//Añadimos la fila
@@ -622,7 +669,6 @@ public class ManagerInventario {
         conexion = db.getConexion();
         
         String update = "update inventario set nombre_prod = ?,almacen = ?,marca = ?,no_serie = ?,descripcion = ?,observaciones = ?,tipo_uso = ?,modelo = ?,color = ? where id_producto = '"+clave+"'";
-        FileInputStream fi = null;
         PreparedStatement ps = null;
 
         try {
@@ -649,6 +695,42 @@ public class ManagerInventario {
 
         }
 
-    }//guardarImagen
+    }//actualizarProductoSinFoto
+    
+    public boolean agregarObservaciones(String clave, String observaciones) {
+        conexion = db.getConexion();
+        boolean estado = false;
+        try {
+            
+            String sql = "update inventario set observaciones = '"+observaciones+"' where concat(Folio,'-',Numero,Extension) = '"+clave+"'";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            st.executeUpdate(sql);
+            
+            conexion.close();
+        } catch (Exception ex) {
+            System.out.println("Error al agregar observaciones al producto \""+clave+"\".");
+        }
+        return estado;
+    }//agregarObservaciones
+    
+    public String observacionesProducto(String clave) {
+        conexion = db.getConexion();
+        String observaciones = "";
+        try {
+            
+            String sql = "select observaciones from inventario where concat(Folio,'-',Numero,Extension) = '"+clave+"'";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            observaciones = rs.getString(1);
+            
+            conexion.close();
+        } catch (Exception ex) {
+            System.out.println("Error al agregar observaciones al producto \""+clave+"\".");
+        }
+        return observaciones;
+    }//agregarObservaciones
     
 }//class

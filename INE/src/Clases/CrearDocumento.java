@@ -28,8 +28,10 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.awt.Desktop;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 
 import java.util.Vector;
@@ -52,6 +54,7 @@ public class CrearDocumento {
     private float multa,infra,faltante,prestamo,t1,comision,bono,sueldo,t2,totalPaga,horaExtra,horaFalta;
     private String fechaPago,fechaIni,fechaFin, trab;
     private File directorio;
+    enviarPDF ob;
     private File archivo;
     private String path, archivo_nombre;
   //  private infoTicket info;
@@ -64,7 +67,7 @@ public class CrearDocumento {
         path = "C:\\SIIEEN\\documentos\\";
         directorio = new File(path);
     //    info = new infoTicket();
-        
+        ob = new enviarPDF();
         if (directorio.exists()) {
             archivo_nombre = "nomina_" + ".pdf";
             archivo = new File(directorio, archivo_nombre);
@@ -118,7 +121,7 @@ public class CrearDocumento {
             Font.NORMAL);
     private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 14,
             Font.BOLD);
-    private static Font subFont2 = new Font(Font.FontFamily.HELVETICA, 10,
+    private static Font subFont2 = new Font(Font.FontFamily.HELVETICA, 8,
             Font.NORMAL);
     private static Font subFont3 = new Font(Font.FontFamily.HELVETICA, 8,
             Font.BOLD);
@@ -139,7 +142,7 @@ public class CrearDocumento {
     
     
     
-    public void createTicket(String pdfFilename, int res,Vector datos)throws DocumentException {
+    public void createTicket(String pdfFilename, int res,Vector datos,String fecha)throws DocumentException {
         
         Rectangle pagesize = new Rectangle(250, 14400);
         Document doc = new Document(pagesize);
@@ -163,6 +166,7 @@ public class CrearDocumento {
             //RELACION DE INVENTARIO
 
             Paragraph BLANCO = new Paragraph();
+            addEmptyLine(BLANCO, (float) 1);
 
             PdfPTable Head = new PdfPTable(2);
             Head.setWidthPercentage(100f);
@@ -175,10 +179,93 @@ public class CrearDocumento {
             PdfPCell LogoCell = new PdfPCell(image, false);
             LogoCell.setBorderColor(BaseColor.WHITE);
           
+            
+            
+            PdfPTable noResguardo = new PdfPTable(3);
+            noResguardo.setWidthPercentage(100f);
+            PdfPCell noResguardoCell,numero;
+            float[] medidaCeldasFecha = {0.55f, 0.55f, 2f};
+            noResguardo.setWidths(medidaCeldasFecha);
+            
+            noResguardoCell = new PdfPCell(new Phrase("No. Acta", subFont2));
+            noResguardoCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            noResguardoCell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            numero = new PdfPCell(new Phrase("", subFont2));
+            numero.setHorizontalAlignment(Element.ALIGN_CENTER);
+            
+            noResguardo.addCell(noResguardoCell);
+            noResguardo.addCell(numero);
+            
+            PdfPCell blancoCell2 = new PdfPCell(new Phrase("", subFont2));
+            blancoCell2.setBorderWidthBottom(0); 
+            blancoCell2.setBorderWidthTop(0);
+            blancoCell2.setBorderWidthRight(0);
+            noResguardo.addCell(blancoCell2);
+            
+            //Tablas
+            PdfPTable fechaResguardo = new PdfPTable(3);
+            fechaResguardo.setWidthPercentage(100f);
+            PdfPCell fechaResguardocell,fechacell;
+            
+            fechaResguardocell = new PdfPCell(new Phrase("Fecha", subFont2));
+            fechaResguardocell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            fechacell = new PdfPCell(new Phrase(""+fecha, subFont2));
+            fechacell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            fechaResguardocell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            fechaResguardo.setWidths(medidaCeldasFecha);
+            
+            fechaResguardo.addCell(fechaResguardocell);
+            fechaResguardo.addCell(fechacell);
+            
+            PdfPCell blancoCell = new PdfPCell(new Phrase("", subFont2));
+            blancoCell.setBorderWidthBottom(0); 
+            blancoCell.setBorderWidthTop(0);
+            blancoCell.setBorderWidthRight(0);         
+            fechaResguardo.addCell(blancoCell);
+            
+            
+            
 
             
             PdfPTable table = new PdfPTable(6);
             table.setWidthPercentage(100f);
+
+            PdfPTable titulos = new PdfPTable(6);
+            titulos.setWidthPercentage(100f);
+
+            PdfPCell cellTitulo1,cellTitulo2,cellTitulo3,cellTitulo4,cellTitulo5,cellTitulo6;
+
+            cellTitulo1 = new PdfPCell(new Phrase("No. Inventario", subFont2));
+            cellTitulo1.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            cellTitulo1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            
+            cellTitulo2 = new PdfPCell(new Phrase("No. Serie", subFont2));
+            cellTitulo2.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            cellTitulo2.setHorizontalAlignment(Element.ALIGN_CENTER);
+            
+            cellTitulo3 = new PdfPCell(new Phrase("Descripción", subFont2));
+            cellTitulo3.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            cellTitulo3.setHorizontalAlignment(Element.ALIGN_CENTER);
+            
+            cellTitulo4 = new PdfPCell(new Phrase("Marca", subFont2));
+            cellTitulo4.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            cellTitulo4.setHorizontalAlignment(Element.ALIGN_CENTER);
+            
+            cellTitulo5 = new PdfPCell(new Phrase("Modelo", subFont2));
+            cellTitulo5.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            cellTitulo5.setHorizontalAlignment(Element.ALIGN_CENTER);
+            
+            cellTitulo6 = new PdfPCell(new Phrase("Color", subFont2));
+            cellTitulo6.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            cellTitulo6.setHorizontalAlignment(Element.ALIGN_CENTER);
+            
+            titulos.addCell(cellTitulo1);
+            titulos.addCell(cellTitulo2);
+            titulos.addCell(cellTitulo3);
+            titulos.addCell(cellTitulo4);
+            titulos.addCell(cellTitulo5);
+            titulos.addCell(cellTitulo6);
+
             //float[] tableMedidas = {0.10f, 0.10f, 0.10f,0.55f};
             //table.setWidths(tableMedidas);
             String temporal[] = datos.get(0).toString().split("//");
@@ -188,42 +275,42 @@ public class CrearDocumento {
                 String aux[] = temporal[i].split(",,");
                 //Cantidad numero y letra
                 PdfPCell cell;
-                cell = new PdfPCell(new Phrase("" + aux[0], subFont2));
+                cell = new PdfPCell(new Phrase("" + aux[0].toUpperCase(), subFont2));
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 
 
                 //autorizó
                 PdfPCell cell1;
 
-                cell1 = new PdfPCell(new Phrase("" + aux[1], subFont2));
+                cell1 = new PdfPCell(new Phrase("" + aux[1].toUpperCase(), subFont2));
                 cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
 
                 //solicitó
                 PdfPCell cell2;
 
-                cell2 = new PdfPCell(new Phrase("" +(aux[2]), subFont2));
+                cell2 = new PdfPCell(new Phrase("" +(aux[2]).toUpperCase(), subFont2));
                 cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
                 
                 //producto
                 PdfPCell cell3;
 
-                cell3 = new PdfPCell(new Phrase("" +(aux[3]), subFont2));
+                cell3 = new PdfPCell(new Phrase("" +(aux[3]).toUpperCase(), subFont2));
                 cell3.setHorizontalAlignment(Element.ALIGN_LEFT);
                 
                 //producto
                 PdfPCell cell4;
 
-                cell4 = new PdfPCell(new Phrase("" +(aux[4]), subFont2));
+                cell4 = new PdfPCell(new Phrase("" +(aux[4]).toUpperCase(), subFont2));
                 cell4.setHorizontalAlignment(Element.ALIGN_LEFT);
                 
                 //producto
                 PdfPCell cell5;
 
-                cell5 = new PdfPCell(new Phrase("" +(aux[5]), subFont2));
+                cell5 = new PdfPCell(new Phrase("" +(aux[5]).toUpperCase(), subFont2));
                 cell5.setHorizontalAlignment(Element.ALIGN_LEFT);
                 
-                
-                
+                 
+
                 table.addCell(cell);
                 table.addCell(cell1);
                 table.addCell(cell2);
@@ -234,14 +321,61 @@ public class CrearDocumento {
             }//for
             
             
+            
+            
            
             
             //AGREGAR AL DOCUMENTO ----------------------------------------------------------------
 
             //for para contenido
+            doc.add(noResguardo);
+            doc.add(fechaResguardo);
+            
+            doc.add(BLANCO);
+            doc.add(BLANCO);
+            doc.add(BLANCO);
+
+            doc.add(titulos);
+         
             doc.add(table);
-            
-            
+
+            String ip = "";
+            try {
+                //Creamos un archivo FileReader que obtiene lo que tenga el archivo
+                FileReader lector = new FileReader("cnfg.ntw");
+
+                //El contenido de lector se guarda en un BufferedReader
+                BufferedReader contenido = new BufferedReader(lector);
+
+                ip = contenido.readLine();
+            } catch (Exception e) {
+
+            }
+
+            table.setWidthPercentage(100f);
+            for (int j = 0; j < temporal.length; j++) {
+                PdfPTable tituloFoto = new PdfPTable(1);
+                // TItulos
+                String aux[] = temporal[j].split(",,");
+
+                PdfPCell cell;
+                cell = new PdfPCell(new Phrase(aux[0].toUpperCase() + ": ", subFont2));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+                if (Integer.parseInt(aux[6]) != 0) {
+                    tituloFoto.addCell(cell);
+                    doc.add(tituloFoto);
+                    
+                }
+                for (int i = 0; i < Integer.parseInt(aux[6]); i++) {
+                    // FOtos de cada producto
+                    Image imagen = Image.getInstance("\\\\"+ip+"\\imagenes\\inventario\\" + aux[0] + "\\" + aux[0] + i + ".png");
+                    imagen.scaleAbsoluteWidth(80f);
+                    imagen.scaleAbsoluteHeight(80f);
+
+                    doc.add(imagen);
+                }
+            }
             
             archivo_nombre = pdfFilename;
 
@@ -259,6 +393,8 @@ public class CrearDocumento {
         } finally {
             if (doc != null) {
                 doc.close();
+                System.out.println("PDF****************************************");
+                ob.prepararPDF("C:\\SIIEEN\\documentos\\" + archivo_nombre + ".pdf","2");
             }
             if (docWriter != null) {
                 docWriter.close();

@@ -66,7 +66,13 @@ BEGIN
 											WHEN `Inv_Filtro` = 8	THEN `Inventario`.`Color`			LIKE CONCAT('%', `Inv_Busqueda`, '%')
 											WHEN `Inv_Filtro` = 9	THEN `Inventario`.`Fecha_Compra`	LIKE CONCAT('%', `Inv_Busqueda`, '%')
 											WHEN `Inv_Filtro` = 10	THEN `Inventario`.`Factura`			LIKE CONCAT('%', `Inv_Busqueda`, '%')
-										END;
+										END
+                                    AND 	
+										CASE
+											WHEN `Inv_Folio` IS NULL THEN 1
+                                            WHEN `Inv_Folio` IS NOT NULL THEN `Inventario`.`Folio` = `Inv_Folio`
+                                        END
+									;
 				END;
 			ELSE 
 				BEGIN
@@ -117,6 +123,11 @@ BEGIN
 														WHEN `Inv_Filtro` = 8	THEN `Inventario`.`Color`			LIKE CONCAT('%', `Inv_Busqueda`, '%')
 														WHEN `Inv_Filtro` = 9	THEN `Inventario`.`Fecha_Compra`	LIKE CONCAT('%', `Inv_Busqueda`, '%')
 														WHEN `Inv_Filtro` = 10	THEN `Inventario`.`Factura`			LIKE CONCAT('%', `Inv_Busqueda`, '%')
+													END
+												AND 	
+													CASE
+														WHEN `Inv_Folio` IS NULL THEN 1
+														WHEN `Inv_Folio` IS NOT NULL THEN `Inventario`.`Folio` = `Inv_Folio`
 													END;
 				END;
 			END IF;

@@ -161,19 +161,20 @@ public class ManagerComplemento {
         try {
             table.addColumn("Producto");
             table.addColumn("Fecha de ingreso");
+            table.addColumn("Hora de ingreso");
             table.addColumn("Observaciones");
             
             //Consulta de los empleados
-            String sql = "select nombre_prod,date(fecha_alta),observaciones from resguardo_personal where id_user = '"+usuario+"';";
+            String sql = "select nombre_prod,date(fecha_alta),time(fecha_alta),observaciones from resguardo_personal where id_user = '"+usuario+"' and fecha_salida is null;";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
-            Object[] datos = new Object[3];
+            Object[] datos = new Object[4];
             
             //Llenar tabla
             while (rs.next()) {
                 
-                for(int i = 0;i<3;i++){
+                for(int i = 0;i<4;i++){
                     datos[i] = rs.getString(i+1);
                 }
                 
@@ -184,7 +185,7 @@ public class ManagerComplemento {
             //Cerramos la conexión
             conexion.close();
         } catch (SQLException ex) {
-            System.out.printf("Error getTabla Inventario SQL");
+            System.out.printf("Error al obtener el resguardo personal del usuario \""+usuario+"\" SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
 
@@ -193,10 +194,30 @@ public class ManagerComplemento {
 
     }//getResguardoPersonal
     
+    public boolean quitarRegistroResguardo(String usuario,String prod,String fecha, String hora, String observaciones) {
+
+        boolean estado = false;
+        try {
+            
+            //Agregamos la fecha de salida
+            String sql = "update resguardo_personal set fecha_salida = now() where nombre_prod = '"+prod+"' and date(fecha_alta) = '"+fecha+"' and time(fecha_alta) = '"+hora+"' and observaciones = '"+observaciones+"' and id_user = '"+usuario+"';";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            st.executeUpdate(sql);
+            //Cerramos la conexión
+            conexion.close();
+            estado = true;
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener el resguardo personal del usuario \""+usuario+"\" SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        return estado;
+    }//quitarRegistroResguardo
+    
     public boolean insertarResguardo(String usuario,String producto,String observaciones) {
         try{
            
-            String sql = "insert into resguardo_personal values('"+usuario+"','"+producto+"',now(),'"+observaciones+"');";
+            String sql = "insert into resguardo_personal (id_user,nombre_prod,fecha_alta,observaciones)values('"+usuario+"','"+producto+"',now(),'"+observaciones+"');";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             st.executeUpdate(sql);
@@ -206,7 +227,7 @@ public class ManagerComplemento {
             return true;
             
         } catch (SQLException ex) {
-            System.out.printf("Error al obtener las áreas para ingresarlos al combo SQL");
+            System.out.printf("Error al insertar el resguardo personal SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         } 

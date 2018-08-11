@@ -11,7 +11,6 @@ package Clases;
  */
 
 
-import static com.alee.managers.notification.NotificationIcon.image;
 import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.File;
@@ -47,17 +46,16 @@ public class ManagerVehiculos {
     
 
     public boolean guardarImagen(String marca, String linea, String clase, String color, String modelo, String motor,
-            String kilometraje, String matricula, String observaciones, String ruta) {
+            String kilometraje, String matricula, String observaciones, String cantidad) {
         con = db.getConexion();
-        String insert = "insert into vehiculos(marca, linea, clase, color, modelo, motor,kilometraje ,matricula,observaciones,imagen) values(?,?,?,?,?,?,?,?,?,?);";
-        FileInputStream fi = null;
+        String insert = "insert into vehiculos(marca, linea, clase, color, modelo, motor,kilometraje ,matricula,observaciones,cantidad_fotos,Estado) values(?,?,?,?,?,?,?,?,?,?,?);";
+       
         PreparedStatement ps = null;
 
         String insertViaticos = "insert into vehiculo_usado(kilometraje,Vehiculos_Matricula) values(?,?);";
         
         try {
-            File file = new File(ruta);
-            fi = new FileInputStream(file);
+            
 
             //Inserción en la tabla de vehiculos para el "inventario"
             ps = con.prepareStatement(insert);
@@ -71,7 +69,8 @@ public class ManagerVehiculos {
             ps.setString(7, kilometraje);
             ps.setString(8, matricula);
             ps.setString(9, observaciones);
-            ps.setBinaryStream(10, fi);
+            ps.setString(10, cantidad);
+            ps.setString(11, "Disponible");
 
             ps.executeUpdate();
 
@@ -160,14 +159,14 @@ public class ManagerVehiculos {
         try {
 
             Statement st = con.createStatement();
-            String sql = "select marca,linea,clase,kilometraje,modelo,color,motor,matricula,observaciones,estado from vehiculos where matricula = '"+matricula+"';";
+            String sql = "select marca,linea,clase,kilometraje,modelo,color,motor,matricula,observaciones,cantidad_fotos,estado from vehiculos where matricula = '"+matricula+"';";
             ResultSet resultados = st.executeQuery(sql);
             while (resultados.next()) {
                 String temp = "";
                 temp += "" + resultados.getString("marca") + "," + resultados.getString("linea") + "," + resultados.getString("clase")
                          + "," + resultados.getString("kilometraje")+ "," + resultados.getString("modelo")+ "," + resultados.getString("color")
                         + "," + resultados.getString("motor") + "," + resultados.getString("matricula")+ "," + resultados.getString("observaciones")
-                        + "," + resultados.getString("estado");
+                        + "," + resultados.getString("cantidad_fotos") + "," + resultados.getString("estado");
                 v.add(temp);
             }
 
@@ -253,16 +252,16 @@ public class ManagerVehiculos {
     }//getEmpleados   
     
     public boolean actualizarVehiculo(String marca, String linea, String clase, String color, String modelo, String motor,
-            String kilomentraje, String matricula, String observaciones, String ruta) {
+            String kilomentraje, String matricula, String observaciones, int cantidad) {
         con = db.getConexion();
         
-        String update = "update vehiculos set marca = ?, linea = ?,clase = ?,color = ?,modelo = ?,motor = ?,kilometraje = ?,observaciones = ?,imagen = ? where matricula = '"+matricula+"'";
-        FileInputStream fi = null;
+        String update = "update vehiculos set marca = ?, linea = ?,clase = ?,color = ?,modelo = ?,motor = ?,kilometraje = ?,observaciones = ?,cantidad_fotos = ? where matricula = '"+matricula+"'";
+        
         PreparedStatement ps = null;
 
         try {
-            File file = new File(ruta);
-            fi = new FileInputStream(file);
+            
+            
 
              ps = con.prepareStatement(update);
 
@@ -274,7 +273,7 @@ public class ManagerVehiculos {
             ps.setString(6, motor);
             ps.setString(7, kilomentraje);
             ps.setString(8, observaciones);
-            ps.setBinaryStream(9, fi);
+            ps.setInt(9, cantidad);
 
             ps.executeUpdate();
 

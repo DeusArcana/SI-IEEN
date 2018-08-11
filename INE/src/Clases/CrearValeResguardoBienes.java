@@ -56,6 +56,7 @@ public class CrearValeResguardoBienes {
     private String path, archivo_nombre;
   //  private infoTicket info;
     private Vector ventaTotal;
+    enviarPDF ob;
     private Vector productos;
   //  private ObtenerProductos obtener_productos;
     
@@ -64,7 +65,7 @@ public class CrearValeResguardoBienes {
         path = "C:\\SIIEEN\\vales\\resguardo\\";
         directorio = new File(path);
     //    info = new infoTicket();
-        
+        ob = new enviarPDF();
         if (directorio.exists()) {
             archivo_nombre = "nomina_" + ".pdf";
             archivo = new File(directorio, archivo_nombre);
@@ -78,60 +79,21 @@ public class CrearValeResguardoBienes {
             }//ifelse
         }//if else
         
-        this.multa = multa;
-        this.infra = infra;
-        this.faltante = faltante;
-        this.prestamo = prestamo;
-        this.t1 = t1;
-        this.comision = comision;
-        this.bono = bono;
-        this.sueldo = sueldo;
-        this.t2 = t2;
-        this.totalPaga = totalPaga;
         
-        this.fechaPago = fechaPago;
-        this.fechaIni = fechaIni;
-        this.fechaFin = fechaFin;
-        
-        this.trab = trab;
-        this.horaExtra = horaExtra;
-        this.horaFalta = horaFalta;
     }//constructor
     
    
 
    
-    private static Font numero = new Font(Font.FontFamily.HELVETICA, 40,
-            Font.BOLD);
-
-    private static Font estilo = new Font(Font.FontFamily.HELVETICA, 22,
-            Font.BOLD);
     private static Font Mex = new Font(Font.FontFamily.HELVETICA, 10,
             Font.BOLD);
 
-    private static Font codigo = new Font(Font.FontFamily.COURIER, 12,
-            Font.NORMAL);
-    
-     private static Font catFont = new Font(Font.FontFamily.HELVETICA, 12,
-            Font.BOLD);
-    private static Font elements = new Font(Font.FontFamily.COURIER, 10,
-            Font.NORMAL);
-    private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 14,
-            Font.BOLD);
-    private static Font subFont2 = new Font(Font.FontFamily.HELVETICA, 10,
+
+    private static Font subFont2 = new Font(Font.FontFamily.HELVETICA, 8,
             Font.NORMAL);
     private static Font subFont3 = new Font(Font.FontFamily.HELVETICA, 8,
             Font.BOLD);
-    private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 8,
-            Font.BOLD);
-    private static Font smallBold0 = new Font(Font.FontFamily.TIMES_ROMAN, 8,
-            Font.NORMAL);
-    private static Font smallBold3 = new Font(Font.FontFamily.TIMES_ROMAN, 10,
-            Font.NORMAL);
-
-    private static Font smallBold2 = new Font(Font.FontFamily.HELVETICA, 10,
-            Font.NORMAL);
-    
+        
     private static Font elements2 = new Font(Font.FontFamily.HELVETICA, 7,
             Font.NORMAL);
     
@@ -344,7 +306,7 @@ public class CrearValeResguardoBienes {
             PdfPTable firma = new PdfPTable(1);
             PdfPCell firmaCell;
             
-            firmaCell = new PdfPCell(new Phrase("_____________________________________\nUsuario Responsable", subFont2));
+            firmaCell = new PdfPCell(new Phrase(datos[0]+"\n_____________________________________\nUsuario Responsable", subFont2));
             firmaCell.setBorderColor(BaseColor.WHITE);
             firmaCell.setHorizontalAlignment(Element.ALIGN_CENTER);
             firma.addCell(firmaCell);
@@ -371,38 +333,38 @@ public class CrearValeResguardoBienes {
                 String temporal[] = productos.get(i).toString().split(",,");
                 //Cantidad numero y letra
                 PdfPCell cell;
-                cell = new PdfPCell(new Phrase("" + temporal[0], subFont2));
+                cell = new PdfPCell(new Phrase("" + temporal[0].toUpperCase(), subFont2));
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 
 
                 //autorizó
                 PdfPCell cell1;
 
-                cell1 = new PdfPCell(new Phrase("" + temporal[1], subFont2));
+                cell1 = new PdfPCell(new Phrase("" + temporal[1].toUpperCase(), subFont2));
                 cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
 
                 //solicitó
                 PdfPCell cell2;
 
-                cell2 = new PdfPCell(new Phrase("" +(temporal[2]), subFont2));
+                cell2 = new PdfPCell(new Phrase("" +(temporal[2]).toUpperCase(), subFont2));
                 cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
                 
                 //producto
                 PdfPCell cell3;
 
-                cell3 = new PdfPCell(new Phrase("" +(temporal[3]), subFont2));
+                cell3 = new PdfPCell(new Phrase("" +(temporal[3]).toUpperCase(), subFont2));
                 cell3.setHorizontalAlignment(Element.ALIGN_LEFT);
                 
                 //producto
                 PdfPCell cell4;
 
-                cell4 = new PdfPCell(new Phrase("" +(temporal[4]), subFont2));
+                cell4 = new PdfPCell(new Phrase("" +(temporal[4]).toUpperCase(), subFont2));
                 cell4.setHorizontalAlignment(Element.ALIGN_LEFT);
                 
                 //producto
                 PdfPCell cell5;
 
-                cell5 = new PdfPCell(new Phrase("" +(temporal[5]), subFont2));
+                cell5 = new PdfPCell(new Phrase("" +(temporal[5]).toUpperCase(), subFont2));
                 cell5.setHorizontalAlignment(Element.ALIGN_LEFT);
                 
                 
@@ -467,6 +429,8 @@ public class CrearValeResguardoBienes {
         } finally {
             if (doc != null) {
                 doc.close();
+                System.out.println("PDF****************************************");
+                ob.prepararPDF("C:\\SIIEEN\\vales\\resguardo\\" + archivo_nombre + ".pdf","4");
             }
             if (docWriter != null) {
                 docWriter.close();

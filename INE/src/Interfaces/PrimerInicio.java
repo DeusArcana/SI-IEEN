@@ -7,12 +7,11 @@ package Interfaces;
 
 import Clases.PreConexion;
 import static Interfaces.Principal.Username;
-import com.alee.laf.WebLookAndFeel;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import javax.swing.ImageIcon;
-import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import org.jvnet.substance.SubstanceLookAndFeel;
 
 /**
  *
@@ -242,7 +241,7 @@ public class PrimerInicio extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        UIManager.setLookAndFeel(new WebLookAndFeel());
+        SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.OfficeSilver2007Skin");
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 

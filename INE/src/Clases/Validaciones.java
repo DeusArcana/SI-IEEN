@@ -240,8 +240,8 @@ public class Validaciones {
     public static boolean validateAlphanumericWithSpacing(String txt,int MIN, int MAX){
         return Pattern.compile("([a-zA-Z0-9]|\u0020){" + MIN + "," + MAX + "}").matcher(txt).matches();
     }
-	
-	/**
+  
+  /**
 	 *<h1>Concatenar Ceros</h1>
 	 * 
 	 * <p>Añade los ceros a la izquierda para el número dado</p>
@@ -249,23 +249,30 @@ public class Validaciones {
 	 * @param integer valor que se desea convertir
 	 * @return <code>String</code> con el formato deseado
 	 */
-	public String concatZeros(int integer){
-		// Si el número de digitos es mayor o igual al deseado, se retorna solo la cadena del numero
-		if(String.valueOf(integer).length() >= this.FORMATO_DIGITOS) 
-			return String.valueOf(integer);
-		
-		// Objeto para construir la cadena
+	public String constructID(String ID){
 		StringBuilder sb = new StringBuilder();
-		// Se añade el número
-		sb.append(integer);
 		
-		// Adición de los ceros
-		for (int i = String.valueOf(integer).length(); i < this.FORMATO_DIGITOS; i++) 
-			sb.insert(0, "0");
+		String[] array = ID.split("-");
 		
+		sb.append(array[0]);
+		sb.append("-");
+		sb.append(array[1]);
+		sb.append("-");
+		
+		int int_length = String.valueOf(array[2].replaceAll("[A-C]", "")).length();
+		
+		if(String.valueOf(array[2].replaceAll("[A-C]", "")).length() >= this.format) 
+			sb.append(array[2]);
+		else {
+			for (int i = int_length; i < this.format; i++) 
+				sb.append("0");
+			sb.append(array[2]);
+		}
+			
 		return sb.toString();
 	}
 	
+
 	/**
 	 * <h1>Extraer Ceros</h1>
 	 * 
@@ -285,8 +292,8 @@ public class Validaciones {
 	 * @return	<code>String</code> del ID del producto, sin ceros a la izquierda
 	 *		en el Número del Producto
 	 */
-	public static String extractZeros(String ID){
-		// Objeto para la cadena
+	public static String deconstructID(String ID){
+
 		StringBuilder sb = new StringBuilder();
 		
 		// Se separa la cadena en guión

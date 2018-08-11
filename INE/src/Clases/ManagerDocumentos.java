@@ -382,6 +382,7 @@ public class ManagerDocumentos {
             table.addColumn("Clave");
             table.addColumn("Fecha de inicio");
             table.addColumn("Fecha de salida");
+            table.addColumn("No. Acta");
             table.addColumn("Estatus");
 			
             String sql;
@@ -393,28 +394,27 @@ public class ManagerDocumentos {
             //Cambiamos el estatus del equipo seleccionado
             switch(filtro){
                 case "Finalizados":
-                    sql = "select concat(Clave,'-',ID_Documento),Fecha_Creacion, Fecha_Salida from documentos where Fecha_Salida is not null;";
+                    sql = "select concat(Clave,'-',ID_Documento),Fecha_Creacion, Fecha_Salida,No_Acta from documentos where Fecha_Salida is not null order by concat(Clave,'-',ID_Documento) desc;";
                     break;
                 case "En selección":
-                    sql = "select concat(Clave,'-',ID_Documento),Fecha_Creacion, Fecha_Salida from documentos where Fecha_Salida is null;";
+                    sql = "select concat(Clave,'-',ID_Documento),Fecha_Creacion, Fecha_Salida,No_Acta from documentos where Fecha_Salida is null order by concat(Clave,'-',ID_Documento) desc;";
                     break;
                 default:
-                    sql = "select concat(Clave,'-',ID_Documento),Fecha_Creacion, Fecha_Salida from documentos;";
+                    sql = "select concat(Clave,'-',ID_Documento),Fecha_Creacion, Fecha_Salida,No_Acta from documentos order by concat(Clave,'-',ID_Documento) desc;";
                     break;
-            }//switch
+            }//switch            
             
-            
-            Object datos[] = new Object[4];
+            Object datos[] = new Object[5];
             ResultSet rs = st.executeQuery(sql);          
             //Llenar tabla
             while (rs.next()) {
-                for(int i = 0;i<3;i++){
+                for(int i = 0;i<4;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
                 if(datos[2] == null){
-                    datos[3] = "En selección";
+                    datos[4] = "En selección";
                 }else{
-                    datos[3] = "Finalizado";
+                    datos[4] = "Finalizado";
                 }
                 table.addRow(datos);//Añadimos la fila
            }//while
@@ -515,5 +515,24 @@ public class ManagerDocumentos {
             return table;
         }
     }//getDocumentosProductos
+    
+    //Este método es para mostrar la tabla con los documentos de acuerdo a un filtro (Todos, Finalizados, En selección)
+    public boolean asignarActa (String id,String acta) {
+        boolean estado = false;
+        try {
+            String sql = "update documentos set No_Acta = '"+acta+"' where concat(Clave,'-',ID_Documento) = '"+id+"';";
+            //Hacemos la conexión
+            conexion = db.getConexion();
+            //Creamos la variable para hacer operaciones CRUD
+            Statement st = conexion.createStatement();
+            st.executeUpdate(sql);            
+            conexion.close();
+            estado = true;
+        } catch (SQLException ex) {
+            System.out.printf("Error al asignar el no. de acta a un documento en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return estado;
+    }//asignarActa
     
 }//class

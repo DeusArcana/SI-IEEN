@@ -118,8 +118,8 @@ public class ManagerSolicitud {
             
             for (int i = 0; i<Productos.length;i++) {
                 //Registramos los productos que se solicitaron
-                sql = "insert into detalle_solicitudSalida (id_solicitud,id_producto,cantidad_solicitada) "
-                        +"values('SALIDA-"+num+"-"+year+"','" + Productos[i] + "',"+Cantidad[i]+");";
+                sql = "insert into detalle_solicitudSalida (id_solicitud,id_producto,cantidad_solicitada,cantidad_autorizada) "
+                        +"values('SALIDA-"+num+"-"+year+"','" + Productos[i] + "',"+Cantidad[i]+",0);";
                 st.executeUpdate(sql);
             }
             
@@ -346,9 +346,9 @@ public class ManagerSolicitud {
             sql = "select concat(ss.Folio,'-',ss.Num,'-',ss.Año) as ID, concat(e.nombres,' ',e.apellido_p, ' ', e.apellido_m) as Empleado,\n" +
                     "date(ss.fecha_solicitud), ss.estado from solicitudsalida ss\n" +
                     "inner join user u on (u.id_user = ss.id_user) inner join empleados e on (e.id_empleado = u.id_empleado) "
-                    + "where ss.estado in(select tipo_solicitud from vista_permisosSolicitud where puesto = '"+puesto+"');";
+                    + "where ss.estado in(select tipo_solicitud from vista_permisosSolicitud where puesto = '"+puesto+"') order by concat(ss.Folio,'-',ss.Num,'-',ss.Año) desc;";
             
-            Object datos[] = new Object[5];
+            Object datos[] = new Object[4];
             rs = st.executeQuery(sql);
 
             //Llenar tabla
@@ -374,6 +374,112 @@ public class ManagerSolicitud {
         }
 
     }//tabla_Solicitudes --> Muestra las solicitudes que puedes ver de acuerdo la tabla de permisos_solicitudes
+    
+    //Este método muestra la tabla de solicitudes de acuerdo a los permisos que tienes por solicitud (Autorizada/Cancelada)
+    public DefaultTableModel tabla_SolicitudesEstatus(String user,String estatus) {
+        
+        DefaultTableModel table = new DefaultTableModel();
+        try {
+            
+            switch(estatus){
+                case "Todos":
+                    estatus = "ss.estado != 'Solicitud Salida';";
+                    break;
+                case "Autorizado":
+                    estatus = "ss.estado = 'Salida Autorizada'";
+                    break;
+                case "Cancelado":
+                    estatus = "ss.estado = 'Salida Cancelada'";
+                    break;
+            }
+            
+            table.addColumn("Solicitud");
+            table.addColumn("Empleado que solicitó");
+            table.addColumn("Fecha cuando se solicitó");
+            table.addColumn("Fecha cuando se atendió");
+            table.addColumn("Estado");
+            
+            String sql = "select concat(ss.Folio,'-',ss.Num,'-',ss.Año) as ID, concat(e.nombres,' ',e.apellido_p, ' ', e.apellido_m) as Empleado, "
+                    + "date(ss.fecha_solicitud),date(ss.fecha_respuesta), ss.estado from solicitudsalida ss "
+                    + "inner join user u on (u.id_user = ss.id_user) "
+                    + "inner join empleados e on (e.id_empleado = u.id_empleado) "
+                    + "where "+estatus+" order by concat(ss.Folio,'-',ss.Num,'-',ss.Año) desc;";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            
+            Object datos[] = new Object[5];
+
+            //Llenar tabla
+            while (rs.next()) {
+                
+                for(int i = 0;i<5;i++){
+                    
+                datos[i] = rs.getObject(i+1);    
+                    
+                }//Llenamos las columnas por registro
+                
+                table.addRow(datos);//Añadimos la fila
+           }//while
+                
+            
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error get tabla solicitudes autorizadas o canceladas SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//tabla_SolicitudesEstatus --> Muestra las solicitudes que puedes ver de acuerdo la tabla de permisos_solicitudes
+    
+    //Este metodo muestra una tabla con los pedidos de productos que se quieren para realizar la solicitud de salida de almacen,
+    //esto para que indiquen la cantidad de productos que requieren cada uno.
+    public DefaultTableModel consumibles_SolicitudSalida(String solicitud) {
+        
+        DefaultTableModel table = new DefaultTableModel();
+        try {
+            
+            table.addColumn("Clave");
+            table.addColumn("Nombre corto");
+            table.addColumn("Descripción");
+            table.addColumn("Marca");
+            table.addColumn("Solicitó");
+            table.addColumn("Stock");
+            
+            conexion = db.getConexion();
+            
+            String sql="select concat(ig.Folio,'-',ig.Numero,ig.Extension), ig.nombre_prod, ig.descripcion, ig.marca, dss.cantidad_solicitada,ig.stock from detalle_solicitudSalida dss\n" +
+                        "inner join solicitudsalida ss on (concat(ss.Folio,'-',ss.Num,'-',ss.Año) = dss.id_solicitud)\n" +
+                        "inner join inventario_granel ig on (concat(ig.Folio,'-',ig.Numero,ig.Extension) = dss.id_producto) where dss.id_solicitud = '"+solicitud+"';";
+            Statement st = conexion.createStatement();
+            Object datos[] = new Object[6];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+                
+                for(int i = 0;i<6;i++){
+                    
+                datos[i] = rs.getObject(i+1);    
+                    
+                }//Llenamos las columnas por registro
+                
+                table.addRow(datos);//Añadimos la fila
+           }//while
+                
+            
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los productos de la solicitud de la salida de almacen SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//tabla_SolicitudSalida --> Muestra los productos que estan asignados a una solicitud
     
     public DefaultTableModel tabla_Pendientes() {
         
@@ -438,7 +544,7 @@ public class ManagerSolicitud {
             
             sql = "select concat(ss.Folio,'-',ss.Num,'-',ss.Año), date(ss.fecha_solicitud), count(dss.id_solicitud),ss.estado from solicitudsalida ss "
                 + "inner join detalle_solicitudsalida dss on (concat(ss.Folio,'-',ss.Num,'-',ss.Año) = dss.id_solicitud) "
-                + "where id_user='"+usuario+"' group by dss.id_solicitud;";
+                + "where id_user='"+usuario+"' group by dss.id_solicitud order by ss.fecha_solicitud desc;";
             
             conexion = db.getConexion();
             Statement st = conexion.createStatement();

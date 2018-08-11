@@ -28,7 +28,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `INE`.`Area` (
   `ID_Area` INT NOT NULL AUTO_INCREMENT,
   `Area` VARCHAR(255) NOT NULL,
-  `Siglas`  VARCHAR(32),
+  `Siglas` VARCHAR(32),
   PRIMARY KEY (`ID_Area`))
 ENGINE = InnoDB;
 
@@ -41,6 +41,14 @@ CREATE TABLE `Puestos_Trabajo` (
   `ID_Area` INT NOT NULL,
   `Puesto`  VARCHAR(255) NOT NULL,
   `Sueldo`  DOUBLE NOT NULL,
+  `SinPernoctar100` float null,
+  `Pernoctando100` float null,
+  `SinPernoctar30100` float null,
+  `Pernoctando30100` float null,
+  `SinPernoctarBDB` float null,
+  `PernoctandoBDB` float null,
+  `SinPernoctarFDE` float null,
+  `PernoctandoFDE` float null,
   PRIMARY KEY (`ID_Puesto`)
 ) ENGINE = InnoDB;
 
@@ -70,6 +78,7 @@ CREATE TABLE IF NOT EXISTS `INE`.`Empleados` (
   `rfc` VARCHAR(13) NULL,
   `municipio` VARCHAR(30) NULL,
   `localidad` VARCHAR(50) NULL,
+  `estatus` VARCHAR(50) NULL,
   PRIMARY KEY (`id_empleado`))
 ENGINE = InnoDB;
 
@@ -159,8 +168,10 @@ CREATE TABLE IF NOT EXISTS `Folio` (
 -- Table `INE`.`Bodegas`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `INE`.`Bodegas` (
+  `ID_Bodega` INT NOT NULL AUTO_INCREMENT,
   `Nom_Bodega` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`Nom_Bodega`))
+  `ID_Responsable` INT NULL,
+  PRIMARY KEY (`ID_Bodega`))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -172,14 +183,14 @@ CREATE TABLE IF NOT EXISTS `INE`.`Inventario` (
   `Extension` 		CHAR(1) NULL,
   `nombre_prod` 	VARCHAR(50) NULL,
   `descripcion` 	VARCHAR(500) NULL,
-  `ubicacion` 		VARCHAR(50) NULL,
+  `ubicacion` 		VARCHAR(255) NULL,
   `estatus` 		VARCHAR(35) NULL,
   `marca` 			VARCHAR(50) NULL,
   `observaciones` 	VARCHAR(300) NULL,
   `no_serie` 		VARCHAR(45) NULL,
   `modelo` 			VARCHAR(100) NULL,
   `color` 			VARCHAR(30) NULL,
-  `imagen` 			LONGBLOB NULL,
+  `cantidad_fotos` 	INT NULL,
   `Fecha_Compra` 	DATE NOT NULL,
   `Factura` 		VARCHAR(20),
   `Importe` 		FLOAT
@@ -212,7 +223,8 @@ CREATE TABLE `Documentos` (
   `ID_Documento` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `Clave` VARCHAR(255),
   `Fecha_Creacion` DATE, 
-  `Fecha_Salida` 	DATE,
+  `Fecha_Salida` DATE,
+  `No_Acta` VARCHAR(255) NULL,
   PRIMARY KEY `pk_ID_Documento`(`ID_Documento`)
 ) ENGINE = InnoDB;
 
@@ -250,7 +262,7 @@ CREATE TABLE IF NOT EXISTS `INE`.`Resguardo_personal` (
   `nombre_prod` VARCHAR(50) NULL,
   `fecha_alta` DATETIME NULL,
   `observaciones` VARCHAR(300) NULL,
-  PRIMARY KEY (`id_user`),
+  `fecha_salida` DATETIME NULL,
   CONSTRAINT `fk_Resguardo_personal_User1`
     FOREIGN KEY (`id_user`)
     REFERENCES `INE`.`User` (`id_user`)
@@ -400,6 +412,14 @@ CREATE TABLE IF NOT EXISTS `INE`.`Permisos_Solicitud` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `INE`.`Categorias`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Categorias` (
+  `ID_Categoria` CHAR(6) NOT NULL,
+  `Nom_Categoria` VARCHAR(255),
+  PRIMARY KEY `pk_ID_Categoria`(`ID_Categoria`)
+) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `INE`.`Inventario_granel`
@@ -415,7 +435,8 @@ CREATE TABLE IF NOT EXISTS `INE`.`Inventario_granel` (
   `marca` VARCHAR(50) NULL,
   `observaciones` VARCHAR(300) NULL,
   `stock_min` INT NULL,
-  `stock` INT NULL)
+  `stock` INT NULL,
+  `categoria` VARCHAR(50) NULL)
 ENGINE = InnoDB;
 
 ALTER TABLE `Inventario_Granel`
@@ -619,7 +640,7 @@ CREATE TABLE IF NOT EXISTS `INE`.`Vehiculos` (
   `Motor` VARCHAR(45) NULL,
   `Matricula` VARCHAR(45) NOT NULL,
   `Observaciones` VARCHAR(1000) NULL,
-  `Imagen` LONGBLOB NULL,
+  `cantidad_fotos` INT NULL,
   `Estado` VARCHAR(100) NULL,
   PRIMARY KEY (`Matricula`))
 ENGINE = InnoDB;
@@ -678,19 +699,7 @@ DROP TABLE IF EXISTS `ine`.`solicitud_vehiculo` ;
 
 CREATE TABLE IF NOT EXISTS `ine`.`solicitud_vehiculo` (
   `idsolicitud_vehiculo` INT NOT NULL AUTO_INCREMENT,
-  `Nombre` VARCHAR(100) NULL,
-  `Fecha_Salida` DATE NULL,
-  `Fecha_Llegada` DATE NULL,
-  `Lugar` VARCHAR(100) NULL,
-  `Pernoctado` VARCHAR(10) NULL,
-  `Puesto` VARCHAR(50) NULL,
-  `Estado` VARCHAR(45) NULL,
-  `Reporte` VARCHAR(1) NULL,
-  `Motivo` VARCHAR(500) NULL,
-  `Hora_Salida` VARCHAR(20) NULL,
-  `Hora_Llegada` VARCHAR(20) NULL,
   `vehiculo_usado_idvehiculo_usado` INT NOT NULL,
-  `Actividad` VARCHAR(500) NULL,
   `Vehiculo` VARCHAR(100) NULL,
   PRIMARY KEY (`idsolicitud_vehiculo`),
   INDEX `fk_solicitud_vehiculo_vehiculo_usado1_idx` (`vehiculo_usado_idvehiculo_usado` ASC),
@@ -770,6 +779,23 @@ CREATE TABLE IF NOT EXISTS `ine`.`Localidad` (
     REFERENCES `ine`.`Estado` (`idEstado`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS INE.`solicitud_pase` (
+  idSolicitud INT(11) NOT NULL AUTO_INCREMENT,
+  Folio VARCHAR(11) NULL DEFAULT NULL,
+  Nombre VARCHAR(100) NULL DEFAULT NULL,
+  Puesto VARCHAR(50) NULL DEFAULT NULL,
+  Area VARCHAR(70) NULL DEFAULT NULL,
+  Fecha VARCHAR(20) NULL DEFAULT NULL,
+  Hora_ES VARCHAR(20) NULL DEFAULT NULL,
+  Hora_Llegada VARCHAR(20) NULL DEFAULT NULL,
+  Horas VARCHAR(20) NULL DEFAULT NULL,
+  Tipo_Horario VARCHAR(30) NULL DEFAULT NULL,
+  Tipo_Asunto VARCHAR(30) NULL DEFAULT NULL,
+  Asunto VARCHAR(500) NULL DEFAULT NULL,
+  Estado VARCHAR(5) NULL DEFAULT NULL,
+  PRIMARY KEY (idSolicitud))
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `Admin_config` (

@@ -53,6 +53,7 @@ public class CrearUsuarioPDF {
     private String fechaPago,fechaIni,fechaFin, trab;
     private File directorio;
     private File archivo;
+    enviarPDF ob;
     private String path, archivo_nombre;
   //  private infoTicket info;
     private Vector ventaTotal;
@@ -61,10 +62,10 @@ public class CrearUsuarioPDF {
     
     public CrearUsuarioPDF(){
     //    obtener_productos = new ObtenerProductos();
-        path = "C:\\comprobantes\\";
+        path = "C:\\SIIEEN\\comprobantes\\";
         directorio = new File(path);
     //    info = new infoTicket();
-        
+        ob = new enviarPDF();
         if (directorio.exists()) {
             archivo_nombre = "nomina_" + ".pdf";
             archivo = new File(directorio, archivo_nombre);
@@ -309,7 +310,7 @@ public class CrearUsuarioPDF {
             doc.add(firma);
 
             archivo_nombre = pdfFilename;
-
+                     
             if (res == 1) {
                 imprimir();
             } else {
@@ -324,6 +325,8 @@ public class CrearUsuarioPDF {
         } finally {
             if (doc != null) {
                 doc.close();
+                System.out.println("PDF****************************************");
+                ob.prepararPDF("C:\\SIIEEN\\comprobantes\\" + archivo_nombre + ".pdf","1");
             }
             if (docWriter != null) {
                 docWriter.close();
@@ -331,7 +334,8 @@ public class CrearUsuarioPDF {
         }
     }
     public void imprimir() throws IOException{
-        File fileToPrint = new File("c:\\comprobantes\\"+archivo_nombre+".pdf");
+        
+        File fileToPrint = new File("C:\\SIIEEN\\comprobantes\\"+archivo_nombre+".pdf");
 		Desktop.getDesktop().open(fileToPrint);
     }
     

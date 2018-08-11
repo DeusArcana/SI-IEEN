@@ -67,11 +67,15 @@ public class ManagerInventarioGranel {
                 case 5:
                     campoBusca = "observaciones"; 
                     break;    
+                //BUSQUEDA POR ESTATUS
+                case 6:
+                    campoBusca = "estatus"; 
+                    break;    
 
             }//Hace la busqueda de acuerdo al filtro
             
             sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
-                            + " where "+campoBusca+" like '"+busqueda+"%';";
+                            + " where "+campoBusca+" like '%"+busqueda+"%';";
             Connection c = db.getConexion();
             Statement st = c.createStatement();    
             ResultSet rs = st.executeQuery(sql);
@@ -318,7 +322,7 @@ public class ManagerInventarioGranel {
         try {
             //   No inventario, no serie, descripcion, marca, modelo, color
             //Obtenemos los datos del empleado
-            String sql = "select id.ID_Producto, i.no_serie, i.descripcion, i.marca,i.modelo, i.color from inv_docs id " +
+            String sql = "select id.ID_Producto, i.no_serie, i.descripcion, i.marca,i.modelo, i.color, i.cantidad_fotos from inv_docs id " +
                 "inner join inventario i on (concat(i.Folio,'-',i.Numero,i.Extension) = id.ID_Producto) " +
                 "inner join productos_asignados pa on (pa.ID_Producto = id.ID_Producto) " +
                 "where id.ID_Documento = "+clave+";";
@@ -326,10 +330,12 @@ public class ManagerInventarioGranel {
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
-         
+            
+            
             while (rs.next()) {
-                for (int i = 1; i < 7; i++) {
-                    if(i != 6){
+                for (int i = 1; i < 8; i++) {
+                    // if funciona para encontrar el final de la consulta
+                    if(i != 7){
                         datos += rs.getString(i) + ",,";
                     }else{
                         datos += rs.getString(i) + "//";
@@ -404,6 +410,10 @@ public class ManagerInventarioGranel {
                     break;
                 case 5:
                     orden = "order by observaciones";
+                    break;
+                //BUSQUEDA POR ESTATUS
+                case 6:
+                    orden = "order by estatus"; 
                     break;
             }
             
