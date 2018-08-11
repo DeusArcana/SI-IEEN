@@ -26,9 +26,10 @@ public class ManagerInventario {
     ManagerInventarioGranel manager_inventario_granel;
     private Connection conexion;
     private final Conexion db;
-    
+    Validaciones v;
     public ManagerInventario(){
         db = new Conexion();
+		this.v  = new Validaciones();
     }//Constructor
     
 
@@ -464,14 +465,16 @@ public class ManagerInventario {
 
                 //Anteriormente se hizo la consulta, y como entro a este if significa que si se encontraron datos, por ende ya estamos posicionados
                 //en el primer registro de las concidencias
-                for(int i = 0; i < cantidadColumnas; i++){
+				datos[0] = v.constructID(rs.getObject(1).toString());
+                for(int i = 1; i < cantidadColumnas; i++){
                     datos[i] = rs.getObject(i + 1);
                 }//Llenamos las columnas por registro
                 table.addRow(datos);
                     
                 //Proseguimos con los registros en caso de exisitir mas
                 while (rs.next()) {
-                    for(int i = 0; i < cantidadColumnas; i++){
+					datos[0] = v.constructID(rs.getObject(1).toString());
+                    for(int i = 1; i < cantidadColumnas; i++){
 	                    datos[i] = rs.getObject(i + 1);
                     }//Llenamos las columnas por registro
                     table.addRow(datos);//Añadimos la fila

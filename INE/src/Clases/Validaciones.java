@@ -234,19 +234,30 @@ public class Validaciones {
         return Pattern.compile("([a-zA-Z0-9]|\u0020){" + MIN + "," + MAX + "}").matcher(txt).matches();
     }
 	
-	public String intFormat(int integer){
-		if(String.valueOf(integer).length() >= this.format) 
-			return String.valueOf(integer);
-		
+	public String constructID(String ID){
 		StringBuilder sb = new StringBuilder();
-		sb.append(integer);
-		for (int i = String.valueOf(integer).length(); i < this.format; i++) 
-			sb.insert(0, "0");
 		
+		String[] array = ID.split("-");
+		
+		sb.append(array[0]);
+		sb.append("-");
+		sb.append(array[1]);
+		sb.append("-");
+		
+		int int_length = String.valueOf(array[2].replaceAll("[A-C]", "")).length();
+		
+		if(String.valueOf(array[2].replaceAll("[A-C]", "")).length() >= this.format) 
+			sb.append(array[2]);
+		else {
+			for (int i = int_length; i < this.format; i++) 
+				sb.append("0");
+			sb.append(array[2]);
+		}
+			
 		return sb.toString();
 	}
 	
-		public static String FormatID(String ID){
+	public static String deconstructID(String ID){
 		StringBuilder sb = new StringBuilder();
 		
 		String[] array = ID.split("-");
