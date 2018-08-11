@@ -465,16 +465,6 @@ public class PrincipalP extends javax.swing.JFrame {
 
     private void NuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevaActionPerformed
         // TODO add your handling code here:
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            // If Nimbus is not available, you can set the GUI to another look and feel.
-        }
         addSolicitudPermisos asv = new addSolicitudPermisos(this, true);
         asv.setVisible(true);
     }//GEN-LAST:event_NuevaActionPerformed
