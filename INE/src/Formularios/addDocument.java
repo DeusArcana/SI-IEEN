@@ -79,7 +79,7 @@ public class addDocument extends javax.swing.JDialog {
         pn_addInventario.add(comboEstatus);
         comboEstatus.setBounds(280, 10, 120, 30);
         pn_addInventario.add(jSeparator1);
-        jSeparator1.setBounds(10, 50, 830, 10);
+        jSeparator1.setBounds(10, 50, 830, 2);
 
         tablaSeleccionProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

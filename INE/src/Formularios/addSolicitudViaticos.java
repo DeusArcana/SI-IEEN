@@ -54,6 +54,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     public addSolicitudViaticos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
         parentVehiculo=parent;
         JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) date_Salida.getDateEditor();
         JTextFieldDateEditor date_Llegada_Editor=(JTextFieldDateEditor) date_Llegada.getDateEditor();
@@ -99,15 +100,15 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_Actividad = new javax.swing.JTextArea();
-        cmbEstado = new javax.swing.JComboBox<String>();
+        cmbEstado = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         lblAviso = new javax.swing.JLabel();
         date_Salida = new com.toedter.calendar.JDateChooser();
         date_Llegada = new com.toedter.calendar.JDateChooser();
         chb_Pernoctado = new javax.swing.JCheckBox();
-        comboEmpleados = new javax.swing.JComboBox<String>();
-        cmbLocalidad = new javax.swing.JComboBox<String>();
+        comboEmpleados = new javax.swing.JComboBox<>();
+        cmbLocalidad = new javax.swing.JComboBox<>();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         Date date=new Date();
@@ -135,7 +136,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Nombre:");
-        pn_addInventario.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 20, -1, -1));
+        pn_addInventario.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
 
         txt_Puesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_Puesto.setEnabled(false);
@@ -162,9 +163,9 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         txt_Actividad.setRows(5);
         jScrollPane1.setViewportView(txt_Actividad);
 
-        pn_addInventario.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 251, 440, 209));
+        pn_addInventario.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 251, 460, 209));
 
-        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione estado" }));
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione estado" }));
         cmbEstado.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbEstadoItemStateChanged(evt);
@@ -201,14 +202,15 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                     comboEmpleadosActionPerformed(evt);
                 }
             });
-            pn_addInventario.add(comboEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 20, -1, -1));
+            pn_addInventario.add(comboEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, -1, -1));
 
-            cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione localidad" }));
+            cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione localidad" }));
             pn_addInventario.add(cmbLocalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, -1, -1));
 
             btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
             btnAceptar.setText("Aceptar");
+            btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             btnAceptar.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     btnAceptarActionPerformed(evt);
@@ -219,6 +221,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
             btnCancelar.setText("Cancelar");
+            btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
             btnCancelar.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     btnCancelarActionPerformed(evt);
@@ -245,9 +248,9 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             pn_addInventario.add(cmbArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 220, -1));
 
             jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
-            pn_addInventario.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+            pn_addInventario.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 570, 520));
 
-            getContentPane().add(pn_addInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 700, 520));
+            getContentPane().add(pn_addInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 520));
 
             pack();
         }// </editor-fold>//GEN-END:initComponents

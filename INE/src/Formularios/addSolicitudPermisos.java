@@ -43,6 +43,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
     public addSolicitudPermisos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
         manager_users = new ManagerUsers();
         manager_pases = new ManagerPases();
         
@@ -104,46 +105,46 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Area:");
-        pn_addPermiso.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, -1, -1));
+        pn_addPermiso.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, -1, -1));
 
         txt_Puesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_Puesto.setEnabled(false);
-        pn_addPermiso.add(txt_Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 185, 215, -1));
+        pn_addPermiso.add(txt_Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 215, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Puesto:");
-        pn_addPermiso.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, -1, -1));
+        pn_addPermiso.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Asunto:");
-        pn_addPermiso.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 300, -1, -1));
+        pn_addPermiso.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Hora de E/S:");
-        pn_addPermiso.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, -1, -1));
+        pn_addPermiso.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Horas:");
-        pn_addPermiso.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 265, -1, -1));
+        pn_addPermiso.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 220, -1, -1));
 
         txt_Actividad.setColumns(20);
         txt_Actividad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_Actividad.setRows(5);
         jScrollPane1.setViewportView(txt_Actividad);
 
-        pn_addPermiso.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 530, 90));
+        pn_addPermiso.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 530, 90));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Folio:");
-        pn_addPermiso.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 50, -1, -1));
+        pn_addPermiso.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Nombre:");
-        pn_addPermiso.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, -1, -1));
+        pn_addPermiso.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("Por horario:");
-        pn_addPermiso.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
+        pn_addPermiso.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
 
         lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_addPermiso.add(lblAviso, new org.netbeans.lib.awtextra.AbsoluteConstraints(466, 228, 15, 233));
@@ -154,7 +155,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 comboAreaActionPerformed(evt);
             }
         });
-        pn_addPermiso.add(comboArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 123, -1, -1));
+        pn_addPermiso.add(comboArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, -1, -1));
 
         comboEmpleados.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         comboEmpleados.addActionListener(new java.awt.event.ActionListener() {
@@ -162,27 +163,29 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 comboEmpleadosActionPerformed(evt);
             }
         });
-        pn_addPermiso.add(comboEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 153, -1, -1));
+        pn_addPermiso.add(comboEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, -1, -1));
 
         btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
         btnAceptar.setText("Aceptar");
+        btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAceptarActionPerformed(evt);
             }
         });
-        pn_addPermiso.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 450, -1, -1));
+        pn_addPermiso.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 400, -1, -1));
 
         btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
             }
         });
-        pn_addPermiso.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 450, -1, -1));
+        pn_addPermiso.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 400, -1, -1));
 
         comboHorario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "De Entrada", "Intermedio", "De Salida" }));
         comboHorario.addActionListener(new java.awt.event.ActionListener() {
@@ -190,43 +193,43 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 comboHorarioActionPerformed(evt);
             }
         });
-        pn_addPermiso.add(comboHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 83, -1, -1));
+        pn_addPermiso.add(comboHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 160, -1));
 
         comboAsunto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "Particular", "Oficial", "Médico" }));
-        pn_addPermiso.add(comboAsunto, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 83, -1, -1));
+        pn_addPermiso.add(comboAsunto, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 60, 160, -1));
 
         JSpinner.DateEditor de = new JSpinner.DateEditor(hora_e_s,"HH:mm");
         hora_e_s.setEditor(de);
-        pn_addPermiso.add(hora_e_s, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 220, -1, -1));
+        pn_addPermiso.add(hora_e_s, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 180, -1, -1));
 
         jlfec.setText(".");
         pn_addPermiso.add(jlfec, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, -1, -1));
 
         txt_hora_llegada.setEditable(false);
         txt_hora_llegada.setEnabled(false);
-        pn_addPermiso.add(txt_hora_llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 260, 90, -1));
+        pn_addPermiso.add(txt_hora_llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 220, 90, -1));
 
         txt_horas.setEditable(false);
         txt_horas.setText("00:00");
         txt_horas.setEnabled(false);
-        pn_addPermiso.add(txt_horas, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 260, 80, -1));
+        pn_addPermiso.add(txt_horas, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 220, 80, -1));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setText("Hora de llegada:");
-        pn_addPermiso.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 265, -1, -1));
+        pn_addPermiso.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("Por asunto:");
-        pn_addPermiso.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 90, -1, -1));
+        pn_addPermiso.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, -1, -1));
 
         txt_Folio.setEditable(false);
         txt_Folio.setEnabled(false);
-        pn_addPermiso.add(txt_Folio, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 40, 120, -1));
+        pn_addPermiso.add(txt_Folio, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 120, -1));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
-        pn_addPermiso.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        pn_addPermiso.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -10, 720, 540));
 
-        getContentPane().add(pn_addPermiso, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 700, 520));
+        getContentPane().add(pn_addPermiso, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 520));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

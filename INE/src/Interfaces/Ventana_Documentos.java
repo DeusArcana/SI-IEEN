@@ -80,6 +80,7 @@ public class Ventana_Documentos extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
+        jLabel3 = new javax.swing.JLabel();
 
         Aceptar.setText("Aceptar");
         Aceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -115,6 +116,8 @@ public class Ventana_Documentos extends javax.swing.JDialog {
             }
         });
 
+        pn_asignarEquipo.setLayout(null);
+
         tablaProductosSeleccionar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -129,6 +132,9 @@ public class Ventana_Documentos extends javax.swing.JDialog {
             }
         });
         jScrollPane1.setViewportView(tablaProductosSeleccionar);
+
+        pn_asignarEquipo.add(jScrollPane1);
+        jScrollPane1.setBounds(10, 181, 452, 373);
 
         tablaDocumentos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -148,9 +154,16 @@ public class Ventana_Documentos extends javax.swing.JDialog {
         });
         jScrollPane2.setViewportView(tablaDocumentos);
 
+        pn_asignarEquipo.add(jScrollPane2);
+        jScrollPane2.setBounds(10, 31, 979, 106);
+
         jLabel1.setText("Seleccione un documento:");
+        pn_asignarEquipo.add(jLabel1);
+        jLabel1.setBounds(10, 11, 125, 14);
 
         jLabel2.setText("Productos a seleccionar");
+        pn_asignarEquipo.add(jLabel2);
+        jLabel2.setBounds(10, 156, 113, 14);
 
         tablaDocumentosProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -167,73 +180,32 @@ public class Ventana_Documentos extends javax.swing.JDialog {
         });
         jScrollPane3.setViewportView(tablaDocumentosProductos);
 
+        pn_asignarEquipo.add(jScrollPane3);
+        jScrollPane3.setBounds(492, 181, 499, 373);
+
         jLabel4.setText("Productos del documento");
+        pn_asignarEquipo.add(jLabel4);
+        jLabel4.setBounds(535, 156, 121, 14);
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        pn_asignarEquipo.add(jSeparator1);
+        jSeparator1.setBounds(475, 156, 2, 398);
+        pn_asignarEquipo.add(jSeparator2);
+        jSeparator2.setBounds(10, 148, 979, 2);
 
-        javax.swing.GroupLayout pn_asignarEquipoLayout = new javax.swing.GroupLayout(pn_asignarEquipo);
-        pn_asignarEquipo.setLayout(pn_asignarEquipoLayout);
-        pn_asignarEquipoLayout.setHorizontalGroup(
-            pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_asignarEquipoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(pn_asignarEquipoLayout.createSequentialGroup()
-                        .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15)
-                        .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pn_asignarEquipoLayout.createSequentialGroup()
-                                .addGap(43, 43, 43)
-                                .addComponent(jLabel4)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(pn_asignarEquipoLayout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())))
-                    .addGroup(pn_asignarEquipoLayout.createSequentialGroup()
-                        .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 979, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 979, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18))))
-        );
-        pn_asignarEquipoLayout.setVerticalGroup(
-            pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_asignarEquipoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(pn_asignarEquipoLayout.createSequentialGroup()
-                        .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
+        pn_asignarEquipo.add(jLabel3);
+        jLabel3.setBounds(-16, -16, 1040, 590);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_asignarEquipo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pn_asignarEquipo, javax.swing.GroupLayout.DEFAULT_SIZE, 1007, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(pn_asignarEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(pn_asignarEquipo, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
         );
 
         pack();
@@ -444,6 +416,7 @@ public class Ventana_Documentos extends javax.swing.JDialog {
     private javax.swing.JMenuItem Refresh;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

@@ -112,7 +112,7 @@ public class addEmpleados extends javax.swing.JDialog {
 
         txtNombre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtNombre);
-        txtNombre.setBounds(118, 11, 202, 23);
+        txtNombre.setBounds(118, 11, 202, 25);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Apellido Paterno:");
@@ -121,7 +121,7 @@ public class addEmpleados extends javax.swing.JDialog {
 
         txtApellidoP.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtApellidoP);
-        txtApellidoP.setBounds(118, 40, 202, 23);
+        txtApellidoP.setBounds(118, 40, 202, 25);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Apellido Materno:");
@@ -130,7 +130,7 @@ public class addEmpleados extends javax.swing.JDialog {
 
         txtApellidoM.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtApellidoM);
-        txtApellidoM.setBounds(118, 69, 202, 23);
+        txtApellidoM.setBounds(118, 69, 202, 25);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Calle:");
@@ -139,7 +139,7 @@ public class addEmpleados extends javax.swing.JDialog {
 
         txtCalle.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtCalle);
-        txtCalle.setBounds(118, 98, 202, 23);
+        txtCalle.setBounds(118, 98, 202, 25);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Colonia:");
@@ -148,7 +148,7 @@ public class addEmpleados extends javax.swing.JDialog {
 
         txtColonia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtColonia);
-        txtColonia.setBounds(118, 127, 202, 23);
+        txtColonia.setBounds(118, 127, 202, 25);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setText("Telefono:");
@@ -157,7 +157,7 @@ public class addEmpleados extends javax.swing.JDialog {
 
         txtTelefono.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtTelefono);
-        txtTelefono.setBounds(487, 11, 202, 23);
+        txtTelefono.setBounds(487, 11, 202, 25);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Código Postal:");
@@ -166,7 +166,7 @@ public class addEmpleados extends javax.swing.JDialog {
 
         txtCodigo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtCodigo);
-        txtCodigo.setBounds(487, 40, 202, 23);
+        txtCodigo.setBounds(487, 40, 202, 25);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("CURP:");
@@ -175,7 +175,7 @@ public class addEmpleados extends javax.swing.JDialog {
 
         txtCurp.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtCurp);
-        txtCurp.setBounds(487, 69, 202, 23);
+        txtCurp.setBounds(487, 69, 202, 25);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("RFC:");
@@ -184,14 +184,14 @@ public class addEmpleados extends javax.swing.JDialog {
 
         txtRfc.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtRfc);
-        txtRfc.setBounds(487, 98, 202, 23);
+        txtRfc.setBounds(487, 98, 202, 25);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("Fecha de nacimiento:");
         pn_empleado.add(jLabel10);
         jLabel10.setBounds(353, 130, 130, 17);
         pn_empleado.add(txtFecha);
-        txtFecha.setBounds(487, 130, 202, 20);
+        txtFecha.setBounds(487, 130, 202, 25);
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel15.setText("Municipio:");
@@ -200,7 +200,7 @@ public class addEmpleados extends javax.swing.JDialog {
 
         txtMunicipio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtMunicipio);
-        txtMunicipio.setBounds(118, 156, 202, 23);
+        txtMunicipio.setBounds(118, 156, 202, 25);
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel16.setText("Localidad:");
@@ -209,27 +209,31 @@ public class addEmpleados extends javax.swing.JDialog {
 
         txtLocalidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtLocalidad);
-        txtLocalidad.setBounds(118, 185, 202, 23);
+        txtLocalidad.setBounds(118, 185, 202, 25);
 
         btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnAceptar.setText("Aceptar");
+        btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
+        btnAceptar.setText(" Aceptar");
+        btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAceptarActionPerformed(evt);
             }
         });
         pn_empleado.add(btnAceptar);
-        btnAceptar.setBounds(220, 240, 121, 25);
+        btnAceptar.setBounds(220, 240, 140, 33);
 
         btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnCancelar.setText("Cancelar");
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
+        btnCancelar.setText(" Cancelar");
+        btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
             }
         });
         pn_empleado.add(btnCancelar);
-        btnCancelar.setBounds(390, 240, 121, 25);
+        btnCancelar.setBounds(371, 240, 140, 33);
 
         comboArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboArea.addActionListener(new java.awt.event.ActionListener() {

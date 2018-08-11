@@ -55,6 +55,7 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
         jSeparator2 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
         comboEstatus = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -65,6 +66,8 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
                 formWindowOpened(evt);
             }
         });
+
+        pn_asignarEquipo.setLayout(null);
 
         tablaDocumentos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -84,7 +87,12 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
         });
         jScrollPane2.setViewportView(tablaDocumentos);
 
+        pn_asignarEquipo.add(jScrollPane2);
+        jScrollPane2.setBounds(10, 37, 979, 161);
+
         jLabel1.setText("Seleccione un documento:");
+        pn_asignarEquipo.add(jLabel1);
+        jLabel1.setBounds(10, 14, 125, 14);
 
         tablaDocumentosProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -101,68 +109,40 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
         });
         jScrollPane3.setViewportView(tablaDocumentosProductos);
 
+        pn_asignarEquipo.add(jScrollPane3);
+        jScrollPane3.setBounds(10, 232, 979, 328);
+
         jLabel4.setText("Productos del documento");
+        pn_asignarEquipo.add(jLabel4);
+        jLabel4.setBounds(10, 212, 121, 14);
+        pn_asignarEquipo.add(jSeparator2);
+        jSeparator2.setBounds(10, 204, 979, 2);
 
         jLabel2.setText("Estatus:");
+        pn_asignarEquipo.add(jLabel2);
+        jLabel2.setBounds(628, 14, 40, 14);
 
         comboEstatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboEstatusActionPerformed(evt);
             }
         });
+        pn_asignarEquipo.add(comboEstatus);
+        comboEstatus.setBounds(672, 11, 317, 20);
 
-        javax.swing.GroupLayout pn_asignarEquipoLayout = new javax.swing.GroupLayout(pn_asignarEquipo);
-        pn_asignarEquipo.setLayout(pn_asignarEquipoLayout);
-        pn_asignarEquipoLayout.setHorizontalGroup(
-            pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_asignarEquipoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(pn_asignarEquipoLayout.createSequentialGroup()
-                        .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 979, Short.MAX_VALUE)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 979, Short.MAX_VALUE)
-                            .addComponent(jLabel4)
-                            .addComponent(jScrollPane3))
-                        .addGap(18, 18, 18))
-                    .addGroup(pn_asignarEquipoLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 493, Short.MAX_VALUE)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(202, 202, 202))))
-        );
-        pn_asignarEquipoLayout.setVerticalGroup(
-            pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_asignarEquipoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pn_asignarEquipoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(comboEstatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
+        pn_asignarEquipo.add(jLabel3);
+        jLabel3.setBounds(-16, -16, 1040, 600);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_asignarEquipo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pn_asignarEquipo, javax.swing.GroupLayout.DEFAULT_SIZE, 1008, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(pn_asignarEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(pn_asignarEquipo, javax.swing.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
         );
 
         pack();
@@ -304,6 +284,7 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> comboEstatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
