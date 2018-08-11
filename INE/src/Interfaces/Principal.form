@@ -692,8 +692,8 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="  Inventario">
-                <Property name="tabTitle" type="java.lang.String" value="  Inventario"/>
+              <JTabbedPaneConstraints tabName=" Inventario">
+                <Property name="tabTitle" type="java.lang.String" value=" Inventario"/>
                 <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Iconos/inventario.png"/>
                 </Property>
@@ -709,7 +709,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanel3" alignment="0" pref="1018" max="32767" attributes="0"/>
+                  <Component id="jPanel3" alignment="0" pref="722" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -1018,10 +1018,10 @@
         <Container class="javax.swing.JPanel" name="usuarios">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Empleados">
-                <Property name="tabTitle" type="java.lang.String" value="Empleados"/>
+              <JTabbedPaneConstraints tabName=" Empleados">
+                <Property name="tabTitle" type="java.lang.String" value=" Empleados"/>
                 <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Iconos/usuarios.png"/>
+                  <Image iconType="3" name="/Iconos/empleados.png"/>
                 </Property>
               </JTabbedPaneConstraints>
             </Constraint>
@@ -1278,8 +1278,8 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="  Vehiculos">
-                <Property name="tabTitle" type="java.lang.String" value="  Vehiculos"/>
+              <JTabbedPaneConstraints tabName=" Vehiculos">
+                <Property name="tabTitle" type="java.lang.String" value=" Vehiculos"/>
                 <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Iconos/vehiculos.png"/>
                 </Property>
@@ -1668,10 +1668,10 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Empleado">
-                <Property name="tabTitle" type="java.lang.String" value="Empleado"/>
+              <JTabbedPaneConstraints tabName=" Empleado">
+                <Property name="tabTitle" type="java.lang.String" value=" Empleado"/>
                 <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Iconos/vehiculos.png"/>
+                  <Image iconType="3" name="/Iconos/usuario.png"/>
                 </Property>
               </JTabbedPaneConstraints>
             </Constraint>
@@ -2292,10 +2292,10 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Resguardo">
-                <Property name="tabTitle" type="java.lang.String" value="Resguardo"/>
+              <JTabbedPaneConstraints tabName=" Resguardo">
+                <Property name="tabTitle" type="java.lang.String" value=" Resguardo"/>
                 <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Iconos/configuracion.png"/>
+                  <Image iconType="3" name="/Iconos/resguardo.png"/>
                 </Property>
               </JTabbedPaneConstraints>
             </Constraint>
@@ -3075,10 +3075,10 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Solicitudes">
-                <Property name="tabTitle" type="java.lang.String" value="Solicitudes"/>
+              <JTabbedPaneConstraints tabName=" Solicitudes">
+                <Property name="tabTitle" type="java.lang.String" value=" Solicitudes"/>
                 <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Iconos/vehiculos.png"/>
+                  <Image iconType="3" name="/Iconos/solicitudes.png"/>
                 </Property>
               </JTabbedPaneConstraints>
             </Constraint>
@@ -3658,10 +3658,10 @@
         <Container class="javax.swing.JPanel" name="solicitar_granel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Solicitar consumibles">
-                <Property name="tabTitle" type="java.lang.String" value="Solicitar consumibles"/>
+              <JTabbedPaneConstraints tabName=" Solicitar consumibles">
+                <Property name="tabTitle" type="java.lang.String" value=" Solicitar consumibles"/>
                 <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Iconos/usuarios.png"/>
+                  <Image iconType="3" name="/Iconos/consumible.png"/>
                 </Property>
               </JTabbedPaneConstraints>
             </Constraint>

@@ -188,48 +188,6 @@ public class Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
-        // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_btn_cancelarActionPerformed
-
-    private void btn_ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ingresarActionPerformed
-         // TODO add your handling code here: 
-           
-         if (check_con.hayConexion()) {
-            if (iniciarSesion()) {
-                try {
-                    obtenerUsuario(tf_campoUsuario.getText());
-                } catch (IOException e) {
-
-                }
-                try {
-                    // TODO add your handling code here:
-
-                    obtenerUsuario(tf_campoUsuario.getText());
-
-                } catch (IOException ex) {
-                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                try {
-                    escribir(tf_campoUsuario.getText());
-                    Principal ob = new Principal();
-                    this.hide();
-                    ob.setVisible(true);
-                } catch (IOException ex) {
-                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "NO HAY CONEXION CON LA BD");
-        }
-    }//GEN-LAST:event_btn_ingresarActionPerformed
     public void escribir(String usuario) throws IOException {
         if (recordarUsuario.isSelected()) {
             File archivo = new File("cnfg.init");
@@ -296,12 +254,58 @@ public class Login extends javax.swing.JFrame {
         return texto;
     }//leer()
     
-    private void tf_campoUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tf_campoUsuarioKeyReleased
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        
+    }//GEN-LAST:event_formWindowActivated
+
+    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
         // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            System.exit(0);
+        System.exit(0);
+    }//GEN-LAST:event_btn_cancelarActionPerformed
+
+    private void btn_ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ingresarActionPerformed
+        // TODO add your handling code here:
+
+        if (check_con.hayConexion()) {
+            if (iniciarSesion()) {
+                try {
+                    obtenerUsuario(tf_campoUsuario.getText());
+                } catch (IOException e) {
+
+                }
+                try {
+                    // TODO add your handling code here:
+
+                    obtenerUsuario(tf_campoUsuario.getText());
+
+                } catch (IOException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                try {
+                    escribir(tf_campoUsuario.getText());
+                    Principal ob = new Principal();
+                    this.hide();
+                    ob.setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "NO HAY CONEXION CON LA BD");
         }
-    }//GEN-LAST:event_tf_campoUsuarioKeyReleased
+    }//GEN-LAST:event_btn_ingresarActionPerformed
+
+    private void lb_logoIEEN_LoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_logoIEEN_LoginMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 15) {
+            JOptionPane.showMessageDialog(null, "Este software es una donación por parte del Instituto\nelaborado por:\nInventario:\n- Ibañez Loreto Oscar Abraham.\n- Mendez Santana Kevin Alejandro.\n- Pazos Rodriguez Javier Abraham.\n\nViaticos:\n- Espinoza Abando Denisse Yaneth.\n- Gil Llanos Juan Pedro.\n- Reyes Guerrero Guillermo Guadalupe.\n\nPara el Instituto Estatal Electoral de Nayarit.\n15/Agosto/2018.", "Instituto Tecnologico de Tepic", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_lb_logoIEEN_LoginMouseClicked
 
     private void tf_campoContraseñaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tf_campoContraseñaKeyReleased
         // TODO add your handling code here:
@@ -311,21 +315,20 @@ public class Login extends javax.swing.JFrame {
         }else if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (iniciarSesion()) {
                 try{
-                obtenerUsuario(tf_campoUsuario.getText());
+                    obtenerUsuario(tf_campoUsuario.getText());
                 }catch(IOException e){
-                    
+
                 }
-                
-                
+
                 try {
-             //       if(){
-                    
-             //       }else{
-                        escribir("Servicio iniciado por primera vez");
+                    //       if(){
+
+                        //       }else{
+                        escribir(tf_campoUsuario.getText());
                         Principal ob = new Principal();
                         this.hide();
                         ob.setVisible(true);
-           //         }
+                        //         }
                 } catch (IOException ex) {
                     Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (ClassNotFoundException ex) {
@@ -338,27 +341,23 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tf_campoContraseñaKeyReleased
 
-    private void lb_logoIEEN_LoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_logoIEEN_LoginMouseClicked
-         // TODO add your handling code here:
-         if (evt.getClickCount() == 15) {
-            JOptionPane.showMessageDialog(null, "Este software es una donación por parte del Instituto\nelaborado por:\nInventario:\n- Ibañez Loreto Oscar Abraham.\n- Mendez Santana Kevin Alejandro.\n- Pazos Rodriguez Javier Abraham.\n\nViaticos:\n- Espinoza Abando Denisse Yaneth.\n- Gil Llanos Juan Pedro.\n- Reyes Guerrero Guillermo Guadalupe.\n\nPara el Instituto Estatal Electoral de Nayarit.\n15/Agosto/2018.", "Instituto Tecnologico de Tepic", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_lb_logoIEEN_LoginMouseClicked
-
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        
-    }//GEN-LAST:event_formWindowActivated
-
     private void recordarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recordarUsuarioActionPerformed
         try {
             // TODO add your handling code here:
 
             escribir(tf_campoUsuario.getText());
-
+            tf_campoContraseña.requestFocus();
         } catch (IOException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_recordarUsuarioActionPerformed
+
+    private void tf_campoUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tf_campoUsuarioKeyReleased
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_tf_campoUsuarioKeyReleased
    
     public boolean validar(){
         boolean res = false;
@@ -410,6 +409,7 @@ public class Login extends javax.swing.JFrame {
 
             } else {
                 JOptionPane.showMessageDialog(this, "Ingrese una Contraseña");
+                tf_campoContraseña.requestFocus();
 
             }//
         } else {

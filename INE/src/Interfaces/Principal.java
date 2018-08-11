@@ -961,10 +961,10 @@ public class Principal extends javax.swing.JFrame {
         );
         pestañaInventarioLayout.setVerticalGroup(
             pestañaInventarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 1018, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE)
         );
 
-        tabbedPrincipal.addTab("  Inventario", new javax.swing.ImageIcon(getClass().getResource("/Iconos/inventario.png")), pestañaInventario); // NOI18N
+        tabbedPrincipal.addTab(" Inventario", new javax.swing.ImageIcon(getClass().getResource("/Iconos/inventario.png")), pestañaInventario); // NOI18N
 
         jPanel5.setLayout(null);
 
@@ -1063,7 +1063,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        tabbedPrincipal.addTab("Empleados", new javax.swing.ImageIcon(getClass().getResource("/Iconos/usuarios.png")), usuarios); // NOI18N
+        tabbedPrincipal.addTab(" Empleados", new javax.swing.ImageIcon(getClass().getResource("/Iconos/empleados.png")), usuarios); // NOI18N
 
         vehiculos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1283,7 +1283,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        tabbedPrincipal.addTab("  Vehiculos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/vehiculos.png")), vehiculos); // NOI18N
+        tabbedPrincipal.addTab(" Vehiculos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/vehiculos.png")), vehiculos); // NOI18N
 
         empleado.setComponentPopupMenu(MenuSolicitudesP);
         empleado.setPreferredSize(new java.awt.Dimension(1366, 768));
@@ -1572,7 +1572,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        tabbedPrincipal.addTab("Empleado", new javax.swing.ImageIcon(getClass().getResource("/Iconos/vehiculos.png")), empleado); // NOI18N
+        tabbedPrincipal.addTab(" Empleado", new javax.swing.ImageIcon(getClass().getResource("/Iconos/usuario.png")), empleado); // NOI18N
 
         resguardo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1940,7 +1940,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        tabbedPrincipal.addTab("Resguardo", new javax.swing.ImageIcon(getClass().getResource("/Iconos/configuracion.png")), resguardo); // NOI18N
+        tabbedPrincipal.addTab(" Resguardo", new javax.swing.ImageIcon(getClass().getResource("/Iconos/resguardo.png")), resguardo); // NOI18N
 
         solicitudes.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -2023,7 +2023,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        tabbedPrincipal.addTab("Solicitudes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/vehiculos.png")), solicitudes); // NOI18N
+        tabbedPrincipal.addTab(" Solicitudes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), solicitudes); // NOI18N
 
         configuracion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -2405,7 +2405,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        tabbedPrincipal.addTab("Solicitar consumibles", new javax.swing.ImageIcon(getClass().getResource("/Iconos/usuarios.png")), solicitar_granel); // NOI18N
+        tabbedPrincipal.addTab(" Solicitar consumibles", new javax.swing.ImageIcon(getClass().getResource("/Iconos/consumible.png")), solicitar_granel); // NOI18N
 
         jMenuBar1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
