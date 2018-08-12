@@ -49,11 +49,6 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaDocumentos = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tablaDocumentosProductos = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
-        jLabel4 = new javax.swing.JLabel();
-        jSeparator2 = new javax.swing.JSeparator();
-        jLabel2 = new javax.swing.JLabel();
         comboEstatus = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
 
@@ -74,7 +69,7 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Clave", "Fecha de inicio", "Productos asignados", "No. Acta"
+                "No. Consumible", "Descripción", "Solicitado", "Entregado", "Existencias"
             }
         ));
         tablaDocumentos.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -88,39 +83,11 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
         jScrollPane2.setViewportView(tablaDocumentos);
 
         pn_asignarEquipo.add(jScrollPane2);
-        jScrollPane2.setBounds(10, 37, 979, 161);
+        jScrollPane2.setBounds(10, 87, 979, 470);
 
-        jLabel1.setText("Seleccione un documento:");
+        jLabel1.setText("Seleccionar área:");
         pn_asignarEquipo.add(jLabel1);
-        jLabel1.setBounds(10, 14, 125, 14);
-
-        tablaDocumentosProductos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Clave", "Nombre Corto", "No. de serie", "Descripción", "Observaciones"
-            }
-        ));
-        tablaDocumentosProductos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaDocumentosProductosMouseClicked(evt);
-            }
-        });
-        jScrollPane3.setViewportView(tablaDocumentosProductos);
-
-        pn_asignarEquipo.add(jScrollPane3);
-        jScrollPane3.setBounds(10, 232, 979, 328);
-
-        jLabel4.setText("Productos del documento");
-        pn_asignarEquipo.add(jLabel4);
-        jLabel4.setBounds(10, 212, 121, 14);
-        pn_asignarEquipo.add(jSeparator2);
-        jSeparator2.setBounds(10, 204, 979, 2);
-
-        jLabel2.setText("Estatus:");
-        pn_asignarEquipo.add(jLabel2);
-        jLabel2.setBounds(628, 14, 40, 14);
+        jLabel1.setBounds(10, 14, 90, 14);
 
         comboEstatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,7 +95,7 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
             }
         });
         pn_asignarEquipo.add(comboEstatus);
-        comboEstatus.setBounds(672, 11, 317, 20);
+        comboEstatus.setBounds(100, 10, 140, 20);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         pn_asignarEquipo.add(jLabel3);
@@ -167,20 +134,8 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_tablaDocumentosMouseReleased
 
-    private void tablaDocumentosProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDocumentosProductosMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tablaDocumentosProductosMouseClicked
-
     private void tablaDocumentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDocumentosMouseClicked
         // TODO add your handling code here:
-        if(evt.getClickCount() == 2){
-            int fila = tablaDocumentos.getSelectedRow();
-            String id = tablaDocumentos.getValueAt(fila, 0).toString();
-            
-            //Llenamos la tabla de la relación documento-productos
-            tablaDocumentosProductos.setModel(manager_solicitud.consumibles_SolicitudSalida(id));
-            
-        }//getClickCount
     }//GEN-LAST:event_tablaDocumentosMouseClicked
 
     private void comboEstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEstatusActionPerformed
@@ -283,14 +238,9 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboEstatus;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPanel pn_asignarEquipo;
     private javax.swing.JTable tablaDocumentos;
-    private javax.swing.JTable tablaDocumentosProductos;
     // End of variables declaration//GEN-END:variables
 }

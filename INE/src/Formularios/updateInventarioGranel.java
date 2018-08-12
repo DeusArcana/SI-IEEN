@@ -26,7 +26,7 @@ public class updateInventarioGranel extends javax.swing.JDialog {
     ManagerPermisos manager_permisos;
     ManagerInventarioGranel manager_inventario_granel;
     
-    String extension,producto,almacen,marca,descripcion,observaciones,clave;
+    String extension,producto,almacen,marca,descripcion,observaciones,clave,categoria;
     int stockmin,stock,num;
     
     /**
@@ -312,6 +312,7 @@ public class updateInventarioGranel extends javax.swing.JDialog {
             datos[6] = "1";
         }
         txtStockMin.setText(datos[6]);
+        comboCategoria.setSelectedItem(datos[7]);
     }//colocarDatos
     private void txtMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMarcaActionPerformed
         // TODO add your handling code here:
@@ -345,6 +346,7 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         }else{
             descripcion = txtAreaDescripcion.getText();
         }
+        categoria = comboCategoria.getSelectedItem().toString();
     }//getInfo
     
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
@@ -352,7 +354,7 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         getInfo();
         if(manager_permisos.accesoModulo("actualizar","Inventario",Principal.Username)){
             
-            if(manager_inventario_granel.actualizarInventarioG(clave, producto, almacen, marca, stockmin, descripcion)){
+            if(manager_inventario_granel.actualizarInventarioG(clave, producto, almacen, marca, stockmin, descripcion,categoria)){
                 JOptionPane.showMessageDialog(null,"Se actualizo correctamente el consumible");
                 
                 if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){

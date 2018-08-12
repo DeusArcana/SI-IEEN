@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS `INE`.`Area` (
   `ID_Area` INT NOT NULL AUTO_INCREMENT,
   `Area` VARCHAR(255) NOT NULL,
   `Siglas` VARCHAR(32),
+  `Responsable` INT,
   PRIMARY KEY (`ID_Area`))
 ENGINE = InnoDB;
 
@@ -416,7 +417,7 @@ ENGINE = InnoDB;
 -- Table `INE`.`Categorias`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Categorias` (
-  `ID_Categoria` CHAR(6) NOT NULL,
+  `ID_Categoria` INT NOT NULL AUTO_INCREMENT,
   `Nom_Categoria` VARCHAR(255),
   PRIMARY KEY `pk_ID_Categoria`(`ID_Categoria`)
 ) ENGINE = InnoDB;

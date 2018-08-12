@@ -7,6 +7,8 @@ SET FOREIGN_KEY_CHECKS	=	0;
 -- *******************************************************************************
 -- 		INSERTS `INE`.`Area`
 -- *******************************************************************************
+
+
 DELETE FROM `INE`.`Area` WHERE 1;
 INSERT INTO `INE`.`Area` 
 	VALUES 
@@ -125,8 +127,24 @@ DELETE FROM `INE`.`TipoSolicitud` WHERE 1;
 INSERT INTO `INE`.`TipoSolicitud` 
 	VALUES
         ('Solicitud Salida')
-        
     ;
+
+-- *******************************************************************************
+-- 		INSERTS `INE`.`Categorias`
+-- *******************************************************************************
+DELETE FROM `INE`.`Categorias` WHERE 1;
+INSERT INTO `INE`.`Categorias` 
+	VALUES
+        (1,'Articulos de Oficina'),
+        (2,'Papelería Básica'),
+        (3,'Cafetería y Limpieza'),
+        (4,'Herramientas y Matenimiento'),
+        (5,'Cajas'),
+        (6,'Carpertas, folder y sobres'),
+        (7,'Escritura'),
+        (8,'Almacenamiento'),
+        (9,'Impresión'),
+        (10,'Limpieza de Cómputo');
 
 -- *******************************************************************************
 -- 		INSERTS `INE`.`Permisos_Solicitud`
@@ -162,13 +180,11 @@ INSERT INTO `INE`.`Permiso_Vale`
 		('Vale de resguardo',		'Auxiliar',			true),
         ('Vale de resguardo',		'Asistente',		true),
         ('Vale de resguardo',		'General', 			true),
-        
         ('Vale de recolección',		'SuperUsuario',		true),
 		('Vale de recolección',		'Administrador',	true),
 		('Vale de recolección',		'Auxiliar',			true),
         ('Vale de recolección',		'Asistente',		true),
         ('Vale de recolección',		'General', 			true)
-        
 	;
 
 -- *******************************************************************************
@@ -186,15 +202,7 @@ INSERT INTO `INE`.`Bodegas`(`Bodegas`.`Nom_Bodega`) VALUES
 DELETE FROM `INE`.`User` WHERE 1;    
 INSERT INTO `INE`.`User`  (`ID_User`, `ID_Empleado`, `Documentacion`, `Password`, `Puesto`, `Estatus`)
 	VALUES
-		('Mendez26', 1, true,  '123', 'SuperUsuario', 'Activo');/*,
-        ('Larry', 2, true,  '123', 'Organización', 'Administración'),
-        ('Leiva', 3, true,  '123', 'Auxiliar', 'Almacén'),
-        ('Quiñones', 4, true,  '123', 'Auxiliar', 'Informática'),
-        ('Lima', 5, true,  '123', 'Presidencia', 'Administración'),
-        ('Emily', 6, true,  '123', 'Usuario Depto.', 'Administración'),
-        ('Julieta', 7, true,  '123', 'Jefe de departamento', 'Informática'),
-        ('Alves', 8, true,  '123', 'Secretaria', 'Administración'),
-        ('Barbosa', 9, true,  '123', 'Administración', 'Administración');*/
+		('Mendez26', 1, true,  '123', 'SuperUsuario', 'Activo');
 
 -- *******************************************************************************
 -- 		INSERTS `INE`.`Modulos`
@@ -234,7 +242,6 @@ INSERT INTO `INE`.`Permisos`
         ('Mendez26',	'Tablon Solicitudes',	true, true, true, true),
         ('Mendez26',	'Informe',				true, true, true, true),
         ('Mendez26',	'Pase Salida',			true, true, true, true);
-        
 
 -- -----------------------------------------------------------------------------
 --					INSERTS `INE`.`Folio`
@@ -325,15 +332,15 @@ INSERT INTO `INE`.`Permisos_Puesto`
 -- -----------------------------------------------------------------------------
 --	Importación de productos desde data_test.csv para la tabla de Inventario
 -- ------------------------------------------------------------------------------
-LOAD DATA LOCAL INFILE 'C:\\Users\\oscar\\Documents\\GitHub\\SI-IEEN\\INE\\src\\db\\data_test.csv' 
+LOAD DATA LOCAL INFILE 'C:\\Users\\kevin\\OneDrive\\Documentos\\GitHub\\SI-IEEN\\INE\\src\\db\\data_test.csv' 
 REPLACE INTO TABLE `INE`.`Inventario` 
 FIELDS TERMINATED BY ',' 
 ESCAPED BY '"'
 LINES TERMINATED BY '\r\n' 
 (`Folio`, `Numero`, `Extension`, `NO_Serie`, `Nombre_Prod`, `Marca`, `Modelo`, `Color`, `Fecha_Compra`, `Factura`, `Importe`, `Observaciones`);
 
-LOAD DATA local INFILE 'C:\\Estados.sql' INTO TABLE Estado(Nombre);
-LOAD DATA local INFILE 'C:\\Localidades.sql' INTO TABLE Localidad(Estado_idEstado,Nombre);
+LOAD DATA local INFILE 'C:\\Users\\kevin\\OneDrive\\Documentos\\GitHub\\SI-IEEN\\INE\\src\\db\\Estados.sql' INTO TABLE Estado(Nombre);
+LOAD DATA local INFILE 'C:\\Users\\kevin\\OneDrive\\Documentos\\GitHub\\SI-IEEN\\INE\\src\\db\\Localidades.sql' INTO TABLE Localidad(Estado_idEstado,Nombre);
 INSERT INTO director_general VALUES('INSERTE EL CONSEJERO PRESIDENTE');
 
 -- -----------------------------------------------------------------------------

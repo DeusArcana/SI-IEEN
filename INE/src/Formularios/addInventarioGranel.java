@@ -25,7 +25,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
     ManagerPermisos manager_permisos;
     ManagerInventarioGranel manager_inventario_granel;
     
-    String extension,producto,almacen,marca,descripcion,observaciones;
+    String extension,producto,almacen,marca,descripcion,observaciones,categoria;
     int stockmin,stock,num;
     
     /**
@@ -335,6 +335,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         }else{
             descripcion = txtAreaDescripcion.getText();
         }
+        categoria = comboCategoria.getSelectedItem().toString();
         
     }//getInfo
     
@@ -355,7 +356,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         getInfo();
         if(manager_permisos.accesoModulo("alta","Inventario",Principal.Username)){
             
-            if(manager_inventario_granel.insertarInventarioG(num,extension, producto, almacen, marca, stockmin, stock, descripcion)){
+            if(manager_inventario_granel.insertarInventarioG(num,extension, producto, almacen, marca, stockmin, stock, descripcion,categoria)){
                 JOptionPane.showMessageDialog(null,"Se inserto correctamente al inventario");
                 
                 if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
@@ -414,6 +415,8 @@ public class addInventarioGranel extends javax.swing.JDialog {
         
         //Sugerencia del siguiente número
         txtNum.setText(""+manager_inventario_granel.sugNumero());
+        
+        manager_inventario_granel.getCategorias(comboCategoria);
         
     }//GEN-LAST:event_formWindowOpened
 
