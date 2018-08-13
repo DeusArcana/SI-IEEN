@@ -116,6 +116,11 @@ public class PrincipalS extends javax.swing.JFrame {
         ConsultarAr = new javax.swing.JMenuItem();
         OficioComisionAr = new javax.swing.JMenuItem();
         OficioViaticoAr = new javax.swing.JMenuItem();
+        MenuSolicitudViaticos1 = new javax.swing.JPopupMenu();
+        Impri_Sol1 = new javax.swing.JMenuItem();
+        Add2 = new javax.swing.JMenuItem();
+        SolicitarVehiculo2 = new javax.swing.JMenuItem();
+        CambiarConsejero2 = new javax.swing.JMenuItem();
         solicviaticos = new javax.swing.JTabbedPane();
         solicitudviaticos1 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
@@ -235,7 +240,8 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuSolicitudViaticos.add(Impri_Sol);
 
-        Add.setText("Añadir");
+        Add.setText("Solicitud de viático");
+        Add.setActionCommand("Solicitud viático");
         Add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddActionPerformed(evt);
@@ -307,8 +313,7 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuTablonA.add(OficioComision);
 
-        AsignarMonto.setText("Asignar monto");
-        AsignarMonto.setActionCommand("Modficar monto");
+        AsignarMonto.setText("Modificar monto");
         AsignarMonto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AsignarMontoActionPerformed(evt);
@@ -429,6 +434,39 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuTablonAr.add(OficioViaticoAr);
 
+        Impri_Sol1.setText("Imprimir solicitud");
+        Impri_Sol1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Impri_Sol1ActionPerformed(evt);
+            }
+        });
+        MenuSolicitudViaticos1.add(Impri_Sol1);
+
+        Add2.setText("Solicitud de viático");
+        Add2.setActionCommand("Solicitud viático");
+        Add2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Add2ActionPerformed(evt);
+            }
+        });
+        MenuSolicitudViaticos1.add(Add2);
+
+        SolicitarVehiculo2.setText("Solicitar Vehiculo");
+        SolicitarVehiculo2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SolicitarVehiculo2ActionPerformed(evt);
+            }
+        });
+        MenuSolicitudViaticos1.add(SolicitarVehiculo2);
+
+        CambiarConsejero2.setText("Cambiar Consejero Presidente");
+        CambiarConsejero2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CambiarConsejero2ActionPerformed(evt);
+            }
+        });
+        MenuSolicitudViaticos1.add(CambiarConsejero2);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -466,11 +504,11 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         ));
         tablasolic.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablasolicMouseReleased(evt);
-            }
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablasolicMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablasolicMouseReleased(evt);
             }
         });
         jScrollPane11.setViewportView(tablasolic);
@@ -501,7 +539,7 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         jScrollPane12.setViewportView(tablasolicvehiculo);
 
-        jTabbedPane1.addTab("Solicitud de vehiculos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), jScrollPane12); // NOI18N
+        jTabbedPane1.addTab("Solicitud de vehículos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), jScrollPane12); // NOI18N
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
@@ -518,7 +556,7 @@ public class PrincipalS extends javax.swing.JFrame {
         jPanel16.setBounds(20, 170, 1300, 410);
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel17.setText("Busqueda:");
+        jLabel17.setText("Búsqueda:");
         solicitudviaticos1.add(jLabel17);
         jLabel17.setBounds(40, 120, 100, 22);
 
@@ -544,7 +582,7 @@ public class PrincipalS extends javax.swing.JFrame {
         solicitudviaticos1.add(jLabel19);
         jLabel19.setBounds(0, 0, 1367, 769);
 
-        solicviaticos.addTab("Solicitud de Viaticos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), solicitudviaticos1); // NOI18N
+        solicviaticos.addTab("Solicitud de Viáticos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), solicitudviaticos1); // NOI18N
 
         tablonsolicitud1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -790,12 +828,12 @@ public class PrincipalS extends javax.swing.JFrame {
         tablonsolicitud1.add(jLabel28);
         jLabel28.setBounds(0, 0, 1367, 769);
 
-        solicviaticos.addTab("Tablon de Solicitudes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), tablonsolicitud1); // NOI18N
+        solicviaticos.addTab("Tablón de Solicitudes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), tablonsolicitud1); // NOI18N
 
         informe.setLayout(null);
 
         jlb.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jlb.setText("Busqueda:");
+        jlb.setText("Búsqueda:");
         informe.add(jlb);
         jlb.setBounds(40, 40, 100, 22);
 
@@ -1181,15 +1219,15 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void Impri_SolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Impri_SolActionPerformed
         // TODO add your handling code here:
-        int fila = tablasolic.getSelectedRow();;
+        int fila = tablasolicvehiculo.getSelectedRow();
         limpiar = false;
         String id = null;
         try {
 
-            tablasolic.clearSelection();
+            tablasolicvehiculo.clearSelection();
             CrearPDF pdf = new CrearPDF();
             if (fila >= 0) {
-                id = tablasolic.getValueAt(fila, 0).toString();
+                id = tablasolicvehiculo.getValueAt(fila, 0).toString();
                 pdf.generarPDFSolicitud(id);
             }
         } catch (Exception e) {
@@ -1619,7 +1657,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 while (rs.next()) {
                     id = rs.getString("Solicitud_idSolicitud");
                 }
-                if(txtKilometraje!=null){
+                if(!txtKilometraje.getText().equals("")){
                     rs=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where VV.solicitud_viatico_idSolicitud="+id, cn);
                     rs.next();
                     String idVehiculo_usado=rs.getString("idVehiculo_usado");
@@ -1873,7 +1911,7 @@ public class PrincipalS extends javax.swing.JFrame {
             if (r >= 0 && r < tablasolic.getRowCount()) {
                 tablasolic.setRowSelectionInterval(r, r);
             }
-            MenuSolicitudViaticos.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+            MenuSolicitudViaticos1.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
 
         }//clic derecho
     }//GEN-LAST:event_tablasolicMouseReleased
@@ -2533,6 +2571,42 @@ public class PrincipalS extends javax.swing.JFrame {
         Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
     }//GEN-LAST:event_ArchivarActionPerformed
 
+    private void Impri_Sol1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Impri_Sol1ActionPerformed
+        // TODO add your handling code here:
+        int fila = tablasolic.getSelectedRow();;
+        limpiar = false;
+        String id = null;
+        try {
+
+            tablasolic.clearSelection();
+            CrearPDF pdf = new CrearPDF();
+            if (fila >= 0) {
+                id = tablasolic.getValueAt(fila, 0).toString();
+                pdf.generarPDFSolicitud(id);
+            }
+        } catch (Exception e) {
+
+        }
+    }//GEN-LAST:event_Impri_Sol1ActionPerformed
+
+    private void Add2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Add2ActionPerformed
+        // TODO add your handling code here:
+        addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
+        asv.setVisible(true);
+    }//GEN-LAST:event_Add2ActionPerformed
+
+    private void SolicitarVehiculo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitarVehiculo2ActionPerformed
+        // TODO add your handling code here:
+        addSolicitudVehiculo asv = new addSolicitudVehiculo(this, true);
+        asv.setVisible(true);
+    }//GEN-LAST:event_SolicitarVehiculo2ActionPerformed
+
+    private void CambiarConsejero2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CambiarConsejero2ActionPerformed
+        // TODO add your handling code here:
+        String nuevo = JOptionPane.showInputDialog("Inserte el nombre del nuevo director general");
+        cbd.ejecutar("update Director_General set Nombre='" + nuevo + "'");
+    }//GEN-LAST:event_CambiarConsejero2ActionPerformed
+
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -2718,12 +2792,14 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JMenuItem AceptarP;
     private javax.swing.JMenuItem Add;
     private javax.swing.JMenuItem Add1;
+    private javax.swing.JMenuItem Add2;
     private javax.swing.JMenuItem AgregarEmpleados;
     private javax.swing.JMenuItem Archivar;
     private javax.swing.JMenuItem AsignarMonto;
     private javax.swing.JMenuItem AñadirA;
     private javax.swing.JMenuItem CambiarConsejero;
     private javax.swing.JMenuItem CambiarConsejero1;
+    private javax.swing.JMenuItem CambiarConsejero2;
     private javax.swing.JMenuItem CancelarA;
     private javax.swing.JMenuItem CancelarP;
     private javax.swing.JMenuItem ConsultarA;
@@ -2735,12 +2811,14 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JTextField GaTot;
     private javax.swing.JMenuItem GenerarInf;
     private javax.swing.JMenuItem Impri_Sol;
+    private javax.swing.JMenuItem Impri_Sol1;
     private javax.swing.JPopupMenu MenuGI;
     private javax.swing.JPopupMenu MenuInfSA;
     private javax.swing.JPopupMenu MenuInfSF;
     private javax.swing.JPopupMenu MenuPanelSolicitudViatico;
     private javax.swing.JMenuItem MenuSolicitud;
     private javax.swing.JPopupMenu MenuSolicitudViaticos;
+    private javax.swing.JPopupMenu MenuSolicitudViaticos1;
     private javax.swing.JPopupMenu MenuTablonA;
     private javax.swing.JPopupMenu MenuTablonAr;
     private javax.swing.JPopupMenu MenuTablonC;
@@ -2750,6 +2828,7 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JMenuItem OficioViaticoAr;
     private javax.swing.JMenuItem SolicitarVehiculo;
     private javax.swing.JMenuItem SolicitarVehiculo1;
+    private javax.swing.JMenuItem SolicitarVehiculo2;
     private javax.swing.JButton btnAddInventario2;
     private javax.swing.JButton btnguardar;
     private javax.swing.JButton btnregresar;

@@ -324,7 +324,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
 
             txtKilometraje.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             txtKilometraje.setEnabled(false);
-            pn_addInventario.add(txtKilometraje, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 70, 10, -1));
+            pn_addInventario.add(txtKilometraje, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 70, 80, -1));
 
             jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             jLabel11.setText("Descripción:");

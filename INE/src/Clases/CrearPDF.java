@@ -203,8 +203,8 @@ public class CrearPDF {
         query.add(fecha2);
         fecha_salida.add(query);
         document.add(fecha_salida);*/
-        BaseFont bf=BaseFont.createFont(BaseFont.COURIER_BOLD,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
-        BaseFont bfNoNegritas=BaseFont.createFont(BaseFont.COURIER,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
+        BaseFont bf=BaseFont.createFont(BaseFont.HELVETICA_BOLD,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
+        BaseFont bfNoNegritas=BaseFont.createFont(BaseFont.HELVETICA,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
         PdfContentByte cb=writer.getDirectContent();
         cb.setFontAndSize(bf,16);
         Image image=Image.getInstance(getClass().getResource("/Imagenes/IEE.png"));
@@ -242,12 +242,12 @@ public class CrearPDF {
         cb.showText(datos.get(0));
         //Label lugar
         cb.setFontAndSize(bfNoNegritas,12);
-        cb.setTextMatrix(320,650);
+        cb.setTextMatrix(370,650);
         cb.showText("Lugar: ");
         //Lugar base de datos
         cb.setFontAndSize(bf,12);
         datos=conexion.acceder("select lugar from solicitud_viatico where idSolicitud="+id);
-        cb.setTextMatrix(370,650);
+        cb.setTextMatrix(420,650);
         cb.showText(datos.get(0));
         //Label actividad
         cb.setFontAndSize(bfNoNegritas,12);
@@ -341,8 +341,8 @@ public class CrearPDF {
         Conexion conexion=new Conexion();
         conexion.getConexion();
         document.open();
-        BaseFont bf=BaseFont.createFont(BaseFont.COURIER_BOLD,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
-        BaseFont bfNoNegritas=BaseFont.createFont(BaseFont.COURIER,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
+        BaseFont bf=BaseFont.createFont(BaseFont.HELVETICA_BOLD,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
+        BaseFont bfNoNegritas=BaseFont.createFont(BaseFont.HELVETICA,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
         PdfContentByte cb=writer.getDirectContent();
         cb.setFontAndSize(bf,16);
         Image image=Image.getInstance(getClass().getResource("/Imagenes/IEE.png"));
@@ -497,8 +497,8 @@ public class CrearPDF {
             Conexion conexion=new Conexion();
             conexion.getConexion();
             document.open();
-            BaseFont bf=BaseFont.createFont(BaseFont.COURIER_BOLD,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
-            BaseFont bfNoNegritas=BaseFont.createFont(BaseFont.COURIER,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
+            BaseFont bf=BaseFont.createFont(BaseFont.HELVETICA_BOLD,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
+            BaseFont bfNoNegritas=BaseFont.createFont(BaseFont.HELVETICA,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
             PdfContentByte cb=writer.getDirectContent();
             cb.setFontAndSize(bf,16);
             Image image=Image.getInstance(getClass().getResource("/Imagenes/IEE.png"));
@@ -649,8 +649,8 @@ public class CrearPDF {
             Conexion conexion=new Conexion();
             conexion.getConexion();
             document.open();
-            BaseFont bf=BaseFont.createFont(BaseFont.COURIER_BOLD,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
-            BaseFont bfNoNegritas=BaseFont.createFont(BaseFont.COURIER,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
+            BaseFont bf=BaseFont.createFont(BaseFont.HELVETICA_BOLD,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
+            BaseFont bfNoNegritas=BaseFont.createFont(BaseFont.HELVETICA,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
             PdfContentByte cb=writer.getDirectContent();
             cb.setFontAndSize(bf,16);
             Image image=Image.getInstance(getClass().getResource("/Imagenes/IEE.png"));
@@ -757,28 +757,35 @@ public class CrearPDF {
             
         }
     }
-    public void imprimir_Costo(String idInforme,Document document) throws DocumentException{
+    public void imprimir_Costo(String idInforme,Document document) throws DocumentException, SQLException{
         Conexion conexion=new Conexion();
         conexion.getConexion();
-        ArrayList<String> indices;
+        ArrayList<String> indices=new ArrayList<String>();
         ArrayList<String> datos;
-        indices=conexion.acceder("select IG.Gastos_id_gastos from informe_gastos IG inner join informe I on IG.Informe_id_informe=I.id_informe where I.id_informe="+idInforme);
-        String query="select precio,descripcion from gastos where ";
-        for(int i=0;i<indices.size();i++){
-            if(i==0){
-                query+="id_gastos="+indices.get(i);
-            }else{
-                query+=" or id_gastos="+indices.get(i);
+        //indices=conexion.acceder("select IG.Gastos_id_gastos from informe_gastos IG inner join informe I on IG.Informe_id_informe=I.id_informe where I.id_informe="+idInforme);
+        ResultSet rs=conexion.getTabla("select IG.Gastos_id_gastos from informe_gastos IG inner join informe I on IG.Informe_id_informe=I.id_informe where I.id_informe="+idInforme, conexion.getConexion());
+        while(rs.next()){
+            indices.add(rs.getString("Gastos_id_gastos"));
+        }
+        if(indices.size()>0){
+            
+            String query="select precio,descripcion from gastos where ";
+            for(int i=0;i<indices.size();i++){
+                if(i==0){
+                    query+="id_gastos="+indices.get(i);
+                }else{
+                    query+=" or id_gastos="+indices.get(i);
+                }
             }
+            datos=conexion.acceder(query);
+            PdfPTable tabla=new PdfPTable(2);
+            tabla.addCell("Precio");
+            tabla.addCell("Descripción");
+            for(int i=0;i<datos.size();i++){
+                tabla.addCell(datos.get(i));
+            }
+            document.add(tabla);
         }
-        datos=conexion.acceder(query);
-        PdfPTable tabla=new PdfPTable(2);
-        tabla.addCell("Precio");
-        tabla.addCell("Descripción");
-        for(int i=0;i<datos.size();i++){
-            tabla.addCell(datos.get(i));
-        }
-        document.add(tabla);
     }
     public static void main(String[] args){
         CrearPDF a=new CrearPDF();
