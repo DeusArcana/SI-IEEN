@@ -29,7 +29,6 @@ CREATE TABLE IF NOT EXISTS `INE`.`Area` (
   `ID_Area` INT NOT NULL AUTO_INCREMENT,
   `Area` VARCHAR(255) NOT NULL,
   `Siglas` VARCHAR(32),
-  `Responsable` INT,
   PRIMARY KEY (`ID_Area`))
 ENGINE = InnoDB;
 
@@ -417,7 +416,7 @@ ENGINE = InnoDB;
 -- Table `INE`.`Categorias`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Categorias` (
-  `ID_Categoria` INT NOT NULL AUTO_INCREMENT,
+  `ID_Categoria` CHAR(6) NOT NULL,
   `Nom_Categoria` VARCHAR(255),
   PRIMARY KEY `pk_ID_Categoria`(`ID_Categoria`)
 ) ENGINE = InnoDB;
@@ -702,6 +701,7 @@ CREATE TABLE IF NOT EXISTS `ine`.`solicitud_vehiculo` (
   `idsolicitud_vehiculo` INT NOT NULL AUTO_INCREMENT,
   `vehiculo_usado_idvehiculo_usado` INT NOT NULL,
   `Vehiculo` VARCHAR(100) NULL,
+  `chofer` VARCHAR(1) NULL,
   PRIMARY KEY (`idsolicitud_vehiculo`),
   INDEX `fk_solicitud_vehiculo_vehiculo_usado1_idx` (`vehiculo_usado_idvehiculo_usado` ASC),
   CONSTRAINT `fk_solicitud_vehiculo_vehiculo_usado1`

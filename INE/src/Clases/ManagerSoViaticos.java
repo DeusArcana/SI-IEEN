@@ -31,22 +31,7 @@ public class ManagerSoViaticos {
         modelo = new DefaultTableModel();
         
     }//Constructor
-    public boolean isAdmin() throws SQLException{
-        ResultSet rs=cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"';", cn);
-        String puesto="";
-        while(rs.next()){
-            puesto=rs.getString("puesto");
-        }
-        if(puesto.equals("SuperUsuario") || puesto.equals("Administrador")){
-            return true;
-        }
-        return false;
-    }
-    public String getNombre(String user) throws SQLException{
-        ResultSet rs=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+user+"';", cn);
-        rs.next();
-        return rs.getString("nombre");
-    }
+
        public DefaultTableModel getTasol() {
 
         DefaultTableModel taso = new DefaultTableModel();
@@ -62,11 +47,15 @@ public class ManagerSoViaticos {
 
         try {
             //Consulta de los empleados
-            String sql="";
-            if(isAdmin()){
+            String sql;
+            ResultSet usuario=cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+            usuario.next();
+            if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
                 sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Estado from Solicitud_viatico order by idSolicitud DESC";
             }else{
-                sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Estado from Solicitud_viatico where nombre='"+getNombre(Principal.Username)+"' order by idSolicitud DESC";
+                usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                usuario.next();
+                sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Estado from Solicitud_viatico where nombre='"+usuario.getString("nombre")+"' order by idSolicitud DESC";
             }
             //String sql="select * from solicitud_viatico";
             Statement st = cn.createStatement();
@@ -124,10 +113,14 @@ public class ManagerSoViaticos {
             
             //Consulta de los empleados
             String sql="";
-            if(isAdmin()){
-                sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_salida,Fecha_llegada,Hora_salida,Hora_llegada,Estado from solicitud_viatico inner join vehiculo_viatico on idSolicitud=solicitud_viatico_idSolicitud  order by idSolicitud DESC;";
+            ResultSet usuario=cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+            usuario.next();
+            if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
+                sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Hora_salida,Hora_llegada,Estado from solicitud_viatico inner join vehiculo_viatico on idSolicitud=solicitud_viatico_idSolicitud order by idSolicitud DESC;";
             }else{
-                sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_salida,Fecha_llegada,Hora_salida,Hora_llegada,Estado from solicitud_viatico inner join vehiculo_viatico on idSolicitud=solicitud_viatico_idSolicitud  where nombre='"+getNombre(Principal.Username)+"'order by idSolicitud DESC;";
+                usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                usuario.next();
+                sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Hora_salida,Hora_llegada,Estado from solicitud_viatico inner join vehiculo_viatico on idSolicitud=solicitud_viatico_idSolicitud where nombre='"+usuario.getString("nombre")+"' order by idSolicitud DESC";
             }
             //String sql="select * from solicitud_viatico";
             Statement st = cn.createStatement();
@@ -184,8 +177,11 @@ public class ManagerSoViaticos {
        */
        
        public DefaultTableModel SolicitudA() {
+           
         modelo=new DefaultTableModel();
         modelo.addColumn("Folio");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Puesto");
         modelo.addColumn("Monto");
         modelo.addColumn("Fecha de salida");
         modelo.addColumn("Fecha de llegada");
@@ -193,18 +189,23 @@ public class ManagerSoViaticos {
         try {
             //conexion = db.getConexion();
             String sql="";
-            if(isAdmin()){
-                sql="SELECT O.Folio, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud";
+            ResultSet usuario=cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+            usuario.next();
+            if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
+                sql="SELECT O.Folio,S.nombre, S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud order by O.Folio DESC";
             }else{
-                sql="SELECT O.Folio, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud and S.nombre='"+getNombre(Principal.Username)+"';";
+                usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                usuario.next();
+                sql = "SELECT O.Folio,S.nombre, S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud and nombre='"+usuario.getString("nombre")+"' order by O.Folio DESC";
             }
+            
             Statement sentencia = cn.createStatement();
-            Object datos[] = new Object[5];
+            Object datos[] = new Object[7];
             ResultSet rs = sentencia.executeQuery(sql);
             //Llenar tabla
             while (rs.next()) {
 
-                for(int i = 0;i<5;i++){
+                for(int i = 0;i<7;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -236,10 +237,14 @@ public class ManagerSoViaticos {
             //conexion = db.getConexion();
             Statement sentencia = cn.createStatement();
             String sql="";
-            if(isAdmin()){
+            ResultSet usuario=cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+            usuario.next();
+            if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
                 sql="SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar,Motivo FROM Solicitud_viatico WHERE Estado = 'C' order by idSolicitud DESC";
             }else{
-                sql="SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar,Motivo FROM Solicitud_viatico WHERE Estado = 'C' and nombre='"+getNombre(Principal.Username)+"' order by idSolicitud DESC";
+                usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                usuario.next();
+                sql = "SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar,Motivo FROM Solicitud_viatico WHERE Estado = 'C' and nombre='"+usuario.getString("nombre")+"' order by idSolicitud DESC";
             }
             ResultSet rs = sentencia.executeQuery(sql);
 
@@ -273,11 +278,15 @@ public class ManagerSoViaticos {
         modelo.addColumn("Lugar");
 
         try {
-            String sql="";
-            if(isAdmin()){
-                sql="SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'P'";
+            String sql="SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'P' order by idSolicitud";
+            ResultSet usuario=cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+            usuario.next();
+            if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
+                sql="SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'P' order by idSolicitud";
             }else{
-                sql="SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'P' and nombre='"+getNombre(Principal.Username)+"'";
+                usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                usuario.next();
+                sql = "SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'P' and nombre='"+usuario.getString("nombre")+"' order by idSolicitud DESC";
             }
             //conexion = db.getConexion();
             Statement sentencia = cn.createStatement();
@@ -349,12 +358,14 @@ public class ManagerSoViaticos {
             },
             //Declaramos el titulo de las columnas
             new String []{
-                "Folio ","Monto", "Fecha de salida", "Fecha de llegada", "Lugar", "Gastos a comprobar", "Informe"
+                "Folio ","Nombre","Puesto","Monto", "Fecha de salida", "Fecha de llegada", "Lugar", "Gastos a comprobar", "Informe"
             }
         ){
             //El tipo que sera cada columna, la primera columna un checkbox y los demas seran objetos
             Class[] types = new Class [] {
-                java.lang.Object.class, 
+                java.lang.Object.class,
+                java.lang.Object.class,
+                java.lang.Object.class,
                 java.lang.Object.class,
                 java.lang.Object.class,
                 java.lang.Object.class,
@@ -368,6 +379,8 @@ public class ManagerSoViaticos {
             }
             //Esto es para indicar que columnas dejaremos editar o no
             boolean[] canEdit = new boolean [] {
+                false, 
+                false, 
                 false, 
                 false,
                 false,
@@ -392,20 +405,24 @@ public class ManagerSoViaticos {
         
         try {
             //conexion = db.getConexion();
-            String sql="";
-            if(isAdmin()){
-                sql="SELECT O.Folio, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud ORDER BY O.FOLIO DESC";
+            String sql="SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud ORDER BY O.FOLIO DESC";
+            ResultSet usuario=cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+            usuario.next();
+            if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
+                sql="SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud ORDER BY O.FOLIO DESC";
             }else{
-                sql="SELECT O.Folio, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud where "+getNombre(Principal.Username)+" ORDER BY O.FOLIO DESC";
+                usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                usuario.next();
+                sql = "SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and nombre='"+usuario.getString("nombre")+"' order by O.Folio DESC";
             }
             Statement sentencia = cn.createStatement();
-            Object datos[] = new Object[7];
+            Object datos[] = new Object[9];
             ResultSet rs = sentencia.executeQuery(sql);
             //Llenar tabla
             while (rs.next()) {
 
-                for(int i = 0;i<7;i++){
-                    if(i == 5){
+                for(int i = 0;i<9;i++){
+                    if(i == 7){
                         datos[i]=rs.getBoolean(i+1);
                     }else{
                                             datos[i] = rs.getObject(i+1);

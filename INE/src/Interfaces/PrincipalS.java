@@ -97,6 +97,7 @@ public class PrincipalS extends javax.swing.JFrame {
         OficioComision = new javax.swing.JMenuItem();
         AsignarMonto = new javax.swing.JMenuItem();
         CancelarA = new javax.swing.JMenuItem();
+        Archivar = new javax.swing.JMenuItem();
         MenuTablonC = new javax.swing.JPopupMenu();
         ConsultarC = new javax.swing.JMenuItem();
         AceptarC = new javax.swing.JMenuItem();
@@ -115,6 +116,11 @@ public class PrincipalS extends javax.swing.JFrame {
         ConsultarAr = new javax.swing.JMenuItem();
         OficioComisionAr = new javax.swing.JMenuItem();
         OficioViaticoAr = new javax.swing.JMenuItem();
+        MenuSolicitudViaticos1 = new javax.swing.JPopupMenu();
+        Impri_Sol1 = new javax.swing.JMenuItem();
+        Add2 = new javax.swing.JMenuItem();
+        SolicitarVehiculo2 = new javax.swing.JMenuItem();
+        CambiarConsejero2 = new javax.swing.JMenuItem();
         solicviaticos = new javax.swing.JTabbedPane();
         solicitudviaticos1 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
@@ -162,13 +168,15 @@ public class PrincipalS extends javax.swing.JFrame {
         txtobvia = new javax.swing.JTextArea();
         txtobveh = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblObsVehiculo = new javax.swing.JLabel();
         GaTot = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         btnguardar = new javax.swing.JButton();
         btnregresar1 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaact = new javax.swing.JTable();
+        txtKilometraje = new javax.swing.JTextField();
+        lblKilometraje = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablainfo1 = new javax.swing.JTable();
         btnregresar = new javax.swing.JButton();
@@ -232,7 +240,8 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuSolicitudViaticos.add(Impri_Sol);
 
-        Add.setText("Añadir");
+        Add.setText("Solicitud de viático");
+        Add.setActionCommand("Solicitud viático");
         Add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddActionPerformed(evt);
@@ -304,7 +313,7 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuTablonA.add(OficioComision);
 
-        AsignarMonto.setText("Asignar monto");
+        AsignarMonto.setText("Modificar monto");
         AsignarMonto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AsignarMontoActionPerformed(evt);
@@ -319,6 +328,14 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         MenuTablonA.add(CancelarA);
+
+        Archivar.setText("Archivar");
+        Archivar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ArchivarActionPerformed(evt);
+            }
+        });
+        MenuTablonA.add(Archivar);
 
         ConsultarC.setText("Consultar");
         ConsultarC.addActionListener(new java.awt.event.ActionListener() {
@@ -417,6 +434,39 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuTablonAr.add(OficioViaticoAr);
 
+        Impri_Sol1.setText("Imprimir solicitud");
+        Impri_Sol1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Impri_Sol1ActionPerformed(evt);
+            }
+        });
+        MenuSolicitudViaticos1.add(Impri_Sol1);
+
+        Add2.setText("Solicitud de viático");
+        Add2.setActionCommand("Solicitud viático");
+        Add2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Add2ActionPerformed(evt);
+            }
+        });
+        MenuSolicitudViaticos1.add(Add2);
+
+        SolicitarVehiculo2.setText("Solicitar Vehiculo");
+        SolicitarVehiculo2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SolicitarVehiculo2ActionPerformed(evt);
+            }
+        });
+        MenuSolicitudViaticos1.add(SolicitarVehiculo2);
+
+        CambiarConsejero2.setText("Cambiar Consejero Presidente");
+        CambiarConsejero2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CambiarConsejero2ActionPerformed(evt);
+            }
+        });
+        MenuSolicitudViaticos1.add(CambiarConsejero2);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -454,11 +504,11 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         ));
         tablasolic.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablasolicMouseReleased(evt);
-            }
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablasolicMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablasolicMouseReleased(evt);
             }
         });
         jScrollPane11.setViewportView(tablasolic);
@@ -489,7 +539,7 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         jScrollPane12.setViewportView(tablasolicvehiculo);
 
-        jTabbedPane1.addTab("Solicitud de vehiculos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), jScrollPane12); // NOI18N
+        jTabbedPane1.addTab("Solicitud de vehículos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), jScrollPane12); // NOI18N
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
@@ -506,7 +556,7 @@ public class PrincipalS extends javax.swing.JFrame {
         jPanel16.setBounds(20, 170, 1300, 410);
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel17.setText("Busqueda:");
+        jLabel17.setText("Búsqueda:");
         solicitudviaticos1.add(jLabel17);
         jLabel17.setBounds(40, 120, 100, 22);
 
@@ -532,8 +582,13 @@ public class PrincipalS extends javax.swing.JFrame {
         solicitudviaticos1.add(jLabel19);
         jLabel19.setBounds(0, 0, 1367, 769);
 
-        solicviaticos.addTab("Solicitud de Viaticos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), solicitudviaticos1); // NOI18N
+        solicviaticos.addTab("Solicitud de Viáticos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), solicitudviaticos1); // NOI18N
 
+        tablonsolicitud1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tablonsolicitud1FocusLost(evt);
+            }
+        });
         tablonsolicitud1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tablonsolicitud1MouseReleased(evt);
@@ -773,12 +828,12 @@ public class PrincipalS extends javax.swing.JFrame {
         tablonsolicitud1.add(jLabel28);
         jLabel28.setBounds(0, 0, 1367, 769);
 
-        solicviaticos.addTab("Tablon de Solicitudes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), tablonsolicitud1); // NOI18N
+        solicviaticos.addTab("Tablón de Solicitudes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), tablonsolicitud1); // NOI18N
 
         informe.setLayout(null);
 
         jlb.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jlb.setText("Busqueda:");
+        jlb.setText("Búsqueda:");
         informe.add(jlb);
         jlb.setBounds(40, 40, 100, 22);
 
@@ -830,9 +885,9 @@ public class PrincipalS extends javax.swing.JFrame {
         jPanel1.add(jLabel1);
         jLabel1.setBounds(810, 60, 150, 20);
 
-        jLabel2.setText("Observaciones Vehículo");
-        jPanel1.add(jLabel2);
-        jLabel2.setBounds(810, 320, 150, 14);
+        lblObsVehiculo.setText("Observaciones Vehículo");
+        jPanel1.add(lblObsVehiculo);
+        lblObsVehiculo.setBounds(810, 320, 150, 14);
         jPanel1.add(GaTot);
         GaTot.setBounds(210, 440, 240, 20);
 
@@ -891,6 +946,12 @@ public class PrincipalS extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane3);
         jScrollPane3.setBounds(30, 10, 420, 420);
+        jPanel1.add(txtKilometraje);
+        txtKilometraje.setBounds(1189, 320, 90, 20);
+
+        lblKilometraje.setText("Kilometraje");
+        jPanel1.add(lblKilometraje);
+        lblKilometraje.setBounds(1114, 320, 60, 14);
 
         menuInforme.addTab("Solicitudes aceptadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), jPanel1); // NOI18N
 
@@ -1091,7 +1152,7 @@ public class PrincipalS extends javax.swing.JFrame {
         txtobvia.enable(false);
         txtobveh.enable(false);
         btnregresar.setVisible(false);
-        btnguardar.setVisible(false);
+        //btnguardar.setVisible(false);
         tablasolic.setModel(manager_soviaticos.getTasol());
         tablasolicvehiculo.setModel(manager_soviaticos.getTasolVehiculo());
         tablonpendientes.setModel(manager_soviaticos.SolicitudP());
@@ -1109,7 +1170,30 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
+        btnregresar1.setVisible(false);
+            txtobvia.setText("");
+            txtKilometraje.setVisible(false);
+            lblKilometraje.setVisible(false);
+            txtobveh.setText("");
+            GaTot.setText("");
+            txtobvia.enable(false);
+            txtobveh.enable(false);
+            txtobvia.setVisible(false);
+            txtobveh.setVisible(false);
+            btnregresar.setVisible(false);
+            btnguardar.setVisible(false);
+            tablainfo.enable(true);
+            jlb.setVisible(true);
+            txtbusquedasoli2.setVisible(true);
+            jLabel1.setVisible(false);
+            lblObsVehiculo.setVisible(false);
+            jLabel3.setVisible(false);
+            GaTot.enable(false);
+            GaTot.setVisible(false);
+            jScrollPane3.setVisible(false);
+            jScrollPane1.setVisible(true);
         txtobvia.enable(false);
+        guardargac.setVisible(false);
         txtobveh.enable(false);
         btnregresar.setVisible(false);
         btnguardar.setVisible(false);
@@ -1135,15 +1219,15 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void Impri_SolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Impri_SolActionPerformed
         // TODO add your handling code here:
-        int fila = tablasolic.getSelectedRow();;
+        int fila = tablasolicvehiculo.getSelectedRow();
         limpiar = false;
         String id = null;
         try {
 
-            tablasolic.clearSelection();
+            tablasolicvehiculo.clearSelection();
             CrearPDF pdf = new CrearPDF();
             if (fila >= 0) {
-                id = tablasolic.getValueAt(fila, 0).toString();
+                id = tablasolicvehiculo.getValueAt(fila, 0).toString();
                 pdf.generarPDFSolicitud(id);
             }
         } catch (Exception e) {
@@ -1346,9 +1430,9 @@ public class PrincipalS extends javax.swing.JFrame {
                 et = estadolocalidad.split(",");
                 String empleado[] = new String[4];
                 empleado = nombre.split(" ");
-                String nombres = empleado[0] + " " + empleado[1];
+                //String nombres = empleado[0] + " " + empleado[1];
                 String puesto = "";
-                ResultSet rs2 = sentencia.executeQuery("SELECT puesto FROM Empleados WHERE nombres = '" + nombres + "' AND apellido_p = '" + empleado[2] + "' AND apellido_m = '" + empleado[3] + "'");
+                ResultSet rs2 = sentencia.executeQuery("SELECT puesto FROM Empleados E WHERE concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) =  '"+nombre+"'");
                 while (rs2.next()) {
                     puesto = rs2.getString("puesto");
                 }
@@ -1496,32 +1580,13 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddActionPerformed
         // TODO add your handling code here:
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            // If Nimbus is not available, you can set the GUI to another look and feel.
-        }
         addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
         asv.setVisible(true);
     }//GEN-LAST:event_AddActionPerformed
 
     private void Add1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Add1ActionPerformed
         // TODO add your handling code here:
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            // If Nimbus is not available, you can set the GUI to another look and feel.
-        }
+        
         addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
         conVehiculo = 0;
         asv.setVisible(true);
@@ -1541,32 +1606,14 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void SolicitarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitarVehiculoActionPerformed
         // TODO add your handling code here:
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            // If Nimbus is not available, you can set the GUI to another look and feel.
-        }
+        
         addSolicitudVehiculo asv = new addSolicitudVehiculo(this, true);
         asv.setVisible(true);
     }//GEN-LAST:event_SolicitarVehiculoActionPerformed
 
     private void SolicitarVehiculo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitarVehiculo1ActionPerformed
         // TODO add your handling code here:
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            // If Nimbus is not available, you can set the GUI to another look and feel.
-        }
+        
         addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
         conVehiculo = 1;
         asv.setVisible(true);
@@ -1598,6 +1645,73 @@ public class PrincipalS extends javax.swing.JFrame {
         // TODO add your handling code here:
 
     }//GEN-LAST:event_btnregresarActionPerformed
+
+    private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
+        // TODO add your handling code here:
+        try {
+            int s = JOptionPane.showConfirmDialog(null, "¿Esta seguro?", "Alerta!", JOptionPane.YES_NO_OPTION);
+            if (s == JOptionPane.YES_OPTION) {
+                String id = "";
+                Statement sentencia = cn.createStatement();
+                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = " + folio);
+                while (rs.next()) {
+                    id = rs.getString("Solicitud_idSolicitud");
+                }
+                if(!txtKilometraje.getText().equals("")){
+                    rs=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where VV.solicitud_viatico_idSolicitud="+id, cn);
+                    rs.next();
+                    String idVehiculo_usado=rs.getString("idVehiculo_usado");
+                    int kilometrajeActual=Integer.parseInt(rs.getString("kilometraje"));
+                    int kilometrajeActualizado=Integer.parseInt(txtKilometraje.getText());
+                    if(kilometrajeActualizado<kilometrajeActual){
+                        JOptionPane.showMessageDialog(this, "El kilometraje debe de ser mayor al kilometraje actual de: "+kilometrajeActual);
+                        return;
+                    }
+                    sentencia.executeUpdate("UPDATE vehiculo_usado SET kilometraje='"+kilometrajeActualizado+"' where idVehiculo_usado="+idVehiculo_usado);
+                }
+                sentencia.executeUpdate("UPDATE Solicitud_viatico SET Reporte = '1' WHERE (idSolicitud = " + id + ")");
+                if (c == 1) {
+                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Solicitud_idSolicitud,importe_total) VALUES('" + txtobvia.getText() + "','" + txtobveh.getText() + "'," + id + "," + GaTot.getText() + ")");
+                    //-----------------------------
+                    String idInforme = "";
+                    ResultSet rs2 = sentencia.executeQuery("SELECT MAX(id_informe) AS id_informe FROM Informe");
+                    while (rs2.next()) {
+                        idInforme = rs2.getString("id_informe");
+                    }
+                    //-----------------------------
+                    String idGastos = "";
+                    int filas = tablaact.getRowCount();
+                    if (filas != 0) {
+                        for (int j = 0; filas > j; j++) {
+                            sentencia.execute("INSERT INTO Gastos (Precio,Descripcion,Factura) VALUES('" + tablaact.getValueAt(j, 1).toString() + "','" + tablaact.getValueAt(j, 0).toString() + "','" + tablaact.getValueAt(j, 2).toString() + "')");
+                            ResultSet rs3 = sentencia.executeQuery("SELECT MAX(id_Gastos) AS id_Gastos FROM Gastos");
+                            while (rs3.next()) {
+                                idGastos = rs3.getString("id_Gastos");
+                            }
+                            sentencia.execute("INSERT INTO Informe_Gastos VALUES(" + idGastos + "," + idInforme + ")");
+                        }
+                    }
+                    javax.swing.JOptionPane.showMessageDialog(null, "Reporte Generado");
+                } else {
+                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Solicitud_idSolicitud) VALUES('" + txtobvia.getText() + "','" + txtobveh.getText() + "'," + id + ")");
+                    javax.swing.JOptionPane.showMessageDialog(null, "Reporte Generado");
+                }
+                if (c == 1) {
+                    txtobvia.enable(false);
+                    txtobveh.enable(false);
+                    tablaact.enable(false);
+                    GaTot.enable(false);
+                } else {
+                    txtobvia.enable(false);
+                    txtobveh.enable(false);
+                }
+            }
+        } catch (SQLException ex) {
+            javax.swing.JOptionPane.showMessageDialog(null, "Error al generar reporte");
+        } catch(NumberFormatException e){
+            javax.swing.JOptionPane.showMessageDialog(null, "Kilometraje debe ser un número positivo mayor al kilometraje actual");
+        }
+    }//GEN-LAST:event_btnguardarActionPerformed
 
     private void txtbusquedasoli2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedasoli2KeyReleased
         // TODO add your handling code here:
@@ -1797,7 +1911,7 @@ public class PrincipalS extends javax.swing.JFrame {
             if (r >= 0 && r < tablasolic.getRowCount()) {
                 tablasolic.setRowSelectionInterval(r, r);
             }
-            MenuSolicitudViaticos.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+            MenuSolicitudViaticos1.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
 
         }//clic derecho
     }//GEN-LAST:event_tablasolicMouseReleased
@@ -2035,6 +2149,7 @@ public class PrincipalS extends javax.swing.JFrame {
         // TODO add your handling code here:
         int s = JOptionPane.showConfirmDialog(null, "¿Esta seguro?", "Alerta!", JOptionPane.YES_NO_OPTION);
         if (s == JOptionPane.YES_OPTION) {
+            btnregresar1.setVisible(false);
             txtobvia.setText("");
             txtobveh.setText("");
             GaTot.setText("");
@@ -2048,7 +2163,7 @@ public class PrincipalS extends javax.swing.JFrame {
             jlb.setVisible(true);
             txtbusquedasoli2.setVisible(true);
             jLabel1.setVisible(false);
-            jLabel2.setVisible(false);
+            lblObsVehiculo.setVisible(false);
             jLabel3.setVisible(false);
             GaTot.enable(false);
             GaTot.setVisible(false);
@@ -2107,6 +2222,8 @@ public class PrincipalS extends javax.swing.JFrame {
             this.tablaact.setModel(modelo);
             txtobvia.enable(true);
             txtobvia.setVisible(true);
+            btnregresar1.setVisible(true);
+            
             try {
                 Statement sentencia = cn.createStatement();
                 String gastos_comprobar = "";
@@ -2127,9 +2244,31 @@ public class PrincipalS extends javax.swing.JFrame {
                     jLabel3.setVisible(false);
                     c = 0;
                 }
-                txtobveh.enable(true);
-                txtobveh.setVisible(true);
-                jLabel2.setVisible(true);
+                rs=cbd.getTabla("select * from oficio_comision OC inner join solicitud_viatico SVI on OC.Solicitud_idSolicitud=SVI.idSolicitud inner join vehiculo_viatico VV on SVI.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo where OC.Folio="+folio, cn);
+                boolean bloquearVehiculo=true;
+                while(rs.next()){
+                    bloquearVehiculo=false;
+                    if(rs.getString("chofer")!=null){
+                        txtobveh.enable(true);
+                        txtobveh.setVisible(true);
+                        txtKilometraje.setVisible(true);
+                        lblKilometraje.setVisible(true);
+                        lblObsVehiculo.setVisible(true);
+                    }else{
+                        txtobveh.enable(false);
+                        txtobveh.setVisible(false);
+                        txtKilometraje.setVisible(false);
+                        lblKilometraje.setVisible(false);
+                        lblObsVehiculo.setVisible(false);
+                    }
+                }
+                if(bloquearVehiculo){
+                    txtobveh.enable(false);
+                    txtobveh.setVisible(false);
+                    txtKilometraje.setVisible(false);
+                    lblKilometraje.setVisible(false);
+                    lblObsVehiculo.setVisible(false);
+                }
                 btnregresar.setVisible(true);
                 btnguardar.setVisible(true);
                 jlb.setVisible(false);
@@ -2190,12 +2329,24 @@ public class PrincipalS extends javax.swing.JFrame {
     }//GEN-LAST:event_EliminarAActionPerformed
 
     private void AgregarEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarEmpleadosActionPerformed
-        // TODO add your handling code here:
-        int fila = tablasolicvehiculo.getSelectedRow();
-        String idSolicitud = tablasolicvehiculo.getValueAt(fila, 0) + "";
-        String fecha = tablasolicvehiculo.getValueAt(fila, 1) + "";
-        addViaticoVehiculo avv = new addViaticoVehiculo(this, true, idSolicitud, fecha);
-        avv.setVisible(true);
+        try {
+            // TODO add your handling code here:
+            int fila = tablasolicvehiculo.getSelectedRow();
+            String idSolicitud = tablasolicvehiculo.getValueAt(fila, 0) + "";
+            String fecha = tablasolicvehiculo.getValueAt(fila, 1) + "";
+            ResultSet rs=cbd.getTabla("select * from solicitud_viatico where estado!='AR' and estado!='C' and idSolicitud="+idSolicitud, cn);
+            boolean noModificar=true;
+            while(rs.next()){
+                noModificar=false;
+                addViaticoVehiculo avv = new addViaticoVehiculo(this, true, idSolicitud, fecha);
+                avv.setVisible(true);
+            }
+            if(noModificar){
+                JOptionPane.showMessageDialog(this, "No se puede agregar empleados al vehiculo porque la solicitud está cancelada o ya le fue asignada un monto");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_AgregarEmpleadosActionPerformed
 
     private void ConsultarArActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarArActionPerformed
@@ -2277,7 +2428,7 @@ public class PrincipalS extends javax.swing.JFrame {
             int k = tablonarchivadas.getSelectedRow();
             if (k >= 0) {
                 String folio = tablonarchivadas.getValueAt(k, 0).toString();
-                boolean gastosac = (boolean) tablonarchivadas.getValueAt(k, 5);
+                boolean gastosac = (boolean) tablonarchivadas.getValueAt(k, 7);
                 String idSolicitud = "";
                 try {
 
@@ -2287,7 +2438,7 @@ public class PrincipalS extends javax.swing.JFrame {
                         idSolicitud = rs.getString("Solicitud_idSolicitud");
                     }
                     sentencia.executeUpdate("UPDATE Solicitud_viatico SET gastos_comprobar = '" + gastosac + "' WHERE (idSolicitud = " + idSolicitud + ")");
-                    javax.swing.JOptionPane.showMessageDialog(null, "Gastos a comprobar");
+                    //javax.swing.JOptionPane.showMessageDialog(null, "Gastos a comprobar");
 
                 } catch (SQLException ex) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
@@ -2358,7 +2509,7 @@ public class PrincipalS extends javax.swing.JFrame {
         int k = tablonarchivadas.getSelectedRow();
         if (k >= 0) {
             String folio = tablonarchivadas.getValueAt(k, 0).toString();
-            boolean gastosac = (boolean) tablonarchivadas.getValueAt(k, 5);
+            boolean gastosac = (boolean) tablonarchivadas.getValueAt(k, 7);
             String idSolicitud = "";
             try {
                 Statement sentencia = cn.createStatement();
@@ -2385,59 +2536,76 @@ public class PrincipalS extends javax.swing.JFrame {
         guardargac.setVisible(false);
     }//GEN-LAST:event_guardargacFocusLost
 
-    private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
+    private void tablonsolicitud1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tablonsolicitud1FocusLost
         // TODO add your handling code here:
-        try {
-            int s = JOptionPane.showConfirmDialog(null, "¿Esta seguro?", "Alerta!", JOptionPane.YES_NO_OPTION);
-            if (s == JOptionPane.YES_OPTION) {
-                String id = "";
-                Statement sentencia = cn.createStatement();
-                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = " + folio);
-                while (rs.next()) {
-                    id = rs.getString("Solicitud_idSolicitud");
-                }
+        guardargac.setVisible(false);
+    }//GEN-LAST:event_tablonsolicitud1FocusLost
 
-                sentencia.executeUpdate("UPDATE Solicitud_viatico SET Reporte = '1' WHERE (idSolicitud = " + id + ")");
-                String idInforme = "";
-                ResultSet rs2 = sentencia.executeQuery("SELECT MAX(id_informe) AS id_informe FROM Informe");
-                while (rs2.next()) {
-                    idInforme = rs2.getString("id_informe");
+    private void ArchivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ArchivarActionPerformed
+        // TODO add your handling code here:
+        int k = tablonaceptadas.getSelectedRow();
+        if (k >= 0) {
+            String folio = tablonaceptadas.getValueAt(k, 0).toString();
+            String idSolicitud = "";
+            try {
+
+                Statement sentencia = cn.createStatement();
+                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
+                while (rs.next()) {
+                    idSolicitud = rs.getString("Solicitud_idSolicitud");
                 }
-                if (c == 1) {
-                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Solicitud_idSolicitud,importe_total) VALUES('" + txtobvia.getText() + "','" + txtobveh.getText() + "'," + id + "," + GaTot.getText() + ")");
-                    String idGastos = "";
-                    int filas = tablaact.getRowCount();
-                    if (filas != 0) {
-                        for (int j = 0; filas > j; j++) {
-                            sentencia.execute("INSERT INTO Gastos (Precio,Descripcion,Factura) VALUES('" + tablaact.getValueAt(j, 1).toString() + "','" + tablaact.getValueAt(j, 0).toString() + "','" + tablaact.getValueAt(j, 2).toString() + "')");
-                            ResultSet rs3 = sentencia.executeQuery("SELECT MAX(id_Gastos) AS id_Gastos FROM Gastos");
-                            while (rs3.next()) {
-                                idGastos = rs3.getString("id_Gastos");
-                            }
-                            sentencia.execute("INSERT INTO Informe_Gastos VALUES(" + idGastos + "," + idInforme + ")");
-                        }
-                    }
-                    javax.swing.JOptionPane.showMessageDialog(null, "Reporte Generado");
-                } else {
-                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Solicitud_idSolicitud) VALUES('" + txtobvia.getText() + "','" + txtobveh.getText() + "'," + id + ")");
-                    javax.swing.JOptionPane.showMessageDialog(null, "Reporte Generado");
-                }
-                if (c == 1) {
-                    txtobvia.enable(false);
-                    txtobveh.enable(false);
-                    tablaact.enable(false);
-                    GaTot.enable(false);
-                } else {
-                    txtobvia.enable(false);
-                    txtobveh.enable(false);
-                }
-            } else {
+                sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'AR', gastos_comprobar = 'false' WHERE (idSolicitud = " + idSolicitud + ")");
+                javax.swing.JOptionPane.showMessageDialog(null, "Solicitud archivada");
+            } catch (SQLException ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+
+            } catch (NumberFormatException exp) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Ingresar solo números");
+            }//fin del catch
+
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        }
+        tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
+        tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
+        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+    }//GEN-LAST:event_ArchivarActionPerformed
+
+    private void Impri_Sol1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Impri_Sol1ActionPerformed
+        // TODO add your handling code here:
+        int fila = tablasolic.getSelectedRow();;
+        limpiar = false;
+        String id = null;
+        try {
+
+            tablasolic.clearSelection();
+            CrearPDF pdf = new CrearPDF();
+            if (fila >= 0) {
+                id = tablasolic.getValueAt(fila, 0).toString();
+                pdf.generarPDFSolicitud(id);
             }
-        } catch (SQLException ex) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Error al generar reporte");
+        } catch (Exception e) {
 
         }
-    }//GEN-LAST:event_btnguardarActionPerformed
+    }//GEN-LAST:event_Impri_Sol1ActionPerformed
+
+    private void Add2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Add2ActionPerformed
+        // TODO add your handling code here:
+        addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
+        asv.setVisible(true);
+    }//GEN-LAST:event_Add2ActionPerformed
+
+    private void SolicitarVehiculo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitarVehiculo2ActionPerformed
+        // TODO add your handling code here:
+        addSolicitudVehiculo asv = new addSolicitudVehiculo(this, true);
+        asv.setVisible(true);
+    }//GEN-LAST:event_SolicitarVehiculo2ActionPerformed
+
+    private void CambiarConsejero2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CambiarConsejero2ActionPerformed
+        // TODO add your handling code here:
+        String nuevo = JOptionPane.showInputDialog("Inserte el nombre del nuevo director general");
+        cbd.ejecutar("update Director_General set Nombre='" + nuevo + "'");
+    }//GEN-LAST:event_CambiarConsejero2ActionPerformed
 
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {
@@ -2624,11 +2792,14 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JMenuItem AceptarP;
     private javax.swing.JMenuItem Add;
     private javax.swing.JMenuItem Add1;
+    private javax.swing.JMenuItem Add2;
     private javax.swing.JMenuItem AgregarEmpleados;
+    private javax.swing.JMenuItem Archivar;
     private javax.swing.JMenuItem AsignarMonto;
     private javax.swing.JMenuItem AñadirA;
     private javax.swing.JMenuItem CambiarConsejero;
     private javax.swing.JMenuItem CambiarConsejero1;
+    private javax.swing.JMenuItem CambiarConsejero2;
     private javax.swing.JMenuItem CancelarA;
     private javax.swing.JMenuItem CancelarP;
     private javax.swing.JMenuItem ConsultarA;
@@ -2640,12 +2811,14 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JTextField GaTot;
     private javax.swing.JMenuItem GenerarInf;
     private javax.swing.JMenuItem Impri_Sol;
+    private javax.swing.JMenuItem Impri_Sol1;
     private javax.swing.JPopupMenu MenuGI;
     private javax.swing.JPopupMenu MenuInfSA;
     private javax.swing.JPopupMenu MenuInfSF;
     private javax.swing.JPopupMenu MenuPanelSolicitudViatico;
     private javax.swing.JMenuItem MenuSolicitud;
     private javax.swing.JPopupMenu MenuSolicitudViaticos;
+    private javax.swing.JPopupMenu MenuSolicitudViaticos1;
     private javax.swing.JPopupMenu MenuTablonA;
     private javax.swing.JPopupMenu MenuTablonAr;
     private javax.swing.JPopupMenu MenuTablonC;
@@ -2655,6 +2828,7 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JMenuItem OficioViaticoAr;
     private javax.swing.JMenuItem SolicitarVehiculo;
     private javax.swing.JMenuItem SolicitarVehiculo1;
+    private javax.swing.JMenuItem SolicitarVehiculo2;
     private javax.swing.JButton btnAddInventario2;
     private javax.swing.JButton btnguardar;
     private javax.swing.JButton btnregresar;
@@ -2669,7 +2843,6 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel28;
@@ -2699,6 +2872,8 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel jlb;
+    private javax.swing.JLabel lblKilometraje;
+    private javax.swing.JLabel lblObsVehiculo;
     private javax.swing.JTabbedPane menuInforme;
     private javax.swing.JMenu menuOpciones;
     private javax.swing.JMenuItem menuPermisos;
@@ -2722,6 +2897,7 @@ public class PrincipalS extends javax.swing.JFrame {
     public static javax.swing.JTable tabloncanceladas;
     public static javax.swing.JTable tablonpendientes;
     private javax.swing.JPanel tablonsolicitud1;
+    private javax.swing.JTextField txtKilometraje;
     private javax.swing.JTextField txtbusquedasoli;
     private javax.swing.JTextField txtbusquedasoli1;
     private javax.swing.JTextField txtbusquedasoli2;
