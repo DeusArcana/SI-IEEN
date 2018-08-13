@@ -48,7 +48,6 @@ public class Ventana_ConsultaSolicitudes extends javax.swing.JDialog {
         pn_asignarEquipo = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaDocumentos = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
-        jLabel1 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaDocumentosProductos = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel4 = new javax.swing.JLabel();
@@ -89,10 +88,6 @@ public class Ventana_ConsultaSolicitudes extends javax.swing.JDialog {
 
         pn_asignarEquipo.add(jScrollPane2);
         jScrollPane2.setBounds(10, 37, 979, 161);
-
-        jLabel1.setText("Seleccione un documento:");
-        pn_asignarEquipo.add(jLabel1);
-        jLabel1.setBounds(10, 14, 125, 14);
 
         tablaDocumentosProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -250,7 +245,6 @@ public class Ventana_ConsultaSolicitudes extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboEstatus;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

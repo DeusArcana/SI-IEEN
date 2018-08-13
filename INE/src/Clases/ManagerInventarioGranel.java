@@ -41,16 +41,16 @@ public class ManagerInventarioGranel {
 
         }//Obtiene todas los nombres de los empleados que tienen productos asignados
         
-        public DefaultTableModel getBusquedaInventario(int filtro, String busqueda, String folio, String estatus){
-            boolean estado = false;
-            //No dejamos editar ninguna celda
-            DefaultTableModel table = new DefaultTableModel(){
+    public DefaultTableModel getBusquedaInventario(int filtro, String busqueda, String folio, String estatus){
+        boolean estado = false;
+        //No dejamos editar ninguna celda
+        DefaultTableModel table = new DefaultTableModel(){
             @Override
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return false;
             }
         };
-        conexion = db.getConexion();
+       conexion = db.getConexion();
 		
         String campoBusca = "";
         String sql = "";
@@ -142,6 +142,105 @@ public class ManagerInventarioGranel {
         }
             return table;
     }//getBusquedaInventarioG
+    
+    public DefaultTableModel estadisticasConsumiblesTodos(){
+        
+        //No dejamos editar ninguna celda
+        DefaultTableModel table = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            }
+        };
+       conexion = db.getConexion();
+	
+        try{
+            
+            String sql = "select dss.id_producto,ig.descripcion,sum(dss.cantidad_solicitada),sum(dss.cantidad_autorizada),ig.stock from detalle_solicitudsalida dss "
+                       + "inner join inventario_granel ig on (concat(ig.Folio,'-',ig.Numero,ig.Extension) = dss.id_producto) "
+                       + "inner join solicitudsalida ss on (concat(ss.Folio,'-',ss.Num,'-',ss.Año) = dss.id_solicitud) "
+                       + "where ss.estado != 'Solicitud Salida' "
+                       + "group by dss.id_producto;";
+            Connection c = db.getConexion();
+            Statement st = c.createStatement();    
+            ResultSet rs = st.executeQuery(sql);
+
+            table.addColumn("No. Consumible");
+            table.addColumn("Descripción");
+            table.addColumn("Solicitado");
+            table.addColumn("Autorizado");
+            table.addColumn("Stock");
+            
+            Object datos[] = new Object[5];
+
+            //Proseguimos con los registros en caso de exisitir mas
+            while (rs.next()) {
+
+                for(int i = 0;i<5;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+
+            }//while
+
+            conexion.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerInventario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            return table;
+    }//estadisticasConsumiblesTodos
+    
+    public DefaultTableModel estadisticasConsumiblesArea(String area){
+        
+        //No dejamos editar ninguna celda
+        DefaultTableModel table = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            }
+        };
+       conexion = db.getConexion();
+	
+        try{
+            
+            String sql = "select dss.id_producto,ig.descripcion,sum(dss.cantidad_solicitada),sum(dss.cantidad_autorizada),ig.stock from detalle_solicitudsalida dss "
+                       + "inner join inventario_granel ig on (concat(ig.Folio,'-',ig.Numero,ig.Extension) = dss.id_producto) "
+                       + "inner join solicitudsalida ss on (concat(ss.Folio,'-',ss.Num,'-',ss.Año) = dss.id_solicitud) "
+                       + "inner join user u on (u.id_user = ss.id_user) "
+                       + "inner join empleados e on (e.id_empleado = u.id_empleado) "
+                       + "inner join area a on (a.ID_Area = e.area) "
+                       + "where ss.estado != 'Solicitud Salida' and a.Area = '"+area+"' "
+                       + "group by dss.id_producto;";
+            Connection c = db.getConexion();
+            Statement st = c.createStatement();    
+            ResultSet rs = st.executeQuery(sql);
+
+            table.addColumn("No. Consumible");
+            table.addColumn("Descripción");
+            table.addColumn("Solicitado");
+            table.addColumn("Autorizado");
+            table.addColumn("Stock");
+            
+            Object datos[] = new Object[5];
+
+            //Proseguimos con los registros en caso de exisitir mas
+            while (rs.next()) {
+
+                for(int i = 0;i<5;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+
+            }//while
+
+            conexion.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerInventario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            return table;
+    }//estadisticasConsumiblesArea
 
     //Este método es para realizar el registro de un nuevo producto consumible
     public boolean insertarInventarioG(int numero,String extension, String producto, String almacen, String marca,int stockmin, int stock, String descripcion,String categoria) {

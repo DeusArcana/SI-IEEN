@@ -2501,6 +2501,11 @@ public class Principal extends javax.swing.JFrame {
         ConsultarConsumibles.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         ConsultarConsumibles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/estadistica.png"))); // NOI18N
         ConsultarConsumibles.setText("Estadísticas de consumibles");
+        ConsultarConsumibles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConsultarConsumiblesActionPerformed(evt);
+            }
+        });
         Estadisticas.add(ConsultarConsumibles);
 
         jMenuBar1.add(Estadisticas);
@@ -5610,6 +5615,12 @@ public void metodoValeRecoleccion(){
             }
         }//else
     }//GEN-LAST:event_GenerarValeActionPerformed
+
+    private void ConsultarConsumiblesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarConsumiblesActionPerformed
+        // TODO add your handling code here:
+        Ventana_EstadisticaConsumible ob = new Ventana_EstadisticaConsumible(this, true);
+        ob.setVisible(true);
+    }//GEN-LAST:event_ConsultarConsumiblesActionPerformed
        
     public void cargarImagen(String busqueda, int numero) {
 

@@ -7,7 +7,8 @@ package Interfaces;
 
 
 import Clases.ManagerUsers;
-import Clases.ManagerSolicitud;
+import Clases.ManagerInventarioGranel;
+import Clases.ManagerComplemento;
 import Clases.ManagerPermisos;
 
 import javax.swing.JTable;
@@ -19,7 +20,8 @@ import javax.swing.table.DefaultTableModel;
  * @author kevin
  */
 public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
-    ManagerSolicitud manager_solicitud;
+    ManagerInventarioGranel manager_inventario_granel;
+    ManagerComplemento manager_complemento;
     
     /**
      * Creates new form Ventana_asignar_EquipoComputo
@@ -29,7 +31,8 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
         initComponents();
         
         //Asignamos memoria al objeto
-        manager_solicitud = new ManagerSolicitud();
+        manager_inventario_granel = new ManagerInventarioGranel();
+        manager_complemento = new ManagerComplemento();
         
         this.setTitle("Consulta de solicitudes Autorizadas o Canceladas.");
         this.setLocationRelativeTo(null);
@@ -47,9 +50,13 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
 
         pn_asignarEquipo = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tablaDocumentos = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        tablaConsumibles = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
-        comboEstatus = new javax.swing.JComboBox<>();
+        comboArea = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -64,7 +71,7 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
 
         pn_asignarEquipo.setLayout(null);
 
-        tablaDocumentos.setModel(new javax.swing.table.DefaultTableModel(
+        tablaConsumibles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -72,30 +79,46 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
                 "No. Consumible", "Descripción", "Solicitado", "Entregado", "Existencias"
             }
         ));
-        tablaDocumentos.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaConsumibles.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaDocumentosMouseClicked(evt);
+                tablaConsumiblesMouseClicked(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablaDocumentosMouseReleased(evt);
+                tablaConsumiblesMouseReleased(evt);
             }
         });
-        jScrollPane2.setViewportView(tablaDocumentos);
+        jScrollPane2.setViewportView(tablaConsumibles);
 
         pn_asignarEquipo.add(jScrollPane2);
         jScrollPane2.setBounds(10, 87, 979, 470);
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setText("Fecha final:");
+        pn_asignarEquipo.add(jLabel2);
+        jLabel2.setBounds(760, 10, 80, 14);
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setText("Fecha de incio:");
+        pn_asignarEquipo.add(jLabel4);
+        jLabel4.setBounds(460, 10, 100, 14);
+        pn_asignarEquipo.add(jDateChooser2);
+        jDateChooser2.setBounds(560, 10, 160, 20);
+        pn_asignarEquipo.add(jDateChooser1);
+        jDateChooser1.setBounds(830, 10, 160, 20);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Seleccionar área:");
         pn_asignarEquipo.add(jLabel1);
-        jLabel1.setBounds(10, 14, 90, 14);
+        jLabel1.setBounds(10, 20, 110, 17);
 
-        comboEstatus.addActionListener(new java.awt.event.ActionListener() {
+        comboArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboArea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboEstatusActionPerformed(evt);
+                comboAreaActionPerformed(evt);
             }
         });
-        pn_asignarEquipo.add(comboEstatus);
-        comboEstatus.setBounds(100, 10, 140, 20);
+        pn_asignarEquipo.add(comboArea);
+        comboArea.setBounds(120, 20, 290, 20);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         pn_asignarEquipo.add(jLabel3);
@@ -118,11 +141,15 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         
-        //COMBOESTATUS
-        comboEstatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-        comboEstatus.addItem("Todos");
-        comboEstatus.addItem("Autorizado");
-        comboEstatus.addItem("Cancelado");
+        //ComboArea
+        String lista = manager_complemento.obtenerAreas();
+        String[] recoger = lista.split(",,");
+
+        comboArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        comboArea.addItem("Todas");
+        for(int i = 1; i <= recoger.length;i = i+2){
+            comboArea.addItem(recoger[i]);
+        }
     }//GEN-LAST:event_formWindowOpened
         
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -130,21 +157,22 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
         
     }//GEN-LAST:event_formWindowClosing
 
-    private void tablaDocumentosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDocumentosMouseReleased
+    private void tablaConsumiblesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaConsumiblesMouseReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_tablaDocumentosMouseReleased
+    }//GEN-LAST:event_tablaConsumiblesMouseReleased
 
-    private void tablaDocumentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDocumentosMouseClicked
+    private void tablaConsumiblesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaConsumiblesMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_tablaDocumentosMouseClicked
+    }//GEN-LAST:event_tablaConsumiblesMouseClicked
 
-    private void comboEstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEstatusActionPerformed
+    private void comboAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAreaActionPerformed
         // TODO add your handling code here:
-        String estatus = comboEstatus.getSelectedItem().toString();
-        
-        //Llenamos la tabla de los documentos
-        tablaDocumentos.setModel(manager_solicitud.tabla_SolicitudesEstatus(Principal.Username,estatus));
-    }//GEN-LAST:event_comboEstatusActionPerformed
+        if(comboArea.getSelectedIndex() == 0){
+            tablaConsumibles.setModel(manager_inventario_granel.estadisticasConsumiblesTodos());
+        }else{
+            tablaConsumibles.setModel(manager_inventario_granel.estadisticasConsumiblesArea(comboArea.getSelectedItem().toString()));
+        }
+    }//GEN-LAST:event_comboAreaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -236,11 +264,15 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> comboEstatus;
+    private javax.swing.JComboBox<String> comboArea;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel pn_asignarEquipo;
-    private javax.swing.JTable tablaDocumentos;
+    private javax.swing.JTable tablaConsumibles;
     // End of variables declaration//GEN-END:variables
 }
