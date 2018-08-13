@@ -11,6 +11,7 @@ import Clases.ManagerComplemento;
 import Clases.ManagerPermisos;
 
 import Interfaces.Principal;
+import static Interfaces.Principal.comboEmpUsu;
 import com.itextpdf.text.DocumentException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -24,13 +25,14 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author kevin
  */
 public class addUsuarios extends javax.swing.JDialog {
-    String usuario,contraseña,area,puesto,USU;
-    int id;
+    String usuario,contraseña,area,puesto,USU,busqueda;
+    int id,filtro;
     
     ManagerUsers manager_users;
     ManagerComplemento manager_complemento;
@@ -38,9 +40,12 @@ public class addUsuarios extends javax.swing.JDialog {
     /**
      * Creates new form addEmpleados
      */
-    public addUsuarios(java.awt.Frame parent, boolean modal,int id_empleado) {
+    public addUsuarios(java.awt.Frame parent, boolean modal,int id_empleado,int filtro, String busqueda) {
         super(parent, modal);
         initComponents();
+        
+        this.busqueda = busqueda;
+        this.filtro = filtro;
         
         //Asignamos memoria a los objetos
         manager_users = new ManagerUsers();
@@ -273,7 +278,17 @@ public class addUsuarios extends javax.swing.JDialog {
                             metodo(0);
                         }
                         
-                        JOptionPane.showMessageDialog(null, "El usuario "+usuario+ "ha sido registrado en la base de datos exitosamente.");
+                        JOptionPane.showMessageDialog(null, "El usuario \""+usuario+"\" ha sido registrado en la base de datos exitosamente.");
+                        if(manager_permisos.accesoModulo("consulta","Empleados",Principal.Username)){
+                            if(comboEmpUsu.getSelectedItem().toString().equals("Empleados sin usuario")){
+                                Principal.tablaUsuarios.setModel(manager_users.getEmpleadosSinUsuario(filtro,busqueda,Principal.comboEmpUsuEstatus.getSelectedItem().toString()));
+                            }else{
+                                Principal.tablaUsuarios.setModel(manager_users.getEmpleados(Principal.Username,filtro,busqueda,Principal.comboEmpUsuEstatus.getSelectedItem().toString()));
+                            }
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Han revocado sus permisos para consulta de empleados");
+                            Principal.tablaUsuarios.setModel(new DefaultTableModel());
+                        }
                         this.dispose();
                     }else{
                             JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");

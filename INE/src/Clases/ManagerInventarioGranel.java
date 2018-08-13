@@ -503,7 +503,8 @@ public class ManagerInventarioGranel {
             table.addColumn("Clave");
             table.addColumn("Producto");
             table.addColumn("Descripción");
-            table.addColumn("Almacén");
+            table.addColumn("Ubicación");
+            table.addColumn("Categoria");
             table.addColumn("Estatus");
             table.addColumn("Marca");
             table.addColumn("Observaciones");
@@ -535,16 +536,16 @@ public class ManagerInventarioGranel {
             }
             
             //Consulta de los empleados
-            String sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel "+orden+";";
+            String sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,almacen,categoria,estatus,marca,observaciones,stock from Inventario_granel "+orden+";";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
-            Object datos[] = new Object[8];
+            Object datos[] = new Object[9];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
 
-                for(int i = 0;i<8;i++){
+                for(int i = 0;i<9;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 

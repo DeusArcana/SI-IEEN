@@ -3244,7 +3244,7 @@ public class Principal extends javax.swing.JFrame {
 public void metodoVale(){
     // TODO add your handling code here:
         
-        Object[] botones = {"Si", "No", "Cancelar"};
+        Object[] botones = {"Si", "No"};
                         int opcion = JOptionPane.showOptionDialog(this, "¿Al generar el vale desea abrirlo?", "Confirmación",
                                 JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
 
@@ -3252,15 +3252,13 @@ public void metodoVale(){
                             metodo(1);
                         } else if (opcion == 1) {
                             metodo(0);
-                        }else{
-                            cancelarVale();
                         }
 }
 
 public void metodoVale2(){
     // TODO add your handling code here:
         
-        Object[] botones = {"Si", "No", "Cancelar"};
+        Object[] botones = {"Si", "No"};
                         int opcion = JOptionPane.showOptionDialog(this, "¿Al generar el vale desea abrirlo?", "Confirmación",
                                 JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
 
@@ -3268,8 +3266,6 @@ public void metodoVale2(){
                             metodo2(1);
                         } else if (opcion == 1) {
                             metodo2(0);
-                        }else{
-                            cancelarVale();
                         }
 }
 
@@ -4350,8 +4346,10 @@ public void metodoValeRecoleccion(){
             
             int fila = tablaUsuarios.getSelectedRow();
             int id = Integer.parseInt(tablaUsuarios.getValueAt(fila, 0).toString());
+            int filtro = comboFiltroUsuario.getSelectedIndex();
+            String busqueda = txtBusquedaUsuario.getText();
             
-            addUsuarios ob = new addUsuarios(this, true,id);
+            addUsuarios ob = new addUsuarios(this, true,id,filtro,busqueda);
             
             ob.txtNombre.setText(tablaUsuarios.getValueAt(fila, 1).toString());
             ob.txtApellidoP.setText(tablaUsuarios.getValueAt(fila, 2).toString());
@@ -4454,27 +4452,35 @@ public void metodoValeRecoleccion(){
     private void btnSolicitarSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarSalidaActionPerformed
         // TODO add your handling code here:
         if(manager_permisos.accesoModulo("alta","Solicitudes",Username)){
-            String [] ids = new String[tablaCantidadGranel.getRowCount()];
-            int[] Cantidad = new int[tablaCantidadGranel.getRowCount()];
+            //Creamos un cuadro de dialogo para que confirme la eliminación del usuario o la cancele
+            Object[] botones = {"Confirmar","Cancelar"};
+            int opcion = JOptionPane.showOptionDialog(this,"¿Deseas continuar con la solicitud de salida de almacén?", "Confirmación",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+            
+            if(opcion == 0){
+                String [] ids = new String[tablaCantidadGranel.getRowCount()];
+                int[] Cantidad = new int[tablaCantidadGranel.getRowCount()];
 
-            for(int i = 0; i<tablaCantidadGranel.getRowCount();i++){
+                for(int i = 0; i<tablaCantidadGranel.getRowCount();i++){
 
-                Cantidad[i] = Integer.parseInt(tablaCantidadGranel.getValueAt(i, 3).toString());
-                ids[i] = tablaCantidadGranel.getValueAt(i, 0).toString();
+                    Cantidad[i] = Integer.parseInt(tablaCantidadGranel.getValueAt(i, 3).toString());
+                    ids[i] = tablaCantidadGranel.getValueAt(i, 0).toString();
 
 
-            }//Recorremos toda la tabla para ver que solicito y cuanto
+                }//Recorremos toda la tabla para ver que solicito y cuanto
 
-            //Realizamos el registro
-            if(manager_solicitud.registro_SolicitudSalida(Username, ids, Cantidad)){
-                JOptionPane.showMessageDialog(null, "Se realizo correctamente la solicitud de salida de almacen.");
-                limpiarTablaCantidadGranel();
-                btnCancelarSalida.setEnabled(false);
-                btnSolicitarSalida.setEnabled(false);
+                //Realizamos el registro
+                if(manager_solicitud.registro_SolicitudSalida(Username, ids, Cantidad)){
+                    JOptionPane.showMessageDialog(null, "Se realizo correctamente la solicitud de salida de almacen.");
+                    limpiarTablaCantidadGranel();
+                    btnCancelarSalida.setEnabled(false);
+                    btnSolicitarSalida.setEnabled(false);
 
-            }else{
-                JOptionPane.showMessageDialog(null, "No se pudo realizar la solicitud de salida de almacen, verificar con el distribuidor.");
+                }else{
+                    JOptionPane.showMessageDialog(null, "No se pudo realizar la solicitud de salida de almacen, verificar con el distribuidor.");
+                }
             }
+            
         }else{
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para solicitar salidas de almacén.");
         }
@@ -4566,68 +4572,75 @@ public void metodoValeRecoleccion(){
         // TODO add your handling code here:
         
         if(manager_permisos.accesoModulo("actualizar","Resguardo",Username)){
-            //Declaramos las variables donde guardaremos los datos para actualizarlos y entregarlos
-            String ids = "";
-            String claves = "";
-            String ubicaciones = "";
-            String observaciones="";
-            boolean registroCorrecto = false;
-            for(int i = 0; i<tablaRecoleccion.getRowCount();i++){
+            //Creamos un cuadro de dialogo para que confirme la eliminación del usuario o la cancele
+            Object[] botones = {"Confirmar","Cancelar"};
+            int opcion = JOptionPane.showOptionDialog(this,"¿Deseas continuar con la realización del vale de recolección?", "Confirmación",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+            
+            if(opcion == 0){
+                //Declaramos las variables donde guardaremos los datos para actualizarlos y entregarlos
+                String ids = "";
+                String claves = "";
+                String ubicaciones = "";
+                String observaciones="";
+                boolean registroCorrecto = false;
+                for(int i = 0; i<tablaRecoleccion.getRowCount();i++){
 
-                //Si lo selecciono, entonces intentamos guardar el registro
-                if((boolean)tablaRecoleccion.getValueAt(i, 0)){
+                    //Si lo selecciono, entonces intentamos guardar el registro
+                    if((boolean)tablaRecoleccion.getValueAt(i, 0)){
 
-                    //Verificamos que haya seleccionado la nueva ubicación del equipo o producto que entregará
-                    if(!tablaRecoleccion.getValueAt(i, 11).toString().equals("Selecciona la nueva ubicación...")){
+                        //Verificamos que haya seleccionado la nueva ubicación del equipo o producto que entregará
+                        if(!tablaRecoleccion.getValueAt(i, 11).toString().equals("Selecciona la nueva ubicación...")){
 
-                        //Vemos si tiene observaciones el equipo entregado
-                        if(tablaRecoleccion.getValueAt(i, 9).toString().equals("")){
-                            //Si esta vacío entonces concatenamos un espacio en blanco
-                            observaciones += " ,,";
+                            //Vemos si tiene observaciones el equipo entregado
+                            if(tablaRecoleccion.getValueAt(i, 9).toString().equals("")){
+                                //Si esta vacío entonces concatenamos un espacio en blanco
+                                observaciones += " ,,";
+                            }else{
+                                observaciones += tablaRecoleccion.getValueAt(i, 9).toString()+",,";
+                            }
+
+                            ids += tablaRecoleccion.getValueAt(i, 1).toString()+",";
+                            claves += tablaRecoleccion.getValueAt(i, 2).toString()+",";
+                            ubicaciones += tablaRecoleccion.getValueAt(i, 10).toString()+",";
+                            registroCorrecto = true;
+
                         }else{
-                            observaciones += tablaRecoleccion.getValueAt(i, 9).toString()+",,";
-                        }
+                            //Como no se selecciono la nueva ubicación, le mandamos un mensaje y le marcamos la celda donde no selecciono la ubicación
+                            JOptionPane.showMessageDialog(this, "El equipo o producto \""+tablaRecoleccion.getValueAt(i, 2).toString()+"\", no especificó su nueva ubicación.");
+                            tablaRecoleccion.changeSelection(i, 10, false, false);
+                            registroCorrecto = false;
+                            break;
+                        }//else
 
-                        ids += tablaRecoleccion.getValueAt(i, 1).toString()+",";
-                        claves += tablaRecoleccion.getValueAt(i, 2).toString()+",";
-                        ubicaciones += tablaRecoleccion.getValueAt(i, 10).toString()+",";
-                        registroCorrecto = true;
-                        
+                    }//if
+
+                }//for
+
+                if(registroCorrecto){
+                    //Convertimos en arreglo la información que se obtuvo con el ciclo de la tablaRecolección
+                    String [] idVales = ids.split(",");
+                    String [] Claves = claves.split(",");
+                    String [] Ubicaciones = ubicaciones.split(",");
+                    String [] Observaciones = observaciones.split(",,");
+
+                    //Se realiza la operación de entrega de productos y su respectivo cambio
+                    if(manejador_inventario.recoleccionInventario(idVales,Claves,Ubicaciones,Observaciones)){
+                       // JOptionPane.showMessageDialog(this,"Se registro el movimiento de recolección exitosamente.");
+                        metodoValeRecoleccion();
+                        //Actualizamos el combo de los empleados que tienen productos asignados
+                        comboEmpleadoR.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+                        comboEmpleadoR.addItem("Seleccione al empleado...");
+                        manejador_inventario.getEmpleadosAsignacion(comboEmpleadoR,comboArea1.getSelectedIndex()+1);
+
+                        tablaRecoleccion.setModel(modeloRecoleccion);
+                        btnEntregarRecoleccion.setEnabled(false);
                     }else{
-                        //Como no se selecciono la nueva ubicación, le mandamos un mensaje y le marcamos la celda donde no selecciono la ubicación
-                        JOptionPane.showMessageDialog(this, "El equipo o producto \""+tablaRecoleccion.getValueAt(i, 2).toString()+"\", no especificó su nueva ubicación.");
-                        tablaRecoleccion.changeSelection(i, 10, false, false);
-                        registroCorrecto = false;
-                        break;
-                    }//else
+                        JOptionPane.showMessageDialog(this, "Verificar con el distribuidor.");
+                    }
 
-                }//if
-
-            }//for
-
-            if(registroCorrecto){
-                //Convertimos en arreglo la información que se obtuvo con el ciclo de la tablaRecolección
-                String [] idVales = ids.split(",");
-                String [] Claves = claves.split(",");
-                String [] Ubicaciones = ubicaciones.split(",");
-                String [] Observaciones = observaciones.split(",,");
-
-                //Se realiza la operación de entrega de productos y su respectivo cambio
-                if(manejador_inventario.recoleccionInventario(idVales,Claves,Ubicaciones,Observaciones)){
-                   // JOptionPane.showMessageDialog(this,"Se registro el movimiento de recolección exitosamente.");
-                    metodoValeRecoleccion();
-                    //Actualizamos el combo de los empleados que tienen productos asignados
-                    comboEmpleadoR.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-                    comboEmpleadoR.addItem("Seleccione al empleado...");
-                    manejador_inventario.getEmpleadosAsignacion(comboEmpleadoR,comboArea1.getSelectedIndex()+1);
-
-                    tablaRecoleccion.setModel(modeloRecoleccion);
-                    btnEntregarRecoleccion.setEnabled(false);
-                }else{
-                    JOptionPane.showMessageDialog(this, "Verificar con el distribuidor.");
-                }
-
-            }//registroCorrecto
+                }//registroCorrecto
+            }//if(opcion==0)
         }else{
             JOptionPane.showMessageDialog(this, "No cuenta con los permisos para generar el vale de recolección.");
         }
@@ -5557,6 +5570,12 @@ public void metodoValeRecoleccion(){
         getDatosTablaAsignados();
         if(esGranel){
             if(manager_permisos.accesoModulo("actualizar","Solicitudes",Username)){
+                //Creamos un cuadro de dialogo para que confirme la eliminación del usuario o la cancele
+            Object[] botones = {"Confirmar","Cancelar"};
+            int opcion = JOptionPane.showOptionDialog(this,"¿Deseas continuar con la autorización de salida de almacén?", "Confirmación",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+            
+            if(opcion == 0){
                 if(manejador_inventario.estatusSalidaAlmacen(Claves, Cantidad, Username,idAtenderSalida,"Autorizada")){
                     //GENERAR VALE DE SALIDA DE ALMACEN
                     metodoVale();
@@ -5593,6 +5612,7 @@ public void metodoValeRecoleccion(){
                 }else{
                     JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");
                 }//else
+            }
 
             }else{
                 JOptionPane.showMessageDialog(null,"Tu permiso para aceptar solicitudes a sido revocado.");
@@ -5601,6 +5621,12 @@ public void metodoValeRecoleccion(){
         }else
         {
             if(manager_permisos.accesoModulo("actualizar","Solicitudes",Username)){
+                //Creamos un cuadro de dialogo para que confirme la eliminación del usuario o la cancele
+            Object[] botones = {"Confirmar","Cancelar"};
+            int opcion = JOptionPane.showOptionDialog(this,"¿Deseas continuar con la generación del vale de resguardo?", "Confirmación",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+            
+            if(opcion == 0){
                 if(manejador_inventario.asignarInventario(Claves, Cantidad, comboEmpleado.getSelectedItem().toString(),"RES")){
                     //GENERA EL VALE DE RESGUARDO
                     metodoVale2();
@@ -5610,6 +5636,7 @@ public void metodoValeRecoleccion(){
                 }else{
                     JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");
                 }//else
+            }
             }else{
                 JOptionPane.showMessageDialog(null,"Usted no cuenta con permiso para dar de alta un vale de resguardo.");
             }

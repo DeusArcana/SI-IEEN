@@ -90,21 +90,21 @@ INSERT INTO `INE`.`Empleados`(`nombres`, `apellido_p`, `apellido_m`, `calle`, `c
 --  			INSERTS `INE`.`Inventario_Granel`
 -- ***************************************************************************
 DELETE FROM `INE`.`Inventario_Granel` WHERE 1;
-INSERT INTO `INE`.`Inventario_Granel` (`Folio`, `Numero`, `Extension`, `Nombre_Prod`, `Descripcion`, `Almacen`, `Estatus`, `Marca`, `Observaciones`, `Stock_Min`, `Stock`)
+INSERT INTO `INE`.`Inventario_Granel` (`Folio`, `Numero`, `Extension`, `Nombre_Prod`, `Descripcion`, `Almacen`, `Estatus`, `Marca`, `Observaciones`, `Stock_Min`, `Stock`,`Categoria`)
 	VALUES
-		('EY-99','1','', 'Archivador', 'Archivador  Carta Marmoleado Verde', 'Almacen 1', 'Disponible', 'OFIX', '',10,11),
-        ('EY-99','2','', 'Archivador', 'Archivador Carta Amarillo', 'Almacen 1', 'Disponible', 'SMART','',10,21),
-        ('EY-99','3','', 'Archivador', 'Archivador Carta Azul', 'Almacen 1', 'Disponible', 'LEFORT','',10,13 ),
-        ('EY-99','4','', 'Sobre', 'Sobre con Burbuja', 'Almacen 1', 'Disponible', 'FORTEC', '18.4X30.48CM',10,15),
-        ('EY-99','5','', 'Caja para Archivo', 'Caja Archivo Carta Plástica', 'Almacen 1', 'Disponible', 'OFIX', ' Medidas 38.5 x 31 x 25cm (largo-ancho-alto).',20,30),
-        ('EY-99','6','', 'Caja para Archivo', 'Caja Archivo Carta Plastica Tapa Negra', 'Almacen 1', 'Disponible', 'OFIX', 'Medidas 38.5 x 31 x 25cm (largo-ancho-alto).',20,30),
-        ('EY-99','7','', 'Hojas', 'Hojas para Carpeta 100H C-5 Clasico', 'Almacen 1', 'Disponible', 'SCRIBE', 'Tamaño carta. Cuadro No. 5.', 100,350),
-        ('EY-99','8','', 'Boligrafo Azul', 'Boligrafo Mediano Stick Azul', 'Almacen 1', 'Disponible', 'OFIX', 'Caja con 12 piezas.', 30, 45),
-        ('EY-99','9','', 'Boligrafo Rojo', 'Boligrafo Mediano Stick Rojo', 'Almacen 1', 'Disponible', 'Bic', 'Caja con 12 piezas.', 30, 45),
-        ('EY-99','10','', 'Lapiz', 'Lapiz de Grafito', 'Almacen 1', 'Disponible', 'Bic', '2B Hexagonal Evolution', 40, 55),
-        ('EY-99','11','', 'Lapiz', 'Lapiz de Grafito con Goma', 'Almacen 1', 'Disponible', 'Mirado', '#2 HEXAG MIRADO CJA CON 12', 50, 65),
-        ('EY-99','12','', 'Goma', 'Goma para Borrar de Migajón', 'Almacen 1', 'Disponible', 'Pelikan', 'BOL/3 STRIKE 20 Bolsa con 3 piezas', 25, 30),
-        ('EY-99','13','', 'Sujeta Documentos', 'SUJETADOR METAL NEGRO 25MM', 'Almacen 1', 'Disponible', 'SMART', 'Agarrapapel 25MM', 15, 20)
+		('EY-99','1','', 'Archivador', 'Archivador  Carta Marmoleado Verde', 'Almacen 1', 'Disponible', 'OFIX', '',10,11,'Articulos de Oficina'),
+        ('EY-99','2','', 'Archivador', 'Archivador Carta Amarillo', 'Almacen 1', 'Disponible', 'SMART','',10,21,'Articulos de Oficina'),
+        ('EY-99','3','', 'Archivador', 'Archivador Carta Azul', 'Almacen 1', 'Disponible', 'LEFORT','',10,13,'Articulos de Oficina'),
+        ('EY-99','4','', 'Sobre', 'Sobre con Burbuja', 'Almacen 1', 'Disponible', 'FORTEC', '18.4X30.48CM',10,15,'Articulos de Oficina'),
+        ('EY-99','5','', 'Caja para Archivo', 'Caja Archivo Carta Plástica', 'Almacen 1', 'Disponible', 'OFIX', ' Medidas 38.5 x 31 x 25cm (largo-ancho-alto).',20,30,'Articulos de Oficina'),
+        ('EY-99','6','', 'Caja para Archivo', 'Caja Archivo Carta Plastica Tapa Negra', 'Almacen 1', 'Disponible', 'OFIX', 'Medidas 38.5 x 31 x 25cm (largo-ancho-alto).',20,30,'Articulos de Oficina'),
+        ('EY-99','7','', 'Hojas', 'Hojas para Carpeta 100H C-5 Clasico', 'Almacen 1', 'Disponible', 'SCRIBE', 'Tamaño carta. Cuadro No. 5.', 100,350,'Articulos de Oficina'),
+        ('EY-99','8','', 'Boligrafo Azul', 'Boligrafo Mediano Stick Azul', 'Almacen 1', 'Disponible', 'OFIX', 'Caja con 12 piezas.', 30, 45,'Articulos de Oficina'),
+        ('EY-99','9','', 'Boligrafo Rojo', 'Boligrafo Mediano Stick Rojo', 'Almacen 1', 'Disponible', 'Bic', 'Caja con 12 piezas.', 30, 45,'Articulos de Oficina'),
+        ('EY-99','10','', 'Lapiz', 'Lapiz de Grafito', 'Almacen 1', 'Disponible', 'Bic', '2B Hexagonal Evolution', 40, 55,'Articulos de Oficina'),
+        ('EY-99','11','', 'Lapiz', 'Lapiz de Grafito con Goma', 'Almacen 1', 'Disponible', 'Mirado', '#2 HEXAG MIRADO CJA CON 12', 50, 65,'Articulos de Oficina'),
+        ('EY-99','12','', 'Goma', 'Goma para Borrar de Migajón', 'Almacen 1', 'Disponible', 'Pelikan', 'BOL/3 STRIKE 20 Bolsa con 3 piezas', 25, 30,'Articulos de Oficina'),
+        ('EY-99','13','', 'Sujeta Documentos', 'SUJETADOR METAL NEGRO 25MM', 'Almacen 1', 'Disponible', 'SMART', 'Agarrapapel 25MM', 15, 20,'Articulos de Oficina')
 	;
 
 -- *******************************************************************************
