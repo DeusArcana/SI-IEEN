@@ -167,14 +167,13 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         lblAviso = new javax.swing.JLabel();
-        cmbLocalidad = new javax.swing.JComboBox<>();
-        cmbEstado = new javax.swing.JComboBox<>();
+        cmbLocalidad = new javax.swing.JComboBox<String>();
+        cmbEstado = new javax.swing.JComboBox<String>();
         date_Salida = new com.toedter.calendar.JDateChooser();
         date_Llegada = new com.toedter.calendar.JDateChooser();
         chb_Pernoctado = new javax.swing.JCheckBox();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         cmb_Vehiculo = new javax.swing.JComboBox();
         jLabel9 = new javax.swing.JLabel();
@@ -254,11 +253,11 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_addInventario.add(lblAviso, new org.netbeans.lib.awtextra.AbsoluteConstraints(446, 228, 15, 233));
 
-        cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione localidad" }));
+        cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione localidad" }));
         cmbLocalidad.setEnabled(false);
         pn_addInventario.add(cmbLocalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, 230, -1));
 
-        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione estado" }));
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione estado" }));
         cmbEstado.setEnabled(false);
         cmbEstado.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -309,6 +308,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
 
             jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             jLabel7.setText("Vehiculo:");
+            pn_addInventario.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 20, -1, -1));
 
             cmb_Vehiculo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
             cmb_Vehiculo.addActionListener(new java.awt.event.ActionListener() {
@@ -316,15 +316,19 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
                     cmb_VehiculoActionPerformed(evt);
                 }
             });
+            pn_addInventario.add(cmb_Vehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 20, -1, -1));
 
             jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             jLabel9.setText("Kilometraje:");
+            pn_addInventario.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 70, -1, -1));
 
             txtKilometraje.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             txtKilometraje.setEnabled(false);
+            pn_addInventario.add(txtKilometraje, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 70, 10, -1));
 
             jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             jLabel11.setText("Descripción:");
+            pn_addInventario.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 120, -1, -1));
 
             txtADescripcion.setColumns(20);
             txtADescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -332,47 +336,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             txtADescripcion.setEnabled(false);
             jScrollPane2.setViewportView(txtADescripcion);
 
-            javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-            jPanel1.setLayout(jPanel1Layout);
-            jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel9)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtKilometraje, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jLabel11)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel7)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(cmb_Vehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGap(0, 209, Short.MAX_VALUE)))
-                    .addContainerGap())
-            );
-            jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                    .addGap(775, 775, 775)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel7)
-                        .addComponent(cmb_Vehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(23, 23, 23)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel9)
-                        .addComponent(txtKilometraje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(18, 18, 18)
-                    .addComponent(jLabel11)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                    .addContainerGap())
-            );
-
-            pn_addInventario.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 10, 510, 387));
+            pn_addInventario.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 150, -1, -1));
 
             hora_Llegada.setEnabled(false);
             pn_addInventario.add(hora_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, -1, -1));
@@ -767,7 +731,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             boolean insersion = insersion=conexion.ejecutar("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+
                     cmbLocalidad.getSelectedItem().toString()+","+cmbEstado.getSelectedItem().toString()+"'"
                 + ",'"+txtEmpleados.getText()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"')");
-            insersion=conexion.ejecutar("insert into solicitud_vehiculo(vehiculo_usado_idvehiculo_usado,vehiculo)values("+idVehiculo_usado+",'"+arr[0]+"')");
+            insersion=conexion.ejecutar("insert into solicitud_vehiculo(vehiculo_usado_idvehiculo_usado,vehiculo,chofer)values("+idVehiculo_usado+",'"+arr[0]+"','1')");
             res=cbd.getTabla("select idSolicitud from solicitud_viatico where Actividad='"+txt_Actividad.getText()+"' and Nombre='"+txtEmpleados.getText()+"';", cn);
             res.next();
             String idSolViatico=res.getString("idSolicitud");
@@ -1032,7 +996,6 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblAreaAsignacion;

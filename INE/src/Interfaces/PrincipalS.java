@@ -97,6 +97,7 @@ public class PrincipalS extends javax.swing.JFrame {
         OficioComision = new javax.swing.JMenuItem();
         AsignarMonto = new javax.swing.JMenuItem();
         CancelarA = new javax.swing.JMenuItem();
+        Archivar = new javax.swing.JMenuItem();
         MenuTablonC = new javax.swing.JPopupMenu();
         ConsultarC = new javax.swing.JMenuItem();
         AceptarC = new javax.swing.JMenuItem();
@@ -307,6 +308,7 @@ public class PrincipalS extends javax.swing.JFrame {
         MenuTablonA.add(OficioComision);
 
         AsignarMonto.setText("Asignar monto");
+        AsignarMonto.setActionCommand("Modficar monto");
         AsignarMonto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AsignarMontoActionPerformed(evt);
@@ -321,6 +323,14 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         MenuTablonA.add(CancelarA);
+
+        Archivar.setText("Archivar");
+        Archivar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ArchivarActionPerformed(evt);
+            }
+        });
+        MenuTablonA.add(Archivar);
 
         ConsultarC.setText("Consultar");
         ConsultarC.addActionListener(new java.awt.event.ActionListener() {
@@ -536,6 +546,11 @@ public class PrincipalS extends javax.swing.JFrame {
 
         solicviaticos.addTab("Solicitud de Viaticos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), solicitudviaticos1); // NOI18N
 
+        tablonsolicitud1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tablonsolicitud1FocusLost(evt);
+            }
+        });
         tablonsolicitud1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tablonsolicitud1MouseReleased(evt);
@@ -1117,7 +1132,30 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
+        btnregresar1.setVisible(false);
+            txtobvia.setText("");
+            txtKilometraje.setVisible(false);
+            lblKilometraje.setVisible(false);
+            txtobveh.setText("");
+            GaTot.setText("");
+            txtobvia.enable(false);
+            txtobveh.enable(false);
+            txtobvia.setVisible(false);
+            txtobveh.setVisible(false);
+            btnregresar.setVisible(false);
+            btnguardar.setVisible(false);
+            tablainfo.enable(true);
+            jlb.setVisible(true);
+            txtbusquedasoli2.setVisible(true);
+            jLabel1.setVisible(false);
+            lblObsVehiculo.setVisible(false);
+            jLabel3.setVisible(false);
+            GaTot.enable(false);
+            GaTot.setVisible(false);
+            jScrollPane3.setVisible(false);
+            jScrollPane1.setVisible(true);
         txtobvia.enable(false);
+        guardargac.setVisible(false);
         txtobveh.enable(false);
         btnregresar.setVisible(false);
         btnguardar.setVisible(false);
@@ -2073,6 +2111,7 @@ public class PrincipalS extends javax.swing.JFrame {
         // TODO add your handling code here:
         int s = JOptionPane.showConfirmDialog(null, "¿Esta seguro?", "Alerta!", JOptionPane.YES_NO_OPTION);
         if (s == JOptionPane.YES_OPTION) {
+            btnregresar1.setVisible(false);
             txtobvia.setText("");
             txtobveh.setText("");
             GaTot.setText("");
@@ -2145,6 +2184,8 @@ public class PrincipalS extends javax.swing.JFrame {
             this.tablaact.setModel(modelo);
             txtobvia.enable(true);
             txtobvia.setVisible(true);
+            btnregresar1.setVisible(true);
+            
             try {
                 Statement sentencia = cn.createStatement();
                 String gastos_comprobar = "";
@@ -2169,7 +2210,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 boolean bloquearVehiculo=true;
                 while(rs.next()){
                     bloquearVehiculo=false;
-                    if(rs.getString("chofer").equals("1")){
+                    if(rs.getString("chofer")!=null){
                         txtobveh.enable(true);
                         txtobveh.setVisible(true);
                         txtKilometraje.setVisible(true);
@@ -2457,6 +2498,41 @@ public class PrincipalS extends javax.swing.JFrame {
         guardargac.setVisible(false);
     }//GEN-LAST:event_guardargacFocusLost
 
+    private void tablonsolicitud1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tablonsolicitud1FocusLost
+        // TODO add your handling code here:
+        guardargac.setVisible(false);
+    }//GEN-LAST:event_tablonsolicitud1FocusLost
+
+    private void ArchivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ArchivarActionPerformed
+        // TODO add your handling code here:
+        int k = tablonaceptadas.getSelectedRow();
+        if (k >= 0) {
+            String folio = tablonaceptadas.getValueAt(k, 0).toString();
+            String idSolicitud = "";
+            try {
+
+                Statement sentencia = cn.createStatement();
+                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
+                while (rs.next()) {
+                    idSolicitud = rs.getString("Solicitud_idSolicitud");
+                }
+                sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'AR', gastos_comprobar = 'false' WHERE (idSolicitud = " + idSolicitud + ")");
+                javax.swing.JOptionPane.showMessageDialog(null, "Solicitud archivada");
+            } catch (SQLException ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+
+            } catch (NumberFormatException exp) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Ingresar solo números");
+            }//fin del catch
+
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        }
+        tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
+        tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
+        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+    }//GEN-LAST:event_ArchivarActionPerformed
+
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -2643,6 +2719,7 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JMenuItem Add;
     private javax.swing.JMenuItem Add1;
     private javax.swing.JMenuItem AgregarEmpleados;
+    private javax.swing.JMenuItem Archivar;
     private javax.swing.JMenuItem AsignarMonto;
     private javax.swing.JMenuItem AñadirA;
     private javax.swing.JMenuItem CambiarConsejero;

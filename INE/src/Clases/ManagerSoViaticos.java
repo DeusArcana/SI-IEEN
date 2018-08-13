@@ -333,6 +333,8 @@ public class ManagerSoViaticos {
             //Esto es para indicar que columnas dejaremos editar o no
             boolean[] canEdit = new boolean [] {
                 false, 
+                false, 
+                false, 
                 false,
                 false,
                 false,
