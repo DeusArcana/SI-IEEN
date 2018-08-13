@@ -10,6 +10,8 @@ import Clases.ManagerUsers;
 import Clases.ManagerInventarioGranel;
 import Clases.ManagerComplemento;
 import Clases.ManagerPermisos;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.swing.JTable;
 import javax.swing.JOptionPane;
@@ -22,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
 public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
     ManagerInventarioGranel manager_inventario_granel;
     ManagerComplemento manager_complemento;
+    ManagerPermisos manager_permisos;
     
     /**
      * Creates new form Ventana_asignar_EquipoComputo
@@ -33,6 +36,7 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
         //Asignamos memoria al objeto
         manager_inventario_granel = new ManagerInventarioGranel();
         manager_complemento = new ManagerComplemento();
+        manager_permisos = new ManagerPermisos();
         
         this.setTitle("Consulta de solicitudes Autorizadas o Canceladas.");
         this.setLocationRelativeTo(null);
@@ -51,10 +55,11 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
         pn_asignarEquipo = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaConsumibles = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        btnBusquedaFecha = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        fechaIni = new com.toedter.calendar.JDateChooser();
+        fechaFin = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
         comboArea = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
@@ -92,19 +97,29 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
         pn_asignarEquipo.add(jScrollPane2);
         jScrollPane2.setBounds(10, 87, 979, 470);
 
+        btnBusquedaFecha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnBusquedaFecha.setText("Buscar por fecha");
+        btnBusquedaFecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBusquedaFechaActionPerformed(evt);
+            }
+        });
+        pn_asignarEquipo.add(btnBusquedaFecha);
+        btnBusquedaFecha.setBounds(740, 30, 160, 25);
+
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Fecha final:");
         pn_asignarEquipo.add(jLabel2);
-        jLabel2.setBounds(760, 10, 80, 14);
+        jLabel2.setBounds(490, 60, 80, 14);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Fecha de incio:");
         pn_asignarEquipo.add(jLabel4);
-        jLabel4.setBounds(460, 10, 100, 14);
-        pn_asignarEquipo.add(jDateChooser2);
-        jDateChooser2.setBounds(560, 10, 160, 20);
-        pn_asignarEquipo.add(jDateChooser1);
-        jDateChooser1.setBounds(830, 10, 160, 20);
+        jLabel4.setBounds(460, 20, 100, 14);
+        pn_asignarEquipo.add(fechaIni);
+        fechaIni.setBounds(560, 10, 160, 30);
+        pn_asignarEquipo.add(fechaFin);
+        fechaFin.setBounds(560, 50, 160, 30);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Seleccionar área:");
@@ -167,12 +182,50 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
 
     private void comboAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAreaActionPerformed
         // TODO add your handling code here:
-        if(comboArea.getSelectedIndex() == 0){
-            tablaConsumibles.setModel(manager_inventario_granel.estadisticasConsumiblesTodos());
-        }else{
+        if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
             tablaConsumibles.setModel(manager_inventario_granel.estadisticasConsumiblesArea(comboArea.getSelectedItem().toString()));
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas de estadísticas de consumibles.");
+            tablaConsumibles.setModel(new DefaultTableModel());
         }
     }//GEN-LAST:event_comboAreaActionPerformed
+
+    private boolean validarFecha(String fecha) {
+        try {
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+            formatoFecha.setLenient(false);
+            formatoFecha.parse(fecha);
+        } catch (ParseException e) {
+            return false;
+        }
+        return true;
+    }
+    
+    private void btnBusquedaFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusquedaFechaActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
+            if(fechaIni.getDate() == null || fechaFin.getDate() == null){
+                JOptionPane.showMessageDialog(null, "Ingrese el rango de tiempo por fechas");
+            }else{
+                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+                String fechaInicio = formato.format(fechaIni.getDate());
+                if(validarFecha(fechaInicio)){
+                    formato = new SimpleDateFormat("yyyy-MM-dd");
+                    String fechaFinal = formato.format(fechaFin.getDate());
+                    if(validarFecha(fechaFinal)){
+                        tablaConsumibles.setModel(manager_inventario_granel.estadisticasConsumiblesFecha(comboArea.getSelectedItem().toString(),fechaInicio,fechaFinal));
+                    }else{
+                        JOptionPane.showMessageDialog(null, "El fomarto de fecha es incorrecto, tiene que ser yyyy-MM-dd");
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "El fomarto de fecha es incorrecto, tiene que ser yyyy-MM-dd");
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas de estadísticas de consumibles.");
+            tablaConsumibles.setModel(new DefaultTableModel());
+        }
+    }//GEN-LAST:event_btnBusquedaFechaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -264,9 +317,10 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBusquedaFecha;
     private javax.swing.JComboBox<String> comboArea;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private com.toedter.calendar.JDateChooser fechaFin;
+    private com.toedter.calendar.JDateChooser fechaIni;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

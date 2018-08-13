@@ -7,6 +7,7 @@ package Formularios;
 
 import Clases.ManagerDocumentos;
 import Clases.ManagerPermisos;
+import Interfaces.Principal;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 //import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -17,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class addDocument extends javax.swing.JDialog {
     ManagerDocumentos manager_documentos;
+    ManagerPermisos manager_permisos;
     
     /**
      * Creates new form addInventario
@@ -27,6 +29,7 @@ public class addDocument extends javax.swing.JDialog {
         
         //Asginamos memoria al objeto
         manager_documentos = new ManagerDocumentos();
+        manager_permisos = new ManagerPermisos();
         
         tablaSeleccionProductos.getTableHeader().setReorderingAllowed(false);
         
@@ -143,28 +146,30 @@ public class addDocument extends javax.swing.JDialog {
     
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel inventario = (DefaultTableModel)tablaSeleccionProductos.getModel();
+        if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
+            DefaultTableModel inventario = (DefaultTableModel)tablaSeleccionProductos.getModel();
         
-        String status = comboEstatus.getSelectedItem().toString();
-        
-        Boolean[] cambio = new Boolean[inventario.getRowCount()];
-        String[] ids = new String[inventario.getRowCount()];
+            String status = comboEstatus.getSelectedItem().toString();
 
-        //Llenamos los arreglos con la información
-        for(int i = 0; i<ids.length; i++){
-            cambio[i] = Boolean.parseBoolean(tablaSeleccionProductos.getValueAt(i, 0).toString());
-            ids[i] = tablaSeleccionProductos.getValueAt(i, 1).toString();
-        }//for
-        
-        if(manager_documentos.crearDocumento(ids,cambio,status)){
-            JOptionPane.showMessageDialog(null, "Se registro exitosamente el documento.");
-            this.dispose();
-        }//if
-        else{
-            JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+            Boolean[] cambio = new Boolean[inventario.getRowCount()];
+            String[] ids = new String[inventario.getRowCount()];
+
+            //Llenamos los arreglos con la información
+            for(int i = 0; i<ids.length; i++){
+                cambio[i] = Boolean.parseBoolean(tablaSeleccionProductos.getValueAt(i, 0).toString());
+                ids[i] = tablaSeleccionProductos.getValueAt(i, 1).toString();
+            }//for
+
+            if(manager_documentos.crearDocumento(ids,cambio,status)){
+                JOptionPane.showMessageDialog(null, "Se registro exitosamente el documento.");
+                this.dispose();
+            }//if
+            else{
+                JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para consultar los documentos.");
         }
-        
-        
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -178,10 +183,14 @@ public class addDocument extends javax.swing.JDialog {
 
     private void comboEstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEstatusActionPerformed
         // TODO add your handling code here:
-        //Obtenemos el estatus para mostrarle los productos de ese tipo
-        String status = comboEstatus.getSelectedItem().toString();
-        
-        tablaSeleccionProductos.setModel(manager_documentos.productosParaAsignar(status));
+        if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
+            //Obtenemos el estatus para mostrarle los productos de ese tipo
+            String status = comboEstatus.getSelectedItem().toString();
+
+            tablaSeleccionProductos.setModel(manager_documentos.productosParaAsignar(status));
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para consultar los productos.");
+        }
         
     }//GEN-LAST:event_comboEstatusActionPerformed
     

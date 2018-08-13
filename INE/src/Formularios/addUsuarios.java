@@ -202,13 +202,14 @@ public class addUsuarios extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(comboCargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(33, 33, 33)
-                .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAceptar)
-                    .addComponent(btnCancelar)
+                .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtApellidoP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtApellidoM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtApellidoM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pn_usuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAceptar)
+                        .addComponent(btnCancelar)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblAviso)
                 .addGap(106, 106, 106))
@@ -264,35 +265,43 @@ public class addUsuarios extends javax.swing.JDialog {
         if(manager_permisos.accesoModulo("alta","Usuarios",Principal.Username)){
             switch(res){
                 case 0:
-                    getInfo();
-                    boolean insertar = manager_users.asignarUsuario(id, usuario, contraseña, puesto);
-                    if (insertar) {
-                        //metodo para pdf
-                        Object[] botones = {"Si", "No", "Cancelar"};
-                        int opcion = JOptionPane.showOptionDialog(this, "¿Al generar el reporte desea abrirlo?", "Confirmación",
-                                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
+                    //Creamos un cuadro de dialogo para que confirme la eliminación del usuario o la cancele
+                    Object[] botones = {"Confirmar","Cancelar"};
+                    int opcion = JOptionPane.showOptionDialog(this,"¿Desea continuar con la alta del nuevo usuario?", "Confirmación",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
 
-                        if (opcion == 0) {
-                            metodo(1);
-                        } else if (opcion == 1) {
-                            metodo(0);
-                        }
-                        
-                        JOptionPane.showMessageDialog(null, "El usuario \""+usuario+"\" ha sido registrado en la base de datos exitosamente.");
-                        if(manager_permisos.accesoModulo("consulta","Empleados",Principal.Username)){
-                            if(comboEmpUsu.getSelectedItem().toString().equals("Empleados sin usuario")){
-                                Principal.tablaUsuarios.setModel(manager_users.getEmpleadosSinUsuario(filtro,busqueda,Principal.comboEmpUsuEstatus.getSelectedItem().toString()));
-                            }else{
-                                Principal.tablaUsuarios.setModel(manager_users.getEmpleados(Principal.Username,filtro,busqueda,Principal.comboEmpUsuEstatus.getSelectedItem().toString()));
+                    //Acepta eliminar al usuario
+                    if(opcion == 0){
+                        getInfo();
+                        boolean insertar = manager_users.asignarUsuario(id, usuario, contraseña, puesto);
+                        if (insertar) {
+                            //metodo para pdf
+                            Object []botones2 = {"Si", "No", "Cancelar"};
+                            opcion = JOptionPane.showOptionDialog(this, "¿Al generar el reporte desea abrirlo?", "Confirmación",
+                                    JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones2, botones2[0]);
+
+                            if (opcion == 0) {
+                                metodo(1);
+                            } else if (opcion == 1) {
+                                metodo(0);
                             }
-                        }else{
-                            JOptionPane.showMessageDialog(null, "Han revocado sus permisos para consulta de empleados");
-                            Principal.tablaUsuarios.setModel(new DefaultTableModel());
-                        }
-                        this.dispose();
-                    }else{
-                            JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+
+                            JOptionPane.showMessageDialog(null, "El usuario \""+usuario+"\" ha sido registrado en la base de datos exitosamente.");
+                            if(manager_permisos.accesoModulo("consulta","Empleados",Principal.Username)){
+                                if(comboEmpUsu.getSelectedItem().toString().equals("Empleados sin usuario")){
+                                    Principal.tablaUsuarios.setModel(manager_users.getEmpleadosSinUsuario(filtro,busqueda,Principal.comboEmpUsuEstatus.getSelectedItem().toString()));
+                                }else{
+                                    Principal.tablaUsuarios.setModel(manager_users.getEmpleados(Principal.Username,filtro,busqueda,Principal.comboEmpUsuEstatus.getSelectedItem().toString()));
+                                }
+                            }else{
+                                JOptionPane.showMessageDialog(null, "Han revocado sus permisos para consulta de empleados");
+                                Principal.tablaUsuarios.setModel(new DefaultTableModel());
+                            }
                             this.dispose();
+                        }else{
+                                JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+                                this.dispose();
+                        }
                     }
                     break;    
                 case 4:

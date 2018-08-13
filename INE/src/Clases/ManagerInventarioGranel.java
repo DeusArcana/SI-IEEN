@@ -41,8 +41,13 @@ public class ManagerInventarioGranel {
 
         }//Obtiene todas los nombres de los empleados que tienen productos asignados
         
-    public DefaultTableModel getBusquedaInventario(int filtro, String busqueda, String folio, String estatus){
-        boolean estado = false;
+    public DefaultTableModel getBusquedaInventario(int filtro, String busqueda,String categoria, String estatus){
+        if(estatus.equals("Todos")){
+            estatus = "";
+        }
+        if(categoria.equals("Todas")){
+            categoria = "";
+        }
         //No dejamos editar ninguna celda
         DefaultTableModel table = new DefaultTableModel(){
             @Override
@@ -94,49 +99,34 @@ public class ManagerInventarioGranel {
 
             }//Hace la busqueda de acuerdo al filtro
             
-            sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel"
-                            + " where "+campoBusca+" like '%"+busqueda+"%';";
+            sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,almacen,marca,observaciones,stock from Inventario_granel"
+                            + " where "+campoBusca+" like '%"+busqueda+"%' and estatus like '%"+estatus+"%' and categoria like '%"+categoria+"%';";
             Connection c = db.getConexion();
             Statement st = c.createStatement();    
             ResultSet rs = st.executeQuery(sql);
-            estado = rs.next();
+            
+            table.addColumn("Clave");
+            table.addColumn("Producto");
+            table.addColumn("Descripción");
+            table.addColumn("Ubicación");
+            table.addColumn("Marca");
+            table.addColumn("Observaciones");
+            table.addColumn("Stock");
 
-            //Si estado es verdadero significa que encontro concidencia, entonces mostramos las concidencias que se encontraron en la consulta
-            if(estado){
+            Object datos[] = new Object[7];
 
-                table.addColumn("Clave");
-                table.addColumn("Producto");
-                table.addColumn("Descripción");
-                table.addColumn("Almacén");
-                table.addColumn("Estatus");
-                table.addColumn("Marca");
-                table.addColumn("Observaciones");
-                table.addColumn("Stock");
+            //Proseguimos con los registros en caso de exisitir mas
+            while (rs.next()) {
 
-                Object datos[] = new Object[8];
-
-                //Anteriormente se hizo la consulta, y como entro a este if significa que si se encontraron datos, por ende ya estamos posicionados
-                //en el primer registro de las concidencias
-                for(int i = 0;i<8;i++){
+                for(int i = 0;i<7;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
-                table.addRow(datos);
 
-                //Proseguimos con los registros en caso de exisitir mas
-                while (rs.next()) {
+                table.addRow(datos);//Añadimos la fila
 
-                    for(int i = 0;i<8;i++){
-                        datos[i] = rs.getObject(i+1);
-                    }//Llenamos las columnas por registro
+            }//while
 
-                    table.addRow(datos);//Añadimos la fila
-
-                }//while
-
-                conexion.close();
-            }else{
-                return getInventarioG(filtro);
-            }
+            conexion.close();
         } catch (SQLException ex) {
             Logger.getLogger(ManagerInventario.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -192,7 +182,9 @@ public class ManagerInventarioGranel {
     }//estadisticasConsumiblesTodos
     
     public DefaultTableModel estadisticasConsumiblesArea(String area){
-        
+        if(area.equals("Todas")){
+            area = "";
+        }
         //No dejamos editar ninguna celda
         DefaultTableModel table = new DefaultTableModel(){
             @Override
@@ -210,7 +202,7 @@ public class ManagerInventarioGranel {
                        + "inner join user u on (u.id_user = ss.id_user) "
                        + "inner join empleados e on (e.id_empleado = u.id_empleado) "
                        + "inner join area a on (a.ID_Area = e.area) "
-                       + "where ss.estado != 'Solicitud Salida' and a.Area = '"+area+"' "
+                       + "where ss.estado != 'Solicitud Salida' and a.Area like '%"+area+"%' "
                        + "group by dss.id_producto;";
             Connection c = db.getConexion();
             Statement st = c.createStatement();    
@@ -241,6 +233,58 @@ public class ManagerInventarioGranel {
         }
             return table;
     }//estadisticasConsumiblesArea
+    public DefaultTableModel estadisticasConsumiblesFecha(String area,String fechaIni, String fechaFin){
+        if(area.equals("Todas")){
+            area = "";
+        }
+        //No dejamos editar ninguna celda
+        DefaultTableModel table = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            }
+        };
+       conexion = db.getConexion();
+	
+        try{
+            
+            String sql = "select dss.id_producto,ig.descripcion,sum(dss.cantidad_solicitada),sum(dss.cantidad_autorizada),ig.stock from detalle_solicitudsalida dss "
+                       + "inner join inventario_granel ig on (concat(ig.Folio,'-',ig.Numero,ig.Extension) = dss.id_producto) "
+                       + "inner join solicitudsalida ss on (concat(ss.Folio,'-',ss.Num,'-',ss.Año) = dss.id_solicitud) "
+                       + "inner join user u on (u.id_user = ss.id_user) "
+                       + "inner join empleados e on (e.id_empleado = u.id_empleado) "
+                       + "inner join area a on (a.ID_Area = e.area) "
+                       + "where ss.estado != 'Solicitud Salida' and a.Area like '%"+area+"%' and date(ss.fecha_solicitud) between '"+fechaIni+"' and '"+fechaFin+"' "
+                       + "group by dss.id_producto;";
+            Connection c = db.getConexion();
+            Statement st = c.createStatement();    
+            ResultSet rs = st.executeQuery(sql);
+
+            table.addColumn("No. Consumible");
+            table.addColumn("Descripción");
+            table.addColumn("Solicitado");
+            table.addColumn("Autorizado");
+            table.addColumn("Stock");
+            
+            Object datos[] = new Object[5];
+
+            //Proseguimos con los registros en caso de exisitir mas
+            while (rs.next()) {
+
+                for(int i = 0;i<5;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+
+            }//while
+
+            conexion.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerInventario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            return table;
+    }//estadisticasConsumibleFecha
 
     //Este método es para realizar el registro de un nuevo producto consumible
     public boolean insertarInventarioG(int numero,String extension, String producto, String almacen, String marca,int stockmin, int stock, String descripcion,String categoria) {
@@ -504,7 +548,6 @@ public class ManagerInventarioGranel {
             table.addColumn("Producto");
             table.addColumn("Descripción");
             table.addColumn("Ubicación");
-            table.addColumn("Categoria");
             table.addColumn("Estatus");
             table.addColumn("Marca");
             table.addColumn("Observaciones");
@@ -536,7 +579,7 @@ public class ManagerInventarioGranel {
             }
             
             //Consulta de los empleados
-            String sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,almacen,categoria,estatus,marca,observaciones,stock from Inventario_granel "+orden+";";
+            String sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel "+orden+";";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             Object datos[] = new Object[9];
@@ -563,9 +606,13 @@ public class ManagerInventarioGranel {
     }//getInventarioG
 		
 	    //Este metodo retorna una tabla para solicitar productos a granel
-    public DefaultTableModel tablaSolicitarInvGranel(int indice, String busqueda){
+    public DefaultTableModel tablaSolicitarInvGranel(int indice, String busqueda,String categoria){
         conexion = db.getConexion();
         DefaultTableModel table = new DefaultTableModel();
+        
+        if(categoria.equals("Todas")){
+            categoria = "";
+        }
         
         table.addColumn("Clave");
         table.addColumn("Nombre corto");
@@ -588,9 +635,9 @@ public class ManagerInventarioGranel {
             }//switch
             String sql = "";
             if(indice == 0){
-                sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion from inventario_granel where "+campoBusca+" like 'EY-99-"+busqueda+"%';";
+                sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion from inventario_granel where "+campoBusca+" like 'EY-99-"+busqueda+"%' and categoria like '%"+categoria+"%';";
             }else{
-                sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion from inventario_granel where "+campoBusca+" like '"+busqueda+"%';";
+                sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion from inventario_granel where "+campoBusca+" like '"+busqueda+"%' and categoria like '%"+categoria+"%';";
             }
             conexion = db.getConexion();
             Statement st = conexion.createStatement();    

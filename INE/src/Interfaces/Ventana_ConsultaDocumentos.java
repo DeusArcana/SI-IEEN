@@ -24,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Ventana_ConsultaDocumentos extends javax.swing.JDialog {
     ManagerDocumentos manager_documentos;
+    ManagerPermisos manager_permisos;
     
     /**
      * Creates new form Ventana_asignar_EquipoComputo
@@ -34,6 +35,7 @@ public class Ventana_ConsultaDocumentos extends javax.swing.JDialog {
         
         //Asignamos memoria al objeto
         manager_documentos = new ManagerDocumentos();
+        manager_permisos = new ManagerPermisos();
         
         this.setTitle("Anexar productos a un documento");
         this.setLocationRelativeTo(null);
@@ -208,49 +210,54 @@ public class Ventana_ConsultaDocumentos extends javax.swing.JDialog {
 
     private void comboEstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEstatusActionPerformed
         // TODO add your handling code here:
-        String estatus = comboEstatus.getSelectedItem().toString();
-        
-        //Llenamos la tabla de los documentos
-        tablaDocumentos.setModel(manager_documentos.getDocumentosFiltro(estatus));
+        if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
+            String estatus = comboEstatus.getSelectedItem().toString();
+            //Llenamos la tabla de los documentos
+            tablaDocumentos.setModel(manager_documentos.getDocumentosFiltro(estatus));
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para consultar los documentos.");
+        }
     }//GEN-LAST:event_comboEstatusActionPerformed
 
     private void AsignarActaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AsignarActaActionPerformed
         // TODO add your handling code here:
-        int fila = tablaDocumentos.getSelectedRow();
-        //Esto es para validar que ingrese solo numeros y mientras no lo haga, seguira preguntado hasta que
-        //solo teclee numeros o cancele el movimiento
-        boolean string = true;
-        boolean cancelo = true;
-        String cadena = null;
-        while(string){
-            cadena = JOptionPane.showInputDialog("Ingrese el No. de Acta");
-            //Cancelo la solicitud de asignacion
-            if(cadena == null){
-                string = false;
-                cancelo = false;
-            }else{
-                if(!cadena.equals("")){
+        if(manager_permisos.accesoModulo("actualizar","Inventario",Principal.Username)){
+            int fila = tablaDocumentos.getSelectedRow();
+            //Esto es para validar que ingrese solo numeros y mientras no lo haga, seguira preguntado hasta que
+            //solo teclee numeros o cancele el movimiento
+            boolean string = true;
+            boolean cancelo = true;
+            String cadena = null;
+            while(string){
+                cadena = JOptionPane.showInputDialog("Ingrese el No. de Acta");
+                //Cancelo la solicitud de asignacion
+                if(cadena == null){
                     string = false;
-                    cancelo = true;
+                    cancelo = false;
                 }else{
-                    JOptionPane.showMessageDialog(null,"No deje el campo vacio por favor.");
+                    if(!cadena.equals("")){
+                        string = false;
+                        cancelo = true;
+                    }else{
+                        JOptionPane.showMessageDialog(null,"No deje el campo vacio por favor.");
+                    }
+                }
+            }//while                        
+
+            if(cancelo){
+                if(manager_documentos.asignarActa(tablaDocumentos.getValueAt(fila, 0).toString(), cadena)){
+                    JOptionPane.showMessageDialog(null, "No. de acta \""+cadena+"\" asignado correctamente.");
+                    String estatus = comboEstatus.getSelectedItem().toString();
+
+                    //Llenamos la tabla de los documentos
+                    tablaDocumentos.setModel(manager_documentos.getDocumentosFiltro(estatus));
+                }else{
+                    JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
                 }
             }
-        }//while                        
-
-        if(cancelo){
-            if(manager_documentos.asignarActa(tablaDocumentos.getValueAt(fila, 0).toString(), cadena)){
-                JOptionPane.showMessageDialog(null, "No. de acta \""+cadena+"\" asignado correctamente.");
-                String estatus = comboEstatus.getSelectedItem().toString();
-
-                //Llenamos la tabla de los documentos
-                tablaDocumentos.setModel(manager_documentos.getDocumentosFiltro(estatus));
-            }else{
-                JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
-            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para asignar no. de acta a los documentos.");
         }
-        
-        
     }//GEN-LAST:event_AsignarActaActionPerformed
 
     /**

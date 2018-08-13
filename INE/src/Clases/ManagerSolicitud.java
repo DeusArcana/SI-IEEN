@@ -376,14 +376,14 @@ public class ManagerSolicitud {
     }//tabla_Solicitudes --> Muestra las solicitudes que puedes ver de acuerdo la tabla de permisos_solicitudes
     
     //Este método muestra la tabla de solicitudes de acuerdo a los permisos que tienes por solicitud (Autorizada/Cancelada)
-    public DefaultTableModel tabla_SolicitudesEstatus(String user,String estatus) {
+    public DefaultTableModel tabla_SolicitudesEstatus(String estatus) {
         
         DefaultTableModel table = new DefaultTableModel();
         try {
             
             switch(estatus){
                 case "Todos":
-                    estatus = "ss.estado != 'Solicitud Salida';";
+                    estatus = "ss.estado != 'Solicitud Salida'";
                     break;
                 case "Autorizado":
                     estatus = "ss.estado = 'Salida Autorizada'";
@@ -403,7 +403,7 @@ public class ManagerSolicitud {
                     + "date(ss.fecha_solicitud),date(ss.fecha_respuesta), ss.estado from solicitudsalida ss "
                     + "inner join user u on (u.id_user = ss.id_user) "
                     + "inner join empleados e on (e.id_empleado = u.id_empleado) "
-                    + "where "+estatus+" order by concat(ss.Folio,'-',ss.Num,'-',ss.Año) desc;";
+                    + "where "+estatus+" order by fecha_solicitud desc;";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);

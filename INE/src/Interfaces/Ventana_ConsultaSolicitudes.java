@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Ventana_ConsultaSolicitudes extends javax.swing.JDialog {
     ManagerSolicitud manager_solicitud;
+    ManagerPermisos manager_permisos;
     
     /**
      * Creates new form Ventana_asignar_EquipoComputo
@@ -30,6 +31,7 @@ public class Ventana_ConsultaSolicitudes extends javax.swing.JDialog {
         
         //Asignamos memoria al objeto
         manager_solicitud = new ManagerSolicitud();
+        manager_permisos = new ManagerPermisos();
         
         this.setTitle("Consulta de solicitudes Autorizadas o Canceladas.");
         this.setLocationRelativeTo(null);
@@ -169,21 +171,28 @@ public class Ventana_ConsultaSolicitudes extends javax.swing.JDialog {
     private void tablaDocumentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDocumentosMouseClicked
         // TODO add your handling code here:
         if(evt.getClickCount() == 2){
-            int fila = tablaDocumentos.getSelectedRow();
-            String id = tablaDocumentos.getValueAt(fila, 0).toString();
-            
-            //Llenamos la tabla de la relación documento-productos
-            tablaDocumentosProductos.setModel(manager_solicitud.consumibles_SolicitudSalida(id));
-            
+            if(manager_permisos.accesoModulo("consulta","Solicitudes",Principal.Username)){
+                int fila = tablaDocumentos.getSelectedRow();
+                String id = tablaDocumentos.getValueAt(fila, 0).toString();
+
+                //Llenamos la tabla de la relación documento-productos
+                tablaDocumentosProductos.setModel(manager_solicitud.consumibles_SolicitudSalida(id));
+            }else{
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas del historial de solicitudes.");
+            }
         }//getClickCount
     }//GEN-LAST:event_tablaDocumentosMouseClicked
 
     private void comboEstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEstatusActionPerformed
         // TODO add your handling code here:
-        String estatus = comboEstatus.getSelectedItem().toString();
-        
-        //Llenamos la tabla de los documentos
-        tablaDocumentos.setModel(manager_solicitud.tabla_SolicitudesEstatus(Principal.Username,estatus));
+        if(manager_permisos.accesoModulo("consulta","Solicitudes",Principal.Username)){
+            String estatus = comboEstatus.getSelectedItem().toString();
+
+            //Llenamos la tabla de los documentos
+            tablaDocumentos.setModel(manager_solicitud.tabla_SolicitudesEstatus(estatus));
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas del historial de solicitudes.");
+        }
     }//GEN-LAST:event_comboEstatusActionPerformed
 
     /**

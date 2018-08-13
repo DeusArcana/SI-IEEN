@@ -29,6 +29,84 @@ public class ManagerComplemento {
         
     }//Constructor
     
+    public DefaultTableModel getBusquedaResguardo(int filtro, String busqueda){
+        //No dejamos editar ninguna celda
+        DefaultTableModel table = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            }
+        };
+       conexion = db.getConexion();
+		
+        String campoBusca = "";
+        String sql = "";
+
+        try{
+            switch(filtro){
+            
+                //BUSQUEDA POR PROPIETARIO
+                case 0:
+                    campoBusca = "concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m)";
+                    break;
+
+                //BUSQUEDA POR PRODUCTO
+                case 1:
+                    campoBusca = "rp.nombre_prod";
+                    break;
+                        
+                //BUSQUEDA POR FECHA DE REGISTRO
+                case 2:
+                    campoBusca = "rp.fecha_alta";
+                    break;
+
+                //BUSQUEDA POR OBSERVACIONES
+                case 3:
+                    campoBusca = "rp.observaciones";
+                    break;
+
+                //BUSQUEDA POR FECHA DE SALIDA
+                case 4:
+                    campoBusca = "rp.fecha_salida";
+                    break;
+            }//Hace la busqueda de acuerdo al filtro
+            
+            sql = "select concat(e.nombres,' ',e.apellido_p,' ',e.apellido_m), rp.nombre_prod, date(rp.fecha_alta),time(rp.fecha_alta),rp.observaciones,date(rp.fecha_salida),time(rp.fecha_salida) from resguardo_personal rp "
+                    + "inner join user u on (u.id_user = rp.id_user) "
+                    + "inner join empleados e on (e.id_empleado = u.id_empleado) "
+                    + "where "+campoBusca+" like '%"+busqueda+"%';";
+            Connection c = db.getConexion();
+            Statement st = c.createStatement();    
+            ResultSet rs = st.executeQuery(sql);
+            
+            table.addColumn("Propietario");
+            table.addColumn("Producto");
+            table.addColumn("Fecha de registro");
+            table.addColumn("Hora de registro");
+            table.addColumn("Observaciones");
+            table.addColumn("Fecha de salida");
+            table.addColumn("Hora de salida");
+            
+            Object datos[] = new Object[7];
+
+            //Proseguimos con los registros en caso de exisitir mas
+            while (rs.next()) {
+
+                for(int i = 0;i<7;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+
+            }//while
+
+            conexion.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerInventario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            return table;
+    }//getBusquedaResguardo
+    
     public DefaultTableModel getPuestos() {
 
         DefaultTableModel table = new DefaultTableModel();

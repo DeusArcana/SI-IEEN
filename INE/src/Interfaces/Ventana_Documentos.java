@@ -31,6 +31,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Ventana_Documentos extends javax.swing.JDialog {
     ManagerDocumentos manager_documentos;
+    ManagerPermisos manager_permisos;
     ManagerInventarioGranel manager_inventario_granel;
     public DefaultTableModel modeloProductos,modeloDocumentoProductos;
     int id_documento;
@@ -44,6 +45,7 @@ public class Ventana_Documentos extends javax.swing.JDialog {
         
         //Asignamos memoria al objeto
         manager_documentos = new ManagerDocumentos();
+        manager_permisos = new ManagerPermisos();
         
         modeloProductos = (DefaultTableModel)tablaProductosSeleccionar.getModel();
         modeloDocumentoProductos = (DefaultTableModel)tablaDocumentosProductos.getModel();
@@ -236,45 +238,6 @@ public class Ventana_Documentos extends javax.swing.JDialog {
         }//clic derecho
     }//GEN-LAST:event_tablaDocumentosMouseReleased
 
-    private void AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarActionPerformed
-        // TODO add your handling code here:
-        DefaultTableModel inventario = (DefaultTableModel)tablaProductosSeleccionar.getModel();
-        boolean selecciono = false;
-        Boolean[] cambio = new Boolean[inventario.getRowCount()];
-        String[] ids = new String[inventario.getRowCount()];
-
-        //Llenamos los arreglos con la información
-        for(int i = 0; i<ids.length; i++){
-            cambio[i] = Boolean.parseBoolean(tablaProductosSeleccionar.getValueAt(i, 0).toString());
-            ids[i] = tablaProductosSeleccionar.getValueAt(i, 1).toString();
-        }//for
-        
-        //Aquí vemos si por lo menos seleccionó algún producto
-        for(int i = 0; i<ids.length; i++){
-            if(cambio[i]){
-                selecciono = true;
-                break;
-            }//if
-        }//for
-        
-        if(selecciono){
-            if(manager_documentos.anexarAlDocumento(ids,cambio,id_documento)){
-                JOptionPane.showMessageDialog(null, "Se registraron exitosamente los nuevos productos al documento.");
-                
-                //Actualizamos la tabla de los productos que quiere agregar al documentos
-                tablaProductosSeleccionar.setModel(manager_documentos.productosParaAsignarMenosInfo(status));
-                //Actualizamos la tabla de la relación documento-productos
-                tablaDocumentosProductos.setModel(manager_documentos.getDocumentosProductos(id_documento));
-                //Acutalizamos la tabla de documentos
-                tablaDocumentos.setModel(manager_documentos.getDocumentos());
-
-            }//if
-            else{
-                JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
-            }//else
-        }//if
-    }//GEN-LAST:event_AceptarActionPerformed
-
     private void tablaDocumentosProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDocumentosProductosMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_tablaDocumentosProductosMouseClicked
@@ -302,23 +265,69 @@ public class Ventana_Documentos extends javax.swing.JDialog {
         }//getClickCount
     }//GEN-LAST:event_tablaDocumentosMouseClicked
 
+    private void FinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinalizarActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.accesoModulo("actualizar","Inventario",Principal.Username)){
+            obtenerIDEstatus();
+            if(manager_documentos.finalizarDocumento(id_documento)){
+                JOptionPane.showMessageDialog(null, "El documento ha sido finalizado exitosamente.");
+                tablaDocumentos.setModel(manager_documentos.getDocumentos());
+                tablaProductosSeleccionar.setModel(modeloProductos);
+                tablaDocumentosProductos.setModel(modeloDocumentoProductos);
+                metodoGenerarDocumento();
+            }//if
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para finalizar la selección de productos a documentos.");
+        }
+    }//GEN-LAST:event_FinalizarActionPerformed
+
     private void RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshActionPerformed
         // TODO add your handling code here:
         tablaProductosSeleccionar.setModel(manager_documentos.productosParaAsignarMenosInfo(status));
     }//GEN-LAST:event_RefreshActionPerformed
 
-    private void FinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinalizarActionPerformed
+    private void AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarActionPerformed
         // TODO add your handling code here:
-        obtenerIDEstatus();
-        if(manager_documentos.finalizarDocumento(id_documento)){
-            JOptionPane.showMessageDialog(null, "El documento ha sido finalizado exitosamente.");
-            tablaDocumentos.setModel(manager_documentos.getDocumentos());
-            tablaProductosSeleccionar.setModel(modeloProductos);
-            tablaDocumentosProductos.setModel(modeloDocumentoProductos);
-            metodoGenerarDocumento();
-        }//if
-        
-    }//GEN-LAST:event_FinalizarActionPerformed
+        if(manager_permisos.accesoModulo("actualizar","Inventario",Principal.Username)){
+            DefaultTableModel inventario = (DefaultTableModel)tablaProductosSeleccionar.getModel();
+            boolean selecciono = false;
+            Boolean[] cambio = new Boolean[inventario.getRowCount()];
+            String[] ids = new String[inventario.getRowCount()];
+
+            //Llenamos los arreglos con la información
+            for(int i = 0; i<ids.length; i++){
+                cambio[i] = Boolean.parseBoolean(tablaProductosSeleccionar.getValueAt(i, 0).toString());
+                ids[i] = tablaProductosSeleccionar.getValueAt(i, 1).toString();
+            }//for
+
+            //Aquí vemos si por lo menos seleccionó algún producto
+            for(int i = 0; i<ids.length; i++){
+                if(cambio[i]){
+                    selecciono = true;
+                    break;
+                }//if
+            }//for
+
+            if(selecciono){
+                if(manager_documentos.anexarAlDocumento(ids,cambio,id_documento)){
+                    JOptionPane.showMessageDialog(null, "Se registraron exitosamente los nuevos productos al documento.");
+
+                    //Actualizamos la tabla de los productos que quiere agregar al documentos
+                    tablaProductosSeleccionar.setModel(manager_documentos.productosParaAsignarMenosInfo(status));
+                    //Actualizamos la tabla de la relación documento-productos
+                    tablaDocumentosProductos.setModel(manager_documentos.getDocumentosProductos(id_documento));
+                    //Acutalizamos la tabla de documentos
+                    tablaDocumentos.setModel(manager_documentos.getDocumentos());
+
+                }//if
+                else{
+                    JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+                }//else
+            }//if
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para agregar nuevos productos a los documentos.");
+        }
+    }//GEN-LAST:event_AceptarActionPerformed
     
     public void metodoGenerarDocumento() {
         // TODO add your handling code here:
