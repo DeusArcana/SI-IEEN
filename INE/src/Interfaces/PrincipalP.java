@@ -9,6 +9,7 @@ import Clases.Conexion;
 import Clases.CrearPaseSalida;
 import Clases.Excel;
 import Clases.ManagerPases;
+import Clases.ManagerPermisos;
 import Formularios.addSolicitudPermisos;
 import Formularios.visSolicitudPase;
 import java.io.IOException;
@@ -38,6 +39,7 @@ public class PrincipalP extends javax.swing.JFrame {
     ManagerPases manager_pases;
     DefaultTableModel modelo;
     visSolicitudPase vsp;
+    ManagerPermisos manager_permisos;
     boolean limpiar = false;
     String fechag="";
     String responarea="";
@@ -52,6 +54,7 @@ public class PrincipalP extends javax.swing.JFrame {
         //tablasolic.setModel(manager_soviaticos.getTasol()); 
         tablapase.getTableHeader().setReorderingAllowed(false);
         manager_pases = new ManagerPases();
+        manager_permisos=new ManagerPermisos();
     }
 
     /**
@@ -494,153 +497,177 @@ public class PrincipalP extends javax.swing.JFrame {
 
     private void NuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevaActionPerformed
         // TODO add your handling code here:
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
+        if (manager_permisos.accesoModulo("alta", "Solicitud Viaticos", Principal.Username)) {
+            try {
+                for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                    if ("Nimbus".equals(info.getName())) {
+                        UIManager.setLookAndFeel(info.getClassName());
+                        break;
+                    }
                 }
+            } catch (Exception e) {
+                // If Nimbus is not available, you can set the GUI to another look and feel.
             }
-        } catch (Exception e) {
-            // If Nimbus is not available, you can set the GUI to another look and feel.
+            addSolicitudPermisos asv = new addSolicitudPermisos(this, true);
+            asv.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar pases de salida.");
         }
-        addSolicitudPermisos asv = new addSolicitudPermisos(this, true);
-        asv.setVisible(true);
     }//GEN-LAST:event_NuevaActionPerformed
 
     private void ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImprimirActionPerformed
         // TODO add your handling code here:
-        int fila = tablapase.getSelectedRow();
-        CrearPaseSalida cps = new CrearPaseSalida();
-        if(fila >= 0){
-            if(tablapase.getValueAt(fila,11).toString().equals("Cancelada")){
-                javax.swing.JOptionPane.showMessageDialog(null, "No se puede imprimir porque esta cancelada");
+        if (manager_permisos.accesoModulo("consulta", "Solicitud Viaticos", Principal.Username)) {
+            int fila = tablapase.getSelectedRow();
+            CrearPaseSalida cps = new CrearPaseSalida();
+            if(fila >= 0){
+                if(tablapase.getValueAt(fila,11).toString().equals("Cancelada")){
+                    javax.swing.JOptionPane.showMessageDialog(null, "No se puede imprimir porque esta cancelada");
+                }else{
+                    try{
+                        String[] folio=tablapase.getValueAt(fila,0).toString().split("-");
+                        String nombreem=tablapase.getValueAt(fila,1).toString();  
+                        String puesto=tablapase.getValueAt(fila,2).toString();
+                        String area=tablapase.getValueAt(fila,3).toString();
+                        String idarea=manager_pases.getIdResponsableArea(area);
+                        String fecha=tablapase.getValueAt(fila,4).toString();
+                        String horaes=tablapase.getValueAt(fila,5).toString();
+                        String horall=tablapase.getValueAt(fila,6).toString();
+                        String horas=tablapase.getValueAt(fila,7).toString();
+                        String tipohorario=tablapase.getValueAt(fila,8).toString();
+                        String tipoasunto=tablapase.getValueAt(fila,9).toString();
+                        String asunto=tablapase.getValueAt(fila,10).toString();
+
+                        responarea=manager_pases.getNomResponsableArea(idarea);
+
+                        //javax.swing.JOptionPane.showMessageDialog(null,responarea);
+
+                        cps.createTicket(1,folio[0],folio[1],nombreem,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,responarea);
+                    } catch (Exception ex) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Error al imprimir");
+                        }
+                }
             }else{
-                try{
-                    String[] folio=tablapase.getValueAt(fila,0).toString().split("-");
-                    String nombreem=tablapase.getValueAt(fila,1).toString();  
-                    String puesto=tablapase.getValueAt(fila,2).toString();
-                    String area=tablapase.getValueAt(fila,3).toString();
-                    String idarea=manager_pases.getIdResponsableArea(area);
-                    String fecha=tablapase.getValueAt(fila,4).toString();
-                    String horaes=tablapase.getValueAt(fila,5).toString();
-                    String horall=tablapase.getValueAt(fila,6).toString();
-                    String horas=tablapase.getValueAt(fila,7).toString();
-                    String tipohorario=tablapase.getValueAt(fila,8).toString();
-                    String tipoasunto=tablapase.getValueAt(fila,9).toString();
-                    String asunto=tablapase.getValueAt(fila,10).toString();
-                    
-                    responarea=manager_pases.getNomResponsableArea(idarea);
-                    
-                    //javax.swing.JOptionPane.showMessageDialog(null,responarea);
-                            
-                    cps.createTicket(1,folio[0],folio[1],nombreem,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,responarea);
-                } catch (Exception ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error al imprimir");
-                    }
+                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
         }else{
-             javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para imprimir pases de salida.");
         }
     }//GEN-LAST:event_ImprimirActionPerformed
 
     private void Hora_llegadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hora_llegadaActionPerformed
         // TODO add your handling code here:
-        int k = tablapase.getSelectedRow();
-        if (k >= 0) {
-            if(tablapase.getValueAt(k,8).toString().equals("Intermedio")){
-                //javax.swing.JOptionPane.showMessageDialog(null, "Si se puede");
-                String folio = tablapase.getValueAt(k, 0).toString();
-                String[] numfol=folio.split("-");
-                //javax.swing.JOptionPane.showMessageDialog(null,id);
-            try {
-                Statement sentencia = cn.createStatement();
-                String horallegada = javax.swing.JOptionPane.showInputDialog("Asignar hora de llegada");
-                if (horallegada.equals("")) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "El Formato de horas debe ser 00:00, vuelva a intentarlo");  
-                } else {
-                    
-                    if (horallegada.split(":").length!=2) {
-                        javax.swing.JOptionPane.showMessageDialog(null, "El Formato de horas debe ser 00:00, vuelva a intentarlo");
+        if (manager_permisos.accesoModulo("actualizar", "Solicitud Viaticos", Principal.Username)) {
+            int k = tablapase.getSelectedRow();
+            if (k >= 0) {
+                if(tablapase.getValueAt(k,8).toString().equals("Intermedio")){
+                    //javax.swing.JOptionPane.showMessageDialog(null, "Si se puede");
+                    String folio = tablapase.getValueAt(k, 0).toString();
+                    String[] numfol=folio.split("-");
+                    //javax.swing.JOptionPane.showMessageDialog(null,id);
+                try {
+                    Statement sentencia = cn.createStatement();
+                    String horallegada = javax.swing.JOptionPane.showInputDialog("Asignar hora de llegada");
+                    if (horallegada.equals("")) {
+                        javax.swing.JOptionPane.showMessageDialog(null, "El Formato de horas debe ser 00:00, vuelva a intentarlo");  
                     } else {
-                        sentencia.executeUpdate("UPDATE solicitud_pase SET Hora_Llegada = '" + horallegada + "' WHERE Folio = '" + numfol[0] + "' AND Numero = '" + numfol[1] + "' AND Año = '" + fechag + "';");
-                        //javax.swing.JOptionPane.showMessageDialog(null, horallegada); 
-                        javax.swing.JOptionPane.showMessageDialog(null, "Hora de llegada actualizada"); 
-                    }
-                }
-            } catch (SQLException ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error en la actualización");
-            }catch (NullPointerException ex) {
-                //javax.swing.JOptionPane.showMessageDialog(null, "Error en la actualización");
-            }
 
-        } else {
-                javax.swing.JOptionPane.showMessageDialog(null, "No se puede actualizar hora de llegada");
-        }
-            tablapase.setModel(manager_pases.getTasolpa(fechag));                
-            }else{
-                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");                
+                        if (horallegada.split(":").length!=2) {
+                            javax.swing.JOptionPane.showMessageDialog(null, "El Formato de horas debe ser 00:00, vuelva a intentarlo");
+                        } else {
+                            sentencia.executeUpdate("UPDATE solicitud_pase SET Hora_Llegada = '" + horallegada + "' WHERE Folio = '" + numfol[0] + "' AND Numero = '" + numfol[1] + "' AND Año = '" + fechag + "';");
+                            //javax.swing.JOptionPane.showMessageDialog(null, horallegada); 
+                            javax.swing.JOptionPane.showMessageDialog(null, "Hora de llegada actualizada"); 
+                        }
+                    }
+                } catch (SQLException ex) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Error en la actualización");
+                }catch (NullPointerException ex) {
+                    //javax.swing.JOptionPane.showMessageDialog(null, "Error en la actualización");
+                }
+
+            } else {
+                    javax.swing.JOptionPane.showMessageDialog(null, "No se puede actualizar hora de llegada");
             }
+                tablapase.setModel(manager_pases.getTasolpa(fechag));                
+                }else{
+                    javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");                
+                }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para imprimir pases de salida.");
+        }
     }//GEN-LAST:event_Hora_llegadaActionPerformed
 
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
         // TODO add your handling code here:
-        int k = tablapase.getSelectedRow();
-        if (k >= 0) {
-            String folio = tablapase.getValueAt(k, 0).toString();
-            String[] numfol=folio.split("-");
-            
-                try {
-                    Statement sentencia = cn.createStatement();
-                    sentencia.executeUpdate("UPDATE solicitud_pase SET Estado = 'Cancelada' WHERE Folio = '" + numfol[0] + "' AND Numero = '" + numfol[1] + "' AND Año = '" + fechag + "';");
-                    javax.swing.JOptionPane.showMessageDialog(null, "Solicitud cancelada");
-                } catch (SQLException ex) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Error al cancelar");
-                }
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        if (manager_permisos.accesoModulo("actualizar", "Solicitud Viaticos", Principal.Username)) {
+            int k = tablapase.getSelectedRow();
+            if (k >= 0) {
+                String folio = tablapase.getValueAt(k, 0).toString();
+                String[] numfol=folio.split("-");
+
+                    try {
+                        Statement sentencia = cn.createStatement();
+                        sentencia.executeUpdate("UPDATE solicitud_pase SET Estado = 'Cancelada' WHERE Folio = '" + numfol[0] + "' AND Numero = '" + numfol[1] + "' AND Año = '" + fechag + "';");
+                        javax.swing.JOptionPane.showMessageDialog(null, "Solicitud cancelada");
+                    } catch (SQLException ex) {
+                        javax.swing.JOptionPane.showMessageDialog(null, "Error al cancelar");
+                    }
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            }
+            tablapase.setModel(manager_pases.getTasolpa(fechag)); 
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para cancelar pases de salida.");
         }
-        tablapase.setModel(manager_pases.getTasolpa(fechag)); 
     }//GEN-LAST:event_CancelarActionPerformed
 
     private void ExportarExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarExcelActionPerformed
         // TODO add your handling code here:
-        try{
-            //if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
-                Excel excel = new Excel();
-                excel.GuardarComo(tablapase);
-            //}else{
-                //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
-                //tablapase.setModel(new DefaultTableModel());
-            //}
-        }catch(NullPointerException e){
-        
+        if (manager_permisos.accesoModulo("consulta", "Solicitud Viaticos", Principal.Username)) {
+            try{
+                //if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
+                    Excel excel = new Excel();
+                    excel.GuardarComo(tablapase);
+                //}else{
+                    //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+                    //tablapase.setModel(new DefaultTableModel());
+                //}
+            }catch(NullPointerException e){
+
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para exportar pases de salida.");
         }
     }//GEN-LAST:event_ExportarExcelActionPerformed
 
     private void ConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarActionPerformed
         // TODO add your handling code here:
-        int fila = tablapase.getSelectedRow();
-        if (fila >= 0) {
-             vsp = new visSolicitudPase();
-            String folio=tablapase.getValueAt(fila,0).toString();
-            String nombreem=tablapase.getValueAt(fila,1).toString();  
-            String puesto=tablapase.getValueAt(fila,2).toString();
-            String area=tablapase.getValueAt(fila,3).toString();
-            String fecha=tablapase.getValueAt(fila,4).toString();
-            String horaes=tablapase.getValueAt(fila,5).toString();
-            String horall=tablapase.getValueAt(fila,6).toString();
-            String horas=tablapase.getValueAt(fila,7).toString();
-            String tipohorario=tablapase.getValueAt(fila,8).toString();
-            String tipoasunto=tablapase.getValueAt(fila,9).toString();
-            String asunto=tablapase.getValueAt(fila,10).toString();
-            String estado=tablapase.getValueAt(fila,11).toString();
-            
-            vsp.recibeinfo(folio,nombreem,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,estado);
-            
-            vsp.setVisible(true); 
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        if (manager_permisos.accesoModulo("consulta", "Solicitud Viaticos", Principal.Username)) {
+            int fila = tablapase.getSelectedRow();
+            if (fila >= 0) {
+                 vsp = new visSolicitudPase();
+                String folio=tablapase.getValueAt(fila,0).toString();
+                String nombreem=tablapase.getValueAt(fila,1).toString();  
+                String puesto=tablapase.getValueAt(fila,2).toString();
+                String area=tablapase.getValueAt(fila,3).toString();
+                String fecha=tablapase.getValueAt(fila,4).toString();
+                String horaes=tablapase.getValueAt(fila,5).toString();
+                String horall=tablapase.getValueAt(fila,6).toString();
+                String horas=tablapase.getValueAt(fila,7).toString();
+                String tipohorario=tablapase.getValueAt(fila,8).toString();
+                String tipoasunto=tablapase.getValueAt(fila,9).toString();
+                String asunto=tablapase.getValueAt(fila,10).toString();
+                String estado=tablapase.getValueAt(fila,11).toString();
+
+                vsp.recibeinfo(folio,nombreem,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,estado);
+
+                vsp.setVisible(true); 
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para consultar pases de salida.");
         }
     }//GEN-LAST:event_ConsultarActionPerformed
         public static String getfecha(){
