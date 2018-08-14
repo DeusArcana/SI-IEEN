@@ -6,14 +6,18 @@
 package Interfaces;
 
 import Clases.Conexion;
-import Clases.CrearPDF;
+import Clases.CrearPaseSalida;
+import Clases.Excel;
 import Clases.ManagerPases;
 import Formularios.addSolicitudPermisos;
+import Formularios.visSolicitudPase;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -33,7 +37,10 @@ public class PrincipalP extends javax.swing.JFrame {
     Connection cn = cbd.getConexion();
     ManagerPases manager_pases;
     DefaultTableModel modelo;
+    visSolicitudPase vsp;
     boolean limpiar = false;
+    String fechag="";
+    String responarea="";
 
     /**
      * Creates new form PrincipalP
@@ -60,7 +67,9 @@ public class PrincipalP extends javax.swing.JFrame {
         Nueva = new javax.swing.JMenuItem();
         Imprimir = new javax.swing.JMenuItem();
         Hora_llegada = new javax.swing.JMenuItem();
+        Consultar = new javax.swing.JMenuItem();
         Cancelar = new javax.swing.JMenuItem();
+        ExportarExcel = new javax.swing.JMenuItem();
         solicpase = new javax.swing.JTabbedPane();
         solicitudviaticos1 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
@@ -110,6 +119,14 @@ public class PrincipalP extends javax.swing.JFrame {
         });
         MenuPases.add(Hora_llegada);
 
+        Consultar.setText("Consultar");
+        Consultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConsultarActionPerformed(evt);
+            }
+        });
+        MenuPases.add(Consultar);
+
         Cancelar.setText("Cancelar");
         Cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,6 +134,14 @@ public class PrincipalP extends javax.swing.JFrame {
             }
         });
         MenuPases.add(Cancelar);
+
+        ExportarExcel.setText("ExportarExcel");
+        ExportarExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExportarExcelActionPerformed(evt);
+            }
+        });
+        MenuPases.add(ExportarExcel);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -148,7 +173,7 @@ public class PrincipalP extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Folio", "Nombre", "Puesto", "Aréa", "Fecha", "Hora_E/S", "Hora_llegada", "Horas", "Tipo_horario", "Tipo_asunto"
+                "Folio", "Nombre", "Puesto", "Aréa", "Fecha", "Hora_E/S", "Hora_llegada", "Horas", "Tipo_horario", "Tipo_asunto", "Asunto", "Estado"
             }
         ));
         tablapase.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -396,7 +421,7 @@ public class PrincipalP extends javax.swing.JFrame {
     private void jScrollPane11MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane11MouseReleased
         // TODO add your handling code here:
         if (SwingUtilities.isRightMouseButton(evt)) {
-            //MenuPanelSolicitudViatico.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+            MenuPases.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
         }//clic derecho
     }//GEN-LAST:event_jScrollPane11MouseReleased
 
@@ -422,19 +447,20 @@ public class PrincipalP extends javax.swing.JFrame {
             modelo.addColumn("Hora_llegada");
             modelo.addColumn("Tipo_horario");
             modelo.addColumn("Tipo_asunto");
-            //modelo.addColumn("Estado");
+            modelo.addColumn("Asunto");
+            modelo.addColumn("Estado");
             this.tablapase.setModel(modelo);
             try {
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = sentencia.executeQuery("SELECT Folio, Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada, Tipo_Horario, Tipo_Asunto FROM solicitud_pase WHERE Folio LIKE '%" + txtbusquedasoli.getText() + "%'"
+                ResultSet rs = sentencia.executeQuery("SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Folio and Numero LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Area LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha LIKE '%" + txtbusquedasoli.getText() + "%'"
-                    + "OR Hora_ES LIKE '%" + txtbusquedasoli.getText() + "%' OR Hora_Llegada LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Horario LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Asunto LIKE '%" + txtbusquedasoli.getText() + "%'");
+                    + "OR Hora_ES LIKE '%" + txtbusquedasoli.getText() + "%' OR Hora_Llegada LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Horario LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Asunto LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%'");
 
-                String solicitud[] = new String[9];
+                String solicitud[] = new String[11];
                 while (rs.next()) {
-                    solicitud[0] = rs.getString("Folio");
+                    solicitud[0] = rs.getString("concat(Folio,'-',Numero)");
                     solicitud[1] = rs.getString("Nombre");
                     solicitud[2] = rs.getString("Puesto");
                     solicitud[3] = rs.getString("Area");
@@ -443,7 +469,8 @@ public class PrincipalP extends javax.swing.JFrame {
                     solicitud[6] = rs.getString("Hora_Llegada");
                     solicitud[7] = rs.getString("Tipo_Horario");
                     solicitud[8] = rs.getString("Tipo_Asunto");
-                    //solicitud[9] = rs.getString("Estado");
+                    solicitud[9] = rs.getString("Asunto");
+                    solicitud[10] = rs.getString("Estado");
                     modelo.addRow(solicitud);
                 }
 
@@ -460,30 +487,60 @@ public class PrincipalP extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         // TODO add your handling code here:
-        tablapase.setModel(manager_pases.getTasolpa());
+        fechag=getfecha();
+        tablapase.setModel(manager_pases.getTasolpa(fechag));
+        //System.out.print(fechag);
     }//GEN-LAST:event_formWindowActivated
 
     private void NuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevaActionPerformed
         // TODO add your handling code here:
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            // If Nimbus is not available, you can set the GUI to another look and feel.
+        }
         addSolicitudPermisos asv = new addSolicitudPermisos(this, true);
         asv.setVisible(true);
     }//GEN-LAST:event_NuevaActionPerformed
 
     private void ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImprimirActionPerformed
         // TODO add your handling code here:
-        int fila = tablapase.getSelectedRow();;
-        limpiar = false;
-        String id = null;
-        try {
-
-            tablapase.clearSelection();
-            CrearPDF pdf = new CrearPDF();
-            if (fila >= 0) {
-                id = tablapase.getValueAt(fila, 0).toString();
-                pdf.generarPDFSolicitud(id);
+        int fila = tablapase.getSelectedRow();
+        CrearPaseSalida cps = new CrearPaseSalida();
+        if(fila >= 0){
+            if(tablapase.getValueAt(fila,11).toString().equals("Cancelada")){
+                javax.swing.JOptionPane.showMessageDialog(null, "No se puede imprimir porque esta cancelada");
+            }else{
+                try{
+                    String[] folio=tablapase.getValueAt(fila,0).toString().split("-");
+                    String nombreem=tablapase.getValueAt(fila,1).toString();  
+                    String puesto=tablapase.getValueAt(fila,2).toString();
+                    String area=tablapase.getValueAt(fila,3).toString();
+                    String idarea=manager_pases.getIdResponsableArea(area);
+                    String fecha=tablapase.getValueAt(fila,4).toString();
+                    String horaes=tablapase.getValueAt(fila,5).toString();
+                    String horall=tablapase.getValueAt(fila,6).toString();
+                    String horas=tablapase.getValueAt(fila,7).toString();
+                    String tipohorario=tablapase.getValueAt(fila,8).toString();
+                    String tipoasunto=tablapase.getValueAt(fila,9).toString();
+                    String asunto=tablapase.getValueAt(fila,10).toString();
+                    
+                    responarea=manager_pases.getNomResponsableArea(idarea);
+                    
+                    //javax.swing.JOptionPane.showMessageDialog(null,responarea);
+                            
+                    cps.createTicket(1,folio[0],folio[1],nombreem,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,responarea);
+                } catch (Exception ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error al imprimir");
+                    }
             }
-        } catch (Exception e) {
-
+        }else{
+             javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
         }
     }//GEN-LAST:event_ImprimirActionPerformed
 
@@ -494,6 +551,7 @@ public class PrincipalP extends javax.swing.JFrame {
             if(tablapase.getValueAt(k,8).toString().equals("Intermedio")){
                 //javax.swing.JOptionPane.showMessageDialog(null, "Si se puede");
                 String folio = tablapase.getValueAt(k, 0).toString();
+                String[] numfol=folio.split("-");
                 //javax.swing.JOptionPane.showMessageDialog(null,id);
             try {
                 Statement sentencia = cn.createStatement();
@@ -505,19 +563,21 @@ public class PrincipalP extends javax.swing.JFrame {
                     if (horallegada.split(":").length!=2) {
                         javax.swing.JOptionPane.showMessageDialog(null, "El Formato de horas debe ser 00:00, vuelva a intentarlo");
                     } else {
-                        sentencia.executeUpdate("UPDATE solicitud_pase SET Hora_Llegada = '" + horallegada + "' WHERE Folio = '" + folio + "';");
+                        sentencia.executeUpdate("UPDATE solicitud_pase SET Hora_Llegada = '" + horallegada + "' WHERE Folio = '" + numfol[0] + "' AND Numero = '" + numfol[1] + "' AND Año = '" + fechag + "';");
                         //javax.swing.JOptionPane.showMessageDialog(null, horallegada); 
                         javax.swing.JOptionPane.showMessageDialog(null, "Hora de llegada actualizada"); 
                     }
                 }
             } catch (SQLException ex) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Error en la actualización");
+            }catch (NullPointerException ex) {
+                //javax.swing.JOptionPane.showMessageDialog(null, "Error en la actualización");
             }
 
         } else {
                 javax.swing.JOptionPane.showMessageDialog(null, "No se puede actualizar hora de llegada");
         }
-            tablapase.setModel(manager_pases.getTasolpa());                
+            tablapase.setModel(manager_pases.getTasolpa(fechag));                
             }else{
                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");                
             }
@@ -528,9 +588,11 @@ public class PrincipalP extends javax.swing.JFrame {
         int k = tablapase.getSelectedRow();
         if (k >= 0) {
             String folio = tablapase.getValueAt(k, 0).toString();
+            String[] numfol=folio.split("-");
+            
                 try {
                     Statement sentencia = cn.createStatement();
-                    sentencia.executeUpdate("UPDATE solicitud_pase SET Estado = 'C' WHERE Folio = '" + folio + "';");
+                    sentencia.executeUpdate("UPDATE solicitud_pase SET Estado = 'Cancelada' WHERE Folio = '" + numfol[0] + "' AND Numero = '" + numfol[1] + "' AND Año = '" + fechag + "';");
                     javax.swing.JOptionPane.showMessageDialog(null, "Solicitud cancelada");
                 } catch (SQLException ex) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Error al cancelar");
@@ -538,9 +600,55 @@ public class PrincipalP extends javax.swing.JFrame {
         } else {
             javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
         }
-        tablapase.setModel(manager_pases.getTasolpa()); 
+        tablapase.setModel(manager_pases.getTasolpa(fechag)); 
     }//GEN-LAST:event_CancelarActionPerformed
 
+    private void ExportarExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarExcelActionPerformed
+        // TODO add your handling code here:
+        try{
+            //if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
+                Excel excel = new Excel();
+                excel.GuardarComo(tablapase);
+            //}else{
+                //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+                //tablapase.setModel(new DefaultTableModel());
+            //}
+        }catch(NullPointerException e){
+        
+        }
+    }//GEN-LAST:event_ExportarExcelActionPerformed
+
+    private void ConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarActionPerformed
+        // TODO add your handling code here:
+        int fila = tablapase.getSelectedRow();
+        if (fila >= 0) {
+             vsp = new visSolicitudPase();
+            String folio=tablapase.getValueAt(fila,0).toString();
+            String nombreem=tablapase.getValueAt(fila,1).toString();  
+            String puesto=tablapase.getValueAt(fila,2).toString();
+            String area=tablapase.getValueAt(fila,3).toString();
+            String fecha=tablapase.getValueAt(fila,4).toString();
+            String horaes=tablapase.getValueAt(fila,5).toString();
+            String horall=tablapase.getValueAt(fila,6).toString();
+            String horas=tablapase.getValueAt(fila,7).toString();
+            String tipohorario=tablapase.getValueAt(fila,8).toString();
+            String tipoasunto=tablapase.getValueAt(fila,9).toString();
+            String asunto=tablapase.getValueAt(fila,10).toString();
+            String estado=tablapase.getValueAt(fila,11).toString();
+            
+            vsp.recibeinfo(folio,nombreem,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,estado);
+            
+            vsp.setVisible(true); 
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        }
+    }//GEN-LAST:event_ConsultarActionPerformed
+        public static String getfecha(){
+        Date fecha=new Date(); 
+        SimpleDateFormat formatofecha=new SimpleDateFormat("dd-MM-yyyy");
+        String[] sepfe=formatofecha.format(fecha).split("-");
+        return sepfe[2];
+        }
     /**
      * @param args the command line arguments
      */
@@ -578,6 +686,8 @@ public class PrincipalP extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Cancelar;
+    private javax.swing.JMenuItem Consultar;
+    private javax.swing.JMenuItem ExportarExcel;
     private javax.swing.JMenuItem Hora_llegada;
     private javax.swing.JMenuItem Imprimir;
     private javax.swing.JPopupMenu MenuPases;
