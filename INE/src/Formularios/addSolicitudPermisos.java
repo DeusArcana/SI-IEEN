@@ -10,6 +10,7 @@ import Clases.ExceptionDatosIncompletos;
 import Clases.ManagerPases;
 import Clases.ManagerUsers;
 import Interfaces.PrincipalP;
+import com.toedter.calendar.JTextFieldDateEditor;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,7 +36,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
     
     String fechag="";
     
-    public int varidp;
+    public int varidp=0;
 
     /**
      * Creates new form addSolicitudPermisos
@@ -43,9 +44,11 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
     public addSolicitudPermisos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.setLocationRelativeTo(null);
         manager_users = new ManagerUsers();
         manager_pases = new ManagerPases();
+        JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) date_Salida.getDateEditor();
+        date_Salida_Editor.setEditable(false);
+        date_Salida.getJCalendar().setMinSelectableDate(new Date());
         
     }
 
@@ -90,6 +93,8 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         jLabel11 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         txt_Folio = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        date_Salida = new com.toedter.calendar.JDateChooser();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -105,46 +110,46 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Area:");
-        pn_addPermiso.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, -1, -1));
+        pn_addPermiso.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, -1, -1));
 
         txt_Puesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_Puesto.setEnabled(false);
-        pn_addPermiso.add(txt_Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 215, -1));
+        pn_addPermiso.add(txt_Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 185, 215, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Puesto:");
-        pn_addPermiso.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, -1, -1));
+        pn_addPermiso.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Asunto:");
-        pn_addPermiso.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, -1, -1));
+        pn_addPermiso.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 340, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Hora de E/S:");
-        pn_addPermiso.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, -1, -1));
+        pn_addPermiso.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Horas:");
-        pn_addPermiso.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 220, -1, -1));
+        pn_addPermiso.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 310, -1, -1));
 
         txt_Actividad.setColumns(20);
         txt_Actividad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_Actividad.setRows(5);
         jScrollPane1.setViewportView(txt_Actividad);
 
-        pn_addPermiso.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 530, 90));
+        pn_addPermiso.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 530, 90));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Folio:");
-        pn_addPermiso.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+        pn_addPermiso.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 50, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Nombre:");
-        pn_addPermiso.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, -1, -1));
+        pn_addPermiso.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("Por horario:");
-        pn_addPermiso.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
+        pn_addPermiso.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
 
         lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_addPermiso.add(lblAviso, new org.netbeans.lib.awtextra.AbsoluteConstraints(466, 228, 15, 233));
@@ -155,7 +160,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 comboAreaActionPerformed(evt);
             }
         });
-        pn_addPermiso.add(comboArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, -1, -1));
+        pn_addPermiso.add(comboArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 123, -1, -1));
 
         comboEmpleados.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         comboEmpleados.addActionListener(new java.awt.event.ActionListener() {
@@ -163,29 +168,27 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 comboEmpleadosActionPerformed(evt);
             }
         });
-        pn_addPermiso.add(comboEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, -1, -1));
+        pn_addPermiso.add(comboEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 153, -1, -1));
 
         btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
         btnAceptar.setText("Aceptar");
-        btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAceptarActionPerformed(evt);
             }
         });
-        pn_addPermiso.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 400, -1, -1));
+        pn_addPermiso.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 470, -1, -1));
 
         btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
-        btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
             }
         });
-        pn_addPermiso.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 400, -1, -1));
+        pn_addPermiso.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 470, -1, -1));
 
         comboHorario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "De Entrada", "Intermedio", "De Salida" }));
         comboHorario.addActionListener(new java.awt.event.ActionListener() {
@@ -193,46 +196,64 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 comboHorarioActionPerformed(evt);
             }
         });
-        pn_addPermiso.add(comboHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 160, -1));
+        pn_addPermiso.add(comboHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 83, -1, -1));
 
         comboAsunto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "Particular", "Oficial", "Médico" }));
-        pn_addPermiso.add(comboAsunto, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 60, 160, -1));
+        pn_addPermiso.add(comboAsunto, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 83, -1, -1));
 
         JSpinner.DateEditor de = new JSpinner.DateEditor(hora_e_s,"HH:mm");
         hora_e_s.setEditor(de);
-        pn_addPermiso.add(hora_e_s, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 180, -1, -1));
+        pn_addPermiso.add(hora_e_s, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 260, -1, -1));
 
         jlfec.setText(".");
         pn_addPermiso.add(jlfec, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, -1, -1));
 
         txt_hora_llegada.setEditable(false);
         txt_hora_llegada.setEnabled(false);
-        pn_addPermiso.add(txt_hora_llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 220, 90, -1));
+        pn_addPermiso.add(txt_hora_llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 300, 90, -1));
 
         txt_horas.setEditable(false);
         txt_horas.setText("00:00");
         txt_horas.setEnabled(false);
-        pn_addPermiso.add(txt_horas, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 220, 80, -1));
+        pn_addPermiso.add(txt_horas, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 300, 80, -1));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setText("Hora de llegada:");
-        pn_addPermiso.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, -1, -1));
+        pn_addPermiso.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 310, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("Por asunto:");
-        pn_addPermiso.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, -1, -1));
+        pn_addPermiso.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 90, -1, -1));
 
         txt_Folio.setEditable(false);
         txt_Folio.setEnabled(false);
-        pn_addPermiso.add(txt_Folio, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 120, -1));
+        pn_addPermiso.add(txt_Folio, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 40, 120, -1));
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
-        pn_addPermiso.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -10, 720, 540));
+        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel12.setText("Fecha de entrada:");
+        pn_addPermiso.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 230, -1, -1));
 
-        getContentPane().add(pn_addPermiso, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 520));
+        date_Salida.setDateFormatString("d-MM-yyyy");
+        date_Salida.setEnabled(false);
+        date_Salida.setFocusable(false);
+        pn_addPermiso.add(date_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 220, 215, -1));
+        date_Salida.getDateEditor().addPropertyChangeListener(
+            new java.beans.PropertyChangeListener() {
+                @Override
+                public void propertyChange(java.beans.PropertyChangeEvent e) {
+                    if(e.getPropertyName().equals("date")) {
+                        date_Salida.getJCalendar().setMinSelectableDate(date_Salida.getDate());
+                    }
+                }
+            });
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+            jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
+            pn_addPermiso.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+            getContentPane().add(pn_addPermiso, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 700, 520));
+
+            pack();
+        }// </editor-fold>//GEN-END:initComponents
 
     private void comboEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpleadosActionPerformed
         // TODO add your handling code here:
@@ -246,26 +267,36 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
     }//GEN-LAST:event_comboEmpleadosActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        
-        SimpleDateFormat format=new SimpleDateFormat("h:mm a");
+        try{
+        SimpleDateFormat format=new SimpleDateFormat("HH:mm");
         String area=comboArea.getSelectedItem().toString();
-        String folio=txt_Folio.getText();
+        String[] foliocom=txt_Folio.getText().split("-");
+        String folio=foliocom[0];
+        String numero=foliocom[1];
+        String[] año=fechag.split("-");
         String empleado=comboEmpleados.getSelectedItem().toString();
         String puesto=txt_Puesto.getText();
-        String fecha=fechag;
+        String fecha="";
         String horaes=format.format((Date)hora_e_s.getValue());
         String horall="";
         String horas="";
-        String estado="A";
+        String estado="Aceptada";
         int h = comboHorario.getSelectedIndex();
+        if(h==1){
+                SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy");
+                fecha=sdf.format(date_Salida.getDate().getTime());
+        }else{
+            fecha=fechag;
+        }
+        
         if(h==2){
-            horall="";
+            horall="";   
             horas=txt_horas.getText();
-            
         }else{
             horall="";
             horas="";
         }
+        
         String tipohorario=comboHorario.getSelectedItem().toString();
         String tipoasunto=comboAsunto.getSelectedItem().toString();
         String asunto=txt_Actividad.getText();
@@ -274,13 +305,16 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 validarDatos(true,"");
 
                 //inserta solicitud
-                insertar_Solicitud(folio,empleado,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,estado);
+                insertar_Solicitud(folio,numero,año[2],empleado,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,estado);
                 //JOptionPane.showMessageDialog(this,area+"\n"+empleado+"\n"+puesto+"\n"+fecha+"\n"+horaes+"\n"+horall+"\n"+tipohorario+"\n"+tipoasunto+"\n"+asunto);
                 //insertar_Solicitud(0);
 
             }catch(ExceptionDatosIncompletos e){
                 if(verificar_excepcion)JOptionPane.showMessageDialog(this, e.getMessage());
                 return;
+            }
+        }catch (NullPointerException ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error! No se ha seleccionado nada");
             }
         
         //SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
@@ -301,14 +335,14 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             comboEmpleados.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
             comboEmpleados.addItem("Seleccione empleado...");
             manager_pases.getNombresEmpleadosArea(area,comboEmpleados);
-            if(varidp<=8){
-                folio="00"+(varidp+1);
+            if(maxidpa()<=8){
+                folio="00"+(maxidpa()+1);
             }
-            if(varidp>=9 && varidp<=98){
-                folio="0"+(varidp+1);
+            if(maxidpa()>=9 && maxidpa()<=98){
+                folio="0"+(maxidpa()+1);
             }
-            if(varidp>=99){
-                folio=(varidp+1)+"";
+            if(maxidpa()>=99){
+                folio=(maxidpa()+1)+"";
             }
             txt_Folio.setText(manager_pases.getAreaSiglas(area)+"-"+folio);
             
@@ -326,16 +360,24 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         manager_pases.getArea(comboArea);
         fechag=getfecha();
         fechacompleta();
-        System.out.print(maxidpa());
+        //System.out.print(maxidpa());
+        
+        //System.out.print(fecha_Entrada);
     }//GEN-LAST:event_formWindowOpened
 
     private void comboHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboHorarioActionPerformed
         // TODO add your handling code here:
         int h = comboHorario.getSelectedIndex();
+        if(h==1){
+           date_Salida.setEnabled(true); 
+        }else{
+            date_Salida.setEnabled(false);
+        }
         if(h==2){
             txt_hora_llegada.setEnabled(true);
             txt_horas.setEnabled(true);
             //txt_hora_llegada.setEditable(true);
+            //txt_horas.setText("00:00");
             txt_horas.setEditable(true);
             
         }else{
@@ -343,22 +385,20 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             txt_horas.setEnabled(false);
             txt_hora_llegada.setEditable(false);
             txt_horas.setEditable(false);
+            //txt_horas.setText("");
             
         }
     }//GEN-LAST:event_comboHorarioActionPerformed
 
     public static String getfecha(){
         Date fecha=new Date();
-        SimpleDateFormat formatofecha=new SimpleDateFormat("yyyy-MM-dd");
-        
+        SimpleDateFormat formatofecha=new SimpleDateFormat("dd-MM-yyyy");
         return formatofecha.format(fecha);
     }
     public void fechacompleta(){
-        String separar=fechag;
+        String[] separar=fechag.split("-");
         String mes="";
-        String[] part=separar.split("-");
-        String[] part3=part[1].split("");
-        int n=Integer.parseInt(part[1]);
+        int n=Integer.parseInt(separar[1]);
         switch(n){
             case 1:
                 mes="Enero";
@@ -398,21 +438,21 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 break;
                 
         }
-        jlfec.setText("Tepic, Nayarit a "+part[2]+" de "+mes+" del "+part[0]);
+        jlfec.setText("Tepic, Nayarit a "+separar[0]+" de "+mes+" del "+separar[2]);
     }
     
-    public void insertar_Solicitud(String folio,String nombre,String puesto,String area,String fecha,String horaes,String horall,String horas,String tipohorario,String tipoasunto,String asunto,String estado){
+    public void insertar_Solicitud(String folio,String numero,String año,String nombre,String puesto,String area,String fecha,String horaes,String horall,String horas,String tipohorario,String tipoasunto,String asunto,String estado){
         try{
             Conexion conexion=new Conexion();
             //conexion.getConexion();
             //Inserción de solicitud
             conexion.getConexion();
             
-            boolean insersion = conexion.ejecutar("INSERT INTO solicitud_pase (Folio,Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado) VALUES('"+folio+"','"+nombre+"','"+puesto+"','"+area+"','"+fecha+"','"+horaes+"','"+horall+"','"+horas+"','"+tipohorario+"','"+tipoasunto+"','"+asunto+"','"+estado+"')");
+            boolean insersion = conexion.ejecutar("INSERT INTO solicitud_pase (Folio,Numero,Año,Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado) VALUES('"+folio+"','"+numero+"','"+año+"','"+nombre+"','"+puesto+"','"+area+"','"+fecha+"','"+horaes+"','"+horall+"','"+horas+"','"+tipohorario+"','"+tipoasunto+"','"+asunto+"','"+estado+"')");
             
             if(insersion){
                 JOptionPane.showMessageDialog(this, "Insersión correcta");
-                PrincipalP.tablapase.setModel(manager_pases.getTasolpa());
+                PrincipalP.tablapase.setModel(manager_pases.getTasolpa(año));
                 this.setVisible(false);
             }else{
                 JOptionPane.showMessageDialog(this, "Error al insertar");
@@ -481,6 +521,15 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 cad+="\n-No se ha insertado el puesto del empleado, escriba el nombre del empleado y vuelva a intentarlo";
             }
         }
+        if(txt_Folio.getText().equals("")){
+            if(cad.equals("")){
+                cad+="-No se ha insertado el folio, vuelva a intentarlo";
+            }
+            else{
+                cad+="\n-No se ha insertado el folio, vuelva a intentarlo";
+            }
+        }
+        
         if(!cad.equals("")){
             throw new ExceptionDatosIncompletos(cad);
         }else{
@@ -489,21 +538,32 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
     }
     
     public int maxidpa(){
-        String sql="Select max(idSolicitud) from solicitud_pase";
+        int a=comboArea.getSelectedIndex();
+        //String ar=comboArea.getSelectedItem().toString();
+        String[] año=fechag.split("-");
+        String sql="";
+        if(a>0){
+            String ar=comboArea.getSelectedItem().toString();
+            sql="Select max(Numero) from solicitud_pase where Area = '"+ar+"' AND Año = '" + año[2] + "';";            
+        }     
+        //String area="Unidad Técnica de Informática y Estadística";
+        //String sql="Select max(Numero) from solicitud_pase where Area = '"+area+"';";
         int datos[]=new int[1];
+        int max=0; 
         try{
             Statement st=cn.createStatement();
             ResultSet rs=st.executeQuery(sql);
             while(rs.next()){
                 
-              varidp=rs.getInt("max(idSolicitud)");
+             //varidp=rs.getInt("max(Numero)");
+             max=rs.getInt("max(Numero)");
             //datos[0]=rs.getString("max(idDatos)");
             //varidp=datos;
         }
     }catch(SQLException ex){
-           javax.swing.JOptionPane.showMessageDialog(null, "Error"); 
+           javax.swing.JOptionPane.showMessageDialog(null, "Error!!"); 
         }
-        return varidp;
+        return max;
     }
     
     private boolean verificar_excepcion=true;
@@ -518,7 +578,22 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(addSolicitudPermisos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(addSolicitudPermisos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(addSolicitudPermisos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(addSolicitudPermisos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
         //</editor-fold>
 
         /* Create and display the dialog */
@@ -543,10 +618,12 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> comboAsunto;
     private javax.swing.JComboBox<String> comboEmpleados;
     private javax.swing.JComboBox<String> comboHorario;
+    private com.toedter.calendar.JDateChooser date_Salida;
     private javax.swing.JSpinner hora_e_s;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

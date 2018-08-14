@@ -29,7 +29,7 @@ public class ManagerPases {
         modelo = new DefaultTableModel();
     }
     
-    public DefaultTableModel getTasolpa() {
+    public DefaultTableModel getTasolpa(String año) {
 
         DefaultTableModel tapa = new DefaultTableModel();
         //tapa.addColumn("idSolicitud");
@@ -43,13 +43,13 @@ public class ManagerPases {
         tapa.addColumn("Horas");
         tapa.addColumn("Tipo_Horario");
         tapa.addColumn("Tipo_Asunto");
-        //tapa.addColumn("Asunto");
-        //tapa.addColumn("Estado");
+        tapa.addColumn("Asunto");
+        tapa.addColumn("Estado");
 
         try {
             
             //Consulta de los empleados
-            String sql = "select Folio,Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto from solicitud_pase Where Estado = 'A' order by idSolicitud DESC";
+            String sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado from solicitud_pase where Año = '"+ año +"' order by Numero DESC";
             //String sql="select * from solicitud_viatico";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
@@ -110,6 +110,48 @@ public class ManagerPases {
             return abre;
         } catch (SQLException ex) {
             System.out.printf("Error al obtener las siglas de la area SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        } 
+        
+    }//Obtiene todas las areas de trabajo
+    
+    public String getIdResponsableArea(String idresarea) {
+        try{
+           
+            String sql = "select Responsable from Area where Area = '"+idresarea+"';";
+            //String sql = "select nombres from Empleados where id_empleado = '"+res+"';";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            String abre = rs.getString(1);
+            
+            conexion.close();
+            return abre;
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener ID del responsable de la area SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        } 
+        
+    }//Obtiene id_empleado de responsable del area
+    
+    public String getNomResponsableArea(String nomresarea) {
+        try{
+           
+            String sql = "select concat(nombres,' ',apellido_p,' ',apellido_m) from Empleados where id_empleado = '"+nomresarea+"';";
+            //String sql = "select nombres from Empleados where id_empleado = '"+res+"';";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            String abre = rs.getString(1);
+            
+            conexion.close();
+            return abre;
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener Nombre del responsable de la area SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
             return "";
         } 
