@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 import Clases.ManagerSoViaticos;
 import Clases.CrearPDF;
+import Clases.ManagerPermisos;
 import Formularios.addSolicitudVehiculo;
 
 import Formularios.addSolicitudViaticos;
@@ -45,6 +46,7 @@ public class PrincipalS extends javax.swing.JFrame {
     Conexion cbd = new Conexion();
     Connection cn = cbd.getConexion();
     ManagerSoViaticos manager_soviaticos;
+    ManagerPermisos manager_permisos;
     visSolicitudViaticos s;
     DefaultTableModel modelo;
     CrearPDF pdf = new CrearPDF();
@@ -65,6 +67,7 @@ public class PrincipalS extends javax.swing.JFrame {
         tabloncanceladas.getTableHeader().setReorderingAllowed(false);
         tablonarchivadas.getTableHeader().setReorderingAllowed(false);
         manager_soviaticos = new ManagerSoViaticos();
+        manager_permisos=new ManagerPermisos();
         c = 0;
     }
 
@@ -1153,14 +1156,20 @@ public class PrincipalS extends javax.swing.JFrame {
         txtobveh.enable(false);
         btnregresar.setVisible(false);
         //btnguardar.setVisible(false);
-        tablasolic.setModel(manager_soviaticos.getTasol());
-        tablasolicvehiculo.setModel(manager_soviaticos.getTasolVehiculo());
-        tablonpendientes.setModel(manager_soviaticos.SolicitudP());
-        tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
-        tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
-        tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
-        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
-        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+        if (manager_permisos.accesoModulo("consulta", "Solicitud Viaticos", Principal.Username)) {
+            tablasolic.setModel(manager_soviaticos.getTasol());
+            tablasolicvehiculo.setModel(manager_soviaticos.getTasolVehiculo());
+        }
+        if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
+            tablonpendientes.setModel(manager_soviaticos.SolicitudP());
+            tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
+            tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
+            tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
+        }
+        if (manager_permisos.accesoModulo("consulta", "Informe", Principal.Username)) {
+            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+            SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+        }
     }//GEN-LAST:event_formWindowActivated
 
     private void btnAddInventario2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddInventario2ActionPerformed
@@ -1197,14 +1206,20 @@ public class PrincipalS extends javax.swing.JFrame {
         txtobveh.enable(false);
         btnregresar.setVisible(false);
         btnguardar.setVisible(false);
-        tablasolic.setModel(manager_soviaticos.getTasol());
-        tablasolicvehiculo.setModel(manager_soviaticos.getTasolVehiculo());
-        tablonpendientes.setModel(manager_soviaticos.SolicitudP());
-        tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
-        tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
-        tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
-        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
-        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+        if (manager_permisos.accesoModulo("consulta", "Solicitud Viaticos", Principal.Username)) {
+            tablasolic.setModel(manager_soviaticos.getTasol());
+            tablasolicvehiculo.setModel(manager_soviaticos.getTasolVehiculo());
+        }
+        if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
+            tablonpendientes.setModel(manager_soviaticos.SolicitudP());
+            tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
+            tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
+            tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
+        }
+        if (manager_permisos.accesoModulo("consulta", "Informe", Principal.Username)) {
+            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+            SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+        }
     }//GEN-LAST:event_formWindowOpened
 
     private void mi_inventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_inventarioActionPerformed
@@ -1219,404 +1234,459 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void Impri_SolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Impri_SolActionPerformed
         // TODO add your handling code here:
-        int fila = tablasolicvehiculo.getSelectedRow();
-        limpiar = false;
-        String id = null;
-        try {
+        if (manager_permisos.accesoModulo("consulta", "Solicitud Viaticos", Principal.Username)) {
+            int fila = tablasolicvehiculo.getSelectedRow();
+            limpiar = false;
+            String id = null;
+            try {
 
-            tablasolicvehiculo.clearSelection();
-            CrearPDF pdf = new CrearPDF();
-            if (fila >= 0) {
-                id = tablasolicvehiculo.getValueAt(fila, 0).toString();
-                pdf.generarPDFSolicitud(id);
+                tablasolicvehiculo.clearSelection();
+                CrearPDF pdf = new CrearPDF();
+                if (fila >= 0) {
+                    id = tablasolicvehiculo.getValueAt(fila, 0).toString();
+                    pdf.generarPDFSolicitud(id);
+                }
+            } catch (Exception e) {
+
             }
-        } catch (Exception e) {
-
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para imprimir solicitudes de viáticos.");
         }
     }//GEN-LAST:event_Impri_SolActionPerformed
 
     private void ConsultarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarPActionPerformed
         // TODO add your handling code here:
-        if (c == 0) {
-            c = 1;
-        } else {
-            s.setVisible(false);
-            c = 1;
-        }
-        int k = tablonpendientes.getSelectedRow();
-        if (k >= 0) {
-            int id = Integer.parseInt(tablonpendientes.getValueAt(k, 0).toString());
-            s = new visSolicitudViaticos();
-            s.IdUsuario(id, 0, 0);
-            s.setVisible(true);
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
+            if (c == 0) {
+                c = 1;
+            } else {
+                s.setVisible(false);
+                c = 1;
+            }
+            int k = tablonpendientes.getSelectedRow();
+            if (k >= 0) {
+                int id = Integer.parseInt(tablonpendientes.getValueAt(k, 0).toString());
+                s = new visSolicitudViaticos();
+                s.IdUsuario(id, 0, 0);
+                s.setVisible(true);
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para consultar las solicitudes.");
         }
     }//GEN-LAST:event_ConsultarPActionPerformed
 
     private void ConsultarAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarAActionPerformed
         // TODO add your handling code here:
-        if (c == 0) {
-            c = 1;
-        } else {
-            s.setVisible(false);
-            c = 1;
-        }
-        int i = tablonaceptadas.getSelectedRow();
-        if (i >= 0) {
-            String folio = tablonaceptadas.getValueAt(i, 0).toString();
-            String idSolicitud = "";
-            try {
-                Statement sentencia = cn.createStatement();
-                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
-                rs.next();
-                idSolicitud = rs.getString("Solicitud_idSolicitud");
-
-                s = new visSolicitudViaticos();
-                s.IdUsuario(Integer.parseInt(idSolicitud), 1, 1);
-            } catch (SQLException ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
-
+        if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
+            if (c == 0) {
+                c = 1;
+            } else {
+                s.setVisible(false);
+                c = 1;
             }
-            /*catch (ClassNotFoundException e) {
-             e.printStackTrace();
-             }//fin del catch*/
+            int i = tablonaceptadas.getSelectedRow();
+            if (i >= 0) {
+                String folio = tablonaceptadas.getValueAt(i, 0).toString();
+                String idSolicitud = "";
+                try {
+                    Statement sentencia = cn.createStatement();
+                    ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
+                    rs.next();
+                    idSolicitud = rs.getString("Solicitud_idSolicitud");
 
-            s.setVisible(true);
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+                    s = new visSolicitudViaticos();
+                    s.IdUsuario(Integer.parseInt(idSolicitud), 1, 1);
+                } catch (SQLException ex) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+
+                }
+                /*catch (ClassNotFoundException e) {
+                 e.printStackTrace();
+                 }//fin del catch*/
+
+                s.setVisible(true);
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para consultar las solicitudes.");
         }
     }//GEN-LAST:event_ConsultarAActionPerformed
 
     private void ConsultarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarCActionPerformed
         // TODO add your handling code here:
-        if (c == 0) {
-            c = 1;
-        } else {
-            s.setVisible(false);
-            c = 1;
-        }
-        int k = tabloncanceladas.getSelectedRow();
-        if (k >= 0) {
-            int id = Integer.parseInt(tabloncanceladas.getValueAt(k, 0).toString());
-            s = new visSolicitudViaticos();
-            s.IdUsuario(id, 0, 2);
-            s.setVisible(true);
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
+            if (c == 0) {
+                c = 1;
+            } else {
+                s.setVisible(false);
+                c = 1;
+            }
+            int k = tabloncanceladas.getSelectedRow();
+            if (k >= 0) {
+                int id = Integer.parseInt(tabloncanceladas.getValueAt(k, 0).toString());
+                s = new visSolicitudViaticos();
+                s.IdUsuario(id, 0, 2);
+                s.setVisible(true);
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para consultar las solicitudes.");
         }
     }//GEN-LAST:event_ConsultarCActionPerformed
 
     private void OficioComisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OficioComisionActionPerformed
         // TODO add your handling code here:
-        int i = tablonaceptadas.getSelectedRow();
-        if (i >= 0) {
-            String folio = tablonaceptadas.getValueAt(i, 0).toString();
-            try {
-                pdf.oficio_comision(folio);
-            } catch (DocumentException ex) {
-                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+        if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
+            int i = tablonaceptadas.getSelectedRow();
+            if (i >= 0) {
+                String folio = tablonaceptadas.getValueAt(i, 0).toString();
+                try {
+                    pdf.oficio_comision(folio);
+                } catch (DocumentException ex) {
+                    Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para imprimir las solicitudes.");
         }
     }//GEN-LAST:event_OficioComisionActionPerformed
 
     private void AsignarMontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AsignarMontoActionPerformed
         // TODO add your handling code here:
-        int k = tablonaceptadas.getSelectedRow();
-        if (k >= 0) {
-            String folio = tablonaceptadas.getValueAt(k, 0).toString();
-            String idSolicitud = "";
-            try {
+        if (manager_permisos.accesoModulo("actualizar", "Tablon Solicitudes", Principal.Username)) {
+            int k = tablonaceptadas.getSelectedRow();
+            if (k >= 0) {
+                String folio = tablonaceptadas.getValueAt(k, 0).toString();
+                String idSolicitud = "";
+                try {
 
-                Statement sentencia = cn.createStatement();
-                String valor = javax.swing.JOptionPane.showInputDialog("Asignar monto");
+                    Statement sentencia = cn.createStatement();
+                    String valor = javax.swing.JOptionPane.showInputDialog("Asignar monto");
 
-                if (valor == null) {
+                    if (valor == null) {
 
-                } else {
-                    float monto = Float.parseFloat(valor);
-                    if (monto < 0) {
-                        javax.swing.JOptionPane.showMessageDialog(null, "Monto no valido");
                     } else {
-                        sentencia.executeUpdate("UPDATE Oficio_comision SET Monto = " + monto + "WHERE(Folio =" + folio + ")");
-                        //sentencia.executeUpdate("UPDATE solicitud_viatico SET Estado = 'C' WHERE (idSolicitud = '" + id + "')");
-                        javax.swing.JOptionPane.showMessageDialog(null, "Monto Asignado");
-                        ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
-                        while (rs.next()) {
-                            idSolicitud = rs.getString("Solicitud_idSolicitud");
+                        float monto = Float.parseFloat(valor);
+                        if (monto < 0) {
+                            javax.swing.JOptionPane.showMessageDialog(null, "Monto no valido");
+                        } else {
+                            sentencia.executeUpdate("UPDATE Oficio_comision SET Monto = " + monto + "WHERE(Folio =" + folio + ")");
+                            //sentencia.executeUpdate("UPDATE solicitud_viatico SET Estado = 'C' WHERE (idSolicitud = '" + id + "')");
+                            javax.swing.JOptionPane.showMessageDialog(null, "Monto Asignado");
+                            ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
+                            while (rs.next()) {
+                                idSolicitud = rs.getString("Solicitud_idSolicitud");
+                            }
+                            sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'AR', gastos_comprobar = 'false' WHERE (idSolicitud = " + idSolicitud + ")");
+                            javax.swing.JOptionPane.showMessageDialog(null, "Solicitud archivada");
                         }
-                        sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'AR', gastos_comprobar = 'false' WHERE (idSolicitud = " + idSolicitud + ")");
-                        javax.swing.JOptionPane.showMessageDialog(null, "Solicitud archivada");
                     }
-                }
-            } catch (SQLException ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+                } catch (SQLException ex) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
-            } catch (NumberFormatException exp) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Ingresar solo números");
-            }//fin del catch
+                } catch (NumberFormatException exp) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Ingresar solo números");
+                }//fin del catch
 
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            }
+            tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
+            tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
+            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para modificar el monto.");
         }
-        tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
-        tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
-        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
     }//GEN-LAST:event_AsignarMontoActionPerformed
 
     private void AceptarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarPActionPerformed
         // TODO add your handling code here:
-        int k = tablonpendientes.getSelectedRow();
-        if (k >= 0) {
-            int id = Integer.parseInt(tablonpendientes.getValueAt(k, 0).toString());
-            Calendar calendar = Calendar.getInstance();
-            try {
-                String total = "";
-                Statement sentencia = cn.createStatement();
-                ResultSet rs0 = sentencia.executeQuery("SELECT COUNT(*) as Folio FROM Oficio_comision");
-                while (rs0.next()) {
-                    total = rs0.getString("Folio");
-                }
-                int total1 = Integer.parseInt(total);
-                int folio = 0;
-                String valor = "";
-                if (total1 != 0) {
-                    ResultSet rs = sentencia.executeQuery("SELECT MAX(Folio) AS Folio FROM Oficio_comision");
-                    while (rs.next()) {
-                        valor = rs.getString("Folio");
+        if (manager_permisos.accesoModulo("actualizar", "Tablon Solicitudes", Principal.Username)) {
+            int k = tablonpendientes.getSelectedRow();
+            if (k >= 0) {
+                int id = Integer.parseInt(tablonpendientes.getValueAt(k, 0).toString());
+                Calendar calendar = Calendar.getInstance();
+                try {
+                    String total = "";
+                    Statement sentencia = cn.createStatement();
+                    ResultSet rs0 = sentencia.executeQuery("SELECT COUNT(*) as Folio FROM Oficio_comision");
+                    while (rs0.next()) {
+                        total = rs0.getString("Folio");
                     }
-                    int an = Integer.parseInt(valor.substring(0, 4));
-                    if (an == calendar.get(Calendar.YEAR)) {
-                        valor = valor.substring(4);
-                        folio = Integer.parseInt(valor) + 1;
-                        valor = an + "" + folio;
-                        folio = Integer.parseInt(valor);
+                    int total1 = Integer.parseInt(total);
+                    int folio = 0;
+                    String valor = "";
+                    if (total1 != 0) {
+                        ResultSet rs = sentencia.executeQuery("SELECT MAX(Folio) AS Folio FROM Oficio_comision");
+                        while (rs.next()) {
+                            valor = rs.getString("Folio");
+                        }
+                        int an = Integer.parseInt(valor.substring(0, 4));
+                        if (an == calendar.get(Calendar.YEAR)) {
+                            valor = valor.substring(4);
+                            folio = Integer.parseInt(valor) + 1;
+                            valor = an + "" + folio;
+                            folio = Integer.parseInt(valor);
+                        } else {
+                            valor = calendar.get(Calendar.YEAR) + "1";
+                            folio = Integer.parseInt(valor);
+                        }
                     } else {
                         valor = calendar.get(Calendar.YEAR) + "1";
                         folio = Integer.parseInt(valor);
                     }
-                } else {
-                    valor = calendar.get(Calendar.YEAR) + "1";
-                    folio = Integer.parseInt(valor);
-                }
-                String estadolocalidad = "";
-                String nombre = "";
-                String fecha_salida = "";
-                String fecha_llegada = "";
-                ResultSet rs1 = sentencia.executeQuery("SELECT Fecha_salida,Lugar,Nombre,Fecha_llegada FROM Solicitud_viatico WHERE (idSolicitud = '" + id + "')");
-                while (rs1.next()) {
-                    fecha_salida = rs1.getString("Fecha_salida");
-                    estadolocalidad = rs1.getString("Lugar");
-                    nombre = rs1.getString("Nombre");
-                    fecha_llegada = rs1.getString("Fecha_llegada");
-                }
-                final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000; //Milisegundos al día 
-                int año = Integer.parseInt(fecha_salida.substring(0, 4));
-                int mes = Integer.parseInt(fecha_salida.substring(5, 7));
-                int dia = Integer.parseInt(fecha_salida.substring(8, 10));
-                Calendar calendar2 = new GregorianCalendar(año, mes - 1, dia);
-                java.sql.Date fecha_s = new java.sql.Date(calendar2.getTimeInMillis());
-                año = Integer.parseInt(fecha_llegada.substring(0, 4));
-                mes = Integer.parseInt(fecha_llegada.substring(5, 7));
-                dia = Integer.parseInt(fecha_llegada.substring(8, 10));
-                Calendar calendar3 = new GregorianCalendar(año, mes - 1, dia);
-                java.sql.Date fecha_ll = new java.sql.Date(calendar3.getTimeInMillis());
-                long dias = (fecha_ll.getTime() - fecha_s.getTime()) / MILLSECS_PER_DAY;
-                String et[] = new String[2];
-                et = estadolocalidad.split(",");
-                String empleado[] = new String[4];
-                empleado = nombre.split(" ");
-                //String nombres = empleado[0] + " " + empleado[1];
-                String puesto = "";
-                ResultSet rs2 = sentencia.executeQuery("SELECT puesto FROM Empleados E WHERE concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) =  '"+nombre+"'");
-                while (rs2.next()) {
-                    puesto = rs2.getString("puesto");
-                }
-                String tarifa = "";
-                float tarif = 0;
-                if (et[0].equals("Nayarit")) {
-                    if (et[1].equals("Bahía de Banderas")) {
-                        if (dias == 0) {
-                            ResultSet rs3 = sentencia.executeQuery("SELECT SinPernoctarBDB FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
-                            while (rs3.next()) {
-                                tarifa = rs3.getString("SinPernoctarBDB");
+                    String estadolocalidad = "";
+                    String nombre = "";
+                    String fecha_salida = "";
+                    String fecha_llegada = "";
+                    ResultSet rs1 = sentencia.executeQuery("SELECT Fecha_salida,Lugar,Nombre,Fecha_llegada FROM Solicitud_viatico WHERE (idSolicitud = '" + id + "')");
+                    while (rs1.next()) {
+                        fecha_salida = rs1.getString("Fecha_salida");
+                        estadolocalidad = rs1.getString("Lugar");
+                        nombre = rs1.getString("Nombre");
+                        fecha_llegada = rs1.getString("Fecha_llegada");
+                    }
+                    final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000; //Milisegundos al día 
+                    int año = Integer.parseInt(fecha_salida.substring(0, 4));
+                    int mes = Integer.parseInt(fecha_salida.substring(5, 7));
+                    int dia = Integer.parseInt(fecha_salida.substring(8, 10));
+                    Calendar calendar2 = new GregorianCalendar(año, mes - 1, dia);
+                    java.sql.Date fecha_s = new java.sql.Date(calendar2.getTimeInMillis());
+                    año = Integer.parseInt(fecha_llegada.substring(0, 4));
+                    mes = Integer.parseInt(fecha_llegada.substring(5, 7));
+                    dia = Integer.parseInt(fecha_llegada.substring(8, 10));
+                    Calendar calendar3 = new GregorianCalendar(año, mes - 1, dia);
+                    java.sql.Date fecha_ll = new java.sql.Date(calendar3.getTimeInMillis());
+                    long dias = (fecha_ll.getTime() - fecha_s.getTime()) / MILLSECS_PER_DAY;
+                    String et[] = new String[2];
+                    et = estadolocalidad.split(",");
+                    String empleado[] = new String[4];
+                    empleado = nombre.split(" ");
+                    //String nombres = empleado[0] + " " + empleado[1];
+                    String puesto = "";
+                    ResultSet rs2 = sentencia.executeQuery("SELECT puesto FROM Empleados E WHERE concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) =  '"+nombre+"'");
+                    while (rs2.next()) {
+                        puesto = rs2.getString("puesto");
+                    }
+                    String tarifa = "";
+                    float tarif = 0;
+                    if (et[0].equals("Nayarit")) {
+                        if (et[1].equals("Bahía de Banderas")) {
+                            if (dias == 0) {
+                                ResultSet rs3 = sentencia.executeQuery("SELECT SinPernoctarBDB FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                                while (rs3.next()) {
+                                    tarifa = rs3.getString("SinPernoctarBDB");
+                                }
+                            } else {
+                                ResultSet rs3 = sentencia.executeQuery("SELECT PernoctandoBDB FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                                while (rs3.next()) {
+                                    tarifa = rs3.getString("PernoctandoBDB");
+                                }
+                                tarif = Float.parseFloat(tarifa);
+                                tarif = (tarif * dias) + tarif;
+                                tarifa = tarif + "";
                             }
                         } else {
-                            ResultSet rs3 = sentencia.executeQuery("SELECT PernoctandoBDB FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                            if (et[1].equals("Tepic") || et[1].equals("Xalisco")) {
+                                tarifa = "0.00";
+                            } else {
+                                if (et[1].equals("Acaponeta") || et[1].equals("Amatlán de Cañas") || et[1].equals("El Nayar") || et[1].equals("Huajicori") || et[1].equals("La Yesca") || et[1].equals("Tecuala")) {
+                                    if (dias == 0) {
+                                        ResultSet rs3 = sentencia.executeQuery("SELECT  SinPernoctar100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                                        while (rs3.next()) {
+                                            tarifa = rs3.getString("SinPernoctar100");
+                                        }
+                                    } else {
+                                        ResultSet rs3 = sentencia.executeQuery("SELECT Pernoctando100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                                        while (rs3.next()) {
+                                            tarifa = rs3.getString("Pernoctando100");
+                                        }
+                                        tarif = Float.parseFloat(tarifa);
+                                        tarif = (tarif * dias) + tarif;
+                                        tarifa = tarif + "";
+                                    }
+                                } else {
+                                    if (dias == 0) {
+                                        ResultSet rs3 = sentencia.executeQuery("SELECT  SinPernoctar30100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                                        while (rs3.next()) {
+                                            tarifa = rs3.getString("SinPernoctar30100");
+                                        }
+                                    } else {
+                                        ResultSet rs3 = sentencia.executeQuery("SELECT Pernoctando30100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                                        while (rs3.next()) {
+                                            tarifa = rs3.getString("Pernoctando30100");
+                                        }
+                                        tarif = Float.parseFloat(tarifa);
+                                        tarif = (tarif * dias) + tarif;
+                                        tarifa = tarif + "";
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        if (dias == 0) {
+                            ResultSet rs3 = sentencia.executeQuery("SELECT SinPernoctarFDE FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
                             while (rs3.next()) {
-                                tarifa = rs3.getString("PernoctandoBDB");
+                                tarifa = rs3.getString("SinPernoctarFDE");
+                            }
+                        } else {
+                            ResultSet rs3 = sentencia.executeQuery("SELECT PernoctandoFDE FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                            while (rs3.next()) {
+                                tarifa = rs3.getString("PernoctandoFDE");
                             }
                             tarif = Float.parseFloat(tarifa);
                             tarif = (tarif * dias) + tarif;
                             tarifa = tarif + "";
                         }
-                    } else {
-                        if (et[1].equals("Tepic") || et[1].equals("Xalisco")) {
-                            tarifa = "0.00";
-                        } else {
-                            if (et[1].equals("Acaponeta") || et[1].equals("Amatlán de Cañas") || et[1].equals("El Nayar") || et[1].equals("Huajicori") || et[1].equals("La Yesca") || et[1].equals("Tecuala")) {
-                                if (dias == 0) {
-                                    ResultSet rs3 = sentencia.executeQuery("SELECT  SinPernoctar100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
-                                    while (rs3.next()) {
-                                        tarifa = rs3.getString("SinPernoctar100");
-                                    }
-                                } else {
-                                    ResultSet rs3 = sentencia.executeQuery("SELECT Pernoctando100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
-                                    while (rs3.next()) {
-                                        tarifa = rs3.getString("Pernoctando100");
-                                    }
-                                    tarif = Float.parseFloat(tarifa);
-                                    tarif = (tarif * dias) + tarif;
-                                    tarifa = tarif + "";
-                                }
-                            } else {
-                                if (dias == 0) {
-                                    ResultSet rs3 = sentencia.executeQuery("SELECT  SinPernoctar30100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
-                                    while (rs3.next()) {
-                                        tarifa = rs3.getString("SinPernoctar30100");
-                                    }
-                                } else {
-                                    ResultSet rs3 = sentencia.executeQuery("SELECT Pernoctando30100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
-                                    while (rs3.next()) {
-                                        tarifa = rs3.getString("Pernoctando30100");
-                                    }
-                                    tarif = Float.parseFloat(tarifa);
-                                    tarif = (tarif * dias) + tarif;
-                                    tarifa = tarif + "";
-                                }
-                            }
-                        }
                     }
-                } else {
-                    if (dias == 0) {
-                        ResultSet rs3 = sentencia.executeQuery("SELECT SinPernoctarFDE FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
-                        while (rs3.next()) {
-                            tarifa = rs3.getString("SinPernoctarFDE");
-                        }
-                    } else {
-                        ResultSet rs3 = sentencia.executeQuery("SELECT PernoctandoFDE FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
-                        while (rs3.next()) {
-                            tarifa = rs3.getString("PernoctandoFDE");
-                        }
-                        tarif = Float.parseFloat(tarifa);
-                        tarif = (tarif * dias) + tarif;
-                        tarifa = tarif + "";
-                    }
-                }
-                sentencia.execute("INSERT INTO Oficio_comision VALUES(" + folio + "," + id + "," + tarifa + ")");
-                sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'A' WHERE (idSolicitud = '" + id + "')");
-                javax.swing.JOptionPane.showMessageDialog(null, "Solicitud aceptada");
-            } catch (SQLException ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta o folio ya asignado");
-            }/*catch (ClassNotFoundException e) {
-             e.printStackTrace();
-             }*/ //fin del catch
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+                    sentencia.execute("INSERT INTO Oficio_comision VALUES(" + folio + "," + id + "," + tarifa + ")");
+                    sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'A' WHERE (idSolicitud = '" + id + "')");
+                    javax.swing.JOptionPane.showMessageDialog(null, "Solicitud aceptada");
+                } catch (SQLException ex) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta o folio ya asignado");
+                }/*catch (ClassNotFoundException e) {
+                 e.printStackTrace();
+                 }*/ //fin del catch
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            }
+            tablonpendientes.setModel(manager_soviaticos.SolicitudP());
+            tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para aceptar solicitudes.");
         }
-        tablonpendientes.setModel(manager_soviaticos.SolicitudP());
-        tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
     }//GEN-LAST:event_AceptarPActionPerformed
 
     private void AceptarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarCActionPerformed
         // TODO add your handling code here:
-        int k = tabloncanceladas.getSelectedRow();
-        if (k >= 0) {
-            int id = Integer.parseInt(tabloncanceladas.getValueAt(k, 0).toString());
-            Calendar calendar = Calendar.getInstance();
-            try {
+        if (manager_permisos.accesoModulo("actualizar", "Tablon Solicitudes", Principal.Username)) {
+            int k = tabloncanceladas.getSelectedRow();
+            if (k >= 0) {
+                int id = Integer.parseInt(tabloncanceladas.getValueAt(k, 0).toString());
+                Calendar calendar = Calendar.getInstance();
+                try {
 
-                String total = "";
-                Statement sentencia = cn.createStatement();
-                ResultSet rs0 = sentencia.executeQuery("SELECT COUNT(*) as Folio FROM Oficio_comision");
-                while (rs0.next()) {
-                    total = rs0.getString("Folio");
-                }
-                int total1 = Integer.parseInt(total);
-                int folio = 0;
-                String valor = "";
-                if (total1 != 0) {
-                    ResultSet rs = sentencia.executeQuery("SELECT MAX(Folio) AS Folio FROM Oficio_comision");
-                    while (rs.next()) {
-                        valor = rs.getString("Folio");
+                    String total = "";
+                    Statement sentencia = cn.createStatement();
+                    ResultSet rs0 = sentencia.executeQuery("SELECT COUNT(*) as Folio FROM Oficio_comision");
+                    while (rs0.next()) {
+                        total = rs0.getString("Folio");
                     }
-                    int an = Integer.parseInt(valor.substring(0, 4));
-                    if (an == calendar.get(Calendar.YEAR)) {
-                        valor = valor.substring(4);
-                        folio = Integer.parseInt(valor) + 1;
-                        valor = an + "" + folio;
-                        folio = Integer.parseInt(valor);
+                    int total1 = Integer.parseInt(total);
+                    int folio = 0;
+                    String valor = "";
+                    if (total1 != 0) {
+                        ResultSet rs = sentencia.executeQuery("SELECT MAX(Folio) AS Folio FROM Oficio_comision");
+                        while (rs.next()) {
+                            valor = rs.getString("Folio");
+                        }
+                        int an = Integer.parseInt(valor.substring(0, 4));
+                        if (an == calendar.get(Calendar.YEAR)) {
+                            valor = valor.substring(4);
+                            folio = Integer.parseInt(valor) + 1;
+                            valor = an + "" + folio;
+                            folio = Integer.parseInt(valor);
+                        } else {
+                            valor = calendar.get(Calendar.YEAR) + "1";
+                            folio = Integer.parseInt(valor);
+                        }
                     } else {
                         valor = calendar.get(Calendar.YEAR) + "1";
                         folio = Integer.parseInt(valor);
                     }
-                } else {
-                    valor = calendar.get(Calendar.YEAR) + "1";
-                    folio = Integer.parseInt(valor);
-                }
-                sentencia.execute("INSERT INTO Oficio_comision VALUES(" + folio + "," + id + "," + 0.00 + ")");
-                sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'A' WHERE (idSolicitud = '" + id + "')");
-                sentencia.executeUpdate("UPDATE Solicitud_viatico SET Motivo = NULL WHERE (idSolicitud = '" + id + "')");
-                javax.swing.JOptionPane.showMessageDialog(null, "Solicitud aceptada");
+                    sentencia.execute("INSERT INTO Oficio_comision VALUES(" + folio + "," + id + "," + 0.00 + ")");
+                    sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'A' WHERE (idSolicitud = '" + id + "')");
+                    sentencia.executeUpdate("UPDATE Solicitud_viatico SET Motivo = NULL WHERE (idSolicitud = '" + id + "')");
+                    javax.swing.JOptionPane.showMessageDialog(null, "Solicitud aceptada");
 
-            } catch (SQLException ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta o folio ya asignado");
+                } catch (SQLException ex) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta o folio ya asignado");
 
-            }/*catch (ClassNotFoundException e) {
-             e.printStackTrace();
-             }*/ //fin del catch
+                }/*catch (ClassNotFoundException e) {
+                 e.printStackTrace();
+                 }*/ //fin del catch
 
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            }
+            tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
+            tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para aceptar solicitudes.");
         }
-        tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
-        tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
-
     }//GEN-LAST:event_AceptarCActionPerformed
 
     private void AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddActionPerformed
         // TODO add your handling code here:
-        addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
-        asv.setVisible(true);
+        if (manager_permisos.accesoModulo("alta", "Solicitud Viaticos", Principal.Username)) {
+            addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
+            asv.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar solicitudes de viáticos.");
+        }
     }//GEN-LAST:event_AddActionPerformed
 
     private void Add1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Add1ActionPerformed
         // TODO add your handling code here:
         
-        addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
-        conVehiculo = 0;
-        asv.setVisible(true);
+        
+        if (manager_permisos.accesoModulo("alta", "Solicitud Viaticos", Principal.Username)) {
+            addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
+            conVehiculo = 0;
+            asv.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar solicitudes de viáticos.");
+        }
     }//GEN-LAST:event_Add1ActionPerformed
 
     private void CambiarConsejeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CambiarConsejeroActionPerformed
         // TODO add your handling code here:
-        String nuevo = JOptionPane.showInputDialog("Inserte el nombre del nuevo director general");
-        cbd.ejecutar("update Director_General set Nombre='" + nuevo + "'");
+        if (manager_permisos.accesoModulo("actualizar", "Solicitud Viaticos", Principal.Username)) {
+            String nuevo = JOptionPane.showInputDialog("Inserte el nombre del nuevo director general");
+            cbd.ejecutar("update Director_General set Nombre='" + nuevo + "'");
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para modificar el nombre del consejero presidente.");
+        }
     }//GEN-LAST:event_CambiarConsejeroActionPerformed
 
     private void CambiarConsejero1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CambiarConsejero1ActionPerformed
         // TODO add your handling code here:
-        String nuevo = JOptionPane.showInputDialog("Inserte el nombre del nuevo director general");
-        cbd.ejecutar("update Director_General set Nombre='" + nuevo + "'");
+        if (manager_permisos.accesoModulo("actualizar", "Solicitud Viaticos", Principal.Username)) {
+            String nuevo = JOptionPane.showInputDialog("Inserte el nombre del nuevo director general");
+            cbd.ejecutar("update Director_General set Nombre='" + nuevo + "'");
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para modificar el nombre del consejero presidente.");
+        }
     }//GEN-LAST:event_CambiarConsejero1ActionPerformed
 
     private void SolicitarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitarVehiculoActionPerformed
         // TODO add your handling code here:
-        
-        addSolicitudVehiculo asv = new addSolicitudVehiculo(this, true);
-        asv.setVisible(true);
+        if (manager_permisos.accesoModulo("alta", "Solicitud Viaticos", Principal.Username)) {
+            addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
+            conVehiculo = 1;
+            asv.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar solicitudes de vehículos.");
+        }
     }//GEN-LAST:event_SolicitarVehiculoActionPerformed
 
     private void SolicitarVehiculo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitarVehiculo1ActionPerformed
         // TODO add your handling code here:
-        
-        addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
-        conVehiculo = 1;
-        asv.setVisible(true);
+        if (manager_permisos.accesoModulo("alta", "Solicitud Viaticos", Principal.Username)) {
+            addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
+            conVehiculo = 1;
+            asv.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar solicitudes de vehículos.");
+        }
     }//GEN-LAST:event_SolicitarVehiculo1ActionPerformed
 
     private void tablonaceptadasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablonaceptadasMouseReleased
@@ -1918,31 +1988,35 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void CancelarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarPActionPerformed
         // TODO add your handling code here:
-        int i = tablonpendientes.getSelectedRow();
-        if (i >= 0) {
-            String id = tablonpendientes.getValueAt(i, 0).toString();
-            String motivo = javax.swing.JOptionPane.showInputDialog("Motivo");
-            if (motivo == null) {
-            } else {
-                try {
-                    Statement sentencia = cn.createStatement();
-                    sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'C', Motivo= '" + motivo + "' WHERE (idSolicitud = '" + id + "')");
-                    javax.swing.JOptionPane.showMessageDialog(null, "Solicitud cancelada");
-                } catch (SQLException ex) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+        if (manager_permisos.accesoModulo("actualizar", "Tablon Solicitudes", Principal.Username)) {
+            int i = tablonpendientes.getSelectedRow();
+            if (i >= 0) {
+                String id = tablonpendientes.getValueAt(i, 0).toString();
+                String motivo = javax.swing.JOptionPane.showInputDialog("Motivo");
+                if (motivo == null) {
+                } else {
+                    try {
+                        Statement sentencia = cn.createStatement();
+                        sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'C', Motivo= '" + motivo + "' WHERE (idSolicitud = '" + id + "')");
+                        javax.swing.JOptionPane.showMessageDialog(null, "Solicitud cancelada");
+                    } catch (SQLException ex) {
+                        javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+
+                    }
+                    /*catch (ClassNotFoundException e) {
+                     e.printStackTrace();
+                     }//fin del catch
+                     */
 
                 }
-                /*catch (ClassNotFoundException e) {
-                 e.printStackTrace();
-                 }//fin del catch
-                 */
-
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
+            tablonpendientes.setModel(manager_soviaticos.SolicitudP());
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para cancelar solicitudes.");
         }
-        tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
-        tablonpendientes.setModel(manager_soviaticos.SolicitudP());
     }//GEN-LAST:event_CancelarPActionPerformed
 
     private void jScrollPane12MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane12MouseReleased
@@ -2098,37 +2172,41 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void CancelarAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarAActionPerformed
         // TODO add your handling code here:
-        int i = tablonaceptadas.getSelectedRow();
-        if (i >= 0) {
-            String folio = tablonaceptadas.getValueAt(i, 0).toString();
-            String idSolicitud = "";
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
+        if (manager_permisos.accesoModulo("actualizar", "Tablon Solicitudes", Principal.Username)) {
+            int i = tablonaceptadas.getSelectedRow();
+            if (i >= 0) {
+                String folio = tablonaceptadas.getValueAt(i, 0).toString();
+                String idSolicitud = "";
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
 
-                Statement sentencia = cn.createStatement();
-                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
-                while (rs.next()) {
-                    idSolicitud = rs.getString("Solicitud_idSolicitud");
-                }
-                String motivo = javax.swing.JOptionPane.showInputDialog("Motivo");
-                if (motivo == null) {
+                    Statement sentencia = cn.createStatement();
+                    ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
+                    while (rs.next()) {
+                        idSolicitud = rs.getString("Solicitud_idSolicitud");
+                    }
+                    String motivo = javax.swing.JOptionPane.showInputDialog("Motivo");
+                    if (motivo == null) {
 
-                } else {
-                    sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'C', Motivo = '" + motivo + "' WHERE (idSolicitud = " + idSolicitud + ")");
-                    javax.swing.JOptionPane.showMessageDialog(null, "Solicitud cancelada");
-                }
-            } catch (SQLException ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+                    } else {
+                        sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'C', Motivo = '" + motivo + "' WHERE (idSolicitud = " + idSolicitud + ")");
+                        javax.swing.JOptionPane.showMessageDialog(null, "Solicitud cancelada");
+                    }
+                } catch (SQLException ex) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }//fin del catch
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }//fin del catch
 
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            }
+            tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
+            tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para cancelar solicitudes.");
         }
-        tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
-        tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
     }//GEN-LAST:event_CancelarAActionPerformed
 
     private void solipendientesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_solipendientesKeyPressed
@@ -2210,76 +2288,80 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void GenerarInfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerarInfActionPerformed
         // TODO add your handling code here:
-        int k = tablainfo.getSelectedRow();
-        folio = 0;
-        if (k >= 0) {
-            folio = Integer.parseInt(tablainfo.getValueAt(k, 0).toString());
-            int filas = tablainfo.getRowCount();
-            modelo = new DefaultTableModel();
-            modelo.addColumn("Descripción");
-            modelo.addColumn("Precio");
-            modelo.addColumn("# Factura");
-            this.tablaact.setModel(modelo);
-            txtobvia.enable(true);
-            txtobvia.setVisible(true);
-            btnregresar1.setVisible(true);
-            
-            try {
-                Statement sentencia = cn.createStatement();
-                String gastos_comprobar = "";
-                ResultSet rs = sentencia.executeQuery("SELECT S.gastos_comprobar FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Folio = " + folio);
-                while (rs.next()) {
-                    gastos_comprobar = rs.getString("gastos_comprobar");
-                }
-                if (gastos_comprobar.equals("true")) {
-                    jScrollPane3.setVisible(true);
-                    GaTot.enable(true);
-                    GaTot.setVisible(true);
-                    jLabel3.setVisible(true);
-                    c = 1;
-                } else {
-                    jScrollPane3.setVisible(false);
-                    GaTot.enable(false);
-                    GaTot.setVisible(false);
-                    jLabel3.setVisible(false);
-                    c = 0;
-                }
-                rs=cbd.getTabla("select * from oficio_comision OC inner join solicitud_viatico SVI on OC.Solicitud_idSolicitud=SVI.idSolicitud inner join vehiculo_viatico VV on SVI.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo where OC.Folio="+folio, cn);
-                boolean bloquearVehiculo=true;
-                while(rs.next()){
-                    bloquearVehiculo=false;
-                    if(rs.getString("chofer")!=null){
-                        txtobveh.enable(true);
-                        txtobveh.setVisible(true);
-                        txtKilometraje.setVisible(true);
-                        lblKilometraje.setVisible(true);
-                        lblObsVehiculo.setVisible(true);
-                    }else{
+        if (manager_permisos.accesoModulo("alta", "Informe", Principal.Username)) {
+            int k = tablainfo.getSelectedRow();
+            folio = 0;
+            if (k >= 0) {
+                folio = Integer.parseInt(tablainfo.getValueAt(k, 0).toString());
+                int filas = tablainfo.getRowCount();
+                modelo = new DefaultTableModel();
+                modelo.addColumn("Descripción");
+                modelo.addColumn("Precio");
+                modelo.addColumn("# Factura");
+                this.tablaact.setModel(modelo);
+                txtobvia.enable(true);
+                txtobvia.setVisible(true);
+                btnregresar1.setVisible(true);
+
+                try {
+                    Statement sentencia = cn.createStatement();
+                    String gastos_comprobar = "";
+                    ResultSet rs = sentencia.executeQuery("SELECT S.gastos_comprobar FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Folio = " + folio);
+                    while (rs.next()) {
+                        gastos_comprobar = rs.getString("gastos_comprobar");
+                    }
+                    if (gastos_comprobar.equals("true")) {
+                        jScrollPane3.setVisible(true);
+                        GaTot.enable(true);
+                        GaTot.setVisible(true);
+                        jLabel3.setVisible(true);
+                        c = 1;
+                    } else {
+                        jScrollPane3.setVisible(false);
+                        GaTot.enable(false);
+                        GaTot.setVisible(false);
+                        jLabel3.setVisible(false);
+                        c = 0;
+                    }
+                    rs=cbd.getTabla("select * from oficio_comision OC inner join solicitud_viatico SVI on OC.Solicitud_idSolicitud=SVI.idSolicitud inner join vehiculo_viatico VV on SVI.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo where OC.Folio="+folio, cn);
+                    boolean bloquearVehiculo=true;
+                    while(rs.next()){
+                        bloquearVehiculo=false;
+                        if(rs.getString("chofer")!=null){
+                            txtobveh.enable(true);
+                            txtobveh.setVisible(true);
+                            txtKilometraje.setVisible(true);
+                            lblKilometraje.setVisible(true);
+                            lblObsVehiculo.setVisible(true);
+                        }else{
+                            txtobveh.enable(false);
+                            txtobveh.setVisible(false);
+                            txtKilometraje.setVisible(false);
+                            lblKilometraje.setVisible(false);
+                            lblObsVehiculo.setVisible(false);
+                        }
+                    }
+                    if(bloquearVehiculo){
                         txtobveh.enable(false);
                         txtobveh.setVisible(false);
                         txtKilometraje.setVisible(false);
                         lblKilometraje.setVisible(false);
                         lblObsVehiculo.setVisible(false);
                     }
+                    btnregresar.setVisible(true);
+                    btnguardar.setVisible(true);
+                    jlb.setVisible(false);
+                    txtbusquedasoli2.setVisible(false);
+                    jLabel1.setVisible(true);
+                    jScrollPane1.setVisible(false);
+                } catch (SQLException ex) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
                 }
-                if(bloquearVehiculo){
-                    txtobveh.enable(false);
-                    txtobveh.setVisible(false);
-                    txtKilometraje.setVisible(false);
-                    lblKilometraje.setVisible(false);
-                    lblObsVehiculo.setVisible(false);
-                }
-                btnregresar.setVisible(true);
-                btnguardar.setVisible(true);
-                jlb.setVisible(false);
-                txtbusquedasoli2.setVisible(false);
-                jLabel1.setVisible(true);
-                jScrollPane1.setVisible(false);
-            } catch (SQLException ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar el informe de actividades.");
         }
     }//GEN-LAST:event_GenerarInfActionPerformed
 
@@ -2296,19 +2378,23 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void ConsultarInfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarInfActionPerformed
         // TODO add your handling code here:
-        try {
-            int k = tablainfo1.getSelectedRow();
-            String idInforme = "";
-            if (k >= 0) {
-                idInforme = tablainfo1.getValueAt(k, 0).toString();
-                pdf.reporte(idInforme);
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar Informe");
+        if (manager_permisos.accesoModulo("consulta", "Informe", Principal.Username)) {
+            try {
+                int k = tablainfo1.getSelectedRow();
+                String idInforme = "";
+                if (k >= 0) {
+                    idInforme = tablainfo1.getValueAt(k, 0).toString();
+                    pdf.reporte(idInforme);
+                } else {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar Informe");
+                }
+            } catch (DocumentException ex) {
+                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (DocumentException ex) {
-            Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para imprimir solicitudes de viáticos.");
         }
     }//GEN-LAST:event_ConsultarInfActionPerformed
 
@@ -2329,91 +2415,107 @@ public class PrincipalS extends javax.swing.JFrame {
     }//GEN-LAST:event_EliminarAActionPerformed
 
     private void AgregarEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarEmpleadosActionPerformed
-        try {
-            // TODO add your handling code here:
-            int fila = tablasolicvehiculo.getSelectedRow();
-            String idSolicitud = tablasolicvehiculo.getValueAt(fila, 0) + "";
-            String fecha = tablasolicvehiculo.getValueAt(fila, 1) + "";
-            ResultSet rs=cbd.getTabla("select * from solicitud_viatico where estado!='AR' and estado!='C' and idSolicitud="+idSolicitud, cn);
-            boolean noModificar=true;
-            while(rs.next()){
-                noModificar=false;
-                addViaticoVehiculo avv = new addViaticoVehiculo(this, true, idSolicitud, fecha);
-                avv.setVisible(true);
+        if (manager_permisos.accesoModulo("actualizar", "Solicitud Viaticos", Principal.Username)) {
+            try {
+                // TODO add your handling code here:
+                int fila = tablasolicvehiculo.getSelectedRow();
+                String idSolicitud = tablasolicvehiculo.getValueAt(fila, 0) + "";
+                String fecha = tablasolicvehiculo.getValueAt(fila, 1) + "";
+                ResultSet rs=cbd.getTabla("select * from solicitud_viatico where estado!='AR' and estado!='C' and idSolicitud="+idSolicitud, cn);
+                boolean noModificar=true;
+                while(rs.next()){
+                    noModificar=false;
+                    addViaticoVehiculo avv = new addViaticoVehiculo(this, true, idSolicitud, fecha);
+                    avv.setVisible(true);
+                }
+                if(noModificar){
+                    JOptionPane.showMessageDialog(this, "No se puede agregar empleados al vehiculo porque la solicitud está cancelada o ya le fue asignada un monto");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if(noModificar){
-                JOptionPane.showMessageDialog(this, "No se puede agregar empleados al vehiculo porque la solicitud está cancelada o ya le fue asignada un monto");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para agregar empleados a las solicitudes de vehículos.");
         }
     }//GEN-LAST:event_AgregarEmpleadosActionPerformed
 
     private void ConsultarArActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarArActionPerformed
         // TODO add your handling code here:
-        if (c == 0) {
-            c = 1;
-        } else {
-            s.setVisible(false);
-            c = 1;
-        }
-        int i = tablonarchivadas.getSelectedRow();
-        if (i >= 0) {
-            String folio = tablonarchivadas.getValueAt(i, 0).toString();
-            String idSolicitud = "";
-            try {
-                Statement sentencia = cn.createStatement();
-                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
-                rs.next();
-                idSolicitud = rs.getString("Solicitud_idSolicitud");
-
-                s = new visSolicitudViaticos();
-                s.IdUsuario(Integer.parseInt(idSolicitud), 1, 1);
-            } catch (SQLException ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
-
+        if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
+            if (c == 0) {
+                c = 1;
+            } else {
+                s.setVisible(false);
+                c = 1;
             }
-            /*catch (ClassNotFoundException e) {
-             e.printStackTrace();
-             }//fin del catch*/
+            int i = tablonarchivadas.getSelectedRow();
+            if (i >= 0) {
+                String folio = tablonarchivadas.getValueAt(i, 0).toString();
+                String idSolicitud = "";
+                try {
+                    Statement sentencia = cn.createStatement();
+                    ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
+                    rs.next();
+                    idSolicitud = rs.getString("Solicitud_idSolicitud");
 
-            s.setVisible(true);
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+                    s = new visSolicitudViaticos();
+                    s.IdUsuario(Integer.parseInt(idSolicitud), 1, 1);
+                } catch (SQLException ex) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+
+                }
+                /*catch (ClassNotFoundException e) {
+                 e.printStackTrace();
+                 }//fin del catch*/
+
+                s.setVisible(true);
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para consultar las solicitudes.");
         }
     }//GEN-LAST:event_ConsultarArActionPerformed
 
     private void OficioComisionArActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OficioComisionArActionPerformed
         // TODO add your handling code here:
-        int i = tablonarchivadas.getSelectedRow();
-        if (i >= 0) {
-            String folio = tablonarchivadas.getValueAt(i, 0).toString();
-            try {
-                pdf.oficio_comision(folio);
-            } catch (DocumentException ex) {
-                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+        if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
+            int i = tablonarchivadas.getSelectedRow();
+            if (i >= 0) {
+                String folio = tablonarchivadas.getValueAt(i, 0).toString();
+                try {
+                    pdf.oficio_comision(folio);
+                } catch (DocumentException ex) {
+                    Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para imprimir las solicitudes.");
         }
     }//GEN-LAST:event_OficioComisionArActionPerformed
 
     private void OficioViaticoArActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OficioViaticoArActionPerformed
         // TODO add your handling code here:
-        int i = tablonarchivadas.getSelectedRow();
-        if (i >= 0) {
-            String folio = tablonarchivadas.getValueAt(i, 0).toString();
-            try {
-                pdf.pdfFolio(folio);
-            } catch (DocumentException ex) {
-                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+        if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
+            int i = tablonarchivadas.getSelectedRow();
+            if (i >= 0) {
+                String folio = tablonarchivadas.getValueAt(i, 0).toString();
+                try {
+                    pdf.pdfFolio(folio);
+                } catch (DocumentException ex) {
+                    Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para imprimir las solicitudes.");
         }
     }//GEN-LAST:event_OficioViaticoArActionPerformed
 
@@ -2543,68 +2645,90 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void ArchivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ArchivarActionPerformed
         // TODO add your handling code here:
-        int k = tablonaceptadas.getSelectedRow();
-        if (k >= 0) {
-            String folio = tablonaceptadas.getValueAt(k, 0).toString();
-            String idSolicitud = "";
-            try {
+        if (manager_permisos.accesoModulo("actualizar", "Tablon Solicitudes", Principal.Username)) {
+            int k = tablonaceptadas.getSelectedRow();
+            if (k >= 0) {
+                String folio = tablonaceptadas.getValueAt(k, 0).toString();
+                String idSolicitud = "";
+                try {
 
-                Statement sentencia = cn.createStatement();
-                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
-                while (rs.next()) {
-                    idSolicitud = rs.getString("Solicitud_idSolicitud");
-                }
-                sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'AR', gastos_comprobar = 'false' WHERE (idSolicitud = " + idSolicitud + ")");
-                javax.swing.JOptionPane.showMessageDialog(null, "Solicitud archivada");
-            } catch (SQLException ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+                    Statement sentencia = cn.createStatement();
+                    ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
+                    while (rs.next()) {
+                        idSolicitud = rs.getString("Solicitud_idSolicitud");
+                    }
+                    sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'AR', gastos_comprobar = 'false' WHERE (idSolicitud = " + idSolicitud + ")");
+                    javax.swing.JOptionPane.showMessageDialog(null, "Solicitud archivada");
+                } catch (SQLException ex) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
-            } catch (NumberFormatException exp) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Ingresar solo números");
-            }//fin del catch
+                } catch (NumberFormatException exp) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Ingresar solo números");
+                }//fin del catch
 
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            }
+            tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
+            tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
+            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para archivar solicitudes.");
         }
-        tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
-        tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
-        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
     }//GEN-LAST:event_ArchivarActionPerformed
 
     private void Impri_Sol1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Impri_Sol1ActionPerformed
         // TODO add your handling code here:
-        int fila = tablasolic.getSelectedRow();;
-        limpiar = false;
-        String id = null;
-        try {
+        if (manager_permisos.accesoModulo("consulta", "Solicitud Viaticos", Principal.Username)) {
+            int fila = tablasolic.getSelectedRow();;
+            limpiar = false;
+            String id = null;
+            try {
 
-            tablasolic.clearSelection();
-            CrearPDF pdf = new CrearPDF();
-            if (fila >= 0) {
-                id = tablasolic.getValueAt(fila, 0).toString();
-                pdf.generarPDFSolicitud(id);
+                tablasolic.clearSelection();
+                CrearPDF pdf = new CrearPDF();
+                if (fila >= 0) {
+                    id = tablasolic.getValueAt(fila, 0).toString();
+                    pdf.generarPDFSolicitud(id);
+                }
+            } catch (Exception e) {
+
             }
-        } catch (Exception e) {
-
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para imprimir solicitudes de viáticos.");
         }
     }//GEN-LAST:event_Impri_Sol1ActionPerformed
 
     private void Add2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Add2ActionPerformed
         // TODO add your handling code here:
-        addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
-        asv.setVisible(true);
+        if (manager_permisos.accesoModulo("alta", "Solicitud Viaticos", Principal.Username)) {
+            addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
+            conVehiculo = 0;
+            asv.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar solicitudes de viáticos.");
+        }
     }//GEN-LAST:event_Add2ActionPerformed
 
     private void SolicitarVehiculo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitarVehiculo2ActionPerformed
         // TODO add your handling code here:
-        addSolicitudVehiculo asv = new addSolicitudVehiculo(this, true);
-        asv.setVisible(true);
+        if (manager_permisos.accesoModulo("alta", "Solicitud Viaticos", Principal.Username)) {
+            addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
+            conVehiculo = 1;
+            asv.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar solicitudes de vehículos.");
+        }
     }//GEN-LAST:event_SolicitarVehiculo2ActionPerformed
 
     private void CambiarConsejero2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CambiarConsejero2ActionPerformed
         // TODO add your handling code here:
-        String nuevo = JOptionPane.showInputDialog("Inserte el nombre del nuevo director general");
-        cbd.ejecutar("update Director_General set Nombre='" + nuevo + "'");
+        if (manager_permisos.accesoModulo("actualizar", "Solicitud Viaticos", Principal.Username)) {
+            String nuevo = JOptionPane.showInputDialog("Inserte el nombre del nuevo director general");
+            cbd.ejecutar("update Director_General set Nombre='" + nuevo + "'");
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para modificar el nombre del consejero presidente.");
+        }
     }//GEN-LAST:event_CambiarConsejero2ActionPerformed
 
     public void Solicitud(String s) {
