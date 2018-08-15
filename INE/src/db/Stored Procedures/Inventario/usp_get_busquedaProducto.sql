@@ -72,6 +72,7 @@ BEGIN
 											WHEN `Inv_Folio` IS NULL THEN 1
                                             WHEN `Inv_Folio` IS NOT NULL THEN `Inventario`.`Folio` = `Inv_Folio`
                                         END
+									ORDER BY `Inventario`.`Folio`,`Inventario`.`Numero`, `Inventario`.`Extension`
 									;
 				END;
 			ELSE 
@@ -128,7 +129,9 @@ BEGIN
 													CASE
 														WHEN `Inv_Folio` IS NULL THEN 1
 														WHEN `Inv_Folio` IS NOT NULL THEN `Inventario`.`Folio` = `Inv_Folio`
-													END;
+													END
+												ORDER BY `Inventario`.`Folio`,`Inventario`.`Numero`, `Inventario`.`Extension`
+											;
 				END;
 			END IF;
 		END;
@@ -163,7 +166,9 @@ BEGIN
 								CASE	-- Filtro por búsqueda de Folio
 									WHEN `Inv_Folio` IS NULL THEN 1
 									WHEN `Inv_Folio` IS NOT NULL THEN CONCAT( `Inventario`.`Folio`, '-', 	`Inventario`.`Numero`, `Inventario`.`Extension`)	LIKE CONCAT('%', `Inv_Folio`, '%')
-								END;
+								END
+							ORDER BY `Inventario`.`Folio`,`Inventario`.`Numero`, `Inventario`.`Extension`
+						;
 		END;
 	END IF;
 
