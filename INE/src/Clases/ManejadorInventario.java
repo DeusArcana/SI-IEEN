@@ -330,7 +330,7 @@ public class ManejadorInventario {
     }//registrarVale
     
     //Este método realiza el resguardo, en donde todos los productos seleccionados se le asignan a un responsable
-    public boolean asignarInventario(String[] Claves,int[] Cantidad,String empleado,String folio){
+    public boolean asignarInventario(String[] Claves,String empleado,String folio,boolean reasignacion){
         
         try{
             String sql = "";
@@ -358,16 +358,21 @@ public class ManejadorInventario {
             rs = st.executeQuery(sql);
             rs.next();
             String ubicacion = rs.getString(1);
-
+            if(reasignacion){
+                for(int i = 0; i < Claves.length; i++){
+                    //Insertamos los datos en la tabla "detalle_vale"
+                    sql = "update detalle_vale set estado = 'Reasignado' where id_producto = '"+Claves[i]+"';";
+                    st.executeUpdate(sql);
+                }//for   
+            }//reasignacion
             for(int i = 0; i < Claves.length; i++){
                 //Insertamos los datos en la tabla "detalle_vale"
-                sql = "insert into detalle_vale (id_vale,id_producto,cantidad,estado)values('"+vale+"','"+Claves[i]+"',"+Cantidad[i]+",'Asignado');";
+                sql = "insert into detalle_vale (id_vale,id_producto,cantidad,estado)values('"+vale+"','"+Claves[i]+"',1,'Asignado');";
                 st.executeUpdate(sql);
                 //Actualizamos la ubicación del producto
                 sql = "update inventario set ubicacion = '"+ubicacion+"' where concat(Folio,'-',Numero,Extension) = '"+Claves[i]+"';";
                 st.executeUpdate(sql);
             }//for
-
             conexion.close();
             return true;
         } //try  

@@ -750,7 +750,7 @@ public class Principal extends javax.swing.JFrame {
         });
         MenuRecoleccion.add(EntregarRecoleccion);
 
-        MigrarRecoleccion.setText("Migrar marcados");
+        MigrarRecoleccion.setText("Reasignar marcados");
         MigrarRecoleccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MigrarRecoleccionActionPerformed(evt);
@@ -3290,7 +3290,7 @@ public void metodoVale(){
                         }
 }
 
-public void metodoVale2(){
+public void metodoVale2(String responsable,String[]Claves){
     // TODO add your handling code here:
         
         Object[] botones = {"Si", "No"};
@@ -3298,9 +3298,9 @@ public void metodoVale2(){
                                 JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
 
                         if (opcion == 0) {
-                            metodo2(1);
+                            metodo2(1,responsable,Claves);
                         } else if (opcion == 1) {
-                            metodo2(0);
+                            metodo2(0,responsable,Claves);
                         }
 }
 
@@ -3333,14 +3333,6 @@ public void metodoValeRecoleccion(){
         int minuto = fecha.get(Calendar.MINUTE);
         int segundo = fecha.get(Calendar.SECOND);
 
-        Date date = new Date();
-        DateFormat hourdateFormat = new SimpleDateFormat("dd_MM_yyyy HH_mm_ss");
-
-        //Parse
-        String a = hourdateFormat.format(date);
-
-        String cadena = "vale_salida";
-
         String cadena1 = "" + dia + "/" + (mes + 1) + "/" + año;
         String cadena2 = "" + hora + ":" + minuto + ":" + segundo;
 
@@ -3363,7 +3355,7 @@ public void metodoValeRecoleccion(){
         }
     }
     
-    public void metodo2(int res) {
+    public void metodo2(int res,String responsable,String[] Claves) {
         
         //Instanciamos el objeto Calendar
         //en fecha obtenemos la fecha y hora del sistema
@@ -3378,14 +3370,6 @@ public void metodoValeRecoleccion(){
         int minuto = fecha.get(Calendar.MINUTE);
         int segundo = fecha.get(Calendar.SECOND);
 
-        Date date = new Date();
-        DateFormat hourdateFormat = new SimpleDateFormat("dd_MM_yyyy HH_mm_ss");
-
-        //Parse
-        String a = hourdateFormat.format(date);
-
-        String cadena = "vale_salida";
-
         String cadena1 = "" + dia + "/" + (mes + 1) + "/" + año;
         String cadena2 = "" + hora + ":" + minuto + ":" + segundo;
 
@@ -3394,11 +3378,11 @@ public void metodoValeRecoleccion(){
         
         CrearValeResguardoBienes ob = new CrearValeResguardoBienes();
         
-        String datosempleado = manager_inventario_granel.obtenerDatosResponsableResguardo(comboEmpleado.getSelectedItem().toString());
+        String datosempleado = manager_inventario_granel.obtenerDatosResponsableResguardo(responsable);
         String numeroResguardo = manager_inventario_granel.obtenerNumeroResguardo(""+año);
-        for(int i = 0;i<tablaMAsignados.getRowCount();i++){
+        for(int i = 0;i<Claves.length;i++){
            
-           v.add(manager_inventario_granel.obtenerDatosResguardo(tablaMAsignados.getValueAt(i, 0).toString()));
+           v.add(manager_inventario_granel.obtenerDatosResguardo(Claves[i]));
            
         }//Llenar vector de los codigos de barras
         
@@ -5518,7 +5502,8 @@ public void metodoValeRecoleccion(){
                     comboEmpleado.setEnabled(true);
                     comboArea.setVisible(true);
                     lblAreaAsignacion.setVisible(true);
-
+                    GenerarVale.setText("Generar vale de resguardo");
+                    
                     if(manager_permisos.accesoModulo("consulta","Solicitudes",Username)){
                         //Actualizamos la tabla
                         tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
@@ -5545,25 +5530,22 @@ public void metodoValeRecoleccion(){
                 JOptionPane.showMessageDialog(null,"Tu permiso para aceptar solicitudes a sido revocado.");
             }
 
-        }else
-        {
+        }else{          
             if(manager_permisos.accesoModulo("actualizar","Solicitudes",Username)){
                 //Creamos un cuadro de dialogo para que confirme la eliminación del usuario o la cancele
-            Object[] botones = {"Confirmar","Cancelar"};
-            int opcion = JOptionPane.showOptionDialog(this,"¿Deseas continuar con la generación del vale de resguardo?", "Confirmación",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
-            
-            if(opcion == 0){
-                if(manejador_inventario.asignarInventario(Claves, Cantidad, comboEmpleado.getSelectedItem().toString(),"RES")){
-                    //GENERA EL VALE DE RESGUARDO
-                    metodoVale2();
-                    limpiarTablaMAsignados();
-                    comboEmpleado.setSelectedIndex(0);
-                    GenerarVale.setText("Generar vale de resguardo");
-                }else{
-                    JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");
-                }//else
-            }
+                Object[] botones = {"Confirmar","Cancelar"};
+                int opcion = JOptionPane.showOptionDialog(this,"¿Deseas continuar con la generación del vale de resguardo?", "Confirmación",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+                if(opcion == 0){
+                    if(manejador_inventario.asignarInventario(Claves, comboEmpleado.getSelectedItem().toString(),"RES",false)){
+                        //GENERA EL VALE DE RESGUARDO
+                        metodoVale2(comboEmpleado.getSelectedItem().toString(),Claves);
+                        limpiarTablaMAsignados();
+                        comboEmpleado.setSelectedIndex(0);
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");
+                    }//else
+                }
             }else{
                 JOptionPane.showMessageDialog(null,"Usted no cuenta con permiso para dar de alta un vale de resguardo.");
             }
@@ -5717,6 +5699,52 @@ public void metodoValeRecoleccion(){
 
     private void MigrarRecoleccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MigrarRecoleccionActionPerformed
         // TODO add your handling code here:
+        if(manager_permisos.accesoModulo("actualizar","Resguardo",Username)){
+            //Creamos un cuadro de dialogo para que confirme la eliminación del usuario o la cancele
+            Object[] botones = {"Confirmar","Cancelar"};
+            int opcion = JOptionPane.showOptionDialog(this,"¿Deseas continuar con la reasignación del vale de resguardo?", "Confirmación",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+            
+            if(opcion == 0){
+                //Declaramos las variables donde guardaremos los datos para actualizarlos y entregarlos
+                String ids = "";
+                String claves = "";
+                boolean registroCorrecto = false;
+                for(int i = 0; i<tablaRecoleccion.getRowCount();i++){
+
+                    //Si lo selecciono, entonces intentamos guardar el registro
+                    if((boolean)tablaRecoleccion.getValueAt(i, 0)){
+                        ids += tablaRecoleccion.getValueAt(i, 1).toString()+",";
+                        claves += tablaRecoleccion.getValueAt(i, 2).toString()+",";
+                        registroCorrecto = true;
+                    }
+                    
+                }//for
+
+                if(registroCorrecto){
+                    //Convertimos en arreglo la información que se obtuvo con el ciclo de la tablaRecolección
+                    String [] idVales = ids.split(",");
+                    String [] ClavesReasignar = claves.split(",");
+                    
+                    if(manejador_inventario.asignarInventario(ClavesReasignar, comboEmpleadoR.getSelectedItem().toString(),"RES",true)){
+                        //GENERA EL VALE DE RESGUARDO
+                        metodoVale2(comboEmpleadoR.getSelectedItem().toString(),ClavesReasignar);
+                        limpiarTablaMAsignados();
+                        
+                        comboEmpleadoR.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+                        comboEmpleadoR.addItem("Seleccione al empleado...");
+                        manejador_inventario.getEmpleadosAsignacion(comboEmpleadoR,comboArea1.getSelectedIndex()+1);
+
+                        tablaRecoleccion.setModel(modeloRecoleccion);
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");
+                    }//else
+
+                }//registroCorrecto
+            }//if(opcion==0)
+        }else{
+            JOptionPane.showMessageDialog(this, "No cuenta con los permisos para reasignar los productos a un nuevo vale de resguardo.");
+        }
     }//GEN-LAST:event_MigrarRecoleccionActionPerformed
        
     public void cargarImagen(String busqueda, int numero) {

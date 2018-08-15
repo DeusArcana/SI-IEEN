@@ -352,7 +352,7 @@
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="MigrarRecoleccion">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Migrar marcados"/>
+            <Property name="text" type="java.lang.String" value="Reasignar marcados"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MigrarRecoleccionActionPerformed"/>
