@@ -4439,6 +4439,7 @@ public void metodoValeRecoleccion(){
                 String categoria = comboCategoriaConsumible.getSelectedItem().toString();
                 estatus = comboEstatusConsumible.getSelectedItem().toString();
                 tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, categoria,estatus));
+				lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario_granel.getcountBusquedaInventario(filtro, busqueda, categoria, estatus))));
             }else{
                 tablaInventario.setModel(manager_complemento.getBusquedaResguardo(filtro, busqueda));
             }
@@ -5265,8 +5266,10 @@ public void metodoValeRecoleccion(){
                         if(inventarios.equals("Inventario")){
                             tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
 							lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario.cantidadInventario(filtro, busqueda, nomeclatura,estatus))));
-						} else
-                            tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+						} else{
+							tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+							lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario_granel.getcountBusquedaInventario(filtro, busqueda, nomeclatura, estatus))));
+						}				
                     }else{
                         JOptionPane.showMessageDialog(null,"Tu permiso para consultar el inventario ha sido revocado.");
                         tablaInventario.setModel(new DefaultTableModel());
@@ -5313,8 +5316,10 @@ public void metodoValeRecoleccion(){
                 if(inventario.equals("Inventario")){
 					tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
 					lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario.cantidadInventario(filtro, busqueda, nomeclatura,estatus))));
-				} else
-                        tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+				} else{
+					tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+					lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario_granel.getcountBusquedaInventario(filtro, busqueda, nomeclatura, estatus))));
+				}                        
             }else{
                 JOptionPane.showMessageDialog(null,"Tu permiso para consultar el inventario ha sido revocado.");
                 tablaInventario.setModel(new DefaultTableModel());

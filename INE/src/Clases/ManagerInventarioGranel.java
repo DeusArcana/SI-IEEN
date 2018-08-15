@@ -133,6 +133,75 @@ public class ManagerInventarioGranel {
             return table;
     }//getBusquedaInventarioG
     
+	public int getcountBusquedaInventario(int filtro, String busqueda,String categoria, String estatus){
+        if(estatus.equals("Todos")){
+            estatus = "";
+        }
+        if(categoria.equals("Todas")){
+            categoria = "";
+        }
+
+       conexion = db.getConexion();
+		
+        String campoBusca = "";
+        String sql = "";
+
+        try{
+            switch(filtro){
+            
+                //BUSQUEDA POR CLAVE
+                case 0:
+                    campoBusca = "concat(Folio,'-',Numero,Extension)";
+                    break;
+
+                //BUSQUEDA POR PRODUCTO
+                case 1:
+                    campoBusca = "nombre_prod";
+                    break;
+                        
+                //BUSQUEDA POR DESCRIPCIÓN
+                case 2:
+                    campoBusca = "descripcion";
+                    break;
+
+                //BUSQUEDA POR ALMACÉN
+                case 3:
+                    campoBusca = "almacen";
+                    break;
+
+                //BUSQUEDA POR MARCA
+                case 4:
+                    campoBusca = "marca";
+                    break;
+
+                //BUSQUEDA POR OBSERVACIONES
+                case 5:
+                    campoBusca = "observaciones"; 
+                    break;    
+                //BUSQUEDA POR ESTATUS
+                case 6:
+                    campoBusca = "estatus"; 
+                    break;    
+
+            }//Hace la busqueda de acuerdo al filtro
+            
+            sql = "select count(*) from Inventario_granel"
+                            + " where "+campoBusca+" like '%"+busqueda+"%' and estatus like '%"+estatus+"%' and categoria like '%"+categoria+"%';";
+            Connection c = db.getConexion();
+            Statement st = c.createStatement();    
+            ResultSet rs = st.executeQuery(sql);
+
+			if (rs.next()) {
+				conexion.close();
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerInventario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            return - 1;
+    }//getBusquedaInventarioG
+	
     public DefaultTableModel estadisticasConsumiblesTodos(){
         
         //No dejamos editar ninguna celda
