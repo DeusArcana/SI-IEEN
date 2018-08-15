@@ -24,11 +24,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ManagerInventario {
     ManagerInventarioGranel manager_inventario_granel;
+	Validaciones validaciones;
     private Connection conexion;
     private final Conexion db;
     
     public ManagerInventario(){
         db = new Conexion();
+		validaciones = new Validaciones();
     }//Constructor
     
 
@@ -259,14 +261,16 @@ public class ManagerInventario {
 			//Llenar tabla
 			Object datos[] = new Object[12];
 
-            while (rs.next()) {
+            do {
 				//Llenamos las columnas por registro
-                for(int i = 0; i < 12; i++){
+				datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());				
+				
+                for(int i = 1; i < 12; i++){
                     datos[i] = rs.getObject(i + 1);
                 }
 				//Añadimos la fila
                 table.addRow(datos);
-           }//while
+           } while (rs.next());
 
         } catch (SQLException ex) {
             System.out.printf("Error getTabla Inventario SQL");
@@ -461,21 +465,16 @@ public class ManagerInventario {
                 }
 
                 Object datos[] = new Object[cantidadColumnas];
-
-                //Anteriormente se hizo la consulta, y como entro a este if significa que si se encontraron datos, por ende ya estamos posicionados
-                //en el primer registro de las concidencias
-                for(int i = 0; i < cantidadColumnas; i++){
-                    datos[i] = rs.getObject(i + 1);
-                }//Llenamos las columnas por registro
-                table.addRow(datos);
                     
                 //Proseguimos con los registros en caso de exisitir mas
-                while (rs.next()) {
-                    for(int i = 0; i < cantidadColumnas; i++){
+                do {
+					datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());
+					
+                    for(int i = 1; i < cantidadColumnas; i++){
 	                    datos[i] = rs.getObject(i + 1);
                     }//Llenamos las columnas por registro
                     table.addRow(datos);//Añadimos la fila
-	            }//while
+	            } while (rs.next());
                     
 			}
         } //try  
@@ -580,16 +579,17 @@ public class ManagerInventario {
             Object datos[] = new Object[13];
 
             //Proseguimos con los registros en caso de exisitir mas
-            while (rs.next()) {
+             while (rs.next()) {
 
                 datos[0] = Boolean.FALSE;
-
-                for(int i = 1;i<13;i++){
+				datos[1] = validaciones.constructFormatID(rs.getObject(1).toString());
+				
+                for(int i = 2;i<13;i++){
                         datos[i] = rs.getString(i);
                 }//Llenamos la fila
 
                 table.addRow(datos);//Añadimos la fila
-            }//while
+            };
 
             conexion.close();            
 			
