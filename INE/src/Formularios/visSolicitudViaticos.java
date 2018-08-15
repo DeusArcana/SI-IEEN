@@ -7,6 +7,7 @@ package Formularios;
 
 import Clases.Conexion;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -30,7 +31,13 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("Iconos/IEE.png"));
 
+
+        return retValue;
+    }
     public visSolicitudViaticos() {
         this.setTitle("Consulta de información");
         Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
@@ -83,6 +90,7 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Solicitud");
+        setIconImage(getIconImage());
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);

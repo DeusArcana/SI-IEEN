@@ -71,7 +71,24 @@ public class ManagerSoViaticos {
             while (rs.next()) {
 
                 for(int i = 0;i<taso.getColumnCount();i++){
-                    datos[i] = rs.getObject(i+1);
+                    if(i==taso.getColumnCount()-1){
+                        switch(rs.getObject(i+1).toString()){
+                            case "P":
+                                datos[i] = "Pendiente";
+                                break;
+                            case "A":
+                                datos[i] = "Aceptada";
+                                break;
+                            case "AR":
+                                datos[i] = "Archivada";
+                                break;
+                            case "C":
+                                datos[i] = "Cancelada";
+                                break;
+                        }
+                    }else{
+                        datos[i] = rs.getObject(i+1);
+                    }
                 }//Llenamos las columnas por registro
                 boolean insertar=true;
                 for(int i=0;i<sol_vehiculos.size();i++){
@@ -131,7 +148,24 @@ public class ManagerSoViaticos {
             while (rs.next()) {
 
                 for(int i = 0;i<taso.getColumnCount();i++){
-                    datos[i] = rs.getObject(i+1);
+                    if(i==taso.getColumnCount()-1){
+                        switch(rs.getObject(i+1).toString()){
+                            case "P":
+                                datos[i] = "Pendiente";
+                                break;
+                            case "A":
+                                datos[i] = "Aceptada";
+                                break;
+                            case "AR":
+                                datos[i] = "Archivada";
+                                break;
+                            case "C":
+                                datos[i] = "Cancelada";
+                                break;
+                        }
+                    }else{
+                        datos[i] = rs.getObject(i+1);
+                    }
                 }//Llenamos las columnas por registro
 
                 taso.addRow(datos);//Añadimos la fila
