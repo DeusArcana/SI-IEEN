@@ -6,6 +6,8 @@
 package Formularios;
 
 import Clases.Conexion;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,6 +32,15 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
     }
 
     public visSolicitudViaticos() {
+        this.setTitle("Consulta de información");
+        Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+      int height = pantalla.height;
+      int width = pantalla.width;
+      setSize(width/2, height/2);		
+ 
+      setLocationRelativeTo(null);		
+      setVisible(true);
+
                 initComponents();
     }
 
@@ -95,11 +106,11 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
                 txt_NombreFocusLost(evt);
             }
         });
-        pn_addInventario.add(txt_Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 40, 215, -1));
+        pn_addInventario.add(txt_Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 40, 300, -1));
 
         txt_Puesto.setEditable(false);
         txt_Puesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        pn_addInventario.add(txt_Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 69, 215, -1));
+        pn_addInventario.add(txt_Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 69, 300, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Puesto:");
@@ -153,10 +164,10 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
         pn_addInventario.add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 163, -1, -1));
 
         txt_Fecha_Salida.setEditable(false);
-        pn_addInventario.add(txt_Fecha_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 104, 215, -1));
+        pn_addInventario.add(txt_Fecha_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 104, 150, -1));
 
         txt_Fecha_Llegada.setEditable(false);
-        pn_addInventario.add(txt_Fecha_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 133, 215, -1));
+        pn_addInventario.add(txt_Fecha_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 133, 150, -1));
 
         txt_Vehiculo.setEditable(false);
         pn_addInventario.add(txt_Vehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(522, 144, 248, -1));

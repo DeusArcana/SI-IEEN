@@ -116,6 +116,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     }
     public addSolicitudVehiculo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        this.setTitle("Solicitud de vehículos");
         initComponents();
         JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) date_Salida.getDateEditor();
         JTextFieldDateEditor date_Llegada_Editor=(JTextFieldDateEditor) date_Llegada.getDateEditor();
@@ -234,10 +235,10 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         jLabel5.setText("Fecha de llegada:");
         pn_addInventario.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 127, -1, -1));
 
+        txt_Actividad.setEditable(false);
         txt_Actividad.setColumns(20);
         txt_Actividad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_Actividad.setRows(5);
-        txt_Actividad.setEnabled(false);
         jScrollPane1.setViewportView(txt_Actividad);
 
         pn_addInventario.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 251, 420, 209));
@@ -255,7 +256,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
 
         cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione localidad" }));
         cmbLocalidad.setEnabled(false);
-        pn_addInventario.add(cmbLocalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, 230, -1));
+        pn_addInventario.add(cmbLocalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, 250, -1));
 
         cmbEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione estado" }));
         cmbEstado.setEnabled(false);
@@ -264,7 +265,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
                 cmbEstadoItemStateChanged(evt);
             }
         });
-        pn_addInventario.add(cmbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, -1, -1));
+        pn_addInventario.add(cmbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, 150, -1));
 
         date_Salida.setEnabled(false);
         pn_addInventario.add(date_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 215, 25));
@@ -322,18 +323,18 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             jLabel9.setText("Kilometraje:");
             pn_addInventario.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 70, -1, -1));
 
+            txtKilometraje.setEditable(false);
             txtKilometraje.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            txtKilometraje.setEnabled(false);
             pn_addInventario.add(txtKilometraje, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 70, 80, -1));
 
             jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             jLabel11.setText("Descripción:");
             pn_addInventario.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 120, -1, -1));
 
+            txtADescripcion.setEditable(false);
             txtADescripcion.setColumns(20);
             txtADescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             txtADescripcion.setRows(5);
-            txtADescripcion.setEnabled(false);
             jScrollPane2.setViewportView(txtADescripcion);
 
             pn_addInventario.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 150, -1, -1));
@@ -368,7 +369,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
 
             txtArea.setEditable(false);
             txtArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            pn_addInventario.add(txtArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, 160, 25));
+            pn_addInventario.add(txtArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, 210, 25));
 
             jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
             pn_addInventario.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 1320, 510));

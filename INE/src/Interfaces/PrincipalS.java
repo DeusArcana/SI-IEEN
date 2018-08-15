@@ -21,6 +21,8 @@ import static Interfaces.Principal.tablaInventario;
 import static Interfaces.Principal.tablaUsuarios;
 import com.itextpdf.text.DocumentException;
 import java.awt.Frame;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -42,7 +44,6 @@ import javax.swing.table.DefaultTableModel;
  * @author usuario
  */
 public class PrincipalS extends javax.swing.JFrame {
-
     Conexion cbd = new Conexion();
     Connection cn = cbd.getConexion();
     ManagerSoViaticos manager_soviaticos;
@@ -57,6 +58,7 @@ public class PrincipalS extends javax.swing.JFrame {
      * Creates new form PrincipalS
      */
     public PrincipalS() {
+        this.setTitle("Movimientos de viáticos");
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
@@ -470,13 +472,17 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuSolicitudViaticos1.add(CambiarConsejero2);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setIconImage(getIconImage());
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowOpened(java.awt.event.WindowEvent evt) {
-                formWindowOpened(evt);
-            }
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -1731,6 +1737,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     rs=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where VV.solicitud_viatico_idSolicitud="+id, cn);
                     rs.next();
                     String idVehiculo_usado=rs.getString("idVehiculo_usado");
+                    String matricula=rs.getString("vehiculos_matricula");
                     int kilometrajeActual=Integer.parseInt(rs.getString("kilometraje"));
                     int kilometrajeActualizado=Integer.parseInt(txtKilometraje.getText());
                     if(kilometrajeActualizado<kilometrajeActual){
@@ -1738,6 +1745,13 @@ public class PrincipalS extends javax.swing.JFrame {
                         return;
                     }
                     sentencia.executeUpdate("UPDATE vehiculo_usado SET kilometraje='"+kilometrajeActualizado+"' where idVehiculo_usado="+idVehiculo_usado);
+                    rs=cbd.getTabla("select * from vehiculos where matricula='"+matricula+"'", cn);
+                    rs.next();
+                    String observaciones=rs.getString("Observaciones")+"\n------------------\n"+txtobveh.getText();
+                    sentencia.executeUpdate("UPDATE vehiculos SET kilometraje='"+kilometrajeActualizado+"' where matricula='"+matricula+"'");
+                    sentencia.executeUpdate("UPDATE vehiculos SET observaciones='"+observaciones+"' where matricula='"+matricula+"'");
+                    
+                    
                 }
                 sentencia.executeUpdate("UPDATE Solicitud_viatico SET Reporte = '1' WHERE (idSolicitud = " + id + ")");
                 if (c == 1) {
@@ -1783,6 +1797,14 @@ public class PrincipalS extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnguardarActionPerformed
 
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("Iconos/IEE.png"));
+
+
+        return retValue;
+    }
     private void txtbusquedasoli2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedasoli2KeyReleased
         // TODO add your handling code here:
         if (menuInforme.getSelectedIndex() == 0) {
@@ -2730,6 +2752,23 @@ public class PrincipalS extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para modificar el nombre del consejero presidente.");
         }
     }//GEN-LAST:event_CambiarConsejero2ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        Object[] botones = {"Confirmar","Cerrar Sesión","Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this,"¿Salir del Sistema?", "Confirmación",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+        
+        if(opcion == 0){
+            
+            System.exit(0);
+        }else if(opcion == 1){
+            //Cerrar sesion
+            this.dispose();
+            Login ob = new Login();
+            ob.setVisible(true);   
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {

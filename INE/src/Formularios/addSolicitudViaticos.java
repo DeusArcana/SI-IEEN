@@ -53,6 +53,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
      */
     public addSolicitudViaticos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        this.setTitle("Solicitud de viáticos");
         initComponents();
         this.setLocationRelativeTo(null);
         parentVehiculo=parent;
