@@ -952,7 +952,7 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane3.setViewportView(tablaInventario);
 
         jPanel3.add(jScrollPane3);
-        jScrollPane3.setBounds(30, 130, 1110, 580);
+        jScrollPane3.setBounds(10, 120, 1110, 580);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Opciones :", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Yu Gothic UI", 0, 12))); // NOI18N
@@ -4000,8 +4000,6 @@ public void metodoValeRecoleccion(){
 
     private void comboInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboInventarioActionPerformed
         // TODO add your handling code here:
-        int filtro = comboFiltro.getSelectedIndex();
-        btnAddInventario.setVisible(true);
         btnAddInventario.setVisible(true);
         comboFolio.setVisible(false);
         comboEstatus.setVisible(false);
@@ -4027,20 +4025,8 @@ public void metodoValeRecoleccion(){
                 if(comboEstatus.getSelectedItem().equals("Asignado")){
                     comboFiltro.addItem("Responsable");
                 }//if
-                /*
-                if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
-                    int folio = comboFolio.getSelectedIndex();
-                    String estatus = comboEstatus.getSelectedItem().toString();
-                    String nomeclatura = "";
-                    String busqueda = txtBusqueda.getText();
-                    //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
-                    if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-                    tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-                    lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario.cantidadInventario(filtro, busqueda, nomeclatura,estatus))));
-                }else{
-                    tablaInventario.setModel(new DefaultTableModel());
-                }//else
-                */
+                comboFolio.setVisible(true);
+                comboEstatus.setVisible(true);
             }else if(comboInventario.getSelectedItem().toString().equals("Consumibles")){
                 banderaInventario = 2;
                 seleccionoConsumible = true;

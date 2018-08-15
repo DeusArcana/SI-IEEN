@@ -21,6 +21,8 @@ import static Interfaces.Principal.tablaInventario;
 import static Interfaces.Principal.tablaUsuarios;
 import com.itextpdf.text.DocumentException;
 import java.awt.Frame;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -42,7 +44,6 @@ import javax.swing.table.DefaultTableModel;
  * @author usuario
  */
 public class PrincipalS extends javax.swing.JFrame {
-
     Conexion cbd = new Conexion();
     Connection cn = cbd.getConexion();
     ManagerSoViaticos manager_soviaticos;
@@ -57,6 +58,7 @@ public class PrincipalS extends javax.swing.JFrame {
      * Creates new form PrincipalS
      */
     public PrincipalS() {
+        this.setTitle("Movimientos de viáticos");
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
@@ -186,8 +188,6 @@ public class PrincipalS extends javax.swing.JFrame {
         jLabel24 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        itemAnterior = new javax.swing.JMenuItem();
-        itemSiguiente = new javax.swing.JMenuItem();
         mi_inventario = new javax.swing.JMenuItem();
         mi_pases = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
@@ -429,7 +429,7 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuTablonAr.add(OficioComisionAr);
 
-        OficioViaticoAr.setText("Oficio de viatico");
+        OficioViaticoAr.setText("Oficio de viático");
         OficioViaticoAr.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 OficioViaticoArActionPerformed(evt);
@@ -470,13 +470,17 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuSolicitudViaticos1.add(CambiarConsejero2);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setIconImage(getIconImage());
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowOpened(java.awt.event.WindowEvent evt) {
-                formWindowOpened(evt);
-            }
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -605,7 +609,7 @@ public class PrincipalS extends javax.swing.JFrame {
         tablonsolicitud1.setLayout(null);
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel20.setText("Busqueda:");
+        jLabel20.setText("Búsqueda:");
         tablonsolicitud1.add(jLabel20);
         jLabel20.setBounds(70, 50, 100, 22);
 
@@ -999,24 +1003,6 @@ public class PrincipalS extends javax.swing.JFrame {
 
         jMenu1.setText("Archivo");
 
-        itemAnterior.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_LEFT, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        itemAnterior.setText("Anterior");
-        itemAnterior.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemAnteriorActionPerformed(evt);
-            }
-        });
-        jMenu1.add(itemAnterior);
-
-        itemSiguiente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_RIGHT, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        itemSiguiente.setText("Siguiente");
-        itemSiguiente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemSiguienteActionPerformed(evt);
-            }
-        });
-        jMenu1.add(itemSiguiente);
-
         mi_inventario.setText("Inventario");
         mi_inventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1091,29 +1077,6 @@ public class PrincipalS extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void itemAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAnteriorActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_itemAnteriorActionPerformed
-
-    private void itemSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSiguienteActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_itemSiguienteActionPerformed
-
-    private void itemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSalirActionPerformed
-        // TODO add your handling code here:
-        Object[] botones = {"Confirmar", "Cancelar"};
-        int opcion = JOptionPane.showOptionDialog(this, "¿Salir del Sistema?", "Confirmación",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
-
-        if (opcion == 0) {
-            System.exit(0);
-        } else if (opcion == 1) {
-            //Cerrar sesion
-        }
-    }//GEN-LAST:event_itemSalirActionPerformed
 
     private void menuPermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPermisosActionPerformed
         // TODO add your handling code here:
@@ -1221,16 +1184,6 @@ public class PrincipalS extends javax.swing.JFrame {
             SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
         }
     }//GEN-LAST:event_formWindowOpened
-
-    private void mi_inventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_inventarioActionPerformed
-        try {
-            Principal a = new Principal();
-            a.setVisible(true);
-            this.dispose();
-        } catch (ClassNotFoundException | SQLException | IOException ex) {
-            Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_mi_inventarioActionPerformed
 
     private void Impri_SolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Impri_SolActionPerformed
         // TODO add your handling code here:
@@ -1731,6 +1684,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     rs=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where VV.solicitud_viatico_idSolicitud="+id, cn);
                     rs.next();
                     String idVehiculo_usado=rs.getString("idVehiculo_usado");
+                    String matricula=rs.getString("vehiculos_matricula");
                     int kilometrajeActual=Integer.parseInt(rs.getString("kilometraje"));
                     int kilometrajeActualizado=Integer.parseInt(txtKilometraje.getText());
                     if(kilometrajeActualizado<kilometrajeActual){
@@ -1738,6 +1692,13 @@ public class PrincipalS extends javax.swing.JFrame {
                         return;
                     }
                     sentencia.executeUpdate("UPDATE vehiculo_usado SET kilometraje='"+kilometrajeActualizado+"' where idVehiculo_usado="+idVehiculo_usado);
+                    rs=cbd.getTabla("select * from vehiculos where matricula='"+matricula+"'", cn);
+                    rs.next();
+                    String observaciones=rs.getString("Observaciones")+"\n------------------\n"+txtobveh.getText();
+                    sentencia.executeUpdate("UPDATE vehiculos SET kilometraje='"+kilometrajeActualizado+"' where matricula='"+matricula+"'");
+                    sentencia.executeUpdate("UPDATE vehiculos SET observaciones='"+observaciones+"' where matricula='"+matricula+"'");
+                    
+                    
                 }
                 sentencia.executeUpdate("UPDATE Solicitud_viatico SET Reporte = '1' WHERE (idSolicitud = " + id + ")");
                 if (c == 1) {
@@ -1783,6 +1744,14 @@ public class PrincipalS extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnguardarActionPerformed
 
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("Iconos/IEE.png"));
+
+
+        return retValue;
+    }
     private void txtbusquedasoli2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedasoli2KeyReleased
         // TODO add your handling code here:
         if (menuInforme.getSelectedIndex() == 0) {
@@ -2595,17 +2564,6 @@ public class PrincipalS extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_solicanceladasMouseReleased
 
-    private void mi_pasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_pasesActionPerformed
-        // TODO add your handling code here:
-        try {
-            PrincipalP a = new PrincipalP();
-            a.setVisible(true);
-            this.dispose();
-        } catch (Exception ex) { 
-            Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_mi_pasesActionPerformed
-
     private void guardargacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardargacActionPerformed
         // TODO add your handling code here:
         int k = tablonarchivadas.getSelectedRow();
@@ -2730,6 +2688,57 @@ public class PrincipalS extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para modificar el nombre del consejero presidente.");
         }
     }//GEN-LAST:event_CambiarConsejero2ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        Object[] botones = {"Confirmar","Cerrar Sesión","Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this,"¿Salir del Sistema?", "Confirmación",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+        
+        if(opcion == 0){
+            
+            System.exit(0);
+        }else if(opcion == 1){
+            //Cerrar sesion
+            this.dispose();
+            Login ob = new Login();
+            ob.setVisible(true);   
+        }
+    }//GEN-LAST:event_formWindowClosing
+
+    private void itemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSalirActionPerformed
+        // TODO add your handling code here:
+        Object[] botones = {"Confirmar", "Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this, "¿Salir del Sistema?", "Confirmación",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
+
+        if (opcion == 0) {
+            System.exit(0);
+        } else if (opcion == 1) {
+            //Cerrar sesion
+        }
+    }//GEN-LAST:event_itemSalirActionPerformed
+
+    private void mi_pasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_pasesActionPerformed
+        // TODO add your handling code here:
+        try {
+            PrincipalP a = new PrincipalP();
+            a.setVisible(true);
+            this.dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mi_pasesActionPerformed
+
+    private void mi_inventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_inventarioActionPerformed
+        try {
+            Principal a = new Principal();
+            a.setVisible(true);
+            this.dispose();
+        } catch (ClassNotFoundException | SQLException | IOException ex) {
+            Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mi_inventarioActionPerformed
 
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {
@@ -2959,9 +2968,7 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JButton btnregresar1;
     private javax.swing.JButton guardargac;
     private javax.swing.JPanel informe;
-    private javax.swing.JMenuItem itemAnterior;
     private javax.swing.JMenuItem itemSalir;
-    private javax.swing.JMenuItem itemSiguiente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;

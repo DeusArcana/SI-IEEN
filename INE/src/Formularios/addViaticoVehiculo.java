@@ -32,6 +32,7 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
     }
     public addViaticoVehiculo(java.awt.Frame parent,boolean modal,String idSolicitud,String fecha){
         super(parent,modal);
+        this.setTitle("Agregar empleados al vehículo");
         initComponents();
         this.setLocationRelativeTo(null);
         this.idSolicitud=idSolicitud;
