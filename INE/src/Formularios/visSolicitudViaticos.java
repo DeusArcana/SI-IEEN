@@ -126,7 +126,7 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
         pn_addInventario.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 170, 350, 50));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel7.setText("Vehiculo:");
+        jLabel7.setText("Vehículo:");
         pn_addInventario.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(463, 144, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N

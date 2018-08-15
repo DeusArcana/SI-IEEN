@@ -429,7 +429,7 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuTablonAr.add(OficioComisionAr);
 
-        OficioViaticoAr.setText("Oficio de viatico");
+        OficioViaticoAr.setText("Oficio de viático");
         OficioViaticoAr.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 OficioViaticoArActionPerformed(evt);
@@ -605,7 +605,7 @@ public class PrincipalS extends javax.swing.JFrame {
         tablonsolicitud1.setLayout(null);
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel20.setText("Busqueda:");
+        jLabel20.setText("Búsqueda:");
         tablonsolicitud1.add(jLabel20);
         jLabel20.setBounds(70, 50, 100, 22);
 

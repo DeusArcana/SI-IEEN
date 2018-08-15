@@ -138,7 +138,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
 
         txt_Puesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_Puesto.setEnabled(false);
-        pn_addInventario.add(txt_Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 215, -1));
+        pn_addInventario.add(txt_Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 330, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Puesto:");
@@ -195,7 +195,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                     comboEmpleadosActionPerformed(evt);
                 }
             });
-            pn_addInventario.add(comboEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 50, -1, -1));
+            pn_addInventario.add(comboEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, 330, -1));
 
             cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione localidad" }));
             pn_addInventario.add(cmbLocalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, -1, -1));
@@ -229,7 +229,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             hora_Llegada.setEditor(de2);
 
             jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            jLabel7.setText("Area:");
+            jLabel7.setText("Área:");
             pn_addInventario.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, -1, -1));
 
             cmbArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -238,7 +238,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                     cmbAreaActionPerformed(evt);
                 }
             });
-            pn_addInventario.add(cmbArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 220, -1));
+            pn_addInventario.add(cmbArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 330, -1));
 
             jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
             pn_addInventario.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 570, 520));
