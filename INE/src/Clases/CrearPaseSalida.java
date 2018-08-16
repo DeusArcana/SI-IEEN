@@ -25,6 +25,7 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.Color;
 
 import java.awt.Desktop;
 import java.io.File;
@@ -57,7 +58,7 @@ public class CrearPaseSalida {
 
     public CrearPaseSalida(){
     //    obtener_productos = new ObtenerProductos();
-        path = "C:\\SIIEEN\\pases/";
+        path = "C:\\SIIEEN\\pases\\";
         directorio = new File(path);
     //    info = new infoTicket();
             
@@ -113,6 +114,7 @@ public class CrearPaseSalida {
     
     private static Font elements2 = new Font(Font.FontFamily.HELVETICA, 8,
             Font.NORMAL);
+    private static Font elements2c = new Font(Font.FontFamily.HELVETICA,10,Font.NORMAL,BaseColor.LIGHT_GRAY);
     private static Font elements3 = new Font(Font.FontFamily.HELVETICA, 8,
             Font.BOLD);
     private static Font subFontF = new Font(Font.FontFamily.HELVETICA, 8,
@@ -577,24 +579,26 @@ public class CrearPaseSalida {
             contenidofirmas.addCell(contenidofirmas6);
             contenidofirmas.addCell(contenidofirmas7);
             
-            /*PdfPTable firma = new PdfPTable(2);
-            PdfPCell firmaCell,firmaCell1,firmaCell2;
+            //COPIAPASE
+            PdfPTable copiapase = new PdfPTable(3);
+            firmas.setWidthPercentage(100f);
+            float[] medidaCeldascopia = {0.60f,2.25f, 0.60f};
+            copiapase.setWidths(medidaCeldascopia);
+            PdfPCell copiapaseCell,copiapaseCell2,copiapaseCell3;
             
-            firmaCell1 = new PdfPCell(new Phrase(nombreem, subFontF));
-            firmaCell1.setBorderColor(BaseColor.WHITE);
-            firmaCell1.setHorizontalAlignment(Element.ALIGN_LEFT);
-            firmaCell = new PdfPCell(new Phrase("_______________________________\n"+"Nombre y Firma\nSolicitante", subFontF));
-            firmaCell.setBorderColor(BaseColor.WHITE);
-            firmaCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            copiapaseCell = new PdfPCell(new Phrase("", elements2));
+            copiapaseCell.setBorder(0);
             
+            copiapaseCell2 = new PdfPCell(new Phrase("COPIA DE PASE", elements2c));
+            copiapaseCell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+            copiapaseCell2.setBorderColor(BaseColor.WHITE);
             
-            firmaCell2 = new PdfPCell(new Phrase("_______________________________\nNombre y Firma\nResponsable del Área", subFontF));
-            firmaCell2.setBorderColor(BaseColor.WHITE);
-            firmaCell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            
-            firma.addCell(firmaCell);
-            firma.addCell(firmaCell1);
-            firma.addCell(firmaCell2);*/
+            copiapaseCell3 = new PdfPCell(new Phrase("", elements2));
+            copiapaseCell3.setBorder(0);
+
+            copiapase.addCell(copiapaseCell);
+            copiapase.addCell(copiapaseCell2);
+            copiapase.addCell(copiapaseCell3);
             
             
             //AGREGAR AL DOCUMENTO ----------------------------------------------------------------
@@ -628,7 +632,7 @@ public class CrearPaseSalida {
             doc.add(BLANCO);
             doc.add(tableLineas6);
             //Espacio en blanco
-            doc.add(BLANCO);
+            //doc.add(BLANCO);
             //Espacio en blanco
             doc.add(BLANCO);
             doc.add(firmas);
@@ -668,11 +672,12 @@ public class CrearPaseSalida {
             //Espacio en blanco
             doc.add(BLANCO);
             //Espacio en blanco
-            doc.add(BLANCO);
+            //doc.add(BLANCO);
             //Espacio en blanco
             //doc.add(BLANCO);
             doc.add(firmas);
             doc.add(contenidofirmas);
+            doc.add(copiapase);
             //linea
             archivo_nombre = pdfFilename;
 
@@ -697,7 +702,7 @@ public class CrearPaseSalida {
         }
     }
     public void imprimir() throws IOException{
-        File fileToPrint = new File("C:\\SIIEEN\\pases/"+archivo_nombre+".pdf");
+        File fileToPrint = new File("C:\\SIIEEN\\pases\\"+archivo_nombre+".pdf");
 		Desktop.getDesktop().open(fileToPrint);
     }
     

@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -51,6 +52,7 @@ public class PrincipalP extends javax.swing.JFrame {
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+        setIconImage(new ImageIcon(getClass().getResource("/Iconos/IEE.png")).getImage());
         //tablasolic.setModel(manager_soviaticos.getTasol()); 
         tablapase.getTableHeader().setReorderingAllowed(false);
         manager_pases = new ManagerPases();
@@ -86,12 +88,11 @@ public class PrincipalP extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        itemAnterior = new javax.swing.JMenuItem();
-        itemSiguiente = new javax.swing.JMenuItem();
-        mi_inventario = new javax.swing.JMenuItem();
-        item_viaticos = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        itemSalir = new javax.swing.JMenuItem();
+        mi_viaticos = new javax.swing.JMenuItem();
+        mi_pases = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        itemSalir1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         menuOpciones = new javax.swing.JMenu();
         menuPermisos = new javax.swing.JMenuItem();
@@ -147,7 +148,13 @@ public class PrincipalP extends javax.swing.JFrame {
         MenuPases.add(ExportarExcel);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sistema Integral - Instituto Estatal Electoral de Nayarit");
+        setPreferredSize(new java.awt.Dimension(1366, 793));
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
             }
@@ -228,57 +235,46 @@ public class PrincipalP extends javax.swing.JFrame {
         solicitudviaticos1.add(jLabel18);
         jLabel18.setBounds(10, 10, 1350, 80);
 
-        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
+        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         solicitudviaticos1.add(jLabel19);
-        jLabel19.setBounds(0, 0, 1367, 769);
+        jLabel19.setBounds(0, 0, 1366, 769);
 
-        solicpase.addTab("Solicitud de Pase E/S", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), solicitudviaticos1); // NOI18N
+        solicpase.addTab("Solicitud de Pase E/S", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), solicitudviaticos1); // NOI18N
 
         jMenu1.setText("Archivo");
-
-        itemAnterior.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_LEFT, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        itemAnterior.setText("Anterior");
-        itemAnterior.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemAnteriorActionPerformed(evt);
-            }
-        });
-        jMenu1.add(itemAnterior);
-
-        itemSiguiente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_RIGHT, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        itemSiguiente.setText("Siguiente");
-        itemSiguiente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemSiguienteActionPerformed(evt);
-            }
-        });
-        jMenu1.add(itemSiguiente);
-
-        mi_inventario.setText("Inventario");
-        mi_inventario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_inventarioActionPerformed(evt);
-            }
-        });
-        jMenu1.add(mi_inventario);
-
-        item_viaticos.setText("Viaticos");
-        item_viaticos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                item_viaticosActionPerformed(evt);
-            }
-        });
-        jMenu1.add(item_viaticos);
         jMenu1.add(jSeparator1);
 
-        itemSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
-        itemSalir.setText("Salir");
-        itemSalir.addActionListener(new java.awt.event.ActionListener() {
+        mi_viaticos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        mi_viaticos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/viatico.png"))); // NOI18N
+        mi_viaticos.setText("Viaticos");
+        mi_viaticos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemSalirActionPerformed(evt);
+                mi_viaticosActionPerformed(evt);
             }
         });
-        jMenu1.add(itemSalir);
+        jMenu1.add(mi_viaticos);
+
+        mi_pases.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        mi_pases.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/pase.png"))); // NOI18N
+        mi_pases.setText("Inventario");
+        mi_pases.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_pasesActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mi_pases);
+        jMenu1.add(jSeparator2);
+
+        itemSalir1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
+        itemSalir1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        itemSalir1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/if_Exit_728935.png"))); // NOI18N
+        itemSalir1.setText("Salir");
+        itemSalir1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemSalir1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(itemSalir1);
 
         jMenuBar1.add(jMenu1);
 
@@ -328,46 +324,6 @@ public class PrincipalP extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void itemAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemAnteriorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_itemAnteriorActionPerformed
-
-    private void itemSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSiguienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_itemSiguienteActionPerformed
-
-    private void mi_inventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_inventarioActionPerformed
-        try {
-            Principal a = new Principal();
-            a.setVisible(true);
-            //this.dispose();
-            this.setVisible(false);
-        } catch (ClassNotFoundException | SQLException | IOException ex) {
-            Logger.getLogger(PrincipalP.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_mi_inventarioActionPerformed
-
-    private void item_viaticosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_item_viaticosActionPerformed
-        // TODO add your handling code here:
-        PrincipalS b = new PrincipalS();
-        b.setVisible(true);
-        //this.dispose();
-        this.setVisible(false);
-    }//GEN-LAST:event_item_viaticosActionPerformed
-
-    private void itemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSalirActionPerformed
-        // TODO add your handling code here:
-        Object[] botones = {"Confirmar", "Cancelar"};
-        int opcion = JOptionPane.showOptionDialog(this, "¿Salir del Sistema?", "Confirmación",
-            JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
-
-        if (opcion == 0) {
-            System.exit(0);
-        } else if (opcion == 1) {
-            //Cerrar sesion
-        }
-    }//GEN-LAST:event_itemSalirActionPerformed
 
     private void menuPermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPermisosActionPerformed
         // TODO add your handling code here:
@@ -454,12 +410,33 @@ public class PrincipalP extends javax.swing.JFrame {
             modelo.addColumn("Estado");
             this.tablapase.setModel(modelo);
             try {
+                String sql="";
+            
+            ResultSet usuario=cbd.getTabla("select puesto from User where id_user='"+Principal.Username+"'", cn);
+            usuario.next();
+                      
+                ResultSet idemp=cbd.getTabla("select id_empleado from User where id_user='"+Principal.Username+"'", cn);
+                idemp.next();
+                
+                ResultSet numarea=cbd.getTabla("select area from Empleados where id_empleado='"+idemp.getString("id_empleado")+"'", cn);
+                numarea.next();
+                
+                ResultSet area=cbd.getTabla("select Area from Area where ID_area='"+numarea.getString("area")+"'", cn);
+                area.next();
+                    
+            if(usuario.getString("puesto").equals("Administrador")){
+                 sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Año = '"+ fechag +"' OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Area LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha LIKE '%" + txtbusquedasoli.getText() + "%'"
+                    + "OR Hora_ES LIKE '%" + txtbusquedasoli.getText() + "%' OR Hora_Llegada LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Horario LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Asunto LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%'";
+                 
+            }else{      
+                sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Año = '"+ fechag +"' AND Area = '"+ area.getString("Area") +"' OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Area LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha LIKE '%" + txtbusquedasoli.getText() + "%'"
+                    + "OR Hora_ES LIKE '%" + txtbusquedasoli.getText() + "%' OR Hora_Llegada LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Horario LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Asunto LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%'";        
+   
+            }
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = sentencia.executeQuery("SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Folio and Numero LIKE '%" + txtbusquedasoli.getText() + "%'"
-                    + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Area LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha LIKE '%" + txtbusquedasoli.getText() + "%'"
-                    + "OR Hora_ES LIKE '%" + txtbusquedasoli.getText() + "%' OR Hora_Llegada LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Horario LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Asunto LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%'");
+                ResultSet rs = sentencia.executeQuery(sql);
 
                 String solicitud[] = new String[11];
                 while (rs.next()) {
@@ -497,8 +474,8 @@ public class PrincipalP extends javax.swing.JFrame {
 
     private void NuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevaActionPerformed
         // TODO add your handling code here:
-        if (manager_permisos.accesoModulo("alta", "Solicitud Viaticos", Principal.Username)) {
-            try {
+        if (manager_permisos.accesoModulo("alta", "Pase Salida", Principal.Username)) {
+            /*try {
                 for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                     if ("Nimbus".equals(info.getName())) {
                         UIManager.setLookAndFeel(info.getClassName());
@@ -507,8 +484,8 @@ public class PrincipalP extends javax.swing.JFrame {
                 }
             } catch (Exception e) {
                 // If Nimbus is not available, you can set the GUI to another look and feel.
-            }
-            addSolicitudPermisos asv = new addSolicitudPermisos(this, true);
+            }*/
+            addSolicitudPermisos asv = new addSolicitudPermisos(this,true); 
             asv.setVisible(true);
         }else{
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar pases de salida.");
@@ -517,7 +494,7 @@ public class PrincipalP extends javax.swing.JFrame {
 
     private void ImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImprimirActionPerformed
         // TODO add your handling code here:
-        if (manager_permisos.accesoModulo("consulta", "Solicitud Viaticos", Principal.Username)) {
+        if (manager_permisos.accesoModulo("consulta", "Pase Salida", Principal.Username)) {
             int fila = tablapase.getSelectedRow();
             CrearPaseSalida cps = new CrearPaseSalida();
             if(fila >= 0){
@@ -557,7 +534,7 @@ public class PrincipalP extends javax.swing.JFrame {
 
     private void Hora_llegadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hora_llegadaActionPerformed
         // TODO add your handling code here:
-        if (manager_permisos.accesoModulo("actualizar", "Solicitud Viaticos", Principal.Username)) {
+        if (manager_permisos.accesoModulo("actualizar", "Pase Salida", Principal.Username)) {
             int k = tablapase.getSelectedRow();
             if (k >= 0) {
                 if(tablapase.getValueAt(k,8).toString().equals("Intermedio")){
@@ -600,7 +577,7 @@ public class PrincipalP extends javax.swing.JFrame {
 
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
         // TODO add your handling code here:
-        if (manager_permisos.accesoModulo("actualizar", "Solicitud Viaticos", Principal.Username)) {
+        if (manager_permisos.accesoModulo("baja", "Pase Salida", Principal.Username)) {
             int k = tablapase.getSelectedRow();
             if (k >= 0) {
                 String folio = tablapase.getValueAt(k, 0).toString();
@@ -624,7 +601,7 @@ public class PrincipalP extends javax.swing.JFrame {
 
     private void ExportarExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarExcelActionPerformed
         // TODO add your handling code here:
-        if (manager_permisos.accesoModulo("consulta", "Solicitud Viaticos", Principal.Username)) {
+        if (manager_permisos.accesoModulo("consulta", "Pase Salida", Principal.Username)) {
             try{
                 //if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
                     Excel excel = new Excel();
@@ -643,10 +620,10 @@ public class PrincipalP extends javax.swing.JFrame {
 
     private void ConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarActionPerformed
         // TODO add your handling code here:
-        if (manager_permisos.accesoModulo("consulta", "Solicitud Viaticos", Principal.Username)) {
+        if (manager_permisos.accesoModulo("consulta", "Pase Salida", Principal.Username)) {
             int fila = tablapase.getSelectedRow();
             if (fila >= 0) {
-                 vsp = new visSolicitudPase();
+                 
                 String folio=tablapase.getValueAt(fila,0).toString();
                 String nombreem=tablapase.getValueAt(fila,1).toString();  
                 String puesto=tablapase.getValueAt(fila,2).toString();
@@ -659,7 +636,9 @@ public class PrincipalP extends javax.swing.JFrame {
                 String tipoasunto=tablapase.getValueAt(fila,9).toString();
                 String asunto=tablapase.getValueAt(fila,10).toString();
                 String estado=tablapase.getValueAt(fila,11).toString();
-
+                
+                vsp = new visSolicitudPase(this,true,folio);
+                
                 vsp.recibeinfo(folio,nombreem,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,estado);
 
                 vsp.setVisible(true); 
@@ -670,6 +649,57 @@ public class PrincipalP extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para consultar pases de salida.");
         }
     }//GEN-LAST:event_ConsultarActionPerformed
+
+    private void mi_viaticosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_viaticosActionPerformed
+
+        PrincipalS a= new PrincipalS();
+        a.setVisible(true);
+        this.dispose();
+
+    }//GEN-LAST:event_mi_viaticosActionPerformed
+
+    private void mi_pasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_pasesActionPerformed
+        // TODO add your handling code here:
+        try {
+            Principal a = new Principal();
+            a.setVisible(true);
+            //this.dispose();
+            this.setVisible(false);
+        } catch (ClassNotFoundException | SQLException | IOException ex) {
+            Logger.getLogger(PrincipalP.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mi_pasesActionPerformed
+
+    private void itemSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSalir1ActionPerformed
+        // TODO add your handling code here:
+        Object[] botones = {"Confirmar","Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this,"¿Salir del Sistema?", "Confirmación",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
+
+        if(opcion == 0){
+            System.exit(0);
+        }else if(opcion == 1){
+            //Cerrar sesion
+        }
+    }//GEN-LAST:event_itemSalir1ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        Object[] botones = {"Confirmar","Cerrar Sesión","Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this,"¿Salir del Sistema?", "Confirmación",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+        
+        if(opcion == 0){
+            System.exit(0);
+        }else if(opcion == 1){
+            //Cerrar sesion
+            this.dispose();
+            Login ob = new Login();
+            ob.setVisible(true);   
+        }else if(opcion == 2){
+            
+        }
+    }//GEN-LAST:event_formWindowClosing
         public static String getfecha(){
         Date fecha=new Date(); 
         SimpleDateFormat formatofecha=new SimpleDateFormat("dd-MM-yyyy");
@@ -720,10 +750,7 @@ public class PrincipalP extends javax.swing.JFrame {
     private javax.swing.JPopupMenu MenuPases;
     private javax.swing.JMenuItem MenuSolicitud;
     private javax.swing.JMenuItem Nueva;
-    private javax.swing.JMenuItem itemAnterior;
-    private javax.swing.JMenuItem itemSalir;
-    private javax.swing.JMenuItem itemSiguiente;
-    private javax.swing.JMenuItem item_viaticos;
+    private javax.swing.JMenuItem itemSalir1;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
@@ -734,11 +761,13 @@ public class PrincipalP extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel16;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JMenu menuOpciones;
     private javax.swing.JMenuItem menuPermisos;
     private javax.swing.JMenuItem menuPuestoArea;
-    private javax.swing.JMenuItem mi_inventario;
+    private javax.swing.JMenuItem mi_pases;
+    private javax.swing.JMenuItem mi_viaticos;
     private javax.swing.JPanel solicitudviaticos1;
     public static javax.swing.JTabbedPane solicpase;
     public static javax.swing.JTable tablapase;

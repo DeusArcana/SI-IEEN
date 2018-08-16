@@ -44,6 +44,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
     public addSolicitudPermisos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
         manager_users = new ManagerUsers();
         manager_pases = new ManagerPases();
         JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) date_Salida.getDateEditor();
@@ -98,61 +99,73 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Registro nueva solicitud");
+        setPreferredSize(new java.awt.Dimension(660, 550));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
         });
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pn_addPermiso.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pn_addPermiso.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pn_addPermiso.setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Area:");
-        pn_addPermiso.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, -1, -1));
+        pn_addPermiso.add(jLabel1);
+        jLabel1.setBounds(90, 130, 36, 17);
 
         txt_Puesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_Puesto.setEnabled(false);
-        pn_addPermiso.add(txt_Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 185, 215, -1));
+        pn_addPermiso.add(txt_Puesto);
+        txt_Puesto.setBounds(140, 185, 215, 27);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Puesto:");
-        pn_addPermiso.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, -1, -1));
+        pn_addPermiso.add(jLabel2);
+        jLabel2.setBounds(70, 190, 54, 17);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Asunto:");
-        pn_addPermiso.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 340, -1, -1));
+        pn_addPermiso.add(jLabel3);
+        jLabel3.setBounds(70, 340, 54, 17);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Hora de E/S:");
-        pn_addPermiso.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, -1, -1));
+        pn_addPermiso.add(jLabel4);
+        jLabel4.setBounds(40, 270, 86, 17);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Horas:");
-        pn_addPermiso.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 310, -1, -1));
+        pn_addPermiso.add(jLabel5);
+        jLabel5.setBounds(290, 310, 45, 17);
 
         txt_Actividad.setColumns(20);
         txt_Actividad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_Actividad.setRows(5);
         jScrollPane1.setViewportView(txt_Actividad);
 
-        pn_addPermiso.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 530, 90));
+        pn_addPermiso.add(jScrollPane1);
+        jScrollPane1.setBounds(30, 360, 530, 90);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Folio:");
-        pn_addPermiso.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 50, -1, -1));
+        pn_addPermiso.add(jLabel8);
+        jLabel8.setBounds(470, 50, 37, 17);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Nombre:");
-        pn_addPermiso.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, -1, -1));
+        pn_addPermiso.add(jLabel7);
+        jLabel7.setBounds(70, 160, 60, 17);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("Por horario:");
-        pn_addPermiso.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
+        pn_addPermiso.add(jLabel10);
+        jLabel10.setBounds(50, 90, 80, 17);
 
         lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        pn_addPermiso.add(lblAviso, new org.netbeans.lib.awtextra.AbsoluteConstraints(466, 228, 15, 233));
+        pn_addPermiso.add(lblAviso);
+        lblAviso.setBounds(466, 228, 15, 233);
 
         comboArea.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         comboArea.addActionListener(new java.awt.event.ActionListener() {
@@ -160,7 +173,8 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 comboAreaActionPerformed(evt);
             }
         });
-        pn_addPermiso.add(comboArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 123, -1, -1));
+        pn_addPermiso.add(comboArea);
+        comboArea.setBounds(140, 123, 320, 25);
 
         comboEmpleados.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         comboEmpleados.addActionListener(new java.awt.event.ActionListener() {
@@ -168,7 +182,8 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 comboEmpleadosActionPerformed(evt);
             }
         });
-        pn_addPermiso.add(comboEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 153, -1, -1));
+        pn_addPermiso.add(comboEmpleados);
+        comboEmpleados.setBounds(140, 153, 270, 25);
 
         btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
@@ -178,7 +193,8 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 btnAceptarActionPerformed(evt);
             }
         });
-        pn_addPermiso.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 470, -1, -1));
+        pn_addPermiso.add(btnAceptar);
+        btnAceptar.setBounds(180, 470, 120, 36);
 
         btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
@@ -188,7 +204,8 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 btnCancelarActionPerformed(evt);
             }
         });
-        pn_addPermiso.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 470, -1, -1));
+        pn_addPermiso.add(btnCancelar);
+        btnCancelar.setBounds(330, 470, 120, 36);
 
         comboHorario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "De Entrada", "Intermedio", "De Salida" }));
         comboHorario.addActionListener(new java.awt.event.ActionListener() {
@@ -196,47 +213,58 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 comboHorarioActionPerformed(evt);
             }
         });
-        pn_addPermiso.add(comboHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 83, -1, -1));
+        pn_addPermiso.add(comboHorario);
+        comboHorario.setBounds(140, 83, 126, 28);
 
         comboAsunto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "Particular", "Oficial", "Médico" }));
-        pn_addPermiso.add(comboAsunto, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 83, -1, -1));
+        pn_addPermiso.add(comboAsunto);
+        comboAsunto.setBounds(420, 83, 126, 28);
 
         JSpinner.DateEditor de = new JSpinner.DateEditor(hora_e_s,"HH:mm");
         hora_e_s.setEditor(de);
-        pn_addPermiso.add(hora_e_s, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 260, -1, -1));
+        pn_addPermiso.add(hora_e_s);
+        hora_e_s.setBounds(140, 260, 70, 28);
 
         jlfec.setText(".");
-        pn_addPermiso.add(jlfec, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, -1, -1));
+        pn_addPermiso.add(jlfec);
+        jlfec.setBounds(370, 10, 4, 18);
 
         txt_hora_llegada.setEditable(false);
         txt_hora_llegada.setEnabled(false);
-        pn_addPermiso.add(txt_hora_llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 300, 90, -1));
+        pn_addPermiso.add(txt_hora_llegada);
+        txt_hora_llegada.setBounds(140, 300, 90, 28);
 
         txt_horas.setEditable(false);
         txt_horas.setText("00:00");
         txt_horas.setEnabled(false);
-        pn_addPermiso.add(txt_horas, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 300, 80, -1));
+        pn_addPermiso.add(txt_horas);
+        txt_horas.setBounds(340, 300, 90, 28);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setText("Hora de llegada:");
-        pn_addPermiso.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 310, -1, -1));
+        pn_addPermiso.add(jLabel11);
+        jLabel11.setBounds(20, 310, 112, 17);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("Por asunto:");
-        pn_addPermiso.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 90, -1, -1));
+        pn_addPermiso.add(jLabel9);
+        jLabel9.setBounds(330, 90, 80, 17);
 
         txt_Folio.setEditable(false);
         txt_Folio.setEnabled(false);
-        pn_addPermiso.add(txt_Folio, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 40, 120, -1));
+        pn_addPermiso.add(txt_Folio);
+        txt_Folio.setBounds(510, 40, 120, 28);
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Fecha de entrada:");
-        pn_addPermiso.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 230, -1, -1));
+        pn_addPermiso.add(jLabel12);
+        jLabel12.setBounds(6, 230, 126, 17);
 
         date_Salida.setDateFormatString("d-MM-yyyy");
         date_Salida.setEnabled(false);
         date_Salida.setFocusable(false);
-        pn_addPermiso.add(date_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 220, 215, -1));
+        pn_addPermiso.add(date_Salida);
+        date_Salida.setBounds(140, 220, 215, 28);
         date_Salida.getDateEditor().addPropertyChangeListener(
             new java.beans.PropertyChangeListener() {
                 @Override
@@ -248,9 +276,21 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             });
 
             jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
-            pn_addPermiso.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+            pn_addPermiso.add(jLabel6);
+            jLabel6.setBounds(0, 0, 660, 540);
 
-            getContentPane().add(pn_addPermiso, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 700, 520));
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(pn_addPermiso, javax.swing.GroupLayout.PREFERRED_SIZE, 649, javax.swing.GroupLayout.PREFERRED_SIZE)
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(pn_addPermiso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            );
+
+            getAccessibleContext().setAccessibleName("Nueva solicitud pase E/S");
 
             pack();
         }// </editor-fold>//GEN-END:initComponents
@@ -314,7 +354,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 return;
             }
         }catch (NullPointerException ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error! No se ha seleccionado nada");
+                javax.swing.JOptionPane.showMessageDialog(null, "Error! No se ha seleccionado fecha");
             }
         
         //SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");

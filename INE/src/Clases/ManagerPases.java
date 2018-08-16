@@ -6,6 +6,7 @@
 package Clases;
 
 
+import Interfaces.Principal;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -48,8 +49,34 @@ public class ManagerPases {
 
         try {
             
+            //conexion = db.getConexion();
+            
+            String sql="";
+            
+            ResultSet usuario=db.getTabla("select puesto from User where id_user='"+Principal.Username+"'", conexion);
+            usuario.next();
+                      
+                ResultSet idemp=db.getTabla("select id_empleado from User where id_user='"+Principal.Username+"'", conexion);
+                idemp.next();
+                
+                ResultSet numarea=db.getTabla("select area from Empleados where id_empleado='"+idemp.getString("id_empleado")+"'", conexion);
+                numarea.next();
+                
+                ResultSet area=db.getTabla("select Area from Area where ID_area='"+numarea.getString("area")+"'", conexion);
+                area.next();
+                    
+            if(usuario.getString("puesto").equals("Administrador")){
+                 sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado from solicitud_pase where Año = '"+ año +"' order by Numero DESC";
+                 
+            }else{      
+                sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado from solicitud_pase where Año = '"+ año +"' AND Area = '"+ area.getString("Area") +"' order by Numero DESC";        
+                //System.out.printf(idemp.getString("id_empleado"));
+                //System.out.printf(numarea.getString("area"));
+                //System.out.printf(area.getString("Area"));
+            }
+            
             //Consulta de los empleados
-            String sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado from solicitud_pase where Año = '"+ año +"' order by Numero DESC";
+            //sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado from solicitud_pase where Año = '"+ año +"' order by Numero DESC";
             //String sql="select * from solicitud_viatico";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
