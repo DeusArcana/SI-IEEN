@@ -734,7 +734,14 @@ public class CrearPDF {
                 //Label vehiculo
                 cb.setFontAndSize(bfNoNegritas,12);
                 cb.setTextMatrix(50,375);
-                cb.showText("Observaciones del vehículo: ");
+                cb.showText("Observaciones del vehículo:                Kilometraje: ");
+                //----
+                cb.setFontAndSize(bf,12);
+                cb.setTextMatrix(350,375);
+                String idSolicitud=rs.getString("solicitud_idSolicitud");
+                ResultSet aux=cbd.getTabla("select kilometraje from solicitud_viatico SVI inner join vehiculo_viatico VV on SVI.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado WHERE SVI.idSolicitud="+idSolicitud, cn);
+                aux.next();
+                cb.showText(aux.getString("kilometraje"));                
                 //Vehiculo base de datos
                 cb.setFontAndSize(bf,12);
                 cb.setTextMatrix(50,350);

@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 import Clases.ManagerSoViaticos;
 import Clases.CrearPDF;
+import Clases.ManagerComplemento;
 import Clases.ManagerPermisos;
 import Formularios.addSolicitudVehiculo;
 
@@ -52,6 +53,8 @@ public class PrincipalS extends javax.swing.JFrame {
     DefaultTableModel modelo;
     CrearPDF pdf = new CrearPDF();
     boolean limpiar = false;
+    int idArea=0;
+    ManagerComplemento manager_complemento;
     public static int conVehiculo;//Sirve para saber si se tiene que solicitar un vehiculo cuando está en 1
 
     /**
@@ -70,7 +73,15 @@ public class PrincipalS extends javax.swing.JFrame {
         tablonarchivadas.getTableHeader().setReorderingAllowed(false);
         manager_soviaticos = new ManagerSoViaticos();
         manager_permisos=new ManagerPermisos();
+        manager_complemento=new ManagerComplemento();
         c = 0;
+        String lista = manager_complemento.obtenerAreas();
+        String[] recoger = lista.split(",,");
+
+        cmbArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        for(int i = 1; i <= recoger.length;i = i+2){
+            cmbArea.addItem(recoger[i]);
+        }
     }
 
     int folio, c;
@@ -185,6 +196,8 @@ public class PrincipalS extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablainfo1 = new javax.swing.JTable();
         btnregresar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        cmbArea = new javax.swing.JComboBox();
         jLabel24 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -995,6 +1008,20 @@ public class PrincipalS extends javax.swing.JFrame {
         informe.add(btnregresar);
         btnregresar.setBounds(867, 130, 170, 40);
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setText("Área");
+        informe.add(jLabel2);
+        jLabel2.setBounds(540, 40, 35, 22);
+
+        cmbArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbAreaActionPerformed(evt);
+            }
+        });
+        informe.add(cmbArea);
+        cmbArea.setBounds(590, 40, 250, 20);
+
         jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
         informe.add(jLabel24);
         jLabel24.setBounds(0, 0, 1367, 769);
@@ -1180,8 +1207,13 @@ public class PrincipalS extends javax.swing.JFrame {
             tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
         }
         if (manager_permisos.accesoModulo("consulta", "Informe", Principal.Username)) {
-            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
-            SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+            if(idArea>0){
+                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea);
+                SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area="+idArea+" ORDER BY I.Id_Informe DESC");
+            }else{
+                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+                SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+            }
         }
     }//GEN-LAST:event_formWindowOpened
 
@@ -1835,36 +1867,47 @@ public class PrincipalS extends javax.swing.JFrame {
                 }
             };
             modelo.addColumn("idSolicitud");
-            modelo.addColumn("Nombre");
-            modelo.addColumn("Puesto");
             modelo.addColumn("Fecha de salida");
-            modelo.addColumn("Fecha de llegada");
             modelo.addColumn("Lugar");
-            modelo.addColumn("Pernoctado");
+            modelo.addColumn("Nombre");
             modelo.addColumn("Actividad");
-            modelo.addColumn("Vehiculo");
+            modelo.addColumn("Pernoctado");
+            modelo.addColumn("Puesto");
+            modelo.addColumn("Fecha llegada");
             modelo.addColumn("Estado");
             this.tablasolic.setModel(modelo);
             try {
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada, Lugar, Pernoctado, Actividad, Vehiculo, Estado FROM Solicitud_viatico WHERE idSolicitud LIKE '%" + txtbusquedasoli.getText() + "%'"
+                ResultSet rs = sentencia.executeQuery("SELECT idSolicitud,Fecha_salida, Lugar, Nombre,Actividad, Pernoctado, Puesto, Fecha_llegada,  Estado FROM Solicitud_viatico WHERE idSolicitud LIKE '%" + txtbusquedasoli.getText() + "%'"
                         + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli.getText() + "%'"
-                        + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%' OR Pernoctado LIKE '%" + txtbusquedasoli.getText() + "%' OR Actividad LIKE '%" + txtbusquedasoli.getText() + "%' OR Vehiculo LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%'");
+                        + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%' OR Pernoctado LIKE '%" + txtbusquedasoli.getText() + "%' OR Actividad LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%'");
 
                 String solicitud[] = new String[10];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("idSolicitud");
-                    solicitud[1] = rs.getString("Nombre");
-                    solicitud[2] = rs.getString("Puesto");
-                    solicitud[3] = rs.getString("Fecha_salida");
-                    solicitud[4] = rs.getString("Fecha_llegada");
-                    solicitud[5] = rs.getString("Lugar");
-                    solicitud[6] = rs.getString("Pernoctado");
-                    solicitud[7] = rs.getString("Actividad");
-                    solicitud[8] = rs.getString("Vehiculo");
-                    solicitud[9] = rs.getString("Estado");
+                    solicitud[1] = rs.getString("Fecha_salida");
+                    solicitud[2] = rs.getString("Lugar");
+                    solicitud[3] = rs.getString("Nombre");
+                    solicitud[4] = rs.getString("Actividad");
+                    solicitud[5] = rs.getString("Pernoctado");
+                    solicitud[6] = rs.getString("Puesto");
+                    solicitud[7] = rs.getString("Fecha_llegada");
+                    switch(rs.getString("Estado").toString()){
+                        case "P":
+                            solicitud[8] = "Pendiente";
+                            break;
+                        case "A":
+                            solicitud[8] = "Aceptada";
+                            break;
+                        case "AR":
+                            solicitud[8] = "Archivada";
+                            break;
+                        case "C":
+                            solicitud[8] = "Cancelada";
+                            break;
+                    }
                     modelo.addRow(solicitud);
                 }
 
@@ -1878,29 +1921,53 @@ public class PrincipalS extends javax.swing.JFrame {
                     return false;
                 }
             };
-            modelo.addColumn("ID");
-            modelo.addColumn("Nombre");
-            modelo.addColumn("Puesto");
+            modelo.addColumn("idSolicitud");
             modelo.addColumn("Fecha de salida");
-            modelo.addColumn("Fecha de llegada");
             modelo.addColumn("Lugar");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Actividad");
+            modelo.addColumn("Pernoctado");
+            modelo.addColumn("Puesto");
+            modelo.addColumn("Fecha de llegada");
+            modelo.addColumn("Hora Salida");
+            modelo.addColumn("Hota Llegada");
+            modelo.addColumn("Estado");
             this.tablasolicvehiculo.setModel(modelo);
             try {
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM solicitud_vehiculo WHERE idSolicitud LIKE '%" + txtbusquedasoli.getText() + "%'"
+                ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Actividad, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar,Pernoctado,Hora_salida,Hora_llegada,estado FROM solicitud_viatico SVI inner join vehiculo_viatico VV on SVI.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo"
+                        + " WHERE (idSolicitud LIKE '%" + txtbusquedasoli.getText() + "%'"
                         + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli.getText() + "%'"
-                        + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%'");
+                        + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%') and SV.chofer='1'");
 
-                String solicitud[] = new String[6];
+                String solicitud[] = new String[11];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("idSolicitud");
-                    solicitud[1] = rs.getString("Nombre");
-                    solicitud[2] = rs.getString("Puesto");
-                    solicitud[3] = rs.getString("Fecha_salida");
-                    solicitud[4] = rs.getString("Fecha_llegada");
-                    solicitud[5] = rs.getString("Lugar");
+                    solicitud[1] = rs.getString("Fecha_salida");
+                    solicitud[2] = rs.getString("Lugar");
+                    solicitud[3] = rs.getString("Nombre");
+                    solicitud[4] = rs.getString("Actividad");
+                    solicitud[5] = rs.getString("Pernoctado");
+                    solicitud[6] = rs.getString("Puesto");
+                    solicitud[7] = rs.getString("Fecha_llegada");
+                    solicitud[8] = rs.getString("Hora_salida");
+                    solicitud[9] = rs.getString("Hora_llegada");
+                    switch(rs.getString("Estado").toString()){
+                        case "P":
+                            solicitud[10] = "Pendiente";
+                            break;
+                        case "A":
+                            solicitud[10] = "Aceptada";
+                            break;
+                        case "AR":
+                            solicitud[10] = "Archivada";
+                            break;
+                        case "C":
+                            solicitud[10] = "Cancelada";
+                            break;
+                    }
                     modelo.addRow(solicitud);
                 }
 
@@ -2216,8 +2283,13 @@ public class PrincipalS extends javax.swing.JFrame {
             GaTot.setVisible(false);
             jScrollPane3.setVisible(false);
             jScrollPane1.setVisible(true);
-            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
-            SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+            if(idArea>0){
+                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea);
+                SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area="+idArea+" ORDER BY I.Id_Informe DESC");
+            }else{
+                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+                SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+            }
         } else {
         }
     }//GEN-LAST:event_btnregresar1ActionPerformed
@@ -2579,7 +2651,11 @@ public class PrincipalS extends javax.swing.JFrame {
                 }
                 sentencia.executeUpdate("UPDATE Solicitud_viatico SET gastos_comprobar = '" + gastosac + "' WHERE (idSolicitud = " + idSolicitud + ")");
                 javax.swing.JOptionPane.showMessageDialog(null, "Gastos a comprobar guardados");
-                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+                if(idArea>0){
+                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea);
+                }else{
+                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+                }
             } catch (SQLException ex) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
@@ -2629,7 +2705,12 @@ public class PrincipalS extends javax.swing.JFrame {
             }
             tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
             tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
-            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+            
+            if(idArea>0){
+                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea);
+            }else{
+                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+            }
         }else{
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para archivar solicitudes.");
         }
@@ -2739,6 +2820,13 @@ public class PrincipalS extends javax.swing.JFrame {
             Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_mi_inventarioActionPerformed
+
+    private void cmbAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAreaActionPerformed
+        // TODO add your handling code here:
+        idArea=cmbArea.getSelectedIndex()+1;
+        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea);
+        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area="+idArea+" ORDER BY I.Id_Informe DESC");
+    }//GEN-LAST:event_cmbAreaActionPerformed
 
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {
@@ -2966,6 +3054,7 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JButton btnguardar;
     private javax.swing.JButton btnregresar;
     private javax.swing.JButton btnregresar1;
+    private javax.swing.JComboBox cmbArea;
     private javax.swing.JButton guardargac;
     private javax.swing.JPanel informe;
     private javax.swing.JMenuItem itemSalir;
@@ -2974,6 +3063,7 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel28;
