@@ -299,6 +299,8 @@ public class Principal extends javax.swing.JFrame {
         tabbedPrincipal = new javax.swing.JTabbedPane();
         pestañaInventario = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
+        lblEstatus = new javax.swing.JLabel();
+        lblFolioCategoria = new javax.swing.JLabel();
         lblProductosTotales = new javax.swing.JLabel();
         comboFiltro = new javax.swing.JComboBox<>();
         comboEstatus = new javax.swing.JComboBox<>();
@@ -437,6 +439,8 @@ public class Principal extends javax.swing.JFrame {
         tablaSolicitudes = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jScrollPane12 = new javax.swing.JScrollPane();
         tablaStockMin = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        jLabel28 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         configuracion = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -504,7 +508,7 @@ public class Principal extends javax.swing.JFrame {
 
         Pendiente.setText("Pendiente");
 
-        ParaBaja.setText("para baja");
+        ParaBaja.setText("Para baja");
         ParaBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ParaBajaActionPerformed(evt);
@@ -512,7 +516,7 @@ public class Principal extends javax.swing.JFrame {
         });
         Pendiente.add(ParaBaja);
 
-        ParaComodato.setText("para comodato");
+        ParaComodato.setText("Para comodato");
         ParaComodato.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ParaComodatoActionPerformed(evt);
@@ -520,7 +524,7 @@ public class Principal extends javax.swing.JFrame {
         });
         Pendiente.add(ParaComodato);
 
-        ParaDonacion.setText("para donación");
+        ParaDonacion.setText("Para donación");
         ParaDonacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ParaDonacionActionPerformed(evt);
@@ -875,6 +879,16 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel3.setLayout(null);
 
+        lblEstatus.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblEstatus.setText("Estatus:");
+        jPanel3.add(lblEstatus);
+        lblEstatus.setBounds(1040, 90, 80, 22);
+
+        lblFolioCategoria.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblFolioCategoria.setText("Folio:");
+        jPanel3.add(lblFolioCategoria);
+        lblFolioCategoria.setBounds(670, 90, 100, 22);
+
         lblProductosTotales.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblProductosTotales.setText("Productos totales: 0");
         jPanel3.add(lblProductosTotales);
@@ -898,7 +912,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel3.add(comboEstatus);
-        comboEstatus.setBounds(940, 90, 200, 30);
+        comboEstatus.setBounds(1150, 90, 200, 30);
 
         comboEstatusConsumible.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboEstatusConsumible.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Disponible", "Agotado" }));
@@ -908,7 +922,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel3.add(comboEstatusConsumible);
-        comboEstatusConsumible.setBounds(940, 90, 200, 30);
+        comboEstatusConsumible.setBounds(1150, 90, 200, 30);
 
         comboFolio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboFolio.addActionListener(new java.awt.event.ActionListener() {
@@ -917,7 +931,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel3.add(comboFolio);
-        comboFolio.setBounds(700, 90, 220, 30);
+        comboFolio.setBounds(770, 90, 220, 30);
 
         comboCategoriaConsumible.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboCategoriaConsumible.addActionListener(new java.awt.event.ActionListener() {
@@ -926,7 +940,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel3.add(comboCategoriaConsumible);
-        comboCategoriaConsumible.setBounds(700, 90, 220, 30);
+        comboCategoriaConsumible.setBounds(770, 90, 220, 30);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baner inventario.png"))); // NOI18N
         jPanel3.add(jLabel5);
@@ -1002,11 +1016,11 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(comboInventario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(btnAddInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(410, Short.MAX_VALUE))
+                .addContainerGap(350, Short.MAX_VALUE))
         );
 
         jPanel3.add(jPanel1);
-        jPanel1.setBounds(1150, 90, 200, 620);
+        jPanel1.setBounds(1150, 150, 200, 560);
 
         txtBusqueda.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -1015,7 +1029,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel3.add(txtBusqueda);
-        txtBusqueda.setBounds(380, 90, 290, 30);
+        txtBusqueda.setBounds(380, 90, 270, 30);
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel12.setText("Busqueda por ");
@@ -1753,13 +1767,13 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pn_asignacion_inventario1Layout.createSequentialGroup()
-                        .addComponent(lb_objetos_asignables4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblAreaAsignacion)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(comboArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lb_objetos_asignables4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pn_asignacion_inventario1Layout.createSequentialGroup()
                         .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(pn_asignacion_inventario1Layout.createSequentialGroup()
@@ -2136,6 +2150,9 @@ public class Principal extends javax.swing.JFrame {
         });
         jScrollPane12.setViewportView(tablaStockMin);
 
+        jLabel28.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel28.setText("Consumibles con bajo stock");
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -2146,19 +2163,30 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 1310, Short.MAX_VALUE)
                     .addComponent(jScrollPane12))
                 .addContainerGap())
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addGap(2, 2, 2)
+                .addComponent(jLabel28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel7.add(jPanel8);
         jPanel8.setBounds(20, 20, 1330, 700);
+
+        jLabel25.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel25.setText("Solicitudes");
+        jPanel7.add(jLabel25);
+        jLabel25.setBounds(40, 0, 150, 22);
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         jPanel7.add(jLabel9);
@@ -4000,6 +4028,8 @@ public void metodoValeRecoleccion(){
 
     private void comboInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboInventarioActionPerformed
         // TODO add your handling code here:
+        lblFolioCategoria.setVisible(true);
+        lblEstatus.setVisible(true);
         btnAddInventario.setVisible(true);
         comboFolio.setVisible(false);
         comboEstatus.setVisible(false);
@@ -4008,7 +4038,7 @@ public void metodoValeRecoleccion(){
         
             if(comboInventario.getSelectedItem().toString().equals("Inventario")){
                 banderaInventario = 1;
-                
+                lblFolioCategoria.setText("Folio:");
                 
                 comboFiltro.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
                 comboFiltro.addItem("Clave");
@@ -4028,6 +4058,7 @@ public void metodoValeRecoleccion(){
                 comboFolio.setVisible(true);
                 comboEstatus.setVisible(true);
             }else if(comboInventario.getSelectedItem().toString().equals("Consumibles")){
+                lblFolioCategoria.setText("Categoria:");
                 banderaInventario = 2;
                 seleccionoConsumible = true;
                 
@@ -4043,7 +4074,9 @@ public void metodoValeRecoleccion(){
                 comboFiltro.addItem("Observaciones");
             }else{
                 btnAddInventario.setVisible(false);
-
+                lblFolioCategoria.setVisible(false);
+                lblEstatus.setVisible(false);
+        
                 comboFiltro.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
                 comboFiltro.addItem("Propietario");
                 comboFiltro.addItem("Producto");
@@ -6043,8 +6076,10 @@ public void metodoValeRecoleccion(){
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel4;
@@ -6100,7 +6135,9 @@ public void metodoValeRecoleccion(){
     public static javax.swing.JLabel lblCodigo;
     public static javax.swing.JLabel lblCurp;
     public static javax.swing.JLabel lblDomicilio;
+    private javax.swing.JLabel lblEstatus;
     public static javax.swing.JLabel lblFecha;
+    private javax.swing.JLabel lblFolioCategoria;
     public static javax.swing.JLabel lblLocalidad;
     public static javax.swing.JLabel lblMunicipio;
     public static javax.swing.JLabel lblNombre;

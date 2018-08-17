@@ -65,6 +65,7 @@ public class addInventario extends javax.swing.JDialog {
         campoRuta.setVisible(false);
         campoRuta.setText(cargarNoImage()+"\\src\\Imagenes\\noproducto.png");
         contadorImg.setVisible(false);
+        this.setTitle("Añadir nuevo producto");
     }
     
     public String cargarNoImage() {
@@ -409,6 +410,7 @@ public class addInventario extends javax.swing.JDialog {
         txtFactura.setBounds(360, 340, 120, 30);
 
         txtImporte.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtImporte.setText("0");
         txtImporte.setToolTipText("Ejemplo CMP00000001");
         txtImporte.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -780,10 +782,9 @@ public class addInventario extends javax.swing.JDialog {
 
     private void txtExtensionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtExtensionFocusLost
         // TODO add your handling code here:
-        if(!(txtNum.getText().isEmpty() && txtExtension.getText().isEmpty())){
-            
+        if(!(txtNum.getText().isEmpty() && txtExtension.getText().isEmpty())){            
             existeClave();
-            
+            txtExtension.setText(txtExtension.getText().toUpperCase());
         }//Buscar si existe o no
         else{
             txtFolio.setBackground(java.awt.Color.WHITE);
@@ -808,6 +809,7 @@ public class addInventario extends javax.swing.JDialog {
         if(txtExtension.getText().length() == 1){
             evt.consume();
         }else{
+            /*
             if(caracter != 'A'){
                 if(caracter != 'B'){
                     evt.consume();
@@ -816,6 +818,11 @@ public class addInventario extends javax.swing.JDialog {
                 }
             }else{
 
+            }
+            */
+            if((caracter == 'A' || caracter == 'a') || (caracter == 'B' || caracter == 'b')){
+            }else{
+                evt.consume();
             }
         }
     }//GEN-LAST:event_txtExtensionKeyTyped
@@ -838,6 +845,9 @@ public class addInventario extends javax.swing.JDialog {
 
     private void txtImporteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImporteFocusLost
         // TODO add your handling code here:
+        if(txtImporte.getText().isEmpty()){
+            txtImporte.setText("0");
+        }
     }//GEN-LAST:event_txtImporteFocusLost
 
     private void txtImporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteActionPerformed
