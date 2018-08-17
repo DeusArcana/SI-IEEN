@@ -403,9 +403,9 @@ public class PrincipalP extends javax.swing.JFrame {
             modelo.addColumn("Area");
             modelo.addColumn("Fecha");
             modelo.addColumn("Hora_E/S");
-            modelo.addColumn("Hora_llegada");
-            modelo.addColumn("Tipo_horario");
-            modelo.addColumn("Tipo_asunto");
+            modelo.addColumn("Hora_Llegada");
+            modelo.addColumn("Tipo_Horario");
+            modelo.addColumn("Tipo_Asunto");
             modelo.addColumn("Asunto");
             modelo.addColumn("Estado");
             this.tablapase.setModel(modelo);
@@ -425,16 +425,17 @@ public class PrincipalP extends javax.swing.JFrame {
                 area.next();
                     
             if(usuario.getString("puesto").equals("Administrador")){
-                 sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Año = '"+ fechag +"' OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Area LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha LIKE '%" + txtbusquedasoli.getText() + "%'"
-                    + "OR Hora_ES LIKE '%" + txtbusquedasoli.getText() + "%' OR Hora_Llegada LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Horario LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Asunto LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%'";
-                 
-            }else{      
-                sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Año = '"+ fechag +"' AND Area = '"+ area.getString("Area") +"' OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Area LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha LIKE '%" + txtbusquedasoli.getText() + "%'"
-                    + "OR Hora_ES LIKE '%" + txtbusquedasoli.getText() + "%' OR Hora_Llegada LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Horario LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Asunto LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%'";        
-   
-            }
+                 sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Año = '" + fechag + "' And (Numero LIKE '%" + txtbusquedasoli.getText() + "%'"
+                    + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Area LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha LIKE '%" + txtbusquedasoli.getText() + "%'"
+                    + "OR Hora_ES LIKE '%" + txtbusquedasoli.getText() + "%' OR Hora_Llegada LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Horario LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Asunto LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%')";             
+            }else{
+                sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Año = '" + fechag + "' And Area = '" + area.getString("Area") + "' And (Numero LIKE '%" + txtbusquedasoli.getText() + "%'"
+                    + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Area LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha LIKE '%" + txtbusquedasoli.getText() + "%'"
+                    + "OR Hora_ES LIKE '%" + txtbusquedasoli.getText() + "%' OR Hora_Llegada LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Horario LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Asunto LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%')";
+                
+                }
 
-                Statement sentencia = cn.createStatement();
+            Statement sentencia = cn.createStatement();
 
                 ResultSet rs = sentencia.executeQuery(sql);
 

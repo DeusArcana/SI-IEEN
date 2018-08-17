@@ -7,6 +7,7 @@ package Formularios;
 
 import Clases.Conexion;
 import java.sql.Connection;
+import javax.swing.JFrame;
 
 /**
  *
@@ -33,13 +34,20 @@ public class visSolicitudPase extends javax.swing.JDialog {
     /**
      * Creates new form visSolicitudPase
      */
-    public visSolicitudPase(java.awt.Frame parent, boolean modal) {
+    public visSolicitudPase(java.awt.Frame parent, boolean modal,String fol) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setTitle("Consulta de información del folio \""+fol+"\"");
     }
 
     public visSolicitudPase() {
         initComponents();
+        
+    }
+
+    private visSolicitudPase(JFrame jFrame, boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -237,30 +245,18 @@ public class visSolicitudPase extends javax.swing.JDialog {
         pn_vissolipase.add(txtestado, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 200, 215, -1));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
+        jLabel6.setPreferredSize(new java.awt.Dimension(861, 265));
+        pn_vissolipase.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 934, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(15, 15, 15)
-                    .addComponent(pn_vissolipase, javax.swing.GroupLayout.PREFERRED_SIZE, 851, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(68, Short.MAX_VALUE)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 934, Short.MAX_VALUE))
+            .addComponent(pn_vissolipase, javax.swing.GroupLayout.PREFERRED_SIZE, 851, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 321, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(42, Short.MAX_VALUE)
-                    .addComponent(pn_vissolipase, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(24, 24, 24)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 321, Short.MAX_VALUE))
+            .addComponent(pn_vissolipase, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -328,7 +324,7 @@ public void recibeinfo(String folio,String nombre,String puesto,String area,Stri
     horall1=horall;
     horas1=horas;
     tipohorario1=tipohorario;
-    tipoasunto1=tipohorario;
+    tipoasunto1=tipoasunto;
     asunto1=asunto;
     estado1=estado;
         
