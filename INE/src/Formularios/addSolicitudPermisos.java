@@ -11,6 +11,7 @@ import Clases.ManagerPases;
 import Clases.ManagerUsers;
 import Interfaces.PrincipalP;
 import com.toedter.calendar.JTextFieldDateEditor;
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,6 +19,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
@@ -50,6 +52,9 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) date_Salida.getDateEditor();
         date_Salida_Editor.setEditable(false);
         date_Salida.getJCalendar().setMinSelectableDate(new Date());
+        
+        Calendar c2 = new GregorianCalendar();
+        date_Salida.setCalendar(c2);
         
     }
 
@@ -111,14 +116,14 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         pn_addPermiso.setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Area:");
+        jLabel1.setText("Área:");
         pn_addPermiso.add(jLabel1);
         jLabel1.setBounds(90, 130, 36, 17);
 
         txt_Puesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_Puesto.setEnabled(false);
         pn_addPermiso.add(txt_Puesto);
-        txt_Puesto.setBounds(140, 185, 215, 27);
+        txt_Puesto.setBounds(140, 185, 350, 27);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Puesto:");
@@ -174,7 +179,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             }
         });
         pn_addPermiso.add(comboArea);
-        comboArea.setBounds(140, 123, 320, 25);
+        comboArea.setBounds(140, 123, 350, 25);
 
         comboEmpleados.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         comboEmpleados.addActionListener(new java.awt.event.ActionListener() {
@@ -183,7 +188,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             }
         });
         pn_addPermiso.add(comboEmpleados);
-        comboEmpleados.setBounds(140, 153, 270, 25);
+        comboEmpleados.setBounds(140, 153, 350, 25);
 
         btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
@@ -251,7 +256,6 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         jLabel9.setBounds(330, 90, 80, 17);
 
         txt_Folio.setEditable(false);
-        txt_Folio.setEnabled(false);
         pn_addPermiso.add(txt_Folio);
         txt_Folio.setBounds(510, 40, 120, 28);
 
@@ -385,6 +389,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 folio=(maxidpa()+1)+"";
             }
             txt_Folio.setText(manager_pases.getAreaSiglas(area)+"-"+folio);
+            txt_Folio.setBackground(Color.GREEN);
             
         }else{
             System.out.printf("ERROR!! al cargar las areas");
