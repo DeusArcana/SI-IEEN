@@ -89,11 +89,11 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
         //Agregamos el nombre de la persona que hizo la solicitud del vehiculo
         ResultSet res=cbd.getTabla("select nombre,idsolicitud_vehiculo from solicitud_vehiculo SV inner join vehiculo_viatico VV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join solicitud_viatico SVI on VV.solicitud_viatico_idSolicitud=SVI.idSolicitud where SVI.idSolicitud="+idSolicitudViatico, cn);
         while(res.next()){
-            model.addRow(new Object[]{res.getString("nombre")+"(Solicitante)"});
+            model.addRow(new Object[]{res.getString("nombre")+" (Chofer)"});
             idSolicitudVehiculo=Integer.parseInt(res.getString("idsolicitud_vehiculo"));
         }
         //sacamos los nombres de los empleados asignados.
-        if(empleados.size()>0){
+        if(empleados.size()>1){
             String query="select nombre from solicitud_viatico where idSolicitud="+empleados.get(0);
             for(int i=1;i<empleados.size();i++){
                 query+=" or idSolicitud="+empleados.get(i);
