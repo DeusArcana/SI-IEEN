@@ -38,7 +38,7 @@ public class CrearPDF {
         if(!carpeta.exists()){  
                 carpeta.mkdir();
             }
-        Document document=new Document(PageSize.A4,0f,0f,0f,0f);
+        Document document=new Document(PageSize.LETTER,0f,0f,0f,0f);
         PdfWriter writer=PdfWriter.getInstance(document, new FileOutputStream(path));
         ArrayList<String> datos;
         Conexion conexion=new Conexion();
@@ -173,7 +173,7 @@ public class CrearPDF {
         if(!carpeta.exists()){  
                 carpeta.mkdir();
             }
-        Document document=new Document(PageSize.A4,0f,0f,0f,0f);
+        Document document=new Document(PageSize.LETTER,0f,0f,0f,0f);
         PdfWriter writer=PdfWriter.getInstance(document, new FileOutputStream(path));
         ArrayList<String> datos;
         Conexion conexion=new Conexion();

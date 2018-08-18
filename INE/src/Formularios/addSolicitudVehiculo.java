@@ -448,7 +448,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
             List<String> autos_noDisponibles=vehiculosNoDisp(sdf.format(date_Salida.getDate().getTime()),sdf.format(date_Llegada.getDate().getTime()),format.format((Date)hora_Salida.getValue()),format.format((Date)hora_Llegada.getValue()));
             while(res.next()){
                 boolean disponible=true;//se cambia a false si el registro está en los autos no disponibles
-                String aux=res.getString("marca")+"-"+res.getString("matricula");
+                String aux=res.getString("marca")+"_"+res.getString("matricula");
                 System.out.println(aux);
                 //Verificamos si el auto se encuentra en el registro de autos no disponibles
                 for(int i=0;i<autos_noDisponibles.size();i++){////ERROR AQUI, INSERTA TODOS AUNQUE NO ESTÉN DISPONIBLES.
@@ -669,7 +669,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     private void cmb_VehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_VehiculoActionPerformed
         // TODO add your handling code here:
         if(cmb_Vehiculo.getSelectedIndex() != 0){
-            String separador [] = cmb_Vehiculo.getSelectedItem().toString().split("-");
+            String separador [] = cmb_Vehiculo.getSelectedItem().toString().split("_");
             try {
                 ResultSet res=cbd.getTabla("select kilometraje from vehiculo_usado where vehiculos_Matricula='"+separador[1]+"'", cn);
                 System.out.println("select kilometraje from vehiculo_usado where vehiculos_Matricula='"+separador[1]+"'");
@@ -721,7 +721,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
                 pernoctado="Si";
             }
             cn=cbd.getConexion();
-            String[] arr=cmb_Vehiculo.getSelectedItem().toString().split("-");
+            String[] arr=cmb_Vehiculo.getSelectedItem().toString().split("_");
             ResultSet res=cbd.getTabla("select idvehiculo_usado from vehiculo_usado where vehiculo_usado.vehiculos_Matricula='"+arr[1]+"';", cn);
             System.out.println("select idvehiculo_usado from vehiculo_usado where vehiculo_usado.vehiculos_Matricula='"+arr[1]+"';");
             res.next();

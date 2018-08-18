@@ -30,7 +30,7 @@ public class ManagerPases {
         modelo = new DefaultTableModel();
     }
     
-    public DefaultTableModel getTasolpa(String año) {
+    public DefaultTableModel getTasolpa(String year) {
 
         DefaultTableModel tapa = new DefaultTableModel();
         //tapa.addColumn("idSolicitud");
@@ -66,10 +66,10 @@ public class ManagerPases {
                 area.next();
                     
             if(usuario.getString("puesto").equals("Administrador")){
-                 sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado from solicitud_pase where Año = '"+ año +"' order by Numero DESC";
+                 sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado from solicitud_pase where Año = '"+ year +"' order by Numero DESC";
                  
             }else{      
-                sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado from solicitud_pase where Año = '"+ año +"' AND Area = '"+ area.getString("Area") +"' order by Numero DESC";        
+                sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado from solicitud_pase where Año = '"+ year +"' AND Area = '"+ area.getString("Area") +"' order by Numero DESC";        
                 //System.out.printf(idemp.getString("id_empleado"));
                 //System.out.printf(numarea.getString("area"));
                 //System.out.printf(area.getString("Area"));
