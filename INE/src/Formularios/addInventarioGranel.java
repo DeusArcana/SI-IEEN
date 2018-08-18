@@ -360,7 +360,12 @@ public class addInventarioGranel extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null,"Se inserto correctamente al inventario");
                 
                 if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
-                    Principal.tablaInventario.setModel(manager_inventario_granel.getInventarioG(Principal.comboFiltro.getSelectedIndex()));
+                    String estatus2 = Principal.comboEstatus.getSelectedItem().toString();
+                    int filtro = Principal.comboFiltro.getSelectedIndex();
+                    String busqueda = Principal.txtBusqueda.getText();
+                    Principal.tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, categoria,estatus2));
+                    Principal.lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario_granel.getcountBusquedaInventario(filtro, busqueda, categoria, estatus2))));
+                    Principal.comboCategoriaConsumible.setSelectedItem(categoria);
                 }
                 
             }else{

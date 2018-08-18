@@ -358,7 +358,12 @@ public class updateInventarioGranel extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null,"Se actualizo correctamente el consumible");
                 
                 if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
-                    Principal.tablaInventario.setModel(manager_inventario_granel.getInventarioG(Principal.comboFiltro.getSelectedIndex()));
+                    String estatus2 = Principal.comboEstatusConsumible.getSelectedItem().toString();
+                    int filtro = Principal.comboFiltro.getSelectedIndex();
+                    String busqueda = Principal.txtBusqueda.getText();
+                    Principal.tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, categoria,estatus2));
+                    Principal.lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario_granel.getcountBusquedaInventario(filtro, busqueda, categoria, estatus2))));
+                    Principal.comboCategoriaConsumible.setSelectedItem(categoria);
                 }
                 this.dispose();
             }else{
@@ -409,7 +414,7 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         // TODO add your handling code here:
         //comboUbicacion
         manager_inventario.getBodegas(comboUbicacion);
-                
+        manager_inventario_granel.getCategorias(comboCategoria);
     }//GEN-LAST:event_formWindowOpened
 
     private void txtNumFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNumFocusLost

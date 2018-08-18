@@ -131,6 +131,11 @@ public class changePassword extends javax.swing.JDialog {
         jLabel15.setBounds(90, 110, 120, 20);
 
         txtNContraseña.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtNContraseña.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtNContraseñaFocusLost(evt);
+            }
+        });
         pn_empleado.add(txtNContraseña);
         txtNContraseña.setBounds(210, 110, 202, 23);
 
@@ -252,6 +257,15 @@ public class changePassword extends javax.swing.JDialog {
          this.dispose();
         
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtNContraseñaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNContraseñaFocusLost
+        // TODO add your handling code here:
+        if(txtNContraseña.getText().equals(txtAContraseña.getText())){
+            txtNContraseña.setText("");
+            JOptionPane.showMessageDialog(null, "La nueva contraseña debe ser diferente a la actual.");
+            txtNContraseña.requestFocus();
+        }
+    }//GEN-LAST:event_txtNContraseñaFocusLost
 
     /**
      * @param args the command line arguments

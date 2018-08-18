@@ -15,6 +15,7 @@ import static Interfaces.Principal.comboEstatus;
 import static Interfaces.Principal.comboFolio;
 import static Interfaces.Principal.nomeclaturas;
 import com.sun.glass.events.KeyEvent;
+import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -64,6 +66,10 @@ public final class updateInventario extends javax.swing.JDialog {
         manager_inventario = new ManagerInventario();
         manager_permisos = new ManagerPermisos();
         managerPOST = new enviarFotoPOST();
+        
+        JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) txtFecha.getDateEditor();
+        date_Salida_Editor.setEditable(false);
+        txtFecha.getJCalendar().setMaxSelectableDate(new Date()); // sets today as minimum selectable date        
         
         //Esto es para obtener todos las nomeclturas y sus descripciones
         String lista = manager_inventario.nomeclaturaFolio();
@@ -600,13 +606,17 @@ public final class updateInventario extends javax.swing.JDialog {
                 
                 //Actualizamos al tabla de inventario de acuerdo a lo que ya se tenia seleccionado anteriormente
                 int num = Principal.comboFolio.getSelectedIndex();
-                String estatus = Principal.comboEstatus.getSelectedItem().toString();
                 String nomeclatura = "";
                 //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
                 if(num > 0){nomeclatura = nomeclaturas[num-1];}
         
                 if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
-                    Principal.tablaInventario.setModel(manager_inventario.getInventario(nomeclatura,estatus));
+                    String estatus2 = Principal.comboEstatus.getSelectedItem().toString();
+                    int filtro = Principal.comboFiltro.getSelectedIndex();
+                    String busqueda = Principal.txtBusqueda.getText();
+                    Principal.tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus2));
+                    Principal.lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario.cantidadInventario(filtro, busqueda, nomeclatura,estatus2))));
+                    Principal.comboFolio.setSelectedIndex(num);
                 }else{
                     Principal.tablaInventario.setModel(new DefaultTableModel());
                     JOptionPane.showMessageDialog(null, "Le han revoado los permisos para consultar el inventario.");

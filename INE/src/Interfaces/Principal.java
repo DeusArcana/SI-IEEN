@@ -4458,7 +4458,7 @@ public void metodoValeRecoleccion(){
                 String categoria = comboCategoriaConsumible.getSelectedItem().toString();
                 estatus = comboEstatusConsumible.getSelectedItem().toString();
                 tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, categoria,estatus));
-				lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario_granel.getcountBusquedaInventario(filtro, busqueda, categoria, estatus))));
+                lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario_granel.getcountBusquedaInventario(filtro, busqueda, categoria, estatus))));
             }else{
                 tablaInventario.setModel(manager_complemento.getBusquedaResguardo(filtro, busqueda));
             }
@@ -4764,7 +4764,6 @@ public void metodoValeRecoleccion(){
                 String codigo = tablaInventario.getValueAt(fila, 0).toString();//Obtenemos el codigo del producto
 
                 if(manejador_inventario.actualizarStock(codigo, cantidad)){
-                    tablaInventario.setModel(manager_inventario_granel.getInventarioG(folio));
                     JOptionPane.showMessageDialog(null, "El inventario se actualizo exitosamente.");
                 }else{
                     JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
@@ -6141,7 +6140,7 @@ public void metodoValeRecoleccion(){
     public static javax.swing.JLabel lblLocalidad;
     public static javax.swing.JLabel lblMunicipio;
     public static javax.swing.JLabel lblNombre;
-    private javax.swing.JLabel lblProductosTotales;
+    public static javax.swing.JLabel lblProductosTotales;
     public static javax.swing.JLabel lblRfc;
     public static javax.swing.JLabel lblTelefono;
     private javax.swing.JMenu menuOpciones;
@@ -6181,7 +6180,7 @@ public void metodoValeRecoleccion(){
     public static javax.swing.JTable tablaStockMin;
     public static javax.swing.JTable tablaUsuarios;
     public static javax.swing.JTable tablaVehiculos;
-    private javax.swing.JTextField txtBusqueda;
+    public static javax.swing.JTextField txtBusqueda;
     private javax.swing.JTextField txtBusquedaConsumibles;
     private javax.swing.JTextField txtBusquedaUsuario;
     private javax.swing.JTextField txtBusquedaVehiculos;

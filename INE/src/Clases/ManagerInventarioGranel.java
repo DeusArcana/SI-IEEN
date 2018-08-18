@@ -99,7 +99,7 @@ public class ManagerInventarioGranel {
 
             }//Hace la busqueda de acuerdo al filtro
             
-            sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,almacen,marca,observaciones,stock from Inventario_granel"
+            sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,almacen,marca,observaciones,stock,stock_min from Inventario_granel"
                             + " where "+campoBusca+" like '%"+busqueda+"%' and estatus like '%"+estatus+"%' and categoria like '%"+categoria+"%';";
             Connection c = db.getConexion();
             Statement st = c.createStatement();    
@@ -112,13 +112,14 @@ public class ManagerInventarioGranel {
             table.addColumn("Marca");
             table.addColumn("Observaciones");
             table.addColumn("Stock");
+            table.addColumn("Stock min");
 
-            Object datos[] = new Object[7];
+            Object datos[] = new Object[8];
 
             //Proseguimos con los registros en caso de exisitir mas
             while (rs.next()) {
 
-                for(int i = 0;i<7;i++){
+                for(int i = 0;i<8;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -607,74 +608,8 @@ public class ManagerInventarioGranel {
         } 
         
     }//obtenerDatosConsumible
-	
-    public DefaultTableModel getInventarioG(int filtro) {
-        String orden = "";
-        DefaultTableModel table = new DefaultTableModel();
-
-        try {
-            table.addColumn("Clave");
-            table.addColumn("Producto");
-            table.addColumn("Descripción");
-            table.addColumn("Ubicación");
-            table.addColumn("Estatus");
-            table.addColumn("Marca");
-            table.addColumn("Observaciones");
-            table.addColumn("Stock");
-            
-            switch(filtro){
-                case 0:
-                    orden = "order by concat(Folio,'-',Numero,Extension)";
-                    break;
-                case 1:
-                    orden = "order by nombre_prod";
-                    break;
-                case 2:
-                    orden = "order by descripcion";
-                    break;    
-                case 3:
-                    orden = "order by ubicacion";
-                    break;
-                case 4:
-                    orden = "order by marca";
-                    break;
-                case 5:
-                    orden = "order by observaciones";
-                    break;
-                //BUSQUEDA POR ESTATUS
-                case 6:
-                    orden = "order by estatus"; 
-                    break;
-            }
-            
-            //Consulta de los empleados
-            String sql = "select concat(Folio,'-',Numero,Extension),nombre_prod,descripcion,almacen,estatus,marca,observaciones,stock from Inventario_granel "+orden+";";
-            conexion = db.getConexion();
-            Statement st = conexion.createStatement();
-            Object datos[] = new Object[9];
-            ResultSet rs = st.executeQuery(sql);
-
-            //Llenar tabla
-            while (rs.next()) {
-
-                for(int i = 0;i<9;i++){
-                    datos[i] = rs.getObject(i+1);
-                }//Llenamos las columnas por registro
-
-                table.addRow(datos);//Añadimos la fila
-           }//while
-            conexion.close();
-        } catch (SQLException ex) {
-            System.out.printf("Error getTabla Inventario SQL");
-            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-
-            return table;
-        }
-
-    }//getInventarioG
 		
-	    //Este metodo retorna una tabla para solicitar productos a granel
+    //Este metodo retorna una tabla para solicitar productos a granel
     public DefaultTableModel tablaSolicitarInvGranel(int indice, String busqueda,String categoria){
         conexion = db.getConexion();
         DefaultTableModel table = new DefaultTableModel();

@@ -812,6 +812,9 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Productos totales: 0"/>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                       <AbsoluteConstraints x="130" y="50" width="300" height="17"/>
@@ -1113,6 +1116,9 @@
                   <Events>
                     <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtBusquedaKeyReleased"/>
                   </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                       <AbsoluteConstraints x="380" y="90" width="270" height="30"/>

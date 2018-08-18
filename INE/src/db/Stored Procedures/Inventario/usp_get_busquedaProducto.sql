@@ -72,7 +72,7 @@ BEGIN
 											WHEN `Inv_Folio` IS NULL THEN 1
                                             WHEN `Inv_Folio` IS NOT NULL THEN `Inventario`.`Folio` = `Inv_Folio`
                                         END
-									ORDER BY `Inventario`.`Folio`,`Inventario`.`Numero`, `Inventario`.`Extension`
+									ORDER BY `Inventario`.`Folio` DESC
 									;
 				END;
 			ELSE 
@@ -130,7 +130,7 @@ BEGIN
 														WHEN `Inv_Folio` IS NULL THEN 1
 														WHEN `Inv_Folio` IS NOT NULL THEN `Inventario`.`Folio` = `Inv_Folio`
 													END
-												ORDER BY `Inventario`.`Folio`,`Inventario`.`Numero`, `Inventario`.`Extension`
+												ORDER BY `Inventario`.`Folio` DESC
 											;
 				END;
 			END IF;
@@ -167,7 +167,7 @@ BEGIN
 									WHEN `Inv_Folio` IS NULL THEN 1
 									WHEN `Inv_Folio` IS NOT NULL THEN CONCAT( `Inventario`.`Folio`, '-', 	`Inventario`.`Numero`, `Inventario`.`Extension`)	LIKE CONCAT('%', `Inv_Folio`, '%')
 								END
-							ORDER BY `Inventario`.`Folio`,`Inventario`.`Numero`, `Inventario`.`Extension`
+							ORDER BY `Inventario`.`Folio` DESC
 						;
 		END;
 	END IF;

@@ -18,7 +18,7 @@ INSERT INTO `INE`.`Area`
         (4,	'Dirección Administración','DA'),
         (5,	'Direccion de Organización y Capacitación Electoral','DOYCE'),
         (6,	'Dirección Jurídica','DJ'),
-        (7,	'Organo Interno de Control','OIC'),
+        (7,	'Órgano Interno de Control','OIC'),
         (8,	'Presidencia','P'),
         (9,	'Secretaría General','SG'),
         (10,'Unidad de Transparencia','UT'),
@@ -248,7 +248,7 @@ INSERT INTO `INE`.`Permisos`
 -- ------------------------------------------------------------------------------
 INSERT INTO `Folio`(`Folio`.`ID_Folio`, `Folio`.`descripcion`) VALUES
 	('EY-01', 'Mobiliario y Equipo de Oficina'),
-	('EY-02', 'Equipo de Computo'),
+	('EY-02', 'Equipo de Cómputo'),
 	('EY-03', 'Equipo de Fotografía y Video'),
 	('EY-04', 'Aire Acondicionado'),
 	('EY-05', 'Equipo de Comunicación'),
