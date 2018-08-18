@@ -183,7 +183,7 @@ public class PrincipalP extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Folio", "Nombre", "Puesto", "Aréa", "Fecha", "Hora_E/S", "Hora_llegada", "Horas", "Tipo_horario", "Tipo_asunto", "Asunto", "Estado"
+                "Folio", "Nombre", "Puesto", "Área", "Fecha", "Hora_E/S", "Hora_llegada", "Horas", "Tipo_horario", "Tipo_asunto", "Asunto", "Estado"
             }
         ));
         tablapase.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -246,7 +246,7 @@ public class PrincipalP extends javax.swing.JFrame {
 
         mi_viaticos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         mi_viaticos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/viatico.png"))); // NOI18N
-        mi_viaticos.setText("Viaticos");
+        mi_viaticos.setText("Viáticos");
         mi_viaticos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_viaticosActionPerformed(evt);
@@ -400,7 +400,7 @@ public class PrincipalP extends javax.swing.JFrame {
             modelo.addColumn("Folio");
             modelo.addColumn("Nombre");
             modelo.addColumn("Puesto");
-            modelo.addColumn("Area");
+            modelo.addColumn("Área");
             modelo.addColumn("Fecha");
             modelo.addColumn("Hora_E/S");
             modelo.addColumn("Hora_Llegada");
@@ -444,7 +444,7 @@ public class PrincipalP extends javax.swing.JFrame {
                     solicitud[0] = rs.getString("concat(Folio,'-',Numero)");
                     solicitud[1] = rs.getString("Nombre");
                     solicitud[2] = rs.getString("Puesto");
-                    solicitud[3] = rs.getString("Area");
+                    solicitud[3] = rs.getString("Área");
                     solicitud[4] = rs.getString("Fecha");
                     solicitud[5] = rs.getString("Hora_ES");
                     solicitud[6] = rs.getString("Hora_Llegada");
