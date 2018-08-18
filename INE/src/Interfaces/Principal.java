@@ -348,6 +348,7 @@ public class Principal extends javax.swing.JFrame {
         derechaBtn = new javax.swing.JButton();
         imagenVehiculo = new javax.swing.JLabel();
         btnAñadirVehiculo = new javax.swing.JButton();
+        jLabel29 = new javax.swing.JLabel();
         comboFiltroVehiculos = new javax.swing.JComboBox<>();
         jLabel20 = new javax.swing.JLabel();
         txtBusquedaVehiculos = new javax.swing.JTextField();
@@ -471,6 +472,7 @@ public class Principal extends javax.swing.JFrame {
         mi_viaticos = new javax.swing.JMenuItem();
         mi_pases = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem2 = new javax.swing.JMenuItem();
         itemSalir = new javax.swing.JMenuItem();
         menuOpciones = new javax.swing.JMenu();
         menuPermisos = new javax.swing.JMenuItem();
@@ -966,7 +968,7 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane3.setViewportView(tablaInventario);
 
         jPanel3.add(jScrollPane3);
-        jScrollPane3.setBounds(10, 120, 1110, 580);
+        jScrollPane3.setBounds(10, 140, 1110, 560);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Opciones :", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Yu Gothic UI", 0, 12))); // NOI18N
@@ -1016,11 +1018,11 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(comboInventario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(btnAddInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(350, Short.MAX_VALUE))
+                .addContainerGap(360, Short.MAX_VALUE))
         );
 
         jPanel3.add(jPanel1);
-        jPanel1.setBounds(1150, 150, 200, 560);
+        jPanel1.setBounds(1150, 140, 200, 570);
 
         txtBusqueda.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -1198,7 +1200,7 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane10.setViewportView(tablaVehiculos);
 
         jPanel6.add(jScrollPane10);
-        jScrollPane10.setBounds(20, 110, 900, 600);
+        jScrollPane10.setBounds(20, 170, 900, 540);
 
         jPanel14.setBackground(new java.awt.Color(255, 255, 255));
         jPanel14.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -1292,7 +1294,7 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(etiquetaMarca)
                     .addComponent(etiquetaLinea)
                     .addComponent(etiquetaAño))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(fondoVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1306,7 +1308,7 @@ public class Principal extends javax.swing.JFrame {
         );
 
         jPanel6.add(jPanel14);
-        jPanel14.setBounds(930, 110, 420, 600);
+        jPanel14.setBounds(930, 170, 420, 540);
 
         btnAñadirVehiculo.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         btnAñadirVehiculo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar.png"))); // NOI18N
@@ -1318,7 +1320,11 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel6.add(btnAñadirVehiculo);
-        btnAñadirVehiculo.setBounds(930, 30, 420, 30);
+        btnAñadirVehiculo.setBounds(930, 80, 420, 30);
+
+        jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baner vehiculos.png"))); // NOI18N
+        jPanel6.add(jLabel29);
+        jLabel29.setBounds(30, 10, 1350, 70);
 
         comboFiltroVehiculos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         comboFiltroVehiculos.addActionListener(new java.awt.event.ActionListener() {
@@ -1327,12 +1333,12 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel6.add(comboFiltroVehiculos);
-        comboFiltroVehiculos.setBounds(160, 40, 210, 28);
+        comboFiltroVehiculos.setBounds(160, 100, 210, 28);
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel20.setText("Busqueda por ");
+        jLabel20.setText("Búsqueda por ");
         jPanel6.add(jLabel20);
-        jLabel20.setBounds(40, 40, 120, 22);
+        jLabel20.setBounds(30, 100, 130, 22);
 
         txtBusquedaVehiculos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtBusquedaVehiculos.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -1341,7 +1347,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel6.add(txtBusquedaVehiculos);
-        txtBusquedaVehiculos.setBounds(390, 40, 290, 30);
+        txtBusquedaVehiculos.setBounds(390, 100, 290, 30);
 
         jButton5.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         jButton5.setText("Modificar");
@@ -1351,7 +1357,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel6.add(jButton5);
-        jButton5.setBounds(930, 73, 420, 30);
+        jButton5.setBounds(930, 120, 420, 30);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         jPanel6.add(jLabel4);
@@ -1370,7 +1376,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        tabbedPrincipal.addTab(" Vehiculos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/vehiculos.png")), vehiculos); // NOI18N
+        tabbedPrincipal.addTab(" Vehículos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/vehiculos.png")), vehiculos); // NOI18N
 
         empleado.setComponentPopupMenu(MenuSolicitudesP);
         empleado.setPreferredSize(new java.awt.Dimension(1366, 768));
@@ -2472,9 +2478,20 @@ public class Principal extends javax.swing.JFrame {
         jMenu1.add(mi_pases);
         jMenu1.add(jSeparator1);
 
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/if_Exit_728935.png"))); // NOI18N
+        jMenuItem2.setText("Cerrar sesión");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
         itemSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
         itemSalir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        itemSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/if_Exit_728935.png"))); // NOI18N
+        itemSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/if_Shutdown_Box_Red_34246.png"))); // NOI18N
         itemSalir.setText("Salir");
         itemSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2884,7 +2901,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
     
     private void itemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSalirActionPerformed
-        // TODO add your handling code here:
+         // TODO add your handling code here:
         Object[] botones = {"Confirmar","Cancelar"};
         int opcion = JOptionPane.showOptionDialog(this,"¿Salir del Sistema?", "Confirmación",
             JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
@@ -5022,7 +5039,7 @@ public void metodoValeRecoleccion(){
             campo.setText(tablaVehiculos.getValueAt(tablaVehiculos.getSelectedRow(), 4).toString());
             ob.setVisible(true);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Seleccione un vehiculo!","Información",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Seleccione un vehículo!","Información",JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -5769,6 +5786,22 @@ public void metodoValeRecoleccion(){
             JOptionPane.showMessageDialog(this, "No cuenta con los permisos para reasignar los productos a un nuevo vale de resguardo.");
         }
     }//GEN-LAST:event_MigrarRecoleccionActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+
+        Object[] botones = {"Confirmar", "Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this, "¿Desea cerrar sesión?", "Confirmación",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones, botones[0]);
+
+        if (opcion == 0) {
+            this.dispose();
+            Login ob = new Login();
+            ob.setVisible(true);
+        } else if (opcion == 1) {
+            // No hacer nada
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
        
     public void cargarImagen(String busqueda, int numero) {
 
@@ -6079,6 +6112,7 @@ public void metodoValeRecoleccion(){
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel4;
@@ -6090,6 +6124,7 @@ public void metodoValeRecoleccion(){
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel14;

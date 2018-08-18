@@ -687,7 +687,7 @@ public class CrearPaseSalida {
                 JOptionPane.showMessageDialog(null, "Pase creado con éxito!", "Información", INFORMATION_MESSAGE);
             }
         } catch (java.io.FileNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "ERROR: No hay imagen prro dist\\print\\blogin.png", "Advertencia!", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "ERROR: No hay imagen dist\\print\\blogin.png", "Advertencia!", JOptionPane.WARNING_MESSAGE);
         } catch (DocumentException dex) {
             dex.printStackTrace();
         } catch (Exception ex) {

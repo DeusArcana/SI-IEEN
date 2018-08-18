@@ -51,6 +51,7 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
     public ventana_anadir_vehiculo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        contadorImg.setVisible(false);
         campoRuta.setVisible(false);
         this.setLocationRelativeTo(null);
         
@@ -118,6 +119,7 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Alta de vehículo.");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -263,6 +265,8 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
         });
         imagenVehiculo.add(btnImagen);
         btnImagen.setBounds(160, 160, 30, 20);
+
+        contenedor.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         imagenVehiculo.add(contenedor);
         contenedor.setBounds(0, 0, 200, 190);
 
@@ -271,11 +275,11 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
 
         campoRuta.setText("C:\\Users\\kevin\\Desktop\\INE\\src\\Imagenes\\noimage.png");
         pn_permisos.add(campoRuta);
-        campoRuta.setBounds(219, 210, 130, 30);
+        campoRuta.setBounds(570, 330, 130, 30);
 
         contadorImg.setText("0");
         pn_permisos.add(contadorImg);
-        contadorImg.setBounds(520, 220, 200, 14);
+        contadorImg.setBounds(520, 310, 200, 14);
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         fondo.setText("jLabel1");

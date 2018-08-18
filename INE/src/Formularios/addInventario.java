@@ -22,6 +22,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.imageio.ImageIO;
@@ -66,6 +67,11 @@ public class addInventario extends javax.swing.JDialog {
         JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) txtFecha.getDateEditor();
         date_Salida_Editor.setEditable(false);
         txtFecha.getJCalendar().setMaxSelectableDate(new Date()); // sets today as minimum selectable date        
+        
+        //Asignar fecha por default
+        Date date = new Date();        
+        txtFecha.setDate(date);
+        
         
         this.setLocationRelativeTo(null);
         campoRuta.setVisible(false);
