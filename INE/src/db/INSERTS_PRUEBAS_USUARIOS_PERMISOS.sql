@@ -352,9 +352,9 @@ UPDATE `INE`.`Inventario` SET `INE`.`Inventario`.`Descripcion` = 'Sin descripci�
 -- -----------------------------------------------------------------------------
 --	Número de digitos en los números de inventario
 -- ------------------------------------------------------------------------------
-INSERT INTO `INE`.`Admin_Config`(`Admin_Config`.`INT_String_Format`) 
+INSERT INTO `INE`.`Admin_Config`(`Admin_Config`.`Ceros_Inventario`, `Admin_Config`.`Ceros_Vales`) 
 	VALUES
-		(5)
+		(5, 3)
 ;
 
 

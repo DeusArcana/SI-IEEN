@@ -801,7 +801,8 @@ CREATE TABLE IF NOT EXISTS `INE`.`solicitud_pase` (
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `Admin_config` (
-	`INT_String_Format` INT
+	`Ceros_Inventario` INT,
+	`Ceros_Vales` INT
 ) ENGINE = InnoDB;
 
 /*Vistas*/
