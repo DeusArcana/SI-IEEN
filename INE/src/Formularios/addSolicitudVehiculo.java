@@ -64,6 +64,7 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         super(parentVehiculo, modal);
         this.parent=parent;
         initComponents();
+        this.setResizable(false);
         this.setLocationRelativeTo(null);
         JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) date_Salida.getDateEditor();
         JTextFieldDateEditor date_Llegada_Editor=(JTextFieldDateEditor) date_Llegada.getDateEditor();

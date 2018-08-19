@@ -27,6 +27,7 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
     public visSolicitudViaticos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setResizable(false);
     }
 
     public visSolicitudViaticos() {

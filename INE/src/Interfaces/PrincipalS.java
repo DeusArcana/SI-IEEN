@@ -505,7 +505,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 solicitudviaticos1MouseReleased(evt);
             }
         });
-        solicitudviaticos1.setLayout(null);
+        solicitudviaticos1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel16.setBackground(java.awt.Color.white);
 
@@ -572,13 +572,11 @@ public class PrincipalS extends javax.swing.JFrame {
             .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
         );
 
-        solicitudviaticos1.add(jPanel16);
-        jPanel16.setBounds(20, 170, 1300, 410);
+        solicitudviaticos1.add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 1300, -1));
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel17.setText("Búsqueda:");
-        solicitudviaticos1.add(jLabel17);
-        jLabel17.setBounds(40, 120, 100, 22);
+        solicitudviaticos1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 100, -1));
 
         txtbusquedasoli.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtbusquedasoli.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -589,18 +587,14 @@ public class PrincipalS extends javax.swing.JFrame {
                 txtbusquedasoliKeyReleased(evt);
             }
         });
-        solicitudviaticos1.add(txtbusquedasoli);
-        txtbusquedasoli.setBounds(130, 120, 290, 30);
+        solicitudviaticos1.add(txtbusquedasoli, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 290, 30));
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IEE.png"))); // NOI18N
-        solicitudviaticos1.add(jLabel9);
-        jLabel9.setBounds(150, 20, 190, 84);
-        solicitudviaticos1.add(jLabel18);
-        jLabel18.setBounds(10, 10, 1350, 80);
+        solicitudviaticos1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 20, -1, -1));
+        solicitudviaticos1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 1350, 80));
 
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
-        solicitudviaticos1.add(jLabel19);
-        jLabel19.setBounds(0, 0, 1367, 769);
+        solicitudviaticos1.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         solicviaticos.addTab("Solicitud de Viáticos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), solicitudviaticos1); // NOI18N
 
@@ -619,12 +613,11 @@ public class PrincipalS extends javax.swing.JFrame {
                 tablonsolicitud1KeyPressed(evt);
             }
         });
-        tablonsolicitud1.setLayout(null);
+        tablonsolicitud1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel20.setText("Búsqueda:");
-        tablonsolicitud1.add(jLabel20);
-        jLabel20.setBounds(70, 50, 100, 22);
+        tablonsolicitud1.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 0, 0));
 
         guardargac.setText("Guardar");
         guardargac.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -637,8 +630,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 guardargacActionPerformed(evt);
             }
         });
-        tablonsolicitud1.add(guardargac);
-        guardargac.setBounds(910, 60, 120, 30);
+        tablonsolicitud1.add(guardargac, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 0, 0));
 
         txtbusquedasoli1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtbusquedasoli1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -649,8 +641,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 txtbusquedasoli1KeyReleased(evt);
             }
         });
-        tablonsolicitud1.add(txtbusquedasoli1);
-        txtbusquedasoli1.setBounds(170, 50, 290, 30);
+        tablonsolicitud1.add(txtbusquedasoli1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 0, 0));
 
         solipendientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -841,21 +832,18 @@ public class PrincipalS extends javax.swing.JFrame {
             .addComponent(menutablones, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
         );
 
-        tablonsolicitud1.add(jPanel20);
-        jPanel20.setBounds(20, 110, 1320, 530);
+        tablonsolicitud1.add(jPanel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 0, 0));
 
         jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
-        tablonsolicitud1.add(jLabel28);
-        jLabel28.setBounds(0, 0, 1367, 769);
+        tablonsolicitud1.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 0, 0));
 
         solicviaticos.addTab("Tablón de Solicitudes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), tablonsolicitud1); // NOI18N
 
-        informe.setLayout(null);
+        informe.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jlb.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jlb.setText("Búsqueda:");
-        informe.add(jlb);
-        jlb.setBounds(40, 40, 100, 22);
+        informe.add(jlb, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 0, 0));
 
         txtbusquedasoli2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtbusquedasoli2.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -866,8 +854,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 txtbusquedasoli2KeyReleased(evt);
             }
         });
-        informe.add(txtbusquedasoli2);
-        txtbusquedasoli2.setBounds(140, 30, 290, 30);
+        informe.add(txtbusquedasoli2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 0, 0));
 
         jPanel21.setLayout(null);
 
@@ -995,8 +982,7 @@ public class PrincipalS extends javax.swing.JFrame {
         jPanel21.add(menuInforme);
         menuInforme.setBounds(0, 0, 1310, 520);
 
-        informe.add(jPanel21);
-        jPanel21.setBounds(20, 70, 1310, 520);
+        informe.add(jPanel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         btnregresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/atras.png"))); // NOI18N
         btnregresar.setText("Regresar");
@@ -1005,13 +991,11 @@ public class PrincipalS extends javax.swing.JFrame {
                 btnregresarActionPerformed(evt);
             }
         });
-        informe.add(btnregresar);
-        btnregresar.setBounds(867, 130, 170, 40);
+        informe.add(btnregresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 0, 0));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Área");
-        informe.add(jLabel2);
-        jLabel2.setBounds(540, 40, 35, 22);
+        informe.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 0, 0));
 
         cmbArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbArea.addActionListener(new java.awt.event.ActionListener() {
@@ -1019,12 +1003,10 @@ public class PrincipalS extends javax.swing.JFrame {
                 cmbAreaActionPerformed(evt);
             }
         });
-        informe.add(cmbArea);
-        cmbArea.setBounds(590, 40, 250, 20);
+        informe.add(cmbArea, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 0, 0));
 
         jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
-        informe.add(jLabel24);
-        jLabel24.setBounds(0, 0, 1367, 769);
+        informe.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 0, 0));
 
         solicviaticos.addTab("Informe", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), informe); // NOI18N
 
@@ -1095,11 +1077,11 @@ public class PrincipalS extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(solicviaticos, javax.swing.GroupLayout.DEFAULT_SIZE, 1354, Short.MAX_VALUE)
+            .addComponent(solicviaticos, javax.swing.GroupLayout.PREFERRED_SIZE, 1354, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(solicviaticos, javax.swing.GroupLayout.DEFAULT_SIZE, 758, Short.MAX_VALUE)
+            .addComponent(solicviaticos, javax.swing.GroupLayout.PREFERRED_SIZE, 758, Short.MAX_VALUE)
         );
 
         pack();
