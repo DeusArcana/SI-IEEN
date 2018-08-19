@@ -45,6 +45,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     ManagerVehiculos manager_vehiculo;
     ManagerComplemento manager_complemento;
     String pernoctado="";
+    boolean seleccionarVehiculo=false;
     
     public int varida[];
     Conexion cbd=new Conexion();
@@ -58,9 +59,6 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         super(parent, modal);
         this.setTitle("Solicitud de viáticos");
         initComponents();
-        if(PrincipalS.conVehiculo==1){
-            btnAceptar.setText("Seleccionar vehículo");
-        }
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         parentVehiculo=parent;
@@ -138,6 +136,9 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nueva Solicitud");
+        setMinimumSize(new java.awt.Dimension(530, 520));
+        setPreferredSize(new java.awt.Dimension(530, 520));
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -236,7 +237,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                     btnCancelarActionPerformed(evt);
                 }
             });
-            pn_addInventario.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 470, -1, -1));
+            pn_addInventario.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 470, -1, -1));
             pn_addInventario.add(hora_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, 100, -1));
             JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "HH:mm");
             hora_Salida.setEditor(de);
@@ -318,7 +319,6 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     }
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
        if(PrincipalS.conVehiculo==1){
-           btnAceptar.setText("Aceptar");
            /*SimpleDateFormat format=new SimpleDateFormat("HH:mm");
            boolean pernoctado=date_Salida.getDate().getDate()==date_Llegada.getDate().getDate() && date_Salida.getDate().getMonth()==date_Llegada.getDate().getMonth() && date_Salida.getDate().getYear()==date_Llegada.getDate().getYear();
            addSolicitudVehiculo asv;
@@ -329,7 +329,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
            txt_Actividad.getText(),cmbArea.getSelectedItem()+"");
            asv.setVisible(true);*/
            pernoctado=(date_Salida.getDate().getDate()==date_Llegada.getDate().getDate() && date_Salida.getDate().getMonth()==date_Llegada.getDate().getMonth() && date_Salida.getDate().getYear()==date_Llegada.getDate().getYear())?"No":"Si";
-           if(btnAceptar.getText().equals("Aceptar")){
+           if(seleccionarVehiculo){
                verificar_excepcion=true;
                try {
                    validarDatos(true,"");
@@ -337,8 +337,6 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                    Logger.getLogger(addSolicitudViaticos.class.getName()).log(Level.SEVERE, null, ex);
                }
 
-                //inserta solicitud
-                insertar_Solicitud(0);
                 
                 //--------Insertar sol de vehículo---
                 int indiceCarro = cmb_Vehiculo.getSelectedIndex();
@@ -359,6 +357,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                 //-----------------------------------
            }else{
                this.setSize(new Dimension(880,520));
+               seleccionarVehiculo=true;
                cmb_Vehiculo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
                cmb_Vehiculo.addItem("Selecione vehiculo...");
                //manager_vehiculo.getVehiculosDisponibles(cmb_Vehiculo);
@@ -404,6 +403,9 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         comboEmpleados.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboEmpleados.addItem("Selecione empleado...");
         manager_users.getNombresEmpleados(comboEmpleados,1);
+        if(PrincipalS.conVehiculo==1){
+            btnAceptar.setText("Seleccionar vehículo");
+        }
     }//GEN-LAST:event_formWindowOpened
 
     private void comboEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmpleadosActionPerformed
