@@ -2097,6 +2097,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 }
             };
             modelo.addColumn("ID");
+            modelo.addColumn("Tipo de solicitud");
             modelo.addColumn("Nombre");
             modelo.addColumn("Puesto");
             modelo.addColumn("Fecha de salida");
@@ -2111,14 +2112,20 @@ public class PrincipalS extends javax.swing.JFrame {
                         + "OR Nombre LIKE '%" + txtbusquedasoli1.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%') ");
 
-                String solicitud[] = new String[6];
+                String solicitud[] = new String[7];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("idSolicitud");
-                    solicitud[1] = rs.getString("Nombre");
-                    solicitud[2] = rs.getString("Puesto");
-                    solicitud[3] = rs.getString("Fecha_salida");
-                    solicitud[4] = rs.getString("Fecha_llegada");
-                    solicitud[5] = rs.getString("Lugar");
+                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                    if(aux.next()){
+                        solicitud[1]="Vehículo";
+                    }else{
+                        solicitud[1]="Viático";
+                    }
+                    solicitud[2] = rs.getString("Nombre");
+                    solicitud[3] = rs.getString("Puesto");
+                    solicitud[4] = rs.getString("Fecha_salida");
+                    solicitud[5] = rs.getString("Fecha_llegada");
+                    solicitud[6] = rs.getString("Lugar");
                     modelo.addRow(solicitud);
                 }
 
@@ -2134,6 +2141,9 @@ public class PrincipalS extends javax.swing.JFrame {
                 }
             };
             modelo.addColumn("Folio");
+            modelo.addColumn("Tipo de solicitud");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Puesto");
             modelo.addColumn("Monto");
             modelo.addColumn("Fecha de salida");
             modelo.addColumn("Fecha de llegada");
@@ -2143,17 +2153,25 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = sentencia.executeQuery("SELECT O.Folio, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud AND (O.Folio LIKE '%" + txtbusquedasoli1.getText() + "%'"
-                        + "%' OR O.Monto LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
-                        + "OR S.Lugar LIKE '%" + txtbusquedasoli1.getText() + "%') ");
+                ResultSet rs = sentencia.executeQuery("SELECT O.Folio,S.nombre, S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud AND (O.Folio LIKE '%" + txtbusquedasoli1.getText() + "%'"
+                        + "OR O.Monto LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
+                        + "OR S.Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Nombre LIKE'%"+txtbusquedasoli1.getText()+"%') ");
 
-                String solicitud[] = new String[5];
+                String solicitud[] = new String[8];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("Folio");
-                    solicitud[1] = rs.getString("Monto");
-                    solicitud[2] = rs.getString("Fecha_salida");
-                    solicitud[3] = rs.getString("Fecha_llegada");
-                    solicitud[4] = rs.getString("Lugar");
+                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                    if(aux.next()){
+                        solicitud[1]="Vehículo";
+                    }else{
+                        solicitud[1]="Viático";
+                    }
+                    solicitud[2] = rs.getString("Nombre");
+                    solicitud[3] = rs.getString("Puesto");
+                    solicitud[4] = rs.getString("Monto");
+                    solicitud[5] = rs.getString("Fecha_salida");
+                    solicitud[6] = rs.getString("Fecha_llegada");
+                    solicitud[7] = rs.getString("Lugar");
                     modelo.addRow(solicitud);
                 }
 
@@ -2172,6 +2190,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 }
             };
             modelo.addColumn("ID");
+            modelo.addColumn("Tipo de solicitud");            
             modelo.addColumn("Nombre");
             modelo.addColumn("Puesto");
             modelo.addColumn("Fecha de salida");
@@ -2187,15 +2206,21 @@ public class PrincipalS extends javax.swing.JFrame {
                         + "OR Nombre LIKE '%" + txtbusquedasoli1.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR Motivo LIKE '%" + txtbusquedasoli1.getText() + "%') order by idSolicitud DESC");
 
-                String solicitud[] = new String[7];
+                String solicitud[] = new String[8];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("idSolicitud");
-                    solicitud[1] = rs.getString("Nombre");
-                    solicitud[2] = rs.getString("Puesto");
-                    solicitud[3] = rs.getString("Fecha_salida");
-                    solicitud[4] = rs.getString("Fecha_llegada");
-                    solicitud[5] = rs.getString("Lugar");
-                    solicitud[6] = rs.getString("Motivo");
+                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                    if(aux.next()){
+                        solicitud[1]="Vehículo";
+                    }else{
+                        solicitud[1]="Viático";
+                    }
+                    solicitud[2] = rs.getString("Nombre");
+                    solicitud[3] = rs.getString("Puesto");
+                    solicitud[4] = rs.getString("Fecha_salida");
+                    solicitud[5] = rs.getString("Fecha_llegada");
+                    solicitud[6] = rs.getString("Lugar");
+                    solicitud[7] = rs.getString("Motivo");
                     modelo.addRow(solicitud);
                 }
 
@@ -2641,7 +2666,7 @@ public class PrincipalS extends javax.swing.JFrame {
         int k = tablonarchivadas.getSelectedRow();
         if (k >= 0) {
             String folio = tablonarchivadas.getValueAt(k, 0).toString();
-            boolean gastosac = (boolean) tablonarchivadas.getValueAt(k, 7);
+            boolean gastosac = (boolean) tablonarchivadas.getValueAt(k, 8);
             String idSolicitud = "";
             try {
                 Statement sentencia = cn.createStatement();

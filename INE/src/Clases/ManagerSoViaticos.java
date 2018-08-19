@@ -214,6 +214,7 @@ public class ManagerSoViaticos {
            
         modelo=new DefaultTableModel();
         modelo.addColumn("Folio");
+        modelo.addColumn("Tipo de solicitud");
         modelo.addColumn("Nombre");
         modelo.addColumn("Puesto");
         modelo.addColumn("Monto");
@@ -226,22 +227,32 @@ public class ManagerSoViaticos {
             ResultSet usuario=cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
             usuario.next();
             if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
-                sql="SELECT O.Folio,S.nombre, S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud order by O.Folio DESC";
+                sql="SELECT O.Folio,S.nombre, S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud order by O.Folio DESC";
             }else{
                 usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
                 usuario.next();
-                sql = "SELECT O.Folio,S.nombre, S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud and nombre='"+usuario.getString("nombre")+"' order by O.Folio DESC";
+                sql = "SELECT O.Folio,S.nombre, S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud and nombre='"+usuario.getString("nombre")+"' order by O.Folio DESC";
             }
             
             Statement sentencia = cn.createStatement();
-            Object datos[] = new Object[7];
+            Object datos[] = new Object[8];
             ResultSet rs = sentencia.executeQuery(sql);
             //Llenar tabla
             while (rs.next()) {
-
+                int datoIndex=0;
                 for(int i = 0;i<7;i++){
-                    datos[i] = rs.getObject(i+1);
+                    if(i==1){
+                        datoIndex=2;
+                    }
+                    datos[datoIndex] = rs.getObject(i+1);
+                    datoIndex++;
                 }//Llenamos las columnas por registro
+                ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                if(aux.next()){
+                    datos[1]="Vehículo";
+                }else{
+                    datos[1]="Viático";
+                }
 
                 modelo.addRow(datos);//Añadimos la fila
            }//while
@@ -260,6 +271,7 @@ public class ManagerSoViaticos {
         modelo=new DefaultTableModel();
         //modelo2 = new DefaultTableModel();
         modelo.addColumn("ID");
+        modelo.addColumn("Tipo de solicitud");
         modelo.addColumn("Nombre");
         modelo.addColumn("Puesto");
         modelo.addColumn("Fecha de salida");
@@ -282,13 +294,22 @@ public class ManagerSoViaticos {
             }
             ResultSet rs = sentencia.executeQuery(sql);
 
-            Object datos[] = new Object[7];
+            Object datos[] = new Object[8];
             while (rs.next()) {
-
+                int indexDatos=0;
                 for(int i = 0;i<7;i++){
-                    datos[i] = rs.getObject(i+1);
+                    if(indexDatos==1){
+                        indexDatos=2;
+                    }
+                    datos[indexDatos] = rs.getObject(i+1);
+                    indexDatos++;
                 }//Llenamos las columnas por registro
-
+                ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                if(aux.next()){
+                    datos[1]="Vehículo";
+                }else{
+                    datos[1]="Viático";
+                }
                 modelo.addRow(datos);//Añadimos la fila
            }//while
            //cn.close();
@@ -305,6 +326,7 @@ public class ManagerSoViaticos {
          modelo=new DefaultTableModel();
         //modelo = new DefaultTableModel();
         modelo.addColumn("ID");
+        modelo.addColumn("Tipo de solicitud");
         modelo.addColumn("Nombre");
         modelo.addColumn("Puesto");
         modelo.addColumn("Fecha de salida");
@@ -325,13 +347,23 @@ public class ManagerSoViaticos {
             //conexion = db.getConexion();
             Statement sentencia = cn.createStatement();
             ResultSet rs = sentencia.executeQuery(sql);
-            Object datos[] = new Object[6];
+            Object datos[] = new Object[7];
              //Llenar tabla
             while (rs.next()) {
-
+                int indexDatos=0;
                 for(int i = 0;i<6;i++){
-                    datos[i] = rs.getObject(i+1);
+                    if(indexDatos==1){
+                        indexDatos=2;
+                    }
+                    datos[indexDatos] = rs.getObject(i+1);
+                    indexDatos++;
                 }//Llenamos las columnas por registro
+                ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                if(aux.next()){
+                    datos[1]="Vehículo";
+                }else{
+                    datos[1]="Viático";
+                }
                 modelo.addRow(datos);//Añadimos la fila
            }//while
            //cn.close();
@@ -392,11 +424,12 @@ public class ManagerSoViaticos {
             },
             //Declaramos el titulo de las columnas
             new String []{
-                "Folio ","Nombre","Puesto","Monto", "Fecha de salida", "Fecha de llegada", "Lugar", "Gastos a comprobar", "Informe"
+                "Folio ","Tipo de solicitud","Nombre","Puesto","Monto", "Fecha de salida", "Fecha de llegada", "Lugar", "Gastos a comprobar", "Informe"
             }
         ){
             //El tipo que sera cada columna, la primera columna un checkbox y los demas seran objetos
             Class[] types = new Class [] {
+                java.lang.Object.class,
                 java.lang.Object.class,
                 java.lang.Object.class,
                 java.lang.Object.class,
@@ -414,7 +447,8 @@ public class ManagerSoViaticos {
             //Esto es para indicar que columnas dejaremos editar o no
             boolean[] canEdit = new boolean [] {
                 false, 
-                false, 
+                false,
+                false,
                 false, 
                 false,
                 false,
@@ -443,27 +477,36 @@ public class ManagerSoViaticos {
             ResultSet usuario=cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
             usuario.next();
             if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
-                sql="SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud ORDER BY O.FOLIO DESC";
+                sql="SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud ORDER BY O.FOLIO DESC";
             }else{
                 usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
                 usuario.next();
-                sql = "SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and nombre='"+usuario.getString("nombre")+"' order by O.Folio DESC";
+                sql = "SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and nombre='"+usuario.getString("nombre")+"' order by O.Folio DESC";
             }
             Statement sentencia = cn.createStatement();
-            Object datos[] = new Object[9];
+            Object datos[] = new Object[10];
             ResultSet rs = sentencia.executeQuery(sql);
             //Llenar tabla
             while (rs.next()) {
-
+                int indexDatos=0;
                 for(int i = 0;i<9;i++){
-                    if(i == 7){
-                        datos[i]=rs.getBoolean(i+1);
-                    }else{
-                                            datos[i] = rs.getObject(i+1);
+                    if(indexDatos==1){
+                        indexDatos=2;
                     }
+                    if(i == 7){
+                        datos[indexDatos]=rs.getBoolean(i+1);
+                    }else{
+                        datos[indexDatos] = rs.getObject(i+1);
+                    }
+                    indexDatos++;
                     
                 }//Llenamos las columnas por registro
-
+                ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                if(aux.next()){
+                    datos[1]="Vehículo";
+                }else{
+                    datos[1]="Viático";
+                }
                 table.addRow(datos);//Añadimos la fila
            }//while
             //cn.close();
