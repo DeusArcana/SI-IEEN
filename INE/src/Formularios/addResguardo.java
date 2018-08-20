@@ -70,7 +70,9 @@ public class addResguardo extends javax.swing.JDialog {
 
         txtAObservaciones.setColumns(20);
         txtAObservaciones.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtAObservaciones.setLineWrap(true);
         txtAObservaciones.setRows(5);
+        txtAObservaciones.setWrapStyleWord(true);
         jScrollPane1.setViewportView(txtAObservaciones);
 
         jPanel1.add(jScrollPane1);

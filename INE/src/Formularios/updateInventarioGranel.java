@@ -204,6 +204,7 @@ public class updateInventarioGranel extends javax.swing.JDialog {
 
         txtAreaDescripcion.setColumns(20);
         txtAreaDescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtAreaDescripcion.setLineWrap(true);
         txtAreaDescripcion.setRows(5);
         txtAreaDescripcion.setToolTipText("Ejemplo: Producto derivado de petroleo");
         txtAreaDescripcion.setWrapStyleWord(true);

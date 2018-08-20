@@ -196,8 +196,10 @@ public class addInventarioGranel extends javax.swing.JDialog {
 
         txtAreaDescripcion.setColumns(20);
         txtAreaDescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtAreaDescripcion.setLineWrap(true);
         txtAreaDescripcion.setRows(5);
         txtAreaDescripcion.setToolTipText("");
+        txtAreaDescripcion.setWrapStyleWord(true);
         txtAreaDescripcion.setNextFocusableComponent(btnAceptar);
         jScrollPane1.setViewportView(txtAreaDescripcion);
 
