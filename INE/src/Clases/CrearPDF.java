@@ -730,34 +730,42 @@ public class CrearPDF {
             Connection cn=cbd.getConexion();
             ResultSet rs=cbd.getTabla("select * from informe where Id_Informe="+idInforme,cn);
             if(rs.next()){
-                espacio=-60;
-                //Label vehiculo
-                cb.setFontAndSize(bfNoNegritas,12);
-                cb.setTextMatrix(50,375);
-                cb.showText("Observaciones del vehículo:                Kilometraje: ");
-                //----
-                cb.setFontAndSize(bf,12);
-                cb.setTextMatrix(350,375);
                 String idSolicitud=rs.getString("solicitud_idSolicitud");
                 ResultSet aux=cbd.getTabla("select kilometraje from solicitud_viatico SVI inner join vehiculo_viatico VV on SVI.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado WHERE SVI.idSolicitud="+idSolicitud, cn);
-                aux.next();
-                cb.showText(aux.getString("kilometraje"));                
-                //Vehiculo base de datos
-                cb.setFontAndSize(bf,12);
-                cb.setTextMatrix(50,350);
-                cb.showText(rs.getString("Observaciones_Vehiculo"));
+                if(aux.next()){
+                    espacio=-60;
+                    //Label vehiculo
+                    cb.setFontAndSize(bfNoNegritas,12);
+                    cb.setTextMatrix(50,375);
+                    cb.showText("Observaciones del vehículo:                Kilometraje: ");
+                    //----
+                    cb.setFontAndSize(bf,12);
+                    cb.setTextMatrix(350,375);
+                    cb.showText(aux.getString("kilometraje"));                
+                    //Vehiculo base de datos
+                    cb.setFontAndSize(bf,12);
+                    cb.setTextMatrix(50,350);
+                    cb.showText(rs.getString("Observaciones_Vehiculo"));
+                }
             }
             
             //Fin del contenido
             cb.endText();
-            document.newPage();
-            document.add(image);
-            cb.beginText();
-            cb.setFontAndSize(bf, 16);
-            cb.setTextMatrix(250,800);
-            cb.showText("Comprobación de costos");
-            cb.endText();
-            imprimir_Costo(idInforme,document);
+            ArrayList<String> indices=new ArrayList<String>();
+            rs=conexion.getTabla("select IG.Gastos_id_gastos from informe_gastos IG inner join informe I on IG.Informe_id_informe=I.id_informe where I.id_informe="+idInforme, conexion.getConexion());
+            while(rs.next()){
+                indices.add(rs.getString("Gastos_id_gastos"));
+            }
+            if(indices.size()>0){
+                document.newPage();
+                document.add(image);
+                cb.beginText();
+                cb.setFontAndSize(bf, 16);
+                cb.setTextMatrix(250,800);
+                cb.showText("Comprobación de costos");
+                cb.endText();
+                imprimir_Costo(idInforme,document);
+            }
             document.close();
             Desktop.getDesktop().open(f);
         }catch(IOException e){
