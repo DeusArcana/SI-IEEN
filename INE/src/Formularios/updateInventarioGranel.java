@@ -208,6 +208,11 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         txtAreaDescripcion.setRows(5);
         txtAreaDescripcion.setToolTipText("Ejemplo: Producto derivado de petroleo");
         txtAreaDescripcion.setWrapStyleWord(true);
+        txtAreaDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtAreaDescripcionKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(txtAreaDescripcion);
         txtAreaDescripcion.getAccessibleContext().setAccessibleDescription("");
 
@@ -520,6 +525,15 @@ public class updateInventarioGranel extends javax.swing.JDialog {
             evt.consume();
         }
     }//GEN-LAST:event_txtStockMinKeyTyped
+
+    private void txtAreaDescripcionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAreaDescripcionKeyPressed
+        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_TAB) {
+            System.out.println(evt.getModifiers());
+            if(evt.getModifiers() > 0) txtAreaDescripcion.transferFocusBackward();
+            else txtAreaDescripcion.transferFocus(); 
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtAreaDescripcionKeyPressed
 
     /**
      * @param args the command line arguments

@@ -101,6 +101,11 @@ public class addObservaciones extends javax.swing.JDialog {
         txtAObservaciones.setLineWrap(true);
         txtAObservaciones.setRows(5);
         txtAObservaciones.setWrapStyleWord(true);
+        txtAObservaciones.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtAObservacionesKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(txtAObservaciones);
 
         jPanel1.add(jScrollPane1);
@@ -172,6 +177,15 @@ public class addObservaciones extends javax.swing.JDialog {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtAObservacionesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAObservacionesKeyPressed
+        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_TAB) {
+            System.out.println(evt.getModifiers());
+            if(evt.getModifiers() > 0) txtAObservaciones.transferFocusBackward();
+            else txtAObservaciones.transferFocus(); 
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtAObservacionesKeyPressed
 
     /**
      * @param args the command line arguments

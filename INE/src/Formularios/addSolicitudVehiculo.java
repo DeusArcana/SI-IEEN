@@ -169,8 +169,8 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         lblAviso = new javax.swing.JLabel();
-        cmbLocalidad = new javax.swing.JComboBox<String>();
-        cmbEstado = new javax.swing.JComboBox<String>();
+        cmbLocalidad = new javax.swing.JComboBox<>();
+        cmbEstado = new javax.swing.JComboBox<>();
         date_Salida = new com.toedter.calendar.JDateChooser();
         date_Llegada = new com.toedter.calendar.JDateChooser();
         chb_Pernoctado = new javax.swing.JCheckBox();
@@ -240,6 +240,11 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         txt_Actividad.setColumns(20);
         txt_Actividad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_Actividad.setRows(5);
+        txt_Actividad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_ActividadKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(txt_Actividad);
 
         pn_addInventario.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 251, 420, 209));
@@ -255,11 +260,11 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
         lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_addInventario.add(lblAviso, new org.netbeans.lib.awtextra.AbsoluteConstraints(446, 228, 15, 233));
 
-        cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione localidad" }));
+        cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione localidad" }));
         cmbLocalidad.setEnabled(false);
         pn_addInventario.add(cmbLocalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, 250, -1));
 
-        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione estado" }));
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione estado" }));
         cmbEstado.setEnabled(false);
         cmbEstado.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -709,6 +714,15 @@ public class addSolicitudVehiculo extends javax.swing.JDialog {
     private void txtEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmpleadosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmpleadosActionPerformed
+
+    private void txt_ActividadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_ActividadKeyPressed
+        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_TAB) {
+            System.out.println(evt.getModifiers());
+            if(evt.getModifiers() > 0) txt_Actividad.transferFocusBackward();
+            else txt_Actividad.transferFocus(); 
+            evt.consume();
+        }
+    }//GEN-LAST:event_txt_ActividadKeyPressed
     public void insertar_Solicitud(int ConCarro){
         try{
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
