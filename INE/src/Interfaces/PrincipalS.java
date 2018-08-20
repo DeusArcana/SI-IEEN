@@ -134,6 +134,7 @@ public class PrincipalS extends javax.swing.JFrame {
         OficioViaticoAr = new javax.swing.JMenuItem();
         MenuSolicitudViaticos1 = new javax.swing.JPopupMenu();
         Impri_Sol1 = new javax.swing.JMenuItem();
+        AsignarVehiculo = new javax.swing.JMenuItem();
         Add2 = new javax.swing.JMenuItem();
         SolicitarVehiculo2 = new javax.swing.JMenuItem();
         CambiarConsejero2 = new javax.swing.JMenuItem();
@@ -256,7 +257,7 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuSolicitudViaticos.add(Impri_Sol);
 
-        Add.setText("Solicitud de viático");
+        Add.setText("Nueva solicitud de viáticos");
         Add.setActionCommand("Solicitud viático");
         Add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -265,7 +266,7 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuSolicitudViaticos.add(Add);
 
-        SolicitarVehiculo.setText("Solicitar Vehiculo");
+        SolicitarVehiculo.setText("Nueva solicitud de vehículo");
         SolicitarVehiculo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SolicitarVehiculoActionPerformed(evt);
@@ -369,7 +370,7 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuTablonC.add(AceptarC);
 
-        Add1.setText("Solicitud viático");
+        Add1.setText("Nueva solicitud de viáticos");
         Add1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Add1ActionPerformed(evt);
@@ -377,7 +378,7 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuPanelSolicitudViatico.add(Add1);
 
-        SolicitarVehiculo1.setText("Solicitar Vehiculo");
+        SolicitarVehiculo1.setText("Nueva solicitud de vehículo");
         SolicitarVehiculo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SolicitarVehiculo1ActionPerformed(evt);
@@ -458,7 +459,15 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuSolicitudViaticos1.add(Impri_Sol1);
 
-        Add2.setText("Solicitud de viático");
+        AsignarVehiculo.setText("Asignar vehículo");
+        AsignarVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AsignarVehiculoActionPerformed(evt);
+            }
+        });
+        MenuSolicitudViaticos1.add(AsignarVehiculo);
+
+        Add2.setText("Nueva solicitud de viáticos");
         Add2.setActionCommand("Solicitud viático");
         Add2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -467,7 +476,7 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuSolicitudViaticos1.add(Add2);
 
-        SolicitarVehiculo2.setText("Solicitar Vehiculo");
+        SolicitarVehiculo2.setText("Nueva solicitud de vehículo");
         SolicitarVehiculo2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SolicitarVehiculo2ActionPerformed(evt);
@@ -2853,6 +2862,22 @@ public class PrincipalS extends javax.swing.JFrame {
         SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area="+idArea+" ORDER BY I.Id_Informe DESC");
     }//GEN-LAST:event_cmbAreaActionPerformed
 
+    private void AsignarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AsignarVehiculoActionPerformed
+        // TODO add your handling code here:
+        if (manager_permisos.accesoModulo("alta", "Solicitud Viaticos", Principal.Username)) {
+            int k = tablasolic.getSelectedRow();
+            if (k >= 0) {
+                String folio = tablasolic.getValueAt(k, 0).toString();
+                int idSolicitud = (int) tablasolic.getValueAt(k, 0);
+                addSolicitudViaticos asv = new addSolicitudViaticos(this, true,idSolicitud);
+                conVehiculo = 1;
+                asv.setVisible(true);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar solicitudes de vehículos.");
+        }
+    }//GEN-LAST:event_AsignarVehiculoActionPerformed
+
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3042,6 +3067,7 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JMenuItem AgregarEmpleados;
     private javax.swing.JMenuItem Archivar;
     private javax.swing.JMenuItem AsignarMonto;
+    private javax.swing.JMenuItem AsignarVehiculo;
     private javax.swing.JMenuItem AñadirA;
     private javax.swing.JMenuItem CambiarConsejero;
     private javax.swing.JMenuItem CambiarConsejero1;

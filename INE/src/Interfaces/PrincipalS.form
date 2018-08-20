@@ -85,7 +85,7 @@
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="Add">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Solicitud de vi&#xe1;tico"/>
+            <Property name="text" type="java.lang.String" value="Nueva solicitud de vi&#xe1;ticos"/>
             <Property name="actionCommand" type="java.lang.String" value="Solicitud vi&#xe1;tico"/>
           </Properties>
           <Events>
@@ -94,7 +94,7 @@
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="SolicitarVehiculo">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Solicitar Vehiculo"/>
+            <Property name="text" type="java.lang.String" value="Nueva solicitud de veh&#xed;culo"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SolicitarVehiculoActionPerformed"/>
@@ -230,7 +230,7 @@
       <SubComponents>
         <MenuItem class="javax.swing.JMenuItem" name="Add1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Solicitud vi&#xe1;tico"/>
+            <Property name="text" type="java.lang.String" value="Nueva solicitud de vi&#xe1;ticos"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Add1ActionPerformed"/>
@@ -238,7 +238,7 @@
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="SolicitarVehiculo1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Solicitar Vehiculo"/>
+            <Property name="text" type="java.lang.String" value="Nueva solicitud de veh&#xed;culo"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SolicitarVehiculo1ActionPerformed"/>
@@ -359,9 +359,17 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Impri_Sol1ActionPerformed"/>
           </Events>
         </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="AsignarVehiculo">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Asignar veh&#xed;culo"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AsignarVehiculoActionPerformed"/>
+          </Events>
+        </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="Add2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Solicitud de vi&#xe1;tico"/>
+            <Property name="text" type="java.lang.String" value="Nueva solicitud de vi&#xe1;ticos"/>
             <Property name="actionCommand" type="java.lang.String" value="Solicitud vi&#xe1;tico"/>
           </Properties>
           <Events>
@@ -370,7 +378,7 @@
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="SolicitarVehiculo2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Solicitar Vehiculo"/>
+            <Property name="text" type="java.lang.String" value="Nueva solicitud de veh&#xed;culo"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SolicitarVehiculo2ActionPerformed"/>

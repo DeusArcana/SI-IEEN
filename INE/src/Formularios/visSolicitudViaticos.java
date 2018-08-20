@@ -32,6 +32,7 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
 
     public visSolicitudViaticos() {
                 initComponents();
+                this.setResizable(false);
     }
 
     /**
