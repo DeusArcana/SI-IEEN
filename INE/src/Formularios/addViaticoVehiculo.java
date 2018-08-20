@@ -97,8 +97,8 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
         }
         //sacamos los nombres de los empleados asignados.
         if(empleados.size()>1){
-            String query="select nombre from solicitud_viatico where idSolicitud="+empleados.get(0);
-            for(int i=1;i<empleados.size();i++){
+            String query="select nombre from solicitud_viatico where idSolicitud="+empleados.get(1);
+            for(int i=2;i<empleados.size();i++){
                 query+=" or idSolicitud="+empleados.get(i);
             }
             res=cbd.getTabla(query, cn);
@@ -124,6 +124,7 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
         btnListo = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaEmpleados = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -134,10 +135,11 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("Seleccione el id de la solicitud de viático y el empleado");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setText("Empleados Asignados");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 10, -1, -1));
 
-        btnAceptar.setText("Aceptar");
+        btnAceptar.setText(">>");
         btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -183,10 +185,14 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
         ));
         jScrollPane2.setViewportView(tablaEmpleados);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, 350));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setText("Empleados Disponibles");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, -1, -1));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
-        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 897, 369));
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 897, 410));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -236,6 +242,7 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
     private javax.swing.JButton btnListo;
     private javax.swing.JLabel fondo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tabla;

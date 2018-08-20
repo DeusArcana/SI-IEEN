@@ -719,6 +719,7 @@ DROP TABLE IF EXISTS `ine`.`vehiculo_viatico` ;
 CREATE TABLE IF NOT EXISTS `ine`.`vehiculo_viatico` (
   `solicitud_vehiculo_idsolicitud_vehiculo` INT NOT NULL,
   `solicitud_viatico_idSolicitud` INT(11) NOT NULL,
+  `agregado` VARCHAR(1) NULL,
   PRIMARY KEY (`solicitud_vehiculo_idsolicitud_vehiculo`, `solicitud_viatico_idSolicitud`),
   INDEX `fk_vehiculo_viatico_solicitud_viatico1_idx` (`solicitud_viatico_idSolicitud` ASC),
   CONSTRAINT `fk_vehiculo_viatico_solicitud_vehiculo1`
