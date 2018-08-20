@@ -998,7 +998,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             res=cbd.getTabla("select idSolicitud_vehiculo from solicitud_vehiculo order by idSolicitud_vehiculo DESC", cn);
             res.next();
             String idSolVehiculo=res.getString("idSolicitud_vehiculo");
-            insersion=conexion.ejecutar("insert into vehiculo_viatico(solicitud_vehiculo_idSolicitud_vehiculo,solicitud_viatico_idSolicitud)values("+idSolVehiculo+","+idSolViatico+")");
+            insersion=conexion.ejecutar("insert into vehiculo_viatico(solicitud_vehiculo_idSolicitud_vehiculo,solicitud_viatico_idSolicitud)values("+idSolVehiculo+","+idSolViatico+",'0')");
             
             if(insersion){
                 JOptionPane.showMessageDialog(this, "Insersión correcta");

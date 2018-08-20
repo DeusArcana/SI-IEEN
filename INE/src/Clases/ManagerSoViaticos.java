@@ -133,7 +133,7 @@ public class ManagerSoViaticos {
             ResultSet usuario=cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
             usuario.next();
             if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
-                sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Hora_salida,Hora_llegada,Estado from solicitud_viatico inner join vehiculo_viatico on idSolicitud=solicitud_viatico_idSolicitud order by idSolicitud DESC;";
+                sql = "select idSolicitud,Fecha_salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_llegada,Hora_salida,Hora_llegada,Estado from solicitud_viatico inner join vehiculo_viatico on idSolicitud=solicitud_viatico_idSolicitud where agregado!='1' order by idSolicitud DESC;";
             }else{
                 usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
                 usuario.next();
