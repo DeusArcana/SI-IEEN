@@ -8,14 +8,10 @@ package Formularios;
 import Clases.ManagerInventario;
 import Clases.ManagerPermisos;
 import Clases.ManagerInventarioGranel;
-import Clases.Validaciones;
 
 import Interfaces.Principal;
 import java.awt.Color;
-import javax.swing.InputVerifier;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
 /**
  *
  * @author kevin
@@ -108,6 +104,8 @@ public class addInventarioGranel extends javax.swing.JDialog {
 
         txtNum.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtNum.setToolTipText("");
+        txtNum.setFocusCycleRoot(true);
+        txtNum.setNextFocusableComponent(txtExtension);
         txtNum.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtNumFocusLost(evt);
@@ -128,6 +126,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
 
         txtExtension.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtExtension.setToolTipText("");
+        txtExtension.setNextFocusableComponent(txtProducto);
         txtExtension.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtExtensionFocusLost(evt);
@@ -147,6 +146,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         txtExtension.setBounds(250, 10, 50, 30);
 
         txtProducto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtProducto.setNextFocusableComponent(comboUbicacion);
         txtProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtProductoActionPerformed(evt);
@@ -155,6 +155,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         pn_addInventario.add(txtProducto);
         txtProducto.setBounds(110, 50, 220, 30);
 
+        comboCategoria.setNextFocusableComponent(txtStockMin);
         pn_addInventario.add(comboCategoria);
         comboCategoria.setBounds(110, 170, 210, 30);
 
@@ -184,6 +185,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         jLabel5.setBounds(50, 140, 41, 17);
 
         txtMarca.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtMarca.setNextFocusableComponent(comboCategoria);
         txtMarca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMarcaActionPerformed(evt);
@@ -196,6 +198,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         txtAreaDescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtAreaDescripcion.setRows(5);
         txtAreaDescripcion.setToolTipText("");
+        txtAreaDescripcion.setNextFocusableComponent(btnAceptar);
         jScrollPane1.setViewportView(txtAreaDescripcion);
 
         pn_addInventario.add(jScrollPane1);
@@ -209,6 +212,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         txtStockMin.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtStockMin.setText("1");
         txtStockMin.setToolTipText("");
+        txtStockMin.setNextFocusableComponent(txtStock);
         txtStockMin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtStockMinActionPerformed(evt);
@@ -225,6 +229,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         txtStock.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtStock.setText("1");
         txtStock.setToolTipText("Ingrese cantidad numérica entera ejemplo: 10");
+        txtStock.setNextFocusableComponent(txtAreaDescripcion);
         txtStock.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtStockActionPerformed(evt);
@@ -252,6 +257,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
         btnAceptar.setText(" Aceptar");
         btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAceptar.setNextFocusableComponent(btnCancelar);
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAceptarActionPerformed(evt);
@@ -264,6 +270,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
         btnCancelar.setText(" Cancelar");
         btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCancelar.setNextFocusableComponent(txtNum);
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
@@ -272,6 +279,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         pn_addInventario.add(btnCancelar);
         btnCancelar.setBounds(420, 320, 150, 33);
 
+        comboUbicacion.setNextFocusableComponent(txtMarca);
         pn_addInventario.add(comboUbicacion);
         comboUbicacion.setBounds(110, 90, 210, 30);
 
