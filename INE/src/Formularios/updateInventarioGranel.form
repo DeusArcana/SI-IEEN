@@ -247,6 +247,9 @@
                 <Property name="toolTipText" type="java.lang.String" value="Ejemplo: Producto derivado de petroleo"/>
                 <Property name="wrapStyleWord" type="boolean" value="true"/>
               </Properties>
+              <AccessibilityProperties>
+                <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value=""/>
+              </AccessibilityProperties>
             </Component>
           </SubComponents>
         </Container>

@@ -9,20 +9,26 @@ import java.util.regex.Pattern;
 
 public class Validaciones {
 	private final Conexion db;
-	private final int format;
+	private final int CEROS_INVENTARIO;
+	private final int CEROS_VALES;
 	
 	public Validaciones() {
-		int temp = 0;
+		int ceros_inventario	= 0;
+		int ceros_vales			= 0;
 		db = new Conexion();
 		
-		try (PreparedStatement ps = db.getConexion().prepareCall("SELECT `INT_String_Format` FROM `INE`.`Admin_Config`")) {	
+		try (PreparedStatement ps = db.getConexion().prepareCall("{CALL `ine`.`usp_get_concatZeros`()}")) {	
 			ResultSet rs = ps.executeQuery();
-			if(rs.next()) temp = rs.getInt("INT_String_Format");
+			if(rs.next()) {
+				ceros_inventario	= rs.getInt(1);
+				ceros_vales			= rs.getInt(2);
+			}
 		} catch (SQLException ex) {
 			Logger.getLogger(Validaciones.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		
-		this.format = temp;
+		this.CEROS_INVENTARIO	= ceros_inventario;
+		this.CEROS_VALES		= ceros_vales;
 	}
 	
 	
@@ -234,6 +240,43 @@ public class Validaciones {
         return Pattern.compile("([a-zA-Z0-9]|\u0020){" + MIN + "," + MAX + "}").matcher(txt).matches();
     }
 	
+	public String constructValesFormatID(String ID){
+		
+		StringBuilder sb = new StringBuilder();
+
+		String[] arr	= ID.split("-");
+		
+		sb.append(arr[0]);
+		sb.append("-");
+		
+		int int_lenght = arr[1].replaceAll("[A-C]", "").length();
+		
+		if (int_lenght < this.CEROS_VALES){ 
+			for (int i = int_lenght; i < this.CEROS_VALES; i++)
+				sb.append("0");
+		}
+		
+		sb.append(arr[1]);
+		sb.append("-");
+		sb.append(arr[2]);
+				
+		return sb.toString();
+	}
+	
+	public static String deconstructValesFormatID(String ID){
+		StringBuilder sb = new StringBuilder();
+		
+		String[] array = ID.split("-");
+		
+		sb.append(array[0]);
+		sb.append("-");
+		sb.append(array[1].replaceFirst("^0+(?!$)", ""));
+		sb.append("-");
+		sb.append(array[2]);
+		
+		return sb.toString();
+	}
+	
 	public String constructFormatID(String ID){
 
 		StringBuilder sb = new StringBuilder();
@@ -247,8 +290,8 @@ public class Validaciones {
 		
 		int int_lenght = arr[2].replaceAll("[A-C]", "").length();
 		
-		if (int_lenght < this.format){ 
-			for (int i = int_lenght; i < this.format; i++)
+		if (int_lenght < this.CEROS_INVENTARIO){ 
+			for (int i = int_lenght; i < this.CEROS_INVENTARIO; i++)
 				sb.append("0");
 		}
 
@@ -257,7 +300,7 @@ public class Validaciones {
 		return sb.toString();
 	}
 	
-		public static String deconstructFormatID(String ID){
+	public static String deconstructFormatID(String ID){
 		StringBuilder sb = new StringBuilder();
 		
 		String[] array = ID.split("-");

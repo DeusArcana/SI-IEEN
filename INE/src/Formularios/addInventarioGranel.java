@@ -195,9 +195,9 @@ public class addInventarioGranel extends javax.swing.JDialog {
         txtAreaDescripcion.setColumns(20);
         txtAreaDescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtAreaDescripcion.setRows(5);
-        txtAreaDescripcion.setToolTipText("Ejemplo: Producto derivado de petroleo");
-        txtAreaDescripcion.setWrapStyleWord(true);
+        txtAreaDescripcion.setToolTipText("");
         jScrollPane1.setViewportView(txtAreaDescripcion);
+        txtAreaDescripcion.getAccessibleContext().setAccessibleDescription("");
 
         pn_addInventario.add(jScrollPane1);
         jScrollPane1.setBounds(471, 13, 358, 110);
@@ -238,6 +238,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         });
         pn_addInventario.add(txtStock);
         txtStock.setBounds(110, 250, 215, 30);
+        txtStock.getAccessibleContext().setAccessibleDescription("");
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("Stock:");

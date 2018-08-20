@@ -213,6 +213,7 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         txtAreaDescripcion.setToolTipText("Ejemplo: Producto derivado de petroleo");
         txtAreaDescripcion.setWrapStyleWord(true);
         jScrollPane1.setViewportView(txtAreaDescripcion);
+        txtAreaDescripcion.getAccessibleContext().setAccessibleDescription("");
 
         pn_addInventario.add(jScrollPane1);
         jScrollPane1.setBounds(471, 13, 358, 110);

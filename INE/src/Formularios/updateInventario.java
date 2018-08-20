@@ -247,6 +247,7 @@ public final class updateInventario extends javax.swing.JDialog {
         });
         pn_addInventario.add(txtProducto);
         txtProducto.setBounds(120, 100, 215, 30);
+        txtProducto.getAccessibleContext().setAccessibleDescription("");
 
         txtFolio.setEditable(false);
         txtFolio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -268,6 +269,7 @@ public final class updateInventario extends javax.swing.JDialog {
         });
         pn_addInventario.add(txtFolio);
         txtFolio.setBounds(120, 60, 50, 30);
+        txtFolio.getAccessibleContext().setAccessibleDescription("");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Producto:");
@@ -444,6 +446,7 @@ public final class updateInventario extends javax.swing.JDialog {
         });
         pn_addInventario.add(txtNum);
         txtNum.setBounds(180, 60, 70, 30);
+        txtNum.getAccessibleContext().setAccessibleDescription("");
 
         txtExtension.setEditable(false);
         txtExtension.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -465,6 +468,7 @@ public final class updateInventario extends javax.swing.JDialog {
         });
         pn_addInventario.add(txtExtension);
         txtExtension.setBounds(260, 60, 50, 30);
+        txtExtension.getAccessibleContext().setAccessibleDescription("");
 
         txtDescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtDescripcion.addActionListener(new java.awt.event.ActionListener() {
@@ -494,6 +498,7 @@ public final class updateInventario extends javax.swing.JDialog {
         });
         pn_addInventario.add(txtFactura);
         txtFactura.setBounds(360, 340, 120, 30);
+        txtFactura.getAccessibleContext().setAccessibleDescription("");
 
         txtImporte.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtImporte.setToolTipText("Ejemplo CMP00000001");
@@ -514,6 +519,7 @@ public final class updateInventario extends javax.swing.JDialog {
         });
         pn_addInventario.add(txtImporte);
         txtImporte.setBounds(570, 340, 120, 30);
+        txtImporte.getAccessibleContext().setAccessibleDescription("");
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Importe:");
