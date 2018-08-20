@@ -53,7 +53,7 @@ public class addUsuarios extends javax.swing.JDialog {
         manager_permisos = new ManagerPermisos();
         
         this.setLocationRelativeTo(null);
-        this.setTitle("Asginación de usuario");
+        this.setTitle("Asignación de usuario");
         this.id = id_empleado;
         
         txtNombre.setVisible(false);
@@ -277,7 +277,7 @@ public class addUsuarios extends javax.swing.JDialog {
                         if (insertar) {
                             //metodo para pdf
                             Object []botones2 = {"Si", "No", "Cancelar"};
-                            opcion = JOptionPane.showOptionDialog(this, "¿Al generar el reporte desea abrirlo?", "Confirmación",
+                            opcion = JOptionPane.showOptionDialog(this, "¿Al generar el reporte, desea abrirlo?", "Confirmación",
                                     JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones2, botones2[0]);
 
                             if (opcion == 0) {
@@ -305,11 +305,11 @@ public class addUsuarios extends javax.swing.JDialog {
                     }
                     break;    
                 case 4:
-                    JOptionPane.showMessageDialog(null, "Por favor ingresa el nombre de usuario");
+                    JOptionPane.showMessageDialog(null, "Por favor, ingrese el nombre de usuario");
                     txtUsuario.requestFocus();
                     break;    
                 case 5:
-                    JOptionPane.showMessageDialog(null, "Por favor ingresa la contraseña");
+                    JOptionPane.showMessageDialog(null, "Por favor, ingrese la contraseña");
                     txtContraseña.requestFocus();
                     break;
             }//switch

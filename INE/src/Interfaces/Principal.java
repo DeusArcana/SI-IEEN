@@ -199,7 +199,7 @@ public class Principal extends javax.swing.JFrame {
         table.addColumn("Cantidad con letra");
         table.addColumn("Autorizó");
         table.addColumn("Solicitó");
-        table.addColumn("Articulo");
+        table.addColumn("Artículo");
         table.addColumn("Descripción");
         tablaGranel = table;
         
@@ -2808,7 +2808,7 @@ public class Principal extends javax.swing.JFrame {
         String separador [] = cadena.split(",");
         lblNombre.setText("Nombre: "+separador[0]+" "+separador[1]+" "+separador[2]);
         lblDomicilio.setText("Domicilio: "+separador[4]+" "+separador[3]);
-        lblTelefono.setText("Telefono: "+separador[5]);
+        lblTelefono.setText("Teléfono: "+separador[5]);
         lblCodigo.setText("C.P.: "+separador[6]);
         lblFecha.setText("Fecha de nacimiento: "+separador[7]);
         lblCurp.setText("CURP: "+separador[8]);
@@ -2828,14 +2828,14 @@ public class Principal extends javax.swing.JFrame {
             usuario = tablaUsuarios.getValueAt(fila, 0).toString();
             //Creamos un cuadro de dialogo para que confirme la eliminación del usuario o la cancele
             Object[] botones = {"Confirmar","Cancelar"};
-            int opcion = JOptionPane.showOptionDialog(this,"¿Dar baja al usuario "+usuario+"?", "Confirmación",
+            int opcion = JOptionPane.showOptionDialog(this,"¿Desea dar baja al usuario "+usuario+"?", "Confirmación",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
 
             //Acepta eliminar al usuario
             if(opcion == 0){
 
                 if(manager_users.estatusUsuario(usuario,"Baja")){
-                    JOptionPane.showMessageDialog(null, "El usuario se a dado de baja exisitosamente.");
+                    JOptionPane.showMessageDialog(null, "El usuario se ha dado de baja exitosamente.");
                     buscarEmpleados();
                 }//if(eliminarEmpleado())
                 else{
@@ -3054,9 +3054,9 @@ public class Principal extends javax.swing.JFrame {
                 if(cantidad > restantes){
                     
                     if(restantes == 0){
-                        JOptionPane.showMessageDialog(null,"Ya se asigno la cantidad máxima al producto \""+codigo+"\"");
+                        JOptionPane.showMessageDialog(null,"Ya se asignó la cantidad máxima al producto \""+codigo+"\"");
                     }else{
-                        JOptionPane.showMessageDialog(null,"Usted está intentando asignarle más productos de los que se estan solicitando.\n"
+                        JOptionPane.showMessageDialog(null,"Usted está intentando asignarle más productos de los que se están solicitando.\n"
                                                      + "Se solicitan \""+solicito+"\" y ya se han autorizado \""+autorizado+"\". Por lo tanto, solo\n"
                                                      + "puede asignar \""+restantes+"\" mas.");
                     }
@@ -3308,9 +3308,9 @@ public class Principal extends javax.swing.JFrame {
                 int seleccion = 0;
 
                 if(esGranel){
-                    if(filas >0){seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar el proceso para atender la solicitud de salida de almacen? \nLos productos que se asignaron volveran a estar disponibles.","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);}
+                    if(filas >0){seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar el proceso para atender la solicitud de salida de almacén? \nLos productos que se asignaron volverán a estar disponibles.","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);}
                 }else{
-                    if(filas>0){seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar el proceso de asignación? \nLos productos volveran a estar disponibles","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);}
+                    if(filas>0){seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar el proceso de asignación? \nLos productos volverán a estar disponibles","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);}
                 }
 
                 if(seleccion == 0){
@@ -3325,7 +3325,7 @@ public void metodoVale(){
     // TODO add your handling code here:
         
         Object[] botones = {"Si", "No"};
-                        int opcion = JOptionPane.showOptionDialog(this, "¿Al generar el vale desea abrirlo?", "Confirmación",
+                        int opcion = JOptionPane.showOptionDialog(this, "¿Al generar el vale, desea abrirlo?", "Confirmación",
                                 JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
 
                         if (opcion == 0) {
@@ -3339,7 +3339,7 @@ public void metodoVale2(String responsable,String[]Claves){
     // TODO add your handling code here:
         
         Object[] botones = {"Si", "No"};
-                        int opcion = JOptionPane.showOptionDialog(this, "¿Al generar el vale desea abrirlo?", "Confirmación",
+                        int opcion = JOptionPane.showOptionDialog(this, "¿Al generar el vale, desea abrirlo?", "Confirmación",
                                 JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
 
                         if (opcion == 0) {
@@ -3353,7 +3353,7 @@ public void metodoValeRecoleccion(){
     // TODO add your handling code here:
         
         Object[] botones = {"Si", "No", "Cancelar"};
-                        int opcion = JOptionPane.showOptionDialog(this, "¿Al generar el vale desea abrirlo?", "Confirmación",
+                        int opcion = JOptionPane.showOptionDialog(this, "¿Al generar el, vale desea abrirlo?", "Confirmación",
                                 JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
 
                         if (opcion == 0) {
@@ -3519,7 +3519,7 @@ public void metodoValeRecoleccion(){
         tablaMInventarioA.setModel(manager_solicitud.tabla_SolicitudSalida(idAtenderSalida));
         //Preguntara si quiere lo que hay en existencia
         String[] opciones = {"Aceptar", "Cancelar"};
-        int seleccion = JOptionPane.showOptionDialog(null, "Solo se cuenta con "+comprobar+" de exitencias para el producto "+id+".\nUsted esta solicitando "+cantidad+", ¿Desea aceptar las existencias restantes o esperar a que las agreguen al inventario?","¿Acepta las exitencias restantes?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+        int seleccion = JOptionPane.showOptionDialog(null, "Solo se cuenta con "+comprobar+" de existencias para el producto "+id+".\nUsted esta solicitando "+cantidad+", ¿Desea aceptar las existencias restantes o esperar a que las agreguen al inventario?","¿Acepta las existencias restantes?", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
         if(seleccion == 0){
             manejador_inventario.productosIgualesInventarioG(id, comprobar);
             if(!(existeCodigoTablaMAsignados(id,comprobar))){
@@ -3604,7 +3604,7 @@ public void metodoValeRecoleccion(){
                                         JOptionPane.showMessageDialog(null,"Ingrese cantidades mayores a 0.");
                                     }
                                 }catch(NumberFormatException e){
-                                    JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
+                                    JOptionPane.showMessageDialog(null,"Solo ingrese números");
                                     entero = true;
                                 }//try catch
                             }
@@ -3810,7 +3810,7 @@ public void metodoValeRecoleccion(){
             try{
                 System.out.println(tablaIP.getValueAt(tablaIP.getSelectedRow(),0)+" "+tablaIP.getValueAt(tablaIP.getSelectedRow(),1));
                 if(manajerMySQL.insertarUsuarioBD("PC70", tablaIP.getValueAt(tablaIP.getSelectedRow(),1).toString())){
-                    JOptionPane.showMessageDialog(null,"Permisos creados con exito!","Información!",JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Permisos creados con exito","Información",JOptionPane.INFORMATION_MESSAGE);
 
                     manajerMySQL.insertarPrivilegios(
                         tablaIP.getValueAt(tablaIP.getSelectedRow(),0).toString(),
@@ -3818,7 +3818,7 @@ public void metodoValeRecoleccion(){
                         tablaIP.getValueAt(tablaIP.getSelectedRow(),2).toString());
                     modeloTablaIP.removeRow(tablaIP.getSelectedRow());
                 }else{
-                    JOptionPane.showMessageDialog(null, "Error al asignar Permisos","Advertencia!",JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Error al asignar Permisos","Advertencia",JOptionPane.WARNING_MESSAGE);
                 }//else
             }catch(java.lang.ArrayIndexOutOfBoundsException e){
                 //JOptionPane.showMessageDialog(null,"Seleccione una dirección!","Información!",JOptionPane.INFORMATION_MESSAGE);
@@ -3840,9 +3840,9 @@ public void metodoValeRecoleccion(){
                     modeloTablaIP.addRow(new Object[]{""+tablaBD.getValueAt(tablaBD.getSelectedRow(), 0).toString(),
                         ""+tablaBD.getValueAt(tablaBD.getSelectedRow(), 1).toString(),"Conectado"});
 
-                JOptionPane.showMessageDialog(null, "Permisos retirados con exito!", "Información!", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Permisos retirados con exito", "Información", JOptionPane.INFORMATION_MESSAGE);
             }else{
-                JOptionPane.showMessageDialog(null, "Error al retirar Permisos","Advertencia!",JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Error al retirar Permisos","Advertencia",JOptionPane.WARNING_MESSAGE);
             }
             }catch(java.lang.ArrayIndexOutOfBoundsException e){
                 // JOptionPane.showMessageDialog(null,"Seleccione una dirección!","Información!",JOptionPane.INFORMATION_MESSAGE);
@@ -3988,7 +3988,7 @@ public void metodoValeRecoleccion(){
             if(manager_permisos.accesoModulo("consulta","Empleados",Username)){
                 tablaUsuarios.setModel(manager_users.getEmpleadosSinUsuario(filtro,busqueda,comboEmpUsuEstatus.getSelectedItem().toString()));
             }else{
-                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultar empleados.");
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas de empleados.");
                 tablaUsuarios.setModel(new DefaultTableModel());
             }//else
 
@@ -3997,7 +3997,7 @@ public void metodoValeRecoleccion(){
             if(manager_permisos.accesoModulo("consulta","Empleados",Username)){
                 tablaUsuarios.setModel(manager_users.getEmpleados(Username,filtro,busqueda,comboEmpUsuEstatus.getSelectedItem().toString()));
             }else{
-                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultar empleados.");
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas de empleados.");
                 tablaUsuarios.setModel(new DefaultTableModel());
             }//else
             
@@ -4005,7 +4005,7 @@ public void metodoValeRecoleccion(){
             if(manager_permisos.accesoModulo("consulta","Usuarios",Username)){
                 tablaUsuarios.setModel(manager_users.getUsuarios(Username,filtro,busqueda,comboEmpUsuEstatus.getSelectedItem().toString()));
             }else{
-                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultar usuarios.");
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas de usuarios.");
                 tablaUsuarios.setModel(new DefaultTableModel());
             }//else
         }//else
@@ -4059,7 +4059,7 @@ public void metodoValeRecoleccion(){
                 
                 comboFiltro.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
                 comboFiltro.addItem("Clave");
-                comboFiltro.addItem("Nombre_corto");
+                comboFiltro.addItem("Nombre Corto");
                 comboFiltro.addItem("Descripción");
                 comboFiltro.addItem("Ubicación");
                 comboFiltro.addItem("Marca");
@@ -4075,7 +4075,7 @@ public void metodoValeRecoleccion(){
                 comboFolio.setVisible(true);
                 comboEstatus.setVisible(true);
             }else if(comboInventario.getSelectedItem().toString().equals("Consumibles")){
-                lblFolioCategoria.setText("Categoria:");
+                lblFolioCategoria.setText("Categoría:");
                 banderaInventario = 2;
                 seleccionoConsumible = true;
                 
@@ -4167,7 +4167,7 @@ public void metodoValeRecoleccion(){
                         //Mostramos las opciones del popmenú de acuerdo a los filtros.
 
                         //Selección de pendiente para baja/donación/comodato
-                        if(comboEstatus.getSelectedItem().toString().equals("para baja") || comboEstatus.getSelectedItem().toString().equals("para donación") || comboEstatus.getSelectedItem().toString().equals("para comodato")){
+                        if(comboEstatus.getSelectedItem().toString().equals("Para baja") || comboEstatus.getSelectedItem().toString().equals("Para donación") || comboEstatus.getSelectedItem().toString().equals("Para comodato")){
 
                             DevolverDis.setVisible(true);//Cambiar el estatus a "Disponible"
                             EstatusDefinitivo.setVisible(true);//Cambiar el estatus a "Baja/Donación/Comodato"
@@ -4177,9 +4177,9 @@ public void metodoValeRecoleccion(){
                                 ParaDonacion.setVisible(true);
                             ActualizarProd.setVisible(true);//Actualizar la información de un producto
 
-                            if(comboEstatus.getSelectedItem().toString().equals("para baja")){ EstatusDefinitivo.setText("Cambiar a Baja"); pendientePara = "Baja"; ParaBaja.setVisible(false);}
-                            if(comboEstatus.getSelectedItem().toString().equals("para donación")){ EstatusDefinitivo.setText("Cambiar a Donación"); pendientePara = "Donación";ParaDonacion.setVisible(false);}
-                            if(comboEstatus.getSelectedItem().toString().equals("para comodato")){ EstatusDefinitivo.setText("Cambiar a Comodato"); pendientePara = "Comodato";ParaComodato.setVisible(false);}   
+                            if(comboEstatus.getSelectedItem().toString().equals("Para baja")){ EstatusDefinitivo.setText("Cambiar a Baja"); pendientePara = "Baja"; ParaBaja.setVisible(false);}
+                            if(comboEstatus.getSelectedItem().toString().equals("Para donación")){ EstatusDefinitivo.setText("Cambiar a Donación"); pendientePara = "Donación";ParaDonacion.setVisible(false);}
+                            if(comboEstatus.getSelectedItem().toString().equals("Para comodato")){ EstatusDefinitivo.setText("Cambiar a Comodato"); pendientePara = "Comodato";ParaComodato.setVisible(false);}   
                             MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
                         }
                         //Selección de Baja/Donación/Comodato o asginado
@@ -4332,7 +4332,7 @@ public void metodoValeRecoleccion(){
 
                     if(manejador_inventario.actualizarStock(codigo, cantidad)){
                         tablaStockMin.setModel(manejador_inventario.getInventarioStockMin());
-                        JOptionPane.showMessageDialog(null, "El inventario se actualizo exitosamente.");
+                        JOptionPane.showMessageDialog(null, "El inventario se actualizó exitosamente.");
                     }else{
                         JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
                     }
@@ -4781,7 +4781,7 @@ public void metodoValeRecoleccion(){
                 String codigo = tablaInventario.getValueAt(fila, 0).toString();//Obtenemos el codigo del producto
 
                 if(manejador_inventario.actualizarStock(codigo, cantidad)){
-                    JOptionPane.showMessageDialog(null, "El inventario se actualizo exitosamente.");
+                    JOptionPane.showMessageDialog(null, "El inventario se actualizó exitosamente.");
                 }else{
                     JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
                 }
@@ -5067,7 +5067,7 @@ public void metodoValeRecoleccion(){
                 Cantidad = new int[0];
 
                 if(manejador_inventario.estatusSalidaAlmacen(Claves, Cantidad, Username,idAtenderSalida,"Cancelada")){
-                    JOptionPane.showMessageDialog(null,"Solicitud cancelada con exito.");
+                    JOptionPane.showMessageDialog(null,"Solicitud cancelada con éxito.");
 
                     if(manager_permisos.accesoModulo("consulta","Solicitudes",Username)){
                         tablaSolicitudes.setModel(manager_solicitud.tabla_SolicitudesMejorada(Username));
@@ -5396,7 +5396,7 @@ public void metodoValeRecoleccion(){
         // TODO add your handling code here:
         int fila = tablaResguardoPersonal.getSelectedRow();
         if(manager_complemento.quitarRegistroResguardo(Username, tablaResguardoPersonal.getValueAt(fila, 0).toString(), tablaResguardoPersonal.getValueAt(fila, 1).toString(), tablaResguardoPersonal.getValueAt(fila, 2).toString(), tablaResguardoPersonal.getValueAt(fila, 3).toString())){
-            JOptionPane.showMessageDialog(null, "Salida del producto \""+tablaResguardoPersonal.getValueAt(fila, 1).toString()+"\"  del resguardo personal con exito.");
+            JOptionPane.showMessageDialog(null, "Salida del producto \""+tablaResguardoPersonal.getValueAt(fila, 1).toString()+"\"  del resguardo personal con éxito.");
             tablaResguardoPersonal.setModel(manager_complemento.getResguardoPersonal(Username));
         }else{
             JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
@@ -5471,17 +5471,17 @@ public void metodoValeRecoleccion(){
             if (pingManual(cajaIP.getText())) {
 
                 if (manajerMySQL.insertarUsuarioBD("PC70", cajaIP.getText())) {
-                    JOptionPane.showMessageDialog(null, "Permisos creados con exito!", "Información!", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Permisos creados con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
 
                     manajerMySQL.insertarPrivilegios("IP Manual", cajaIP.getText(), "Activo");
                     cajaIP.setText("");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error al asignar Permisos", "Advertencia!", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Error al asignar Permisos", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 }//else
 
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Introduce una IP Válida!", "Atención!", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Introduce una IP Válida", "Atención", JOptionPane.INFORMATION_MESSAGE);
         }
          
     }//GEN-LAST:event_jButton6ActionPerformed
@@ -5605,7 +5605,7 @@ public void metodoValeRecoleccion(){
     private void CancelarTodoSSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarTodoSSActionPerformed
         // TODO add your handling code here:
         String[] opciones = {"Aceptar", "Cancelar"};
-        int seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar la solicitud de salida de almacen?","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+        int seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar la solicitud de salida de almacén?","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
         if(seleccion == 0){
             limpiarTablaCantidadGranel();
         }
@@ -5633,7 +5633,7 @@ public void metodoValeRecoleccion(){
 
                 //Realizamos el registro
                 if(manager_solicitud.registro_SolicitudSalida(Username, ids, Cantidad)){
-                    JOptionPane.showMessageDialog(null, "Se realizo correctamente la solicitud de salida de almacen.");
+                    JOptionPane.showMessageDialog(null, "Se realizó correctamente la solicitud de salida de almacen.");
                     limpiarTablaCantidadGranel();
                 }else{
                     JOptionPane.showMessageDialog(null, "No se pudo realizar la solicitud de salida de almacen, verificar con el distribuidor.");

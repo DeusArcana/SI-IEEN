@@ -7,22 +7,15 @@ package Formularios;
 
 import Clases.ManagerInventario;
 import Clases.ManagerPermisos;
-import Clases.Validaciones;
 import Clases.enviarFotoPOST;
 
 import Interfaces.Principal;
-import static Interfaces.Principal.comboEstatus;
-import static Interfaces.Principal.comboFolio;
-import static Interfaces.Principal.nomeclaturas;
-import com.sun.glass.events.KeyEvent;
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.imageio.ImageIO;
@@ -557,7 +550,7 @@ public class addInventario extends javax.swing.JDialog {
             if (manager_inventario.guardarImagen(folio,numero,extension, producto, descripcion,ubicacion, marca, "Sin observaciones",noserie, modelo, color,contadorImg.getText(), fecha_compra, factura, importe,cantidad)) {
                 String nombreParametro = txtFolio.getText() + "-" + txtNum.getText()+ txtExtension.getText();
                 managerPOST.prepararImagenesInventario(rutas, nombreParametro, contadorRutas);   
-                JOptionPane.showMessageDialog(null, "Se inserto correctamente al inventario");
+                JOptionPane.showMessageDialog(null, "Se insertó correctamente al inventario");
                 
                 int num = comboFolio.getSelectedIndex();
                 String nomeclatura = "";
@@ -692,7 +685,7 @@ public class addInventario extends javax.swing.JDialog {
 
     private void comboFolioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFolioActionPerformed
         // TODO add your handling code here:
-        int folio = comboFolio.getSelectedIndex();
+        int combo_folio = comboFolio.getSelectedIndex();
         
         if(comboFolio.getSelectedItem().toString().equals("Mobiliario y Equipo de Oficina")){
             lblCantidad.setVisible(true);
@@ -705,11 +698,11 @@ public class addInventario extends javax.swing.JDialog {
         }
         txtCantidad.setText("1");
         
-        if(folio > 0){
-            txtFolio.setText(nomeclaturas[folio-1]);
+        if(combo_folio > 0){
+            txtFolio.setText(nomeclaturas[combo_folio-1]);
             txtNum.setEnabled(true);
             txtExtension.setEnabled(true);
-            txtNum.setText(manager_inventario.getSugerenciaNum(nomeclaturas[folio - 1]));
+            txtNum.setText(manager_inventario.getSugerenciaNum(nomeclaturas[combo_folio - 1]));
             
             if(!(txtNum.getText().isEmpty())){
             

@@ -121,7 +121,7 @@ public class addResguardo extends javax.swing.JDialog {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
         if(manager_complemento.insertarResguardo(Principal.Username, txtNombre.getText(), txtAObservaciones.getText())){
-            JOptionPane.showMessageDialog(null, "Se registro exitosamente el producto en su resguardo personal.");
+            JOptionPane.showMessageDialog(null, "Se registró exitosamente el producto en su resguardo personal.");
             Principal.tablaResguardoPersonal.setModel(manager_complemento.getResguardoPersonal(Principal.Username));
             this.dispose();
         }else{

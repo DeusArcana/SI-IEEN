@@ -157,11 +157,11 @@ public class addObservaciones extends javax.swing.JDialog {
                 Principal.tablaInventario.setModel(manager_inventario.getInventario("",estatus));
             }else{
                 Principal.tablaInventario.setModel(new DefaultTableModel());
-                JOptionPane.showMessageDialog(null, "Le han revoado los permisos para consultar el inventario.");
+                JOptionPane.showMessageDialog(null, "Le ha sido revocado el permiso para consultar el inventario.");
             }
             this.dispose();
         }else{
-            JOptionPane.showMessageDialog(null, "Le han revocado el permiso para añadir observaciones a los productos.");
+            JOptionPane.showMessageDialog(null, "Le ha sido revocado el permiso para añadir observaciones a los productos.");
             this.dispose();
         }
     }//GEN-LAST:event_btnAceptarActionPerformed

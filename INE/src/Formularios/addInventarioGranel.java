@@ -159,7 +159,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         comboCategoria.setBounds(110, 170, 210, 30);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel11.setText("Categoria:");
+        jLabel11.setText("Categoría:");
         pn_addInventario.add(jLabel11);
         jLabel11.setBounds(30, 180, 70, 17);
 
@@ -174,7 +174,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         jLabel3.setBounds(392, 16, 75, 17);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("Ubucación:");
+        jLabel4.setText("Ubicación:");
         pn_addInventario.add(jLabel4);
         jLabel4.setBounds(26, 100, 70, 17);
 
@@ -197,7 +197,6 @@ public class addInventarioGranel extends javax.swing.JDialog {
         txtAreaDescripcion.setRows(5);
         txtAreaDescripcion.setToolTipText("");
         jScrollPane1.setViewportView(txtAreaDescripcion);
-        txtAreaDescripcion.getAccessibleContext().setAccessibleDescription("");
 
         pn_addInventario.add(jScrollPane1);
         jScrollPane1.setBounds(471, 13, 358, 110);
@@ -358,7 +357,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
         if(manager_permisos.accesoModulo("alta","Inventario",Principal.Username)){
             
             if(manager_inventario_granel.insertarInventarioG(num,extension, producto, almacen, marca, stockmin, stock, descripcion,categoria)){
-                JOptionPane.showMessageDialog(null,"Se inserto correctamente al inventario");
+                JOptionPane.showMessageDialog(null,"Se insertó correctamente al inventario");
                 
                 if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
                     String estatus2 = Principal.comboEstatus.getSelectedItem().toString();

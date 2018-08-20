@@ -296,7 +296,7 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(this, "NO HAY CONEXION CON LA BD");
+            JOptionPane.showMessageDialog(this, "NO HAY CONEXION CON LA BASE DE DATOS");
         }
     }//GEN-LAST:event_btn_ingresarActionPerformed
 
@@ -390,14 +390,14 @@ public class Login extends javax.swing.JFrame {
                 user = tf_campoUsuario.getText();
                 int resultado = manager.iniciarSesion(user, password); //obtenemos de la base de datos informacion sobre el si se concreto el login
                 if (resultado == 0) {
-                    JOptionPane.showMessageDialog(this, "El usuario no existe!","Información",JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "El usuario no existe","Información",JOptionPane.INFORMATION_MESSAGE);
                     tf_campoUsuario.setText("");
                     tf_campoContraseña.setText("");
                     tf_campoUsuario.requestFocus();
                     return false;
                 }//
                 if (resultado == 1) {
-                    JOptionPane.showMessageDialog(this, "La contraseña puede ser incorrecta o que este dado de baja","Información",JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "La contraseña puede ser incorrecta o el usuario puede haber sido dado de baja","Información",JOptionPane.WARNING_MESSAGE);
                     tf_campoContraseña.setText("");
                     tf_campoContraseña.requestFocus();
                     return false;
@@ -408,7 +408,7 @@ public class Login extends javax.swing.JFrame {
                 }//
 
             } else {
-                JOptionPane.showMessageDialog(this, "Ingrese una Contraseña");
+                JOptionPane.showMessageDialog(this, "Ingrese una contraseña");
                 tf_campoContraseña.requestFocus();
 
             }//

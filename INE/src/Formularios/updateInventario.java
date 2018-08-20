@@ -7,21 +7,14 @@ package Formularios;
 
 import Clases.ManagerInventario;
 import Clases.ManagerPermisos;
-import Clases.Validaciones;
 import Clases.enviarFotoPOST;
 
 import Interfaces.Principal;
-import static Interfaces.Principal.comboEstatus;
-import static Interfaces.Principal.comboFolio;
-import static Interfaces.Principal.nomeclaturas;
-import com.sun.glass.events.KeyEvent;
 import com.toedter.calendar.JTextFieldDateEditor;
-import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,7 +53,7 @@ public final class updateInventario extends javax.swing.JDialog {
         initComponents();
         this.setLocationRelativeTo(null);
         
-        this.setTitle("Actualización de información del produto \""+ClaveProd+"\"");
+        this.setTitle("Actualización de la información del produto \""+ClaveProd+"\"");
         
         //Asginamos memoria al objeto
         manager_inventario = new ManagerInventario();
@@ -608,7 +601,7 @@ public final class updateInventario extends javax.swing.JDialog {
             if (manager_inventario.actualizarProducto(id,producto, descripcion,ubicacion, marca,noserie, modelo, color, fecha_compra, factura, importe,imagen)) {
                 String nombreParametro = txtFolio.getText() + "-" + txtNum.getText()+ txtExtension.getText();
                 managerPOST.prepararImagenesInventario(rutas, nombreParametro, contadorRutas); 
-                JOptionPane.showMessageDialog(null, "Se actualizo correctamente el producto \""+id+"\"");
+                JOptionPane.showMessageDialog(null, "Se actualizó correctamente el producto \""+id+"\"");
                 
                 //Actualizamos al tabla de inventario de acuerdo a lo que ya se tenia seleccionado anteriormente
                 int num = Principal.comboFolio.getSelectedIndex();
@@ -625,7 +618,7 @@ public final class updateInventario extends javax.swing.JDialog {
                     Principal.comboFolio.setSelectedIndex(num);
                 }else{
                     Principal.tablaInventario.setModel(new DefaultTableModel());
-                    JOptionPane.showMessageDialog(null, "Le han revoado los permisos para consultar el inventario.");
+                    JOptionPane.showMessageDialog(null, "Le han revocado los permisos para consultar el inventario.");
                 }
                 this.dispose();
 

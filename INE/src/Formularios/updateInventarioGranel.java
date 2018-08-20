@@ -8,15 +8,10 @@ package Formularios;
 import Clases.ManagerInventario;
 import Clases.ManagerPermisos;
 import Clases.ManagerInventarioGranel;
-import Clases.Validaciones;
 
 import Interfaces.Principal;
-import java.awt.Color;
-import javax.swing.InputVerifier;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
 /**
  *
  * @author kevin
@@ -52,7 +47,7 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         colocarDatos(datosConsumible);
         
         this.setLocationRelativeTo(null);
-        this.setTitle("Actualización de información de consumible");
+        this.setTitle("Actualización de la información de consumible");
         
     }
 
@@ -174,7 +169,7 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         comboCategoria.setBounds(110, 170, 210, 30);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel11.setText("Categoria:");
+        jLabel11.setText("Categoría:");
         pn_addInventario.add(jLabel11);
         jLabel11.setBounds(30, 180, 70, 17);
 
@@ -189,7 +184,7 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         jLabel3.setBounds(392, 16, 75, 17);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("Ubucación:");
+        jLabel4.setText("Ubicación:");
         pn_addInventario.add(jLabel4);
         jLabel4.setBounds(26, 100, 70, 17);
 

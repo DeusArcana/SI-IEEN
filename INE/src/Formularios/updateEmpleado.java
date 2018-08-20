@@ -14,12 +14,8 @@ import static Interfaces.Principal.comboEmpUsu;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -209,7 +205,7 @@ public class updateEmpleado extends javax.swing.JDialog {
         txtColonia.setBounds(118, 127, 202, 25);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel6.setText("Telefono:");
+        jLabel6.setText("Teléfono:");
         pn_empleado.add(jLabel6);
         jLabel6.setBounds(420, 14, 57, 17);
 
@@ -456,19 +452,19 @@ public class updateEmpleado extends javax.swing.JDialog {
                     }
                     break;
                 case 1:
-                    JOptionPane.showMessageDialog(null, "Por favor ingresa el nombre");
+                    JOptionPane.showMessageDialog(null, "Por favor, ingresa el nombre");
                     txtNombre.requestFocus();
                     break;
                 case 2:
-                    JOptionPane.showMessageDialog(null, "Por favor ingresa el apellido paterno");
+                    JOptionPane.showMessageDialog(null, "Por favor, ingresa el apellido paterno");
                     txtApellidoP.requestFocus();
                     break;
                 case 3:
-                    JOptionPane.showMessageDialog(null, "Por favor ingresa el apellido materno");
+                    JOptionPane.showMessageDialog(null, "Por favor, ingresa el apellido materno");
                     txtApellidoM.requestFocus();
                     break;
                 case 4:
-                    JOptionPane.showMessageDialog(null, "Por favor ingresa la fecha de nacimiento del nuevo empleado");
+                    JOptionPane.showMessageDialog(null, "Por favor, ingresa la fecha de nacimiento del nuevo empleado");
                     txtFecha.requestFocus();
                     break;
             }//switch

@@ -9,13 +9,8 @@ import Clases.ManagerUsers;
 import Clases.ManagerComplemento;
 import Clases.ManagerPermisos;
 
-import Interfaces.Principal;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 /**
  *
  * @author kevin
@@ -210,24 +205,24 @@ public class changePassword extends javax.swing.JDialog {
             case 0:
                 boolean cambiar = manager_users.changePass(txtUsuario.getText(),txtAContraseña.getText(),txtNContraseña.getText());
                 if(cambiar){
-                    JOptionPane.showMessageDialog(null, "Se actualizo la contraseña exitosamente.");
+                    JOptionPane.showMessageDialog(null, "Se actualizó la contraseña exitosamente.");
                 }else{
                     JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
                 }
                 this.dispose();
                 break;    
             case 2:
-                JOptionPane.showMessageDialog(null, "Por favor ingresa la anitgüa contraseña");
+                JOptionPane.showMessageDialog(null, "Por favor, ingresa la antigüa contraseña");
                 txtAContraseña.requestFocus();
                 limpiar();
                 break;
             case 3:
-                JOptionPane.showMessageDialog(null, "Por favor ingresa la nueva contraseña");
+                JOptionPane.showMessageDialog(null, "Por favor, ingresa la nueva contraseña");
                 txtNContraseña.requestFocus();
                 limpiar();
                 break;    
             case 4:
-                JOptionPane.showMessageDialog(null, "Por favor ingresa la confirmación de la contraseña");
+                JOptionPane.showMessageDialog(null, "Por favor, ingresa la confirmación de la contraseña");
                 txtCNContraseña.requestFocus();
                 limpiar();
                 break;

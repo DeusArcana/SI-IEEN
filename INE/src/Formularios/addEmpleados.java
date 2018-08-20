@@ -151,7 +151,7 @@ public class addEmpleados extends javax.swing.JDialog {
         txtColonia.setBounds(118, 127, 202, 25);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel6.setText("Telefono:");
+        jLabel6.setText("Teléfono:");
         pn_empleado.add(jLabel6);
         jLabel6.setBounds(420, 14, 57, 17);
 
