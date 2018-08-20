@@ -160,8 +160,14 @@ public class addInventario extends javax.swing.JDialog {
                 txtProductoActionPerformed(evt);
             }
         });
+        txtProducto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtProductoKeyTyped(evt);
+            }
+        });
         pn_addInventario.add(txtProducto);
         txtProducto.setBounds(120, 100, 215, 30);
+        txtProducto.getAccessibleContext().setAccessibleDescription("");
 
         txtFolio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtFolio.setToolTipText("Ejemplo CMP00000001");
@@ -183,6 +189,7 @@ public class addInventario extends javax.swing.JDialog {
         });
         pn_addInventario.add(txtFolio);
         txtFolio.setBounds(120, 60, 50, 30);
+        txtFolio.getAccessibleContext().setAccessibleDescription("");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Producto:");
@@ -420,6 +427,8 @@ public class addInventario extends javax.swing.JDialog {
         });
         pn_addInventario.add(txtFactura);
         txtFactura.setBounds(360, 340, 120, 30);
+        txtFactura.getAccessibleContext().setAccessibleName("");
+        txtFactura.getAccessibleContext().setAccessibleDescription("");
 
         txtImporte.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtImporte.setText("0");
@@ -441,6 +450,7 @@ public class addInventario extends javax.swing.JDialog {
         });
         pn_addInventario.add(txtImporte);
         txtImporte.setBounds(570, 340, 120, 30);
+        txtImporte.getAccessibleContext().setAccessibleDescription("");
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Importe:");
@@ -687,9 +697,11 @@ public class addInventario extends javax.swing.JDialog {
         if(comboFolio.getSelectedItem().toString().equals("Mobiliario y Equipo de Oficina")){
             lblCantidad.setVisible(true);
             txtCantidad.setVisible(true);
+			txtNum.requestFocusInWindow();
         }else{
             lblCantidad.setVisible(false);
             txtCantidad.setVisible(false);
+			txtNum.requestFocusInWindow();
         }
         txtCantidad.setText("1");
         
@@ -907,6 +919,12 @@ public class addInventario extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtCantidadKeyTyped
 
+    private void txtProductoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProductoKeyTyped
+        if(txtProducto.getText().length() >= 50) {  
+			evt.consume();
+		}
+    }//GEN-LAST:event_txtProductoKeyTyped
+
     /**
      * @param args the command line arguments
      */
@@ -922,7 +940,7 @@ public class addInventario extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                addInventarioGranel dialog = new addInventarioGranel(new javax.swing.JFrame(), true);
+                addInventario dialog = new addInventario(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
