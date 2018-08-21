@@ -65,11 +65,11 @@ public class ManagerPases {
                 ResultSet area=db.getTabla("select Area from Area where ID_area='"+numarea.getString("area")+"'", conexion);
                 area.next();
                     
-            if(usuario.getString("puesto").equals("Administrador")){
-                 sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado from solicitud_pase where Año = '"+ year +"' order by Numero DESC";
+            if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
+                 sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado from solicitud_pase where Año = '"+ year +"' order by Numero DESC;";
                  
             }else{      
-                sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado from solicitud_pase where Año = '"+ year +"' AND Area = '"+ area.getString("Area") +"' order by Numero DESC";        
+                sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado from solicitud_pase where Año = '"+ year +"' AND Area = '"+ area.getString("Area") +"' order by Numero DESC;";        
                 //System.out.printf(idemp.getString("id_empleado"));
                 //System.out.printf(numarea.getString("area"));
                 //System.out.printf(area.getString("Area"));
@@ -106,8 +106,28 @@ public class ManagerPases {
     
     public void getArea(JComboBox combo) {
         try{
+            String sql="";
+            
+            ResultSet usuario=db.getTabla("select puesto from User where id_user='"+Principal.Username+"'", conexion);
+            usuario.next();
+                      
+                ResultSet idemp=db.getTabla("select id_empleado from User where id_user='"+Principal.Username+"'", conexion);
+                idemp.next();
+                
+                ResultSet numarea=db.getTabla("select area from Empleados where id_empleado='"+idemp.getString("id_empleado")+"'", conexion);
+                numarea.next();
+                
+                //ResultSet area=db.getTabla("select Area from Area where ID_area='"+numarea.getString("area")+"'", conexion);
+                //area.next();
+                    
+            if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
+                 sql = "select Area from Area;";
+                 
+            }else{      
+                sql = "select Area from Area where ID_Area = '"+numarea.getString("area")+"';";        
+                
+            }
            
-            String sql = "select Area from Area;";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -123,10 +143,10 @@ public class ManagerPases {
         
     }//Obtiene todas las areas de trabajo
     
-    public String getAreaSiglas(int siglas) {
+    public String getAreaSiglas(String siglas) {
         try{
            
-            String sql = "select Siglas from Area where ID_Area = '"+siglas+"';";
+            String sql = "select Siglas from Area where Area = '"+siglas+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -185,13 +205,16 @@ public class ManagerPases {
         
     }//Obtiene todas las areas de trabajo
     
-    public void getNombresEmpleadosArea(int area,JComboBox combo) {
+    public void getNombresEmpleadosArea(String area,JComboBox combo) {
         try{
+            
+            ResultSet idarea=db.getTabla("select ID_Area from Area where Area = '"+area+"'", conexion);
+            idarea.next();
            
-            String sql = "select concat(nombres,' ',apellido_p,' ',apellido_m) from Empleados where area = '"+area+"';";
+            String sql = "select concat(nombres,' ',apellido_p,' ',apellido_m) from Empleados where area = '"+idarea.getString("ID_Area")+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            ResultSet rs = st.executeQuery(sql); 
             while(rs.next()){
                 combo.addItem(rs.getObject(1).toString());
             }
@@ -203,6 +226,27 @@ public class ManagerPases {
         } 
         
     }//Obtiene todas los nombres de los empleados del area
+    
+    public void getYear(JComboBox combo) {
+        try{
+            String sql="";
+           
+           sql = "select * from acceder_year order by Year DESC;";  
+           
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                combo.addItem(rs.getObject(1).toString());
+            }
+            
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los años para ingresarlos al combo SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+    }//Obtiene todas las areas de trabajo
     
     public String obtenerPuesto(String empleado) {
         try{

@@ -114,8 +114,10 @@ public class CrearPaseSalida {
     
     private static Font elements2 = new Font(Font.FontFamily.HELVETICA, 8,
             Font.NORMAL);
-    private static Font elements2c = new Font(Font.FontFamily.HELVETICA,10,Font.NORMAL,BaseColor.LIGHT_GRAY);
-    private static Font elements3 = new Font(Font.FontFamily.HELVETICA, 8,
+    private static Font elements2c = new Font(Font.FontFamily.HELVETICA,8,Font.NORMAL,BaseColor.LIGHT_GRAY);
+    private static Font elements3 = new Font(Font.FontFamily.HELVETICA, 9,
+            Font.BOLD);
+    private static Font elements3c = new Font(Font.FontFamily.HELVETICA, 8,
             Font.BOLD);
     private static Font subFontF = new Font(Font.FontFamily.HELVETICA, 8,
             Font.NORMAL);
@@ -206,7 +208,7 @@ public class CrearPaseSalida {
 
             Head.addCell(LogoCell);
             
-            PdfPCell Titulo = new PdfPCell(new Phrase("INSTITUTO ESTATAL ELECTORAL DE NAYARIT\nSECRETARÍA GENERAL", Mex));
+            PdfPCell Titulo = new PdfPCell(new Phrase("INSTITUTO ESTATAL ELECTORAL DE NAYARIT\n"+area.toUpperCase(), Mex));
             
             Titulo.setBorderColor(BaseColor.WHITE);
             Titulo.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -490,7 +492,7 @@ public class CrearPaseSalida {
             PdfPTable firmas = new PdfPTable(3);
             firmas.setWidthPercentage(100f);
             float[] medidaCeldasfirmas = {2.25f,0.30f, 2.25f};
-            firmas.setWidths(medidaCeldasEncabezados);
+            firmas.setWidths(medidaCeldasfirmas);
             PdfPCell encabezadosfirmasCell,encabezadosfirmasCell2,encabezadosfirmasCell3;
             
             encabezadosfirmasCell = new PdfPCell(new Phrase(nombreem, elements2));
@@ -511,73 +513,62 @@ public class CrearPaseSalida {
             firmas.addCell(encabezadosfirmasCell2);
             firmas.addCell(encabezadosfirmasCell3);
             
+            //encabezados2
+            PdfPTable firmasfi = new PdfPTable(3);
+            firmas.setWidthPercentage(100f);
+            float[] medidaCeldasfirmasfi = {2.25f,0.95f, 2.25f};
+            firmasfi.setWidths(medidaCeldasfirmasfi);
+            PdfPCell encabezadosfirmasCellfi,encabezadosfirmasCell2fi,encabezadosfirmasCell3fi;
             
+            encabezadosfirmasCellfi = new PdfPCell(new Phrase("Nombre y Firma", elements3c));
+            encabezadosfirmasCellfi.setHorizontalAlignment(Element.ALIGN_CENTER);
+            //encabezadosfirmasCellfi.setBorderColor(BaseColor.BLACK);
+            encabezadosfirmasCellfi.setBorderWidthLeft(0);
+            encabezadosfirmasCellfi.setBorderWidthRight(0);
+            encabezadosfirmasCellfi.setBorderWidthBottom(0);
+            encabezadosfirmasCellfi.setBackgroundColor(BaseColor.WHITE);
             
-            // CONTENIDO
-            PdfPTable contenidofirmas = new PdfPTable(7);
-            contenidofirmas.setWidthPercentage(100f);
-            float[] contenidomedidasfirmas = {1.85f,2.10f,1.85f,1.70f, 1.85f,2.10f,1.85f};
-            contenidofirmas.setWidths(contenidomedidasfirmas);
-            PdfPCell contenidofirmas1,contenidofirmas2,contenidofirmas3,contenidofirmas4,contenidofirmas5,contenidofirmas6,contenidofirmas7;
+            encabezadosfirmasCell2fi = new PdfPCell(new Phrase("", elements2));
             
-            contenidofirmas1 = new PdfPCell(new Phrase("", elements2));
-            contenidofirmas1.setHorizontalAlignment(Element.ALIGN_CENTER);
-            //contenidofirmas1.setBorderWidthTop(0);
-            contenidofirmas1.setBorderWidthLeft(0);
-            contenidofirmas1.setBorderWidthRight(0);
-            contenidofirmas1.setBorderWidthBottom(0);
-            //contenidofirmas1.setBorderColor(BaseColor.WHITE);
+            encabezadosfirmasCell2fi.setBorder(0);
             
-            contenidofirmas2 = new PdfPCell(new Phrase("Nombre y Firma\nSolicitante", elements3));
-            contenidofirmas2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            //contenidofirmas1.setBorderWidthTop(0);
-            contenidofirmas2.setBorderWidthLeft(0);
-            contenidofirmas2.setBorderWidthRight(0);
-            contenidofirmas2.setBorderWidthBottom(0);
-            //contenidofirmas2.setBorderColor(BaseColor.WHITE);
-            
-            contenidofirmas3 = new PdfPCell(new Phrase("", elements2));
-            contenidofirmas3.setHorizontalAlignment(Element.ALIGN_CENTER);
-            //contenidofirmas1.setBorderWidthTop(0);
-            contenidofirmas3.setBorderWidthLeft(0);
-            contenidofirmas3.setBorderWidthRight(0);
-            contenidofirmas3.setBorderWidthBottom(0);
-            //contenidofirmas3.setBorderColor(BaseColor.WHITE);
-            
-            contenidofirmas4 = new PdfPCell(new Phrase("", elements3));
-            contenidofirmas4.setBorder(0);
-            
-            contenidofirmas5 = new PdfPCell(new Phrase("", elements2));
-            contenidofirmas5.setHorizontalAlignment(Element.ALIGN_CENTER);
-            //contenidofirmas1.setBorderWidthTop(0);
-            contenidofirmas5.setBorderWidthLeft(0);
-            contenidofirmas5.setBorderWidthRight(0);
-            contenidofirmas5.setBorderWidthBottom(0);
-            //contenidofirmas5.setBorderColor(BaseColor.WHITE);
-            
-            contenidofirmas6 = new PdfPCell(new Phrase("Nombre y Firma\nResponsable del Área", elements3));
-            contenidofirmas6.setHorizontalAlignment(Element.ALIGN_CENTER);
-            //contenidofirmas1.setBorderWidthTop(0);
-            contenidofirmas6.setBorderWidthLeft(0);
-            contenidofirmas6.setBorderWidthRight(0);
-            contenidofirmas6.setBorderWidthBottom(0);
-            //contenidofirmas6.setBorderColor(BaseColor.WHITE);
-            
-            contenidofirmas7 = new PdfPCell(new Phrase("", elements2));
-            contenidofirmas7.setHorizontalAlignment(Element.ALIGN_CENTER);
-            //contenidofirmas1.setBorderWidthTop(0);
-            contenidofirmas7.setBorderWidthLeft(0);
-            contenidofirmas7.setBorderWidthRight(0);
-            contenidofirmas7.setBorderWidthBottom(0);
-            //contenidofirmas7.setBorderColor(BaseColor.WHITE);
+            encabezadosfirmasCell3fi = new PdfPCell(new Phrase("Nombre y Firma", elements3c));
+            encabezadosfirmasCell3fi.setHorizontalAlignment(Element.ALIGN_CENTER);
+            //encabezadosfirmasCell3fi.setBorderColor(BaseColor.BLACK);
+            encabezadosfirmasCell3fi.setBorderWidthLeft(0);
+            encabezadosfirmasCell3fi.setBorderWidthRight(0);
+            encabezadosfirmasCell3fi.setBorderWidthBottom(0);
+            encabezadosfirmasCell3fi.setBackgroundColor(BaseColor.WHITE);
 
-            contenidofirmas.addCell(contenidofirmas1);
-            contenidofirmas.addCell(contenidofirmas2);
-            contenidofirmas.addCell(contenidofirmas3);
-            contenidofirmas.addCell(contenidofirmas4);
-            contenidofirmas.addCell(contenidofirmas5);
-            contenidofirmas.addCell(contenidofirmas6);
-            contenidofirmas.addCell(contenidofirmas7);
+            firmasfi.addCell(encabezadosfirmasCellfi);
+            firmasfi.addCell(encabezadosfirmasCell2fi);
+            firmasfi.addCell(encabezadosfirmasCell3fi);
+            
+            //encabezados3
+            PdfPTable firmasfina = new PdfPTable(3);
+            firmas.setWidthPercentage(100f);
+            float[] medidaCeldasfirmasfina = {2.25f,0.95f, 2.25f};
+            firmasfina.setWidths(medidaCeldasfirmasfina);
+            PdfPCell encabezadosfirmasCellfina,encabezadosfirmasCell2fina,encabezadosfirmasCell3fina;
+            
+            encabezadosfirmasCellfina = new PdfPCell(new Phrase("Solicitante", elements3c));
+            encabezadosfirmasCellfina.setHorizontalAlignment(Element.ALIGN_CENTER);
+            encabezadosfirmasCellfina.setBorderColor(BaseColor.WHITE);
+            encabezadosfirmasCellfina.setBackgroundColor(BaseColor.WHITE);
+            
+            encabezadosfirmasCell2fina = new PdfPCell(new Phrase("", elements2));
+            
+            encabezadosfirmasCell2fina.setBorder(0);
+            
+            encabezadosfirmasCell3fina = new PdfPCell(new Phrase("Responsable del Área", elements3c));
+            encabezadosfirmasCell3fina.setHorizontalAlignment(Element.ALIGN_CENTER);
+            encabezadosfirmasCell3fina.setBorderColor(BaseColor.WHITE);
+            encabezadosfirmasCell3fina.setBackgroundColor(BaseColor.WHITE);
+
+            firmasfina.addCell(encabezadosfirmasCellfina);
+            firmasfina.addCell(encabezadosfirmasCell2fina);
+            firmasfina.addCell(encabezadosfirmasCell3fina);
+
             
             //COPIAPASE
             PdfPTable copiapase = new PdfPTable(3);
@@ -589,7 +580,7 @@ public class CrearPaseSalida {
             copiapaseCell = new PdfPCell(new Phrase("", elements2));
             copiapaseCell.setBorder(0);
             
-            copiapaseCell2 = new PdfPCell(new Phrase("COPIA DE PASE", elements2c));
+            copiapaseCell2 = new PdfPCell(new Phrase("COPIA DEL SOLICITANTE", elements2c));
             copiapaseCell2.setHorizontalAlignment(Element.ALIGN_CENTER);
             copiapaseCell2.setBorderColor(BaseColor.WHITE);
             
@@ -636,7 +627,8 @@ public class CrearPaseSalida {
             //Espacio en blanco
             doc.add(BLANCO);
             doc.add(firmas);
-            doc.add(contenidofirmas);
+            doc.add(firmasfi);
+            doc.add(firmasfina);
             //linea
             doc.add(midLane);
             //COPIAAAA               ----------------------------------------------------------------
@@ -676,7 +668,8 @@ public class CrearPaseSalida {
             //Espacio en blanco
             //doc.add(BLANCO);
             doc.add(firmas);
-            doc.add(contenidofirmas);
+            doc.add(firmasfi);
+            doc.add(firmasfina);
             doc.add(copiapase);
             //linea
             archivo_nombre = pdfFilename;
@@ -687,7 +680,7 @@ public class CrearPaseSalida {
                 JOptionPane.showMessageDialog(null, "Pase creado con éxito!", "Información", INFORMATION_MESSAGE);
             }
         } catch (java.io.FileNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "ERROR: No hay imagen dist\\print\\blogin.png", "Advertencia!", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "ERROR: No hay imagen prro dist\\print\\blogin.png", "Advertencia!", JOptionPane.WARNING_MESSAGE);
         } catch (DocumentException dex) {
             dex.printStackTrace();
         } catch (Exception ex) {

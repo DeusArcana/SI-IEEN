@@ -83,21 +83,21 @@ public class PrincipalP extends javax.swing.JFrame {
         tablapase = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel17 = new javax.swing.JLabel();
         txtbusquedasoli = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
+        comboAño = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        menuInterfaces = new javax.swing.JMenu();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         mi_viaticos = new javax.swing.JMenuItem();
         mi_pases = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         itemSalir1 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
         menuOpciones = new javax.swing.JMenu();
         menuPermisos = new javax.swing.JMenuItem();
         menuPuestoArea = new javax.swing.JMenuItem();
-        MenuSolicitud = new javax.swing.JMenuItem();
 
         Nueva.setText("Nuevo");
         Nueva.addActionListener(new java.awt.event.ActionListener() {
@@ -215,9 +215,11 @@ public class PrincipalP extends javax.swing.JFrame {
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel17.setText("Busqueda:");
         solicitudviaticos1.add(jLabel17);
-        jLabel17.setBounds(40, 120, 100, 22);
+        jLabel17.setBounds(37, 124, 100, 22);
 
         txtbusquedasoli.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtbusquedasoli.setToolTipText("Busqueda en general");
+        txtbusquedasoli.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         txtbusquedasoli.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtbusquedasoliKeyPressed(evt);
@@ -228,12 +230,25 @@ public class PrincipalP extends javax.swing.JFrame {
         });
         solicitudviaticos1.add(txtbusquedasoli);
         txtbusquedasoli.setBounds(130, 120, 290, 30);
-
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IEE.png"))); // NOI18N
-        solicitudviaticos1.add(jLabel9);
-        jLabel9.setBounds(150, 20, 190, 84);
         solicitudviaticos1.add(jLabel18);
         jLabel18.setBounds(10, 10, 1350, 80);
+
+        comboAño.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboAñoActionPerformed(evt);
+            }
+        });
+        solicitudviaticos1.add(comboAño);
+        comboAño.setBounds(530, 122, 120, 28);
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baner inventario.png"))); // NOI18N
+        solicitudviaticos1.add(jLabel5);
+        jLabel5.setBounds(30, 10, 1350, 80);
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel20.setText("por Año:");
+        solicitudviaticos1.add(jLabel20);
+        jLabel20.setBounds(450, 124, 100, 22);
 
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         solicitudviaticos1.add(jLabel19);
@@ -241,8 +256,8 @@ public class PrincipalP extends javax.swing.JFrame {
 
         solicpase.addTab("Solicitud de Pase E/S", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), solicitudviaticos1); // NOI18N
 
-        jMenu1.setText("Archivo");
-        jMenu1.add(jSeparator1);
+        menuInterfaces.setText("Archivo");
+        menuInterfaces.add(jSeparator1);
 
         mi_viaticos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         mi_viaticos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/viatico.png"))); // NOI18N
@@ -252,7 +267,7 @@ public class PrincipalP extends javax.swing.JFrame {
                 mi_viaticosActionPerformed(evt);
             }
         });
-        jMenu1.add(mi_viaticos);
+        menuInterfaces.add(mi_viaticos);
 
         mi_pases.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         mi_pases.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/pase.png"))); // NOI18N
@@ -262,8 +277,8 @@ public class PrincipalP extends javax.swing.JFrame {
                 mi_pasesActionPerformed(evt);
             }
         });
-        jMenu1.add(mi_pases);
-        jMenu1.add(jSeparator2);
+        menuInterfaces.add(mi_pases);
+        menuInterfaces.add(jSeparator2);
 
         itemSalir1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
         itemSalir1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -274,15 +289,14 @@ public class PrincipalP extends javax.swing.JFrame {
                 itemSalir1ActionPerformed(evt);
             }
         });
-        jMenu1.add(itemSalir1);
+        menuInterfaces.add(itemSalir1);
 
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(menuInterfaces);
 
         menuOpciones.setText("Permisos");
 
+        menuPermisos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        menuPermisos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/permisos.png"))); // NOI18N
         menuPermisos.setText("Permisos puestos");
         menuPermisos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -298,14 +312,6 @@ public class PrincipalP extends javax.swing.JFrame {
             }
         });
         menuOpciones.add(menuPuestoArea);
-
-        MenuSolicitud.setText("Permisos solicitud");
-        MenuSolicitud.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenuSolicitudActionPerformed(evt);
-            }
-        });
-        menuOpciones.add(MenuSolicitud);
 
         jMenuBar1.add(menuOpciones);
 
@@ -325,41 +331,11 @@ public class PrincipalP extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void menuPermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPermisosActionPerformed
-        // TODO add your handling code here:
-        /*if((manager_permisos.alta_permisos(Username) && manager_permisos.baja_permisos(Username)) || manager_permisos.consulta_permisos(Username)){
-            if(manager_permisos.alta_permisos(Username) && manager_permisos.baja_permisos(Username)){
-                Ventana_permisos_puesto ob = new Ventana_permisos_puesto(this, true);
-                ob.setVisible(true);
-            }else{
-                Ventana_permisos_puesto_consulta ob = new Ventana_permisos_puesto_consulta(this, true);
-                ob.setVisible(true);
-            }
-        }else{
-            JOptionPane.showMessageDialog(null, "Usted no tiene acceso a los permisos estaticos de los puestos.");
-        }*/
-    }//GEN-LAST:event_menuPermisosActionPerformed
-
     private void menuPuestoAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPuestoAreaActionPerformed
         // TODO add your handling code here:
         /*Ventana_Puestos_Area ob = new Ventana_Puestos_Area(this, true);
         ob.setVisible(true);*/
     }//GEN-LAST:event_menuPuestoAreaActionPerformed
-
-    private void MenuSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuSolicitudActionPerformed
-        // TODO add your handling code here:
-        /* if((manager_permisos.alta_permisos(Username) && manager_permisos.baja_permisos(Username)) || manager_permisos.consulta_permisos(Username)){
-            if(manager_permisos.alta_permisos(Username) && manager_permisos.baja_permisos(Username)){
-                Ventana_permisosSolicitud ob = new Ventana_permisosSolicitud(this, true);
-                ob.setVisible(true);
-            }else{
-                Ventana_permisosSolicitud_consulta ob = new Ventana_permisosSolicitud_consulta(this, true);
-                ob.setVisible(true);
-            }
-        }else{
-            JOptionPane.showMessageDialog(null, "Usted no tiene acceso a los permisos de las solicitudes.");
-        }*/
-    }//GEN-LAST:event_MenuSolicitudActionPerformed
 
     private void tablapaseMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablapaseMouseReleased
         // TODO add your handling code here:
@@ -409,6 +385,7 @@ public class PrincipalP extends javax.swing.JFrame {
             modelo.addColumn("Asunto");
             modelo.addColumn("Estado");
             this.tablapase.setModel(modelo);
+            String yeara=comboAño.getSelectedItem().toString();
             try {
                 String sql="";
             
@@ -424,12 +401,12 @@ public class PrincipalP extends javax.swing.JFrame {
                 ResultSet area=cbd.getTabla("select Area from Area where ID_area='"+numarea.getString("area")+"'", cn);
                 area.next();
                     
-            if(usuario.getString("puesto").equals("Administrador")){
-                 sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Año = '" + fechag + "' And (Numero LIKE '%" + txtbusquedasoli.getText() + "%'"
+            if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
+                 sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Año = '" + yeara + "' And (Numero LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Area LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Hora_ES LIKE '%" + txtbusquedasoli.getText() + "%' OR Hora_Llegada LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Horario LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Asunto LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%')";             
             }else{
-                sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Año = '" + fechag + "' And Area = '" + area.getString("Area") + "' And (Numero LIKE '%" + txtbusquedasoli.getText() + "%'"
+                sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Año = '" + yeara + "' And Area = '" + area.getString("Area") + "' And (Numero LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Area LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Hora_ES LIKE '%" + txtbusquedasoli.getText() + "%' OR Hora_Llegada LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Horario LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Asunto LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%')";
                 
@@ -444,7 +421,7 @@ public class PrincipalP extends javax.swing.JFrame {
                     solicitud[0] = rs.getString("concat(Folio,'-',Numero)");
                     solicitud[1] = rs.getString("Nombre");
                     solicitud[2] = rs.getString("Puesto");
-                    solicitud[3] = rs.getString("Área");
+                    solicitud[3] = rs.getString("Area");
                     solicitud[4] = rs.getString("Fecha");
                     solicitud[5] = rs.getString("Hora_ES");
                     solicitud[6] = rs.getString("Hora_Llegada");
@@ -470,6 +447,10 @@ public class PrincipalP extends javax.swing.JFrame {
         // TODO add your handling code here:
         fechag=getfecha();
         tablapase.setModel(manager_pases.getTasolpa(fechag));
+        inseryear(fechag); 
+        
+        comboAño.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        manager_pases.getYear(comboAño);
         //System.out.print(fechag);
     }//GEN-LAST:event_formWindowActivated
 
@@ -500,7 +481,7 @@ public class PrincipalP extends javax.swing.JFrame {
             CrearPaseSalida cps = new CrearPaseSalida();
             if(fila >= 0){
                 if(tablapase.getValueAt(fila,11).toString().equals("Cancelada")){
-                    javax.swing.JOptionPane.showMessageDialog(null, "No se puede imprimir porque esta cancelada");
+                    javax.swing.JOptionPane.showMessageDialog(null, "Solicitud cancelada,No se puede imprimir");
                 }else{
                     try{
                         String[] folio=tablapase.getValueAt(fila,0).toString().split("-");
@@ -522,7 +503,7 @@ public class PrincipalP extends javax.swing.JFrame {
 
                         cps.createTicket(1,folio[0],folio[1],nombreem,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,responarea);
                     } catch (Exception ex) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Error al imprimir");
+                    javax.swing.JOptionPane.showMessageDialog(null, "Error! problema al imprimir");
                         }
                 }
             }else{
@@ -572,7 +553,7 @@ public class PrincipalP extends javax.swing.JFrame {
                     javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");                
                 }
         }else{
-            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para imprimir pases de salida.");
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar la hora de llegada.");
         }
     }//GEN-LAST:event_Hora_llegadaActionPerformed
 
@@ -696,17 +677,54 @@ public class PrincipalP extends javax.swing.JFrame {
             //Cerrar sesion
             this.dispose();
             Login ob = new Login();
-            ob.setVisible(true);   
+            ob.setVisible(true);  
         }else if(opcion == 2){
             
         }
     }//GEN-LAST:event_formWindowClosing
-        public static String getfecha(){
+
+    private void comboAñoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAñoActionPerformed
+        // TODO add your handling code here:
+        int a = comboAño.getSelectedIndex();
+        if(a>=0){
+            String vayear=comboAño.getSelectedItem().toString();
+            tablapase.setModel(manager_pases.getTasolpa(vayear));    
+        }else{
+            System.out.printf("ERROR!! en la consulta (año)");
+        }
+    }//GEN-LAST:event_comboAñoActionPerformed
+
+    private void menuPermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPermisosActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.accesoModulo("actualizar","Permisos",Principal.Username)){
+            Ventana_permisos_puesto ob = new Ventana_permisos_puesto(this, true);
+            ob.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para actualizar los permisos estáticos de los puestos de trabajo.");
+        }//else
+    }//GEN-LAST:event_menuPermisosActionPerformed
+    //obtenemos las fecha del sistema    
+    public static String getfecha(){
         Date fecha=new Date(); 
         SimpleDateFormat formatofecha=new SimpleDateFormat("dd-MM-yyyy");
         String[] sepfe=formatofecha.format(fecha).split("-");
         return sepfe[2];
         }
+        //insetar el año actual sino existe
+        public void inseryear(String year){
+            Conexion conexion=new Conexion();
+            conexion.getConexion();
+            boolean insersion=conexion.ejecutar("INSERT INTO `INE`.`acceder_year` (`Year`)\n" +
+                                                "SELECT '"+year+"' \n" +
+                                                "FROM dual\n" +
+                                                "WHERE NOT EXISTS (select `Year` from `INE`.`acceder_year` where `Year`= '"+year+"' )LIMIT 1;");
+            if(insersion){
+                return ;
+            }else{
+                return ;
+            }
+  
+    }
     /**
      * @param args the command line arguments
      */
@@ -749,21 +767,21 @@ public class PrincipalP extends javax.swing.JFrame {
     private javax.swing.JMenuItem Hora_llegada;
     private javax.swing.JMenuItem Imprimir;
     private javax.swing.JPopupMenu MenuPases;
-    private javax.swing.JMenuItem MenuSolicitud;
     private javax.swing.JMenuItem Nueva;
+    private javax.swing.JComboBox<String> comboAño;
     private javax.swing.JMenuItem itemSalir1;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JMenu menuInterfaces;
     private javax.swing.JMenu menuOpciones;
     private javax.swing.JMenuItem menuPermisos;
     private javax.swing.JMenuItem menuPuestoArea;
