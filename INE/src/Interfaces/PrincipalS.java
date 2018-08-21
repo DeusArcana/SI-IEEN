@@ -1166,8 +1166,31 @@ public class PrincipalS extends javax.swing.JFrame {
             tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
         }
         if (manager_permisos.accesoModulo("consulta", "Informe", Principal.Username)) {
-            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
-            SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+            ResultSet usuario;
+            try {
+                usuario = cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+                usuario.next();
+                if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
+                    if(idArea>0){
+                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea);
+                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area="+idArea+" ORDER BY I.Id_Informe DESC");
+                    }else{
+                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+                    }
+                    cmbArea.setVisible(true);
+                    jLabel2.setVisible(true);
+                }else{
+                    usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                    usuario.next();
+                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and S.nombre='"+usuario.getString("nombre")+"'");
+                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and S.nombre='"+usuario.getString("nombre")+"' ORDER BY I.Id_Informe DESC");
+                    cmbArea.setVisible(false);
+                    jLabel2.setVisible(false);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_formWindowActivated
 
@@ -1216,12 +1239,30 @@ public class PrincipalS extends javax.swing.JFrame {
             tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
         }
         if (manager_permisos.accesoModulo("consulta", "Informe", Principal.Username)) {
-            if(idArea>0){
-                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea);
-                SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area="+idArea+" ORDER BY I.Id_Informe DESC");
-            }else{
-                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
-                SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+            ResultSet usuario;
+            try {
+                usuario = cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+                usuario.next();
+                if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
+                    if(idArea>0){
+                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea);
+                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area="+idArea+" ORDER BY I.Id_Informe DESC");
+                    }else{
+                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+                    }
+                    cmbArea.setVisible(true);
+                    jLabel2.setVisible(true);
+                }else{
+                    usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                    usuario.next();
+                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and S.nombre='"+usuario.getString("nombre")+"'");
+                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and S.nombre='"+usuario.getString("nombre")+"' ORDER BY I.Id_Informe DESC");
+                    cmbArea.setVisible(false);
+                    jLabel2.setVisible(false);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_formWindowOpened
@@ -1867,170 +1908,6 @@ public class PrincipalS extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtbusquedasoli2KeyPressed
 
-    private void txtbusquedasoliKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedasoliKeyReleased
-        // TODO add your handling code here:
-        if (jTabbedPane1.getSelectedIndex() == 0) {
-            modelo = new DefaultTableModel() {
-                public boolean isCellEditable(int rowIndex, int columnIndex) {
-                    return false;
-                }
-            };
-            modelo.addColumn("idSolicitud");
-            modelo.addColumn("Fecha de salida");
-            modelo.addColumn("Lugar");
-            modelo.addColumn("Nombre");
-            modelo.addColumn("Actividad");
-            modelo.addColumn("Pernoctado");
-            modelo.addColumn("Puesto");
-            modelo.addColumn("Fecha llegada");
-            modelo.addColumn("Estado");
-            this.tablasolic.setModel(modelo);
-            try {
-
-                Statement sentencia = cn.createStatement();
-
-                ResultSet rs = sentencia.executeQuery("SELECT idSolicitud,Fecha_salida, Lugar, Nombre,Actividad, Pernoctado, Puesto, Fecha_llegada,  Estado FROM Solicitud_viatico WHERE idSolicitud LIKE '%" + txtbusquedasoli.getText() + "%'"
-                        + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli.getText() + "%'"
-                        + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%' OR Pernoctado LIKE '%" + txtbusquedasoli.getText() + "%' OR Actividad LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%'");
-
-                String solicitud[] = new String[10];
-                while (rs.next()) {
-                    solicitud[0] = rs.getString("idSolicitud");
-                    solicitud[1] = rs.getString("Fecha_salida");
-                    solicitud[2] = rs.getString("Lugar");
-                    solicitud[3] = rs.getString("Nombre");
-                    solicitud[4] = rs.getString("Actividad");
-                    solicitud[5] = rs.getString("Pernoctado");
-                    solicitud[6] = rs.getString("Puesto");
-                    solicitud[7] = rs.getString("Fecha_llegada");
-                    switch(rs.getString("Estado").toString()){
-                        case "P":
-                            solicitud[8] = "Pendiente";
-                            break;
-                        case "A":
-                            solicitud[8] = "Aceptada";
-                            break;
-                        case "AR":
-                            solicitud[8] = "Archivada";
-                            break;
-                        case "C":
-                            solicitud[8] = "Cancelada";
-                            break;
-                    }
-                    modelo.addRow(solicitud);
-                }
-
-            } catch (SQLException ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
-
-            }
-        } else {
-            modelo = new DefaultTableModel() {
-                public boolean isCellEditable(int rowIndex, int columnIndex) {
-                    return false;
-                }
-            };
-            modelo.addColumn("idSolicitud");
-            modelo.addColumn("Fecha de salida");
-            modelo.addColumn("Lugar");
-            modelo.addColumn("Nombre");
-            modelo.addColumn("Actividad");
-            modelo.addColumn("Pernoctado");
-            modelo.addColumn("Puesto");
-            modelo.addColumn("Fecha de llegada");
-            modelo.addColumn("Hora Salida");
-            modelo.addColumn("Hota Llegada");
-            modelo.addColumn("Estado");
-            this.tablasolicvehiculo.setModel(modelo);
-            try {
-
-                Statement sentencia = cn.createStatement();
-
-                ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Actividad, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar,Pernoctado,Hora_salida,Hora_llegada,estado FROM solicitud_viatico SVI inner join vehiculo_viatico VV on SVI.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo"
-                        + " WHERE (idSolicitud LIKE '%" + txtbusquedasoli.getText() + "%'"
-                        + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli.getText() + "%'"
-                        + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%') and SV.chofer='1'");
-
-                String solicitud[] = new String[11];
-                while (rs.next()) {
-                    solicitud[0] = rs.getString("idSolicitud");
-                    solicitud[1] = rs.getString("Fecha_salida");
-                    solicitud[2] = rs.getString("Lugar");
-                    solicitud[3] = rs.getString("Nombre");
-                    solicitud[4] = rs.getString("Actividad");
-                    solicitud[5] = rs.getString("Pernoctado");
-                    solicitud[6] = rs.getString("Puesto");
-                    solicitud[7] = rs.getString("Fecha_llegada");
-                    solicitud[8] = rs.getString("Hora_salida");
-                    solicitud[9] = rs.getString("Hora_llegada");
-                    switch(rs.getString("Estado").toString()){
-                        case "P":
-                            solicitud[10] = "Pendiente";
-                            break;
-                        case "A":
-                            solicitud[10] = "Aceptada";
-                            break;
-                        case "AR":
-                            solicitud[10] = "Archivada";
-                            break;
-                        case "C":
-                            solicitud[10] = "Cancelada";
-                            break;
-                    }
-                    modelo.addRow(solicitud);
-                }
-
-            } catch (SQLException ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
-
-            }
-        }
-    }//GEN-LAST:event_txtbusquedasoliKeyReleased
-
-    private void txtbusquedasoliKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedasoliKeyPressed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_txtbusquedasoliKeyPressed
-
-    private void tablasolicvehiculoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablasolicvehiculoMouseReleased
-        // TODO add your handling code here:
-        if (SwingUtilities.isRightMouseButton(evt)) {
-            int r = tablasolicvehiculo.rowAtPoint(evt.getPoint());
-            if (r >= 0 && r < tablasolicvehiculo.getRowCount()) {
-                tablasolicvehiculo.setRowSelectionInterval(r, r);
-            }
-            MenuSolicitudViaticos.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-
-        }//clic derecho
-    }//GEN-LAST:event_tablasolicvehiculoMouseReleased
-
-    private void tablasolicvehiculoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablasolicvehiculoMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tablasolicvehiculoMouseClicked
-
-    private void jScrollPane11MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane11MouseReleased
-        // TODO add your handling code here:
-        if (SwingUtilities.isRightMouseButton(evt)) {
-            MenuPanelSolicitudViatico.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-        }//clic derecho
-    }//GEN-LAST:event_jScrollPane11MouseReleased
-
-    private void tablasolicMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablasolicMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tablasolicMouseClicked
-
-    private void tablasolicMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablasolicMouseReleased
-        // TODO add your handling code here:
-        if (SwingUtilities.isRightMouseButton(evt)) {
-            int r = tablasolic.rowAtPoint(evt.getPoint());
-            if (r >= 0 && r < tablasolic.getRowCount()) {
-                tablasolic.setRowSelectionInterval(r, r);
-            }
-            MenuSolicitudViaticos1.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-
-        }//clic derecho
-    }//GEN-LAST:event_tablasolicMouseReleased
-
     private void CancelarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarPActionPerformed
         // TODO add your handling code here:
         if (manager_permisos.accesoModulo("actualizar", "Tablon Solicitudes", Principal.Username)) {
@@ -2063,17 +1940,6 @@ public class PrincipalS extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para cancelar solicitudes.");
         }
     }//GEN-LAST:event_CancelarPActionPerformed
-
-    private void jScrollPane12MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane12MouseReleased
-        // TODO add your handling code here:
-        if (SwingUtilities.isRightMouseButton(evt)) {
-            MenuPanelSolicitudViatico.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-        }//clic derecho
-    }//GEN-LAST:event_jScrollPane12MouseReleased
-
-    private void solicitudviaticos1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_solicitudviaticos1MouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_solicitudviaticos1MouseReleased
 
     private void tablonsolicitud1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablonsolicitud1MouseReleased
         // TODO add your handling code here:
@@ -2878,6 +2744,180 @@ public class PrincipalS extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_AsignarVehiculoActionPerformed
 
+    private void solicitudviaticos1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_solicitudviaticos1MouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_solicitudviaticos1MouseReleased
+
+    private void txtbusquedasoliKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedasoliKeyReleased
+        // TODO add your handling code here:
+        if (jTabbedPane1.getSelectedIndex() == 0) {
+            modelo = new DefaultTableModel() {
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return false;
+                }
+            };
+            modelo.addColumn("idSolicitud");
+            modelo.addColumn("Fecha de salida");
+            modelo.addColumn("Lugar");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Actividad");
+            modelo.addColumn("Pernoctado");
+            modelo.addColumn("Puesto");
+            modelo.addColumn("Fecha llegada");
+            modelo.addColumn("Estado");
+            this.tablasolic.setModel(modelo);
+            try {
+
+                Statement sentencia = cn.createStatement();
+
+                ResultSet rs = sentencia.executeQuery("SELECT idSolicitud,Fecha_salida, Lugar, Nombre,Actividad, Pernoctado, Puesto, Fecha_llegada,  Estado FROM Solicitud_viatico WHERE idSolicitud LIKE '%" + txtbusquedasoli.getText() + "%'"
+                    + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli.getText() + "%'"
+                    + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%' OR Pernoctado LIKE '%" + txtbusquedasoli.getText() + "%' OR Actividad LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%'");
+
+                String solicitud[] = new String[10];
+                while (rs.next()) {
+                    solicitud[0] = rs.getString("idSolicitud");
+                    solicitud[1] = rs.getString("Fecha_salida");
+                    solicitud[2] = rs.getString("Lugar");
+                    solicitud[3] = rs.getString("Nombre");
+                    solicitud[4] = rs.getString("Actividad");
+                    solicitud[5] = rs.getString("Pernoctado");
+                    solicitud[6] = rs.getString("Puesto");
+                    solicitud[7] = rs.getString("Fecha_llegada");
+                    switch(rs.getString("Estado").toString()){
+                        case "P":
+                        solicitud[8] = "Pendiente";
+                        break;
+                        case "A":
+                        solicitud[8] = "Aceptada";
+                        break;
+                        case "AR":
+                        solicitud[8] = "Archivada";
+                        break;
+                        case "C":
+                        solicitud[8] = "Cancelada";
+                        break;
+                    }
+                    modelo.addRow(solicitud);
+                }
+
+            } catch (SQLException ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+
+            }
+        } else {
+            modelo = new DefaultTableModel() {
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return false;
+                }
+            };
+            modelo.addColumn("idSolicitud");
+            modelo.addColumn("Fecha de salida");
+            modelo.addColumn("Lugar");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Actividad");
+            modelo.addColumn("Pernoctado");
+            modelo.addColumn("Puesto");
+            modelo.addColumn("Fecha de llegada");
+            modelo.addColumn("Hora Salida");
+            modelo.addColumn("Hota Llegada");
+            modelo.addColumn("Estado");
+            this.tablasolicvehiculo.setModel(modelo);
+            try {
+
+                Statement sentencia = cn.createStatement();
+
+                ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Actividad, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar,Pernoctado,Hora_salida,Hora_llegada,estado FROM solicitud_viatico SVI inner join vehiculo_viatico VV on SVI.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo"
+                    + " WHERE (idSolicitud LIKE '%" + txtbusquedasoli.getText() + "%'"
+                    + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli.getText() + "%'"
+                    + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%') and SV.chofer='1'");
+
+                String solicitud[] = new String[11];
+                while (rs.next()) {
+                    solicitud[0] = rs.getString("idSolicitud");
+                    solicitud[1] = rs.getString("Fecha_salida");
+                    solicitud[2] = rs.getString("Lugar");
+                    solicitud[3] = rs.getString("Nombre");
+                    solicitud[4] = rs.getString("Actividad");
+                    solicitud[5] = rs.getString("Pernoctado");
+                    solicitud[6] = rs.getString("Puesto");
+                    solicitud[7] = rs.getString("Fecha_llegada");
+                    solicitud[8] = rs.getString("Hora_salida");
+                    solicitud[9] = rs.getString("Hora_llegada");
+                    switch(rs.getString("Estado").toString()){
+                        case "P":
+                        solicitud[10] = "Pendiente";
+                        break;
+                        case "A":
+                        solicitud[10] = "Aceptada";
+                        break;
+                        case "AR":
+                        solicitud[10] = "Archivada";
+                        break;
+                        case "C":
+                        solicitud[10] = "Cancelada";
+                        break;
+                    }
+                    modelo.addRow(solicitud);
+                }
+
+            } catch (SQLException ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+
+            }
+        }
+    }//GEN-LAST:event_txtbusquedasoliKeyReleased
+
+    private void txtbusquedasoliKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedasoliKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtbusquedasoliKeyPressed
+
+    private void jScrollPane12MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane12MouseReleased
+        // TODO add your handling code here:
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            MenuPanelSolicitudViatico.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
+    }//GEN-LAST:event_jScrollPane12MouseReleased
+
+    private void tablasolicvehiculoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablasolicvehiculoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablasolicvehiculoMouseClicked
+
+    private void tablasolicvehiculoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablasolicvehiculoMouseReleased
+        // TODO add your handling code here:
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            int r = tablasolicvehiculo.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablasolicvehiculo.getRowCount()) {
+                tablasolicvehiculo.setRowSelectionInterval(r, r);
+            }
+            MenuSolicitudViaticos.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+
+        }//clic derecho
+    }//GEN-LAST:event_tablasolicvehiculoMouseReleased
+
+    private void jScrollPane11MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane11MouseReleased
+        // TODO add your handling code here:
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            MenuPanelSolicitudViatico.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
+    }//GEN-LAST:event_jScrollPane11MouseReleased
+
+    private void tablasolicMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablasolicMouseReleased
+        // TODO add your handling code here:
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            int r = tablasolic.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablasolic.getRowCount()) {
+                tablasolic.setRowSelectionInterval(r, r);
+            }
+            MenuSolicitudViaticos1.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+
+        }//clic derecho
+    }//GEN-LAST:event_tablasolicMouseReleased
+
+    private void tablasolicMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablasolicMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablasolicMouseClicked
+
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3162,8 +3202,8 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JTable tablaact;
     private javax.swing.JTable tablainfo;
     private javax.swing.JTable tablainfo1;
-    public static javax.swing.JTable tablasolic;
-    public static javax.swing.JTable tablasolicvehiculo;
+    private javax.swing.JTable tablasolic;
+    private javax.swing.JTable tablasolicvehiculo;
     public static javax.swing.JTable tablonaceptadas;
     private javax.swing.JTable tablonarchivadas;
     public static javax.swing.JTable tabloncanceladas;
