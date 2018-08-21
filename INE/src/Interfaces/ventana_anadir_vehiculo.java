@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -114,9 +115,31 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
         imagenVehiculo = new javax.swing.JPanel();
         btnImagen = new javax.swing.JButton();
         contenedor = new javax.swing.JLabel();
-        campoRuta = new javax.swing.JTextField();
-        contadorImg = new javax.swing.JLabel();
+        campo_no_motor = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        campo_no_factura = new javax.swing.JTextField();
+        campo_importe = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        campo_fecha_compra = new com.toedter.calendar.JDateChooser();
+        jLabel18 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        campo_descripcion = new javax.swing.JTextArea();
+        jLabel19 = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        campoObservaciones1 = new javax.swing.JTextArea();
+        jTextField3 = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        txtFecha = new com.toedter.calendar.JDateChooser();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        campoRuta = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        contadorImg = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Alta de vehículo.");
@@ -167,7 +190,7 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
         jLabel6.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         jLabel6.setText("Observaciones:");
         pn_permisos.add(jLabel6);
-        jLabel6.setBounds(30, 220, 100, 16);
+        jLabel6.setBounds(30, 310, 100, 16);
 
         jLabel7.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
         jLabel7.setText("* Color:");
@@ -180,7 +203,7 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
         jScrollPane1.setViewportView(campoObservaciones);
 
         pn_permisos.add(jScrollPane1);
-        jScrollPane1.setBounds(30, 240, 690, 120);
+        jScrollPane1.setBounds(30, 330, 310, 120);
 
         campoMatricula.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         campoMatricula.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -237,7 +260,7 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
             }
         });
         pn_permisos.add(jButton1);
-        jButton1.setBounds(370, 380, 140, 30);
+        jButton1.setBounds(360, 460, 140, 30);
 
         jButton2.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
@@ -249,7 +272,7 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
             }
         });
         pn_permisos.add(jButton2);
-        jButton2.setBounds(210, 380, 140, 30);
+        jButton2.setBounds(200, 460, 140, 30);
 
         imagenVehiculo.setBackground(new java.awt.Color(255, 255, 255));
         imagenVehiculo.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -264,7 +287,7 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
             }
         });
         imagenVehiculo.add(btnImagen);
-        btnImagen.setBounds(160, 160, 30, 20);
+        btnImagen.setBounds(160, 170, 40, 20);
 
         contenedor.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         imagenVehiculo.add(contenedor);
@@ -272,19 +295,101 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
 
         pn_permisos.add(imagenVehiculo);
         imagenVehiculo.setBounds(520, 10, 200, 190);
+        pn_permisos.add(campo_no_motor);
+        campo_no_motor.setBounds(100, 220, 170, 30);
 
-        campoRuta.setText("C:\\Users\\kevin\\Desktop\\INE\\src\\Imagenes\\noimage.png");
-        pn_permisos.add(campoRuta);
-        campoRuta.setBounds(570, 330, 130, 30);
+        jLabel15.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
+        jLabel15.setText("* No. de motor:");
+        pn_permisos.add(jLabel15);
+        jLabel15.setBounds(10, 230, 100, 16);
 
-        contadorImg.setText("0");
-        pn_permisos.add(contadorImg);
-        contadorImg.setBounds(520, 310, 200, 14);
+        jLabel16.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
+        jLabel16.setText("* No. de factura:");
+        pn_permisos.add(jLabel16);
+        jLabel16.setBounds(10, 280, 100, 16);
+        pn_permisos.add(campo_no_factura);
+        campo_no_factura.setBounds(100, 270, 170, 30);
+        pn_permisos.add(campo_importe);
+        campo_importe.setBounds(400, 270, 210, 30);
+
+        jLabel17.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
+        jLabel17.setText("* Importe:");
+        pn_permisos.add(jLabel17);
+        jLabel17.setBounds(330, 280, 80, 16);
+        pn_permisos.add(campo_fecha_compra);
+        campo_fecha_compra.setBounds(402, 220, 210, 30);
+
+        jLabel18.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
+        jLabel18.setText("* Fecha de compra:");
+        pn_permisos.add(jLabel18);
+        jLabel18.setBounds(280, 230, 110, 16);
+
+        campo_descripcion.setColumns(20);
+        campo_descripcion.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        campo_descripcion.setRows(5);
+        jScrollPane3.setViewportView(campo_descripcion);
+
+        pn_permisos.add(jScrollPane3);
+        jScrollPane3.setBounds(370, 330, 340, 120);
+
+        jLabel19.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
+        jLabel19.setText("Descripción:");
+        pn_permisos.add(jLabel19);
+        jLabel19.setBounds(370, 310, 100, 16);
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         fondo.setText("jLabel1");
         pn_permisos.add(fondo);
         fondo.setBounds(0, 0, 770, 570);
+
+        campoObservaciones1.setColumns(20);
+        campoObservaciones1.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        campoObservaciones1.setRows(5);
+        jScrollPane2.setViewportView(campoObservaciones1);
+
+        pn_permisos.add(jScrollPane2);
+        jScrollPane2.setBounds(370, 330, 340, 120);
+        pn_permisos.add(jTextField3);
+        jTextField3.setBounds(400, 270, 210, 30);
+
+        jLabel14.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
+        jLabel14.setText("* Importe:");
+        pn_permisos.add(jLabel14);
+        jLabel14.setBounds(330, 280, 80, 16);
+
+        jLabel12.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
+        jLabel12.setText("* Fecha de compra:");
+        pn_permisos.add(jLabel12);
+        jLabel12.setBounds(280, 230, 110, 16);
+        pn_permisos.add(txtFecha);
+        txtFecha.setBounds(402, 220, 210, 30);
+        pn_permisos.add(jTextField1);
+        jTextField1.setBounds(100, 220, 170, 30);
+
+        jLabel10.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
+        jLabel10.setText("* No. de motor:");
+        pn_permisos.add(jLabel10);
+        jLabel10.setBounds(10, 230, 100, 16);
+
+        campoRuta.setText("C:\\Users\\kevin\\Desktop\\INE\\src\\Imagenes\\noimage.png");
+        pn_permisos.add(campoRuta);
+        campoRuta.setBounds(570, 330, 130, 30);
+
+        jLabel13.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
+        jLabel13.setText("* No. de factura:");
+        pn_permisos.add(jLabel13);
+        jLabel13.setBounds(10, 280, 100, 16);
+        pn_permisos.add(jTextField2);
+        jTextField2.setBounds(100, 270, 170, 30);
+
+        contadorImg.setText("0");
+        pn_permisos.add(contadorImg);
+        contadorImg.setBounds(490, 350, 200, 14);
+
+        jLabel11.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
+        jLabel11.setText("Descripción:");
+        pn_permisos.add(jLabel11);
+        jLabel11.setBounds(370, 310, 100, 16);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -294,7 +399,7 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_permisos, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+            .addComponent(pn_permisos, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE)
         );
 
         pack();
@@ -333,14 +438,17 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
     
     public boolean validarCampos() {
         boolean res = true;
-        String marca, linea, kilometraje, matricula, color = "";
+        String marca, linea, kilometraje, matricula, color, motor,importe = "";
         marca = campoMarca.getText();
         linea = campoLinea.getText();
         kilometraje = campoKilometraje.getText();
         matricula = campoMatricula.getText();
         color = campoColor.getText();
+        motor = campo_no_motor.getText();
+        importe = campo_importe.getText();
 
-        if (marca.isEmpty() || linea.isEmpty() || kilometraje.isEmpty() || matricula.isEmpty() || color.isEmpty() || campoClase.getSelectedIndex() == 0) {
+        if (marca.isEmpty() || linea.isEmpty() || kilometraje.isEmpty() || matricula.isEmpty() ||
+                color.isEmpty() || campoClase.getSelectedIndex() == 0 || motor.isEmpty() || importe.isEmpty() || campo_fecha_compra.getDate() == null) {
             res = false;
         }
         return res;
@@ -351,9 +459,13 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
         if (manager_permisos.accesoModulo("alta", "Vehiculos", Username)) {
             if (validarCampos()) {
                 //String ruta = campoRuta.getText();
-
+                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+                String fecha = formato.format(campo_fecha_compra.getDate());
+                // no guarda imagen, se hace un insert normal
                 if (vehiculos.guardarImagen(campoMarca.getText(), campoLinea.getText(), campoClase.getSelectedItem().toString(), campoColor.getText(),
-                        campoModelo.getValue().toString(), campoMotor.getValue().toString(), campoKilometraje.getText(), campoMatricula.getText(), campoObservaciones.getText(),contadorImg.getText())) {
+                        campoModelo.getValue().toString(), campoMotor.getValue().toString(), campoKilometraje.getText(), campoMatricula.getText(), 
+                        campoObservaciones.getText(),contadorImg.getText(),campo_no_motor.getText(), fecha .toString(), campo_no_factura.getText(), campo_importe.getText(),
+                        campo_descripcion.getText())) {
                     // Para crear la carpeta se concatena la marca el color y la placa del vehiculo
                     String nombreParametro = campoMarca.getText() + "_" + campoColor.getText() + "_" + campoMatricula.getText();
                     managerPost.prepararImagenesVehiculo(rutas, nombreParametro, contadorRutas);
@@ -474,7 +586,13 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
     private javax.swing.JSpinner campoModelo;
     private javax.swing.JSpinner campoMotor;
     private javax.swing.JTextArea campoObservaciones;
+    private javax.swing.JTextArea campoObservaciones1;
     private javax.swing.JTextField campoRuta;
+    private javax.swing.JTextArea campo_descripcion;
+    private com.toedter.calendar.JDateChooser campo_fecha_compra;
+    private javax.swing.JTextField campo_importe;
+    private javax.swing.JTextField campo_no_factura;
+    private javax.swing.JTextField campo_no_motor;
     private javax.swing.JLabel contadorImg;
     private javax.swing.JLabel contenedor;
     private javax.swing.JLabel fondo;
@@ -482,6 +600,16 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -491,6 +619,12 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     private javax.swing.JPanel pn_permisos;
+    private com.toedter.calendar.JDateChooser txtFecha;
     // End of variables declaration//GEN-END:variables
 }

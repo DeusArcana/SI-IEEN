@@ -11,6 +11,7 @@ import Clases.ManagerPermisos;
 
 import Interfaces.Principal;
 import static Interfaces.Principal.comboEmpUsu;
+import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -97,7 +98,17 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -111,6 +122,7 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel1.setBounds(44, 14, 70, 17);
 
         txtNombre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtNombre.setNextFocusableComponent(txtApellidoP);
         pn_empleado.add(txtNombre);
         txtNombre.setBounds(118, 11, 202, 25);
 
@@ -120,6 +132,7 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel2.setBounds(12, 43, 102, 17);
 
         txtApellidoP.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtApellidoP.setNextFocusableComponent(txtApellidoM);
         pn_empleado.add(txtApellidoP);
         txtApellidoP.setBounds(118, 40, 202, 25);
 
@@ -129,6 +142,7 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel3.setBounds(10, 72, 104, 17);
 
         txtApellidoM.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtApellidoM.setNextFocusableComponent(txtCalle);
         pn_empleado.add(txtApellidoM);
         txtApellidoM.setBounds(118, 69, 202, 25);
 
@@ -138,6 +152,7 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel4.setBounds(82, 101, 32, 17);
 
         txtCalle.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtCalle.setNextFocusableComponent(txtColonia);
         pn_empleado.add(txtCalle);
         txtCalle.setBounds(118, 98, 202, 25);
 
@@ -147,6 +162,7 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel5.setBounds(65, 130, 49, 17);
 
         txtColonia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtColonia.setNextFocusableComponent(txtMunicipio);
         pn_empleado.add(txtColonia);
         txtColonia.setBounds(118, 127, 202, 25);
 
@@ -156,6 +172,12 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel6.setBounds(420, 14, 57, 17);
 
         txtTelefono.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtTelefono.setNextFocusableComponent(txtCodigo);
+        txtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefonoKeyTyped(evt);
+            }
+        });
         pn_empleado.add(txtTelefono);
         txtTelefono.setBounds(487, 11, 202, 25);
 
@@ -165,6 +187,12 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel7.setBounds(395, 43, 88, 17);
 
         txtCodigo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtCodigo.setNextFocusableComponent(txtCurp);
+        txtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodigoKeyTyped(evt);
+            }
+        });
         pn_empleado.add(txtCodigo);
         txtCodigo.setBounds(487, 40, 202, 25);
 
@@ -174,6 +202,12 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel8.setBounds(443, 72, 40, 17);
 
         txtCurp.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtCurp.setNextFocusableComponent(txtRfc);
+        txtCurp.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCurpKeyTyped(evt);
+            }
+        });
         pn_empleado.add(txtCurp);
         txtCurp.setBounds(487, 69, 202, 25);
 
@@ -183,6 +217,12 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel9.setBounds(453, 101, 30, 17);
 
         txtRfc.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtRfc.setNextFocusableComponent(txtFecha);
+        txtRfc.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtRfcKeyTyped(evt);
+            }
+        });
         pn_empleado.add(txtRfc);
         txtRfc.setBounds(487, 98, 202, 25);
 
@@ -190,6 +230,8 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel10.setText("Fecha de nacimiento:");
         pn_empleado.add(jLabel10);
         jLabel10.setBounds(353, 130, 130, 17);
+
+        txtFecha.setNextFocusableComponent(comboArea);
         pn_empleado.add(txtFecha);
         txtFecha.setBounds(487, 130, 202, 25);
 
@@ -199,6 +241,7 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel15.setBounds(54, 159, 60, 17);
 
         txtMunicipio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtMunicipio.setNextFocusableComponent(txtLocalidad);
         pn_empleado.add(txtMunicipio);
         txtMunicipio.setBounds(118, 156, 202, 25);
 
@@ -208,6 +251,7 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel16.setBounds(53, 188, 61, 17);
 
         txtLocalidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtLocalidad.setNextFocusableComponent(txtTelefono);
         pn_empleado.add(txtLocalidad);
         txtLocalidad.setBounds(118, 185, 202, 25);
 
@@ -236,6 +280,7 @@ public class addEmpleados extends javax.swing.JDialog {
         btnCancelar.setBounds(371, 240, 140, 33);
 
         comboArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboArea.setNextFocusableComponent(comboPuesto);
         comboArea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboAreaActionPerformed(evt);
@@ -250,6 +295,7 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel18.setBounds(432, 200, 50, 17);
 
         comboPuesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboPuesto.setNextFocusableComponent(btnAceptar);
         comboPuesto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboPuestoActionPerformed(evt);
@@ -445,6 +491,81 @@ public class addEmpleados extends javax.swing.JDialog {
     private void comboPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboPuestoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboPuestoActionPerformed
+
+    private void txtCurpKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCurpKeyTyped
+        // TODO add your handling code here:
+
+        char c = evt.getKeyChar();
+
+        if (Character.isLowerCase(c)) {
+            String cad = ("" + c).toUpperCase();
+            c = cad.charAt(0);
+            evt.setKeyChar(c);
+        }
+
+        if (txtCurp.getText().length() == 18) {
+            evt.consume();
+        }
+
+
+    }//GEN-LAST:event_txtCurpKeyTyped
+
+    private void txtCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();
+
+        if (txtCodigo.getText().length() == 5) {
+            evt.consume();
+        } else if (caracter != evt.getKeyCode()) {
+        }
+        if (((caracter < '0') || (caracter > '9'))) {
+
+            evt.consume();
+        } else {
+
+        }
+    }//GEN-LAST:event_txtCodigoKeyTyped
+
+    private void txtRfcKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRfcKeyTyped
+         // TODO add your handling code here:
+         char c = evt.getKeyChar();
+
+        if (Character.isLowerCase(c)) {
+            String cad = ("" + c).toUpperCase();
+            c = cad.charAt(0);
+            evt.setKeyChar(c);
+        }
+
+        if (txtRfc.getText().length() == 13) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtRfcKeyTyped
+
+    private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
+         // TODO add your handling code here:
+        char caracter = evt.getKeyChar();
+
+        if (txtTelefono.getText().length() == 13) {
+            evt.consume();
+        } else if (caracter != evt.getKeyCode()) {
+        }
+        if(((caracter < '0') || (caracter > '9'))  && (caracter != evt.VK_SPACE) && (caracter != '-')){
+            
+            evt.consume();
+        }else{
+            
+        }
+
+    }//GEN-LAST:event_txtTelefonoKeyTyped
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+         // TODO add your handling code here:
+         
+    }//GEN-LAST:event_formWindowActivated
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+         // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowGainedFocus
 
     /**
      * @param args the command line arguments

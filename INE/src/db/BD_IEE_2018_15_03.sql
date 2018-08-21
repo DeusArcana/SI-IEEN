@@ -642,6 +642,13 @@ CREATE TABLE IF NOT EXISTS `INE`.`Vehiculos` (
   `Observaciones` VARCHAR(1000) NULL,
   `cantidad_fotos` INT NULL,
   `Estado` VARCHAR(100) NULL,
+  
+  `No_motor` VARCHAR(100) NULL,
+  `Fecha_compra` DATE NULL,
+  `No_factura` VARCHAR(100) NULL,
+  `importe` VARCHAR(100) NULL,
+  `descripcion` VARCHAR(100) NULL,
+  
   PRIMARY KEY (`Matricula`))
 ENGINE = InnoDB;
 
