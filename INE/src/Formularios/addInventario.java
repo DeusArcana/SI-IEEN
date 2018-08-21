@@ -45,9 +45,6 @@ public class addInventario extends javax.swing.JDialog {
     File[] rutas;
     int contadorRutas;
     
-    /**
-     * Creates new form addInventario
-     */
     public addInventario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -137,22 +134,11 @@ public class addInventario extends javax.swing.JDialog {
         pn_addInventario.setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Clave:");
+        jLabel1.setText("Clave: *");
         pn_addInventario.add(jLabel1);
-        jLabel1.setBounds(60, 60, 38, 17);
+        jLabel1.setBounds(48, 60, 50, 17);
 
         txtProducto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtProducto.setToolTipText("Ejemplo CMP00000001");
-        txtProducto.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtProductoFocusLost(evt);
-            }
-        });
-        txtProducto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtProductoActionPerformed(evt);
-            }
-        });
         txtProducto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtProductoKeyTyped(evt);
@@ -163,31 +149,15 @@ public class addInventario extends javax.swing.JDialog {
         txtProducto.getAccessibleContext().setAccessibleDescription("");
 
         txtFolio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtFolio.setToolTipText("Ejemplo CMP00000001");
         txtFolio.setEnabled(false);
-        txtFolio.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtFolioFocusLost(evt);
-            }
-        });
-        txtFolio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFolioActionPerformed(evt);
-            }
-        });
-        txtFolio.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtFolioKeyTyped(evt);
-            }
-        });
         pn_addInventario.add(txtFolio);
         txtFolio.setBounds(120, 60, 50, 30);
         txtFolio.getAccessibleContext().setAccessibleDescription("");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Producto:");
+        jLabel2.setText("Producto: *");
         pn_addInventario.add(jLabel2);
-        jLabel2.setBounds(40, 110, 62, 17);
+        jLabel2.setBounds(22, 110, 80, 17);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Descripción:");
@@ -195,23 +165,12 @@ public class addInventario extends javax.swing.JDialog {
         jLabel3.setBounds(30, 310, 75, 17);
 
         lblCantidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lblCantidad.setText("Cantidad:");
+        lblCantidad.setText("Cantidad: *");
         pn_addInventario.add(lblCantidad);
-        lblCantidad.setBounds(40, 410, 60, 17);
+        lblCantidad.setBounds(20, 410, 80, 17);
 
         txtCantidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtCantidad.setText("1");
-        txtCantidad.setToolTipText("");
-        txtCantidad.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtCantidadFocusLost(evt);
-            }
-        });
-        txtCantidad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCantidadActionPerformed(evt);
-            }
-        });
         txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtCantidadKeyTyped(evt);
@@ -226,11 +185,6 @@ public class addInventario extends javax.swing.JDialog {
         jLabel5.setBounds(50, 190, 41, 17);
 
         txtMarca.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtMarca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMarcaActionPerformed(evt);
-            }
-        });
         pn_addInventario.add(txtMarca);
         txtMarca.setBounds(120, 180, 215, 30);
 
@@ -240,11 +194,6 @@ public class addInventario extends javax.swing.JDialog {
         jLabel8.setBounds(40, 150, 53, 17);
 
         txtNoSerie.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtNoSerie.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNoSerieActionPerformed(evt);
-            }
-        });
         pn_addInventario.add(txtNoSerie);
         txtNoSerie.setBounds(120, 140, 215, 30);
 
@@ -258,11 +207,6 @@ public class addInventario extends javax.swing.JDialog {
         jLabel10.setBounds(50, 230, 48, 17);
 
         txtModelo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtModelo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtModeloActionPerformed(evt);
-            }
-        });
         pn_addInventario.add(txtModelo);
         txtModelo.setBounds(120, 220, 215, 30);
 
@@ -277,11 +221,6 @@ public class addInventario extends javax.swing.JDialog {
         jLabel14.setBounds(40, 350, 70, 17);
 
         txtColor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtColor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtColorActionPerformed(evt);
-            }
-        });
         pn_addInventario.add(txtColor);
         txtColor.setBounds(120, 260, 215, 30);
 
@@ -320,11 +259,6 @@ public class addInventario extends javax.swing.JDialog {
         btnCancelar.setBounds(420, 460, 150, 33);
 
         comboUbicacion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        comboUbicacion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboUbicacionActionPerformed(evt);
-            }
-        });
         pn_addInventario.add(comboUbicacion);
         comboUbicacion.setBounds(120, 340, 160, 30);
 
@@ -347,18 +281,7 @@ public class addInventario extends javax.swing.JDialog {
         jPanel1.setBounds(380, 20, 410, 240);
 
         txtNum.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtNum.setToolTipText("");
         txtNum.setEnabled(false);
-        txtNum.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtNumFocusLost(evt);
-            }
-        });
-        txtNum.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNumActionPerformed(evt);
-            }
-        });
         txtNum.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtNumKeyTyped(evt);
@@ -375,11 +298,6 @@ public class addInventario extends javax.swing.JDialog {
                 txtExtensionFocusLost(evt);
             }
         });
-        txtExtension.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtExtensionActionPerformed(evt);
-            }
-        });
         txtExtension.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtExtensionKeyTyped(evt);
@@ -389,11 +307,6 @@ public class addInventario extends javax.swing.JDialog {
         txtExtension.setBounds(260, 60, 50, 30);
 
         txtDescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtDescripcion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDescripcionActionPerformed(evt);
-            }
-        });
         pn_addInventario.add(txtDescripcion);
         txtDescripcion.setBounds(120, 300, 670, 30);
 
@@ -407,17 +320,6 @@ public class addInventario extends javax.swing.JDialog {
         contadorImg.setBounds(660, 270, 6, 14);
 
         txtFactura.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtFactura.setToolTipText("Ejemplo CMP00000001");
-        txtFactura.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtFacturaFocusLost(evt);
-            }
-        });
-        txtFactura.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFacturaActionPerformed(evt);
-            }
-        });
         pn_addInventario.add(txtFactura);
         txtFactura.setBounds(360, 340, 120, 30);
         txtFactura.getAccessibleContext().setAccessibleName("");
@@ -425,15 +327,9 @@ public class addInventario extends javax.swing.JDialog {
 
         txtImporte.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtImporte.setText("0");
-        txtImporte.setToolTipText("Ejemplo CMP00000001");
         txtImporte.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtImporteFocusLost(evt);
-            }
-        });
-        txtImporte.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtImporteActionPerformed(evt);
             }
         });
         txtImporte.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -446,14 +342,14 @@ public class addInventario extends javax.swing.JDialog {
         txtImporte.getAccessibleContext().setAccessibleDescription("");
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel12.setText("Importe:");
+        jLabel12.setText("Importe: *");
         pn_addInventario.add(jLabel12);
-        jLabel12.setBounds(510, 350, 54, 17);
+        jLabel12.setBounds(494, 350, 70, 17);
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel13.setText("Fecha de compra:");
+        jLabel13.setText("Fecha de compra: *");
         pn_addInventario.add(jLabel13);
-        jLabel13.setBounds(260, 400, 120, 17);
+        jLabel13.setBounds(250, 400, 130, 17);
         pn_addInventario.add(txtFecha);
         txtFecha.setBounds(380, 390, 200, 30);
 
@@ -482,47 +378,63 @@ public class addInventario extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMarcaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMarcaActionPerformed
-
-    private void txtNoSerieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNoSerieActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNoSerieActionPerformed
-
-    public void getInfo(){
-        cantidad = Integer.parseInt(txtCantidad.getText());
-        folio = txtFolio.getText();
-        numero = Integer.parseInt(txtNum.getText());
-        extension = txtExtension.getText();
-        producto = txtProducto.getText();
+    public boolean getInfo(){
+		// CAMPOS OBLIGATORIOS
+		if(txtCantidad.isVisible()) 
+			if (!txtCantidad.getText().isEmpty())
+				cantidad = Integer.parseInt(txtCantidad.getText());
+			else return false;
+				
+		if (comboFolio.getSelectedIndex() > 0)
+			folio = txtFolio.getText();
+		else return false;
+		
+		if (!txtNum.getText().isEmpty())
+			numero = Integer.parseInt(txtNum.getText());
+		else return false;
+		
+		if (!txtProducto.getText().isEmpty())
+			producto = txtProducto.getText();
+		else return false;
+		
+		if (!txtImporte.getText().isEmpty())
+			importe = Float.parseFloat(txtImporte.getText());
+		else return false;
+		
+		// OPCIONES LIMITADAS
         ubicacion = comboUbicacion.getSelectedItem().toString();
-        marca = txtMarca.getText();
-        if(txtNoSerie.getText().isEmpty()){
-            noserie = "S/N";
-        }else{
-            noserie = txtNoSerie.getText();
-        }
-        if(txtModelo.getText().isEmpty()){
-            modelo = "Sin modelo";
-        }else{
-            modelo = txtModelo.getText();
-        }
-        color = txtColor.getText();
-        if(txtDescripcion.getText().isEmpty()){
-            descripcion = "Sin descripción";
-        }else{
-            descripcion = txtDescripcion.getText();
-        }
+		
+		// CAMPOS CON VALORES POR DEFAULT
+		if (!txtMarca.getText().isEmpty())
+			marca = txtMarca.getText();
+		else marca = "No registrada";
+		
+		// EXTENSION PUEDE IR VACÍO O NO
+        extension = txtExtension.getText();
+		
+        if(!txtNoSerie.getText().isEmpty())
+			noserie = txtNoSerie.getText();
+        else noserie = "S/N";
         
-        importe = Float.parseFloat(txtImporte.getText());
-        if(txtFactura.getText().isEmpty()){
-            factura = "Sin capturar";
-        }else{
-            factura = txtFactura.getText();
-        }
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-        fecha_compra = formato.format(txtFecha.getDate());
+        if(!txtModelo.getText().isEmpty())
+			modelo = txtModelo.getText();
+        else modelo = "Sin modelo";
+        
+		if (!txtColor.getText().isEmpty())
+			color = txtColor.getText();
+		else color = "No registrado";
+		
+        if(!txtDescripcion.getText().isEmpty())
+			descripcion = txtDescripcion.getText();
+		else descripcion = "Sin descripción";
+        		
+        if(!txtFactura.getText().isEmpty())
+			factura = txtFactura.getText();
+        else factura = "Sin capturar";
+        
+		fecha_compra = new SimpleDateFormat("yyyy-MM-dd").format(txtFecha.getDate());
+		
+		return true;
     }//getInfo
     
     public void clearCampos(){
@@ -543,50 +455,37 @@ public class addInventario extends javax.swing.JDialog {
     }
     
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // TODO add your handling code here:
-        getInfo();
-        if(manager_permisos.accesoModulo("alta","Inventario",Principal.Username)){
+	
+		if(getInfo()){
+			if(manager_permisos.accesoModulo("alta","Inventario",Principal.Username)){
             
-            if (manager_inventario.guardarImagen(folio,numero,extension, producto, descripcion,ubicacion, marca, "Sin observaciones",noserie, modelo, color,contadorImg.getText(), fecha_compra, factura, importe,cantidad)) {
-                String nombreParametro = txtFolio.getText() + "-" + txtNum.getText()+ txtExtension.getText();
-                managerPOST.prepararImagenesInventario(rutas, nombreParametro, contadorRutas);   
-                JOptionPane.showMessageDialog(null, "Se insertó correctamente al inventario");
-                
-                int num = comboFolio.getSelectedIndex();
-                String nomeclatura = "";
-                //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
-                if(num > 0){nomeclatura = nomeclaturas[num-1];}
-        
-                if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){            
-                    String estatus2 = Principal.comboEstatus.getSelectedItem().toString();
-                    int filtro = Principal.comboFiltro.getSelectedIndex();
-                    String busqueda = Principal.txtBusqueda.getText();
-                    Principal.tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus2));
-                    Principal.lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario.cantidadInventario(filtro, busqueda, nomeclatura,estatus2))));
-                    Principal.comboFolio.setSelectedIndex(num);
-                }
+				if (manager_inventario.guardarImagen(folio,numero,extension, producto, descripcion,ubicacion, marca, "Sin observaciones",noserie, modelo, color,contadorImg.getText(), fecha_compra, factura, importe,cantidad)) {
+					String nombreParametro = txtFolio.getText() + "-" + txtNum.getText()+ txtExtension.getText();
+					managerPOST.prepararImagenesInventario(rutas, nombreParametro, contadorRutas);   
+					JOptionPane.showMessageDialog(null, "Se insertó correctamente al inventario");
 
-            } else {
-                JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
-            }
+					int num = comboFolio.getSelectedIndex();
+					String nomeclatura = "";
+					//Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+					if(num > 0){nomeclatura = nomeclaturas[num-1];}
 
-        } else {
-            JOptionPane.showMessageDialog(null, "No cuenta con permisos para dar de alta nuevos productos al inventario.");
-        }
-        clearCampos();
+					if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){            
+						String estatus2 = Principal.comboEstatus.getSelectedItem().toString();
+						int filtro = Principal.comboFiltro.getSelectedIndex();
+						String busqueda = Principal.txtBusqueda.getText();
+						Principal.tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus2));
+						Principal.lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario.cantidadInventario(filtro, busqueda, nomeclatura,estatus2))));
+						Principal.comboFolio.setSelectedIndex(num);
+					}
+
+				} else JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+			} else JOptionPane.showMessageDialog(null, "No cuenta con permisos para dar de alta nuevos productos al inventario.");
+			
+			clearCampos();
+		} else JOptionPane.showMessageDialog(null, "Verificar campos obligatorios.");
+		
+
     }//GEN-LAST:event_btnAceptarActionPerformed
-
-    private void txtFolioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFolioFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFolioFocusLost
-
-    private void txtModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtModeloActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtModeloActionPerformed
-
-    private void txtColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtColorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtColorActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
          // TODO add your handling code here:
@@ -671,18 +570,6 @@ public class addInventario extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnImagenActionPerformed
 
-    private void txtFolioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFolioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFolioActionPerformed
-
-    private void txtProductoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtProductoFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtProductoFocusLost
-
-    private void txtProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProductoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtProductoActionPerformed
-
     private void comboFolioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFolioActionPerformed
         // TODO add your handling code here:
         int combo_folio = comboFolio.getSelectedIndex();
@@ -744,10 +631,6 @@ public class addInventario extends javax.swing.JDialog {
         
     }//GEN-LAST:event_comboFolioActionPerformed
 
-    private void txtFolioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFolioKeyTyped
-        // TODO add your handling code here:        
-    }//GEN-LAST:event_txtFolioKeyTyped
-
     public void existeClave(){
     
         //Comparamos si existe o no
@@ -767,28 +650,6 @@ public class addInventario extends javax.swing.JDialog {
         
     }//existeClave
     
-    private void txtNumFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNumFocusLost
-        // TODO add your handling code here:
-        if(!(txtNum.getText().isEmpty())){
-            
-            existeClave();
-            txtExtension.setEditable(true);
-        }//Buscar si existe o no
-        else{
-            txtFolio.setBackground(java.awt.Color.WHITE);
-            txtNum.setBackground(java.awt.Color.WHITE);
-            txtExtension.setBackground(java.awt.Color.WHITE);
-            btnAceptar.setEnabled(false);
-            txtExtension.setEditable(false);
-            txtExtension.setText("");
-            lblAviso.setText("");
-        }
-    }//GEN-LAST:event_txtNumFocusLost
-
-    private void txtNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNumActionPerformed
-
     private void txtNumKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumKeyTyped
         // TODO add your handling code here:
         char caracter = evt.getKeyChar();
@@ -815,10 +676,6 @@ public class addInventario extends javax.swing.JDialog {
             lblAviso.setText("");
         }
     }//GEN-LAST:event_txtExtensionFocusLost
-
-    private void txtExtensionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtExtensionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtExtensionActionPerformed
 
     private void txtExtensionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtExtensionKeyTyped
         // TODO add your handling code here:
@@ -848,32 +705,12 @@ public class addInventario extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtExtensionKeyTyped
 
-    private void comboUbicacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboUbicacionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comboUbicacionActionPerformed
-
-    private void txtDescripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescripcionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDescripcionActionPerformed
-
-    private void txtFacturaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFacturaFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFacturaFocusLost
-
-    private void txtFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFacturaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFacturaActionPerformed
-
     private void txtImporteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtImporteFocusLost
         // TODO add your handling code here:
         if(txtImporte.getText().isEmpty()){
             txtImporte.setText("0");
         }
     }//GEN-LAST:event_txtImporteFocusLost
-
-    private void txtImporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImporteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtImporteActionPerformed
 
     private void txtImporteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtImporteKeyTyped
         // TODO add your handling code here:
@@ -893,14 +730,6 @@ public class addInventario extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtImporteKeyTyped
 
-    private void txtCantidadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCantidadFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCantidadFocusLost
-
-    private void txtCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantidadActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCantidadActionPerformed
-
     private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
         // TODO add your handling code here:
         char caracter = evt.getKeyChar();
@@ -918,31 +747,17 @@ public class addInventario extends javax.swing.JDialog {
 		}
     }//GEN-LAST:event_txtProductoKeyTyped
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        
-        //</editor-fold>
-        
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                addInventario dialog = new addInventario(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> {
+			addInventario dialog = new addInventario(new javax.swing.JFrame(), true);
+			dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+				@Override
+				public void windowClosing(java.awt.event.WindowEvent e) {
+					System.exit(0);
+				}
+			});
+			dialog.setVisible(true);
+		});
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -86,13 +86,12 @@ public class addInventarioGranel extends javax.swing.JDialog {
         pn_addInventario.setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Clave:");
+        jLabel1.setText("Clave: *");
         pn_addInventario.add(jLabel1);
-        jLabel1.setBounds(50, 16, 38, 17);
+        jLabel1.setBounds(38, 16, 50, 17);
 
         txtFolio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtFolio.setText("EY-99");
-        txtFolio.setToolTipText("");
         txtFolio.setEnabled(false);
         txtFolio.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -111,11 +110,6 @@ public class addInventarioGranel extends javax.swing.JDialog {
                 txtNumFocusLost(evt);
             }
         });
-        txtNum.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNumActionPerformed(evt);
-            }
-        });
         txtNum.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtNumKeyTyped(evt);
@@ -132,11 +126,6 @@ public class addInventarioGranel extends javax.swing.JDialog {
                 txtExtensionFocusLost(evt);
             }
         });
-        txtExtension.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtExtensionActionPerformed(evt);
-            }
-        });
         txtExtension.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtExtensionKeyTyped(evt);
@@ -147,11 +136,6 @@ public class addInventarioGranel extends javax.swing.JDialog {
 
         txtProducto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtProducto.setNextFocusableComponent(comboUbicacion);
-        txtProducto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtProductoActionPerformed(evt);
-            }
-        });
         pn_addInventario.add(txtProducto);
         txtProducto.setBounds(110, 50, 220, 30);
 
@@ -160,14 +144,14 @@ public class addInventarioGranel extends javax.swing.JDialog {
         comboCategoria.setBounds(110, 170, 210, 30);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel11.setText("Categoría:");
+        jLabel11.setText("Categoría: *");
         pn_addInventario.add(jLabel11);
-        jLabel11.setBounds(30, 180, 70, 17);
+        jLabel11.setBounds(20, 180, 80, 17);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Producto:");
+        jLabel2.setText("Producto: *");
         pn_addInventario.add(jLabel2);
-        jLabel2.setBounds(30, 60, 62, 17);
+        jLabel2.setBounds(12, 60, 80, 17);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Descripción:");
@@ -175,9 +159,9 @@ public class addInventarioGranel extends javax.swing.JDialog {
         jLabel3.setBounds(392, 16, 75, 17);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("Ubicación:");
+        jLabel4.setText("Ubicación: *");
         pn_addInventario.add(jLabel4);
-        jLabel4.setBounds(26, 100, 70, 17);
+        jLabel4.setBounds(16, 100, 80, 17);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Marca:");
@@ -186,11 +170,6 @@ public class addInventarioGranel extends javax.swing.JDialog {
 
         txtMarca.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtMarca.setNextFocusableComponent(comboCategoria);
-        txtMarca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMarcaActionPerformed(evt);
-            }
-        });
         pn_addInventario.add(txtMarca);
         txtMarca.setBounds(110, 130, 215, 30);
 
@@ -198,7 +177,6 @@ public class addInventarioGranel extends javax.swing.JDialog {
         txtAreaDescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtAreaDescripcion.setLineWrap(true);
         txtAreaDescripcion.setRows(5);
-        txtAreaDescripcion.setToolTipText("");
         txtAreaDescripcion.setWrapStyleWord(true);
         txtAreaDescripcion.setNextFocusableComponent(btnAceptar);
         txtAreaDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -212,19 +190,13 @@ public class addInventarioGranel extends javax.swing.JDialog {
         jScrollPane1.setBounds(471, 13, 358, 110);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel8.setText("Stock min:");
+        jLabel8.setText("Stock min: *");
         pn_addInventario.add(jLabel8);
-        jLabel8.setBounds(30, 220, 66, 17);
+        jLabel8.setBounds(16, 220, 80, 17);
 
         txtStockMin.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtStockMin.setText("1");
-        txtStockMin.setToolTipText("");
         txtStockMin.setNextFocusableComponent(txtStock);
-        txtStockMin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStockMinActionPerformed(evt);
-            }
-        });
         txtStockMin.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtStockMinKeyTyped(evt);
@@ -235,13 +207,7 @@ public class addInventarioGranel extends javax.swing.JDialog {
 
         txtStock.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtStock.setText("1");
-        txtStock.setToolTipText("Ingrese cantidad numérica entera ejemplo: 10");
         txtStock.setNextFocusableComponent(txtAreaDescripcion);
-        txtStock.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStockActionPerformed(evt);
-            }
-        });
         txtStock.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtStockKeyTyped(evt);
@@ -252,9 +218,9 @@ public class addInventarioGranel extends javax.swing.JDialog {
         txtStock.getAccessibleContext().setAccessibleDescription("");
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel9.setText("Stock:");
+        jLabel9.setText("Stock: *");
         pn_addInventario.add(jLabel9);
-        jLabel9.setBounds(50, 260, 40, 17);
+        jLabel9.setBounds(40, 260, 60, 17);
 
         lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_addInventario.add(lblAviso);
@@ -308,50 +274,44 @@ public class addInventarioGranel extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMarcaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMarcaActionPerformed
-
-    private void txtStockMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockMinActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtStockMinActionPerformed
-
-    private void txtStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtStockActionPerformed
-
-    public void getInfo(){
-        
-        num = Integer.parseInt(txtNum.getText());
-        extension = txtExtension.getText();
-        producto = txtProducto.getText();
+    public boolean getInfo(){
+        if (!txtNum.getText().isEmpty())
+		    num = Integer.parseInt(txtNum.getText());
+		else return false;
+		
+		if (!txtProducto.getText().isEmpty())
+			producto = txtProducto.getText();
+		else return false;
+		
+		// CAMPOS CON VALORES POR DEFAULT
         almacen = comboUbicacion.getSelectedItem().toString();
+		
         //Marca
-        if(txtMarca.getText().isEmpty()){
-            marca = "Sin especificar";
-        }else{
-            marca = txtMarca.getText();
-        }
+        if(!txtMarca.getText().isEmpty())
+			marca = txtMarca.getText();
+		else marca = "Sin especificar";
+        
+		// Extensión puede ser opcional
+		extension = txtExtension.getText();
+	
         //Stock minimo
-        if(txtStockMin.getText().isEmpty()){
-            stockmin = 1;
-        }else{
-            stockmin = Integer.parseInt(txtStockMin.getText());
-        }
+        if(!txtStockMin.getText().isEmpty())
+			stockmin = Integer.parseInt(txtStockMin.getText());
+        else stockmin = 1;
+        
         //Stock
-        if(txtStock.getText().isEmpty()){
-            stock = 1;
-        }else{
-            stock = Integer.parseInt(txtStock.getText());
-        }
+        if(!txtStock.getText().isEmpty())
+			stock = Integer.parseInt(txtStock.getText());
+        else stock = 1;
+        
         //Descripción
-        if(txtAreaDescripcion.getText().isEmpty()){
-            descripcion = "Sin descripción";
-        }else{
-            descripcion = txtAreaDescripcion.getText();
-        }
+        if(!txtAreaDescripcion.getText().isEmpty())
+			descripcion = txtAreaDescripcion.getText();
+        else descripcion = "Sin descripción";
+        
         categoria = comboCategoria.getSelectedItem().toString();
         
+		return true;
     }//getInfo
     
     public void clearCampos(){
@@ -368,29 +328,29 @@ public class addInventarioGranel extends javax.swing.JDialog {
     
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        getInfo();
-        if(manager_permisos.accesoModulo("alta","Inventario",Principal.Username)){
+		if (getInfo()){
+			if(manager_permisos.accesoModulo("alta","Inventario",Principal.Username)){
             
-            if(manager_inventario_granel.insertarInventarioG(num,extension, producto, almacen, marca, stockmin, stock, descripcion,categoria)){
-                JOptionPane.showMessageDialog(null,"Se insertó correctamente al inventario");
-                
-                if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
-                    String estatus2 = Principal.comboEstatus.getSelectedItem().toString();
-                    int filtro = Principal.comboFiltro.getSelectedIndex();
-                    String busqueda = Principal.txtBusqueda.getText();
-                    Principal.tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, categoria,estatus2));
-                    Principal.lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario_granel.getcountBusquedaInventario(filtro, busqueda, categoria, estatus2))));
-                    Principal.comboCategoriaConsumible.setSelectedItem(categoria);
-                }
-                
-            }else{
-                JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");
-            }
-            
-        }else{
-            JOptionPane.showMessageDialog(null,"No cuenta con permisos para dar de alta consumibles.");
-        }
-        clearCampos();
+				if(manager_inventario_granel.insertarInventarioG(num,extension, producto, almacen, marca, stockmin, stock, descripcion,categoria)){
+					
+					JOptionPane.showMessageDialog(null,"Se insertó correctamente al inventario");
+
+					if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
+						String estatus2 = Principal.comboEstatus.getSelectedItem().toString();
+						int filtro = Principal.comboFiltro.getSelectedIndex();
+						String busqueda = Principal.txtBusqueda.getText();
+						Principal.tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, categoria,estatus2));
+						Principal.lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario_granel.getcountBusquedaInventario(filtro, busqueda, categoria, estatus2))));
+						Principal.comboCategoriaConsumible.setSelectedItem(categoria);
+					}
+
+				} else	JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");
+			} else	JOptionPane.showMessageDialog(null,"No cuenta con permisos para dar de alta consumibles.");
+			
+			clearCampos();
+			
+		} else JOptionPane.showMessageDialog(null, "Verificar campos obligatorios.");
+		
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void txtFolioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFolioFocusLost
@@ -424,10 +384,6 @@ public class addInventarioGranel extends javax.swing.JDialog {
          this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void txtProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProductoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtProductoActionPerformed
-
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         //comboUbicacion
@@ -458,10 +414,6 @@ public class addInventarioGranel extends javax.swing.JDialog {
             lblAviso.setText("");
         }
     }//GEN-LAST:event_txtNumFocusLost
-
-    private void txtNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNumActionPerformed
 
     private void txtNumKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumKeyTyped
         // TODO add your handling code here:
@@ -510,10 +462,6 @@ public class addInventarioGranel extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtExtensionFocusLost
 
-    private void txtExtensionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtExtensionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtExtensionActionPerformed
-
     private void txtExtensionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtExtensionKeyTyped
         // TODO add your handling code here:
 
@@ -560,39 +508,23 @@ public class addInventarioGranel extends javax.swing.JDialog {
 
     private void txtAreaDescripcionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAreaDescripcionKeyPressed
         if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_TAB) {
-            System.out.println(evt.getModifiers());
             if(evt.getModifiers() > 0) txtAreaDescripcion.transferFocusBackward();
             else txtAreaDescripcion.transferFocus(); 
             evt.consume();
         }
     }//GEN-LAST:event_txtAreaDescripcionKeyPressed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                addInventarioGranel dialog = new addInventarioGranel(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> {
+			addInventarioGranel dialog = new addInventarioGranel(new javax.swing.JFrame(), true);
+			dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+				@Override
+				public void windowClosing(java.awt.event.WindowEvent e) {
+					System.exit(0);
+				}
+			});
+			dialog.setVisible(true);
+		});
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

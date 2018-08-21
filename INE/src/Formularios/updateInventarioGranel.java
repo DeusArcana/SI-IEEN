@@ -122,11 +122,6 @@ public class updateInventarioGranel extends javax.swing.JDialog {
                 txtNumFocusLost(evt);
             }
         });
-        txtNum.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNumActionPerformed(evt);
-            }
-        });
         txtNum.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtNumKeyTyped(evt);
@@ -143,11 +138,6 @@ public class updateInventarioGranel extends javax.swing.JDialog {
                 txtExtensionFocusLost(evt);
             }
         });
-        txtExtension.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtExtensionActionPerformed(evt);
-            }
-        });
         txtExtension.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtExtensionKeyTyped(evt);
@@ -157,11 +147,6 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         txtExtension.setBounds(250, 10, 50, 30);
 
         txtProducto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtProducto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtProductoActionPerformed(evt);
-            }
-        });
         pn_addInventario.add(txtProducto);
         txtProducto.setBounds(110, 50, 220, 30);
 
@@ -194,11 +179,6 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         jLabel5.setBounds(50, 140, 41, 17);
 
         txtMarca.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtMarca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMarcaActionPerformed(evt);
-            }
-        });
         pn_addInventario.add(txtMarca);
         txtMarca.setBounds(110, 130, 215, 30);
 
@@ -227,11 +207,6 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         txtStockMin.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtStockMin.setText("1");
         txtStockMin.setToolTipText("");
-        txtStockMin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStockMinActionPerformed(evt);
-            }
-        });
         txtStockMin.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtStockMinKeyTyped(evt);
@@ -288,7 +263,8 @@ public class updateInventarioGranel extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    public void colocarDatos(String info){
+
+	public void colocarDatos(String info){
         
         String datos [] = info.split(",,");
         //Numero
@@ -316,65 +292,63 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         txtStockMin.setText(datos[6]);
         comboCategoria.setSelectedItem(datos[7]);
     }//colocarDatos
-    private void txtMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMarcaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMarcaActionPerformed
-
-    private void txtStockMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockMinActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtStockMinActionPerformed
-
-    public void getInfo(){
-        
-        num = Integer.parseInt(txtNum.getText());
-        extension = txtExtension.getText();
-        producto = txtProducto.getText();
+    
+	public boolean getInfo(){
+        if (!txtNum.getText().isEmpty())
+		    num = Integer.parseInt(txtNum.getText());
+		else return false;
+		
+		if (!txtProducto.getText().isEmpty())
+			producto = txtProducto.getText();
+		else return false;
+		
+		// CAMPOS CON VALORES POR DEFAULT
         almacen = comboUbicacion.getSelectedItem().toString();
+		
         //Marca
-        if(txtMarca.getText().isEmpty()){
-            marca = "Sin especificar";
-        }else{
-            marca = txtMarca.getText();
-        }
+        if(!txtMarca.getText().isEmpty())
+			marca = txtMarca.getText();
+		else marca = "Sin especificar";
+        
+		// Extensión puede ser opcional
+		extension = txtExtension.getText();
+	
         //Stock minimo
-        if(txtStockMin.getText().isEmpty()){
-            stockmin = 1;
-        }else{
-            stockmin = Integer.parseInt(txtStockMin.getText());
-        }
+        if(!txtStockMin.getText().isEmpty())
+			stockmin = Integer.parseInt(txtStockMin.getText());
+        else stockmin = 1;
+        
         //Descripción
-        if(txtAreaDescripcion.getText().isEmpty()){
-            descripcion = "Sin descripción";
-        }else{
-            descripcion = txtAreaDescripcion.getText();
-        }
+        if(!txtAreaDescripcion.getText().isEmpty())
+			descripcion = txtAreaDescripcion.getText();
+        else descripcion = "Sin descripción";
+        
         categoria = comboCategoria.getSelectedItem().toString();
+        
+		return true;
     }//getInfo
     
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        getInfo();
-        if(manager_permisos.accesoModulo("actualizar","Inventario",Principal.Username)){
+        if (getInfo()){
+			if(manager_permisos.accesoModulo("actualizar","Inventario",Principal.Username)){
             
-            if(manager_inventario_granel.actualizarInventarioG(clave, producto, almacen, marca, stockmin, descripcion,categoria)){
-                JOptionPane.showMessageDialog(null,"Se actualizo correctamente el consumible");
-                
-                if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
-                    String estatus2 = Principal.comboEstatusConsumible.getSelectedItem().toString();
-                    int filtro = Principal.comboFiltro.getSelectedIndex();
-                    String busqueda = Principal.txtBusqueda.getText();
-                    Principal.tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, categoria,estatus2));
-                    Principal.lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario_granel.getcountBusquedaInventario(filtro, busqueda, categoria, estatus2))));
-                    Principal.comboCategoriaConsumible.setSelectedItem(categoria);
-                }
-                this.dispose();
-            }else{
-                JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");
-            }
-            
-        }else{
-            JOptionPane.showMessageDialog(null,"No cuenta con permisos para actualizar la información del consumible.");
-        }
+				if(manager_inventario_granel.actualizarInventarioG(clave, producto, almacen, marca, stockmin, descripcion,categoria)){
+					JOptionPane.showMessageDialog(null,"Se actualizo correctamente el consumible");
+
+					if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
+						String estatus2 = Principal.comboEstatusConsumible.getSelectedItem().toString();
+						int filtro = Principal.comboFiltro.getSelectedIndex();
+						String busqueda = Principal.txtBusqueda.getText();
+						Principal.tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, categoria,estatus2));
+						Principal.lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario_granel.getcountBusquedaInventario(filtro, busqueda, categoria, estatus2))));
+						Principal.comboCategoriaConsumible.setSelectedItem(categoria);
+					}
+					this.dispose();
+				} else	JOptionPane.showMessageDialog(null,"Verificar con el distribuidor.");
+			} else	JOptionPane.showMessageDialog(null,"No cuenta con permisos para actualizar la información del consumible.");
+		} else JOptionPane.showMessageDialog(null,"Verificar campos obligatorios.");
+		
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void txtFolioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFolioFocusLost
@@ -408,10 +382,6 @@ public class updateInventarioGranel extends javax.swing.JDialog {
          this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void txtProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProductoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtProductoActionPerformed
-
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         //comboUbicacion
@@ -437,10 +407,6 @@ public class updateInventarioGranel extends javax.swing.JDialog {
             lblAviso.setText("");
         }
     }//GEN-LAST:event_txtNumFocusLost
-
-    private void txtNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNumActionPerformed
 
     private void txtNumKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumKeyTyped
         // TODO add your handling code here:
@@ -489,10 +455,6 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtExtensionFocusLost
 
-    private void txtExtensionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtExtensionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtExtensionActionPerformed
-
     private void txtExtensionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtExtensionKeyTyped
         // TODO add your handling code here:
 
@@ -528,7 +490,6 @@ public class updateInventarioGranel extends javax.swing.JDialog {
 
     private void txtAreaDescripcionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAreaDescripcionKeyPressed
         if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_TAB) {
-            System.out.println(evt.getModifiers());
             if(evt.getModifiers() > 0) txtAreaDescripcion.transferFocusBackward();
             else txtAreaDescripcion.transferFocus(); 
             evt.consume();
@@ -539,30 +500,16 @@ public class updateInventarioGranel extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                updateInventarioGranel dialog = new updateInventarioGranel(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> {
+			updateInventarioGranel dialog = new updateInventarioGranel(new javax.swing.JFrame(), true);
+			dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+				@Override
+				public void windowClosing(java.awt.event.WindowEvent e) {
+					System.exit(0);
+				}
+			});
+			dialog.setVisible(true);
+		});
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
