@@ -6,6 +6,7 @@
 package Formularios;
 
 import Clases.Conexion;
+import Clases.CrearPaseSalida;
 import Clases.ExceptionDatosIncompletos;
 import Clases.ManagerPases;
 import Clases.ManagerUsers;
@@ -37,6 +38,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
     Connection cn=cbd.getConexion();
     
     String fechag="";
+    String responarea="";
     
     public int varidp=0;
 
@@ -83,7 +85,6 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        lblAviso = new javax.swing.JLabel();
         comboArea = new javax.swing.JComboBox<>();
         comboEmpleados = new javax.swing.JComboBox<>();
         btnAceptar = new javax.swing.JButton();
@@ -93,7 +94,6 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         Date hora = new Date();
         SpinnerDateModel sdm = new SpinnerDateModel(hora,null,null,Calendar.HOUR_OF_DAY);
         hora_e_s = new javax.swing.JSpinner(sdm);
-        jlfec = new javax.swing.JLabel();
         txt_hora_llegada = new javax.swing.JTextField();
         txt_horas = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
@@ -101,11 +101,13 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         txt_Folio = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         date_Salida = new com.toedter.calendar.JDateChooser();
+        jlfechacompleta = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registro nueva solicitud");
-        setPreferredSize(new java.awt.Dimension(660, 550));
+        setPreferredSize(new java.awt.Dimension(590, 540));
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -123,7 +125,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         txt_Puesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_Puesto.setEnabled(false);
         pn_addPermiso.add(txt_Puesto);
-        txt_Puesto.setBounds(140, 185, 350, 27);
+        txt_Puesto.setBounds(140, 185, 410, 27);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Puesto:");
@@ -151,12 +153,12 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         jScrollPane1.setViewportView(txt_Actividad);
 
         pn_addPermiso.add(jScrollPane1);
-        jScrollPane1.setBounds(30, 360, 530, 90);
+        jScrollPane1.setBounds(140, 342, 420, 90);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Folio:");
         pn_addPermiso.add(jLabel8);
-        jLabel8.setBounds(470, 50, 37, 17);
+        jLabel8.setBounds(390, 50, 37, 17);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Nombre:");
@@ -168,10 +170,6 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         pn_addPermiso.add(jLabel10);
         jLabel10.setBounds(50, 90, 80, 17);
 
-        lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        pn_addPermiso.add(lblAviso);
-        lblAviso.setBounds(466, 228, 15, 233);
-
         comboArea.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         comboArea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -179,7 +177,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             }
         });
         pn_addPermiso.add(comboArea);
-        comboArea.setBounds(140, 123, 350, 25);
+        comboArea.setBounds(140, 123, 410, 25);
 
         comboEmpleados.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         comboEmpleados.addActionListener(new java.awt.event.ActionListener() {
@@ -188,7 +186,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             }
         });
         pn_addPermiso.add(comboEmpleados);
-        comboEmpleados.setBounds(140, 153, 350, 25);
+        comboEmpleados.setBounds(140, 153, 410, 25);
 
         btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
@@ -199,7 +197,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             }
         });
         pn_addPermiso.add(btnAceptar);
-        btnAceptar.setBounds(180, 470, 120, 36);
+        btnAceptar.setBounds(180, 460, 120, 36);
 
         btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
@@ -210,7 +208,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             }
         });
         pn_addPermiso.add(btnCancelar);
-        btnCancelar.setBounds(330, 470, 120, 36);
+        btnCancelar.setBounds(330, 460, 120, 36);
 
         comboHorario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "De Entrada", "Intermedio", "De Salida" }));
         comboHorario.addActionListener(new java.awt.event.ActionListener() {
@@ -223,16 +221,12 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
 
         comboAsunto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "Particular", "Oficial", "Médico" }));
         pn_addPermiso.add(comboAsunto);
-        comboAsunto.setBounds(420, 83, 126, 28);
+        comboAsunto.setBounds(423, 83, 126, 28);
 
         JSpinner.DateEditor de = new JSpinner.DateEditor(hora_e_s,"HH:mm");
         hora_e_s.setEditor(de);
         pn_addPermiso.add(hora_e_s);
         hora_e_s.setBounds(140, 260, 70, 28);
-
-        jlfec.setText(".");
-        pn_addPermiso.add(jlfec);
-        jlfec.setBounds(370, 10, 4, 18);
 
         txt_hora_llegada.setEditable(false);
         txt_hora_llegada.setEnabled(false);
@@ -257,7 +251,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
 
         txt_Folio.setEditable(false);
         pn_addPermiso.add(txt_Folio);
-        txt_Folio.setBounds(510, 40, 120, 28);
+        txt_Folio.setBounds(430, 40, 120, 28);
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Fecha de entrada:");
@@ -279,19 +273,23 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 }
             });
 
+            jlfechacompleta.setText(".");
+            pn_addPermiso.add(jlfechacompleta);
+            jlfechacompleta.setBounds(230, 10, 320, 18);
+
             jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
             pn_addPermiso.add(jLabel6);
-            jLabel6.setBounds(0, 0, 660, 540);
+            jLabel6.setBounds(0, 0, 590, 530);
 
             javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
             getContentPane().setLayout(layout);
             layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(pn_addPermiso, javax.swing.GroupLayout.PREFERRED_SIZE, 649, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pn_addPermiso, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)
             );
             layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(pn_addPermiso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pn_addPermiso, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
             );
 
             getAccessibleContext().setAccessibleName("Nueva solicitud pase E/S");
@@ -358,7 +356,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 return;
             }
         }catch (NullPointerException ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error! No se ha seleccionado fecha");
+                javax.swing.JOptionPane.showMessageDialog(null, "Error! Faltan campos por llenar");
             }
         
         //SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
@@ -374,11 +372,15 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
     private void comboAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAreaActionPerformed
         // TODO add your handling code here:
         int area = comboArea.getSelectedIndex();
+        //System.out.printf(area+"");
         String folio="";
         if(area > 0){
+            String vaarea=comboArea.getSelectedItem().toString();
+            //System.out.printf(vaarea);
             comboEmpleados.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
             comboEmpleados.addItem("Seleccione empleado...");
-            manager_pases.getNombresEmpleadosArea(area,comboEmpleados);
+            manager_pases.getNombresEmpleadosArea(vaarea,comboEmpleados);
+            //System.out.print(maxidpa());
             if(maxidpa()<=8){
                 folio="00"+(maxidpa()+1);
             }
@@ -388,7 +390,8 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             if(maxidpa()>=99){
                 folio=(maxidpa()+1)+"";
             }
-            txt_Folio.setText(manager_pases.getAreaSiglas(area)+"-"+folio);
+            txt_Folio.setText(manager_pases.getAreaSiglas(vaarea)+"-"+folio);
+            //System.out.printf(manager_pases.getAreaSiglas(vaarea));
             txt_Folio.setBackground(Color.GREEN);
             
         }else{
@@ -396,18 +399,20 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         }
         
     }//GEN-LAST:event_comboAreaActionPerformed
-
+    
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         comboArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboArea.addItem("Seleccione area...");
         comboEmpleados.addItem("Seleccione empleado...");
         manager_pases.getArea(comboArea);
-        fechag=getfecha();
-        fechacompleta();
-        //System.out.print(maxidpa());
         
-        //System.out.print(fecha_Entrada);
+        fechag=getfecha();
+        
+        jlfechacompleta.setText(fechacompleta()); 
+        //System.out.print(maxidpa()+1);
+        
+        System.out.print(fechacompleta());
     }//GEN-LAST:event_formWindowOpened
 
     private void comboHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboHorarioActionPerformed
@@ -440,8 +445,11 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         SimpleDateFormat formatofecha=new SimpleDateFormat("dd-MM-yyyy");
         return formatofecha.format(fecha);
     }
-    public void fechacompleta(){
-        String[] separar=fechag.split("-");
+    public static String fechacompleta(){
+        Date fecha=new Date();
+        SimpleDateFormat formatofecha=new SimpleDateFormat("dd-MM-yyyy");
+        String fechacom=formatofecha.format(fecha);
+        String[] separar=fechacom.split("-");
         String mes="";
         int n=Integer.parseInt(separar[1]);
         switch(n){
@@ -483,7 +491,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 break;
                 
         }
-        jlfec.setText("Tepic, Nayarit a "+separar[0]+" de "+mes+" del "+separar[2]);
+        return "Tepic, Nayarit a "+separar[0]+" de "+mes+" del "+separar[2];
     }
     
     public void insertar_Solicitud(String folio,String numero,String año,String nombre,String puesto,String area,String fecha,String horaes,String horall,String horas,String tipohorario,String tipoasunto,String asunto,String estado){
@@ -497,8 +505,30 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             
             if(insersion){
                 JOptionPane.showMessageDialog(this, "Insersión correcta");
+                
                 PrincipalP.tablapase.setModel(manager_pases.getTasolpa(año));
+                
+                CrearPaseSalida cps = new CrearPaseSalida();
+                
+                Object[] botones = {"Confirmar","Cancelar"};
+                int opcion = JOptionPane.showOptionDialog(this,"¿Desea imprimir solicitud?", "Confirmación",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+                
+                if(opcion == 0){
+                    //sacamos el id del area del responsable
+                    String idarea=manager_pases.getIdResponsableArea(area);
+                    //sacamos el nombre del responsable
+                    responarea=manager_pases.getNomResponsableArea(idarea);
+                    
+                    cps.createTicket(1,folio,numero,nombre,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,responarea);
+                
                 this.setVisible(false);
+                }else if(opcion == 1){
+                    //cerramos el formulario
+                    this.setVisible(false);
+                }
+        
+                //this.setVisible(false);
             }else{
                 JOptionPane.showMessageDialog(this, "Error al insertar");
             }
@@ -506,6 +536,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
           
         }
     }
+    
     
     public void validarDatos(boolean verificar_fecha,String cad)throws ExceptionDatosIncompletos{
        
@@ -587,13 +618,12 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         //String ar=comboArea.getSelectedItem().toString();
         String[] año=fechag.split("-");
         String sql="";
-        if(a>0){
+        if(a > 0){
             String ar=comboArea.getSelectedItem().toString();
-            sql="Select max(Numero) from solicitud_pase where Area = '"+ar+"' AND Año = '" + año[2] + "';";            
+            sql="Select max(Numero) from solicitud_pase where Area = '" + ar + "' AND Año = '" + año[2] + "';";            
         }     
         //String area="Unidad Técnica de Informática y Estadística";
-        //String sql="Select max(Numero) from solicitud_pase where Area = '"+area+"';";
-        int datos[]=new int[1];
+        //sql="Select max(Numero) from solicitud_pase where Area = '"+area+"';";
         int max=0; 
         try{
             Statement st=cn.createStatement();
@@ -602,8 +632,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 
              //varidp=rs.getInt("max(Numero)");
              max=rs.getInt("max(Numero)");
-            //datos[0]=rs.getString("max(idDatos)");
-            //varidp=datos;
+             
         }
     }catch(SQLException ex){
            javax.swing.JOptionPane.showMessageDialog(null, "Error!!"); 
@@ -678,8 +707,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel jlfec;
-    private javax.swing.JLabel lblAviso;
+    private javax.swing.JLabel jlfechacompleta;
     private javax.swing.JPanel pn_addPermiso;
     private javax.swing.JTextArea txt_Actividad;
     private javax.swing.JTextField txt_Folio;
