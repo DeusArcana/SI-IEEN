@@ -28,11 +28,11 @@ public class ManagerSolicitud {
     
     private Connection conexion;
     private Conexion db;
-    
+    Validaciones validaciones;
     public ManagerSolicitud(){
         
         db = new Conexion();
-        
+        this.validaciones = new Validaciones();
     }//Constructor
     
     public boolean registro_Solicitud(String idProd, String tipo,String user,String motivo,int cantidad){
@@ -57,7 +57,7 @@ public class ManagerSolicitud {
             st.executeUpdate(sql);
             
             //Cambiamos el estatus del equipo seleccionado
-            sql = "update Inventario set estatus = '"+tipo+"' where id_producto = '"+idProd+"'";
+            sql = "update Inventario set estatus = '"+tipo+"' where id_producto = '"+Validaciones.deconstructFormatID(idProd)+"'";
             st.executeUpdate(sql);
             
             //Buscamos el id de la solicitud
@@ -67,7 +67,7 @@ public class ManagerSolicitud {
             String idSol = rs.getString(1); 
             
             //Realizamos el registro de los detalles de la solicitud
-            sql = "insert into Detalle_solicitud values('"+idSol+"','"+idProd+"')";
+            sql = "insert into Detalle_solicitud values('"+idSol+"','"+Validaciones.deconstructFormatID(idProd)+"')";
             st.executeUpdate(sql);
             
             //Cerramos la conexión
@@ -119,7 +119,7 @@ public class ManagerSolicitud {
             for (int i = 0; i<Productos.length;i++) {
                 //Registramos los productos que se solicitaron
                 sql = "insert into detalle_solicitudSalida (id_solicitud,id_producto,cantidad_solicitada,cantidad_autorizada) "
-                        +"values('SALIDA-"+num+"-"+year+"','" + Productos[i] + "',"+Cantidad[i]+",0);";
+                        +"values('SALIDA-"+num+"-"+year+"','" + Validaciones.deconstructFormatID(Productos[i]) + "',"+Cantidad[i]+",0);";
                 st.executeUpdate(sql);
             }
             
@@ -156,7 +156,7 @@ public class ManagerSolicitud {
             
             for (int i = 0; i<Productos.length;i++) {
                 //Registramos los productos que se solicitaron
-                sql = "update detalle_solicitudSalida set cantidad_autorizada = "+Cantidad[i]+" where id_solicitud = '"+id+"' and id_producto = '"+Productos[i]+"';";
+                sql = "update detalle_solicitudSalida set cantidad_autorizada = "+Cantidad[i]+" where id_solicitud = '"+id+"' and id_producto = '"+Validaciones.deconstructFormatID(Productos[i])+"';";
                 st.executeUpdate(sql);
             }
             
@@ -195,11 +195,9 @@ public class ManagerSolicitud {
 
             //Llenar tabla
             while (rs.next()) {
-                
-                for(int i = 0;i<6;i++){
-                    
-                datos[i] = rs.getObject(i+1);    
-                    
+                datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());
+                for(int i = 1;i<6;i++){
+					datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
                 
                 table.addRow(datos);//Añadimos la fila
@@ -459,11 +457,9 @@ public class ManagerSolicitud {
 
             //Llenar tabla
             while (rs.next()) {
-                
-                for(int i = 0;i<6;i++){
-                    
-                datos[i] = rs.getObject(i+1);    
-                    
+                datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());
+                for(int i = 1;i<6;i++){                    
+					datos[i] = rs.getObject(i+1);                    
                 }//Llenamos las columnas por registro
                 
                 table.addRow(datos);//Añadimos la fila
@@ -511,9 +507,7 @@ public class ManagerSolicitud {
             while (rs.next()) {
                 
                 for(int i = 0;i<7;i++){
-                    
-                datos[i] = rs.getObject(i+1);    
-                    
+					datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
                 
                 table.addRow(datos);//Añadimos la fila
@@ -581,7 +575,7 @@ public class ManagerSolicitud {
         String estado = "";
         try{
            
-            String sql = "select estatus from inventario where concat(Folio,'-',Numero,Extension) = '"+clave+"';";
+            String sql = "select estatus from inventario where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(clave)+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -606,7 +600,7 @@ public class ManagerSolicitud {
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
             rs.next();
-            idProducto = rs.getString(1);
+            idProducto = validaciones.constructFormatID(rs.getString(1));
             
             conexion.close();
         } catch (SQLException ex) {
@@ -642,58 +636,5 @@ public class ManagerSolicitud {
 
         }
     }//guardarImagenSolicitud
-    
-    //Este método es para registrar la solicitud de los productos que se requieren pero que aun no han sido autorizados o denegados
-    public boolean solicitudResguardo(String idProd[], String tipo,String empleado,String motivo,int cantidad){
         
-        if(motivo.equals("")){
-            motivo = "Sin especificar el motivo";
-        }
-        
-        try {
-            //Hacemos la conexión
-            conexion = db.getConexion();
-            //Creamos la variable para hacer operaciones CRUD
-            Statement st = conexion.createStatement();
-            //Creamos la variable para guardar el resultado de las consultas
-            ResultSet rs;
-            
-            //Obtenemos la fecha del sistema
-            String sql = "select now();";
-            rs = st.executeQuery(sql);
-            rs.next();
-            String fecha = rs.getString(1); 
-            
-            
-            //Registramos la solicitud
-            sql = "insert into Solicitudes (tipo_solicitud,id_user,motivo,cantidad,fecha_solicitud,estado) "
-                        +"values('"+tipo+"','"+empleado+"','"+motivo+"',"+cantidad+",'"+fecha+"','SOLICITUD');";
-            st.executeUpdate(sql);
-            
-            //Cambiamos el estatus del equipo seleccionado
-            sql = "update Inventario set estatus = '"+tipo+"' where id_producto = '"+idProd+"'";
-            st.executeUpdate(sql);
-            
-            //Buscamos el id de la solicitud
-            sql = "select id_solicitud from Solicitudes where fecha_solicitud = '"+fecha+"';";
-            rs = st.executeQuery(sql);
-            rs.next();
-            String idSol = rs.getString(1); 
-            
-            //Realizamos el registro de los detalles de la solicitud
-            sql = "insert into Detalle_solicitud values('"+idSol+"','"+idProd+"')";
-            st.executeUpdate(sql);
-            
-            //Cerramos la conexión
-            conexion.close();
-            return true;
-            
-        } catch (SQLException ex) {
-            System.out.printf("Error al insertar la solicitud en SQL");
-            Logger.getLogger(ManagerSolicitud.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        } 
-        
-    }//registro_solicitud
-    
 }//class 

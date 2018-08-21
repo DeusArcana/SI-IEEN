@@ -63,7 +63,7 @@ public class ManagerInventario {
         
         try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_infoProducto`(?)}")){		
 			
-			cs.setString(1, clave);
+			cs.setString(1, Validaciones.deconstructFormatID(clave));
             ResultSet rs = cs.executeQuery();
 
 			while (rs.next()){
@@ -169,7 +169,7 @@ public class ManagerInventario {
 			ps.setString(9, fecha_compra);
             ps.setString(10, factura);
             ps.setFloat(11, importe);
-			ps.setString(12, clave);
+			ps.setString(12, Validaciones.deconstructFormatID(clave));
 			
             return ps.executeUpdate() != 0;
 
@@ -300,7 +300,7 @@ public class ManagerInventario {
     public boolean existeInventario(String idProducto) {
         try (CallableStatement cs = db.getConexion().prepareCall("{CALL `ine`.`usp_get_existeProducto`(?)}")) {
 			
-            cs.setString(1, idProducto);
+            cs.setString(1, Validaciones.deconstructFormatID(idProducto));
 			ResultSet rs = cs.executeQuery();
 			
 			if (rs.next()) return rs.getInt("res") == 1;
@@ -621,12 +621,12 @@ public class ManagerInventario {
             for(int i = 0; i < IDs.length; i++){
                 //Si fue marcado entonces cambia el estatus
                 if(cambio[i]){
-                    ps.setString(1, IDs[i]);
+                    ps.setString(1, Validaciones.deconstructFormatID(IDs[i]));
                     ps.setString(2, pendientePara);
                     status = ps.executeUpdate() != 0;
                     //Vemos si el estatus es para Baja/Comodato/Donación definitivo
                     if(pendientePara.equals("Baja") || pendientePara.equals("Donación") || pendientePara.equals("Comodato")){
-                        sql = "insert into productos_asignados (ID_Producto,Status,Salida,Fecha_Seleccion) value ('"+IDs[i]+"','"+pendientePara+"',0,'"+fecha+"');";
+                        sql = "insert into productos_asignados (ID_Producto,Status,Salida,Fecha_Seleccion) value ('"+Validaciones.deconstructFormatID(IDs[i])+"','"+pendientePara+"',0,'"+fecha+"');";
                         st.executeUpdate(sql);
                     }
                 }//if(cambio[i])
@@ -640,66 +640,14 @@ public class ManagerInventario {
         }
 
     }//actualizarEstatus
-    
-    public Blob leerImagen(String idProducto) throws IOException {
-        conexion = db.getConexion();
-        //String sSql = "select imagen from inventario where id_producto = '"+idProducto+"';";
-        String sSql = "select imagen from inventario where id_producto = '"+idProducto+"';";
-        
-        PreparedStatement pst;
-        Blob blob = null;
-        try {
-            pst = conexion.prepareStatement(sSql);
-            ResultSet res = pst.executeQuery();
-            if (res.next()) {
 
-                blob = res.getBlob("imagen");
-
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ManagerVehiculos.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return blob;
-    }//leerImagen
-    
-    public boolean actualizarProductoSinFoto(String clave, String producto, String almacen, String marca,String noserie, String descripcion, String observaciones,String tipo,String modelo,String color) {
-        conexion = db.getConexion();
-        
-        String update = "update inventario set nombre_prod = ?,almacen = ?,marca = ?,no_serie = ?,descripcion = ?,observaciones = ?,tipo_uso = ?,modelo = ?,color = ? where id_producto = '"+clave+"'";
-        PreparedStatement ps = null;
-
-        try {
-           
-            ps = conexion.prepareStatement(update);
-
-            ps.setString(1, producto);
-            ps.setString(2, almacen);
-            ps.setString(3, marca);
-            ps.setString(4, noserie);
-            ps.setString(5, descripcion);
-            ps.setString(6, observaciones);
-            ps.setString(7, tipo);
-            ps.setString(8, modelo);
-            ps.setString(9, color);
-
-            ps.executeUpdate();
-
-            return true;
-
-        } catch (Exception ex) {
-            System.out.println("Error al actualizar imagen " + ex.getMessage());
-            return false;
-
-        }
-
-    }//actualizarProductoSinFoto
     
     public boolean agregarObservaciones(String clave, String observaciones) {
         conexion = db.getConexion();
         boolean estado = false;
         try {
             
-            String sql = "update inventario set observaciones = '"+observaciones+"' where concat(Folio,'-',Numero,Extension) = '"+clave+"'";
+            String sql = "update inventario set observaciones = '"+observaciones+"' where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(clave)+"'";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             st.executeUpdate(sql);
@@ -716,7 +664,7 @@ public class ManagerInventario {
         String observaciones = "";
         try {
             
-            String sql = "select observaciones from inventario where concat(Folio,'-',Numero,Extension) = '"+clave+"'";
+            String sql = "select observaciones from inventario where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(clave)+"'";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);

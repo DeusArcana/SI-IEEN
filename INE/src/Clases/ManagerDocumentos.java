@@ -24,9 +24,10 @@ public class ManagerDocumentos {
     
     private Connection conexion;
     private Conexion db;
-
+	Validaciones validaciones;
     public ManagerDocumentos(){
         db = new Conexion();
+		this.validaciones = new Validaciones();
     }
     
     public DefaultTableModel productosParaAsignar(String status){
@@ -102,7 +103,8 @@ public class ManagerDocumentos {
             //Llenar tabla
             while (rs.next()) {
                 datos[0] = false;
-                for(int i = 1;i<7;i++){
+				datos[1] = validaciones.constructFormatID(rs.getObject(1).toString());
+                for(int i = 2;i<7;i++){
                     datos[i] = rs.getObject(i);
                 }//Llenamos las columnas por registro
                 table.addRow(datos);//Añadimos la fila
@@ -187,7 +189,8 @@ public class ManagerDocumentos {
             //Llenar tabla
             while (rs.next()) {
                 datos[0] = false;
-                for(int i = 1;i<5;i++){
+				datos[1] = validaciones.constructFormatID(rs.getObject(1).toString());
+                for(int i = 2;i<5;i++){
                     datos[i] = rs.getObject(i);
                 }//Llenamos las columnas por registro
                 table.addRow(datos);//Añadimos la fila
@@ -233,10 +236,10 @@ public class ManagerDocumentos {
                 //Si fue marcado cambiamos el status de salida a 1 y la relación documento-producto
                 if(cambio[i]){
                     //Marcamos que ya fue seleccionado para un documento
-                    sql = "update productos_asignados set Salida = 1 where ID_Producto = '"+IDs[i]+"';";
+                    sql = "update productos_asignados set Salida = 1 where ID_Producto = '"+Validaciones.deconstructFormatID(IDs[i])+"';";
                     st.executeUpdate(sql);
                     //Hacemos la relación documento-producto
-                    sql = "insert into inv_docs (ID_Producto,ID_Documento)values('"+IDs[i]+"',"+id+");";
+                    sql = "insert into inv_docs (ID_Producto,ID_Documento)values('"+Validaciones.deconstructFormatID(IDs[i])+"',"+id+");";
                     st.executeUpdate(sql);
                 }
             }//for
@@ -264,10 +267,10 @@ public class ManagerDocumentos {
                 //Si fue marcado cambiamos el status de salida a 1 y la relación documento-producto
                 if(cambio[i]){
                     //Marcamos que ya fue seleccionado para un documento
-                    sql = "update productos_asignados set Salida = 1 where ID_Producto = '"+IDs[i]+"';";
+                    sql = "update productos_asignados set Salida = 1 where ID_Producto = '"+Validaciones.deconstructFormatID(IDs[i])+"';";
                     st.executeUpdate(sql);
                     //Hacemos la relación documento-producto
-                    sql = "insert into inv_docs (ID_Producto,ID_Documento)values('"+IDs[i]+"',"+id_documento+");";
+                    sql = "insert into inv_docs (ID_Producto,ID_Documento)values('"+Validaciones.deconstructFormatID(IDs[i])+"',"+id_documento+");";
                     st.executeUpdate(sql);
                 }
             }//for
@@ -320,7 +323,7 @@ public class ManagerDocumentos {
             Statement st = conexion.createStatement();
             //Cambiamos el estatus del equipo seleccionado
             String sql = "update Inventario set estatus = 'Asignado' " +
-                         "where concat(Folio,'-',Numero,Extension) = '"+clave+"';";
+                         "where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(clave)+"';";
             st.executeUpdate(sql);
             //Cerramos la conexión
             conexion.close();
@@ -501,7 +504,8 @@ public class ManagerDocumentos {
             ResultSet rs = st.executeQuery(sql);          
             //Llenar tabla
             while (rs.next()) {
-                for(int i = 0;i<10;i++){
+				datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());
+                for(int i = 1;i<10;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
                 table.addRow(datos);//Añadimos la fila

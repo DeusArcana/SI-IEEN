@@ -17,9 +17,10 @@ public class ManagerInventarioGranel {
 	
 	private Connection conexion;
         private final Conexion db;
-
+		Validaciones validaciones;
 	public ManagerInventarioGranel() {
 		this.db = new Conexion();
+		validaciones = new Validaciones();
 	}
 	
         //Este método es para llenar el combo solamente con los nombres de la categoria
@@ -118,8 +119,8 @@ public class ManagerInventarioGranel {
 
             //Proseguimos con los registros en caso de exisitir mas
             while (rs.next()) {
-
-                for(int i = 0;i<8;i++){
+				datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());
+                for(int i = 1;i<8;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -235,8 +236,8 @@ public class ManagerInventarioGranel {
 
             //Proseguimos con los registros en caso de exisitir mas
             while (rs.next()) {
-
-                for(int i = 0;i<5;i++){
+				datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());
+                for(int i = 1;i<5;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -288,8 +289,8 @@ public class ManagerInventarioGranel {
 
             //Proseguimos con los registros en caso de exisitir mas
             while (rs.next()) {
-
-                for(int i = 0;i<5;i++){
+				datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());
+                for(int i = 1;i<5;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -340,8 +341,8 @@ public class ManagerInventarioGranel {
 
             //Proseguimos con los registros en caso de exisitir mas
             while (rs.next()) {
-
-                for(int i = 0;i<5;i++){
+				datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());
+                for(int i = 1;i<5;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -395,7 +396,7 @@ public class ManagerInventarioGranel {
             //Actualizamos la información del consumible
             String sql = "update inventario_granel set nombre_prod = '"+producto+"',descripcion = '"+descripcion+"'"
                        + ",almacen='"+almacen+"',marca='"+marca+"',stock_min="+stockmin+",categoria='"+categoria+"' "
-                       + "where concat(Folio,'-',Numero,Extension) = '"+clave+"';";
+                       + "where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(clave)+"';";
             st.executeUpdate(sql);
             
             //Cerramos la conexión
@@ -416,7 +417,7 @@ public class ManagerInventarioGranel {
         
         try {
             //Consulta para saber si existe o no dicho producto
-            String sql = "select Folio from inventario_Granel where concat(Folio,'-',Numero,Extension) = '"+id_producto+"';";
+            String sql = "select Folio from inventario_Granel where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(id_producto)+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -463,7 +464,7 @@ public class ManagerInventarioGranel {
         try {
             //Obtenemos los datos del empleado
             String sql = "select Numero, Extension, nombre_prod,descripcion,almacen,marca,stock_min,stock,categoria "
-                       + "from inventario_granel where concat(Folio,'-',Numero,Extension) = '"+clave+"';";
+                       + "from inventario_granel where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(clave)+"';";
             
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
@@ -494,7 +495,7 @@ public class ManagerInventarioGranel {
             //   No inventario, no serie, descripcion, marca, modelo, color
             //Obtenemos los datos del empleado
             String sql = "select concat(Folio,'-',Numero,Extension),no_serie,descripcion,marca,modelo,color "
-                       + "from inventario where concat(Folio,'-',Numero,Extension) = '"+clave+"';";
+                       + "from inventario where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(clave)+"';";
             
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
@@ -651,8 +652,8 @@ public class ManagerInventarioGranel {
 
             //Llenamos la tabla
             while (rs.next()) {
-
-                for(int i = 0;i<3;i++){
+				datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());
+                for(int i = 1;i<3;i++){
                         datos[i] = rs.getString(i+1);
                 }//Llenamos la fila
 

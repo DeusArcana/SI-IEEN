@@ -27,10 +27,11 @@ public class ManejadorInventario {
     private Connection conexion;
     private Conexion db;
     ManagerInventario manager_inventario;
-    
+    Validaciones validaciones;
     public ManejadorInventario(){
         db = new Conexion();
         manager_inventario = new ManagerInventario();
+		validaciones = new Validaciones();
     }//constructor
     
     public DefaultTableModel getInventarioG() {
@@ -56,8 +57,8 @@ public class ManejadorInventario {
 
             //Llenar tabla
             while (rs.next()) {
-
-                for(int i = 0;i<7;i++){
+				datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());
+                for(int i = 1;i<7;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -107,8 +108,8 @@ public class ManejadorInventario {
 
             //Llenar tabla
             while (rs.next()) {
-
-                for(int i = 0;i<7;i++){
+				datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());
+                for(int i = 1;i<7;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -132,7 +133,7 @@ public class ManejadorInventario {
         
         try {
             //Consulta para saber si existe o no dicho producto
-            String sql = "select stock from inventario_Granel where concat(Folio,'-',Numero,Extension) = '"+id_producto+"';";
+            String sql = "select stock from inventario_Granel where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(id_producto)+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -152,12 +153,12 @@ public class ManejadorInventario {
         int stock = 0;
         try {
             //Hacemos el update de la resta del inventario
-            String sql = "update inventario_Granel set stock = stock - "+cantidad+" where concat(Folio,'-',Numero,Extension) = '"+id_producto+"' and stock > "+cantidad+";";
+            String sql = "update inventario_Granel set stock = stock - "+cantidad+" where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(id_producto)+"' and stock > "+cantidad+";";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             st.executeUpdate(sql);
             //Obtenemos el stock del producto para saber si se realizo o no el update
-            sql = "select stock from inventario_Granel where concat(Folio,'-',Numero,Extension) = '"+id_producto+"';";
+            sql = "select stock from inventario_Granel where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(id_producto)+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             stock = rs.getInt(1);
@@ -174,12 +175,12 @@ public class ManejadorInventario {
         int stock = 0;
         try {
             //Hacemos el update de la resta del inventario
-            String sql = "update inventario_Granel set stock = 0,estatus = 'Agotado' where concat(Folio,'-',Numero,Extension) = '"+id_producto+"' and stock = "+cantidad+";";
+            String sql = "update inventario_Granel set stock = 0,estatus = 'Agotado' where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(id_producto)+"' and stock = "+cantidad+";";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             st.executeUpdate(sql);
             //Obtenemos el stock del producto para saber si se realizo o no el update
-            sql = "select stock from inventario_Granel where concat(Folio,'-',Numero,Extension) = '"+id_producto+"';";
+            sql = "select stock from inventario_Granel where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(id_producto)+"';";
             ResultSet rs = st.executeQuery(sql);
             rs.next();
             stock = rs.getInt(1);
@@ -203,22 +204,22 @@ public class ManejadorInventario {
                 ResultSet rs;
                 for(int i = 0; i < Claves.length; i++){
                     //Buscamos si es de inventario o de granel
-                    sql = "select * from inventario where concat(Folio,'-',Numero,Extension) = '"+Claves[i]+"';";
+                    sql = "select * from inventario where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(Claves[i])+"';";
                     rs = st.executeQuery(sql);
                     System.out.println("Hicimos la consulta para ver si es inventario o granel");
                     //Si entra es a inventario
                     if(rs.next()){
-                        sql = "update inventario set estatus = 'Disponible' where concat(Folio,'-',Numero,Extension) = '"+Claves[i]+"';";
+                        sql = "update inventario set estatus = 'Disponible' where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(Claves[i])+"';";
                         st.executeUpdate(sql);
                         System.out.println("Es inventario normal y cambio el estatus a disponible");
                     }
                     //Si no entra es a granel
                     else{
-                        sql = "update inventario_granel set stock = stock + "+Cantidad[i]+" where concat(Folio,'-',Numero,Extension) = '"+Claves[i]+"' and stock > 0;";
+                        sql = "update inventario_granel set stock = stock + "+Cantidad[i]+" where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(Claves[i])+"' and stock > 0;";
                         st.executeUpdate(sql);
                         System.out.println("Llego a querer hacer el update para sumarle la cantidad que se le quito");
                         
-                        sql = "update inventario_granel set estatus = 'Disponible', stock = "+Cantidad[i]+" where concat(Folio,'-',Numero,Extension) = '"+Claves[i]+"' and stock = 0;";
+                        sql = "update inventario_granel set estatus = 'Disponible', stock = "+Cantidad[i]+" where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(Claves[i])+"' and stock = 0;";
                         st.executeUpdate(sql);
                         System.out.println("Llego a querer hacer el update para ponerlo disponible si el stock es 0");
                     }
@@ -258,7 +259,7 @@ public class ManejadorInventario {
                     //Ahora actualizamos los registros de detalle_Salida para agregar las cantidades que fueron autorizadas para cada productos
                     for(int i = 0; i < Claves.length; i++){
                         //Actualizamos la ubicación del producto
-                        sql = "update detalle_solicitudsalida set cantidad_autorizada = '"+Cantidad[i]+"' where id_solicitud = '"+id+"' and id_producto = '"+Claves[i]+"';";
+                        sql = "update detalle_solicitudsalida set cantidad_autorizada = '"+Cantidad[i]+"' where id_solicitud = '"+id+"' and id_producto = '"+Validaciones.deconstructFormatID(Claves[i])+"';";
                         st.executeUpdate(sql);
                     }//for
                 }
@@ -361,16 +362,16 @@ public class ManejadorInventario {
             if(reasignacion){
                 for(int i = 0; i < Claves.length; i++){
                     //Insertamos los datos en la tabla "detalle_vale"
-                    sql = "update detalle_vale set estado = 'Reasignado' where id_producto = '"+Claves[i]+"';";
+                    sql = "update detalle_vale set estado = 'Reasignado' where id_producto = '"+Validaciones.deconstructFormatID(Claves[i])+"';";
                     st.executeUpdate(sql);
                 }//for   
             }//reasignacion
             for(int i = 0; i < Claves.length; i++){
                 //Insertamos los datos en la tabla "detalle_vale"
-                sql = "insert into detalle_vale (id_vale,id_producto,cantidad,estado)values('"+vale+"','"+Claves[i]+"',1,'Asignado');";
+                sql = "insert into detalle_vale (id_vale,id_producto,cantidad,estado)values('"+vale+"','"+Validaciones.deconstructFormatID(Claves[i])+"',1,'Asignado');";
                 st.executeUpdate(sql);
                 //Actualizamos la ubicación del producto
-                sql = "update inventario set ubicacion = '"+ubicacion+"' where concat(Folio,'-',Numero,Extension) = '"+Claves[i]+"';";
+                sql = "update inventario set ubicacion = '"+ubicacion+"' where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(Claves[i])+"';";
                 st.executeUpdate(sql);
             }//for
             conexion.close();
@@ -499,9 +500,9 @@ public class ManejadorInventario {
 
             //Llenar tabla
             while (rs.next()) {
-
                 datos[0] = Boolean.FALSE;
-                for(int i = 1;i<11;i++){
+				datos[1] = validaciones.constructFormatID(rs.getObject(1).toString());
+                for(int i = 2;i<11;i++){
                     datos[i] = rs.getObject(i);
                 }//Llenamos las columnas por registro
                 datos[11] = "Selecciona la nueva ubicación...";
@@ -537,13 +538,13 @@ public class ManejadorInventario {
                 
                 //Actualizamos el detalle del vale, para marcar los productos que fueron entregados
                 for(int i = 0; i< idVales.length;i++){
-                    sql = "update detalle_vale set estado = 'Entregado', fecha_entrega = '"+fecha+"' where id_producto = '"+Claves[i]+"' and id_vale = '"+idVales[i]+"';";
+                    sql = "update detalle_vale set estado = 'Entregado', fecha_entrega = '"+fecha+"' where id_producto = '"+Validaciones.deconstructFormatID(Claves[i])+"' and id_vale = '"+idVales[i]+"';";
                     st.executeUpdate(sql);
                 }//for
                 
                 //Actualizamos la información del producto, en donde se vuelve disponible, se agregan observaciones(si las tuvo) y su ubicación
                 for(int i = 0; i< idVales.length;i++){
-                    sql = "update inventario set estatus = 'Disponible', ubicacion = '"+Ubicaciones[i]+"', observaciones = '"+Observaciones[i]+"' where concat(Folio,'-',Numero,Extension) = '"+Claves[i]+"';";
+                    sql = "update inventario set estatus = 'Disponible', ubicacion = '"+Ubicaciones[i]+"', observaciones = '"+Observaciones[i]+"' where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(Claves[i])+"';";
                     st.executeUpdate(sql);
                 }//for                
                 
@@ -585,8 +586,8 @@ public class ManejadorInventario {
 
             //Llenar tabla
             while (rs.next()) {
-
-                for(int i = 0;i<7;i++){
+				datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());
+                for(int i = 1;i<7;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -628,8 +629,9 @@ public class ManejadorInventario {
 
             //Llenar tabla
             while (rs.next()) {
-
+				datos[1] = validaciones.constructFormatID(rs.getObject(2).toString());
                 for(int i = 0;i<6;i++){
+					if (i == 1) continue;
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -669,7 +671,7 @@ public class ManejadorInventario {
             st.executeUpdate(sql);
             
             //Cambiamos el estatus del equipo seleccionado
-            sql = "update detalle_vale set estado = 'SOLICITUD' where id_producto = '"+idProd+"' and id_vale = "+idVale+";";
+            sql = "update detalle_vale set estado = 'SOLICITUD' where id_producto = '"+Validaciones.deconstructFormatID(idProd)+"' and id_vale = "+idVale+";";
             st.executeUpdate(sql);
             
             //Buscamos el id de la solicitud
@@ -679,7 +681,7 @@ public class ManejadorInventario {
             String idSol = rs.getString(1); 
             
             //Realizamos el registro de los detalles de la solicitud
-            sql = "insert into Detalle_solicitud values("+idSol+",'"+idProd+"');";
+            sql = "insert into Detalle_solicitud values("+idSol+",'"+Validaciones.deconstructFormatID(idProd)+"');";
             st.executeUpdate(sql);
             
             //Cerramos la conexión
@@ -761,8 +763,8 @@ public class ManejadorInventario {
 
             //Llenar tabla
             while (rs.next()) {
-
-                for(int i = 0;i<6;i++){
+				datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());
+                for(int i = 1;i<6;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -790,11 +792,11 @@ public class ManejadorInventario {
             Statement st = conexion.createStatement();
             
             //Actualizamos el stock y el estado si el stock es igual a 0
-            String sql = "update inventario_granel set stock = stock + "+cantidad+" where concat(Folio,'-',Numero,Extension) = '"+codigo+"' and stock > 0;";
+            String sql = "update inventario_granel set stock = stock + "+cantidad+" where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(codigo)+"' and stock > 0;";
             st.executeUpdate(sql);
             
             //Actualizamos el stock y el estado si el stock es igual a 0
-            sql = "update inventario_granel set stock = "+cantidad+", estatus = 'Disponible' where concat(Folio,'-',Numero,Extension) = '"+codigo+"' and stock = 0;";
+            sql = "update inventario_granel set stock = "+cantidad+", estatus = 'Disponible' where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(codigo)+"' and stock = 0;";
             st.executeUpdate(sql);
             
             conexion.close();

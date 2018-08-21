@@ -42,6 +42,7 @@ import Clases.ManejadorInventario;
 import Clases.ManagerDocumentos;
 import Clases.Excel;
 import Clases.ManagerInventarioGranel;
+import Clases.Validaciones;
 
 //Importamos los formularios
 import Formularios.addEmpleados;
@@ -4583,7 +4584,7 @@ public void metodoValeRecoleccion(){
             int fila = tablaInventario.getSelectedRow();
             String clave = tablaInventario.getValueAt(fila, 0).toString();
 
-            updateInventario ob = new updateInventario(this, true,clave);
+            updateInventario ob = new updateInventario(this, true, Validaciones.deconstructFormatID(clave));
             ob.setVisible(true);
         }else{
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario.");

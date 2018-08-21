@@ -114,7 +114,7 @@ public final class updateInventario extends javax.swing.JDialog {
         }//for
         
         //Acomodamos el combo de folios
-        comboFolio.setSelectedIndex(indiceFolio);
+        comboFolio.setSelectedIndex(indiceFolio + 1);
         comboFolio.setEnabled(false);
         //Separamos la información para asignarla a cada textfield
         txtFolio.setText(datos[0]);
