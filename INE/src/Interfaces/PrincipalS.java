@@ -1818,6 +1818,20 @@ public class PrincipalS extends javax.swing.JFrame {
                     txtobvia.enable(false);
                     txtobveh.enable(false);
                 }
+                int imprimir=JOptionPane.showConfirmDialog(null, "Desea imprimir el reporte", "Alerta!", JOptionPane.YES_NO_OPTION);
+                if(imprimir==JOptionPane.YES_OPTION){
+                        try {
+                            pdf=new CrearPDF();
+                            rs=cbd.getTabla("select MAX(id_Informe) as id from informe;", cn);
+                            if(rs.next()){
+                                pdf.reporte(rs.getString("id"));
+                            }
+                        } catch (DocumentException ex) {
+                            Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                }
             }
         } catch (SQLException ex) {
             javax.swing.JOptionPane.showMessageDialog(null, "Error al generar reporte");
@@ -3202,8 +3216,8 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JTable tablaact;
     private javax.swing.JTable tablainfo;
     private javax.swing.JTable tablainfo1;
-    private javax.swing.JTable tablasolic;
-    private javax.swing.JTable tablasolicvehiculo;
+    public static javax.swing.JTable tablasolic;
+    public static javax.swing.JTable tablasolicvehiculo;
     public static javax.swing.JTable tablonaceptadas;
     private javax.swing.JTable tablonarchivadas;
     public static javax.swing.JTable tabloncanceladas;
