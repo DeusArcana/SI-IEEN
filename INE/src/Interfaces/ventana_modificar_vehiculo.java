@@ -10,6 +10,7 @@ import Clases.ManagerPermisos;
 import Clases.ManagerComplemento;
 import Clases.ManagerVehiculos;
 import Clases.enviarFotoPOST;
+import Formularios.modificarFotos;
 import static Interfaces.Principal.Username;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -20,6 +21,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -127,6 +131,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
         imagenVehiculo = new javax.swing.JPanel();
         btnImagen = new javax.swing.JButton();
+        btnImagen1 = new javax.swing.JButton();
         contenedor = new javax.swing.JLabel();
         contadorImg = new javax.swing.JLabel();
         nuevasFotos = new javax.swing.JLabel();
@@ -322,6 +327,18 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         });
         imagenVehiculo.add(btnImagen);
         btnImagen.setBounds(160, 170, 40, 20);
+
+        btnImagen1.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+        btnImagen1.setText("...");
+        btnImagen1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnImagen1.setEnabled(false);
+        btnImagen1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImagen1ActionPerformed(evt);
+            }
+        });
+        imagenVehiculo.add(btnImagen1);
+        btnImagen1.setBounds(0, 170, 40, 20);
         imagenVehiculo.add(contenedor);
         contenedor.setBounds(0, 0, 200, 190);
 
@@ -359,7 +376,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     ///NOTA-------- FALTA HACER COINCIDIR EL COMBO DEL TIPO DE AUTO
-    public void cargarDatos() throws IOException, SQLException{
+    public void cargarDatos() throws IOException, SQLException, ParseException{
         //marca,linea,clase,kilometraje,modelo,color,motor,matricula,observaciones,estado
         Vector vVehiculos = vehiculos.infoVehiculos(campo.getText());
         String temporal[] = vVehiculos.get(0).toString().split(",");
@@ -384,8 +401,16 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         
         campoMotor.setValue(Integer.parseInt(temporal[6]));
         campoMatricula.setText(temporal[7]);
-        campo_descripcion.setText(temporal[8]);
+        campoObservaciones1.setText(temporal[8]);
         contadorImg.setText(temporal[9]);
+        campo_no_motor.setText(temporal[11]);
+        campo_no_factura.setText(temporal[13]);
+        campo_importe.setText(temporal[14]);
+        campo_descripcion.setText(temporal[15]);
+
+        String sDate1 = temporal[12];
+        Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(sDate1);
+        campo_fecha_compra.setDate(date1);
     }
     
     
@@ -416,6 +441,8 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         } catch (IOException ex) {
             Logger.getLogger(ventana_modificar_vehiculo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
+            Logger.getLogger(ventana_modificar_vehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
             Logger.getLogger(ventana_modificar_vehiculo.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -551,6 +578,13 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
 
         }
     }//GEN-LAST:event_campoKilometrajeKeyTyped
+
+    private void btnImagen1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImagen1ActionPerformed
+         // TODO add your handling code here:
+        modificarFotos ob = new modificarFotos(this, true);
+        ob.recuperarCantidad(Integer.parseInt(contadorImg.getText()));
+        ob.setVisible(true);
+    }//GEN-LAST:event_btnImagen1ActionPerformed
     
     
     
@@ -621,6 +655,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnImagen;
+    private javax.swing.JButton btnImagen1;
     public static javax.swing.JTextField campo;
     private javax.swing.JComboBox<String> campoClase;
     private javax.swing.JTextField campoColor;

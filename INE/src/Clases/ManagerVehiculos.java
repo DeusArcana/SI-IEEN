@@ -164,14 +164,16 @@ public class ManagerVehiculos {
         try {
 
             Statement st = con.createStatement();
-            String sql = "select marca,linea,clase,kilometraje,modelo,color,motor,matricula,observaciones,cantidad_fotos,estado from vehiculos where matricula = '"+matricula+"';";
+            String sql = "select marca,linea,clase,kilometraje,modelo,color,motor,matricula,observaciones,cantidad_fotos,estado,No_motor,Fecha_compra,No_factura,importe,descripcion from vehiculos where matricula = '"+matricula+"';";
             ResultSet resultados = st.executeQuery(sql);
             while (resultados.next()) {
                 String temp = "";
                 temp += "" + resultados.getString("marca") + "," + resultados.getString("linea") + "," + resultados.getString("clase")
                          + "," + resultados.getString("kilometraje")+ "," + resultados.getString("modelo")+ "," + resultados.getString("color")
                         + "," + resultados.getString("motor") + "," + resultados.getString("matricula")+ "," + resultados.getString("observaciones")
-                        + "," + resultados.getString("cantidad_fotos") + "," + resultados.getString("estado");
+                        + "," + resultados.getString("cantidad_fotos") + "," + resultados.getString("estado")+ "," + resultados.getString("No_motor")
+                        + "," + resultados.getString("Fecha_compra")+ "," + resultados.getString("No_factura")+ "," + resultados.getString("importe")
+                        + "," + resultados.getString("descripcion");
                 v.add(temp);
             }
 
