@@ -1035,9 +1035,9 @@ public class Principal extends javax.swing.JFrame {
         txtBusqueda.setBounds(380, 90, 270, 30);
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel12.setText("Busqueda por ");
+        jLabel12.setText("Búsqueda por:");
         jPanel3.add(jLabel12);
-        jLabel12.setBounds(30, 90, 130, 22);
+        jLabel12.setBounds(20, 90, 130, 22);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         jPanel3.add(jLabel1);

@@ -261,7 +261,7 @@ public class ManagerInventario {
 			//Llenar tabla
 			Object datos[] = new Object[12];
 
-            do {
+            while (rs.next()) {
 				//Llenamos las columnas por registro
 				datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());				
 				
@@ -270,7 +270,7 @@ public class ManagerInventario {
                 }
 				//Añadimos la fila
                 table.addRow(datos);
-           } while (rs.next());
+           };
 
         } catch (SQLException ex) {
             System.out.printf("Error getTabla Inventario SQL");

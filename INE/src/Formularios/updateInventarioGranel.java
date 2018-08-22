@@ -98,9 +98,9 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         pn_addInventario.setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Clave:");
+        jLabel1.setText("Clave: *");
         pn_addInventario.add(jLabel1);
-        jLabel1.setBounds(50, 16, 38, 17);
+        jLabel1.setBounds(38, 16, 50, 17);
 
         txtFolio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtFolio.setText("EY-99");
@@ -154,14 +154,14 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         comboCategoria.setBounds(110, 170, 210, 30);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel11.setText("Categoría:");
+        jLabel11.setText("Categoría: *");
         pn_addInventario.add(jLabel11);
-        jLabel11.setBounds(30, 180, 70, 17);
+        jLabel11.setBounds(20, 180, 80, 17);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Producto:");
+        jLabel2.setText("Producto: *");
         pn_addInventario.add(jLabel2);
-        jLabel2.setBounds(30, 60, 62, 17);
+        jLabel2.setBounds(16, 60, 74, 17);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Descripción:");
@@ -169,9 +169,9 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         jLabel3.setBounds(392, 16, 75, 17);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("Ubicación:");
+        jLabel4.setText("Ubicación: *");
         pn_addInventario.add(jLabel4);
-        jLabel4.setBounds(26, 100, 70, 17);
+        jLabel4.setBounds(16, 100, 80, 17);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Marca:");
@@ -200,9 +200,9 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         jScrollPane1.setBounds(471, 13, 358, 110);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel8.setText("Stock min:");
+        jLabel8.setText("Stock min: *");
         pn_addInventario.add(jLabel8);
-        jLabel8.setBounds(30, 220, 66, 17);
+        jLabel8.setBounds(18, 220, 78, 17);
 
         txtStockMin.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtStockMin.setText("1");
