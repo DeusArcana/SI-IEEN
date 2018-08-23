@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 import Clases.ManagerSoViaticos;
 import Clases.CrearPDF;
+import Clases.Excel;
 import Clases.ManagerComplemento;
 import Clases.ManagerPermisos;
 import Formularios.addSolicitudVehiculo;
@@ -33,6 +34,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -61,10 +63,11 @@ public class PrincipalS extends javax.swing.JFrame {
      * Creates new form PrincipalS
      */
     public PrincipalS() {
-        this.setTitle("Movimientos de viáticos");
+        //this.setTitle("Movimientos de viáticos");
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+        setIconImage(new ImageIcon(getClass().getResource("/Iconos/IEE.png")).getImage());
         //tablasolic.setModel(manager_soviaticos.getTasol()); 
         tablasolic.getTableHeader().setReorderingAllowed(false);
         tablonpendientes.getTableHeader().setReorderingAllowed(false);
@@ -82,6 +85,7 @@ public class PrincipalS extends javax.swing.JFrame {
         for(int i = 1; i <= recoger.length;i = i+2){
             cmbArea.addItem(recoger[i]);
         }
+        
     }
 
     int folio, c;
@@ -104,27 +108,33 @@ public class PrincipalS extends javax.swing.JFrame {
         SolicitarVehiculo = new javax.swing.JMenuItem();
         AgregarEmpleados = new javax.swing.JMenuItem();
         CambiarConsejero = new javax.swing.JMenuItem();
+        ExportarExcel = new javax.swing.JMenuItem();
         MenuTablonP = new javax.swing.JPopupMenu();
         ConsultarP = new javax.swing.JMenuItem();
         AceptarP = new javax.swing.JMenuItem();
         CancelarP = new javax.swing.JMenuItem();
+        ExportarExcelP = new javax.swing.JMenuItem();
         MenuTablonA = new javax.swing.JPopupMenu();
         ConsultarA = new javax.swing.JMenuItem();
         OficioComision = new javax.swing.JMenuItem();
         AsignarMonto = new javax.swing.JMenuItem();
         CancelarA = new javax.swing.JMenuItem();
         Archivar = new javax.swing.JMenuItem();
+        ExportarExcelA = new javax.swing.JMenuItem();
         MenuTablonC = new javax.swing.JPopupMenu();
         ConsultarC = new javax.swing.JMenuItem();
         AceptarC = new javax.swing.JMenuItem();
+        ExportarExcelC = new javax.swing.JMenuItem();
         MenuPanelSolicitudViatico = new javax.swing.JPopupMenu();
         Add1 = new javax.swing.JMenuItem();
         SolicitarVehiculo1 = new javax.swing.JMenuItem();
         CambiarConsejero1 = new javax.swing.JMenuItem();
         MenuInfSA = new javax.swing.JPopupMenu();
         GenerarInf = new javax.swing.JMenuItem();
+        ExportarExcelInA = new javax.swing.JMenuItem();
         MenuInfSF = new javax.swing.JPopupMenu();
         ConsultarInf = new javax.swing.JMenuItem();
+        ExportarExcelInFi = new javax.swing.JMenuItem();
         MenuGI = new javax.swing.JPopupMenu();
         AñadirA = new javax.swing.JMenuItem();
         EliminarA = new javax.swing.JMenuItem();
@@ -132,12 +142,14 @@ public class PrincipalS extends javax.swing.JFrame {
         ConsultarAr = new javax.swing.JMenuItem();
         OficioComisionAr = new javax.swing.JMenuItem();
         OficioViaticoAr = new javax.swing.JMenuItem();
+        ExportarExcelAr = new javax.swing.JMenuItem();
         MenuSolicitudViaticos1 = new javax.swing.JPopupMenu();
         Impri_Sol1 = new javax.swing.JMenuItem();
         AsignarVehiculo = new javax.swing.JMenuItem();
         Add2 = new javax.swing.JMenuItem();
         SolicitarVehiculo2 = new javax.swing.JMenuItem();
         CambiarConsejero2 = new javax.swing.JMenuItem();
+        ExportarExcel1 = new javax.swing.JMenuItem();
         solicviaticos = new javax.swing.JTabbedPane();
         solicitudviaticos1 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
@@ -148,8 +160,7 @@ public class PrincipalS extends javax.swing.JFrame {
         tablasolicvehiculo = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel17 = new javax.swing.JLabel();
         txtbusquedasoli = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         tablonsolicitud1 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
@@ -173,6 +184,7 @@ public class PrincipalS extends javax.swing.JFrame {
         jPanel26 = new javax.swing.JPanel();
         jScrollPane16 = new javax.swing.JScrollPane();
         tabloncanceladas = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        jLabel6 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         informe = new javax.swing.JPanel();
         jlb = new javax.swing.JLabel();
@@ -199,18 +211,17 @@ public class PrincipalS extends javax.swing.JFrame {
         btnregresar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         cmbArea = new javax.swing.JComboBox();
+        jLabel7 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mi_inventario = new javax.swing.JMenuItem();
         mi_pases = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem2 = new javax.swing.JMenuItem();
         itemSalir = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
         menuOpciones = new javax.swing.JMenu();
         menuPermisos = new javax.swing.JMenuItem();
-        menuPuestoArea = new javax.swing.JMenuItem();
-        MenuSolicitud = new javax.swing.JMenuItem();
 
         jPanel17.setBackground(new java.awt.Color(255, 255, 255));
         jPanel17.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Opciones :", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Yu Gothic UI", 0, 12))); // NOI18N
@@ -290,6 +301,14 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuSolicitudViaticos.add(CambiarConsejero);
 
+        ExportarExcel.setText("ExportarExcel");
+        ExportarExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExportarExcelActionPerformed(evt);
+            }
+        });
+        MenuSolicitudViaticos.add(ExportarExcel);
+
         ConsultarP.setText("Consultar");
         ConsultarP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -313,6 +332,14 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         MenuTablonP.add(CancelarP);
+
+        ExportarExcelP.setText("ExportarExcel");
+        ExportarExcelP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExportarExcelPActionPerformed(evt);
+            }
+        });
+        MenuTablonP.add(ExportarExcelP);
 
         ConsultarA.setText("Consultar");
         ConsultarA.addActionListener(new java.awt.event.ActionListener() {
@@ -354,6 +381,14 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuTablonA.add(Archivar);
 
+        ExportarExcelA.setText("ExportarExcel");
+        ExportarExcelA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExportarExcelAActionPerformed(evt);
+            }
+        });
+        MenuTablonA.add(ExportarExcelA);
+
         ConsultarC.setText("Consultar");
         ConsultarC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -369,6 +404,14 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         MenuTablonC.add(AceptarC);
+
+        ExportarExcelC.setText("ExportarExcel");
+        ExportarExcelC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExportarExcelCActionPerformed(evt);
+            }
+        });
+        MenuTablonC.add(ExportarExcelC);
 
         Add1.setText("Nueva solicitud de viáticos");
         Add1.addActionListener(new java.awt.event.ActionListener() {
@@ -402,6 +445,14 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuInfSA.add(GenerarInf);
 
+        ExportarExcelInA.setText("ExportarExcel");
+        ExportarExcelInA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExportarExcelInAActionPerformed(evt);
+            }
+        });
+        MenuInfSA.add(ExportarExcelInA);
+
         ConsultarInf.setText("Consultar");
         ConsultarInf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -410,6 +461,14 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuInfSF.add(ConsultarInf);
         ConsultarInf.getAccessibleContext().setAccessibleName("Consultar informe");
+
+        ExportarExcelInFi.setText("ExportarExcel");
+        ExportarExcelInFi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExportarExcelInFiActionPerformed(evt);
+            }
+        });
+        MenuInfSF.add(ExportarExcelInFi);
 
         AñadirA.setText("Añadir actividad");
         AñadirA.addActionListener(new java.awt.event.ActionListener() {
@@ -450,6 +509,14 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         MenuTablonAr.add(OficioViaticoAr);
+
+        ExportarExcelAr.setText("ExportarExcel");
+        ExportarExcelAr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExportarExcelArActionPerformed(evt);
+            }
+        });
+        MenuTablonAr.add(ExportarExcelAr);
 
         Impri_Sol1.setText("Imprimir solicitud");
         Impri_Sol1.addActionListener(new java.awt.event.ActionListener() {
@@ -492,8 +559,19 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuSolicitudViaticos1.add(CambiarConsejero2);
 
+        ExportarExcel1.setText("ExportarExcel");
+        ExportarExcel1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExportarExcel1ActionPerformed(evt);
+            }
+        });
+        MenuSolicitudViaticos1.add(ExportarExcel1);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Sistema Integral - Instituto Estatal Electoral de Nayarit");
         setIconImage(getIconImage());
+        setPreferredSize(new java.awt.Dimension(1366, 793));
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
@@ -533,16 +611,16 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         ));
         tablasolic.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablasolicMouseClicked(evt);
-            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tablasolicMouseReleased(evt);
+            }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablasolicMouseClicked(evt);
             }
         });
         jScrollPane11.setViewportView(tablasolic);
 
-        jTabbedPane1.addTab("Solicitud de viáticos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), jScrollPane11); // NOI18N
+        jTabbedPane1.addTab("Solicitud de viáticos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), jScrollPane11); // NOI18N
 
         jScrollPane12.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -568,7 +646,7 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         jScrollPane12.setViewportView(tablasolicvehiculo);
 
-        jTabbedPane1.addTab("Solicitud de vehículos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), jScrollPane12); // NOI18N
+        jTabbedPane1.addTab("Solicitud de vehículos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), jScrollPane12); // NOI18N
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
@@ -601,17 +679,15 @@ public class PrincipalS extends javax.swing.JFrame {
         solicitudviaticos1.add(txtbusquedasoli);
         txtbusquedasoli.setBounds(130, 120, 290, 30);
 
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IEE.png"))); // NOI18N
-        solicitudviaticos1.add(jLabel9);
-        jLabel9.setBounds(150, 20, 190, 84);
-        solicitudviaticos1.add(jLabel18);
-        jLabel18.setBounds(10, 10, 1350, 80);
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/banner soviaticos.png"))); // NOI18N
+        solicitudviaticos1.add(jLabel5);
+        jLabel5.setBounds(20, 20, 1350, 80);
 
-        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
+        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         solicitudviaticos1.add(jLabel19);
-        jLabel19.setBounds(0, 0, 1367, 769);
+        jLabel19.setBounds(0, 0, 1366, 769);
 
-        solicviaticos.addTab("Solicitud de Viáticos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), solicitudviaticos1); // NOI18N
+        solicviaticos.addTab("Solicitud de Viáticos", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), solicitudviaticos1); // NOI18N
 
         tablonsolicitud1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -633,8 +709,9 @@ public class PrincipalS extends javax.swing.JFrame {
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel20.setText("Búsqueda:");
         tablonsolicitud1.add(jLabel20);
-        jLabel20.setBounds(70, 50, 100, 22);
+        jLabel20.setBounds(70, 120, 100, 22);
 
+        guardargac.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
         guardargac.setText("Guardar");
         guardargac.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -647,7 +724,7 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         tablonsolicitud1.add(guardargac);
-        guardargac.setBounds(910, 60, 120, 30);
+        guardargac.setBounds(910, 120, 120, 30);
 
         txtbusquedasoli1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtbusquedasoli1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -659,7 +736,7 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         tablonsolicitud1.add(txtbusquedasoli1);
-        txtbusquedasoli1.setBounds(170, 50, 290, 30);
+        txtbusquedasoli1.setBounds(170, 120, 290, 30);
 
         solipendientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -703,13 +780,13 @@ public class PrincipalS extends javax.swing.JFrame {
             jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel23Layout.createSequentialGroup()
                 .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 43, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         solipendientes.add(jPanel23);
-        jPanel23.setBounds(0, 0, 1320, 530);
+        jPanel23.setBounds(0, 0, 1320, 480);
 
-        menutablones.addTab("Solicitudes Pendientes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), solipendientes); // NOI18N
+        menutablones.addTab("Solicitudes Pendientes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), solipendientes); // NOI18N
 
         soliaceptadas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -751,7 +828,7 @@ public class PrincipalS extends javax.swing.JFrame {
         soliaceptadas.add(jPanel24);
         jPanel24.setBounds(0, 0, 1320, 530);
 
-        menutablones.addTab("Solicitudes Aceptadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), soliaceptadas); // NOI18N
+        menutablones.addTab("Solicitudes Aceptadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), soliaceptadas); // NOI18N
 
         solicarchivadas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -797,7 +874,7 @@ public class PrincipalS extends javax.swing.JFrame {
         solicarchivadas.add(jPanel25);
         jPanel25.setBounds(0, 0, 1320, 530);
 
-        menutablones.addTab("Solicitudes Archivadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), solicarchivadas); // NOI18N
+        menutablones.addTab("Solicitudes Archivadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), solicarchivadas); // NOI18N
 
         solicanceladas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -837,7 +914,7 @@ public class PrincipalS extends javax.swing.JFrame {
         solicanceladas.add(jPanel26);
         jPanel26.setBounds(0, 0, 1320, 530);
 
-        menutablones.addTab("Solicitudes Canceladas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), solicanceladas); // NOI18N
+        menutablones.addTab("Solicitudes Canceladas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), solicanceladas); // NOI18N
 
         javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
         jPanel20.setLayout(jPanel20Layout);
@@ -851,20 +928,25 @@ public class PrincipalS extends javax.swing.JFrame {
         );
 
         tablonsolicitud1.add(jPanel20);
-        jPanel20.setBounds(20, 110, 1320, 530);
+        jPanel20.setBounds(20, 170, 1320, 480);
 
-        jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/banner tablon.png"))); // NOI18N
+        tablonsolicitud1.add(jLabel6);
+        jLabel6.setBounds(20, 20, 1350, 80);
+
+        jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
+        jLabel28.setPreferredSize(new java.awt.Dimension(1366, 769));
         tablonsolicitud1.add(jLabel28);
-        jLabel28.setBounds(0, 0, 1367, 769);
+        jLabel28.setBounds(0, 0, 1366, 769);
 
-        solicviaticos.addTab("Tablón de Solicitudes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), tablonsolicitud1); // NOI18N
+        solicviaticos.addTab("Tablón de Solicitudes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/consumible.png")), tablonsolicitud1); // NOI18N
 
         informe.setLayout(null);
 
         jlb.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jlb.setText("Búsqueda:");
         informe.add(jlb);
-        jlb.setBounds(40, 40, 100, 22);
+        jlb.setBounds(40, 125, 100, 22);
 
         txtbusquedasoli2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtbusquedasoli2.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -876,7 +958,7 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         informe.add(txtbusquedasoli2);
-        txtbusquedasoli2.setBounds(140, 30, 290, 30);
+        txtbusquedasoli2.setBounds(140, 120, 290, 30);
 
         jPanel21.setLayout(null);
 
@@ -916,13 +998,13 @@ public class PrincipalS extends javax.swing.JFrame {
 
         lblObsVehiculo.setText("Observaciones Vehículo");
         jPanel1.add(lblObsVehiculo);
-        lblObsVehiculo.setBounds(810, 320, 150, 14);
+        lblObsVehiculo.setBounds(810, 320, 150, 18);
         jPanel1.add(GaTot);
-        GaTot.setBounds(210, 440, 240, 20);
+        GaTot.setBounds(210, 440, 240, 28);
 
         jLabel3.setText("Gasto total");
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(140, 440, 70, 14);
+        jLabel3.setBounds(140, 440, 70, 18);
 
         btnguardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/guardarsol.png"))); // NOI18N
         btnguardar.setText("Guardar");
@@ -976,13 +1058,13 @@ public class PrincipalS extends javax.swing.JFrame {
         jPanel1.add(jScrollPane3);
         jScrollPane3.setBounds(30, 10, 420, 420);
         jPanel1.add(txtKilometraje);
-        txtKilometraje.setBounds(1189, 320, 90, 20);
+        txtKilometraje.setBounds(1189, 320, 90, 28);
 
         lblKilometraje.setText("Kilometraje");
         jPanel1.add(lblKilometraje);
-        lblKilometraje.setBounds(1114, 320, 60, 14);
+        lblKilometraje.setBounds(1114, 320, 60, 18);
 
-        menuInforme.addTab("Solicitudes aceptadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), jPanel1); // NOI18N
+        menuInforme.addTab("Solicitudes aceptadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), jPanel1); // NOI18N
 
         tablainfo1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -999,13 +1081,13 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tablainfo1);
 
-        menuInforme.addTab("Solicitudes finalizadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), jScrollPane2); // NOI18N
+        menuInforme.addTab("Solicitudes finalizadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), jScrollPane2); // NOI18N
 
         jPanel21.add(menuInforme);
         menuInforme.setBounds(0, 0, 1310, 520);
 
         informe.add(jPanel21);
-        jPanel21.setBounds(20, 70, 1310, 520);
+        jPanel21.setBounds(20, 160, 1310, 520);
 
         btnregresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/atras.png"))); // NOI18N
         btnregresar.setText("Regresar");
@@ -1015,12 +1097,12 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         informe.add(btnregresar);
-        btnregresar.setBounds(867, 130, 170, 40);
+        btnregresar.setBounds(867, 220, 170, 40);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel2.setText("Área");
+        jLabel2.setText("Área:");
         informe.add(jLabel2);
-        jLabel2.setBounds(540, 40, 35, 22);
+        jLabel2.setBounds(535, 122, 50, 22);
 
         cmbArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbArea.addActionListener(new java.awt.event.ActionListener() {
@@ -1029,16 +1111,21 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         informe.add(cmbArea);
-        cmbArea.setBounds(590, 40, 250, 20);
+        cmbArea.setBounds(590, 120, 250, 28);
 
-        jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo.png"))); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/banner informes.png"))); // NOI18N
+        informe.add(jLabel7);
+        jLabel7.setBounds(20, 20, 1350, 80);
+
+        jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         informe.add(jLabel24);
-        jLabel24.setBounds(0, 0, 1367, 769);
+        jLabel24.setBounds(0, 0, 1366, 769);
 
-        solicviaticos.addTab("Informe", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), informe); // NOI18N
+        solicviaticos.addTab("Informes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/resguardo.png")), informe); // NOI18N
 
         jMenu1.setText("Archivo");
 
+        mi_inventario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/viatico.png"))); // NOI18N
         mi_inventario.setText("Inventario");
         mi_inventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1047,6 +1134,8 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         jMenu1.add(mi_inventario);
 
+        mi_pases.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        mi_pases.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/pase.png"))); // NOI18N
         mi_pases.setText("Pases E/S");
         mi_pases.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1056,7 +1145,20 @@ public class PrincipalS extends javax.swing.JFrame {
         jMenu1.add(mi_pases);
         jMenu1.add(jSeparator1);
 
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/if_Exit_728935.png"))); // NOI18N
+        jMenuItem2.setText("Cerrar sesión");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
         itemSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
+        itemSalir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        itemSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/if_Shutdown_Box_Red_34246.png"))); // NOI18N
         itemSalir.setText("Salir");
         itemSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1067,11 +1169,10 @@ public class PrincipalS extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
-
         menuOpciones.setText("Permisos");
 
+        menuPermisos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        menuPermisos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/permisos.png"))); // NOI18N
         menuPermisos.setText("Permisos puestos");
         menuPermisos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1079,22 +1180,6 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         menuOpciones.add(menuPermisos);
-
-        menuPuestoArea.setText("Puestos & Áreas");
-        menuPuestoArea.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuPuestoAreaActionPerformed(evt);
-            }
-        });
-        menuOpciones.add(menuPuestoArea);
-
-        MenuSolicitud.setText("Permisos solicitud");
-        MenuSolicitud.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenuSolicitudActionPerformed(evt);
-            }
-        });
-        menuOpciones.add(MenuSolicitud);
 
         jMenuBar1.add(menuOpciones);
 
@@ -1113,42 +1198,6 @@ public class PrincipalS extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void menuPermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPermisosActionPerformed
-        // TODO add your handling code here:
-        /*if((manager_permisos.alta_permisos(Username) && manager_permisos.baja_permisos(Username)) || manager_permisos.consulta_permisos(Username)){
-         if(manager_permisos.alta_permisos(Username) && manager_permisos.baja_permisos(Username)){
-         Ventana_permisos_puesto ob = new Ventana_permisos_puesto(this, true);
-         ob.setVisible(true);
-         }else{
-         Ventana_permisos_puesto_consulta ob = new Ventana_permisos_puesto_consulta(this, true);
-         ob.setVisible(true);
-         }
-         }else{
-         JOptionPane.showMessageDialog(null, "Usted no tiene acceso a los permisos estaticos de los puestos.");
-         }*/
-    }//GEN-LAST:event_menuPermisosActionPerformed
-
-    private void menuPuestoAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPuestoAreaActionPerformed
-        // TODO add your handling code here:
-        /*Ventana_Puestos_Area ob = new Ventana_Puestos_Area(this, true);
-         ob.setVisible(true);*/
-    }//GEN-LAST:event_menuPuestoAreaActionPerformed
-
-    private void MenuSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuSolicitudActionPerformed
-        // TODO add your handling code here:
-        /* if((manager_permisos.alta_permisos(Username) && manager_permisos.baja_permisos(Username)) || manager_permisos.consulta_permisos(Username)){
-         if(manager_permisos.alta_permisos(Username) && manager_permisos.baja_permisos(Username)){
-         Ventana_permisosSolicitud ob = new Ventana_permisosSolicitud(this, true);
-         ob.setVisible(true);
-         }else{
-         Ventana_permisosSolicitud_consulta ob = new Ventana_permisosSolicitud_consulta(this, true);
-         ob.setVisible(true);
-         }
-         }else{
-         JOptionPane.showMessageDialog(null, "Usted no tiene acceso a los permisos de las solicitudes.");
-         }*/
-    }//GEN-LAST:event_MenuSolicitudActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         txtobvia.enable(false);
@@ -1817,20 +1866,6 @@ public class PrincipalS extends javax.swing.JFrame {
                 } else {
                     txtobvia.enable(false);
                     txtobveh.enable(false);
-                }
-                int imprimir=JOptionPane.showConfirmDialog(null, "Desea imprimir el reporte", "Alerta!", JOptionPane.YES_NO_OPTION);
-                if(imprimir==JOptionPane.YES_OPTION){
-                        try {
-                            pdf=new CrearPDF();
-                            rs=cbd.getTabla("select MAX(id_Informe) as id from informe;", cn);
-                            if(rs.next()){
-                                pdf.reporte(rs.getString("id"));
-                            }
-                        } catch (DocumentException ex) {
-                            Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (SQLException ex) {
-                            Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-                        }
                 }
             }
         } catch (SQLException ex) {
@@ -2701,30 +2736,6 @@ public class PrincipalS extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
-    private void itemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSalirActionPerformed
-        // TODO add your handling code here:
-        Object[] botones = {"Confirmar", "Cancelar"};
-        int opcion = JOptionPane.showOptionDialog(this, "¿Salir del Sistema?", "Confirmación",
-            JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
-
-        if (opcion == 0) {
-            System.exit(0);
-        } else if (opcion == 1) {
-            //Cerrar sesion
-        }
-    }//GEN-LAST:event_itemSalirActionPerformed
-
-    private void mi_pasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_pasesActionPerformed
-        // TODO add your handling code here:
-        try {
-            PrincipalP a = new PrincipalP();
-            a.setVisible(true);
-            this.dispose();
-        } catch (Exception ex) {
-            Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_mi_pasesActionPerformed
-
     private void mi_inventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_inventarioActionPerformed
         try {
             Principal a = new Principal();
@@ -2932,6 +2943,208 @@ public class PrincipalS extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tablasolicMouseClicked
 
+    private void mi_pasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_pasesActionPerformed
+        // TODO add your handling code here:
+        try {
+            PrincipalP a = new PrincipalP();
+            a.setVisible(true);
+            this.dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mi_pasesActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+
+        Object[] botones = {"Confirmar", "Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this, "¿Desea cerrar sesión?", "Confirmación",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones, botones[0]);
+
+        if (opcion == 0) {
+            this.dispose();
+            Login ob = new Login();
+            ob.setVisible(true);
+        } else if (opcion == 1) {
+            // No hacer nada
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void itemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSalirActionPerformed
+        // TODO add your handling code here:
+        Object[] botones = {"Confirmar","Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this,"¿Salir del Sistema?", "Confirmación",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
+
+        if(opcion == 0){
+            System.exit(0);
+        }else if(opcion == 1){
+            //Cerrar sesion
+        }
+    }//GEN-LAST:event_itemSalirActionPerformed
+
+    private void menuPermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPermisosActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.accesoModulo("actualizar","Permisos",Username)){
+            Ventana_permisos_puesto ob = new Ventana_permisos_puesto(this, true);
+            ob.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para actualizar los permisos estáticos de los puestos de trabajo.");
+        }//else
+    }//GEN-LAST:event_menuPermisosActionPerformed
+
+    private void ExportarExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarExcelActionPerformed
+        // TODO add your handling code here:
+        if (manager_permisos.accesoModulo("consulta", "Solicitud Viaticos", Principal.Username)) {
+            try{
+                //if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
+                    Excel excel = new Excel();
+                    excel.GuardarComo(tablasolicvehiculo);
+                    //}else{
+                    //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+                    //tablapase.setModel(new DefaultTableModel());
+                    //}
+            }catch(NullPointerException e){
+
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para exportar solicitudes de vehículos.");
+        }
+    }//GEN-LAST:event_ExportarExcelActionPerformed
+
+    private void ExportarExcelPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarExcelPActionPerformed
+        // TODO add your handling code here:
+        if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
+            try{
+                //if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
+                    Excel excel = new Excel();
+                    excel.GuardarComo(tablonpendientes);
+                    //}else{
+                    //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+                    //tablapase.setModel(new DefaultTableModel());
+                    //}
+            }catch(NullPointerException e){
+
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para exportar solicitudes pendientes.");
+        }
+    }//GEN-LAST:event_ExportarExcelPActionPerformed
+
+    private void ExportarExcelAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarExcelAActionPerformed
+        // TODO add your handling code here:
+        if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
+            try{
+                //if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
+                    Excel excel = new Excel();
+                    excel.GuardarComo(tablonaceptadas);
+                    //}else{
+                    //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+                    //tablapase.setModel(new DefaultTableModel());
+                    //}
+            }catch(NullPointerException e){
+
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para exportar solicitudes aceptadas.");
+        }
+    }//GEN-LAST:event_ExportarExcelAActionPerformed
+
+    private void ExportarExcelCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarExcelCActionPerformed
+        // TODO add your handling code here:
+        if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
+            try{
+                //if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
+                    Excel excel = new Excel();
+                    excel.GuardarComo(tabloncanceladas);
+                    //}else{
+                    //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+                    //tablapase.setModel(new DefaultTableModel());
+                    //}
+            }catch(NullPointerException e){
+
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para exportar solicitudes canceladas.");
+        }
+    }//GEN-LAST:event_ExportarExcelCActionPerformed
+
+    private void ExportarExcelArActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarExcelArActionPerformed
+        // TODO add your handling code here:
+        if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
+            try{
+                //if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
+                    Excel excel = new Excel();
+                    excel.GuardarComo(tablonarchivadas);
+                    //}else{
+                    //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+                    //tablapase.setModel(new DefaultTableModel());
+                    //}
+            }catch(NullPointerException e){
+
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para exportar solicitudes archivadas.");
+        }
+    }//GEN-LAST:event_ExportarExcelArActionPerformed
+
+    private void ExportarExcel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarExcel1ActionPerformed
+        // TODO add your handling code here:
+        if (manager_permisos.accesoModulo("consulta", "Solicitud Viaticos", Principal.Username)) {
+            try{
+                //if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
+                    Excel excel = new Excel();
+                    excel.GuardarComo(tablasolic);
+                    //}else{
+                    //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+                    //tablapase.setModel(new DefaultTableModel());
+                    //}
+            }catch(NullPointerException e){
+
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para exportar solicitudes de viaticos.");
+        }
+    }//GEN-LAST:event_ExportarExcel1ActionPerformed
+
+    private void ExportarExcelInAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarExcelInAActionPerformed
+        // TODO add your handling code here:
+        if (manager_permisos.accesoModulo("consulta", "Informe", Principal.Username)) {
+            try{
+                //if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
+                    Excel excel = new Excel();
+                    excel.GuardarComo(tablainfo);
+                    //}else{
+                    //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+                    //tablapase.setModel(new DefaultTableModel());
+                    //}
+            }catch(NullPointerException e){
+
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para exportar informes aceptados.");
+        }
+    }//GEN-LAST:event_ExportarExcelInAActionPerformed
+
+    private void ExportarExcelInFiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarExcelInFiActionPerformed
+        // TODO add your handling code here:
+        if (manager_permisos.accesoModulo("consulta", "Informe", Principal.Username)) {
+            try{
+                //if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
+                    Excel excel = new Excel();
+                    excel.GuardarComo(tablainfo1);
+                    //}else{
+                    //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+                    //tablapase.setModel(new DefaultTableModel());
+                    //}
+            }catch(NullPointerException e){
+
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para exportar informes finalizados.");
+        }
+    }//GEN-LAST:event_ExportarExcelInFiActionPerformed
+
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3134,6 +3347,14 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JMenuItem ConsultarInf;
     private javax.swing.JMenuItem ConsultarP;
     private javax.swing.JMenuItem EliminarA;
+    private javax.swing.JMenuItem ExportarExcel;
+    private javax.swing.JMenuItem ExportarExcel1;
+    private javax.swing.JMenuItem ExportarExcelA;
+    private javax.swing.JMenuItem ExportarExcelAr;
+    private javax.swing.JMenuItem ExportarExcelC;
+    private javax.swing.JMenuItem ExportarExcelInA;
+    private javax.swing.JMenuItem ExportarExcelInFi;
+    private javax.swing.JMenuItem ExportarExcelP;
     private javax.swing.JTextField GaTot;
     private javax.swing.JMenuItem GenerarInf;
     private javax.swing.JMenuItem Impri_Sol;
@@ -3142,7 +3363,6 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JPopupMenu MenuInfSA;
     private javax.swing.JPopupMenu MenuInfSF;
     private javax.swing.JPopupMenu MenuPanelSolicitudViatico;
-    private javax.swing.JMenuItem MenuSolicitud;
     private javax.swing.JPopupMenu MenuSolicitudViaticos;
     private javax.swing.JPopupMenu MenuSolicitudViaticos1;
     private javax.swing.JPopupMenu MenuTablonA;
@@ -3166,17 +3386,18 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
@@ -3203,7 +3424,6 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JTabbedPane menuInforme;
     private javax.swing.JMenu menuOpciones;
     private javax.swing.JMenuItem menuPermisos;
-    private javax.swing.JMenuItem menuPuestoArea;
     private javax.swing.JTabbedPane menutablones;
     private javax.swing.JMenuItem mi_inventario;
     private javax.swing.JMenuItem mi_pases;

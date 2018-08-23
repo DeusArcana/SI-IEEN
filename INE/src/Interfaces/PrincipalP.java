@@ -83,21 +83,19 @@ public class PrincipalP extends javax.swing.JFrame {
         tablapase = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel17 = new javax.swing.JLabel();
         txtbusquedasoli = new javax.swing.JTextField();
-        jLabel18 = new javax.swing.JLabel();
         comboAño = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuInterfaces = new javax.swing.JMenu();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         mi_viaticos = new javax.swing.JMenuItem();
         mi_pases = new javax.swing.JMenuItem();
-        jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        itemSalir1 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        itemSalir = new javax.swing.JMenuItem();
         menuOpciones = new javax.swing.JMenu();
         menuPermisos = new javax.swing.JMenuItem();
-        menuPuestoArea = new javax.swing.JMenuItem();
 
         Nueva.setText("Nuevo");
         Nueva.addActionListener(new java.awt.event.ActionListener() {
@@ -196,7 +194,7 @@ public class PrincipalP extends javax.swing.JFrame {
         });
         jScrollPane11.setViewportView(tablapase);
 
-        jTabbedPane1.addTab("Solicitud de Pase E/S", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitud.png")), jScrollPane11); // NOI18N
+        jTabbedPane1.addTab("Solicitud de Pase E/S", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), jScrollPane11); // NOI18N
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
@@ -230,8 +228,6 @@ public class PrincipalP extends javax.swing.JFrame {
         });
         solicitudviaticos1.add(txtbusquedasoli);
         txtbusquedasoli.setBounds(130, 120, 290, 30);
-        solicitudviaticos1.add(jLabel18);
-        jLabel18.setBounds(10, 10, 1350, 80);
 
         comboAño.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -241,9 +237,9 @@ public class PrincipalP extends javax.swing.JFrame {
         solicitudviaticos1.add(comboAño);
         comboAño.setBounds(530, 122, 120, 28);
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baner inventario.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/banner pases.png"))); // NOI18N
         solicitudviaticos1.add(jLabel5);
-        jLabel5.setBounds(30, 10, 1350, 80);
+        jLabel5.setBounds(20, 20, 1350, 80);
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel20.setText("por Año:");
@@ -257,7 +253,6 @@ public class PrincipalP extends javax.swing.JFrame {
         solicpase.addTab("Solicitud de Pase E/S", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), solicitudviaticos1); // NOI18N
 
         menuInterfaces.setText("Archivo");
-        menuInterfaces.add(jSeparator1);
 
         mi_viaticos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         mi_viaticos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/viatico.png"))); // NOI18N
@@ -278,18 +273,29 @@ public class PrincipalP extends javax.swing.JFrame {
             }
         });
         menuInterfaces.add(mi_pases);
-        menuInterfaces.add(jSeparator2);
+        menuInterfaces.add(jSeparator1);
 
-        itemSalir1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
-        itemSalir1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        itemSalir1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/if_Exit_728935.png"))); // NOI18N
-        itemSalir1.setText("Salir");
-        itemSalir1.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/if_Exit_728935.png"))); // NOI18N
+        jMenuItem2.setText("Cerrar sesión");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemSalir1ActionPerformed(evt);
+                jMenuItem2ActionPerformed(evt);
             }
         });
-        menuInterfaces.add(itemSalir1);
+        menuInterfaces.add(jMenuItem2);
+
+        itemSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
+        itemSalir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        itemSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/if_Shutdown_Box_Red_34246.png"))); // NOI18N
+        itemSalir.setText("Salir");
+        itemSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemSalirActionPerformed(evt);
+            }
+        });
+        menuInterfaces.add(itemSalir);
 
         jMenuBar1.add(menuInterfaces);
 
@@ -304,14 +310,6 @@ public class PrincipalP extends javax.swing.JFrame {
             }
         });
         menuOpciones.add(menuPermisos);
-
-        menuPuestoArea.setText("Puestos & Áreas");
-        menuPuestoArea.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuPuestoAreaActionPerformed(evt);
-            }
-        });
-        menuOpciones.add(menuPuestoArea);
 
         jMenuBar1.add(menuOpciones);
 
@@ -330,12 +328,6 @@ public class PrincipalP extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void menuPuestoAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPuestoAreaActionPerformed
-        // TODO add your handling code here:
-        /*Ventana_Puestos_Area ob = new Ventana_Puestos_Area(this, true);
-        ob.setVisible(true);*/
-    }//GEN-LAST:event_menuPuestoAreaActionPerformed
 
     private void tablapaseMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablapaseMouseReleased
         // TODO add your handling code here:
@@ -652,19 +644,6 @@ public class PrincipalP extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mi_pasesActionPerformed
 
-    private void itemSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSalir1ActionPerformed
-        // TODO add your handling code here:
-        Object[] botones = {"Confirmar","Cancelar"};
-        int opcion = JOptionPane.showOptionDialog(this,"¿Salir del Sistema?", "Confirmación",
-            JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
-
-        if(opcion == 0){
-            System.exit(0);
-        }else if(opcion == 1){
-            //Cerrar sesion
-        }
-    }//GEN-LAST:event_itemSalir1ActionPerformed
-
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
         Object[] botones = {"Confirmar","Cerrar Sesión","Cancelar"};
@@ -672,14 +651,13 @@ public class PrincipalP extends javax.swing.JFrame {
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
         
         if(opcion == 0){
+            
             System.exit(0);
         }else if(opcion == 1){
             //Cerrar sesion
             this.dispose();
             Login ob = new Login();
-            ob.setVisible(true);  
-        }else if(opcion == 2){
-            
+            ob.setVisible(true);   
         }
     }//GEN-LAST:event_formWindowClosing
 
@@ -703,6 +681,35 @@ public class PrincipalP extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No cuenta con permisos para actualizar los permisos estáticos de los puestos de trabajo.");
         }//else
     }//GEN-LAST:event_menuPermisosActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+
+        Object[] botones = {"Confirmar", "Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this, "¿Desea cerrar sesión?", "Confirmación",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones, botones[0]);
+
+        if (opcion == 0) {
+            this.dispose();
+            Login ob = new Login();
+            ob.setVisible(true);
+        } else if (opcion == 1) {
+            // No hacer nada
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void itemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSalirActionPerformed
+        // TODO add your handling code here:
+        Object[] botones = {"Confirmar","Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this,"¿Salir del Sistema?", "Confirmación",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
+
+        if(opcion == 0){
+            System.exit(0);
+        }else if(opcion == 1){
+            //Cerrar sesion
+        }
+    }//GEN-LAST:event_itemSalirActionPerformed
     //obtenemos las fecha del sistema    
     public static String getfecha(){
         Date fecha=new Date(); 
@@ -769,22 +776,20 @@ public class PrincipalP extends javax.swing.JFrame {
     private javax.swing.JPopupMenu MenuPases;
     private javax.swing.JMenuItem Nueva;
     private javax.swing.JComboBox<String> comboAño;
-    private javax.swing.JMenuItem itemSalir1;
+    private javax.swing.JMenuItem itemSalir;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JMenu menuInterfaces;
     private javax.swing.JMenu menuOpciones;
     private javax.swing.JMenuItem menuPermisos;
-    private javax.swing.JMenuItem menuPuestoArea;
     private javax.swing.JMenuItem mi_pases;
     private javax.swing.JMenuItem mi_viaticos;
     private javax.swing.JPanel solicitudviaticos1;

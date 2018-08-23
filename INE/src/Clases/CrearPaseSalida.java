@@ -112,10 +112,10 @@ public class CrearPaseSalida {
     private static Font smallBold2 = new Font(Font.FontFamily.COURIER, 12,
             Font.BOLD);
     
-    private static Font elements2 = new Font(Font.FontFamily.HELVETICA, 8,
+    private static Font elements2 = new Font(Font.FontFamily.HELVETICA, 9,
             Font.NORMAL);
     private static Font elements2c = new Font(Font.FontFamily.HELVETICA,8,Font.NORMAL,BaseColor.LIGHT_GRAY);
-    private static Font elements3 = new Font(Font.FontFamily.HELVETICA, 9,
+    private static Font elements3 = new Font(Font.FontFamily.HELVETICA, 8,
             Font.BOLD);
     private static Font elements3c = new Font(Font.FontFamily.HELVETICA, 8,
             Font.BOLD);
@@ -201,6 +201,7 @@ public class CrearPaseSalida {
 
             //Obtener la imagen
             com.itextpdf.text.Image image = com.itextpdf.text.Image.getInstance("print/blogin.png");
+            //com.itextpdf.text.Image image = com.itextpdf.text.Image.getInstance("src/Imagenes/IEE.png");
 
             PdfPCell LogoCell = new PdfPCell(image, false);
             LogoCell.setBorderColor(BaseColor.WHITE);
@@ -239,6 +240,9 @@ public class CrearPaseSalida {
             nombreCell = new PdfPCell(new Phrase("FOLIO: "+folio+"-"+numero, elements3));
             nombreCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
             nombreCell.setBorderColor(BaseColor.WHITE);
+            //nombreCell.setBorderWidthLeft(0);
+            //nombreCell.setBorderWidthRight(0);
+            //nombreCell.setBorderWidthTop(0);
             nombre.addCell(nombreCell);
             
             
@@ -491,7 +495,7 @@ public class CrearPaseSalida {
              // ENCABEZADOS
             PdfPTable firmas = new PdfPTable(3);
             firmas.setWidthPercentage(100f);
-            float[] medidaCeldasfirmas = {2.25f,0.30f, 2.25f};
+            float[] medidaCeldasfirmas = {2.25f,0.15f, 2.25f};
             firmas.setWidths(medidaCeldasfirmas);
             PdfPCell encabezadosfirmasCell,encabezadosfirmasCell2,encabezadosfirmasCell3;
             
@@ -516,7 +520,7 @@ public class CrearPaseSalida {
             //encabezados2
             PdfPTable firmasfi = new PdfPTable(3);
             firmas.setWidthPercentage(100f);
-            float[] medidaCeldasfirmasfi = {2.25f,0.95f, 2.25f};
+            float[] medidaCeldasfirmasfi = {2.0f,1.50f, 2.0f};
             firmasfi.setWidths(medidaCeldasfirmasfi);
             PdfPCell encabezadosfirmasCellfi,encabezadosfirmasCell2fi,encabezadosfirmasCell3fi;
             
@@ -547,7 +551,7 @@ public class CrearPaseSalida {
             //encabezados3
             PdfPTable firmasfina = new PdfPTable(3);
             firmas.setWidthPercentage(100f);
-            float[] medidaCeldasfirmasfina = {2.25f,0.95f, 2.25f};
+            float[] medidaCeldasfirmasfina = {2.0f,1.55f, 2.0f};
             firmasfina.setWidths(medidaCeldasfirmasfina);
             PdfPCell encabezadosfirmasCellfina,encabezadosfirmasCell2fina,encabezadosfirmasCell3fina;
             
@@ -580,7 +584,7 @@ public class CrearPaseSalida {
             copiapaseCell = new PdfPCell(new Phrase("", elements2));
             copiapaseCell.setBorder(0);
             
-            copiapaseCell2 = new PdfPCell(new Phrase("COPIA DEL SOLICITANTE", elements2c));
+            copiapaseCell2 = new PdfPCell(new Phrase("Copia del Solicitante", elements2c));
             copiapaseCell2.setHorizontalAlignment(Element.ALIGN_CENTER);
             copiapaseCell2.setBorderColor(BaseColor.WHITE);
             
@@ -670,6 +674,7 @@ public class CrearPaseSalida {
             doc.add(firmas);
             doc.add(firmasfi);
             doc.add(firmasfina);
+            //doc.add(BLANCO);
             doc.add(copiapase);
             //linea
             archivo_nombre = pdfFilename;

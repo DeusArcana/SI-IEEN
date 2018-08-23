@@ -226,18 +226,18 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         JSpinner.DateEditor de = new JSpinner.DateEditor(hora_e_s,"HH:mm");
         hora_e_s.setEditor(de);
         pn_addPermiso.add(hora_e_s);
-        hora_e_s.setBounds(140, 260, 70, 28);
+        hora_e_s.setBounds(140, 260, 110, 28);
 
         txt_hora_llegada.setEditable(false);
         txt_hora_llegada.setEnabled(false);
         pn_addPermiso.add(txt_hora_llegada);
-        txt_hora_llegada.setBounds(140, 300, 90, 28);
+        txt_hora_llegada.setBounds(140, 300, 110, 28);
 
         txt_horas.setEditable(false);
         txt_horas.setText("00:00");
         txt_horas.setEnabled(false);
         pn_addPermiso.add(txt_horas);
-        txt_horas.setBounds(340, 300, 90, 28);
+        txt_horas.setBounds(340, 300, 110, 28);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setText("Hora de llegada:");
@@ -511,7 +511,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 CrearPaseSalida cps = new CrearPaseSalida();
                 
                 Object[] botones = {"Confirmar","Cancelar"};
-                int opcion = JOptionPane.showOptionDialog(this,"¿Desea imprimir solicitud?", "Confirmación",
+                int opcion = JOptionPane.showOptionDialog(this,"¿Desea imprimir pase E/S?", "Confirmación",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
                 
                 if(opcion == 0){
