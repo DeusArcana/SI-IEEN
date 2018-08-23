@@ -105,7 +105,7 @@
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="date_Salida">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="date_Salida.getDateEditor().addPropertyChangeListener(&#xa;    new java.beans.PropertyChangeListener() {&#xa;        @Override&#xa;        public void propertyChange(java.beans.PropertyChangeEvent e) {&#xa;            if(e.getPropertyName().equals(&quot;date&quot;)) {&#xa;                date_Llegada.getJCalendar().setMinSelectableDate(date_Salida.getDate());   &#xa;            }&#xa;        }&#xa;    });"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="date_Salida.getDateEditor().addPropertyChangeListener(&#xa;    new java.beans.PropertyChangeListener() {&#xa;        @Override&#xa;        public void propertyChange(java.beans.PropertyChangeEvent e) {&#xa;            if(e.getPropertyName().equals(&quot;date&quot;)) {&#xa;                date_Llegada.getJCalendar().setMinSelectableDate(date_Salida.getDate());   &#xa;            }&#xa;        }&#xa;    });&#xa;Calendar c2 = new GregorianCalendar();&#xa;date_Salida.setCalendar(c2);"/>
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -126,6 +126,9 @@
           </Constraints>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="date_Llegada">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="c2 = new GregorianCalendar();&#xa;date_Salida.setCalendar(c2);"/>
+          </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="150" y="150" width="215" height="-1"/>

@@ -262,9 +262,14 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                     }
                 }
             });
+            Calendar c2 = new GregorianCalendar();
+            date_Salida.setCalendar(c2);
             pn_addInventario.add(hora_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, 100, -1));
             JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "HH:mm");
             hora_Salida.setEditor(de);
+
+            c2 = new GregorianCalendar();
+            date_Salida.setCalendar(c2);
             pn_addInventario.add(date_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 150, 215, -1));
             pn_addInventario.add(hora_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 150, 100, -1));
             JSpinner.DateEditor de2 = new JSpinner.DateEditor(hora_Llegada, "HH:mm");
