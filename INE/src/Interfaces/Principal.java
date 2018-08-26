@@ -908,7 +908,7 @@ public class Principal extends javax.swing.JFrame {
         comboFiltro.setBounds(150, 90, 220, 30);
 
         comboEstatus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        comboEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Disponible", "No disponible", "para baja", "para donación", "para comodato", "Baja", "Donación", "Comodato", "Asignado" }));
+        comboEstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Disponible", "No disponible", "Para baja", "Para donación", "Para comodato", "Baja", "Donación", "Comodato", "Asignado" }));
         comboEstatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboEstatusActionPerformed(evt);
