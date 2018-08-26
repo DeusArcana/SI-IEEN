@@ -331,7 +331,6 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         btnImagen1.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
         btnImagen1.setText("...");
         btnImagen1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnImagen1.setEnabled(false);
         btnImagen1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnImagen1ActionPerformed(evt);

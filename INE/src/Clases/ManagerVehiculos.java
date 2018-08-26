@@ -45,10 +45,10 @@ public class ManagerVehiculos {
     }//Constructor Conexion
     
 
-    public boolean guardarImagen(String marca, String linea, String clase, String color, String modelo, String motor,
-            String kilometraje, String matricula, String observaciones, String cantidad, String no_motor, String fecha, String factura, String importe, String descripcion) {
+    public boolean guardarImagen(String marca, String linea, String color, String modelo, String motor,
+            String kilometraje, String matricula, String observaciones, String cantidad, String no_motor, String fecha, String factura, String importe, String descripcion, String folio, String numero, String extension) {
         con = db.getConexion();
-        String insert = "insert into vehiculos(marca, linea, clase, color, modelo, motor,kilometraje ,matricula,observaciones,cantidad_fotos,Estado,No_motor,Fecha_compra,No_factura,importe,descripcion) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        String insert = "insert into vehiculos(marca, linea, color, modelo, motor,kilometraje ,matricula,observaciones,cantidad_fotos,Estado,No_motor,Fecha_compra,No_factura,importe,descripcion,folio,numero,extension) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
        
         PreparedStatement ps = null;
 
@@ -62,20 +62,23 @@ public class ManagerVehiculos {
 
             ps.setString(1, marca);
             ps.setString(2, linea);
-            ps.setString(3, clase);
-            ps.setString(4, color);
-            ps.setString(5, modelo);
-            ps.setString(6, motor);
-            ps.setString(7, kilometraje);
-            ps.setString(8, matricula);
-            ps.setString(9, observaciones);
-            ps.setString(10, cantidad);
-            ps.setString(11, "Disponible");
-            ps.setString(12, no_motor);
-            ps.setString(13, fecha);
-            ps.setString(14, factura);
-            ps.setString(15, importe);
-            ps.setString(16, descripcion);
+            ps.setString(3, color);
+            ps.setString(4, modelo);
+            ps.setString(5, motor);
+            ps.setString(6, kilometraje);
+            ps.setString(7, matricula);
+            ps.setString(8, observaciones);
+            ps.setString(9, cantidad);
+            ps.setString(10, "Disponible");
+            ps.setString(11, no_motor);
+            ps.setString(12, fecha);
+            ps.setString(13, factura);
+            ps.setString(14, importe);
+            ps.setString(15, descripcion);
+            
+            ps.setString(16, folio);
+            ps.setString(17, numero);
+            ps.setString(18, extension);
 
             ps.executeUpdate();
 
@@ -348,6 +351,51 @@ public class ManagerVehiculos {
         } 
         
     }//Obtiene todas los nombres de los empleados
+    
+    public int sugerenciaNumero() {
+        int numero = 1;
+        try {
+
+            String sql = "select Numero from vehiculos order by Numero desc limit 1;";
+            con = db.getConexion();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            if (rs.next()) {
+                numero = rs.getInt(1)+1;
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los vehiculos disponibles para ingresarlos al combo SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return numero;
+    }
+    
+    
+    public boolean existeCodigoVehiculo(String clave) {
+        boolean res = false;
+        try {
+
+            String sql = "select Numero from vehiculos where concat(Folio,'-',numero,extension) = '" + clave + "';";
+            con = db.getConexion();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            res = rs.next();
+
+            con.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los vehiculos disponibles para ingresarlos al combo SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return res;
+    }
+    
+    
+    
     
 }//class
       

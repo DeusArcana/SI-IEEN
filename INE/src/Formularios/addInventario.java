@@ -199,7 +199,7 @@ public class addInventario extends javax.swing.JDialog {
 
         lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_addInventario.add(lblAviso);
-        lblAviso.setBounds(260, 440, 40, 10);
+        lblAviso.setBounds(260, 440, 570, 10);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("Modelo:");
@@ -282,6 +282,11 @@ public class addInventario extends javax.swing.JDialog {
 
         txtNum.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtNum.setEnabled(false);
+        txtNum.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtNumFocusLost(evt);
+            }
+        });
         txtNum.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtNumKeyTyped(evt);
@@ -679,27 +684,16 @@ public class addInventario extends javax.swing.JDialog {
 
     private void txtExtensionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtExtensionKeyTyped
         // TODO add your handling code here:
-        
+
         char caracter = evt.getKeyChar();
-        if(caracter != evt.getKeyChar()){
-        
+        if (caracter != evt.getKeyChar()) {
+
         }
-        if(txtExtension.getText().length() == 1){
+        if (txtExtension.getText().length() == 1) {
             evt.consume();
-        }else{
-            /*
-            if(caracter != 'A'){
-                if(caracter != 'B'){
-                    evt.consume();
-                }else{
-
-                }
-            }else{
-
-            }
-            */
-            if((caracter == 'A' || caracter == 'a') || (caracter == 'B' || caracter == 'b')){
-            }else{
+        } else {
+            if ((caracter == 'A' || caracter == 'a') || (caracter == 'B' || caracter == 'b')) {
+            } else {
                 evt.consume();
             }
         }
@@ -746,6 +740,21 @@ public class addInventario extends javax.swing.JDialog {
 			evt.consume();
 		}
     }//GEN-LAST:event_txtProductoKeyTyped
+
+    private void txtNumFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNumFocusLost
+         // TODO add your handling code here:
+         if(!(txtNum.getText().isEmpty() && txtExtension.getText().isEmpty())){            
+            existeClave();
+            txtExtension.setText(txtExtension.getText().toUpperCase());
+        }//Buscar si existe o no
+        else{
+            txtFolio.setBackground(java.awt.Color.WHITE);
+            txtNum.setBackground(java.awt.Color.WHITE);
+            txtExtension.setBackground(java.awt.Color.WHITE);
+            btnAceptar.setEnabled(false);
+            lblAviso.setText("");
+        }
+    }//GEN-LAST:event_txtNumFocusLost
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {

@@ -41,34 +41,9 @@ public class modificarFotos extends javax.swing.JDialog {
 
     }
 
-    public void crearPaneles(int cantidad) {
-        System.out.println("Cantidad: " + cantidad);
-        JPanel[] panel = new JPanel[cantidad];
-        for (int i = 0; i < cantidad; i++) {
-            panel[i] = new JPanel();
 
-            panel[i].setBackground(new java.awt.Color(0, 0, i));
-            panel[i].setSize(i, i);
-            
-
-            GroupLayout jPanelLayout = new GroupLayout(panel[i]);
-            panel[i].setLayout(jPanelLayout);
-            jPanelLayout.setHorizontalGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 150, Short.MAX_VALUE));
-            jPanelLayout.setVerticalGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 150, Short.MAX_VALUE));
-            panel[i].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            panel[i].setAlignmentX(i);
-            panel[i].addMouseListener(new java.awt.event.MouseAdapter() {
-                public void mouseClicked(MouseEvent evt) {
-                    
-                   // clic(evt, panel[i]);
-                }
-            });
-            jPanel1.add(panel[i]);
-        }
-    }
-
-    public void clic(MouseEvent evt) {
-        System.out.println("CLIC " );
+    public void clic(MouseEvent evt, String nombre) {
+        System.out.println("CLIC "+nombre);
     }
     
     public void crearLabels(int cantidad) {
@@ -79,22 +54,25 @@ public class modificarFotos extends javax.swing.JDialog {
             label[i].setPreferredSize(new Dimension(120, 120));
             label[i].setBackground(Color.red);
             label[i].setOpaque(true);
+            label[i].setName("imagen" + i);
             label[i].setText("" + i);
             GroupLayout jPanelLayout = new GroupLayout(label[i]);
             label[i].setLayout(jPanelLayout);
             jPanelLayout.setHorizontalGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 150, Short.MAX_VALUE));
             jPanelLayout.setVerticalGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 150, Short.MAX_VALUE));
             label[i].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
+            
+            String nombre = label[i].getName();
             label[i].addMouseListener(new java.awt.event.MouseAdapter() {
+                
                 public void mouseClicked(MouseEvent evt) {
-
-                    clic(evt);
+                    
+                    clic(evt, nombre);
                 }
             });
             jPanel1.add(label[i]);
-        }
-    }
+        }// for
+    }// crearLabels
 
     /**
      * This method is called from within the constructor to initialize the form.
