@@ -65,6 +65,46 @@ public class enviarFotoPOST {
     }// preparacion
     
     
+    public boolean actualizarFoto(File[] rutas, String nombre, int i) {
+        String ip = "";
+        boolean res = false;
+        try {
+            //Creamos un archivo FileReader que obtiene lo que tenga el archivo
+            FileReader lector = new FileReader("cnfg.ntw");
+
+            //El contenido de lector se guarda en un BufferedReader
+            BufferedReader contenido = new BufferedReader(lector);
+
+            ip = contenido.readLine();
+        } catch (Exception e) {
+
+        }
+
+        String url = "http://" + ip + ":80/IEEN/subirfotoVehiculo.php";
+        File img = new File(rutas[0].toString());
+        FileBody fileBody = new FileBody(img, ContentType.DEFAULT_BINARY);
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+        builder.addTextBody("nombre", nombre + i);
+        builder.addTextBody("folder", nombre);
+        builder.addPart("imageUploaded", fileBody);
+        HttpEntity entity = builder.build();
+        try {
+            this.sendPost(url, entity);
+            res = true;
+            //this.jButton1.setEnabled(false);
+            // this.contenedor.setIcon(null);
+            // contenedor.setText("LA IMAGEN SE SUBIO CORRECTAMENTE");
+        } catch (Exception ex) {
+            res = false;
+            //  this.contenedor.setIcon(null);
+            //  contenedor.setText("LA IMAGEN NO SE PUDO SUBIR");
+
+        }
+        return res;
+    }// preparacion
+    
+    
     public void prepararImagenesVehiculoActualizar(File[] rutas, String nombre, int contadorImg,int fotosAnteriores) {
         String ip = "";
         try {

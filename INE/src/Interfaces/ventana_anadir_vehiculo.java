@@ -324,7 +324,9 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
         pn_permisos.add(txtNumero);
         txtNumero.setBounds(150, 20, 50, 30);
 
+        txtExtension.setEditable(false);
         txtExtension.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
+        txtExtension.setText("A");
         txtExtension.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtExtensionFocusLost(evt);
@@ -507,7 +509,8 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
                         campoObservaciones.getText(),contadorImg.getText(),campo_no_motor.getText(), fecha, campo_no_factura.getText(), campo_importe.getText(),
                         campo_descripcion.getText(),"EY-10",txtNumero.getText(),txtExtension.getText())) {
                     // Para crear la carpeta se concatena la marca el color y la placa del vehiculo
-                    String nombreParametro = campoMarca.getText() + "_" + campoColor.getText() + "_" + campoMatricula.getText();
+                    String nombreParametro = "EY-10-"+txtNumero.getText()+"-"+txtExtension.getText();
+
                     managerPost.prepararImagenesVehiculo(rutas, nombreParametro, contadorRutas);
                     JOptionPane.showMessageDialog(null, "¡Insertado Correctamente!", "¡Información!", JOptionPane.INFORMATION_MESSAGE);
                     Principal.tablaVehiculos.setModel(vehiculos.getVehiculos());

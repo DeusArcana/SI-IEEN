@@ -5,24 +5,42 @@
  */
 package Formularios;
 
+import Clases.enviarFotoPOST;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
  * @author oscar
  */
 public class modificarFotos extends javax.swing.JDialog {
-
+    String buscar;
     int cantidadFotos;
+    private String path, absolute_path, name;
+    private int returnVal;
+    File[] rutas;
+    enviarFotoPOST managerPost;
 
     /**
      * Creates new form modificarFotos
@@ -34,19 +52,76 @@ public class modificarFotos extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
     }
 
-    public void recuperarCantidad(int cantidadFotos) {
+    public void recuperarCantidad(int cantidadFotos,String clave) {
         this.cantidadFotos = cantidadFotos;
         //crearPaneles(cantidadFotos);
-        crearLabels(cantidadFotos);
+        crearLabels(cantidadFotos,clave);
+        managerPost = new enviarFotoPOST();
 
-    }
-
-
-    public void clic(MouseEvent evt, String nombre) {
-        System.out.println("CLIC "+nombre);
     }
     
-    public void crearLabels(int cantidad) {
+    public void cargarImagen(String busqueda, int i, JLabel label) {
+        //FUNCIONA
+        BufferedImage img = null;
+        String ip = "";
+        try {
+            //Creamos un archivo FileReader que obtiene lo que tenga el archivo
+            FileReader lector = new FileReader("cnfg.ntw");
+
+            //El contenido de lector se guarda en un BufferedReader
+            BufferedReader contenido = new BufferedReader(lector);
+
+            ip = contenido.readLine();
+        } catch (Exception e) {
+
+        }
+        try {
+            // agregar la IP dinamicamente OJO
+
+            String cadena = "\\\\" + ip + "\\imagenes\\vehiculos\\" + busqueda + "\\" + busqueda + i + ".png";
+            System.out.println("" + cadena);
+            img = ImageIO.read(new File(cadena));
+        } catch (IOException ex) {
+            Logger.getLogger(modificarFotos.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        Image dimg = img.getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(dimg);
+        label.setIcon(image);
+
+        jPanel1.add(label);
+
+    }
+
+
+    public void clic(MouseEvent evt, String nombre, int i) {
+        System.out.println("CLIC " + nombre);
+
+        JFileChooser chooser = new JFileChooser(System.getProperty("user.home") + "\\Pictures");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Imagenes JPG,GIF & PNG", "jpg", "gif", "png");
+        chooser.setMultiSelectionEnabled(true);
+        chooser.setFileFilter(filter);
+        returnVal = chooser.showOpenDialog(this);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            name = chooser.getSelectedFile().getName();
+            absolute_path = chooser.getSelectedFile().getAbsolutePath();
+            path = chooser.getSelectedFile().getPath();
+
+            rutas = chooser.getSelectedFiles();
+
+        }
+        if (managerPost.actualizarFoto(rutas, nombre, i)) {
+            JOptionPane.showMessageDialog(null, "Imagen cambiada correctamente.", "Atención", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Se produjo un error al intentar cambiar la imagen.", "Error!", JOptionPane.WARNING_MESSAGE);
+            this.dispose();
+        }
+
+    }
+    
+    public void crearLabels(int cantidad, String nombre) {
         System.out.println("Cantidad: " + cantidad);
         JLabel[] label = new JLabel[cantidad];
         for (int i = 0; i < cantidad; i++) {
@@ -54,23 +129,25 @@ public class modificarFotos extends javax.swing.JDialog {
             label[i].setPreferredSize(new Dimension(120, 120));
             label[i].setBackground(Color.red);
             label[i].setOpaque(true);
-            label[i].setName("imagen" + i);
-            label[i].setText("" + i);
-            GroupLayout jPanelLayout = new GroupLayout(label[i]);
-            label[i].setLayout(jPanelLayout);
-            jPanelLayout.setHorizontalGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 150, Short.MAX_VALUE));
-            jPanelLayout.setVerticalGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 150, Short.MAX_VALUE));
+            label[i].setName(nombre);
             label[i].setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            
-            String nombre = label[i].getName();
+            //label[i].setText(nombre + i);
+            GroupLayout layout = new GroupLayout(label[i]);
+            label[i].setLayout(layout);
+
+            layout.setAutoCreateGaps(true);
+            layout.setAutoCreateContainerGaps(true);
+
+            String titulo = label[i].getName();
+            int contador = i ;
             label[i].addMouseListener(new java.awt.event.MouseAdapter() {
-                
+
                 public void mouseClicked(MouseEvent evt) {
-                    
-                    clic(evt, nombre);
+
+                    clic(evt, titulo, contador);
                 }
             });
-            jPanel1.add(label[i]);
+            cargarImagen(titulo, i, label[i]);
         }// for
     }// crearLabels
 
@@ -83,12 +160,16 @@ public class modificarFotos extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cambiar imagenes");
         setBackground(new java.awt.Color(255, 102, 102));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -98,29 +179,24 @@ public class modificarFotos extends javax.swing.JDialog {
                 jPanel1MouseClicked(evt);
             }
         });
+        jPanel2.add(jPanel1);
+        jPanel1.setBounds(10, 50, 690, 360);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Selecciona la foto que deseas cambiar.");
+        jPanel2.add(jLabel1);
+        jLabel1.setBounds(0, 10, 710, 22);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
-                .addGap(29, 29, 29))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
         );
 
         pack();
@@ -175,5 +251,6 @@ public class modificarFotos extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }
