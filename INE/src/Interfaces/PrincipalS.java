@@ -714,6 +714,9 @@ public class PrincipalS extends javax.swing.JFrame {
         guardargac.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
         guardargac.setText("Guardar");
         guardargac.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                guardargacFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 guardargacFocusLost(evt);
             }
@@ -737,6 +740,12 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         tablonsolicitud1.add(txtbusquedasoli1);
         txtbusquedasoli1.setBounds(170, 120, 290, 30);
+
+        menutablones.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                menutablonesStateChanged(evt);
+            }
+        });
 
         solipendientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -830,6 +839,11 @@ public class PrincipalS extends javax.swing.JFrame {
 
         menutablones.addTab("Solicitudes Aceptadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), soliaceptadas); // NOI18N
 
+        solicarchivadas.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                solicarchivadasFocusLost(evt);
+            }
+        });
         solicarchivadas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 solicarchivadasMouseReleased(evt);
@@ -876,11 +890,6 @@ public class PrincipalS extends javax.swing.JFrame {
 
         menutablones.addTab("Solicitudes Archivadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), solicarchivadas); // NOI18N
 
-        solicanceladas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                solicanceladasMouseReleased(evt);
-            }
-        });
         solicanceladas.setLayout(null);
 
         tabloncanceladas.setModel(new javax.swing.table.DefaultTableModel(
@@ -935,7 +944,6 @@ public class PrincipalS extends javax.swing.JFrame {
         jLabel6.setBounds(20, 20, 1350, 80);
 
         jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
-        jLabel28.setPreferredSize(new java.awt.Dimension(1366, 769));
         tablonsolicitud1.add(jLabel28);
         jLabel28.setBounds(0, 0, 1366, 769);
 
@@ -998,13 +1006,13 @@ public class PrincipalS extends javax.swing.JFrame {
 
         lblObsVehiculo.setText("Observaciones Vehículo");
         jPanel1.add(lblObsVehiculo);
-        lblObsVehiculo.setBounds(810, 320, 150, 18);
+        lblObsVehiculo.setBounds(810, 320, 150, 14);
         jPanel1.add(GaTot);
-        GaTot.setBounds(210, 440, 240, 28);
+        GaTot.setBounds(210, 440, 240, 20);
 
         jLabel3.setText("Gasto total");
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(140, 440, 70, 18);
+        jLabel3.setBounds(140, 440, 70, 14);
 
         btnguardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/guardarsol.png"))); // NOI18N
         btnguardar.setText("Guardar");
@@ -1058,11 +1066,11 @@ public class PrincipalS extends javax.swing.JFrame {
         jPanel1.add(jScrollPane3);
         jScrollPane3.setBounds(30, 10, 420, 420);
         jPanel1.add(txtKilometraje);
-        txtKilometraje.setBounds(1189, 320, 90, 28);
+        txtKilometraje.setBounds(1189, 320, 90, 20);
 
         lblKilometraje.setText("Kilometraje");
         jPanel1.add(lblKilometraje);
-        lblKilometraje.setBounds(1114, 320, 60, 18);
+        lblKilometraje.setBounds(1114, 320, 60, 14);
 
         menuInforme.addTab("Solicitudes aceptadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), jPanel1); // NOI18N
 
@@ -1111,7 +1119,7 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         informe.add(cmbArea);
-        cmbArea.setBounds(590, 120, 250, 28);
+        cmbArea.setBounds(590, 120, 250, 20);
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/banner informes.png"))); // NOI18N
         informe.add(jLabel7);
@@ -1240,6 +1248,9 @@ public class PrincipalS extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }else{
+            cmbArea.setVisible(false);
+            jLabel2.setVisible(false);
         }
     }//GEN-LAST:event_formWindowActivated
 
@@ -1313,6 +1324,9 @@ public class PrincipalS extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }else{
+            cmbArea.setVisible(false);
+            jLabel2.setVisible(false);
         }
     }//GEN-LAST:event_formWindowOpened
 
@@ -1803,11 +1817,12 @@ public class PrincipalS extends javax.swing.JFrame {
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
         // TODO add your handling code here:
         try {
+            String idInforme = "";
             int s = JOptionPane.showConfirmDialog(null, "¿Esta seguro?", "Alerta!", JOptionPane.YES_NO_OPTION);
             if (s == JOptionPane.YES_OPTION) {
                 String id = "";
                 Statement sentencia = cn.createStatement();
-                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = " + folio);
+                ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = " + folio,cn);
                 while (rs.next()) {
                     id = rs.getString("Solicitud_idSolicitud");
                 }
@@ -1835,8 +1850,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 if (c == 1) {
                     sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Solicitud_idSolicitud,importe_total) VALUES('" + txtobvia.getText() + "','" + txtobveh.getText() + "'," + id + "," + GaTot.getText() + ")");
                     //-----------------------------
-                    String idInforme = "";
-                    ResultSet rs2 = sentencia.executeQuery("SELECT MAX(id_informe) AS id_informe FROM Informe");
+                    ResultSet rs2 = cbd.getTabla("SELECT MAX(id_informe) AS id_informe FROM Informe",cn);
                     while (rs2.next()) {
                         idInforme = rs2.getString("id_informe");
                     }
@@ -1846,7 +1860,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     if (filas != 0) {
                         for (int j = 0; filas > j; j++) {
                             sentencia.execute("INSERT INTO Gastos (Precio,Descripcion,Factura) VALUES('" + tablaact.getValueAt(j, 1).toString() + "','" + tablaact.getValueAt(j, 0).toString() + "','" + tablaact.getValueAt(j, 2).toString() + "')");
-                            ResultSet rs3 = sentencia.executeQuery("SELECT MAX(id_Gastos) AS id_Gastos FROM Gastos");
+                            ResultSet rs3 = cbd.getTabla("SELECT MAX(id_Gastos) AS id_Gastos FROM Gastos",cn);
                             while (rs3.next()) {
                                 idGastos = rs3.getString("id_Gastos");
                             }
@@ -1867,11 +1881,23 @@ public class PrincipalS extends javax.swing.JFrame {
                     txtobvia.enable(false);
                     txtobveh.enable(false);
                 }
+                int imprimir=JOptionPane.showConfirmDialog(null, "¿Desea imprimir informe?");
+                if(imprimir==JOptionPane.YES_OPTION){
+                    ResultSet rs2 = cbd.getTabla("SELECT MAX(id_informe) AS id_informe FROM Informe",cn);
+                    while (rs2.next()) {
+                        idInforme = rs2.getString("id_informe");
+                    }
+                    CrearPDF pdf=new CrearPDF();
+                    pdf.reporte(idInforme);
+                }
+                sentencia.close();
             }
         } catch (SQLException ex) {
             javax.swing.JOptionPane.showMessageDialog(null, "Error al generar reporte");
         } catch(NumberFormatException e){
             javax.swing.JOptionPane.showMessageDialog(null, "Kilometraje debe ser un número positivo mayor al kilometraje actual");
+        } catch (DocumentException ex) {
+            Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnguardarActionPerformed
 
@@ -2105,7 +2131,112 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         }
         if (menutablones.getSelectedIndex() == 2) {
-            tablonarchivadas.setModel(SolicitudArB());
+            JTable checks = new JTable();//{  public boolean isCellEditable(int rowIndex, int colIndex){ if(colIndex == 0){return true;} else{return false; } }  };
+            JScrollPane scroll = new JScrollPane();        
+            DefaultTableModel table = new DefaultTableModel();
+
+            //Creamos la tabla con las caracterisiticas que necesitamos
+            checks.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+            checks.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+
+                },
+                //Declaramos el titulo de las columnas
+                new String []{
+                    "Folio ","Tipo de solicitud","Nombre","Puesto","Monto", "Fecha de salida", "Fecha de llegada", "Lugar", "Gastos a comprobar", "Informe"
+                }
+            ){
+                //El tipo que sera cada columna, la primera columna un checkbox y los demas seran objetos
+                Class[] types = new Class [] {
+                    java.lang.Object.class,
+                    java.lang.Object.class,
+                    java.lang.Object.class,
+                    java.lang.Object.class,
+                    java.lang.Object.class,
+                    java.lang.Object.class,
+                    java.lang.Object.class,
+                    java.lang.Object.class,
+                    java.lang.Boolean.class,
+                    java.lang.Object.class
+                };
+
+                public Class getColumnClass(int columnIndex) {
+                    return types [columnIndex];
+                }
+                //Esto es para indicar que columnas dejaremos editar o no
+                boolean[] canEdit = new boolean [] {
+                    false, 
+                    false,
+                    false,
+                    false, 
+                    false,
+                    false,
+                    false,
+                    false,
+                    true, 
+                    false
+                };
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit [columnIndex];
+                }
+
+              }
+
+            );
+            //Agregamos un scroll a la tabla
+            scroll.setViewportView(checks);
+            scroll.setBounds(30, 130, 1110, 500);
+
+            table = (DefaultTableModel)checks.getModel();
+
+            try {
+                //conexion = db.getConexion();
+                String sql="SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and (nombre LIKE '%"+txtbusquedasoli1.getText()+"%' or puesto like '%"+txtbusquedasoli1.getText()+"%' or fecha_salida like '%"+txtbusquedasoli1.getText()+"%' or fecha_llegada like '%"+txtbusquedasoli1.getText()+"%' or lugar like '%"+txtbusquedasoli1.getText()+"%') ORDER BY O.FOLIO DESC";
+                ResultSet usuario=cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+                usuario.next();
+                if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
+                    sql="SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and (nombre LIKE '%"+txtbusquedasoli1.getText()+"%' or puesto like '%"+txtbusquedasoli1.getText()+"%' or fecha_salida like '%"+txtbusquedasoli1.getText()+"%' or fecha_llegada like '%"+txtbusquedasoli1.getText()+"%' or lugar like '%"+txtbusquedasoli1.getText()+"%') ORDER BY O.FOLIO DESC";
+                }else{
+                    usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                    usuario.next();
+                    sql = "SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and nombre='"+usuario.getString("nombre")+"' and (nombre LIKE '%"+txtbusquedasoli1.getText()+"%') order by O.Folio DESC";
+                }
+                Statement sentencia = cn.createStatement();
+                Object datos[] = new Object[10];
+                ResultSet rs = sentencia.executeQuery(sql);
+                //Llenar tabla
+                while (rs.next()) {
+                    int indexDatos=0;
+                    for(int i = 0;i<9;i++){
+                        if(indexDatos==1){
+                            indexDatos=2;
+                        }
+                        if(i == 7){
+                            datos[indexDatos]=rs.getBoolean(i+1);
+                        }else{
+                            datos[indexDatos] = rs.getObject(i+1);
+                        }
+                        indexDatos++;
+
+                    }//Llenamos las columnas por registro
+                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                    if(aux.next()){
+                        datos[1]="Vehículo";
+                    }else{
+                        datos[1]="Viático";
+                    }
+                    table.addRow(datos);//Añadimos la fila
+               }//while
+                //cn.close();
+
+            } catch (SQLException ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta de Solicitudes Archivadas");
+
+            }finally {
+
+                tablonarchivadas.setModel(table);
+            }
         }
         if (menutablones.getSelectedIndex() == 3) {
             modelo = new DefaultTableModel() {
@@ -2580,10 +2711,6 @@ public class PrincipalS extends javax.swing.JFrame {
             MenuTablonC.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
         }//clic derecho
     }//GEN-LAST:event_tabloncanceladasMouseReleased
-
-    private void solicanceladasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_solicanceladasMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_solicanceladasMouseReleased
 
     private void guardargacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardargacActionPerformed
         // TODO add your handling code here:
@@ -3144,6 +3271,19 @@ public class PrincipalS extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para exportar informes finalizados.");
         }
     }//GEN-LAST:event_ExportarExcelInFiActionPerformed
+
+    private void solicarchivadasFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_solicarchivadasFocusLost
+        // TODO add your handling code hguardargac.setVisible(false);
+    }//GEN-LAST:event_solicarchivadasFocusLost
+
+    private void guardargacFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_guardargacFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_guardargacFocusGained
+
+    private void menutablonesStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_menutablonesStateChanged
+        // TODO add your handling code here:
+        guardargac.setVisible(false);
+    }//GEN-LAST:event_menutablonesStateChanged
 
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {

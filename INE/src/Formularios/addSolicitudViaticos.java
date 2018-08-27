@@ -91,7 +91,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         initComponents();
         btnEditar.setVisible(false);
         this.setTitle("Asignar vehículo");
-        JOptionPane.showMessageDialog(this,idSolicitud);
+        //JOptionPane.showMessageDialog(this,idSolicitud);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         parentVehiculo=parent;
@@ -167,7 +167,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         for(int i=0;i<estados.size();i++){
             cmbEstado.addItem(estados.get(i));
         }
-        cmbEstado.setSelectedItem("Nayarit");
+        cmbEstado.setSelectedItem("Nayarit\r");
     }
 
     /**
@@ -610,7 +610,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             conexion.getConexion();
             boolean pernoctado=date_Salida.getDate().getDate()==date_Llegada.getDate().getDate() && date_Salida.getDate().getMonth()==date_Llegada.getDate().getMonth() && date_Salida.getDate().getYear()==date_Llegada.getDate().getYear();
             String perString="";
-            if(pernoctado){
+            if(!pernoctado){
                 perString="Si";
             }else{
                 perString="No";
