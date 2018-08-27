@@ -2916,7 +2916,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_itemSalirActionPerformed
     public void metodoVehiculos(){
         int fila = tablaVehiculos.getSelectedRow();
-        Vector vVehiculos = managerVehiculos.infoVehiculos(tablaVehiculos.getValueAt(fila, 4).toString());
+        Vector vVehiculos = managerVehiculos.infoVehiculos(tablaVehiculos.getValueAt(fila, 5).toString());
         // marca,linea,clase,kilometraje,modelo,color,motor,matricula,observaciones,estado  
         //Cantidad
         String temporal[] = vVehiculos.get(0).toString().split(",");
@@ -2936,8 +2936,7 @@ public class Principal extends javax.swing.JFrame {
         izquierdaBtn.setEnabled(true);
         derechaBtn.setEnabled(true);
         // Para crear la carpeta se concatena la marca el color y la placa del vehiculo
-        auxiliarFoto = tablaVehiculos.getValueAt(fila, 0).toString() + "_"
-                + tablaVehiculos.getValueAt(fila, 3).toString() + "_" + tablaVehiculos.getValueAt(fila, 4).toString();
+        auxiliarFoto = tablaVehiculos.getValueAt(fila, 0).toString();
         cargarImagen(auxiliarFoto,nFoto);
 
         etiquetaMarca.setVisible(true);
@@ -5038,7 +5037,7 @@ public void metodoValeRecoleccion(){
         // TODO add your handling code here:
         try {
             ventana_modificar_vehiculo ob = new ventana_modificar_vehiculo(this, true);
-            campo.setText(tablaVehiculos.getValueAt(tablaVehiculos.getSelectedRow(), 4).toString());
+            campo.setText(tablaVehiculos.getValueAt(tablaVehiculos.getSelectedRow(), 5).toString());
             ob.setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Seleccione un vehículo!","Información",JOptionPane.INFORMATION_MESSAGE);

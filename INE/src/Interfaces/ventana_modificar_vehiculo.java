@@ -98,8 +98,6 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
 
         pn_permisos = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        campoClase = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         campoMotor = new javax.swing.JSpinner();
@@ -109,6 +107,10 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         campo_descripcion = new javax.swing.JTextArea();
         campoMatricula = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        txtFolio = new javax.swing.JTextField();
+        txtNumero = new javax.swing.JTextField();
+        txtExtension = new javax.swing.JTextField();
         campoColor = new javax.swing.JTextField();
         campoMarca = new javax.swing.JTextField();
         campoModelo = new javax.swing.JSpinner();
@@ -152,22 +154,12 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
         jLabel1.setText("* Linea:");
         pn_permisos.add(jLabel1);
-        jLabel1.setBounds(20, 70, 70, 16);
-
-        jLabel2.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
-        jLabel2.setText("* Clase:");
-        pn_permisos.add(jLabel2);
-        jLabel2.setBounds(20, 110, 70, 16);
-
-        campoClase.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
-        campoClase.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elija tipo de carrocería  ...", "SUV", "Sedán", "Hatchback", "Pick Up", "Coupé" }));
-        pn_permisos.add(campoClase);
-        campoClase.setBounds(30, 130, 240, 30);
+        jLabel1.setBounds(20, 130, 70, 16);
 
         jLabel3.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
         jLabel3.setText("* Marca:");
         pn_permisos.add(jLabel3);
-        jLabel3.setBounds(20, 20, 70, 16);
+        jLabel3.setBounds(20, 80, 70, 16);
 
         jLabel4.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         jLabel4.setText("Modelo:");
@@ -212,13 +204,55 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         pn_permisos.add(campoMatricula);
         campoMatricula.setBounds(400, 170, 110, 30);
 
+        jLabel15.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
+        jLabel15.setText("Clave:");
+        pn_permisos.add(jLabel15);
+        jLabel15.setBounds(20, 20, 50, 16);
+
+        txtFolio.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
+        txtFolio.setText("EY-10");
+        txtFolio.setEnabled(false);
+        pn_permisos.add(txtFolio);
+        txtFolio.setBounds(80, 20, 50, 30);
+
+        txtNumero.setEditable(false);
+        txtNumero.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
+        txtNumero.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtNumeroFocusLost(evt);
+            }
+        });
+        txtNumero.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNumeroKeyTyped(evt);
+            }
+        });
+        pn_permisos.add(txtNumero);
+        txtNumero.setBounds(150, 20, 50, 30);
+
+        txtExtension.setEditable(false);
+        txtExtension.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
+        txtExtension.setText("A");
+        txtExtension.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtExtensionFocusLost(evt);
+            }
+        });
+        txtExtension.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtExtensionKeyTyped(evt);
+            }
+        });
+        pn_permisos.add(txtExtension);
+        txtExtension.setBounds(220, 20, 50, 30);
+
         campoColor.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         pn_permisos.add(campoColor);
         campoColor.setBounds(400, 70, 110, 30);
 
         campoMarca.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         pn_permisos.add(campoMarca);
-        campoMarca.setBounds(80, 12, 190, 30);
+        campoMarca.setBounds(80, 70, 190, 30);
 
         campoModelo.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         campoModelo.setModel(new javax.swing.SpinnerNumberModel(2000, 1800, 2017, 1));
@@ -240,7 +274,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
 
         campoLinea.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         pn_permisos.add(campoLinea);
-        campoLinea.setBounds(80, 62, 190, 30);
+        campoLinea.setBounds(80, 120, 190, 30);
 
         campoKilometraje.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         campoKilometraje.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -380,20 +414,9 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         Vector vVehiculos = vehiculos.infoVehiculos(campo.getText());
         String temporal[] = vVehiculos.get(0).toString().split(",");
         
-        if(temporal[2].equals("SUV")){
-            tipo = 1;
-        }else if(temporal[2].equals("Sedán")){
-            tipo = 2;
-        }else if(temporal[2].equals("Hatchback")){
-            tipo = 3;
-        }else if(temporal[2].equals("Pick Up")){
-            tipo = 4;
-        }else if(temporal[2].equals("Coupé")){
-            tipo = 5;
-        }
+        
         campoMarca.setText(temporal[0]);
         campoLinea.setText(temporal[1]);
-        campoClase.setSelectedIndex(tipo);
         campoKilometraje.setText(temporal[3]);
         campoModelo.setValue(Integer.parseInt(temporal[4]));
         campoColor.setText(temporal[5]);
@@ -406,9 +429,10 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         campo_no_factura.setText(temporal[13]);
         campo_importe.setText(temporal[14]);
         campo_descripcion.setText(temporal[15]);
-
+        txtNumero.setText(temporal[16]);
+        
         String sDate1 = temporal[12];
-        Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(sDate1);
+        Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(sDate1);
         campo_fecha_compra.setDate(date1);
     }
     
@@ -474,7 +498,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         matricula = campoMatricula.getText();
         color = campoColor.getText();
 
-        if (marca.isEmpty() || linea.isEmpty() || kilometraje.isEmpty() || matricula.isEmpty() || color.isEmpty() || campoClase.getSelectedIndex() == 0) {
+        if (marca.isEmpty() || linea.isEmpty() || kilometraje.isEmpty() || matricula.isEmpty() || color.isEmpty()) {
             res = false;
         }
         return res;
@@ -482,39 +506,24 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.accesoModulo("actualizar","Vehiculos",Username)){
+        if (manager_permisos.accesoModulo("actualizar", "Vehiculos", Username)) {
             if (validarCampos()) {
-                String ruta = campoRuta.getText();
-                if (!campoRuta.getText().isEmpty()) {
-                    if (vehiculos.actualizarVehiculo(campoMarca.getText(), campoLinea.getText(), campoClase.getSelectedItem().toString(), campoColor.getText(),
-                            campoModelo.getValue().toString(), campoMotor.getValue().toString(), campoKilometraje.getText(),
-                            campoMatricula.getText(), campo_descripcion.getText(), contadorRutas+Integer.parseInt(contadorImg.getText()))) {
-                        String nombreParametro = campoMarca.getText() + "_" + campoColor.getText() + "_" + campoMatricula.getText();
-                        managerPost.prepararImagenesVehiculoActualizar(rutas, nombreParametro, contadorRutas,Integer.parseInt(contadorImg.getText()));
-                        System.out.println(""+rutas+"\n"+ nombreParametro+"\n"+ contadorRutas+"\n"+Integer.parseInt(contadorImg.getText()));
-                        //vehiculos.guardarImagen("C:\\Users\\oscar\\OneDrive\\Documentos\\NetBeansProjects\\INE\\src\\Iconos\\asd.png", "asd");
-                        JOptionPane.showMessageDialog(null, "Informacion actualizada correctamente!", "Información!", JOptionPane.INFORMATION_MESSAGE);
-                        Principal.tablaVehiculos.setModel(vehiculos.getVehiculos());
-                        this.dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Error al actualizar!", "Información!", JOptionPane.WARNING_MESSAGE);
-                    }//else
-                    
+
+                //en este metodo la informacion se guarda sin cambios en la imagen
+                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+                String fecha = formato.format(campo_fecha_compra.getDate());
+                if (vehiculos.actualizarVehiculo(campoMarca.getText(), campoLinea.getText(), campoColor.getText(),
+                        campoModelo.getValue().toString(), campoMotor.getValue().toString(), campoKilometraje.getText(),
+                        campoMatricula.getText(), campoObservaciones1.getText(), contadorRutas + Integer.parseInt(contadorImg.getText()),campo_no_motor.getText(),
+                        fecha,campo_no_factura.getText(),campo_importe.getText(),campo_descripcion.getText())) {
+                    String nombreParametro = "EY-10-" + txtNumero.getText() + "-" + txtExtension.getText();
+                    JOptionPane.showMessageDialog(null, "Informacion actualizada correctamente!", "Información!", JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();
+                    managerPost.prepararImagenesVehiculoActualizar(rutas, nombreParametro, contadorRutas, Integer.parseInt(contadorImg.getText()));
+
                 } else {
-                    //en este metodo la informacion se guarda sin cambios en la imagen
-                    if (vehiculos.actualizarVehiculo(campoMarca.getText(), campoLinea.getText(), campoClase.getSelectedItem().toString(), campoColor.getText(),
-                            campoModelo.getValue().toString(), campoMotor.getValue().toString(), campoKilometraje.getText(),
-                            campoMatricula.getText(), campo_descripcion.getText(), contadorRutas+Integer.parseInt(contadorImg.getText()))) {
-                        String nombreParametro = campoMarca.getText() + "_" + campoColor.getText() + "_" + campoMatricula.getText();
-                        JOptionPane.showMessageDialog(null, "Informacion actualizada correctamente!", "Información!", JOptionPane.INFORMATION_MESSAGE);
-                        this.dispose();
-                        managerPost.prepararImagenesVehiculoActualizar(rutas, nombreParametro, contadorRutas,Integer.parseInt(contadorImg.getText()));
-                        
-                        
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Error al actualizar!", "Información!", JOptionPane.WARNING_MESSAGE);
-                    }//else
-                }
+                    JOptionPane.showMessageDialog(null, "Error al actualizar!", "Información!", JOptionPane.WARNING_MESSAGE);
+                }//else
 
             } else {
                 JOptionPane.showMessageDialog(null, "Llene todos los campos requeridos!", "Información!", JOptionPane.INFORMATION_MESSAGE);
@@ -580,10 +589,51 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
 
     private void btnImagen1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImagen1ActionPerformed
          // TODO add your handling code here:
+         // Para crear la carpeta se concatena la marca el color y la placa del vehiculo
+         
         modificarFotos ob = new modificarFotos(this, true);
-        ob.recuperarCantidad(Integer.parseInt(contadorImg.getText()));
+        
+        ob.recuperarCantidad(Integer.parseInt(contadorImg.getText()),txtFolio.getText()+"-"+txtNumero.getText()+"-"+txtExtension.getText());
         ob.setVisible(true);
     }//GEN-LAST:event_btnImagen1ActionPerformed
+
+    private void txtNumeroFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNumeroFocusLost
+        // TODO add your handling code here:
+    
+    }//GEN-LAST:event_txtNumeroFocusLost
+
+    private void txtNumeroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();
+        if(caracter != evt.getKeyChar()){
+
+        }
+        if(caracter < '0' || caracter > '9'){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNumeroKeyTyped
+
+    private void txtExtensionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtExtensionFocusLost
+        // TODO add your handling code here:
+   
+    }//GEN-LAST:event_txtExtensionFocusLost
+
+    private void txtExtensionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtExtensionKeyTyped
+        // TODO add your handling code here:
+
+        char caracter = evt.getKeyChar();
+        if (caracter != evt.getKeyChar()) {
+
+        }
+        if (txtExtension.getText().length() == 1) {
+            evt.consume();
+        } else {
+            if ((caracter == 'A' || caracter == 'a') || (caracter == 'B' || caracter == 'b')) {
+            } else {
+                evt.consume();
+            }
+        }
+    }//GEN-LAST:event_txtExtensionKeyTyped
     
     
     
@@ -656,7 +706,6 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
     private javax.swing.JButton btnImagen;
     private javax.swing.JButton btnImagen1;
     public static javax.swing.JTextField campo;
-    private javax.swing.JComboBox<String> campoClase;
     private javax.swing.JTextField campoColor;
     private javax.swing.JTextField campoKilometraje;
     private javax.swing.JTextField campoLinea;
@@ -683,7 +732,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -695,5 +744,8 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel nuevasFotos;
     private javax.swing.JPanel pn_permisos;
+    private javax.swing.JTextField txtExtension;
+    private javax.swing.JTextField txtFolio;
+    private javax.swing.JTextField txtNumero;
     // End of variables declaration//GEN-END:variables
 }

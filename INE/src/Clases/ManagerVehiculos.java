@@ -125,6 +125,7 @@ public class ManagerVehiculos {
         DefaultTableModel table = new DefaultTableModel();
 
         try {
+            table.addColumn("Clave");
             table.addColumn("Marca");
             table.addColumn("Linea");
             table.addColumn("Año");
@@ -133,16 +134,16 @@ public class ManagerVehiculos {
             
             
             //Consulta de los empleados
-            String sql = "select marca,linea,modelo,color,matricula from vehiculos;";
+            String sql = "select concat(Folio,'-',Numero,'-',Extension),marca,linea,modelo,color,matricula from vehiculos;";
             con = db.getConexion();
             Statement st = con.createStatement();
-            Object datos[] = new Object[5];
+            Object datos[] = new Object[6];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
 
-                for(int i = 0;i<5;i++){
+                for(int i = 0;i<6;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -167,16 +168,16 @@ public class ManagerVehiculos {
         try {
 
             Statement st = con.createStatement();
-            String sql = "select marca,linea,clase,kilometraje,modelo,color,motor,matricula,observaciones,cantidad_fotos,estado,No_motor,Fecha_compra,No_factura,importe,descripcion from vehiculos where matricula = '"+matricula+"';";
+            String sql = "select marca,linea,kilometraje,modelo,color,motor,matricula,observaciones,cantidad_fotos,estado,No_motor,Fecha_compra,No_factura,importe,descripcion,numero from vehiculos where matricula = '"+matricula+"';";
             ResultSet resultados = st.executeQuery(sql);
             while (resultados.next()) {
                 String temp = "";
-                temp += "" + resultados.getString("marca") + "," + resultados.getString("linea") + "," + resultados.getString("clase")
+                temp += "" + resultados.getString("marca") + "," + resultados.getString("linea") + "," 
                          + "," + resultados.getString("kilometraje")+ "," + resultados.getString("modelo")+ "," + resultados.getString("color")
                         + "," + resultados.getString("motor") + "," + resultados.getString("matricula")+ "," + resultados.getString("observaciones")
                         + "," + resultados.getString("cantidad_fotos") + "," + resultados.getString("estado")+ "," + resultados.getString("No_motor")
                         + "," + resultados.getString("Fecha_compra")+ "," + resultados.getString("No_factura")+ "," + resultados.getString("importe")
-                        + "," + resultados.getString("descripcion");
+                        + "," + resultados.getString("descripcion")+ "," + resultados.getString("numero");
                 v.add(temp);
             }
 
@@ -261,11 +262,11 @@ public class ManagerVehiculos {
 
     }//getEmpleados   
     
-    public boolean actualizarVehiculo(String marca, String linea, String clase, String color, String modelo, String motor,
-            String kilomentraje, String matricula, String observaciones, int cantidad) {
+    public boolean actualizarVehiculo(String marca, String linea, String color, String modelo, String motor,
+            String kilomentraje, String matricula, String observaciones, int cantidad,String noMotor, String fechaCompra, String noFactura, String importe, String descripcion) {
         con = db.getConexion();
         
-        String update = "update vehiculos set marca = ?, linea = ?,clase = ?,color = ?,modelo = ?,motor = ?,kilometraje = ?,observaciones = ?,cantidad_fotos = ? where matricula = '"+matricula+"'";
+        String update = "update vehiculos set marca = ?, linea = ?,color = ?,modelo = ?,motor = ?,kilometraje = ?,observaciones = ?,cantidad_fotos = ?,No_motor = ?,Fecha_compra = ?,No_factura = ?,importe = ?,descripcion = ? where matricula = '"+matricula+"'";
         
         PreparedStatement ps = null;
 
@@ -277,13 +278,19 @@ public class ManagerVehiculos {
 
             ps.setString(1, marca);
             ps.setString(2, linea);
-            ps.setString(3, clase);
-            ps.setString(4, color);
-            ps.setString(5, modelo);
-            ps.setString(6, motor);
-            ps.setString(7, kilomentraje);
-            ps.setString(8, observaciones);
-            ps.setInt(9, cantidad);
+            
+            ps.setString(3, color);
+            ps.setString(4, modelo);
+            ps.setString(5, motor);
+            ps.setString(6, kilomentraje);
+            ps.setString(7, observaciones);
+            ps.setInt(8, cantidad);
+            
+            ps.setString(9, noMotor);
+            ps.setString(10, fechaCompra);
+            ps.setString(11, noFactura);
+            ps.setString(12, importe);
+            ps.setString(13, descripcion);
 
             ps.executeUpdate();
 
@@ -297,11 +304,11 @@ public class ManagerVehiculos {
 
     }//guardarImagen
     
-    public boolean actualizarVehiculoSinFoto(String marca, String linea, String clase, String color, String modelo, String motor,
+    public boolean actualizarVehiculoSinFoto(String marca, String linea, String color, String modelo, String motor,
             String kilomentraje, String matricula, String observaciones) {
         con = db.getConexion();
         
-        String update = "update vehiculos set marca = ?, linea = ?,clase = ?,color = ?,modelo = ?,motor = ?,kilometraje = ?,observaciones = ? where matricula = '"+matricula+"'";
+        String update = "update vehiculos set marca = ?, linea = ?,color = ?,modelo = ?,motor = ?,kilometraje = ?,observaciones = ? where matricula = '"+matricula+"'";
         
         PreparedStatement ps = null;
 
@@ -313,12 +320,11 @@ public class ManagerVehiculos {
 
             ps.setString(1, marca);
             ps.setString(2, linea);
-            ps.setString(3, clase);
-            ps.setString(4, color);
-            ps.setString(5, modelo);
-            ps.setString(6, motor);
-            ps.setString(7, kilomentraje);
-            ps.setString(8, observaciones);
+            ps.setString(3, color);
+            ps.setString(4, modelo);
+            ps.setString(5, motor);
+            ps.setString(6, kilomentraje);
+            ps.setString(7, observaciones);
             
 
             ps.executeUpdate();
