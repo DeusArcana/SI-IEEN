@@ -275,7 +275,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
 
             jlfechacompleta.setText(".");
             pn_addPermiso.add(jlfechacompleta);
-            jlfechacompleta.setBounds(230, 10, 320, 18);
+            jlfechacompleta.setBounds(307, 10, 280, 18);
 
             jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
             pn_addPermiso.add(jLabel6);
@@ -322,7 +322,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         String horaes=format.format((Date)hora_e_s.getValue());
         String horall="";
         String horas="";
-        String estado="Aceptada";
+        String estado="Aceptado";
         int h = comboHorario.getSelectedIndex();
         if(h==1){
                 SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy");
@@ -356,7 +356,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 return;
             }
         }catch (NullPointerException ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error! Faltan campos por llenar");
+                javax.swing.JOptionPane.showMessageDialog(null, "Error! Campos vacíos");
             }
         
         //SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
@@ -382,12 +382,15 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             manager_pases.getNombresEmpleadosArea(vaarea,comboEmpleados);
             //System.out.print(maxidpa());
             if(maxidpa()<=8){
-                folio="00"+(maxidpa()+1);
+                folio="000"+(maxidpa()+1);
             }
             if(maxidpa()>=9 && maxidpa()<=98){
+                folio="00"+(maxidpa()+1);
+            }
+            if(maxidpa()>=99 && maxidpa()<=998){
                 folio="0"+(maxidpa()+1);
             }
-            if(maxidpa()>=99){
+            if(maxidpa()>=999){
                 folio=(maxidpa()+1)+"";
             }
             txt_Folio.setText(manager_pases.getAreaSiglas(vaarea)+"-"+folio);
@@ -403,7 +406,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         comboArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
-        comboArea.addItem("Seleccione area...");
+        comboArea.addItem("Seleccione área...");
         comboEmpleados.addItem("Seleccione empleado...");
         manager_pases.getArea(comboArea);
         
@@ -412,7 +415,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         jlfechacompleta.setText(fechacompleta()); 
         //System.out.print(maxidpa()+1);
         
-        System.out.print(fechacompleta());
+        //System.out.print(fechacompleta());
     }//GEN-LAST:event_formWindowOpened
 
     private void comboHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboHorarioActionPerformed
@@ -510,8 +513,8 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 
                 CrearPaseSalida cps = new CrearPaseSalida();
                 
-                Object[] botones = {"Confirmar","Cancelar"};
-                int opcion = JOptionPane.showOptionDialog(this,"¿Desea imprimir pase E/S?", "Confirmación",
+                Object[] botones = {"Si","No"};
+                int opcion = JOptionPane.showOptionDialog(this,"¿Desea Imprimir el Pase?", "Confirmación",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
                 
                 if(opcion == 0){

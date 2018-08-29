@@ -94,10 +94,9 @@ public class PrincipalP extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem2 = new javax.swing.JMenuItem();
         itemSalir = new javax.swing.JMenuItem();
-        menuOpciones = new javax.swing.JMenu();
-        menuPermisos = new javax.swing.JMenuItem();
 
-        Nueva.setText("Nuevo");
+        Nueva.setText("Nuevo Pase");
+        Nueva.setToolTipText("");
         Nueva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NuevaActionPerformed(evt);
@@ -105,7 +104,7 @@ public class PrincipalP extends javax.swing.JFrame {
         });
         MenuPases.add(Nueva);
 
-        Imprimir.setText("Imprimir");
+        Imprimir.setText("Imprimir Pase");
         Imprimir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ImprimirActionPerformed(evt);
@@ -121,7 +120,7 @@ public class PrincipalP extends javax.swing.JFrame {
         });
         MenuPases.add(Hora_llegada);
 
-        Consultar.setText("Consultar");
+        Consultar.setText("Consultar Pase");
         Consultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ConsultarActionPerformed(evt);
@@ -129,7 +128,7 @@ public class PrincipalP extends javax.swing.JFrame {
         });
         MenuPases.add(Consultar);
 
-        Cancelar.setText("Cancelar");
+        Cancelar.setText("Cancelar Pase");
         Cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CancelarActionPerformed(evt);
@@ -137,7 +136,7 @@ public class PrincipalP extends javax.swing.JFrame {
         });
         MenuPases.add(Cancelar);
 
-        ExportarExcel.setText("ExportarExcel");
+        ExportarExcel.setText("Exportar Excel Pases");
         ExportarExcel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ExportarExcelActionPerformed(evt);
@@ -204,14 +203,14 @@ public class PrincipalP extends javax.swing.JFrame {
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
         );
 
         solicitudviaticos1.add(jPanel16);
-        jPanel16.setBounds(20, 170, 1300, 410);
+        jPanel16.setBounds(20, 170, 1300, 470);
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel17.setText("Busqueda:");
+        jLabel17.setText("Búsqueda:");
         solicitudviaticos1.add(jLabel17);
         jLabel17.setBounds(37, 124, 100, 22);
 
@@ -242,7 +241,7 @@ public class PrincipalP extends javax.swing.JFrame {
         jLabel5.setBounds(20, 20, 1350, 80);
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel20.setText("por Año:");
+        jLabel20.setText("Por Año:");
         solicitudviaticos1.add(jLabel20);
         jLabel20.setBounds(450, 124, 100, 22);
 
@@ -250,7 +249,7 @@ public class PrincipalP extends javax.swing.JFrame {
         solicitudviaticos1.add(jLabel19);
         jLabel19.setBounds(0, 0, 1366, 769);
 
-        solicpase.addTab("Solicitud de Pase E/S", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), solicitudviaticos1); // NOI18N
+        solicpase.addTab("Pases de Entrada/Salida", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), solicitudviaticos1); // NOI18N
 
         menuInterfaces.setText("Archivo");
 
@@ -299,20 +298,6 @@ public class PrincipalP extends javax.swing.JFrame {
 
         jMenuBar1.add(menuInterfaces);
 
-        menuOpciones.setText("Permisos");
-
-        menuPermisos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        menuPermisos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/permisos.png"))); // NOI18N
-        menuPermisos.setText("Permisos puestos");
-        menuPermisos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuPermisosActionPerformed(evt);
-            }
-        });
-        menuOpciones.add(menuPermisos);
-
-        jMenuBar1.add(menuOpciones);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -358,6 +343,10 @@ public class PrincipalP extends javax.swing.JFrame {
 
     private void txtbusquedasoliKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedasoliKeyReleased
         // TODO add your handling code here:
+        if(txtbusquedasoli.getText().equals(" ")){
+            tablapase.setModel(manager_pases.getTasolpa(fechag));
+        }else{
+            
         
             modelo = new DefaultTableModel() {
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -425,8 +414,10 @@ public class PrincipalP extends javax.swing.JFrame {
                 }
 
             } catch (SQLException ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+                javax.swing.JOptionPane.showMessageDialog(null, "Error al consultar los datos");
 
+            }
+            
             }
         
     }//GEN-LAST:event_txtbusquedasoliKeyReleased
@@ -472,8 +463,8 @@ public class PrincipalP extends javax.swing.JFrame {
             int fila = tablapase.getSelectedRow();
             CrearPaseSalida cps = new CrearPaseSalida();
             if(fila >= 0){
-                if(tablapase.getValueAt(fila,11).toString().equals("Cancelada")){
-                    javax.swing.JOptionPane.showMessageDialog(null, "Solicitud cancelada,No se puede imprimir");
+                if(tablapase.getValueAt(fila,11).toString().equals("Cancelado")){
+                    javax.swing.JOptionPane.showMessageDialog(null, "Pase cancelado,No se puede imprimir");
                 }else{
                     try{
                         String[] folio=tablapase.getValueAt(fila,0).toString().split("-");
@@ -495,11 +486,11 @@ public class PrincipalP extends javax.swing.JFrame {
 
                         cps.createTicket(1,folio[0],folio[1],nombreem,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,responarea);
                     } catch (Exception ex) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Error! problema al imprimir");
+                    javax.swing.JOptionPane.showMessageDialog(null, "Error! problema al imprimir el pase");
                         }
                 }
             }else{
-                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar pase");
             }
         }else{
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para imprimir pases de salida.");
@@ -542,7 +533,7 @@ public class PrincipalP extends javax.swing.JFrame {
             }
                 tablapase.setModel(manager_pases.getTasolpa(fechag));                
                 }else{
-                    javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");                
+                    javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar pase");                
                 }
         }else{
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar la hora de llegada.");
@@ -554,18 +545,28 @@ public class PrincipalP extends javax.swing.JFrame {
         if (manager_permisos.accesoModulo("baja", "Pase Salida", Principal.Username)) {
             int k = tablapase.getSelectedRow();
             if (k >= 0) {
+                String cance= tablapase.getValueAt(k, 11).toString();
+                String holle=tablapase.getValueAt(k, 6).toString();
                 String folio = tablapase.getValueAt(k, 0).toString();
                 String[] numfol=folio.split("-");
-
+                if(holle.equals(" ")){
+                   javax.swing.JOptionPane.showMessageDialog(null, "Para cancelar, primero actualice\n"+"la hora de llegada"); 
+                }
+                if(cance.equals("Cancelado")){
+                    javax.swing.JOptionPane.showMessageDialog(null, "Pase ya fue cancelado");
+                }
+                else{
                     try {
                         Statement sentencia = cn.createStatement();
-                        sentencia.executeUpdate("UPDATE solicitud_pase SET Estado = 'Cancelada' WHERE Folio = '" + numfol[0] + "' AND Numero = '" + numfol[1] + "' AND Año = '" + fechag + "';");
-                        javax.swing.JOptionPane.showMessageDialog(null, "Solicitud cancelada");
+                        sentencia.executeUpdate("UPDATE solicitud_pase SET Estado = 'Cancelado' WHERE Folio = '" + numfol[0] + "' AND Numero = '" + numfol[1] + "' AND Año = '" + fechag + "';");
+                        javax.swing.JOptionPane.showMessageDialog(null, "Pase cancelado");
                     } catch (SQLException ex) {
                         javax.swing.JOptionPane.showMessageDialog(null, "Error al cancelar");
-                    }
+                    } 
+                }
+                   
             } else {
-                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar pase");
             }
             tablapase.setModel(manager_pases.getTasolpa(fechag)); 
         }else{
@@ -617,7 +618,7 @@ public class PrincipalP extends javax.swing.JFrame {
 
                 vsp.setVisible(true); 
             } else {
-                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar pase");
             }
         }else{
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para consultar pases de salida.");
@@ -671,16 +672,6 @@ public class PrincipalP extends javax.swing.JFrame {
             System.out.printf("ERROR!! en la consulta (año)");
         }
     }//GEN-LAST:event_comboAñoActionPerformed
-
-    private void menuPermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPermisosActionPerformed
-        // TODO add your handling code here:
-        if(manager_permisos.accesoModulo("actualizar","Permisos",Principal.Username)){
-            Ventana_permisos_puesto ob = new Ventana_permisos_puesto(this, true);
-            ob.setVisible(true);
-        }else{
-            JOptionPane.showMessageDialog(null, "No cuenta con permisos para actualizar los permisos estáticos de los puestos de trabajo.");
-        }//else
-    }//GEN-LAST:event_menuPermisosActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
@@ -788,8 +779,6 @@ public class PrincipalP extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JMenu menuInterfaces;
-    private javax.swing.JMenu menuOpciones;
-    private javax.swing.JMenuItem menuPermisos;
     private javax.swing.JMenuItem mi_pases;
     private javax.swing.JMenuItem mi_viaticos;
     private javax.swing.JPanel solicitudviaticos1;

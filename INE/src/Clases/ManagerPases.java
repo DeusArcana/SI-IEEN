@@ -37,7 +37,7 @@ public class ManagerPases {
         tapa.addColumn("Folio");
         tapa.addColumn("Nombre");
         tapa.addColumn("Puesto");
-        tapa.addColumn("Area");
+        tapa.addColumn("Área");
         tapa.addColumn("Fecha");
         tapa.addColumn("Hora_E/S");
         tapa.addColumn("Hora_Llegada");
@@ -66,7 +66,7 @@ public class ManagerPases {
                 area.next();
                     
             if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
-                 sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado from solicitud_pase where Año = '"+ year +"' order by Numero DESC;";
+                 sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado from solicitud_pase where Año = '"+ year +"' order by Folio , Numero DESC;";
                  
             }else{      
                 sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado from solicitud_pase where Año = '"+ year +"' AND Area = '"+ area.getString("Area") +"' order by Numero DESC;";        
