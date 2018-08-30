@@ -167,6 +167,7 @@ public class modificarFotos extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cambiar imagenes");
         setBackground(new java.awt.Color(255, 102, 102));
+        setResizable(false);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(null);

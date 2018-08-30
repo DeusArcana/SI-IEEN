@@ -74,6 +74,7 @@ public class Ventana_ConsultaDocumentos extends javax.swing.JDialog {
         MenuDocumentos.add(AsignarActa);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);

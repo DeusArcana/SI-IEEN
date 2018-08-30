@@ -234,7 +234,7 @@ public class PrincipalP extends javax.swing.JFrame {
             }
         });
         solicitudviaticos1.add(comboAño);
-        comboAño.setBounds(530, 122, 120, 28);
+        comboAño.setBounds(530, 122, 120, 20);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/banner pases.png"))); // NOI18N
         solicitudviaticos1.add(jLabel5);

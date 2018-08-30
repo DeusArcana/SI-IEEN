@@ -68,6 +68,7 @@ public class Ventana_AceptaSalida extends javax.swing.JDialog {
         jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setLayout(null);
 

@@ -214,6 +214,7 @@ public final class updateInventario extends javax.swing.JDialog {
         contadorImg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         pn_addInventario.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         pn_addInventario.setLayout(null);

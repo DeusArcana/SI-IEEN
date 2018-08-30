@@ -68,6 +68,7 @@ public class ventanaServer extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Acceso al servidor");
+        setResizable(false);
         setType(java.awt.Window.Type.UTILITY);
 
         jPanel2.setLayout(null);

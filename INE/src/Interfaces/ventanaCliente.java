@@ -57,6 +57,7 @@ public class ventanaCliente extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Direccionar servidor");
+        setResizable(false);
         setType(java.awt.Window.Type.UTILITY);
 
         jPanel1.setLayout(null);

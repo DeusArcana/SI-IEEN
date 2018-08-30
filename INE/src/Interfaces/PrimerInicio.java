@@ -110,6 +110,7 @@ public class PrimerInicio extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Primer inicio - Instituto Estatal Electoral de Nayarit");
+        setResizable(false);
         setType(java.awt.Window.Type.UTILITY);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
@@ -159,7 +160,7 @@ public class PrimerInicio extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/instalacion.png"))); // NOI18N
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(0, 0, 450, 0);
+        jLabel1.setBounds(0, 0, 450, 48);
 
         avisoLabel.setForeground(new java.awt.Color(153, 153, 153));
         avisoLabel.setText("Nota: Si ejecuta como servidor necesitará de un registro unico.");

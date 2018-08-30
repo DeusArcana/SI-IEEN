@@ -110,12 +110,12 @@ public class visSolicitudPase extends javax.swing.JDialog {
             }
         });
         pn_vissolipase.add(txtnombre);
-        txtnombre.setBounds(137, 154, 416, 27);
+        txtnombre.setBounds(137, 154, 416, 23);
 
         txtarea.setEditable(false);
         txtarea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_vissolipase.add(txtarea);
-        txtarea.setBounds(137, 124, 416, 27);
+        txtarea.setBounds(137, 124, 416, 23);
 
         txthoraes.setEditable(false);
         txthoraes.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -125,7 +125,7 @@ public class visSolicitudPase extends javax.swing.JDialog {
             }
         });
         pn_vissolipase.add(txthoraes);
-        txthoraes.setBounds(137, 246, 215, 27);
+        txthoraes.setBounds(137, 246, 215, 23);
 
         lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_vissolipase.add(lblAviso);
@@ -133,11 +133,11 @@ public class visSolicitudPase extends javax.swing.JDialog {
 
         txtpuesto.setEditable(false);
         pn_vissolipase.add(txtpuesto);
-        txtpuesto.setBounds(137, 184, 416, 28);
+        txtpuesto.setBounds(137, 184, 416, 20);
 
         txtfecha.setEditable(false);
         pn_vissolipase.add(txtfecha);
-        txtfecha.setBounds(137, 215, 215, 28);
+        txtfecha.setBounds(137, 215, 215, 20);
 
         txtasunto.setEditable(false);
         txtasunto.setColumns(20);
@@ -161,7 +161,7 @@ public class visSolicitudPase extends javax.swing.JDialog {
             }
         });
         pn_vissolipase.add(txtfolio);
-        txtfolio.setBounds(433, 44, 120, 27);
+        txtfolio.setBounds(433, 44, 120, 23);
 
         txthorall.setEditable(false);
         txthorall.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -171,7 +171,7 @@ public class visSolicitudPase extends javax.swing.JDialog {
             }
         });
         pn_vissolipase.add(txthorall);
-        txthorall.setBounds(137, 276, 140, 27);
+        txthorall.setBounds(137, 276, 140, 23);
 
         txthoras.setEditable(false);
         txthoras.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -181,7 +181,7 @@ public class visSolicitudPase extends javax.swing.JDialog {
             }
         });
         pn_vissolipase.add(txthoras);
-        txthoras.setBounds(340, 276, 140, 27);
+        txthoras.setBounds(340, 276, 140, 23);
 
         txttipohorario.setEditable(false);
         txttipohorario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -191,7 +191,7 @@ public class visSolicitudPase extends javax.swing.JDialog {
             }
         });
         pn_vissolipase.add(txttipohorario);
-        txttipohorario.setBounds(138, 83, 140, 27);
+        txttipohorario.setBounds(138, 83, 140, 23);
 
         txttipoasunto.setEditable(false);
         txttipoasunto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -201,7 +201,7 @@ public class visSolicitudPase extends javax.swing.JDialog {
             }
         });
         pn_vissolipase.add(txttipoasunto);
-        txttipoasunto.setBounds(415, 83, 140, 27);
+        txttipoasunto.setBounds(415, 83, 140, 23);
 
         txtestado.setEditable(false);
         txtestado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -211,67 +211,67 @@ public class visSolicitudPase extends javax.swing.JDialog {
             }
         });
         pn_vissolipase.add(txtestado);
-        txtestado.setBounds(434, 10, 120, 27);
+        txtestado.setBounds(434, 10, 120, 23);
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel15.setText("Por horario:");
         pn_vissolipase.add(jLabel15);
-        jLabel15.setBounds(50, 90, 80, 17);
+        jLabel15.setBounds(50, 90, 73, 17);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Área:");
         pn_vissolipase.add(jLabel1);
-        jLabel1.setBounds(93, 130, 36, 17);
+        jLabel1.setBounds(93, 130, 32, 17);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Nombre:");
         pn_vissolipase.add(jLabel7);
-        jLabel7.setBounds(70, 160, 60, 17);
+        jLabel7.setBounds(70, 160, 54, 17);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Puesto:");
         pn_vissolipase.add(jLabel2);
-        jLabel2.setBounds(76, 190, 54, 17);
+        jLabel2.setBounds(76, 190, 47, 17);
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Fecha de entrada:");
         pn_vissolipase.add(jLabel12);
-        jLabel12.setBounds(6, 220, 126, 17);
+        jLabel12.setBounds(6, 220, 111, 17);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Hora de E/S:");
         pn_vissolipase.add(jLabel4);
-        jLabel4.setBounds(44, 252, 86, 17);
+        jLabel4.setBounds(44, 252, 78, 17);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setText("Hora de llegada:");
         pn_vissolipase.add(jLabel11);
-        jLabel11.setBounds(20, 283, 112, 17);
+        jLabel11.setBounds(20, 283, 98, 17);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Asunto:");
         pn_vissolipase.add(jLabel3);
-        jLabel3.setBounds(74, 315, 54, 17);
+        jLabel3.setBounds(74, 315, 48, 17);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Estado:");
         pn_vissolipase.add(jLabel8);
-        jLabel8.setBounds(374, 15, 53, 17);
+        jLabel8.setBounds(374, 15, 47, 17);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("Por asunto:");
         pn_vissolipase.add(jLabel9);
-        jLabel9.setBounds(330, 90, 80, 17);
+        jLabel9.setBounds(330, 90, 72, 17);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Horas:");
         pn_vissolipase.add(jLabel5);
-        jLabel5.setBounds(290, 283, 45, 17);
+        jLabel5.setBounds(290, 283, 40, 17);
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel16.setText("Folio:");
         pn_vissolipase.add(jLabel16);
-        jLabel16.setBounds(390, 50, 37, 17);
+        jLabel16.setBounds(390, 50, 32, 17);
 
         btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
@@ -282,7 +282,7 @@ public class visSolicitudPase extends javax.swing.JDialog {
             }
         });
         pn_vissolipase.add(btnCancelar);
-        btnCancelar.setBounds(230, 440, 120, 36);
+        btnCancelar.setBounds(230, 440, 120, 33);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         jLabel6.setPreferredSize(new java.awt.Dimension(861, 265));

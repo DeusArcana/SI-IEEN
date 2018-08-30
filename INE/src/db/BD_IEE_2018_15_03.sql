@@ -633,7 +633,6 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `INE`.`Vehiculos` (
   `Marca` VARCHAR(45) NULL,
   `Linea` VARCHAR(45) NULL,
-  `Clase` VARCHAR(45) NULL,
   `Kilometraje` VARCHAR(45) NULL,
   `Modelo` VARCHAR(45) NULL,
   `Color` VARCHAR(45) NULL,
@@ -648,6 +647,10 @@ CREATE TABLE IF NOT EXISTS `INE`.`Vehiculos` (
   `No_factura` VARCHAR(100) NULL,
   `importe` VARCHAR(100) NULL,
   `descripcion` VARCHAR(100) NULL,
+  
+  `Folio` 			CHAR(6) NOT NULL,
+  `Numero` 			INT NOT NULL,
+  `Extension` 		CHAR(1) NULL,
   
   PRIMARY KEY (`Matricula`))
 ENGINE = InnoDB;

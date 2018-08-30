@@ -56,6 +56,7 @@ public class Ventana_permisos extends javax.swing.JDialog {
         lblUsuario = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setLayout(null);
 
