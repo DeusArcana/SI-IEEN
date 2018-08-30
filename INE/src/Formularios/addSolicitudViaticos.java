@@ -217,6 +217,14 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         txtADescripcion = new javax.swing.JTextArea();
         hora_Salida_A = new javax.swing.JTextField();
         btnEditar = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -329,7 +337,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
 
             jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             jLabel3.setText("Actividad a realizar:");
-            pn_addInventario.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 228, -1, -1));
+            pn_addInventario.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, -1));
 
             jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             jLabel4.setText("Fecha de salida:");
@@ -397,6 +405,30 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                 }
             });
             pn_addInventario.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 390, -1, -1));
+
+            jLabel12.setText("*");
+            pn_addInventario.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, 40, -1));
+
+            jLabel13.setText("*");
+            pn_addInventario.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 30, -1));
+
+            jLabel15.setText("*");
+            pn_addInventario.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 200, 30, -1));
+
+            jLabel14.setText("*");
+            pn_addInventario.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, -1, -1));
+
+            jLabel16.setText("*");
+            pn_addInventario.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 30, -1));
+
+            jLabel17.setText("*");
+            pn_addInventario.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, 30, -1));
+
+            jLabel18.setText("*");
+            pn_addInventario.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 30, -1));
+
+            jLabel19.setText("* Campo obligatorio");
+            pn_addInventario.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 480, -1, -1));
 
             jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
             pn_addInventario.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 880, 520));
@@ -1003,7 +1035,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             res=cbd.getTabla("select idSolicitud_vehiculo from solicitud_vehiculo order by idSolicitud_vehiculo DESC", cn);
             res.next();
             String idSolVehiculo=res.getString("idSolicitud_vehiculo");
-            insersion=conexion.ejecutar("insert into vehiculo_viatico(solicitud_vehiculo_idSolicitud_vehiculo,solicitud_viatico_idSolicitud)values("+idSolVehiculo+","+idSolViatico+",'0')");
+            insersion=conexion.ejecutar("insert into vehiculo_viatico(solicitud_vehiculo_idSolicitud_vehiculo,solicitud_viatico_idSolicitud,agregado)values("+idSolVehiculo+","+idSolViatico+",'0')");
             
             if(insersion){
                 JOptionPane.showMessageDialog(this, "Insersión correcta");
@@ -1149,6 +1181,14 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

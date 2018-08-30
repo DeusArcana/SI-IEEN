@@ -220,8 +220,6 @@ public class PrincipalS extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem2 = new javax.swing.JMenuItem();
         itemSalir = new javax.swing.JMenuItem();
-        menuOpciones = new javax.swing.JMenu();
-        menuPermisos = new javax.swing.JMenuItem();
 
         jPanel17.setBackground(new java.awt.Color(255, 255, 255));
         jPanel17.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Opciones :", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Yu Gothic UI", 0, 12))); // NOI18N
@@ -656,7 +654,9 @@ public class PrincipalS extends javax.swing.JFrame {
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         solicitudviaticos1.add(jPanel16);
@@ -1177,20 +1177,6 @@ public class PrincipalS extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        menuOpciones.setText("Permisos");
-
-        menuPermisos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        menuPermisos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/permisos.png"))); // NOI18N
-        menuPermisos.setText("Permisos puestos");
-        menuPermisos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuPermisosActionPerformed(evt);
-            }
-        });
-        menuOpciones.add(menuPermisos);
-
-        jMenuBar1.add(menuOpciones);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1390,7 +1376,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 String idSolicitud = "";
                 try {
                     Statement sentencia = cn.createStatement();
-                    ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
+                    ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'",cn);
                     rs.next();
                     idSolicitud = rs.getString("Solicitud_idSolicitud");
 
@@ -1479,7 +1465,7 @@ public class PrincipalS extends javax.swing.JFrame {
                             sentencia.executeUpdate("UPDATE Oficio_comision SET Monto = " + monto + "WHERE(Folio =" + folio + ")");
                             //sentencia.executeUpdate("UPDATE solicitud_viatico SET Estado = 'C' WHERE (idSolicitud = '" + id + "')");
                             javax.swing.JOptionPane.showMessageDialog(null, "Monto Asignado");
-                            ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
+                            ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'",cn);
                             while (rs.next()) {
                                 idSolicitud = rs.getString("Solicitud_idSolicitud");
                             }
@@ -1515,7 +1501,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 try {
                     String total = "";
                     Statement sentencia = cn.createStatement();
-                    ResultSet rs0 = sentencia.executeQuery("SELECT COUNT(*) as Folio FROM Oficio_comision");
+                    ResultSet rs0 = cbd.getTabla("SELECT COUNT(*) as Folio FROM Oficio_comision",cn);
                     while (rs0.next()) {
                         total = rs0.getString("Folio");
                     }
@@ -1523,7 +1509,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     int folio = 0;
                     String valor = "";
                     if (total1 != 0) {
-                        ResultSet rs = sentencia.executeQuery("SELECT MAX(Folio) AS Folio FROM Oficio_comision");
+                        ResultSet rs = cbd.getTabla("SELECT MAX(Folio) AS Folio FROM Oficio_comision",cn);
                         while (rs.next()) {
                             valor = rs.getString("Folio");
                         }
@@ -1545,7 +1531,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     String nombre = "";
                     String fecha_salida = "";
                     String fecha_llegada = "";
-                    ResultSet rs1 = sentencia.executeQuery("SELECT Fecha_salida,Lugar,Nombre,Fecha_llegada FROM Solicitud_viatico WHERE (idSolicitud = '" + id + "')");
+                    ResultSet rs1 = cbd.getTabla("SELECT Fecha_salida,Lugar,Nombre,Fecha_llegada FROM Solicitud_viatico WHERE (idSolicitud = '" + id + "')",cn);
                     while (rs1.next()) {
                         fecha_salida = rs1.getString("Fecha_salida");
                         estadolocalidad = rs1.getString("Lugar");
@@ -1570,7 +1556,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     empleado = nombre.split(" ");
                     //String nombres = empleado[0] + " " + empleado[1];
                     String puesto = "";
-                    ResultSet rs2 = sentencia.executeQuery("SELECT puesto FROM Empleados E WHERE concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) =  '"+nombre+"'");
+                    ResultSet rs2 = cbd.getTabla("SELECT puesto FROM Empleados E WHERE concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) =  '"+nombre+"'",cn);
                     while (rs2.next()) {
                         puesto = rs2.getString("puesto");
                     }
@@ -1579,12 +1565,12 @@ public class PrincipalS extends javax.swing.JFrame {
                     if (et[0].equals("Nayarit")) {
                         if (et[1].equals("Bahía de Banderas")) {
                             if (dias == 0) {
-                                ResultSet rs3 = sentencia.executeQuery("SELECT SinPernoctarBDB FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                                ResultSet rs3 = cbd.getTabla("SELECT SinPernoctarBDB FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'",cn);
                                 while (rs3.next()) {
                                     tarifa = rs3.getString("SinPernoctarBDB");
                                 }
                             } else {
-                                ResultSet rs3 = sentencia.executeQuery("SELECT PernoctandoBDB FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                                ResultSet rs3 = cbd.getTabla("SELECT PernoctandoBDB FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'",cn);
                                 while (rs3.next()) {
                                     tarifa = rs3.getString("PernoctandoBDB");
                                 }
@@ -1598,12 +1584,12 @@ public class PrincipalS extends javax.swing.JFrame {
                             } else {
                                 if (et[1].equals("Acaponeta") || et[1].equals("Amatlán de Cañas") || et[1].equals("El Nayar") || et[1].equals("Huajicori") || et[1].equals("La Yesca") || et[1].equals("Tecuala")) {
                                     if (dias == 0) {
-                                        ResultSet rs3 = sentencia.executeQuery("SELECT  SinPernoctar100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                                        ResultSet rs3 = cbd.getTabla("SELECT  SinPernoctar100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'",cn);
                                         while (rs3.next()) {
                                             tarifa = rs3.getString("SinPernoctar100");
                                         }
                                     } else {
-                                        ResultSet rs3 = sentencia.executeQuery("SELECT Pernoctando100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                                        ResultSet rs3 = cbd.getTabla("SELECT Pernoctando100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'",cn);
                                         while (rs3.next()) {
                                             tarifa = rs3.getString("Pernoctando100");
                                         }
@@ -1613,12 +1599,12 @@ public class PrincipalS extends javax.swing.JFrame {
                                     }
                                 } else {
                                     if (dias == 0) {
-                                        ResultSet rs3 = sentencia.executeQuery("SELECT  SinPernoctar30100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                                        ResultSet rs3 = cbd.getTabla("SELECT  SinPernoctar30100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'",cn);
                                         while (rs3.next()) {
                                             tarifa = rs3.getString("SinPernoctar30100");
                                         }
                                     } else {
-                                        ResultSet rs3 = sentencia.executeQuery("SELECT Pernoctando30100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                                        ResultSet rs3 = cbd.getTabla("SELECT Pernoctando30100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'",cn);
                                         while (rs3.next()) {
                                             tarifa = rs3.getString("Pernoctando30100");
                                         }
@@ -1631,12 +1617,12 @@ public class PrincipalS extends javax.swing.JFrame {
                         }
                     } else {
                         if (dias == 0) {
-                            ResultSet rs3 = sentencia.executeQuery("SELECT SinPernoctarFDE FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                            ResultSet rs3 = cbd.getTabla("SELECT SinPernoctarFDE FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'",cn);
                             while (rs3.next()) {
                                 tarifa = rs3.getString("SinPernoctarFDE");
                             }
                         } else {
-                            ResultSet rs3 = sentencia.executeQuery("SELECT PernoctandoFDE FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                            ResultSet rs3 = cbd.getTabla("SELECT PernoctandoFDE FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'",cn);
                             while (rs3.next()) {
                                 tarifa = rs3.getString("PernoctandoFDE");
                             }
@@ -1674,7 +1660,7 @@ public class PrincipalS extends javax.swing.JFrame {
 
                     String total = "";
                     Statement sentencia = cn.createStatement();
-                    ResultSet rs0 = sentencia.executeQuery("SELECT COUNT(*) as Folio FROM Oficio_comision");
+                    ResultSet rs0 = cbd.getTabla("SELECT COUNT(*) as Folio FROM Oficio_comision",cn);
                     while (rs0.next()) {
                         total = rs0.getString("Folio");
                     }
@@ -1682,7 +1668,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     int folio = 0;
                     String valor = "";
                     if (total1 != 0) {
-                        ResultSet rs = sentencia.executeQuery("SELECT MAX(Folio) AS Folio FROM Oficio_comision");
+                        ResultSet rs = cbd.getTabla("SELECT MAX(Folio) AS Folio FROM Oficio_comision",cn);
                         while (rs.next()) {
                             valor = rs.getString("Folio");
                         }
@@ -1926,8 +1912,8 @@ public class PrincipalS extends javax.swing.JFrame {
             try {
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = sentencia.executeQuery("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 AND (O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%'"
-                        + "OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Actividad LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Lugar LIKE '%" + txtbusquedasoli2.getText() + "%'OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%') ");
+                ResultSet rs = cbd.getTabla("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 AND (O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%'"
+                        + "OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Actividad LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Lugar LIKE '%" + txtbusquedasoli2.getText() + "%'OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%') ",cn);
 
                 String solicitud[] = new String[5];
                 while (rs.next()) {
@@ -1958,8 +1944,8 @@ public class PrincipalS extends javax.swing.JFrame {
             this.tablainfo1.setModel(modelo);
             try {
                 Statement sentencia = cn.createStatement();
-                ResultSet rs = sentencia.executeQuery("SELECT I.Id_Informe, O.Folio, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 AND (I.Id_Informe LIKE '%" + txtbusquedasoli2.getText()
-                        + "%' OR O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%' OR I.importe_total LIKE '%" + txtbusquedasoli2.getText() + "%') ORDER BY I.Id_Informe DESC");
+                ResultSet rs = cbd.getTabla("SELECT I.Id_Informe, O.Folio, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 AND (I.Id_Informe LIKE '%" + txtbusquedasoli2.getText()
+                        + "%' OR O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%' OR I.importe_total LIKE '%" + txtbusquedasoli2.getText() + "%') ORDER BY I.Id_Informe DESC",cn);
 
                 String solicitud[] = new String[5];
                 while (rs.next()) {
@@ -2058,9 +2044,9 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'P' AND (idSolicitud LIKE '%" + txtbusquedasoli1.getText() + "%'"
+                ResultSet rs = cbd.getTabla("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'P' AND (idSolicitud LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR Nombre LIKE '%" + txtbusquedasoli1.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
-                        + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%') ");
+                        + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%') ",cn);
 
                 String solicitud[] = new String[7];
                 while (rs.next()) {
@@ -2103,9 +2089,9 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = sentencia.executeQuery("SELECT O.Folio,S.nombre, S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud AND (O.Folio LIKE '%" + txtbusquedasoli1.getText() + "%'"
+                ResultSet rs = cbd.getTabla("SELECT O.Folio,S.nombre, S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud AND (O.Folio LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR O.Monto LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
-                        + "OR S.Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Nombre LIKE'%"+txtbusquedasoli1.getText()+"%') ");
+                        + "OR S.Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Nombre LIKE'%"+txtbusquedasoli1.getText()+"%') ",cn);
 
                 String solicitud[] = new String[8];
                 while (rs.next()) {
@@ -2204,7 +2190,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 }
                 Statement sentencia = cn.createStatement();
                 Object datos[] = new Object[10];
-                ResultSet rs = sentencia.executeQuery(sql);
+                ResultSet rs = cbd.getTabla(sql,cn);
                 //Llenar tabla
                 while (rs.next()) {
                     int indexDatos=0;
@@ -2257,9 +2243,9 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar, Motivo FROM Solicitud_viatico WHERE Estado = 'C' AND (idSolicitud LIKE '%" + txtbusquedasoli1.getText() + "%'"
+                ResultSet rs = cbd.getTabla("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar, Motivo FROM Solicitud_viatico WHERE Estado = 'C' AND (idSolicitud LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR Nombre LIKE '%" + txtbusquedasoli1.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
-                        + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR Motivo LIKE '%" + txtbusquedasoli1.getText() + "%') order by idSolicitud DESC");
+                        + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR Motivo LIKE '%" + txtbusquedasoli1.getText() + "%') order by idSolicitud DESC",cn);
 
                 String solicitud[] = new String[8];
                 while (rs.next()) {
@@ -2297,7 +2283,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     Class.forName("com.mysql.jdbc.Driver");
 
                     Statement sentencia = cn.createStatement();
-                    ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
+                    ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'",cn);
                     while (rs.next()) {
                         idSolicitud = rs.getString("Solicitud_idSolicitud");
                     }
@@ -2427,7 +2413,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 try {
                     Statement sentencia = cn.createStatement();
                     String gastos_comprobar = "";
-                    ResultSet rs = sentencia.executeQuery("SELECT S.gastos_comprobar FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Folio = " + folio);
+                    ResultSet rs = cbd.getTabla("SELECT S.gastos_comprobar FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Folio = " + folio,cn);
                     while (rs.next()) {
                         gastos_comprobar = rs.getString("gastos_comprobar");
                     }
@@ -2575,7 +2561,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 String idSolicitud = "";
                 try {
                     Statement sentencia = cn.createStatement();
-                    ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
+                    ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'",cn);
                     rs.next();
                     idSolicitud = rs.getString("Solicitud_idSolicitud");
 
@@ -2656,7 +2642,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 try {
 
                     Statement sentencia = cn.createStatement();
-                    ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
+                    ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'",cn);
                     while (rs.next()) {
                         idSolicitud = rs.getString("Solicitud_idSolicitud");
                     }
@@ -2721,7 +2707,7 @@ public class PrincipalS extends javax.swing.JFrame {
             String idSolicitud = "";
             try {
                 Statement sentencia = cn.createStatement();
-                ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
+                ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'",cn);
                 while (rs.next()) {
                     idSolicitud = rs.getString("Solicitud_idSolicitud");
                 }
@@ -2763,7 +2749,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 try {
 
                     Statement sentencia = cn.createStatement();
-                    ResultSet rs = sentencia.executeQuery("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'");
+                    ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'",cn);
                     while (rs.next()) {
                         idSolicitud = rs.getString("Solicitud_idSolicitud");
                     }
@@ -2922,9 +2908,9 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = sentencia.executeQuery("SELECT idSolicitud,Fecha_salida, Lugar, Nombre,Actividad, Pernoctado, Puesto, Fecha_llegada,  Estado FROM Solicitud_viatico WHERE idSolicitud LIKE '%" + txtbusquedasoli.getText() + "%'"
+                ResultSet rs = cbd.getTabla("SELECT idSolicitud,Fecha_salida, Lugar, Nombre,Actividad, Pernoctado, Puesto, Fecha_llegada,  Estado FROM Solicitud_viatico WHERE (idSolicitud LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli.getText() + "%'"
-                    + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%' OR Pernoctado LIKE '%" + txtbusquedasoli.getText() + "%' OR Actividad LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%'");
+                    + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%' OR Pernoctado LIKE '%" + txtbusquedasoli.getText() + "%' OR Actividad LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%') and estado='P'",cn);
 
                 String solicitud[] = new String[10];
                 while (rs.next()) {
@@ -2979,10 +2965,10 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = sentencia.executeQuery("SELECT idSolicitud, Actividad, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar,Pernoctado,Hora_salida,Hora_llegada,estado FROM solicitud_viatico SVI inner join vehiculo_viatico VV on SVI.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo"
+                ResultSet rs = cbd.getTabla("SELECT idSolicitud, Actividad, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar,Pernoctado,Hora_salida,Hora_llegada,estado FROM solicitud_viatico SVI inner join vehiculo_viatico VV on SVI.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo"
                     + " WHERE (idSolicitud LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli.getText() + "%'"
-                    + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%') and SV.chofer='1'");
+                    + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%') and SV.chofer='1' and estado='P'",cn);
 
                 String solicitud[] = new String[11];
                 while (rs.next()) {
@@ -3109,16 +3095,6 @@ public class PrincipalS extends javax.swing.JFrame {
             //Cerrar sesion
         }
     }//GEN-LAST:event_itemSalirActionPerformed
-
-    private void menuPermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPermisosActionPerformed
-        // TODO add your handling code here:
-        if(manager_permisos.accesoModulo("actualizar","Permisos",Username)){
-            Ventana_permisos_puesto ob = new Ventana_permisos_puesto(this, true);
-            ob.setVisible(true);
-        }else{
-            JOptionPane.showMessageDialog(null, "No cuenta con permisos para actualizar los permisos estáticos de los puestos de trabajo.");
-        }//else
-    }//GEN-LAST:event_menuPermisosActionPerformed
 
     private void ExportarExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarExcelActionPerformed
         // TODO add your handling code here:
@@ -3299,7 +3275,7 @@ public class PrincipalS extends javax.swing.JFrame {
         this.tablainfo.setModel(modelo);
         try {
             Statement sentencia = cn.createStatement();
-            ResultSet rs = sentencia.executeQuery(s);
+            ResultSet rs = cbd.getTabla(s,cn);
             String solicitud[] = new String[5];
             while (rs.next()) {
                 solicitud[0] = rs.getString("Folio");
@@ -3328,7 +3304,7 @@ public class PrincipalS extends javax.swing.JFrame {
         this.tablainfo1.setModel(modelo);
         try {
             Statement sentencia = cn.createStatement();
-            ResultSet rs = sentencia.executeQuery(s);
+            ResultSet rs = cbd.getTabla(s,cn);
             String solicitud[] = new String[5];
             while (rs.next()) {
                 solicitud[0] = rs.getString("Id_Informe");
@@ -3403,7 +3379,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     + "OR S.gastos_comprobar LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Reporte LIKE '%" + txtbusquedasoli1.getText() + "%')ORDER BY O.FOLIO DESC";
             Statement sentencia = cn.createStatement();
             Object datos[] = new Object[7];
-            ResultSet rs = sentencia.executeQuery(sql);
+            ResultSet rs = cbd.getTabla(sql,cn);
             //Llenar tabla
             while (rs.next()) {
 
@@ -3562,8 +3538,6 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JLabel lblKilometraje;
     private javax.swing.JLabel lblObsVehiculo;
     private javax.swing.JTabbedPane menuInforme;
-    private javax.swing.JMenu menuOpciones;
-    private javax.swing.JMenuItem menuPermisos;
     private javax.swing.JTabbedPane menutablones;
     private javax.swing.JMenuItem mi_inventario;
     private javax.swing.JMenuItem mi_pases;
