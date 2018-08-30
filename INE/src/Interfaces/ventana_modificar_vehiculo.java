@@ -13,6 +13,7 @@ import Clases.enviarFotoPOST;
 import Formularios.modificarFotos;
 import static Interfaces.Principal.Username;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -69,19 +70,17 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         manager_permisos = new ManagerPermisos();
         managerPost = new enviarFotoPOST();
 
-        //Quitar la coma al spinner
-        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(campoMotor, "#");
-        campoMotor.setEditor(editor);
+        //        //Quitar la coma al spinner
+//        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(campoMotor, "#"); campoMotor.setEditor(editor);
         //Quitar editable a spinner
-        ((DefaultEditor) campoMotor.getEditor()).getTextField().setEditable(false);
-        JSpinner.NumberEditor editor2 = new JSpinner.NumberEditor(campoModelo, "#");
-        campoModelo.setEditor(editor2);
+        ((DefaultEditor) campoMotor.getEditor()).getTextField().setEditable(false);        
+        JSpinner.NumberEditor editor2 = new JSpinner.NumberEditor(campoModelo, "#"); campoModelo.setEditor(editor2);
         //Quitar editable a spinner
         ((DefaultEditor) campoModelo.getEditor()).getTextField().setEditable(false);
         campoMatricula.setEditable(false);
         campo_descripcion.setLineWrap(true);
 
-        
+        campoMarca.requestFocus();
         
     }
 
@@ -139,6 +138,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         nuevasFotos = new javax.swing.JLabel();
         campoRuta = new javax.swing.JTextField();
         campo = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -168,8 +168,9 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         jLabel4.setBounds(340, 20, 60, 20);
 
         campoMotor.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
-        campoMotor.setModel(new javax.swing.SpinnerNumberModel(4, 4, 8, 2));
+        campoMotor.setModel(new javax.swing.SpinnerListModel(new String[] {"3", "4", "6", "8"}));
         campoMotor.setToolTipText("Numero de cilindros del vehiculo ...");
+        campoMotor.setNextFocusableComponent(campoMatricula);
         pn_permisos.add(campoMotor);
         campoMotor.setBounds(400, 120, 40, 30);
 
@@ -191,12 +192,19 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         campo_descripcion.setColumns(20);
         campo_descripcion.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         campo_descripcion.setRows(5);
+        campo_descripcion.setTabSize(0);
+        campo_descripcion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                campo_descripcionKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(campo_descripcion);
 
         pn_permisos.add(jScrollPane1);
         jScrollPane1.setBounds(370, 330, 340, 120);
 
         campoMatricula.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
+        campoMatricula.setNextFocusableComponent(campo_fecha_compra);
         campoMatricula.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 campoMatriculaKeyTyped(evt);
@@ -248,15 +256,18 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         txtExtension.setBounds(220, 20, 50, 30);
 
         campoColor.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
+        campoColor.setNextFocusableComponent(campoMotor);
         pn_permisos.add(campoColor);
         campoColor.setBounds(400, 70, 110, 30);
 
         campoMarca.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
+        campoMarca.setNextFocusableComponent(campoLinea);
         pn_permisos.add(campoMarca);
         campoMarca.setBounds(80, 70, 190, 30);
 
         campoModelo.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         campoModelo.setModel(new javax.swing.SpinnerNumberModel(2000, 1800, 2017, 1));
+        campoModelo.setNextFocusableComponent(campoColor);
         pn_permisos.add(campoModelo);
         campoModelo.setBounds(400, 20, 100, 30);
 
@@ -268,16 +279,24 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         campoObservaciones1.setColumns(20);
         campoObservaciones1.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         campoObservaciones1.setRows(5);
+        campoObservaciones1.setTabSize(0);
+        campoObservaciones1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                campoObservaciones1KeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(campoObservaciones1);
 
         pn_permisos.add(jScrollPane2);
         jScrollPane2.setBounds(30, 330, 320, 120);
 
         campoLinea.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
+        campoLinea.setNextFocusableComponent(campoKilometraje);
         pn_permisos.add(campoLinea);
         campoLinea.setBounds(80, 120, 190, 30);
 
         campoKilometraje.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
+        campoKilometraje.setNextFocusableComponent(campo_no_motor);
         campoKilometraje.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 campoKilometrajeKeyTyped(evt);
@@ -290,6 +309,8 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         jLabel13.setText("* No. de factura:");
         pn_permisos.add(jLabel13);
         jLabel13.setBounds(10, 280, 100, 16);
+
+        campo_no_factura.setNextFocusableComponent(campoModelo);
         pn_permisos.add(campo_no_factura);
         campo_no_factura.setBounds(100, 270, 170, 30);
 
@@ -302,10 +323,16 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         jLabel14.setText("* Importe:");
         pn_permisos.add(jLabel14);
         jLabel14.setBounds(330, 280, 80, 16);
+
+        campo_importe.setNextFocusableComponent(campoObservaciones1);
         pn_permisos.add(campo_importe);
         campo_importe.setBounds(400, 270, 210, 30);
+
+        campo_no_motor.setNextFocusableComponent(campo_no_factura);
         pn_permisos.add(campo_no_motor);
         campo_no_motor.setBounds(100, 220, 170, 30);
+
+        campo_fecha_compra.setNextFocusableComponent(campo_importe);
         pn_permisos.add(campo_fecha_compra);
         campo_fecha_compra.setBounds(402, 220, 210, 30);
 
@@ -391,6 +418,11 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         pn_permisos.add(campo);
         campo.setBounds(390, 380, 50, 20);
 
+        jLabel16.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
+        jLabel16.setText("* Campos requeridos.");
+        pn_permisos.add(jLabel16);
+        jLabel16.setBounds(30, 460, 160, 16);
+
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         fondo.setText("jLabel1");
         pn_permisos.add(fondo);
@@ -422,7 +454,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         campoModelo.setValue(Integer.parseInt(temporal[4]));
         campoColor.setText(temporal[5]);
         
-        campoMotor.setValue(Integer.parseInt(temporal[6]));
+        campoMotor.setValue(temporal[6]);
         campoMatricula.setText(temporal[7]);
         campoObservaciones1.setText(temporal[8]);
         contadorImg.setText(temporal[9]);
@@ -635,6 +667,20 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_txtExtensionKeyTyped
+
+    private void campoObservaciones1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoObservaciones1KeyPressed
+         // TODO add your handling code here:
+         if (evt.getKeyCode() == KeyEvent.VK_TAB) {
+            campo_descripcion.requestFocus();
+        }
+    }//GEN-LAST:event_campoObservaciones1KeyPressed
+
+    private void campo_descripcionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campo_descripcionKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_TAB) {
+            jButton2.requestFocus();
+        }
+    }//GEN-LAST:event_campo_descripcionKeyPressed
     
     
     
@@ -734,6 +780,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

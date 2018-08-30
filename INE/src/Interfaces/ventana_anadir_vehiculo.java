@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -29,6 +30,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JSpinner.DefaultEditor;
+import javax.swing.SpinnerListModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -61,11 +64,10 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
         vehiculos = new ManagerVehiculos();
         manager_permisos = new ManagerPermisos();
         
-        //Quitar la coma al spinner
-        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(campoMotor, "#"); campoMotor.setEditor(editor);
+//        //Quitar la coma al spinner
+//        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(campoMotor, "#"); campoMotor.setEditor(editor);
         //Quitar editable a spinner
-        ((DefaultEditor) campoMotor.getEditor()).getTextField().setEditable(false);
-        
+        ((DefaultEditor) campoMotor.getEditor()).getTextField().setEditable(false);        
         JSpinner.NumberEditor editor2 = new JSpinner.NumberEditor(campoModelo, "#"); campoModelo.setEditor(editor2);
         //Quitar editable a spinner
         ((DefaultEditor) campoModelo.getEditor()).getTextField().setEditable(false);
@@ -74,6 +76,8 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
         campo_descripcion.setLineWrap(true);
         campoRuta.setText(cargarNoImage()+"\\src\\Imagenes\\noimage.png");
         contadorImg.setVisible(false);
+        
+        
 
     }
     
@@ -174,8 +178,9 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
         jLabel4.setBounds(340, 20, 60, 20);
 
         campoMotor.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
-        campoMotor.setModel(new javax.swing.SpinnerNumberModel(4, 4, 8, 2));
+        campoMotor.setModel(new javax.swing.SpinnerListModel(new String[] {"3", "4", "6", "8"}));
         campoMotor.setToolTipText("Numero de cilindros del vehiculo ...");
+        campoMotor.setEditor(new javax.swing.JSpinner.ListEditor(campoMotor));
         campoMotor.setNextFocusableComponent(campoMatricula);
         pn_permisos.add(campoMotor);
         campoMotor.setBounds(400, 120, 40, 30);
@@ -494,13 +499,18 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-         // TODO add your handling code here: 
+        // TODO add your handling code here: 
         // TODO add your handling code here: 
         ImageIcon imgThisImg = new ImageIcon(campoRuta.getText());
         ImageIcon icono = new ImageIcon(imgThisImg.getImage().getScaledInstance(contenedor.getWidth(), contenedor.getHeight(), Image.SCALE_DEFAULT));
         contenedor.setIcon(icono);
         txtNumero.requestFocus();
-        txtNumero.setText(""+vehiculos.sugerenciaNumero());
+        txtNumero.setText("" + vehiculos.sugerenciaNumero());
+        //Asignar fecha por default
+        Date date = new Date();
+        campo_fecha_compra.setDate(date);
+        //default value,lower bound,upper bound,increment by
+
     }//GEN-LAST:event_formWindowOpened
    
     private void campoMatriculaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoMatriculaKeyTyped

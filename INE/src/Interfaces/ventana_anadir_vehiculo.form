@@ -89,9 +89,17 @@
               <Font name="Yu Gothic UI" size="12" style="0"/>
             </Property>
             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-              <SpinnerModel initial="4" maximum="8" minimum="4" numberType="java.lang.Integer" stepSize="2" type="number"/>
+              <SpinnerModel type="list">
+                <ListItem value="3"/>
+                <ListItem value="4"/>
+                <ListItem value="6"/>
+                <ListItem value="8"/>
+              </SpinnerModel>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Numero de cilindros del vehiculo ..."/>
+            <Property name="editor" type="javax.swing.JComponent" editor="org.netbeans.modules.form.editors.SpinnerEditorEditor">
+              <SpinnerEditor type="2"/>
+            </Property>
             <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
               <ComponentRef name="campoMatricula"/>
             </Property>

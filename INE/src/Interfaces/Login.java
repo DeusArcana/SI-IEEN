@@ -93,6 +93,7 @@ public class Login extends javax.swing.JFrame {
         });
 
         pn_principal_Login.setBackground(new java.awt.Color(255, 204, 0));
+        pn_principal_Login.setOpaque(false);
         pn_principal_Login.setLayout(null);
 
         tf_campoUsuario.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
