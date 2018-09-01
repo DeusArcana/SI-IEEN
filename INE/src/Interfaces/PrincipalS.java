@@ -1382,6 +1382,7 @@ public class PrincipalS extends javax.swing.JFrame {
 
                     s = new visSolicitudViaticos();
                     s.IdUsuario(Integer.parseInt(idSolicitud), 1, 1);
+                    sentencia.close();
                 } catch (SQLException ex) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
@@ -1473,6 +1474,7 @@ public class PrincipalS extends javax.swing.JFrame {
                             javax.swing.JOptionPane.showMessageDialog(null, "Solicitud archivada");
                         }
                     }
+                    sentencia.close();
                 } catch (SQLException ex) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
@@ -1634,6 +1636,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     sentencia.execute("INSERT INTO Oficio_comision VALUES(" + folio + "," + id + "," + tarifa + ")");
                     sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'A' WHERE (idSolicitud = '" + id + "')");
                     javax.swing.JOptionPane.showMessageDialog(null, "Solicitud aceptada");
+                    sentencia.close();
                 } catch (SQLException ex) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta o folio ya asignado");
                 }/*catch (ClassNotFoundException e) {
@@ -1690,7 +1693,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'A' WHERE (idSolicitud = '" + id + "')");
                     sentencia.executeUpdate("UPDATE Solicitud_viatico SET Motivo = NULL WHERE (idSolicitud = '" + id + "')");
                     javax.swing.JOptionPane.showMessageDialog(null, "Solicitud aceptada");
-
+                    sentencia.close();
                 } catch (SQLException ex) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta o folio ya asignado");
 
@@ -1924,7 +1927,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     solicitud[4] = rs.getString("Monto");
                     modelo.addRow(solicitud);
                 }
-
+                sentencia.close();
             } catch (SQLException ex) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
@@ -1957,7 +1960,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     modelo.addRow(solicitud);
 
                 }
-
+                sentencia.close();
             } catch (SQLException ex) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
@@ -1982,6 +1985,7 @@ public class PrincipalS extends javax.swing.JFrame {
                         Statement sentencia = cn.createStatement();
                         sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'C', Motivo= '" + motivo + "' WHERE (idSolicitud = '" + id + "')");
                         javax.swing.JOptionPane.showMessageDialog(null, "Solicitud cancelada");
+                        sentencia.close();
                     } catch (SQLException ex) {
                         javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
@@ -2064,7 +2068,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     solicitud[6] = rs.getString("Lugar");
                     modelo.addRow(solicitud);
                 }
-
+                sentencia.close();
             } catch (SQLException ex) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
@@ -2110,7 +2114,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     solicitud[7] = rs.getString("Lugar");
                     modelo.addRow(solicitud);
                 }
-
+                sentencia.close();
             } catch (SQLException ex) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
@@ -2215,7 +2219,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     table.addRow(datos);//Añadimos la fila
                }//while
                 //cn.close();
-
+                sentencia.close();
             } catch (SQLException ex) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta de Solicitudes Archivadas");
 
@@ -2264,7 +2268,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     solicitud[7] = rs.getString("Motivo");
                     modelo.addRow(solicitud);
                 }
-
+                sentencia.close();
             } catch (SQLException ex) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
@@ -2294,6 +2298,7 @@ public class PrincipalS extends javax.swing.JFrame {
                         sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'C', Motivo = '" + motivo + "' WHERE (idSolicitud = " + idSolicitud + ")");
                         javax.swing.JOptionPane.showMessageDialog(null, "Solicitud cancelada");
                     }
+                    sentencia.close();
                 } catch (SQLException ex) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
@@ -2461,6 +2466,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     txtbusquedasoli2.setVisible(false);
                     jLabel1.setVisible(true);
                     jScrollPane1.setVisible(false);
+                    sentencia.close();
                 } catch (SQLException ex) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
                 }
@@ -2567,6 +2573,7 @@ public class PrincipalS extends javax.swing.JFrame {
 
                     s = new visSolicitudViaticos();
                     s.IdUsuario(Integer.parseInt(idSolicitud), 1, 1);
+                    sentencia.close();
                 } catch (SQLException ex) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
@@ -2648,7 +2655,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     }
                     sentencia.executeUpdate("UPDATE Solicitud_viatico SET gastos_comprobar = '" + gastosac + "' WHERE (idSolicitud = " + idSolicitud + ")");
                     //javax.swing.JOptionPane.showMessageDialog(null, "Gastos a comprobar");
-
+                    sentencia.close();
                 } catch (SQLException ex) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
@@ -2718,6 +2725,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 }else{
                     Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
                 }
+                sentencia.close();
             } catch (SQLException ex) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
@@ -2755,6 +2763,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     }
                     sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'AR', gastos_comprobar = 'false' WHERE (idSolicitud = " + idSolicitud + ")");
                     javax.swing.JOptionPane.showMessageDialog(null, "Solicitud archivada");
+                    sentencia.close();
                 } catch (SQLException ex) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
@@ -2938,7 +2947,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     }
                     modelo.addRow(solicitud);
                 }
-
+                sentencia.close();
             } catch (SQLException ex) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
@@ -2998,7 +3007,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     }
                     modelo.addRow(solicitud);
                 }
-
+                sentencia.close();
             } catch (SQLException ex) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
@@ -3285,6 +3294,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 solicitud[4] = rs.getString("Monto");
                 modelo.addRow(solicitud);
             }
+            sentencia.close();
         } catch (SQLException ex) {
             javax.swing.JOptionPane.showMessageDialog(null, "Error en la consultaA");
         }
@@ -3314,7 +3324,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 solicitud[4] = rs.getString("importe_total");
                 modelo.addRow(solicitud);
             }
-
+            sentencia.close();
         } catch (SQLException ex) {
             javax.swing.JOptionPane.showMessageDialog(null, "Error en la consultaF");
 
@@ -3395,7 +3405,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 table.addRow(datos);//Añadimos la fila
             }//while
             //cn.close();
-
+            sentencia.close();
         } catch (SQLException ex) {
             javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta de Solicitudes Archivadas");
 

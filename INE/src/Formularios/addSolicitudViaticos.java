@@ -225,6 +225,9 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
+        btnMasMun = new javax.swing.JButton();
+        btnLimpiarLugar = new javax.swing.JButton();
+        lblLugar = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -291,15 +294,15 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             });
             pn_addInventario.add(cmbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, -1, -1));
 
-            cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione localidad" }));
-            pn_addInventario.add(cmbLocalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, -1, -1));
+            cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione municipio" }));
+            pn_addInventario.add(cmbLocalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 190, 130, -1));
 
             txt_Actividad.setColumns(20);
             txt_Actividad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             txt_Actividad.setRows(5);
             jScrollPane1.setViewportView(txt_Actividad);
 
-            pn_addInventario.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 251, 460, 150));
+            pn_addInventario.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 281, 460, 120));
 
             btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
@@ -337,7 +340,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
 
             jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             jLabel3.setText("Actividad a realizar:");
-            pn_addInventario.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, -1));
+            pn_addInventario.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, -1));
 
             jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             jLabel4.setText("Fecha de salida:");
@@ -413,10 +416,10 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             pn_addInventario.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 30, -1));
 
             jLabel15.setText("*");
-            pn_addInventario.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 200, 30, -1));
+            pn_addInventario.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 200, 40, -1));
 
             jLabel14.setText("*");
-            pn_addInventario.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, -1, -1));
+            pn_addInventario.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, -1, -1));
 
             jLabel16.setText("*");
             pn_addInventario.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 30, -1));
@@ -428,7 +431,26 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             pn_addInventario.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 30, -1));
 
             jLabel19.setText("* Campo obligatorio");
-            pn_addInventario.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 480, -1, -1));
+            pn_addInventario.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 460, -1, -1));
+
+            btnMasMun.setText("+");
+            btnMasMun.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnMasMunActionPerformed(evt);
+                }
+            });
+            pn_addInventario.add(btnMasMun, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 220, 70, -1));
+
+            btnLimpiarLugar.setText("Limpiar");
+            btnLimpiarLugar.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnLimpiarLugarActionPerformed(evt);
+                }
+            });
+            pn_addInventario.add(btnLimpiarLugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 250, 70, -1));
+
+            lblLugar.setText("Lugar");
+            pn_addInventario.add(lblLugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 220, 290, -1));
 
             jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
             pn_addInventario.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 880, 520));
@@ -627,6 +649,35 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
          cmbLocalidad.setEnabled(true);
          btnAceptar.setText("Seleccionar vehículo");
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    boolean masMunicipios=false;
+    private void btnMasMunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMasMunActionPerformed
+        // TODO add your handling code here:
+        if(cmbLocalidad.getSelectedIndex()>0){
+            if(!masMunicipios){
+                lblLugar.setText(cmbEstado.getSelectedItem().toString());
+                cmbEstado.setEnabled(false);
+                masMunicipios=true;
+            }        
+            String[] mun=lblLugar.getText().split(",");
+            boolean munAsignados=false;
+            for(int i=1;i<mun.length;i++){
+                if(cmbLocalidad.getSelectedItem().toString().equals(mun[i])){
+                    munAsignados=true;
+                }
+            }
+            if(!munAsignados){
+                lblLugar.setText(lblLugar.getText()+","+cmbLocalidad.getSelectedItem().toString());
+            }
+        }
+    }//GEN-LAST:event_btnMasMunActionPerformed
+
+    private void btnLimpiarLugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarLugarActionPerformed
+        // TODO add your handling code here:
+        masMunicipios=false;
+        lblLugar.setText("Lugar");
+        cmbEstado.setEnabled(true);
+    }//GEN-LAST:event_btnLimpiarLugarActionPerformed
     public void insertar_Solicitud(int ConCarro){
         try{
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
@@ -647,8 +698,14 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             }else{
                 perString="No";
             }
+            String lugarViatico="";
+            if(!masMunicipios){
+                lugarViatico=cmbEstado.getSelectedItem().toString()+","+cmbLocalidad.getSelectedItem().toString();
+            }else{
+                lugarViatico=lblLugar.getText();
+            }
             SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
-            boolean insersion = insersion=conexion.ejecutar("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida,gastos_comprobar,consejero_presidente) values('"+fecha_Salida+"','"+cmbEstado.getSelectedItem().toString()+","+cmbLocalidad.getSelectedItem().toString()+"'"
+            boolean insersion = insersion=conexion.ejecutar("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida,gastos_comprobar,consejero_presidente) values('"+fecha_Salida+"','"+lugarViatico+"'"
                 + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+perString+"','"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"','','')");
             
             if(insersion){
@@ -666,7 +723,13 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             SimpleDateFormat format=new SimpleDateFormat("HH:mm");
             String fecha_Salida=sdf.format(date_Salida.getDate().getTime());
             String fecha_Llegada=sdf.format(date_Llegada.getDate().getTime());
-            System.out.print("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+cmbEstado.getSelectedItem().toString()+"'"
+            String lugarViatico="";
+            if(!masMunicipios){
+                lugarViatico=cmbEstado.getSelectedItem().toString()+","+cmbLocalidad.getSelectedItem().toString();
+            }else{
+                lugarViatico=lblLugar.getText();
+            }
+            System.out.print("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Vehiculo,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+lugarViatico+"'"
                 + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+carro+"'"
                 + ",'"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"')");
         }
@@ -1024,8 +1087,14 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             conexion.getConexion();
             boolean insersion;
             if(!asignarVehiculo){
-            insersion = insersion=conexion.ejecutar("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+
-                    cmbEstado.getSelectedItem().toString()+","+cmbLocalidad.getSelectedItem().toString()+"'"
+                String lugarViatico="";
+                if(!masMunicipios){
+                    lugarViatico=cmbEstado.getSelectedItem().toString()+","+cmbLocalidad.getSelectedItem().toString();
+                }else{
+                    lugarViatico=lblLugar.getText();
+                }
+                insersion = insersion=conexion.ejecutar("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+
+                    lugarViatico+"'"
                 + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"')");
             }
             insersion=conexion.ejecutar("insert into solicitud_vehiculo(vehiculo_usado_idvehiculo_usado,vehiculo,chofer)values("+idVehiculo_usado+",'"+arr[0]+"','1')");
@@ -1167,6 +1236,8 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnLimpiarLugar;
+    private javax.swing.JButton btnMasMun;
     private javax.swing.JComboBox cmbArea;
     private javax.swing.JComboBox<String> cmbEstado;
     private javax.swing.JComboBox<String> cmbLocalidad;
@@ -1201,6 +1272,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblAviso;
+    private javax.swing.JLabel lblLugar;
     private javax.swing.JPanel pn_addInventario;
     private javax.swing.JTextArea txtADescripcion;
     private javax.swing.JTextField txtKilometraje;
