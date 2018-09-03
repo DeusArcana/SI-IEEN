@@ -115,6 +115,7 @@ public class ManagerInventario {
                 ps.executeUpdate();
             }//for
 
+            conexion.close();
             return true;
 
         } catch (Exception ex) {
@@ -149,7 +150,7 @@ public class ManagerInventario {
 	 *		
 	 */
     public boolean actualizarProducto(	String clave, String producto, String descripcion, String ubicacion, String marca, 
-										String no_serie, String modelo, String color, String fecha_compra, String factura, float importe, String ruta) {
+										String no_serie, String modelo, String color, String fecha_compra, String factura, float importe, int ruta) {
         try {
 			PreparedStatement ps = db.getConexion().prepareStatement("{CALL `ine`.`usp_update_productoInventario`(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
 
@@ -160,20 +161,15 @@ public class ManagerInventario {
             ps.setString(5, no_serie);
             ps.setString(6, modelo);
             ps.setString(7, color);
-			
-			if(ruta.equals(""))
-				ps.setNull(8, 0);
-			else
-				ps.setBinaryStream(8, new FileInputStream(new File(ruta)));
-            
-			ps.setString(9, fecha_compra);
+            ps.setInt(8, ruta);
+            ps.setString(9, fecha_compra);
             ps.setString(10, factura);
             ps.setFloat(11, importe);
-			ps.setString(12, Validaciones.deconstructFormatID(clave));
+            ps.setString(12, Validaciones.deconstructFormatID(clave));
 			
             return ps.executeUpdate() != 0;
 
-        } catch (FileNotFoundException | SQLException ex) {
+        } catch (SQLException ex) {
             System.err.println("Error al actualizar producto: " + ex.getMessage());
 			Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
 			return false;

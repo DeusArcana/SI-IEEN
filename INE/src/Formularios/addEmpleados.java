@@ -11,8 +11,10 @@ import Clases.ManagerPermisos;
 
 import Interfaces.Principal;
 import static Interfaces.Principal.comboEmpUsu;
+import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -45,6 +47,14 @@ public class addEmpleados extends javax.swing.JDialog {
         manager_users = new ManagerUsers();
         manager_complemento = new ManagerComplemento();
         manager_permisos = new ManagerPermisos();
+        
+        JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) txtFecha.getDateEditor();
+        date_Salida_Editor.setEditable(false);
+        txtFecha.getJCalendar().setMaxSelectableDate(new Date()); // sets today as minimum selectable date        
+        
+        //Asignar fecha por default
+        Date date = new Date();        
+        txtFecha.setDate(date);
         
         this.setLocationRelativeTo(null);
         this.setTitle("Registro de nuevo empleado");

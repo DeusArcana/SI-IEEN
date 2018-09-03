@@ -751,6 +751,12 @@ public class ManagerUsers {
             Statement st = conexion.createStatement();
             st.executeUpdate(sql);
             
+            if(estatus.equals("Baja")){
+                sql = "update user set estatus = '"+estatus+"' where id_empleado = "+id+";";
+                st = conexion.createStatement();
+                st.executeUpdate(sql);
+            }
+            
             //Cerramos la conexión
             conexion.close();
             return true;

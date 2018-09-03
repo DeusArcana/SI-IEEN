@@ -1014,6 +1014,7 @@
                         </Property>
                       </Properties>
                       <Events>
+                        <EventHandler event="mouseMoved" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="tablaInventarioMouseMoved"/>
                         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaInventarioMouseClicked"/>
                         <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaInventarioMouseReleased"/>
                       </Events>
@@ -1336,7 +1337,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Tahoma" size="18" style="0"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Busqueda por "/>
+                    <Property name="text" type="java.lang.String" value="B&#xfa;squeda por "/>
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -2780,35 +2781,36 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
+                                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                              <Group type="102" attributes="0">
+                                                  <Component id="lb_objetos_asignables2" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                                                  <Component id="rb_inventario_normal1" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                                                  <Component id="rb_inventario_granel1" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="32767" attributes="0"/>
+                                                  <Component id="jLabel33" min="-2" pref="90" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="comboFolioAsignacion" min="-2" pref="229" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Component id="jScrollPane32" min="-2" pref="657" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
                                               <Component id="lblAreaAsignacion" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="comboArea" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="lb_objetos_asignables4" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="comboEmpleado" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="jScrollPane31" pref="600" max="32767" attributes="0"/>
+                                              <Component id="lb_objetos_asignables3" max="32767" attributes="0"/>
                                           </Group>
                                           <Group type="102" attributes="0">
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Group type="102" attributes="0">
-                                                      <Component id="lb_objetos_asignables2" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                                                      <Component id="rb_inventario_normal1" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                                                      <Component id="rb_inventario_granel1" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace max="32767" attributes="0"/>
-                                                      <Component id="jLabel33" min="-2" pref="90" max="-2" attributes="0"/>
-                                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                      <Component id="comboFolioAsignacion" min="-2" pref="229" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <Component id="jScrollPane32" min="-2" pref="657" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="jScrollPane31" pref="600" max="32767" attributes="0"/>
-                                                  <Component id="lb_objetos_asignables3" max="32767" attributes="0"/>
-                                              </Group>
+                                              <Component id="lb_objetos_asignables4" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="comboEmpleado" min="-2" pref="375" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <EmptySpace pref="1174" max="32767" attributes="0"/>
@@ -2825,14 +2827,16 @@
                                           <Component id="comboArea" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="lblAreaAsignacion" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="lb_objetos_asignables2" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="rb_inventario_normal1" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="rb_inventario_granel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="comboFolioAsignacion" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                                          <Component id="jLabel33" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="lb_objetos_asignables3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                                              <Component id="comboFolioAsignacion" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                                              <Component id="jLabel33" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
                                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -3113,21 +3117,21 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <Component id="lb_empleado3" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="comboEmpleadoR" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="lb_objetos_asignados1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jScrollPane34" min="-2" pref="1281" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
                                               <Component id="lblAreaAsignacion1" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="comboArea1" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                                              <Component id="lb_empleado3" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="comboEmpleadoR" min="-2" pref="360" max="-2" attributes="0"/>
+                                              <EmptySpace type="separate" max="-2" attributes="0"/>
                                               <Component id="lblAreaAsignacion2" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="comboAño" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <Component id="lb_objetos_asignados1" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jScrollPane34" min="-2" pref="1281" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace pref="49" max="32767" attributes="0"/>
                                   </Group>
@@ -3137,18 +3141,16 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                              <Component id="comboAño" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="lblAreaAsignacion2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="comboArea1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="lblAreaAsignacion1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="103" groupAlignment="3" attributes="0">
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="comboArea1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblAreaAsignacion1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" alignment="3" groupAlignment="3" attributes="0">
                                               <Component id="lb_empleado3" alignment="3" min="-2" max="-2" attributes="0"/>
                                               <Component id="comboEmpleadoR" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                                                  <Component id="comboAño" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lblAreaAsignacion2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              </Group>
                                           </Group>
                                       </Group>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>

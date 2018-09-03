@@ -966,6 +966,11 @@ public class Principal extends javax.swing.JFrame {
 
             }
         ));
+        tablaInventario.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                tablaInventarioMouseMoved(evt);
+            }
+        });
         tablaInventario.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaInventarioMouseClicked(evt);
@@ -1111,7 +1116,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel2.setBounds(30, 10, 1350, 80);
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel14.setText("Busqueda por ");
+        jLabel14.setText("Búsqueda por ");
         jPanel5.add(jLabel14);
         jLabel14.setBounds(30, 100, 130, 22);
 
@@ -1922,31 +1927,31 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(pn_asignacion_inventario1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(pn_asignacion_inventario1Layout.createSequentialGroup()
+                            .addComponent(lb_objetos_asignables2)
+                            .addGap(8, 8, 8)
+                            .addComponent(rb_inventario_normal1)
+                            .addGap(10, 10, 10)
+                            .addComponent(rb_inventario_granel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(comboFolioAsignacion, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane32, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pn_asignacion_inventario1Layout.createSequentialGroup()
                         .addComponent(lblAreaAsignacion)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(comboArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(29, 29, 29)
+                .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane31, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+                        .addComponent(lb_objetos_asignables3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pn_asignacion_inventario1Layout.createSequentialGroup()
                         .addComponent(lb_objetos_asignables4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pn_asignacion_inventario1Layout.createSequentialGroup()
-                        .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(pn_asignacion_inventario1Layout.createSequentialGroup()
-                                .addComponent(lb_objetos_asignables2)
-                                .addGap(8, 8, 8)
-                                .addComponent(rb_inventario_normal1)
-                                .addGap(10, 10, 10)
-                                .addComponent(rb_inventario_granel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(comboFolioAsignacion, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane32, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(29, 29, 29)
-                        .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane31, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
-                            .addComponent(lb_objetos_asignables3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(comboEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(1174, Short.MAX_VALUE))
         );
         pn_asignacion_inventario1Layout.setVerticalGroup(
@@ -1958,14 +1963,15 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(lb_objetos_asignables4)
                     .addComponent(comboArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblAreaAsignacion))
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
                 .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lb_objetos_asignables2)
                     .addComponent(rb_inventario_normal1)
                     .addComponent(rb_inventario_granel1)
-                    .addComponent(comboFolioAsignacion, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel33)
-                    .addComponent(lb_objetos_asignables3))
+                    .addComponent(lb_objetos_asignables3)
+                    .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(comboFolioAsignacion, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel33)))
                 .addGap(10, 10, 10)
                 .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane31)
@@ -2034,36 +2040,35 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(pn_recoleccion_inventario1Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lb_objetos_asignados1)
+                    .addComponent(jScrollPane34, javax.swing.GroupLayout.PREFERRED_SIZE, 1281, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pn_recoleccion_inventario1Layout.createSequentialGroup()
-                        .addComponent(lb_empleado3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboEmpleadoR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblAreaAsignacion1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(comboArea1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(10, 10, 10)
+                        .addComponent(lb_empleado3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboEmpleadoR, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(lblAreaAsignacion2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lb_objetos_asignados1)
-                    .addComponent(jScrollPane34, javax.swing.GroupLayout.PREFERRED_SIZE, 1281, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(comboAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(49, Short.MAX_VALUE))
         );
         pn_recoleccion_inventario1Layout.setVerticalGroup(
             pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_recoleccion_inventario1Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(comboAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblAreaAsignacion2))
-                    .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(comboArea1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblAreaAsignacion1))
+                .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboArea1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAreaAsignacion1)
                     .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lb_empleado3)
-                        .addComponent(comboEmpleadoR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(comboEmpleadoR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(comboAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblAreaAsignacion2))))
                 .addGap(18, 18, 18)
                 .addComponent(lb_objetos_asignados1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -4145,7 +4150,7 @@ public void metodoValeRecoleccion(){
     }
     private void txtBusquedaUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaUsuarioKeyReleased
         // TODO add your handling code here:
-        if((manager_permisos.accesoModulo("consulta","Empleados",Username) && comboEmpUsu.getSelectedItem().toString().equals("Empleados") ) || (manager_permisos.accesoModulo("consulta","Usuarios",Username) && comboEmpUsu.getSelectedItem().toString().equals("Usuarios"))){
+        if( (manager_permisos.accesoModulo("consulta","Empleados",Username) && (comboEmpUsu.getSelectedItem().toString().equals("Empleados") || comboEmpUsu.getSelectedItem().toString().equals("Empleados sin usuario")) ) || (manager_permisos.accesoModulo("consulta","Usuarios",Username) && comboEmpUsu.getSelectedItem().toString().equals("Usuarios"))){
             buscarEmpleados();
         }else{
             tablaUsuarios.setModel(new DefaultTableModel());
@@ -4222,6 +4227,7 @@ public void metodoValeRecoleccion(){
                 comboFiltro.addItem("Marca");
                 comboFiltro.addItem("Observaciones");
             }else{
+                banderaInventario = 3;
                 btnAddInventario.setVisible(false);
                 lblFolioCategoria.setVisible(false);
                 lblEstatus.setVisible(false);
@@ -4275,7 +4281,7 @@ public void metodoValeRecoleccion(){
             }//clic derecho
 
         }//if
-        else{
+        else if(banderaInventario == 1){
             //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
             if(SwingUtilities.isRightMouseButton(evt)){
                 AddObservacion.setVisible(false);
@@ -4877,7 +4883,6 @@ public void metodoValeRecoleccion(){
             boolean canceloStockMin = true;
             int cantidad = 0;
             int fila = tablaInventario.getSelectedRow();
-            int folio = comboFolio.getSelectedIndex();
             while(entero){    
 
                 String cadena = JOptionPane.showInputDialog("Ingrese las unidades que se desean agregar");
@@ -4908,6 +4913,12 @@ public void metodoValeRecoleccion(){
 
                 if(manejador_inventario.actualizarStock(codigo, cantidad)){
                     JOptionPane.showMessageDialog(null, "El inventario se actualizó exitosamente.");
+                    
+                    if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
+                        realizarBusquedaInventario();
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Usted ya no cuenta con permisos para consultar los consumibles.");
+                    }
                 }else{
                     JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
                 }
@@ -4960,13 +4971,13 @@ public void metodoValeRecoleccion(){
                     dar_baja.setVisible(false);
                     activar.setVisible(false);
                 }else if(comboEmpUsuEstatus.getSelectedItem().equals("Activo")){
-                    activarE.setVisible(true);
-                    bajaE.setVisible(false);
+                    activarE.setVisible(false);
+                    bajaE.setVisible(true);
                     dar_baja.setVisible(false);
                     activar.setVisible(true);
                 }else{
-                    activarE.setVisible(false);
-                    bajaE.setVisible(true);
+                    activarE.setVisible(true);
+                    bajaE.setVisible(false);
                     dar_baja.setVisible(true);
                     activar.setVisible(false);
                 }
@@ -5948,6 +5959,21 @@ public void metodoValeRecoleccion(){
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void tablaInventarioMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaInventarioMouseMoved
+        // TODO add your handling code here:
+        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+        int r = tablaInventario.rowAtPoint(evt.getPoint());
+        int c = tablaInventario.columnAtPoint(evt.getPoint());
+        if (r >= 0 && r < tablaInventario.getRowCount()){
+            if(c == 2 || c == 5){
+                tablaInventario.setToolTipText(tablaInventario.getValueAt(r, c).toString());
+            }else{
+                tablaInventario.setToolTipText(null);
+            }
+        }
+        
+    }//GEN-LAST:event_tablaInventarioMouseMoved
        
     public void cargarImagen(String busqueda, int numero) {
 

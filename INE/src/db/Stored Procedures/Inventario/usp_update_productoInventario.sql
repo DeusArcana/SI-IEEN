@@ -1,7 +1,5 @@
-DROP PROCEDURE IF EXISTS `usp_update_productoInventario`;
-DELIMITER $$
-CREATE PROCEDURE `usp_update_productoInventario`(IN `Nom_Prod`	VARCHAR(50), IN `Desc`	VARCHAR(500), IN `Ubic` VARCHAR(50), IN `Marc` 	VARCHAR(50),
-												 IN `No_S`		VARCHAR(45), IN `Modl` 	VARCHAR(100), IN `Colr`	VARCHAR(30), IN `Imgn`	LONGBLOB,
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_update_productoInventario`(IN `Nom_Prod`	VARCHAR(50), IN `Desc`	VARCHAR(500), IN `Ubic` VARCHAR(50), IN `Marc` 	VARCHAR(50),
+												 IN `No_S`		VARCHAR(45), IN `Modl` 	VARCHAR(100), IN `Colr`	VARCHAR(30), IN `Imgn`	INT,
 												 IN `Fec_Comp`	DATE, 		 IN `Fact` 	VARCHAR(20),  IN `Impor` FLOAT,  	 IN `CLAVE` VARCHAR(20))
 BEGIN
 
@@ -17,7 +15,7 @@ BEGIN
 					`Inventario`.`No_Serie` 	= `No_S`,
 					`Inventario`.`Modelo` 		= `Modl`,
 					`Inventario`.`Color` 		= `Colr`,
-					`Inventario`.`Imagen` 		= `Imgn`,
+					`Inventario`.`cantidad_fotos` = `Imgn`,
 					`Inventario`.`Fecha_Compra` = `Fec_Comp`,
 					`Inventario`.`Factura` 		= `Fact`,
 					`Inventario`.`Importe` 		= `Impor`
@@ -25,5 +23,4 @@ BEGIN
 		END;
 	END IF;
 
-END$$
-DELIMITER ;
+END

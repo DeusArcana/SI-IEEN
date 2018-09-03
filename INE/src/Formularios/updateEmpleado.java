@@ -11,9 +11,11 @@ import Clases.ManagerPermisos;
 
 import Interfaces.Principal;
 import static Interfaces.Principal.comboEmpUsu;
+import com.toedter.calendar.JTextFieldDateEditor;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -43,6 +45,10 @@ public class updateEmpleado extends javax.swing.JDialog {
             comboArea.setEnabled(false);
             comboPuesto.setEnabled(false);
         }
+        
+        JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) txtFecha.getDateEditor();
+        date_Salida_Editor.setEditable(false);
+        txtFecha.getJCalendar().setMaxSelectableDate(new Date()); // sets today as minimum selectable date
         
         this.filtro = filtro;
         this.busqueda = busqueda;
@@ -411,18 +417,61 @@ public class updateEmpleado extends javax.swing.JDialog {
         nombres = txtNombre.getText();
         apellido_p = txtApellidoP.getText();
         apellido_m = txtApellidoM.getText();
-        calle = txtCalle.getText();
-        colonia = txtColonia.getText();
-        telefono = txtTelefono.getText();
-        codigoP = txtCodigo.getText();
-        curp = txtCurp.getText();
-        rfc = txtRfc.getText();
-        municipio = txtMunicipio.getText();
-        localidad = txtLocalidad.getText();
+        
+        //Calle
+        if(txtCalle.getText().isEmpty()){
+            calle = "Sin especificar";
+        }else{
+            calle = txtCalle.getText();
+        }
+        //Colonia
+        if(txtColonia.getText().isEmpty()){
+            colonia = "Sin especificar";
+        }else{
+            colonia = txtColonia.getText();
+        }
+        //Telefono
+        if(txtTelefono.getText().isEmpty()){
+            telefono = "Sin especificar";
+        }else{
+            telefono = txtTelefono.getText();
+        }
+        //Código Postal
+        if(txtCodigo.getText().isEmpty()){
+            codigoP = "Sin CP";
+        }else{
+            codigoP = txtCodigo.getText();
+        }
+        //CURP
+        if(txtCurp.getText().isEmpty()){
+            curp = "Sin especificar";
+        }else{
+            curp = txtCurp.getText();
+        }
+        //RFC
+        if(txtRfc.getText().isEmpty()){
+            rfc = "Sin RFC";
+        }else{
+            rfc = txtRfc.getText();
+        }
+        //Municipio
+        if(txtMunicipio.getText().isEmpty()){
+            municipio = "Sin especificar";
+        }else{
+            municipio = txtMunicipio.getText();
+        }
+        //Localidad
+        if(txtLocalidad.getText().isEmpty()){
+            localidad = "Sin especificar";
+        }else{
+            localidad = txtLocalidad.getText();
+        }
+        area = ids_area[comboArea.getSelectedIndex()];
+        puesto = ids_puesto[comboPuesto.getSelectedIndex()];
         
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         fecha = formato.format(txtFecha.getDate());
-        
+    
         area = ids_area[comboArea.getSelectedIndex()];
         puesto = ids_puesto[comboPuesto.getSelectedIndex()];
         
@@ -469,7 +518,7 @@ public class updateEmpleado extends javax.swing.JDialog {
                             Principal.lblArea.setText("Área: "+separador[13]);
                             JOptionPane.showMessageDialog(null, "Sus datos se actualizaron exitosamente");
                         }else{
-                            JOptionPane.showMessageDialog(null, "El empleado "+nombres+ " "+apellido_p+ "ha sido actualizado exitosamente.");
+                            JOptionPane.showMessageDialog(null, "El empleado "+nombres+ " "+apellido_p+" ha sido actualizado exitosamente.");
                             if(manager_permisos.accesoModulo("consulta","Empleados",Principal.Username)){
                                 if(comboEmpUsu.getSelectedItem().toString().equals("Empleados sin usuario")){
                                     Principal.tablaUsuarios.setModel(manager_users.getEmpleadosSinUsuario(filtro,busqueda,Principal.comboEmpUsuEstatus.getSelectedItem().toString()));

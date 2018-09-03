@@ -460,7 +460,7 @@ public final class updateInventario extends javax.swing.JDialog {
 		else return false;
 		
 		// OPCIONES LIMITADAS
-        ubicacion = comboUbicacion.getSelectedItem().toString();
+                ubicacion = comboUbicacion.getSelectedItem().toString();
 		
 		// CAMPOS CON VALORES POR DEFAULT
 		if (!txtMarca.getText().isEmpty())
@@ -501,7 +501,7 @@ public final class updateInventario extends javax.swing.JDialog {
 			//Vemos si puede actualizar el producto
 			if(manager_permisos.accesoModulo("actualizar","Inventario",Principal.Username)){
 				//Actualizamos el producto
-				if (manager_inventario.actualizarProducto(id,producto, descripcion,ubicacion, marca,noserie, modelo, color, fecha_compra, factura, importe,imagen)) {
+				if (manager_inventario.actualizarProducto(id,producto, descripcion,ubicacion, marca,noserie, modelo, color, fecha_compra, factura, importe,contadorRutas)) {
 					String nombreParametro = txtFolio.getText() + "-" + txtNum.getText()+ txtExtension.getText();
 					managerPOST.prepararImagenesInventario(rutas, nombreParametro, contadorRutas); 
 					JOptionPane.showMessageDialog(null, "Se actualizó correctamente el producto \""+id+"\"");

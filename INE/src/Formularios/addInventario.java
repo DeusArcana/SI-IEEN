@@ -64,8 +64,6 @@ public class addInventario extends javax.swing.JDialog {
         
         
         this.setLocationRelativeTo(null);
-        campoRuta.setVisible(false);
-        campoRuta.setText(cargarNoImage()+"\\src\\Imagenes\\noproducto.png");
         contadorImg.setVisible(false);
         this.setTitle("Añadir nuevo producto");
     }
@@ -120,7 +118,6 @@ public class addInventario extends javax.swing.JDialog {
         jLabel13 = new javax.swing.JLabel();
         txtFecha = new com.toedter.calendar.JDateChooser();
         jLabel6 = new javax.swing.JLabel();
-        campoRuta = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -362,8 +359,6 @@ public class addInventario extends javax.swing.JDialog {
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         pn_addInventario.add(jLabel6);
         jLabel6.setBounds(0, 0, 860, 510);
-        pn_addInventario.add(campoRuta);
-        campoRuta.setBounds(600, 340, 240, 20);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Clave:");
@@ -386,11 +381,12 @@ public class addInventario extends javax.swing.JDialog {
 
     public boolean getInfo(){
 		// CAMPOS OBLIGATORIOS
-		if(txtCantidad.isVisible()) 
+		if(txtCantidad.isVisible()){ 
 			if (!txtCantidad.getText().isEmpty())
 				cantidad = Integer.parseInt(txtCantidad.getText());
-			else return false;
-				
+                }else{
+                    cantidad = 1;
+                }
 		if (comboFolio.getSelectedIndex() > 0)
 			folio = txtFolio.getText();
 		else return false;
@@ -446,6 +442,7 @@ public class addInventario extends javax.swing.JDialog {
     public void clearCampos(){
         txtFolio.setText("");
         txtFolio.setBackground(Color.white);
+        txtProducto.setText("");
         txtMarca.setText("");
         txtNoSerie.setText("");
         txtModelo.setText("");
@@ -456,7 +453,6 @@ public class addInventario extends javax.swing.JDialog {
         txtFecha.cleanup();
         txtFactura.setText("");
         txtImporte.setText("");
-        campoRuta.setText(cargarNoImage()+"\\src\\Imagenes\\noproducto.png");
         comboFolio.setSelectedIndex(0);
     }
     
@@ -500,10 +496,6 @@ public class addInventario extends javax.swing.JDialog {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
          // TODO add your handling code here:
-        ImageIcon imgThisImg = new ImageIcon(campoRuta.getText());
-        ImageIcon icono = new ImageIcon(imgThisImg.getImage().getScaledInstance(imagenProducto.getWidth(), imagenProducto.getHeight(), Image.SCALE_DEFAULT));
-        imagenProducto.setIcon(icono);
-        
         String lista = manager_inventario.nomeclaturaFolio();
         folios = lista.split(",");
         nomeclaturas = new String[folios.length/2];
@@ -774,7 +766,6 @@ public class addInventario extends javax.swing.JDialog {
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnImagen;
-    private javax.swing.JTextField campoRuta;
     private javax.swing.JComboBox<String> comboFolio;
     private javax.swing.JComboBox comboUbicacion;
     private javax.swing.JLabel contadorImg;

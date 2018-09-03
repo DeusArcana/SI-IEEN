@@ -321,10 +321,10 @@ public class addInventarioGranel extends javax.swing.JDialog {
         txtStockMin.setText("");
         txtStock.setText("");
         txtAreaDescripcion.setText("");
-        txtNum.setText("");
-        txtNum.setBackground(Color.white);
+        txtNum.setText(""+manager_inventario_granel.sugNumero());
+        txtNum.setBackground(Color.green);
         txtExtension.setText("");
-        txtExtension.setBackground(Color.white);
+        txtExtension.setBackground(Color.green);
     }
     
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
@@ -450,9 +450,8 @@ public class addInventarioGranel extends javax.swing.JDialog {
     private void txtExtensionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtExtensionFocusLost
         // TODO add your handling code here:
         if(!(txtNum.getText().isEmpty() && txtExtension.getText().isEmpty())){
-
             existeClave();
-
+            txtExtension.setText(txtExtension.getText().toUpperCase());
         }//Buscar si existe o no
         else{
             txtFolio.setBackground(java.awt.Color.WHITE);
@@ -467,20 +466,15 @@ public class addInventarioGranel extends javax.swing.JDialog {
         // TODO add your handling code here:
 
         char caracter = evt.getKeyChar();
-        if(caracter != evt.getKeyChar()){
+        if (caracter != evt.getKeyChar()) {
 
         }
-        if(txtExtension.getText().length() == 1){
+        if (txtExtension.getText().length() == 1) {
             evt.consume();
-        }else{
-            if(caracter != 'A'){
-                if(caracter != 'B'){
-                    evt.consume();
-                }else{
-
-                }
-            }else{
-
+        } else {
+            if ((caracter == 'A' || caracter == 'a') || (caracter == 'B' || caracter == 'b')) {
+            } else {
+                evt.consume();
             }
         }
     }//GEN-LAST:event_txtExtensionKeyTyped
