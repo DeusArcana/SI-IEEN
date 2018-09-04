@@ -46,9 +46,9 @@ public class ManagerVehiculos {
     
 
     public boolean guardarImagen(String marca, String linea, String color, String modelo, String motor,
-            String kilometraje, String matricula, String observaciones, String cantidad, String no_motor, String fecha, String factura, String importe, String descripcion, String folio, String numero, String extension) {
+            String kilometraje, String matricula, String observaciones, String cantidad, String no_motor, String fecha, String factura, String importe, String descripcion, String folio, String numero ) {
         con = db.getConexion();
-        String insert = "insert into vehiculos(marca, linea, color, modelo, motor,kilometraje ,matricula,observaciones,cantidad_fotos,Estado,No_motor,Fecha_compra,No_factura,importe,descripcion,folio,numero,extension) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        String insert = "insert into vehiculos(marca, linea, color, modelo, motor,kilometraje ,matricula,observaciones,cantidad_fotos,Estado,No_motor,Fecha_compra,No_factura,importe,descripcion,folio,numero) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
        
         PreparedStatement ps = null;
 
@@ -78,7 +78,6 @@ public class ManagerVehiculos {
             
             ps.setString(16, folio);
             ps.setString(17, numero);
-            ps.setString(18, extension);
 
             ps.executeUpdate();
 
@@ -134,7 +133,7 @@ public class ManagerVehiculos {
             
             
             //Consulta de los empleados
-            String sql = "select concat(Folio,'-',Numero,'-',Extension),marca,linea,modelo,color,matricula from vehiculos;";
+            String sql = "select concat(Folio,'-',Numero) as clave,marca,linea,modelo,color,matricula from vehiculos order by clave;";
             con = db.getConexion();
             Statement st = con.createStatement();
             Object datos[] = new Object[6];
@@ -223,6 +222,7 @@ public class ManagerVehiculos {
         DefaultTableModel table = new DefaultTableModel();
 
         try {
+            table.addColumn("Clave");
             table.addColumn("Marca");
             table.addColumn("Linea");
             table.addColumn("Año");
@@ -232,19 +232,19 @@ public class ManagerVehiculos {
             String sql;
             //Consulta de los vehiculos
             if(tipoBusqueda.equals("Año")){
-                sql = "select marca,linea,modelo,color,matricula from vehiculos where modelo like '"+busqueda+"%';";
+                sql = "select concat(Folio,'-',Numero) as clave,marca,linea,modelo,color,matricula from vehiculos where modelo like '"+busqueda+"%' order by clave;";
             }else{
-                sql = "select marca,linea,modelo,color,matricula from vehiculos where "+tipoBusqueda+" like '"+busqueda+"%';";
+                sql = "select concat(Folio,'-',Numero)as clave,marca,linea,modelo,color,matricula from vehiculos where "+tipoBusqueda+" like '"+busqueda+"%' order by clave;";
             }
             con = db.getConexion();
             Statement st = con.createStatement();
-            Object datos[] = new Object[5];
+            Object datos[] = new Object[6];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
 
-                for(int i = 0;i<5;i++){
+                for(int i = 0;i<6;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -342,7 +342,7 @@ public class ManagerVehiculos {
     public void getVehiculosDisponibles(JComboBox combo) {
         try{
            
-            String sql = "select concat(linea,'-'matricula) from Vehiculos;";
+            String sql = "select concat(linea,'-'matricula) as clave from Vehiculos order by clave;";
             con = db.getConexion();
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -384,7 +384,7 @@ public class ManagerVehiculos {
         boolean res = false;
         try {
 
-            String sql = "select Numero from vehiculos where concat(Folio,'-',numero,extension) = '" + clave + "';";
+            String sql = "select Numero from vehiculos where concat(Folio,'-',numero) = '" + clave + "';";
             con = db.getConexion();
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);

@@ -12,6 +12,7 @@ import Clases.ManagerVehiculos;
 import Clases.enviarFotoPOST;
 import Formularios.modificarFotos;
 import static Interfaces.Principal.Username;
+import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -24,6 +25,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -35,6 +37,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JSpinner.DefaultEditor;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
@@ -81,6 +85,9 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         campo_descripcion.setLineWrap(true);
 
         campoMarca.requestFocus();
+        JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) campo_fecha_compra.getDateEditor();
+        date_Salida_Editor.setEditable(false);
+        campo_fecha_compra.getJCalendar().setMaxSelectableDate(new Date()); // sets today as minimum selectable date 
         
     }
 
@@ -109,7 +116,6 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         jLabel15 = new javax.swing.JLabel();
         txtFolio = new javax.swing.JTextField();
         txtNumero = new javax.swing.JTextField();
-        txtExtension = new javax.swing.JTextField();
         campoColor = new javax.swing.JTextField();
         campoMarca = new javax.swing.JTextField();
         campoModelo = new javax.swing.JSpinner();
@@ -172,7 +178,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         campoMotor.setToolTipText("Numero de cilindros del vehiculo ...");
         campoMotor.setNextFocusableComponent(campoMatricula);
         pn_permisos.add(campoMotor);
-        campoMotor.setBounds(400, 120, 40, 30);
+        campoMotor.setBounds(400, 120, 100, 30);
 
         jLabel5.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         jLabel5.setText("Motor:");
@@ -211,18 +217,18 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
             }
         });
         pn_permisos.add(campoMatricula);
-        campoMatricula.setBounds(400, 170, 110, 30);
+        campoMatricula.setBounds(400, 170, 100, 30);
 
         jLabel15.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
         jLabel15.setText("Clave:");
         pn_permisos.add(jLabel15);
-        jLabel15.setBounds(20, 20, 50, 16);
+        jLabel15.setBounds(30, 30, 50, 16);
 
         txtFolio.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         txtFolio.setText("EY-10");
         txtFolio.setEnabled(false);
         pn_permisos.add(txtFolio);
-        txtFolio.setBounds(80, 20, 50, 30);
+        txtFolio.setBounds(100, 20, 80, 30);
 
         txtNumero.setEditable(false);
         txtNumero.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
@@ -237,36 +243,29 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
             }
         });
         pn_permisos.add(txtNumero);
-        txtNumero.setBounds(150, 20, 50, 30);
-
-        txtExtension.setEditable(false);
-        txtExtension.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
-        txtExtension.setText("A");
-        txtExtension.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtExtensionFocusLost(evt);
-            }
-        });
-        txtExtension.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtExtensionKeyTyped(evt);
-            }
-        });
-        pn_permisos.add(txtExtension);
-        txtExtension.setBounds(220, 20, 50, 30);
+        txtNumero.setBounds(190, 20, 80, 30);
 
         campoColor.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         campoColor.setNextFocusableComponent(campoMotor);
+        campoColor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campoColorKeyTyped(evt);
+            }
+        });
         pn_permisos.add(campoColor);
-        campoColor.setBounds(400, 70, 110, 30);
+        campoColor.setBounds(400, 70, 100, 30);
 
         campoMarca.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         campoMarca.setNextFocusableComponent(campoLinea);
+        campoMarca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campoMarcaKeyTyped(evt);
+            }
+        });
         pn_permisos.add(campoMarca);
-        campoMarca.setBounds(80, 70, 190, 30);
+        campoMarca.setBounds(100, 70, 170, 30);
 
         campoModelo.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
-        campoModelo.setModel(new javax.swing.SpinnerNumberModel(2000, 1800, 2017, 1));
         campoModelo.setNextFocusableComponent(campoColor);
         pn_permisos.add(campoModelo);
         campoModelo.setBounds(400, 20, 100, 30);
@@ -292,8 +291,13 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
 
         campoLinea.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         campoLinea.setNextFocusableComponent(campoKilometraje);
+        campoLinea.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campoLineaKeyTyped(evt);
+            }
+        });
         pn_permisos.add(campoLinea);
-        campoLinea.setBounds(80, 120, 190, 30);
+        campoLinea.setBounds(100, 120, 170, 30);
 
         campoKilometraje.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         campoKilometraje.setNextFocusableComponent(campo_no_motor);
@@ -311,6 +315,11 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         jLabel13.setBounds(10, 280, 100, 16);
 
         campo_no_factura.setNextFocusableComponent(campoModelo);
+        campo_no_factura.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campo_no_facturaKeyTyped(evt);
+            }
+        });
         pn_permisos.add(campo_no_factura);
         campo_no_factura.setBounds(100, 270, 170, 30);
 
@@ -325,10 +334,20 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         jLabel14.setBounds(330, 280, 80, 16);
 
         campo_importe.setNextFocusableComponent(campoObservaciones1);
+        campo_importe.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campo_importeKeyTyped(evt);
+            }
+        });
         pn_permisos.add(campo_importe);
         campo_importe.setBounds(400, 270, 210, 30);
 
         campo_no_motor.setNextFocusableComponent(campo_no_factura);
+        campo_no_motor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                campo_no_motorKeyTyped(evt);
+            }
+        });
         pn_permisos.add(campo_no_motor);
         campo_no_motor.setBounds(100, 220, 170, 30);
 
@@ -361,7 +380,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
             }
         });
         pn_permisos.add(jButton1);
-        jButton1.setBounds(370, 460, 140, 30);
+        jButton1.setBounds(370, 480, 140, 30);
 
         jButton2.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
@@ -373,7 +392,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
             }
         });
         pn_permisos.add(jButton2);
-        jButton2.setBounds(210, 460, 140, 30);
+        jButton2.setBounds(210, 480, 140, 30);
 
         imagenVehiculo.setBackground(new java.awt.Color(255, 255, 255));
         imagenVehiculo.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -436,7 +455,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_permisos, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+            .addComponent(pn_permisos, javax.swing.GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE)
         );
 
         pack();
@@ -494,6 +513,13 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
 //        
 //       // ImageIcon imagen = new ImageIcon(path);
 //        //ImageIcon icono = new ImageIcon(imagen.getImage().getScaledInstance(contenedor.getWidth(), contenedor.getHeight(), Image.SCALE_DEFAULT));
+        Calendar cal= Calendar.getInstance();
+        int año = cal.get(Calendar.YEAR);
+        SpinnerModel model = new SpinnerNumberModel(2000, //initial value
+                                                    1900, //min
+                                                    (año + 1), //max
+                                                    1);                //step
+        campoModelo.setModel(model);
         } catch (IOException ex) {
             Logger.getLogger(ventana_modificar_vehiculo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -506,15 +532,18 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
 
     private void campoMatriculaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoMatriculaKeyTyped
         // TODO add your handling code here:
+        char caracter2 = evt.getKeyChar();
+        if (campoMatricula.getText().length() == 8) {
+            evt.consume();
+        } else if (caracter2 != evt.getKeyCode()) {
+        }
         char c = evt.getKeyChar();
-
-        if (Character.isLowerCase(c)) {
-            String cad = ("" + c).toUpperCase();
+        
+        if(Character.isLowerCase(c)){
+            String cad = (""+c).toUpperCase();
             c = cad.charAt(0);
             evt.setKeyChar(c);
         }
-
-
     }//GEN-LAST:event_campoMatriculaKeyTyped
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -549,9 +578,10 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
                         campoModelo.getValue().toString(), campoMotor.getValue().toString(), campoKilometraje.getText(),
                         campoMatricula.getText(), campoObservaciones1.getText(), contadorRutas + Integer.parseInt(contadorImg.getText()),campo_no_motor.getText(),
                         fecha,campo_no_factura.getText(),campo_importe.getText(),campo_descripcion.getText())) {
-                    String nombreParametro = "EY-10-" + txtNumero.getText() + "-" + txtExtension.getText();
+                    String nombreParametro = "EY-10-" + txtNumero.getText();
                     JOptionPane.showMessageDialog(null, "Informacion actualizada correctamente!", "Información!", JOptionPane.INFORMATION_MESSAGE);
                     this.dispose();
+                    Principal.tablaVehiculos.setModel(vehiculos.getVehiculos());
                     managerPost.prepararImagenesVehiculoActualizar(rutas, nombreParametro, contadorRutas, Integer.parseInt(contadorImg.getText()));
 
                 } else {
@@ -604,9 +634,9 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
     }//GEN-LAST:event_btnImagenActionPerformed
 
     private void campoKilometrajeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoKilometrajeKeyTyped
-        // TODO add your handling code here:
-        // TODO add your handling code here:
-        char caracter = evt.getKeyChar();
+         // TODO add your handling code here:
+                 // TODO add your handling code here:
+         char caracter = evt.getKeyChar();
 
         if (campoKilometraje.getText().length() == 6) {
             evt.consume();
@@ -626,7 +656,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
          
         modificarFotos ob = new modificarFotos(this, true);
         
-        ob.recuperarCantidad(Integer.parseInt(contadorImg.getText()),txtFolio.getText()+"-"+txtNumero.getText()+"-"+txtExtension.getText());
+        ob.recuperarCantidad(Integer.parseInt(contadorImg.getText()),txtFolio.getText()+"-"+txtNumero.getText());
         ob.setVisible(true);
     }//GEN-LAST:event_btnImagen1ActionPerformed
 
@@ -646,28 +676,6 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtNumeroKeyTyped
 
-    private void txtExtensionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtExtensionFocusLost
-        // TODO add your handling code here:
-   
-    }//GEN-LAST:event_txtExtensionFocusLost
-
-    private void txtExtensionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtExtensionKeyTyped
-        // TODO add your handling code here:
-
-        char caracter = evt.getKeyChar();
-        if (caracter != evt.getKeyChar()) {
-
-        }
-        if (txtExtension.getText().length() == 1) {
-            evt.consume();
-        } else {
-            if ((caracter == 'A' || caracter == 'a') || (caracter == 'B' || caracter == 'b')) {
-            } else {
-                evt.consume();
-            }
-        }
-    }//GEN-LAST:event_txtExtensionKeyTyped
-
     private void campoObservaciones1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoObservaciones1KeyPressed
          // TODO add your handling code here:
          if (evt.getKeyCode() == KeyEvent.VK_TAB) {
@@ -681,6 +689,109 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
             jButton2.requestFocus();
         }
     }//GEN-LAST:event_campo_descripcionKeyPressed
+
+    private void campoMarcaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoMarcaKeyTyped
+         // TODO add your handling code here:
+        char caracter2 = evt.getKeyChar();
+        if (campoMarca.getText().length() == 15) {
+            evt.consume();
+        } else if (caracter2 != evt.getKeyCode()) {
+        }
+        char c = evt.getKeyChar();
+        
+        if(Character.isLowerCase(c)){
+            String cad = (""+c).toUpperCase();
+            c = cad.charAt(0);
+            evt.setKeyChar(c);
+        }
+    }//GEN-LAST:event_campoMarcaKeyTyped
+
+    private void campoLineaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoLineaKeyTyped
+       // TODO add your handling code here:
+        char caracter2 = evt.getKeyChar();
+        if (campoLinea.getText().length() == 15) {
+            evt.consume();
+        } else if (caracter2 != evt.getKeyCode()) {
+        }
+        char c = evt.getKeyChar();
+        
+        if(Character.isLowerCase(c)){
+            String cad = (""+c).toUpperCase();
+            c = cad.charAt(0);
+            evt.setKeyChar(c);
+        }
+    }//GEN-LAST:event_campoLineaKeyTyped
+
+    private void campo_no_motorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campo_no_motorKeyTyped
+         // TODO add your handling code here:
+        char caracter2 = evt.getKeyChar();
+        if (campo_no_motor.getText().length() == 30) {
+            evt.consume();
+        } else if (caracter2 != evt.getKeyCode()) {
+        }
+        char c = evt.getKeyChar();
+        
+        if(Character.isLowerCase(c)){
+            String cad = (""+c).toUpperCase();
+            c = cad.charAt(0);
+            evt.setKeyChar(c);
+        }
+    }//GEN-LAST:event_campo_no_motorKeyTyped
+
+    private void campo_no_facturaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campo_no_facturaKeyTyped
+        // TODO add your handling code here:
+        // TODO add your handling code here:
+        char caracter2 = evt.getKeyChar();
+        if (campo_no_factura.getText().length() == 8) {
+            evt.consume();
+        } else if (caracter2 != evt.getKeyCode()) {
+        }
+        if (((caracter2 < '0') || (caracter2 > '9'))) {
+
+            evt.consume();
+        } else {
+
+        }
+        char c = evt.getKeyChar();
+        
+        if(Character.isLowerCase(c)){
+            String cad = (""+c).toUpperCase();
+            c = cad.charAt(0);
+            evt.setKeyChar(c);
+        }
+    }//GEN-LAST:event_campo_no_facturaKeyTyped
+
+    private void campoColorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campoColorKeyTyped
+                // TODO add your handling code here:
+        // TODO add your handling code here:
+        char caracter2 = evt.getKeyChar();
+        if (campoColor.getText().length() == 15) {
+            evt.consume();
+        } else if (caracter2 != evt.getKeyCode()) {
+        }
+        char c = evt.getKeyChar();
+        
+        if(Character.isLowerCase(c)){
+            String cad = (""+c).toUpperCase();
+            c = cad.charAt(0);
+            evt.setKeyChar(c);
+        }
+    }//GEN-LAST:event_campoColorKeyTyped
+
+    private void campo_importeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campo_importeKeyTyped
+                // TODO add your handling code here:
+        char caracter2 = evt.getKeyChar();
+        if (campo_importe.getText().length() == 7) {
+            evt.consume();
+        } else if (caracter2 != evt.getKeyCode()) {
+        }
+        if (((caracter2 < '0') || (caracter2 > '9'))) {
+
+            evt.consume();
+        } else {
+
+        }
+    }//GEN-LAST:event_campo_importeKeyTyped
     
     
     
@@ -792,7 +903,6 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel nuevasFotos;
     private javax.swing.JPanel pn_permisos;
-    private javax.swing.JTextField txtExtension;
     private javax.swing.JTextField txtFolio;
     private javax.swing.JTextField txtNumero;
     // End of variables declaration//GEN-END:variables
