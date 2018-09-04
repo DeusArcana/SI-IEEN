@@ -292,7 +292,7 @@ public class addUsuarios extends javax.swing.JDialog {
                                 if(comboEmpUsu.getSelectedItem().toString().equals("Empleados sin usuario")){
                                     Principal.tablaUsuarios.setModel(manager_users.getEmpleadosSinUsuario(filtro,busqueda,Principal.comboEmpUsuEstatus.getSelectedItem().toString()));
                                 }else{
-                                    Principal.tablaUsuarios.setModel(manager_users.getEmpleados(Principal.Username,filtro,busqueda,Principal.comboEmpUsuEstatus.getSelectedItem().toString()));
+                                    Principal.tablaUsuarios.setModel(manager_users.getEmpleados(filtro,busqueda,Principal.comboEmpUsuEstatus.getSelectedItem().toString()));
                                 }
                             }else{
                                 JOptionPane.showMessageDialog(null, "Han revocado sus permisos para consulta de empleados");

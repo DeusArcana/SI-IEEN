@@ -232,6 +232,51 @@ public class ManagerComplemento {
         
     }//Obtiene el id del puesto y su descripción
     
+    //Este método es para obtener los puestos de trabajo de acuerdo al área que se selecciono
+    public String obtenerLocalidades(int idEstado) {
+        String resultado = "";
+        try{
+            String sql = "select idLocalidad,Nombre from Localidad where Estado_idEstado = "+idEstado+";";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            resultado = rs.getInt(1)+",,"+rs.getString(2);
+            while(rs.next()){
+                resultado += ",,"+rs.getInt(1)+",,"+rs.getString(2);
+            }
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener las localidades para ingresarlos al combo SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return resultado;
+        
+    }//Obtiene el id del puesto y su descripción
+    
+    public String obtenerEstados() {
+        String resultado = "";
+        try{
+            String sql = "select idEstado,Nombre from Estado;";
+            conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            resultado = rs.getInt(1)+",,"+rs.getString(2);
+            while(rs.next()){
+                resultado += ",,"+rs.getInt(1)+",,"+rs.getString(2);
+            }
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los estados para ingresarlos al combo SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return resultado;
+        
+    }//Obtiene el id del area y su descripción
+    
     public DefaultTableModel getResguardoPersonal(String usuario) {
 
         DefaultTableModel table = new DefaultTableModel();

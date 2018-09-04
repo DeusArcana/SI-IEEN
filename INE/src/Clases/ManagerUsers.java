@@ -74,8 +74,8 @@ public class ManagerUsers {
             table.addColumn("Fecha de Nacimiento");
             table.addColumn("CURP");
             table.addColumn("RFC");
+            table.addColumn("Estado");
             table.addColumn("Municipio");
-            table.addColumn("Localidad");
             table.addColumn("Área");
             table.addColumn("Puesto");
             table.addColumn("Estatus Empleado");
@@ -156,8 +156,8 @@ public class ManagerUsers {
             table.addColumn("Fecha de Nacimiento");
             table.addColumn("CURP");
             table.addColumn("RFC");
+            table.addColumn("Estado");
             table.addColumn("Municipio");
-            table.addColumn("Localidad");
             table.addColumn("Área");
             table.addColumn("Puesto");
             table.addColumn("Estatus Empleado");
@@ -238,8 +238,8 @@ public class ManagerUsers {
             table.addColumn("Fecha de Nacimiento");
             table.addColumn("CURP");
             table.addColumn("RFC");
+            table.addColumn("Estado");
             table.addColumn("Municipio");
-            table.addColumn("Localidad");
             table.addColumn("Área");
             table.addColumn("Puesto");
             table.addColumn("Estatus Empleado");
@@ -386,7 +386,7 @@ public class ManagerUsers {
             table.addColumn("Nombre(s)");
             table.addColumn("Apellido Paterno");
             table.addColumn("Apellido Materno");
-            table.addColumn("Area");
+            table.addColumn("Área");
             table.addColumn("Puesto");
             
             //Consulta de los empleados
@@ -418,7 +418,7 @@ public class ManagerUsers {
         }
 
     }//getEmpleadosCoincidencia
-    public DefaultTableModel getEmpleados(String usuario,int filtro,String busqueda,String estatus) {
+    public DefaultTableModel getEmpleados(int filtro,String busqueda,String estatus) {
 
         DefaultTableModel table = new DefaultTableModel();
         String tipoBusqueda = "";
@@ -459,7 +459,7 @@ public class ManagerUsers {
             String sql = "select e.id_empleado,e.nombres,e.apellido_p,e.apellido_m,a.area,p.puesto from empleados e "
                        + "inner join area a on (e.area = a.ID_Area) "
                        + "inner join puestos_trabajo p on (e.puesto = p.ID_Puesto) "
-                       + "where "+tipoBusqueda+" like '%"+busqueda+"%' and e.id_empleado not in (select id_empleado from user where id_user = '"+usuario+"') and e.estatus like '%"+estatus+"%';";
+                       + "where "+tipoBusqueda+" like '%"+busqueda+"%' and e.estatus like '%"+estatus+"%';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             Object datos[] = new Object[6];
@@ -724,21 +724,39 @@ public class ManagerUsers {
         
     }//changePass
     
-    public boolean estatusUsuario(String usuario,String estatus) {
+    public int estatusUsuario(String usuario,String estatus) {
         try {
             //Actualizamos el estatus del usuario
-            String sql = "update user set estatus = '"+estatus+"' where id_user = '"+usuario+"';";
+            String sql = "select id_empleado from user where id_user = '"+usuario+"';";
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
-            st.executeUpdate(sql);
+            ResultSet rs = st.executeQuery(sql);
+            rs.next();
+            int id_empleado = rs.getInt(1);
             
+            //Actualizamos el estatus del usuario
+            sql = "select estatus from empleados where id_empleado = "+id_empleado+";";
+            st = conexion.createStatement();
+            rs = st.executeQuery(sql);
+            rs.next();
+            String estado = rs.getString(1);
+            
+            if(estado.equals("Activo")){
+                //Actualizamos el estatus del usuario
+                sql = "update user set estatus = '"+estatus+"' where id_user = '"+usuario+"';";
+                st = conexion.createStatement();
+                st.executeUpdate(sql);
+                //Cerramos la conexión
+                conexion.close();
+                return 1;
+            }
             //Cerramos la conexión
             conexion.close();
-            return true;
+            return 2;
         } catch (SQLException ex) {
             System.out.printf("Error al intentar dar el estatus de "+estatus+" al usuario en SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+            return 0;
         }
 
     }//etatusUsuario

@@ -221,6 +221,10 @@ public class Principal extends javax.swing.JFrame {
         //Aplicamos el autocompletar a los combo
         AutoCompleteDecorator.decorate(this.comboEmpleado);
         
+        //Botones para aceptar o cancelar
+        btnAceptarInv.setVisible(false);
+        btnCancelarInv.setVisible(false);
+        
     }//Constructor
       
     /**
@@ -247,9 +251,6 @@ public class Principal extends javax.swing.JFrame {
         ActualizarConsumible = new javax.swing.JMenuItem();
         AddStock = new javax.swing.JMenuItem();
         ExcelConsumibles = new javax.swing.JMenuItem();
-        MenuConfirmacion = new javax.swing.JPopupMenu();
-        AceptarEstatus = new javax.swing.JMenuItem();
-        CancelarEstatus = new javax.swing.JMenuItem();
         MenuEmpleados = new javax.swing.JPopupMenu();
         Actualizar = new javax.swing.JMenuItem();
         Asignar_usuario = new javax.swing.JMenuItem();
@@ -277,10 +278,6 @@ public class Principal extends javax.swing.JFrame {
         MenuRecoleccion = new javax.swing.JPopupMenu();
         EntregarRecoleccion = new javax.swing.JMenuItem();
         MigrarRecoleccion = new javax.swing.JMenuItem();
-        MenuSolicitarSalida = new javax.swing.JPopupMenu();
-        CancelarSS = new javax.swing.JMenuItem();
-        CancelarTodoSS = new javax.swing.JMenuItem();
-        SolicitarConsumibles = new javax.swing.JMenuItem();
         MenuSolicitudes = new javax.swing.JPopupMenu();
         Atender = new javax.swing.JMenuItem();
         CancelarSolicitud = new javax.swing.JMenuItem();
@@ -315,6 +312,8 @@ public class Principal extends javax.swing.JFrame {
         btnAddInventario = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         comboInventario = new javax.swing.JComboBox<>();
+        btnAceptarInv = new javax.swing.JButton();
+        btnCancelarInv = new javax.swing.JButton();
         txtBusqueda = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -436,12 +435,19 @@ public class Principal extends javax.swing.JFrame {
         tablaSolicitarGranel = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jScrollPane18 = new javax.swing.JScrollPane();
         tablaCantidadGranel = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
+        btnAgregarConsumible = new javax.swing.JButton();
+        btnCancelarConsumible = new javax.swing.JButton();
+        btnCancelarConsumible1 = new javax.swing.JButton();
+        btnCancelarConsumible2 = new javax.swing.JButton();
+        jLabel36 = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
         comboFiltroConsumibles = new javax.swing.JComboBox<>();
         txtBusquedaConsumibles = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         comboCategoria = new javax.swing.JComboBox<>();
         fondo1 = new javax.swing.JLabel();
+        jLabel35 = new javax.swing.JLabel();
         solicitudes = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
@@ -592,22 +598,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MenuInventarioG.add(ExcelConsumibles);
-
-        AceptarEstatus.setText("Aceptar");
-        AceptarEstatus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AceptarEstatusActionPerformed(evt);
-            }
-        });
-        MenuConfirmacion.add(AceptarEstatus);
-
-        CancelarEstatus.setText("Cancelar");
-        CancelarEstatus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CancelarEstatusActionPerformed(evt);
-            }
-        });
-        MenuConfirmacion.add(CancelarEstatus);
 
         Actualizar.setText("Actualizar");
         Actualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -772,30 +762,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MenuRecoleccion.add(MigrarRecoleccion);
-
-        CancelarSS.setText("Cancelar");
-        CancelarSS.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CancelarSSActionPerformed(evt);
-            }
-        });
-        MenuSolicitarSalida.add(CancelarSS);
-
-        CancelarTodoSS.setText("Cancelar todo");
-        CancelarTodoSS.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CancelarTodoSSActionPerformed(evt);
-            }
-        });
-        MenuSolicitarSalida.add(CancelarTodoSS);
-
-        SolicitarConsumibles.setText("Solicitar consumibles");
-        SolicitarConsumibles.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SolicitarConsumiblesActionPerformed(evt);
-            }
-        });
-        MenuSolicitarSalida.add(SolicitarConsumibles);
 
         Atender.setText("Atender...");
         Atender.addActionListener(new java.awt.event.ActionListener() {
@@ -1007,6 +973,26 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        btnAceptarInv.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        btnAceptarInv.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar.png"))); // NOI18N
+        btnAceptarInv.setText("Aceptar");
+        btnAceptarInv.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAceptarInv.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarInvActionPerformed(evt);
+            }
+        });
+
+        btnCancelarInv.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        btnCancelarInv.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar.png"))); // NOI18N
+        btnCancelarInv.setText("Cancelar");
+        btnCancelarInv.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCancelarInv.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarInvActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1018,9 +1004,11 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnAddInventario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(comboInventario, 0, 174, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnCancelarInv, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnAceptarInv, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnAddInventario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(comboInventario, javax.swing.GroupLayout.Alignment.LEADING, 0, 174, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -1032,7 +1020,11 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(comboInventario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(btnAddInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(360, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addComponent(btnAceptarInv, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCancelarInv, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(251, Short.MAX_VALUE))
         );
 
         jPanel3.add(jPanel1);
@@ -1438,10 +1430,10 @@ public class Principal extends javax.swing.JFrame {
         lblRfc.setText("RFC");
 
         lblMunicipio.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        lblMunicipio.setText("Municipio");
+        lblMunicipio.setText("Estado");
 
         lblLocalidad.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        lblLocalidad.setText("Localidad");
+        lblLocalidad.setText("Municipio");
 
         btnEditar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/modificar.png"))); // NOI18N
@@ -1964,14 +1956,15 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(comboArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblAreaAsignacion))
                 .addGap(20, 20, 20)
-                .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lb_objetos_asignables2)
-                    .addComponent(rb_inventario_normal1)
-                    .addComponent(rb_inventario_granel1)
-                    .addComponent(lb_objetos_asignables3)
+                .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(comboFolioAsignacion, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel33)))
+                        .addComponent(jLabel33))
+                    .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lb_objetos_asignables2)
+                        .addComponent(rb_inventario_normal1)
+                        .addComponent(rb_inventario_granel1)
+                        .addComponent(lb_objetos_asignables3)))
                 .addGap(10, 10, 10)
                 .addGroup(pn_asignacion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane31)
@@ -2060,15 +2053,16 @@ public class Principal extends javax.swing.JFrame {
             pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_recoleccion_inventario1Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboArea1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblAreaAsignacion1)
+                .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(comboAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblAreaAsignacion2))
                     .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lb_empleado3)
-                        .addComponent(comboEmpleadoR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(comboAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblAreaAsignacion2))))
+                        .addComponent(comboEmpleadoR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pn_recoleccion_inventario1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(comboArea1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblAreaAsignacion1)))
                 .addGap(18, 18, 18)
                 .addComponent(lb_objetos_asignados1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -2184,25 +2178,94 @@ public class Principal extends javax.swing.JFrame {
         });
         jScrollPane18.setViewportView(tablaCantidadGranel);
 
+        btnAgregarConsumible.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnAgregarConsumible.setText(">");
+        btnAgregarConsumible.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarConsumibleActionPerformed(evt);
+            }
+        });
+
+        btnCancelarConsumible.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnCancelarConsumible.setText("<");
+        btnCancelarConsumible.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarConsumibleActionPerformed(evt);
+            }
+        });
+
+        btnCancelarConsumible1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnCancelarConsumible1.setText("<<");
+        btnCancelarConsumible1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarConsumible1ActionPerformed(evt);
+            }
+        });
+
+        btnCancelarConsumible2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnCancelarConsumible2.setText("Solicitar");
+        btnCancelarConsumible2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarConsumible2ActionPerformed(evt);
+            }
+        });
+
+        jLabel36.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel36.setText("Consumibles");
+
+        jLabel37.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel37.setText("Consumibles solicitados");
+
         javax.swing.GroupLayout pn_tablaUsuarios1Layout = new javax.swing.GroupLayout(pn_tablaUsuarios1);
         pn_tablaUsuarios1.setLayout(pn_tablaUsuarios1Layout);
         pn_tablaUsuarios1Layout.setHorizontalGroup(
             pn_tablaUsuarios1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_tablaUsuarios1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane18, javax.swing.GroupLayout.DEFAULT_SIZE, 649, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(pn_tablaUsuarios1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pn_tablaUsuarios1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCancelarConsumible1))
+                    .addGroup(pn_tablaUsuarios1Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(pn_tablaUsuarios1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAgregarConsumible, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnCancelarConsumible, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addComponent(btnCancelarConsumible2))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane18, javax.swing.GroupLayout.PREFERRED_SIZE, 613, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
+            .addGroup(pn_tablaUsuarios1Layout.createSequentialGroup()
+                .addGap(228, 228, 228)
+                .addComponent(jLabel36)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel37)
+                .addGap(168, 168, 168))
         );
         pn_tablaUsuarios1Layout.setVerticalGroup(
             pn_tablaUsuarios1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_tablaUsuarios1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pn_tablaUsuarios1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane18, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
+                .addGroup(pn_tablaUsuarios1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel36)
+                    .addComponent(jLabel37))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addGroup(pn_tablaUsuarios1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane18, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE)
                     .addComponent(jScrollPane17))
                 .addContainerGap())
+            .addGroup(pn_tablaUsuarios1Layout.createSequentialGroup()
+                .addGap(77, 77, 77)
+                .addComponent(btnAgregarConsumible)
+                .addGap(49, 49, 49)
+                .addComponent(btnCancelarConsumible)
+                .addGap(58, 58, 58)
+                .addComponent(btnCancelarConsumible1)
+                .addGap(48, 48, 48)
+                .addComponent(btnCancelarConsumible2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel12.add(pn_tablaUsuarios1);
@@ -2254,6 +2317,11 @@ public class Principal extends javax.swing.JFrame {
         fondo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         jPanel12.add(fondo1);
         fondo1.setBounds(0, 0, 1366, 768);
+
+        jLabel35.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel35.setText("Categoria:");
+        jPanel12.add(jLabel35);
+        jLabel35.setBounds(520, 100, 90, 22);
 
         javax.swing.GroupLayout solicitar_granelLayout = new javax.swing.GroupLayout(solicitar_granel);
         solicitar_granel.setLayout(solicitar_granelLayout);
@@ -2960,14 +3028,18 @@ public class Principal extends javax.swing.JFrame {
         String cadena = manager_users.infoEmpleado(Username);
         String separador [] = cadena.split(",");
         lblNombre.setText("Nombre: "+separador[0]+" "+separador[1]+" "+separador[2]);
-        lblDomicilio.setText("Domicilio: "+separador[4]+" "+separador[3]);
+        if(separador[4].equals(separador[3])){
+            lblDomicilio.setText("Domicilio: "+separador[4]);
+        }else{
+            lblDomicilio.setText("Domicilio: "+separador[4]+" "+separador[3]);
+        }
         lblTelefono.setText("Teléfono: "+separador[5]);
         lblCodigo.setText("C.P.: "+separador[6]);
         lblFecha.setText("Fecha de nacimiento: "+separador[7]);
         lblCurp.setText("CURP: "+separador[8]);
         lblRfc.setText("RFC: "+separador[9]);
-        lblMunicipio.setText("Municipio: "+separador[10]);
-        lblLocalidad.setText("Localidad: "+separador[11]);
+        lblMunicipio.setText("Estado: "+separador[10]);
+        lblLocalidad.setText("Municipio: "+separador[11]);
         lblCargo.setText("Puesto: "+separador[12]);
         lblArea.setText("Área: "+separador[13]);
     }
@@ -2987,12 +3059,13 @@ public class Principal extends javax.swing.JFrame {
             //Acepta eliminar al usuario
             if(opcion == 0){
 
-                if(manager_users.estatusUsuario(usuario,"Baja")){
+                int res = manager_users.estatusUsuario(usuario,"Baja"); 
+                if(res == 1){
                     JOptionPane.showMessageDialog(null, "El usuario se ha dado de baja exitosamente.");
                     buscarEmpleados();
                 }//if(eliminarEmpleado())
                 else{
-                        JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+                    JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
                 }
             }//if(opcion == 0)
         }else{
@@ -4132,7 +4205,7 @@ public void metodoValeRecoleccion(){
         }else if(comboEmpUsu.getSelectedItem().toString().equals("Empleados")){
             
             if(manager_permisos.accesoModulo("consulta","Empleados",Username)){
-                tablaUsuarios.setModel(manager_users.getEmpleados(Username,filtro,busqueda,comboEmpUsuEstatus.getSelectedItem().toString()));
+                tablaUsuarios.setModel(manager_users.getEmpleados(filtro,busqueda,comboEmpUsuEstatus.getSelectedItem().toString()));
             }else{
                 JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas de empleados.");
                 tablaUsuarios.setModel(new DefaultTableModel());
@@ -4298,55 +4371,47 @@ public void metodoValeRecoleccion(){
                 if (r >= 0 && r < tablaInventario.getRowCount()){
                     tablaInventario.setRowSelectionInterval(r, r);
 
-                    if(activarConfirmacion == 1){
-                        MenuConfirmacion.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-                    }else{
+                    //Selección de pendiente para baja/donación/comodato
+                    if(comboEstatus.getSelectedItem().toString().equals("Para baja") || comboEstatus.getSelectedItem().toString().equals("Para donación") || comboEstatus.getSelectedItem().toString().equals("Para comodato")){
 
-                        //Mostramos las opciones del popmenú de acuerdo a los filtros.
+                        DevolverDis.setVisible(true);//Cambiar el estatus a "Disponible"
+                        EstatusDefinitivo.setVisible(true);//Cambiar el estatus a "Baja/Donación/Comodato"
+                        Pendiente.setVisible(true);//Cambiar el estatus a "Pendiente para baja/donación/comodato"
+                            ParaBaja.setVisible(true);
+                            ParaComodato.setVisible(true);
+                            ParaDonacion.setVisible(true);
+                        ActualizarProd.setVisible(true);//Actualizar la información de un producto
 
-                        //Selección de pendiente para baja/donación/comodato
-                        if(comboEstatus.getSelectedItem().toString().equals("Para baja") || comboEstatus.getSelectedItem().toString().equals("Para donación") || comboEstatus.getSelectedItem().toString().equals("Para comodato")){
+                        if(comboEstatus.getSelectedItem().toString().equals("Para baja")){ EstatusDefinitivo.setText("Cambiar a Baja"); pendientePara = "Baja"; ParaBaja.setVisible(false);}
+                        if(comboEstatus.getSelectedItem().toString().equals("Para donación")){ EstatusDefinitivo.setText("Cambiar a Donación"); pendientePara = "Donación";ParaDonacion.setVisible(false);}
+                        if(comboEstatus.getSelectedItem().toString().equals("Para comodato")){ EstatusDefinitivo.setText("Cambiar a Comodato"); pendientePara = "Comodato";ParaComodato.setVisible(false);}   
+                        MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+                    }
+                    //Selección de Baja/Donación/Comodato o asginado
+                    else if(comboEstatus.getSelectedItem().toString().equals("Baja") || comboEstatus.getSelectedItem().toString().equals("Donación") || comboEstatus.getSelectedItem().toString().equals("Comodato") || comboEstatus.getSelectedItem().toString().equals("Asignado")){
+                        ActualizarProd.setVisible(true);//Actualizar la información de un producto
+                        MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+                    }
+                    //Selección de No Disponible
+                    else if(comboEstatus.getSelectedItem().toString().equals("No disponible")){
+                        DevolverDis.setVisible(true);//Cambiar el estatus a "Disponible"
+                        ActualizarProd.setVisible(true);//Actualizar la información de un producto
+                        MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+                    }
+                    //Selección de Disponible
+                    else{
+                        AddObservacion.setVisible(true);
+                        Pendiente.setVisible(true);//Cambiar el estatus a "Pendiente para baja/donación/comodato"
+                            ParaBaja.setVisible(true);
+                            ParaComodato.setVisible(true);
+                            ParaDonacion.setVisible(true);
+                        NoDisponible.setVisible(true);//Cambiar el estatus a "Reparación/Garantía"
+                        ActualizarProd.setVisible(true);//Actualizar la información de un producto
+                        MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+                    }
 
-                            DevolverDis.setVisible(true);//Cambiar el estatus a "Disponible"
-                            EstatusDefinitivo.setVisible(true);//Cambiar el estatus a "Baja/Donación/Comodato"
-                            Pendiente.setVisible(true);//Cambiar el estatus a "Pendiente para baja/donación/comodato"
-                                ParaBaja.setVisible(true);
-                                ParaComodato.setVisible(true);
-                                ParaDonacion.setVisible(true);
-                            ActualizarProd.setVisible(true);//Actualizar la información de un producto
+                }//if (r >= 0 && r < tablaInventario.getRowCount())
 
-                            if(comboEstatus.getSelectedItem().toString().equals("Para baja")){ EstatusDefinitivo.setText("Cambiar a Baja"); pendientePara = "Baja"; ParaBaja.setVisible(false);}
-                            if(comboEstatus.getSelectedItem().toString().equals("Para donación")){ EstatusDefinitivo.setText("Cambiar a Donación"); pendientePara = "Donación";ParaDonacion.setVisible(false);}
-                            if(comboEstatus.getSelectedItem().toString().equals("Para comodato")){ EstatusDefinitivo.setText("Cambiar a Comodato"); pendientePara = "Comodato";ParaComodato.setVisible(false);}   
-                            MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-                        }
-                        //Selección de Baja/Donación/Comodato o asginado
-                        else if(comboEstatus.getSelectedItem().toString().equals("Baja") || comboEstatus.getSelectedItem().toString().equals("Donación") || comboEstatus.getSelectedItem().toString().equals("Comodato") || comboEstatus.getSelectedItem().toString().equals("Asignado")){
-                            ActualizarProd.setVisible(true);//Actualizar la información de un producto
-                            MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-                        }
-                        //Selección de No Disponible
-                        else if(comboEstatus.getSelectedItem().toString().equals("No disponible")){
-                            DevolverDis.setVisible(true);//Cambiar el estatus a "Disponible"
-                            ActualizarProd.setVisible(true);//Actualizar la información de un producto
-                            MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-                        }
-                        //Selección de Disponible
-                        else{
-                            AddObservacion.setVisible(true);
-                            Pendiente.setVisible(true);//Cambiar el estatus a "Pendiente para baja/donación/comodato"
-                                ParaBaja.setVisible(true);
-                                ParaComodato.setVisible(true);
-                                ParaDonacion.setVisible(true);
-                            NoDisponible.setVisible(true);//Cambiar el estatus a "Reparación/Garantía"
-                            ActualizarProd.setVisible(true);//Actualizar la información de un producto
-                            MenuInventario.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-                        }
-
-                    }//if (r >= 0 && r < tablaInventario.getRowCount())
-
-                }//No se activo el menu de confirmación
-                
             }//clic derecho
 
         }
@@ -4448,7 +4513,7 @@ public void metodoValeRecoleccion(){
                         cantidad = Integer.parseInt(cadena);
 
                         if(cantidad > 0){
-                            entero = false;                    
+                            entero = true;                    
                         }else{
                             JOptionPane.showMessageDialog(null, "Solo ingrese cantidades mayores a 0.");
                         }
@@ -4561,12 +4626,15 @@ public void metodoValeRecoleccion(){
 
             //Acepta eliminar al usuario
             if(opcion == 0){
-
-                if(manager_users.estatusUsuario(usuario,"Activo")){
+                int res = manager_users.estatusUsuario(usuario,"Activo"); 
+                if(res == 1){
                     JOptionPane.showMessageDialog(null, "El usuario se encuentra activo nuevamente.");
                     buscarEmpleados();
                 }//if(eliminarEmpleado())
-                else{
+                else if(res == 2){
+                    JOptionPane.showMessageDialog(null, "El usuario no se puede dar de alta porque el empleado esta dado de baja.");
+                    buscarEmpleados();
+                }else{
                         JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
                 }
             }//if(opcion == 0)
@@ -4651,63 +4719,11 @@ public void metodoValeRecoleccion(){
 
     private void tablaCantidadGranelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCantidadGranelMouseReleased
         // TODO add your handling code here:
-        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
-        if(SwingUtilities.isRightMouseButton(evt)){
-            int r = tablaCantidadGranel.rowAtPoint(evt.getPoint());
-            if (r >= 0 && r < tablaCantidadGranel.getRowCount())
-            tablaCantidadGranel.setRowSelectionInterval(r, r);
-            MenuSolicitarSalida.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-        }//clic derecho
     }//GEN-LAST:event_tablaCantidadGranelMouseReleased
 
     private void tablaSolicitarGranelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaSolicitarGranelMouseClicked
         // TODO add your handling code here:
-        if(evt.getClickCount() == 2){
-            int cantidad = 0;
-            int fila = tablaSolicitarGranel.getSelectedRow();
-            //Esto es para validar que ingrese solo numeros y mientras no lo haga, seguira preguntado hasta que
-            //solo teclee numeros o cancele el movimiento
-            boolean entero = true;
-            boolean canceloCantidad = true;
-            while(entero){
-
-                String cadena = JOptionPane.showInputDialog("Ingrese la cantidad que desea solicitar");
-                //Cancelo la solicitud de asignacion
-                if(cadena == null){
-                    entero = false;
-                    canceloCantidad = false;
-                }else{
-                    try{
-                        //Si hace la conversion correctamente entonces no entra en la excepcion y se sale del ciclo
-                        cantidad = Integer.parseInt(cadena);
-                        entero = false;
-
-                    }catch(NumberFormatException e){
-                        JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
-                        entero = true;
-                    }//try catch
-                }
-            }//while
-
-            if(canceloCantidad){
-                if(!(existeCodigoTablaSolicitarGranel(tablaSolicitarGranel.getValueAt(fila, 0).toString(),cantidad))){
-                    modeloCantidadSalida.addRow(new Object[]{tablaSolicitarGranel.getValueAt(fila, 0),tablaSolicitarGranel.getValueAt(fila, 1),tablaSolicitarGranel.getValueAt(fila, 2),cantidad});
-                }
-            }
-                        
-        }//If del doble click
     }//GEN-LAST:event_tablaSolicitarGranelMouseClicked
-
-    private void CancelarSSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarSSActionPerformed
-        // TODO add your handling code here: tablaCantidadGranel
-        int fila = tablaCantidadGranel.getSelectedRow();
-        String[] opciones = {"Aceptar", "Cancelar"};
-        int seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar el producto \""+tablaCantidadGranel.getValueAt(fila, 0).toString()+"\"?","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
-        if(seleccion == 0){
-            modeloCantidadSalida.removeRow(fila);
-        }//Acepto cancelar la solicitud
-
-    }//GEN-LAST:event_CancelarSSActionPerformed
 
     private void ActualizarProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarProdActionPerformed
         // TODO add your handling code here:
@@ -4740,6 +4756,9 @@ public void metodoValeRecoleccion(){
                 
                 //Bandera para activar el popuMenu de aceptar o cancelar
                 activarConfirmacion = 1;
+                //Botones para aceptar o cancelar
+                btnAceptarInv.setVisible(true);
+                btnCancelarInv.setVisible(true);
                 
                 //Deshabilitamos las demás opciones para que no actualice la tabla, si quiere cambiar los 
                 //criterios de busqueda entonces tendra que dar cancelar
@@ -4774,6 +4793,9 @@ public void metodoValeRecoleccion(){
                 
                 //Bandera para activar el popuMenu de aceptar o cancelar
                 activarConfirmacion = 1;
+                //Botones para aceptar o cancelar
+                btnAceptarInv.setVisible(true);
+                btnCancelarInv.setVisible(true);
                 
                 //Deshabilitamos las demás opciones para que no actualice la tabla, si quiere cambiar los 
                 //criterios de busqueda entonces tendra que dar cancelar
@@ -4808,6 +4830,9 @@ public void metodoValeRecoleccion(){
                 
                 //Bandera para activar el popuMenu de aceptar o cancelar
                 activarConfirmacion = 1;
+                //Botones para aceptar o cancelar
+                btnAceptarInv.setVisible(true);
+                btnCancelarInv.setVisible(true);
                 
                 //Deshabilitamos las demás opciones para que no actualice la tabla, si quiere cambiar los 
                 //criterios de busqueda entonces tendra que dar cancelar
@@ -4841,6 +4866,9 @@ public void metodoValeRecoleccion(){
                 
                 //Bandera para activar el popuMenu de aceptar o cancelar
                 activarConfirmacion = 1;
+                //Botones para aceptar o cancelar
+                btnAceptarInv.setVisible(true);
+                btnCancelarInv.setVisible(true);
                 
                 //Deshabilitamos las demás opciones para que no actualice la tabla, si quiere cambiar los 
                 //criterios de busqueda entonces tendra que dar cancelar
@@ -5035,6 +5063,9 @@ public void metodoValeRecoleccion(){
                 
                 break;
             //Pestaña de solicitud y stock minimo
+            case 5:
+                filtrarSolicitudSalidaAlmacen();
+                break;
             case 6:
                 if(manager_permisos.accesoModulo("consulta","Solicitudes",Username)){
                     if(manager_permisos.verTablaSolicitudes(Username) > 0){
@@ -5091,6 +5122,9 @@ public void metodoValeRecoleccion(){
                 
                 //Bandera para activar el popuMenu de aceptar o cancelar
                 activarConfirmacion = 1;
+                //Botones para aceptar o cancelar
+                btnAceptarInv.setVisible(true);
+                btnCancelarInv.setVisible(true);
                 
                 //Deshabilitamos las demás opciones para que no actualice la tabla, si quiere cambiar los 
                 //criterios de busqueda entonces tendra que dar cancelar
@@ -5154,6 +5188,9 @@ public void metodoValeRecoleccion(){
                 
                 //Bandera para activar el popuMenu de aceptar o cancelar
                 activarConfirmacion = 1;
+                //Botones para aceptar o cancelar
+                btnAceptarInv.setVisible(true);
+                btnCancelarInv.setVisible(true);
                 
                 //Deshabilitamos las demás opciones para que no actualice la tabla, si quiere cambiar los 
                 //criterios de busqueda entonces tendra que dar cancelar
@@ -5403,114 +5440,6 @@ public void metodoValeRecoleccion(){
         }
     }//GEN-LAST:event_ExcelConsumiblesActionPerformed
 
-    private void AceptarEstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarEstatusActionPerformed
-        // TODO add your handling code here:
-        Object[] botones = {"Aceptar","Cancelar"};
-        int opcion = JOptionPane.showOptionDialog(this,"¿Desea realizar el cambio de estatus a "+pendientePara+"?", "Confirmación",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
-        
-        if(opcion == 0){
-
-            if(manager_permisos.accesoModulo("actualizar","Inventario",Username)){
-                DefaultTableModel inventario = (DefaultTableModel)tablaInventario.getModel();
-                Boolean[] cambio = new Boolean[inventario.getRowCount()];
-                String[] ids = new String[inventario.getRowCount()];
-
-                //Llenamos los arreglos con la información
-                for(int i = 0; i<ids.length; i++){
-                    cambio[i] = Boolean.parseBoolean(tablaInventario.getValueAt(i, 0).toString());
-                    ids[i] = tablaInventario.getValueAt(i, 1).toString();
-                }
-
-                //Intentamos actualizar el estatus de dichos productos
-                if(manager_inventario.actualizarEstatus(ids,cambio,pendientePara)){
-                    JOptionPane.showMessageDialog(null, "Se actualizaron con exito los registros a "+pendientePara);
-                    if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
-                        //Mostramos la tabla de acuerdo a los criterios de busqueda que estaban antes
-                        int folio = comboFolio.getSelectedIndex();
-                        String estatus = comboEstatus.getSelectedItem().toString();
-                        String nomeclatura = "";
-                        int filtro = comboFiltro.getSelectedIndex();
-                        String inventarios = comboInventario.getSelectedItem().toString();
-                        String busqueda = txtBusqueda.getText();
-                        //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
-                        if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-                        if(inventarios.equals("Inventario")){
-                            tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-							lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario.cantidadInventario(filtro, busqueda, nomeclatura,estatus))));
-						} else{
-							tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-							lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario_granel.getcountBusquedaInventario(filtro, busqueda, nomeclatura, estatus))));
-						}				
-                    }else{
-                        JOptionPane.showMessageDialog(null,"Tu permiso para consultar el inventario ha sido revocado.");
-                        tablaInventario.setModel(new DefaultTableModel());
-                    }
-                }else{
-                    JOptionPane.showMessageDialog(null, "No se pudo realizar el cambio a "+pendientePara);
-                }
-                
-            }else{
-                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario.");                
-            }
-            
-            //Bandera para activar el popuMenu de aceptar o cancelar
-            activarConfirmacion = 2;
-
-            //Habilitamos las demás opciones para que siga con las respectivas funciones con las que cuenta la pestaña
-            btnAddInventario.setEnabled(true);
-            comboInventario.setEnabled(true);
-            comboEstatus.setEnabled(true);
-            comboFolio.setEnabled(true);
-            comboFiltro.setEnabled(true);
-            txtBusqueda.setEnabled(true);
-            
-        }//if(opcion == 0)
-    }//GEN-LAST:event_AceptarEstatusActionPerformed
-
-    private void CancelarEstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarEstatusActionPerformed
-        // TODO add your handling code here:
-        Object[] botones = {"Aceptar","Cancelar"};
-        int opcion = JOptionPane.showOptionDialog(this,"¿Desea cancelar la acción del cambio de estatus a "+pendientePara+"?", "Confirmación",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
-        
-        if(opcion == 0){
-
-            if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
-                int folio = comboFolio.getSelectedIndex();
-                String estatus = comboEstatus.getSelectedItem().toString();
-                String nomeclatura = "";
-                int filtro = comboFiltro.getSelectedIndex();
-                String inventario = comboInventario.getSelectedItem().toString();
-                String busqueda = txtBusqueda.getText();
-                //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
-                if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
-                if(inventario.equals("Inventario")){
-					tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-					lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario.cantidadInventario(filtro, busqueda, nomeclatura,estatus))));
-				} else{
-					tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
-					lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario_granel.getcountBusquedaInventario(filtro, busqueda, nomeclatura, estatus))));
-				}                        
-            }else{
-                JOptionPane.showMessageDialog(null,"Tu permiso para consultar el inventario ha sido revocado.");
-                tablaInventario.setModel(new DefaultTableModel());
-            }
-
-            //Bandera para activar el popuMenu de aceptar o cancelar
-            activarConfirmacion = 2;
-
-            //Habilitamos las demás opciones para que siga con las respectivas funciones con las que cuenta la pestaña
-            btnAddInventario.setEnabled(true);
-            comboInventario.setEnabled(true);
-            comboEstatus.setEnabled(true);
-            comboFolio.setEnabled(true);
-            comboFiltro.setEnabled(true);
-            txtBusqueda.setEnabled(true);
-            
-        }
-    }//GEN-LAST:event_CancelarEstatusActionPerformed
-
     private void comboAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAreaActionPerformed
         // TODO add your handling code here:
         comboEmpleado.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
@@ -5668,6 +5597,7 @@ public void metodoValeRecoleccion(){
                     //GENERAR VALE DE SALIDA DE ALMACEN
                     metodoVale();
                     limpiarTablaMAsignados();
+                    tabbedPrincipal.setSelectedIndex(6);//Direccionamos a la pestaña de Manejador inventario
 
                     //Habilitamos las cosas que se deshabilitaron por atender la solicitud de salida de almacen
                     rb_recoleccion1.setEnabled(true);
@@ -5738,49 +5668,6 @@ public void metodoValeRecoleccion(){
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas de estadísticas de consumibles.");
         }
     }//GEN-LAST:event_ConsultarConsumiblesActionPerformed
-
-    private void CancelarTodoSSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarTodoSSActionPerformed
-        // TODO add your handling code here:
-        String[] opciones = {"Aceptar", "Cancelar"};
-        int seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar la solicitud de salida de almacén?","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
-        if(seleccion == 0){
-            limpiarTablaCantidadGranel();
-        }
-    }//GEN-LAST:event_CancelarTodoSSActionPerformed
-
-    private void SolicitarConsumiblesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitarConsumiblesActionPerformed
-        // TODO add your handling code here:
-        if(manager_permisos.accesoModulo("alta","Solicitudes",Username)){
-            //Creamos un cuadro de dialogo para que confirme la eliminación del usuario o la cancele
-            Object[] botones = {"Confirmar","Cancelar"};
-            int opcion = JOptionPane.showOptionDialog(this,"¿Deseas continuar con la solicitud de salida de almacén?", "Confirmación",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
-            
-            if(opcion == 0){
-                String [] ids = new String[tablaCantidadGranel.getRowCount()];
-                int[] Cantidad = new int[tablaCantidadGranel.getRowCount()];
-
-                for(int i = 0; i<tablaCantidadGranel.getRowCount();i++){
-
-                    Cantidad[i] = Integer.parseInt(tablaCantidadGranel.getValueAt(i, 3).toString());
-                    ids[i] = tablaCantidadGranel.getValueAt(i, 0).toString();
-
-
-                }//Recorremos toda la tabla para ver que solicito y cuanto
-
-                //Realizamos el registro
-                if(manager_solicitud.registro_SolicitudSalida(Username, ids, Cantidad)){
-                    JOptionPane.showMessageDialog(null, "Se realizó correctamente la solicitud de salida de almacen.");
-                    limpiarTablaCantidadGranel();
-                }else{
-                    JOptionPane.showMessageDialog(null, "No se pudo realizar la solicitud de salida de almacen, verificar con el distribuidor.");
-                }
-            }
-            
-        }else{
-            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para solicitar salidas de almacén.");
-        }
-    }//GEN-LAST:event_SolicitarConsumiblesActionPerformed
 
     private void txtBusquedaConsumiblesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBusquedaConsumiblesActionPerformed
         // TODO add your handling code here:
@@ -5962,18 +5849,237 @@ public void metodoValeRecoleccion(){
 
     private void tablaInventarioMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaInventarioMouseMoved
         // TODO add your handling code here:
-        //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
-        int r = tablaInventario.rowAtPoint(evt.getPoint());
-        int c = tablaInventario.columnAtPoint(evt.getPoint());
-        if (r >= 0 && r < tablaInventario.getRowCount()){
-            if(c == 2 || c == 5){
-                tablaInventario.setToolTipText(tablaInventario.getValueAt(r, c).toString());
-            }else{
-                tablaInventario.setToolTipText(null);
+        try{
+            //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+            int r = tablaInventario.rowAtPoint(evt.getPoint());
+            int c = tablaInventario.columnAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablaInventario.getRowCount()){
+                if(c == 2 || c == 5){
+                    tablaInventario.setToolTipText(tablaInventario.getValueAt(r, c).toString());
+                }else{
+                    tablaInventario.setToolTipText(null);
+                }
             }
+        }catch(NullPointerException e){
+        
         }
         
     }//GEN-LAST:event_tablaInventarioMouseMoved
+
+    private void btnAceptarInvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarInvActionPerformed
+        // TODO add your handling code here:
+        Object[] botones = {"Aceptar","Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this,"¿Desea realizar el cambio de estatus a "+pendientePara+"?", "Confirmación",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+        
+        if(opcion == 0){
+
+            if(manager_permisos.accesoModulo("actualizar","Inventario",Username)){
+                DefaultTableModel inventario = (DefaultTableModel)tablaInventario.getModel();
+                Boolean[] cambio = new Boolean[inventario.getRowCount()];
+                String[] ids = new String[inventario.getRowCount()];
+
+                //Llenamos los arreglos con la información
+                for(int i = 0; i<ids.length; i++){
+                    cambio[i] = Boolean.parseBoolean(tablaInventario.getValueAt(i, 0).toString());
+                    ids[i] = tablaInventario.getValueAt(i, 1).toString();
+                }
+
+                //Intentamos actualizar el estatus de dichos productos
+                if(manager_inventario.actualizarEstatus(ids,cambio,pendientePara)){
+                    JOptionPane.showMessageDialog(null, "Se actualizaron con exito los registros a "+pendientePara);
+                    if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
+                        //Mostramos la tabla de acuerdo a los criterios de busqueda que estaban antes
+                        int folio = comboFolio.getSelectedIndex();
+                        String estatus = comboEstatus.getSelectedItem().toString();
+                        String nomeclatura = "";
+                        int filtro = comboFiltro.getSelectedIndex();
+                        String inventarios = comboInventario.getSelectedItem().toString();
+                        String busqueda = txtBusqueda.getText();
+                        //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+                        if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
+                        if(inventarios.equals("Inventario")){
+                            tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+							lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario.cantidadInventario(filtro, busqueda, nomeclatura,estatus))));
+						} else{
+							tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+							lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario_granel.getcountBusquedaInventario(filtro, busqueda, nomeclatura, estatus))));
+						}				
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Tu permiso para consultar el inventario ha sido revocado.");
+                        tablaInventario.setModel(new DefaultTableModel());
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "No se pudo realizar el cambio a "+pendientePara);
+                }
+                
+            }else{
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario.");                
+            }
+            
+            //Bandera para activar el popuMenu de aceptar o cancelar
+            activarConfirmacion = 2;
+            //Botones para aceptar o cancelar
+            btnAceptarInv.setVisible(false);
+            btnCancelarInv.setVisible(false);
+
+            //Habilitamos las demás opciones para que siga con las respectivas funciones con las que cuenta la pestaña
+            btnAddInventario.setEnabled(true);
+            comboInventario.setEnabled(true);
+            comboEstatus.setEnabled(true);
+            comboFolio.setEnabled(true);
+            comboFiltro.setEnabled(true);
+            txtBusqueda.setEnabled(true);
+            
+        }//if(opcion == 0)
+    }//GEN-LAST:event_btnAceptarInvActionPerformed
+
+    private void btnCancelarInvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarInvActionPerformed
+        // TODO add your handling code here:
+        Object[] botones = {"Aceptar","Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this,"¿Desea cancelar la acción del cambio de estatus a "+pendientePara+"?", "Confirmación",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+        
+        if(opcion == 0){
+
+            if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
+                int folio = comboFolio.getSelectedIndex();
+                String estatus = comboEstatus.getSelectedItem().toString();
+                String nomeclatura = "";
+                int filtro = comboFiltro.getSelectedIndex();
+                String inventario = comboInventario.getSelectedItem().toString();
+                String busqueda = txtBusqueda.getText();
+                //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+                if(folio > 0){nomeclatura = nomeclaturas[folio-1];}
+                if(inventario.equals("Inventario")){
+					tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+					lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario.cantidadInventario(filtro, busqueda, nomeclatura,estatus))));
+				} else{
+					tablaInventario.setModel(manager_inventario_granel.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus));
+					lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario_granel.getcountBusquedaInventario(filtro, busqueda, nomeclatura, estatus))));
+				}                        
+            }else{
+                JOptionPane.showMessageDialog(null,"Tu permiso para consultar el inventario ha sido revocado.");
+                tablaInventario.setModel(new DefaultTableModel());
+            }
+
+            //Bandera para activar el popuMenu de aceptar o cancelar
+            activarConfirmacion = 2;
+            //Botones para aceptar o cancelar
+            btnAceptarInv.setVisible(false);
+            btnCancelarInv.setVisible(false);
+
+            //Habilitamos las demás opciones para que siga con las respectivas funciones con las que cuenta la pestaña
+            btnAddInventario.setEnabled(true);
+            comboInventario.setEnabled(true);
+            comboEstatus.setEnabled(true);
+            comboFolio.setEnabled(true);
+            comboFiltro.setEnabled(true);
+            txtBusqueda.setEnabled(true);
+            
+        }
+    }//GEN-LAST:event_btnCancelarInvActionPerformed
+
+    private void btnAgregarConsumibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarConsumibleActionPerformed
+        // TODO add your handling code here:
+            
+            int fila = tablaSolicitarGranel.getSelectedRow();
+            if(fila > 0){
+                int cantidad = 0;
+                //Esto es para validar que ingrese solo numeros y mientras no lo haga, seguira preguntado hasta que
+                //solo teclee numeros o cancele el movimiento
+                boolean entero = true;
+                boolean canceloCantidad = true;
+                while(entero){
+
+                    String cadena = JOptionPane.showInputDialog("Ingrese la cantidad que desea solicitar");
+                    //Cancelo la solicitud de asignacion
+                    if(cadena == null){
+                        entero = false;
+                        canceloCantidad = false;
+                    }else{
+                        try{
+                            //Si hace la conversion correctamente entonces no entra en la excepcion y se sale del ciclo
+                            cantidad = Integer.parseInt(cadena);
+                            entero = false;
+
+                        }catch(NumberFormatException e){
+                            JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
+                            entero = true;
+                        }//try catch
+                    }
+                }//while
+
+                if(canceloCantidad){
+                    if(!(existeCodigoTablaSolicitarGranel(tablaSolicitarGranel.getValueAt(fila, 0).toString(),cantidad))){
+                        modeloCantidadSalida.addRow(new Object[]{tablaSolicitarGranel.getValueAt(fila, 0),tablaSolicitarGranel.getValueAt(fila, 1),tablaSolicitarGranel.getValueAt(fila, 2),cantidad});
+                    }
+                }
+            }else{
+                JOptionPane.showMessageDialog(null,"Debes seleccionar un consumible para agregarlos a la solicitud.");
+            }
+    }//GEN-LAST:event_btnAgregarConsumibleActionPerformed
+
+    private void btnCancelarConsumibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarConsumibleActionPerformed
+        // TODO add your handling code here:
+        int fila = tablaCantidadGranel.getSelectedRow();
+        if(fila > 0){
+            String[] opciones = {"Aceptar", "Cancelar"};
+            int seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar el producto \""+tablaCantidadGranel.getValueAt(fila, 0).toString()+"\"?","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+            if(seleccion == 0){
+                modeloCantidadSalida.removeRow(fila);
+            }//Acepto cancelar la solicitud
+        }else{
+            JOptionPane.showMessageDialog(null,"Debes seleccionar un consumible para eliminarlo de la solicitud.");
+        }
+    }//GEN-LAST:event_btnCancelarConsumibleActionPerformed
+
+    private void btnCancelarConsumible1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarConsumible1ActionPerformed
+        // TODO add your handling code here:
+        String[] opciones = {"Aceptar", "Cancelar"};
+        int seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar la solicitud de salida de almacén?","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+        if(seleccion == 0){
+            limpiarTablaCantidadGranel();
+        }
+    }//GEN-LAST:event_btnCancelarConsumible1ActionPerformed
+
+    private void btnCancelarConsumible2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarConsumible2ActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.accesoModulo("alta","Solicitudes",Username)){
+            if(modeloCantidadSalida.getRowCount() > 0){
+                //Creamos un cuadro de dialogo para que confirme la eliminación del usuario o la cancele
+                Object[] botones = {"Confirmar","Cancelar"};
+                int opcion = JOptionPane.showOptionDialog(this,"¿Deseas continuar con la solicitud de salida de almacén?", "Confirmación",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
+
+                if(opcion == 0){
+                    String [] ids = new String[tablaCantidadGranel.getRowCount()];
+                    int[] Cantidad = new int[tablaCantidadGranel.getRowCount()];
+
+                    for(int i = 0; i<tablaCantidadGranel.getRowCount();i++){
+
+                        Cantidad[i] = Integer.parseInt(tablaCantidadGranel.getValueAt(i, 3).toString());
+                        ids[i] = tablaCantidadGranel.getValueAt(i, 0).toString();
+
+                    }//Recorremos toda la tabla para ver que solicito y cuanto
+
+                    //Realizamos el registro
+                    if(manager_solicitud.registro_SolicitudSalida(Username, ids, Cantidad)){
+                        JOptionPane.showMessageDialog(null, "Se realizó correctamente la solicitud de salida de almacen.");
+                        limpiarTablaCantidadGranel();
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No se pudo realizar la solicitud de salida de almacen, verificar con el distribuidor.");
+                    }
+
+                }else{
+                    JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para solicitar salidas de almacén.");
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Debe seleccionar al menos un consumible para realizar la solicitud .");
+            }
+        }
+    
+    }//GEN-LAST:event_btnCancelarConsumible2ActionPerformed
        
     public void cargarImagen(String busqueda, int numero) {
 
@@ -6141,7 +6247,6 @@ public void metodoValeRecoleccion(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem AceptarEstatus;
     private javax.swing.JMenuItem Actualizar;
     private javax.swing.JMenuItem ActualizarAsignacionP;
     private javax.swing.JMenuItem ActualizarConsumible;
@@ -6159,11 +6264,8 @@ public void metodoValeRecoleccion(){
     private javax.swing.JMenuItem Asignar_usuario;
     private javax.swing.JMenuItem Atender;
     private javax.swing.JMenuItem CancelarA;
-    private javax.swing.JMenuItem CancelarEstatus;
-    private javax.swing.JMenuItem CancelarSS;
     private javax.swing.JMenuItem CancelarSolicitud;
     private javax.swing.JMenuItem CancelarTodoA;
-    private javax.swing.JMenuItem CancelarTodoSS;
     private javax.swing.JMenuItem ConsultarConsumibles;
     private javax.swing.JMenuItem ConsultarSolicitudes;
     private javax.swing.JMenuItem DevolverDis;
@@ -6180,14 +6282,12 @@ public void metodoValeRecoleccion(){
     private javax.swing.ButtonGroup GrupoTipoInventario;
     private javax.swing.JPopupMenu MenuAsginados;
     private javax.swing.JPopupMenu MenuAsignacionP;
-    private javax.swing.JPopupMenu MenuConfirmacion;
     private javax.swing.JPopupMenu MenuEmpleados;
     private javax.swing.JPopupMenu MenuInventario;
     private javax.swing.JPopupMenu MenuInventarioG;
     private javax.swing.JPopupMenu MenuPermisosP;
     private javax.swing.JPopupMenu MenuRecoleccion;
     private javax.swing.JPopupMenu MenuResguardoPersonal;
-    private javax.swing.JPopupMenu MenuSolicitarSalida;
     private javax.swing.JPopupMenu MenuSolicitudes;
     private javax.swing.JPopupMenu MenuSolicitudesP;
     private javax.swing.JPopupMenu MenuStockMin;
@@ -6204,17 +6304,22 @@ public void metodoValeRecoleccion(){
     private javax.swing.JMenuItem SelectProducts;
     private javax.swing.JMenuItem Servicio;
     private javax.swing.JMenuItem SolicitarBaja;
-    private javax.swing.JMenuItem SolicitarConsumibles;
     private javax.swing.JMenu SolictarMas;
     private javax.swing.JMenuItem activar;
     private javax.swing.JMenuItem activarE;
     private javax.swing.JMenuItem bajaE;
     private javax.swing.ButtonGroup bg_manejo_inventario;
     private javax.swing.ButtonGroup bt_tipo_inventario_asignable;
+    private javax.swing.JButton btnAceptarInv;
     private javax.swing.JButton btnAddEmpleado;
     private javax.swing.JButton btnAddInventario;
+    private javax.swing.JButton btnAgregarConsumible;
     private javax.swing.JButton btnAñadirResguardo;
     private javax.swing.JButton btnAñadirVehiculo;
+    private javax.swing.JButton btnCancelarConsumible;
+    private javax.swing.JButton btnCancelarConsumible1;
+    private javax.swing.JButton btnCancelarConsumible2;
+    private javax.swing.JButton btnCancelarInv;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEditar1;
     private javax.swing.JTextField cajaIP;
@@ -6288,6 +6393,9 @@ public void metodoValeRecoleccion(){
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;

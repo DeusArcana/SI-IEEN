@@ -503,19 +503,6 @@ public class updateEmpleado extends javax.swing.JDialog {
                     boolean insertar = manager_users.actualizarEmpleado(id,nombres, apellido_p, apellido_m, calle, colonia, telefono, codigoP, fecha, curp, rfc, municipio,localidad,area,puesto);
                     if(insertar){
                         if(bandera == 1){
-                            String cadena = manager_users.infoEmpleado(Principal.Username);
-                            String separador [] = cadena.split(",");
-                            Principal.lblNombre.setText("Nombre: "+separador[0]+" "+separador[1]+" "+separador[2]);
-                            Principal.lblDomicilio.setText("Domicilio: "+separador[4]+" "+separador[3]);
-                            Principal.lblTelefono.setText("Telefono: "+separador[5]);
-                            Principal.lblCodigo.setText("C.P.: "+separador[6]);
-                            Principal.lblFecha.setText("Fecha de nacimiento: "+separador[7]);
-                            Principal.lblCurp.setText("CURP: "+separador[8]);
-                            Principal.lblRfc.setText("RFC: "+separador[9]);
-                            Principal.lblMunicipio.setText("Municipio: "+separador[10]);
-                            Principal.lblLocalidad.setText("Localidad: "+separador[11]);
-                            Principal.lblCargo.setText("Puesto: "+separador[12]);
-                            Principal.lblArea.setText("Área: "+separador[13]);
                             JOptionPane.showMessageDialog(null, "Sus datos se actualizaron exitosamente");
                         }else{
                             JOptionPane.showMessageDialog(null, "El empleado "+nombres+ " "+apellido_p+" ha sido actualizado exitosamente.");
@@ -523,7 +510,7 @@ public class updateEmpleado extends javax.swing.JDialog {
                                 if(comboEmpUsu.getSelectedItem().toString().equals("Empleados sin usuario")){
                                     Principal.tablaUsuarios.setModel(manager_users.getEmpleadosSinUsuario(filtro,busqueda,Principal.comboEmpUsuEstatus.getSelectedItem().toString()));
                                 }else{
-                                    Principal.tablaUsuarios.setModel(manager_users.getEmpleados(Principal.Username,filtro,busqueda,Principal.comboEmpUsuEstatus.getSelectedItem().toString()));
+                                    Principal.tablaUsuarios.setModel(manager_users.getEmpleados(filtro,busqueda,Principal.comboEmpUsuEstatus.getSelectedItem().toString()));
                                 }
                             }else{
                                 JOptionPane.showMessageDialog(null, "Han revocado sus permisos para consulta de empleados");

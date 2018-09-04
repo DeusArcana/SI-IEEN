@@ -43,6 +43,11 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         this.clave = id;
         //Cadena con todos los datos de la consulta
         String datosConsumible = manager_inventario_granel.obtenerDatosConsumible(id);
+        
+        //comboUbicacion
+        manager_inventario.getBodegas(comboUbicacion);
+        manager_inventario_granel.getCategorias(comboCategoria);
+        
         //Acomodamos los datos donde van
         colocarDatos(datosConsumible);
         
@@ -326,7 +331,7 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         
         categoria = comboCategoria.getSelectedItem().toString();
         
-		return true;
+        return true;
     }//getInfo
     
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
@@ -384,10 +389,7 @@ public class updateInventarioGranel extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
-        //comboUbicacion
-        manager_inventario.getBodegas(comboUbicacion);
-        manager_inventario_granel.getCategorias(comboCategoria);
+        // TODO add your handling code here
     }//GEN-LAST:event_formWindowOpened
 
     private void txtNumFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNumFocusLost
