@@ -150,6 +150,11 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         txt_Actividad.setColumns(20);
         txt_Actividad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_Actividad.setRows(5);
+        txt_Actividad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_ActividadKeyTyped(evt);
+            }
+        });
         jScrollPane1.setViewportView(txt_Actividad);
 
         pn_addPermiso.add(jScrollPane1);
@@ -234,7 +239,6 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         txt_hora_llegada.setBounds(140, 300, 110, 28);
 
         txt_horas.setEditable(false);
-        txt_horas.setText("00:00");
         txt_horas.setEnabled(false);
         pn_addPermiso.add(txt_horas);
         txt_horas.setBounds(340, 300, 110, 28);
@@ -310,7 +314,42 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         try{
-        SimpleDateFormat format=new SimpleDateFormat("HH:mm");
+            verificar_excepcion=true;
+            validarDatos(true,"");
+        /*SimpleDateFormat format=new SimpleDateFormat("HH:mm");
+        String area=comboArea.getSelectedItem().toString();
+        String[] foliocom=txt_Folio.getText().split("-");
+        String folio=foliocom[0];
+        String numero=foliocom[1];
+        String[] año=fechag.split("-");
+        String empleado=comboEmpleados.getSelectedItem().toString();
+        String puesto=txt_Puesto.getText();
+        String fecha="";
+        String horaes=format.format((Date)hora_e_s.getValue());
+        String horall="";
+        String horas="";
+        String estado="Aceptado";
+        int h = comboHorario.getSelectedIndex();
+        if(h==1){
+                SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy");
+                fecha=sdf.format(date_Salida.getDate().getTime());
+        }else{
+            fecha=fechag;
+        }
+        
+        if(h==2){
+            horall="";   
+            horas=txt_horas.getText();
+        }else{
+            horall="";
+            horas="";
+        }
+        
+        String tipohorario=comboHorario.getSelectedItem().toString();
+        String tipoasunto=comboAsunto.getSelectedItem().toString();
+        String asunto=txt_Actividad.getText();*/
+            try{
+                SimpleDateFormat format=new SimpleDateFormat("HH:mm");
         String area=comboArea.getSelectedItem().toString();
         String[] foliocom=txt_Folio.getText().split("-");
         String folio=foliocom[0];
@@ -342,21 +381,20 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         String tipohorario=comboHorario.getSelectedItem().toString();
         String tipoasunto=comboAsunto.getSelectedItem().toString();
         String asunto=txt_Actividad.getText();
-            try{
-                verificar_excepcion=true;
-                validarDatos(true,"");
+                //verificar_excepcion=true;
+                //validarDatos(true,"");
 
                 //inserta solicitud
                 insertar_Solicitud(folio,numero,año[2],empleado,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,estado);
                 //JOptionPane.showMessageDialog(this,area+"\n"+empleado+"\n"+puesto+"\n"+fecha+"\n"+horaes+"\n"+horall+"\n"+tipohorario+"\n"+tipoasunto+"\n"+asunto);
                 //insertar_Solicitud(0);
 
-            }catch(ExceptionDatosIncompletos e){
+            }catch (NullPointerException ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error! Campos vacíos");
+            }
+        }catch(ExceptionDatosIncompletos e){
                 if(verificar_excepcion)JOptionPane.showMessageDialog(this, e.getMessage());
                 return;
-            }
-        }catch (NullPointerException ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error! Campos vacíos");
             }
         
         //SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
@@ -430,7 +468,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             txt_hora_llegada.setEnabled(true);
             txt_horas.setEnabled(true);
             //txt_hora_llegada.setEditable(true);
-            //txt_horas.setText("00:00");
+            txt_horas.setText("00:00");
             txt_horas.setEditable(true);
             
         }else{
@@ -438,11 +476,18 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             txt_horas.setEnabled(false);
             txt_hora_llegada.setEditable(false);
             txt_horas.setEditable(false);
-            //txt_horas.setText("");
+            txt_horas.setText("");
             
         }
     }//GEN-LAST:event_comboHorarioActionPerformed
 
+    private void txt_ActividadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_ActividadKeyTyped
+        // TODO add your handling code here:
+        txt_Actividad.setLineWrap(true);
+        txt_Actividad.setWrapStyleWord(true);
+    }//GEN-LAST:event_txt_ActividadKeyTyped
+    
+    
     public static String getfecha(){
         Date fecha=new Date();
         SimpleDateFormat formatofecha=new SimpleDateFormat("dd-MM-yyyy");
@@ -545,10 +590,10 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
        
         if(txt_Actividad.getText().equals("")){
             if(cad.equals("")){
-                cad+="-No se ha insertado ninguna actividad, escriba la acitividad y vuelva a intentarlo";
+                cad+="-No se ha insertado ningun asunto, escriba el asunto y vuelva a intentarlo";
             }
             else{
-                cad+="\n-No se ha insertado ninguna actividad, escriba la acitividad y vuelva a intentarlo";
+                cad+="\n-No se ha insertado ningun asunto, escriba el asunto y vuelva a intentarlo";
             }
         }
     
@@ -560,7 +605,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 cad+="\n-No se ha seleccionado el empleado, seleccione uno de los empleados y vuelva a intentarlo";
             }
         }
-        if(comboArea.getSelectedItem().toString().equals("Seleccione area...")){
+        if(comboArea.getSelectedItem().toString().equals("Seleccione área...")){
             if(cad.equals("")){
                 cad+="-No se ha seleccionado el area, vuelva a intentarlo";
             }
@@ -584,13 +629,29 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 cad+="\n-No se ha seleccionado el tipo de asunto, vuelva a intentarlo";
             }
         }
-        if(txt_horas.getText().split(":").length!=2){
-            if(cad.equals("")){ 
+        if(comboHorario.getSelectedItem().toString().equals("Intermedio")){
+            if(txt_horas.getText().equals("00:00")){
+               if(cad.equals("")){ 
+                cad+="-El Formato de horas 00:00 no es valido,inserte las horas y vuelva a intentarlo";
+            }
+            else{
+                cad+="\n-El Formato de horas 00:00 no es valido,inserte las horas y vuelva a intentarlo";
+            } 
+            }else if(txt_horas.getText().split(":").length!=2){
+              if(cad.equals("")){ 
                 cad+="-El Formato de horas debe ser 00:00, vuelva a intentarlo";
             }
             else{
                 cad+="\n-El Formato de horas debe ser 00:00, vuelva a intentarlo";
+            }  
+            }else if(txt_horas.getText().isEmpty()){
+            if(cad.equals("")){ 
+                cad+="-No se ha insertado el formato de las horas, vuelva a intentarlo";
             }
+            else{
+                cad+="\n-No se ha insertado el formato de las horas, vuelva a intentarlo";
+            }
+        }
         }
         if(txt_Puesto.getText().equals("")){
             if(cad.equals("")){
@@ -600,7 +661,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 cad+="\n-No se ha insertado el puesto del empleado, escriba el nombre del empleado y vuelva a intentarlo";
             }
         }
-        if(txt_Folio.getText().equals("")){
+        if(txt_Folio.getText().isEmpty()){
             if(cad.equals("")){
                 cad+="-No se ha insertado el folio, vuelva a intentarlo";
             }
@@ -635,7 +696,6 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 
              //varidp=rs.getInt("max(Numero)");
              max=rs.getInt("max(Numero)");
-             
         }
     }catch(SQLException ex){
            javax.swing.JOptionPane.showMessageDialog(null, "Error!!"); 
