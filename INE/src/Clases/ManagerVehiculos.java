@@ -223,29 +223,34 @@ public class ManagerVehiculos {
         DefaultTableModel table = new DefaultTableModel();
 
         try {
-            table.addColumn("Clave");
+            table.addColumn("No. Inventario");
+            table.addColumn("Descripción");
             table.addColumn("Marca");
             table.addColumn("Linea");
             table.addColumn("Año");
             table.addColumn("Color");
             table.addColumn("Matricula");
+            table.addColumn("Kilometraje");
+            
             
             String sql;
             //Consulta de los vehiculos
             if(tipoBusqueda.equals("Año")){
-                sql = "select concat(Folio,'-',Numero) as clave,marca,linea,modelo,color,matricula from vehiculos where modelo like '"+busqueda+"%' order by clave;";
+                sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje from vehiculos where modelo like '"+busqueda+"%';";
+            }else if(tipoBusqueda.equals("No. Inventario")){
+                sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje from vehiculos where Numero like '%"+busqueda+"%';";
             }else{
-                sql = "select concat(Folio,'-',Numero)as clave,marca,linea,modelo,color,matricula from vehiculos where "+tipoBusqueda+" like '"+busqueda+"%' order by clave;";
+                sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje from vehiculos where "+tipoBusqueda+" like '"+busqueda+"%' order by clave;";
             }
             con = db.getConexion();
             Statement st = con.createStatement();
-            Object datos[] = new Object[6];
+            Object datos[] = new Object[8];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
 
-                for(int i = 0;i<6;i++){
+                for(int i = 0;i<8;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 

@@ -1255,6 +1255,7 @@
                         </Property>
                       </Properties>
                       <Events>
+                        <EventHandler event="mouseMoved" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="tablaUsuariosMouseMoved"/>
                         <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaUsuariosMouseReleased"/>
                       </Events>
                       <AuxValues>

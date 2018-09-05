@@ -1082,6 +1082,11 @@ public class Principal extends javax.swing.JFrame {
                 "ID", "Nombre(s)", "Apellido Paterno", "Apellido Materno", "Área"
             }
         ));
+        tablaUsuarios.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                tablaUsuariosMouseMoved(evt);
+            }
+        });
         tablaUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tablaUsuariosMouseReleased(evt);
@@ -2956,22 +2961,17 @@ public class Principal extends javax.swing.JFrame {
         }
         //---------------------------------- PESTAÑA INVENTARIO --------------------------------------// 0
 
-        //--------------------------- PESTAÑA DE EMPLEADOS Y USUARIOS --------------------------------// 1
-        
+        //---------------------------------- PESTAÑA VEHICULOS --------------------------------------// 2
+
         comboFiltroVehiculos.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        comboFiltroVehiculos.addItem("No. Inventario");
         comboFiltroVehiculos.addItem("Marca");
         comboFiltroVehiculos.addItem("Linea");
         comboFiltroVehiculos.addItem("Año");
         comboFiltroVehiculos.addItem("Color");
         comboFiltroVehiculos.addItem("Matricula");
-        
-        //--------------------------- PESTAÑA DE EMPLEADOS Y USUARIOS --------------------------------// 1
-        
-        //---------------------------------- PESTAÑA VEHICULOS --------------------------------------// 2
-        
-        if(manager_permisos.accesoModulo("consulta","Vehiculos",Username)){
-            tablaVehiculos.setModel(managerVehiculos.getVehiculos());
-        }
+        comboFiltroVehiculos.addItem("Kilometraje");
+        comboFiltroVehiculos.addItem("Descripción");
         
         //---------------------------------- PESTAÑA VEHICULOS --------------------------------------// 2
         
@@ -4122,34 +4122,29 @@ public void metodoValeRecoleccion(){
         // TODO add your handling code here:
 
     }//GEN-LAST:event_vehiculosMouseClicked
+    public void buscarVehiculo(){
+        if(manager_permisos.accesoModulo("consulta","Vehiculos",Username)){
+            String filtro = comboFiltroVehiculos.getSelectedItem().toString();
+            String busqueda = txtBusquedaVehiculos.getText();
 
+            tablaVehiculos.setModel(managerVehiculos.getVehiculosEspecificos(filtro,busqueda));
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "No cuentas con permiso para consultar los vehiculos");
+        }
+    }
     private void txtBusquedaVehiculosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaVehiculosKeyReleased
         // TODO add your handling code here:
-        String filtro = comboFiltroVehiculos.getSelectedItem().toString();
-        String busqueda = txtBusquedaVehiculos.getText();
-
-        //Si no hay nada en el campo entonces mostramos todos los empleados
-        if(busqueda.equals("")){
-            tablaVehiculos.setModel(managerVehiculos.getVehiculos());
-        }//if
-
-        else{
-
-            //Si hay coincidencias entonces los muestra
-            if(managerVehiculos.existeVehiculo(filtro, busqueda)){
-                tablaVehiculos.setModel(managerVehiculos.getVehiculosEspecificos(filtro,busqueda));
-            }//if
-
-            //Si no hay coincidecnias entonces mostramos todos los vehiculos
-            else{
-                tablaVehiculos.setModel(managerVehiculos.getVehiculos());
-            }//Segundo else
-
-        }//Primer else
+        if(manager_permisos.accesoModulo("consulta","Vehiculos",Username)){
+            buscarVehiculo();
+        }else{
+            tablaVehiculos.setModel(new DefaultTableModel());
+        }
     }//GEN-LAST:event_txtBusquedaVehiculosKeyReleased
 
     private void comboFiltroVehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroVehiculosActionPerformed
         // TODO add your handling code here:
+        buscarVehiculo();
     }//GEN-LAST:event_comboFiltroVehiculosActionPerformed
 
     private void btnAñadirVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirVehiculoActionPerformed
@@ -6103,6 +6098,24 @@ public void metodoValeRecoleccion(){
         
         }
     }//GEN-LAST:event_ExcelVehiculosActionPerformed
+
+    private void tablaUsuariosMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseMoved
+        // TODO add your handling code here:
+        try{
+            //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+            int r = tablaVehiculos.rowAtPoint(evt.getPoint());
+            int c = tablaVehiculos.columnAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablaVehiculos.getRowCount()){
+                if(c == 1){
+                    tablaInventario.setToolTipText(tablaInventario.getValueAt(r, c).toString());
+                }else{
+                    tablaInventario.setToolTipText(null);
+                }
+            }
+        }catch(NullPointerException e){
+        
+        }
+    }//GEN-LAST:event_tablaUsuariosMouseMoved
        
     public void cargarImagen(String busqueda, int numero) {
 
