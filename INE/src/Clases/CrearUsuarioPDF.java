@@ -139,9 +139,19 @@ public class CrearUsuarioPDF {
     
     
     public void createTicket(String pdfFilename,String usuario, String contrasena, int res,String fecha, String hora)throws DocumentException {
+        Cabecera encClass = new Cabecera();
+        encClass.setEncabezado("algo");
+       // Rectangle pagesize = new Rectangle(250, 14400);
+        Document doc = new Document(PageSize.A4, 36, 36, 54, 36);
+        Cabecera cab = new Cabecera();
+        //Paragraph parrafo;
+        //int i;
         
+        cab.setEncabezado("");
+        
+        // indicamos que objecto manejara los eventos al escribir el Pdf
         Rectangle pagesize = new Rectangle(250, 14400);
-        Document doc = new Document(pagesize);
+        //Document doc = new Document(pagesize);
         PdfWriter docWriter = null;
 
         try {
@@ -149,6 +159,7 @@ public class CrearUsuarioPDF {
             //CODIGO DE BARRAS------------------------------------------------------------------------
             String path = this.path + pdfFilename + ".pdf";
             docWriter = PdfWriter.getInstance(doc, new FileOutputStream(path));
+            docWriter.setPageEvent(cab);
             doc.addAuthor("IEEN");
             doc.addCreationDate();
             doc.addProducer();
@@ -196,7 +207,7 @@ public class CrearUsuarioPDF {
             firma.addCell(firmaCell);
 
             //Pie de pagina,   pagina 1 de 1
-            ColumnText.showTextAligned(docWriter.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Pagina " + docWriter.getPageNumber() + " de " + docWriter.getCurrentPageNumber()), 300, 20, 0);
+            //ColumnText.showTextAligned(docWriter.getDirectContent(), Element.ALIGN_CENTER, new Phrase("Pagina " + docWriter.getPageNumber() + " de " + docWriter.getCurrentPageNumber()), 300, 20, 0);
             
             PdfPTable proceso = new PdfPTable(1);
             

@@ -128,8 +128,19 @@ public class CrearPaseSalida {
     
     public void createTicket(int res,String folio,String numero,String nombreem,String puesto,String area,String fecha,String horaes,String horall,String horas,String tipohorario,String tipoasunto,String asunto,String responsable)throws DocumentException {
         
+        Cabecera encClass = new Cabecera();
+        encClass.setEncabezado("algo");
+       // Rectangle pagesize = new Rectangle(250, 14400);
+        Document doc = new Document(PageSize.A4, 36, 36, 54, 36);
+        Cabecera cab = new Cabecera();
+        //Paragraph parrafo;
+        //int i;
+        
+        cab.setEncabezado("");
+        
+        // indicamos que objecto manejara los eventos al escribir el Pdf
         Rectangle pagesize = new Rectangle(250, 14400);
-        Document doc = new Document(pagesize);
+        //Document doc = new Document(pagesize);
         PdfWriter docWriter = null;
         String pdfFilename=folio+"-"+numero+"-"+fecha;
         
@@ -178,9 +189,10 @@ public class CrearPaseSalida {
 
         try {
 
-            //CODIGO DE BARRAS------------------------------------------------------------------------
+             //CODIGO DE BARRAS------------------------------------------------------------------------
             String path = this.path + pdfFilename + ".pdf";
             docWriter = PdfWriter.getInstance(doc, new FileOutputStream(path));
+            docWriter.setPageEvent(cab);
             doc.addAuthor("IEEN");
             doc.addCreationDate();
             doc.addProducer();

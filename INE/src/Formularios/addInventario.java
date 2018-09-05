@@ -143,7 +143,7 @@ public class addInventario extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(txtProducto);
-        txtProducto.setBounds(120, 100, 215, 30);
+        txtProducto.setBounds(120, 100, 210, 30);
         txtProducto.getAccessibleContext().setAccessibleDescription("");
 
         txtFolio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -165,7 +165,7 @@ public class addInventario extends javax.swing.JDialog {
         lblCantidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblCantidad.setText("Cantidad: *");
         pn_addInventario.add(lblCantidad);
-        lblCantidad.setBounds(20, 410, 80, 17);
+        lblCantidad.setBounds(330, 400, 80, 17);
 
         txtCantidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtCantidad.setText("1");
@@ -175,7 +175,7 @@ public class addInventario extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(txtCantidad);
-        txtCantidad.setBounds(110, 400, 70, 30);
+        txtCantidad.setBounds(420, 390, 150, 30);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Marca:");
@@ -183,8 +183,13 @@ public class addInventario extends javax.swing.JDialog {
         jLabel5.setBounds(50, 190, 41, 17);
 
         txtMarca.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtMarca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMarcaKeyTyped(evt);
+            }
+        });
         pn_addInventario.add(txtMarca);
-        txtMarca.setBounds(120, 180, 215, 30);
+        txtMarca.setBounds(120, 180, 210, 30);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("No serie:");
@@ -192,8 +197,13 @@ public class addInventario extends javax.swing.JDialog {
         jLabel8.setBounds(40, 150, 53, 17);
 
         txtNoSerie.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtNoSerie.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNoSerieKeyTyped(evt);
+            }
+        });
         pn_addInventario.add(txtNoSerie);
-        txtNoSerie.setBounds(120, 140, 215, 30);
+        txtNoSerie.setBounds(120, 140, 210, 30);
 
         lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_addInventario.add(lblAviso);
@@ -206,7 +216,7 @@ public class addInventario extends javax.swing.JDialog {
 
         txtModelo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_addInventario.add(txtModelo);
-        txtModelo.setBounds(120, 220, 215, 30);
+        txtModelo.setBounds(120, 220, 210, 30);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setText("Color:");
@@ -220,7 +230,7 @@ public class addInventario extends javax.swing.JDialog {
 
         txtColor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_addInventario.add(txtColor);
-        txtColor.setBounds(120, 260, 215, 30);
+        txtColor.setBounds(120, 260, 210, 30);
 
         comboFolio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboFolio.addActionListener(new java.awt.event.ActionListener() {
@@ -291,7 +301,7 @@ public class addInventario extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(txtNum);
-        txtNum.setBounds(180, 60, 70, 30);
+        txtNum.setBounds(180, 60, 90, 30);
 
         txtExtension.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtExtension.setToolTipText("");
@@ -307,7 +317,7 @@ public class addInventario extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(txtExtension);
-        txtExtension.setBounds(260, 60, 50, 30);
+        txtExtension.setBounds(280, 60, 50, 30);
 
         txtDescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_addInventario.add(txtDescripcion);
@@ -316,15 +326,15 @@ public class addInventario extends javax.swing.JDialog {
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("Factura:");
         pn_addInventario.add(jLabel9);
-        jLabel9.setBounds(300, 350, 51, 17);
+        jLabel9.setBounds(350, 350, 51, 17);
 
         contadorImg.setText("0");
         pn_addInventario.add(contadorImg);
-        contadorImg.setBounds(660, 270, 6, 14);
+        contadorImg.setBounds(640, 310, 50, 14);
 
         txtFactura.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_addInventario.add(txtFactura);
-        txtFactura.setBounds(360, 340, 120, 30);
+        txtFactura.setBounds(420, 340, 150, 30);
         txtFactura.getAccessibleContext().setAccessibleName("");
         txtFactura.getAccessibleContext().setAccessibleDescription("");
 
@@ -341,20 +351,20 @@ public class addInventario extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(txtImporte);
-        txtImporte.setBounds(570, 340, 120, 30);
+        txtImporte.setBounds(670, 340, 120, 30);
         txtImporte.getAccessibleContext().setAccessibleDescription("");
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Importe: *");
         pn_addInventario.add(jLabel12);
-        jLabel12.setBounds(494, 350, 70, 17);
+        jLabel12.setBounds(600, 350, 70, 17);
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel13.setText("Fecha de compra: *");
+        jLabel13.setText("Fecha compra: *");
         pn_addInventario.add(jLabel13);
-        jLabel13.setBounds(250, 400, 130, 17);
+        jLabel13.setBounds(10, 400, 120, 17);
         pn_addInventario.add(txtFecha);
-        txtFecha.setBounds(380, 390, 200, 30);
+        txtFecha.setBounds(120, 390, 160, 30);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         pn_addInventario.add(jLabel6);
@@ -748,6 +758,24 @@ public class addInventario extends javax.swing.JDialog {
             lblAviso.setText("");
         }
     }//GEN-LAST:event_txtNumFocusLost
+
+    private void txtNoSerieKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNoSerieKeyTyped
+         // TODO add your handling code here:
+         char caracter2 = evt.getKeyChar();
+        if (txtNoSerie.getText().length() == 15) {
+            evt.consume();
+        } else if (caracter2 != evt.getKeyCode()) {
+        }
+    }//GEN-LAST:event_txtNoSerieKeyTyped
+
+    private void txtMarcaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMarcaKeyTyped
+         // TODO add your handling code here:
+         char caracter2 = evt.getKeyChar();
+        if (txtMarca.getText().length() == 15) {
+            evt.consume();
+        } else if (caracter2 != evt.getKeyCode()) {
+        }
+    }//GEN-LAST:event_txtMarcaKeyTyped
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {

@@ -103,8 +103,19 @@ public class CrearValeSalidaAlmacen {
     
     public void createTicket(String pdfFilename,String usuario, String contrasena, int res,String fecha, String hora, Vector productos, String empleado)throws DocumentException {
         
+        Cabecera encClass = new Cabecera();
+        encClass.setEncabezado("algo");
+       // Rectangle pagesize = new Rectangle(250, 14400);
+        Document doc = new Document(PageSize.A4, 36, 36, 54, 36);
+        Cabecera cab = new Cabecera();
+        //Paragraph parrafo;
+        //int i;
+        
+        cab.setEncabezado("");
+        
+        // indicamos que objecto manejara los eventos al escribir el Pdf
         Rectangle pagesize = new Rectangle(250, 14400);
-        Document doc = new Document(pagesize);
+        //Document doc = new Document(pagesize);
         PdfWriter docWriter = null;
 
         try {
@@ -112,6 +123,7 @@ public class CrearValeSalidaAlmacen {
             //CODIGO DE BARRAS------------------------------------------------------------------------
             String path = this.path + pdfFilename + ".pdf";
             docWriter = PdfWriter.getInstance(doc, new FileOutputStream(path));
+            docWriter.setPageEvent(cab);
             doc.addAuthor("IEEN");
             doc.addCreationDate();
             doc.addProducer();

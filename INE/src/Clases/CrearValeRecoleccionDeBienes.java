@@ -119,8 +119,19 @@ public class CrearValeRecoleccionDeBienes {
     public void createTicket(String pdfFilename, int res,String fecha, String hora, 
             Vector v, Vector Faltantes, String empleado, String recoleccion)throws DocumentException {
         
+        Cabecera encClass = new Cabecera();
+        encClass.setEncabezado("algo");
+       // Rectangle pagesize = new Rectangle(250, 14400);
+        Document doc = new Document(PageSize.A4, 36, 36, 54, 36);
+        Cabecera cab = new Cabecera();
+        //Paragraph parrafo;
+        //int i;
+        
+        cab.setEncabezado("");
+        
+        // indicamos que objecto manejara los eventos al escribir el Pdf
         Rectangle pagesize = new Rectangle(250, 14400);
-        Document doc = new Document(pagesize);
+        //Document doc = new Document(pagesize);
         PdfWriter docWriter = null;
         
         String datos[] = empleado.split(",,");
@@ -130,6 +141,7 @@ public class CrearValeRecoleccionDeBienes {
             //CODIGO DE BARRAS------------------------------------------------------------------------
             String path = this.path + pdfFilename + ".pdf";
             docWriter = PdfWriter.getInstance(doc, new FileOutputStream(path));
+            docWriter.setPageEvent(cab);
             doc.addAuthor("IEEN");
             doc.addCreationDate();
             doc.addProducer();
@@ -352,7 +364,7 @@ public class CrearValeRecoleccionDeBienes {
             advertencia.setWidthPercentage(100f);
             PdfPCell advertenciaCell;
             
-            advertenciaCell = new PdfPCell(new Phrase("NOTA: EN CASO DE RENUNCIA, LICENCIA O CAMBIO DE ADSCRIPCION, SIRVASE HACER ENTREGA DEL EQUIPO A SU CARGO, A FIN DE EVITAR RESPONSABILIDAD POSTERIOR EN EFECTIVO, LA RESPONSABILIDAD DE ESTE RESGUARDO NO FINIQUITA HASTA QUE EL BIEN HAYA SIDO DEVUELTO Y EL ORIGINAL DE ESTE DOCUMENTO SEA CANCELADO.", elements2));
+            advertenciaCell = new PdfPCell(new Phrase("NOTA: EN CASO DE RENUNCIA, LICENCIA O CAMBIO DE ADSCRIPCIÓN, SIRVASE HACER ENTREGA DEL EQUIPO A SU CARGO, A FIN DE EVITAR RESPONSABILIDAD POSTERIOR EN EFECTIVO, LA RESPONSABILIDAD DE ESTE RESGUARDO NO FINIQUITA HASTA QUE EL BIEN HAYA SIDO DEVUELTO Y EL ORIGINAL DE ESTE DOCUMENTO SEA CANCELADO.", elements2));
             advertenciaCell.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
             advertencia.addCell(advertenciaCell);
             

@@ -98,6 +98,7 @@ public class Principal extends javax.swing.JFrame {
     ManejadorInventario manejador_inventario;
     ManagerInventarioGranel manager_inventario_granel;
     ManagerDocumentos manager_asignar;
+    Validaciones validaciones;
     
     
     int contadorRutas, nFoto;
@@ -173,6 +174,7 @@ public class Principal extends javax.swing.JFrame {
         manejador_inventario = new ManejadorInventario();
         manager_asignar = new ManagerDocumentos();
         manager_inventario_granel = new ManagerInventarioGranel();
+        validaciones = new Validaciones();
         
         //Para obtener el nombre de usuario con el que se logearon
         leer();
@@ -3157,7 +3159,7 @@ public class Principal extends javax.swing.JFrame {
         izquierdaBtn.setEnabled(true);
         derechaBtn.setEnabled(true);
         // Para crear la carpeta se concatena la marca el color y la placa del vehiculo
-        auxiliarFoto = tablaVehiculos.getValueAt(fila, 0).toString();
+        auxiliarFoto = Validaciones.deconstructFormatID(tablaVehiculos.getValueAt(fila, 0).toString());
         cargarImagen(auxiliarFoto,nFoto);
 
         etiquetaMarca.setVisible(true);
@@ -3728,7 +3730,7 @@ public void metodoValeRecoleccion(){
         
         try {
             ob.createTicket("recoleccion_"+dia+"_"+(mes+1)+"_"+año+"_"+hora+"_"+minuto+"_"+segundo, 
-                    res, cadena1, cadena2,v,vfaltante, datosempleado, recoleccion);
+                    res, cadena1, cadena2,v,vfaltante, datosempleado, validaciones.constructFormatID(recoleccion));
         } catch (DocumentException ex) {
             Logger.getLogger(addUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }

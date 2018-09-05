@@ -38,10 +38,11 @@ public class ManagerVehiculos {
 
     private Connection con;
     private Conexion db;
-    
+    Validaciones validaciones;
     public ManagerVehiculos(){
         con = null;
         db = new Conexion();
+        validaciones = new Validaciones();
     }//Constructor Conexion
     
 
@@ -141,8 +142,8 @@ public class ManagerVehiculos {
 
             //Llenar tabla
             while (rs.next()) {
-
-                for(int i = 0;i<6;i++){
+                    datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());	
+                for(int i = 1;i<6;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
