@@ -3666,7 +3666,7 @@ public void metodoValeRecoleccion(){
         
         try {
             ob.createTicket("resguardo_"+dia+"_"+(mes+1)+"_"+año+"_"+hora+"_"+minuto+"_"+segundo, 
-                    res, cadena1, cadena2,v,datosempleado,numeroResguardo);
+                    res, cadena1, cadena2,v,datosempleado,validaciones.constructValesFormatID(numeroResguardo));
         } catch (DocumentException ex) {
             Logger.getLogger(addUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -3739,7 +3739,7 @@ public void metodoValeRecoleccion(){
         
         try {
             ob.createTicket("recoleccion_"+dia+"_"+(mes+1)+"_"+año+"_"+hora+"_"+minuto+"_"+segundo, 
-                    res, cadena1, cadena2,v,vfaltante, datosempleado, validaciones.constructFormatID(recoleccion));
+                    res, cadena1, cadena2,v,vfaltante, datosempleado, validaciones.constructValesFormatID(recoleccion));
         } catch (DocumentException ex) {
             Logger.getLogger(addUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
