@@ -40,7 +40,7 @@ public class ManagerMySQL {
             String sql2 = "GRANT ALL PRIVILEGES ON * . * TO '"+usuario+"'@'"+ip+"';";
             st.executeUpdate(sql2);
 
-            //conexion.close();
+            conexion.close();
         } //try  
         catch (SQLException ex) {
             Logger.getLogger(ManagerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -62,7 +62,7 @@ public class ManagerMySQL {
             String sql = "DROP USER 'PC70'@'"+ip+"';";
             st.executeUpdate(sql);
             
-            //conexion.close();
+            conexion.close();
         } //try  
         catch (SQLException ex) {
             Logger.getLogger(ManagerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -123,7 +123,7 @@ public class ManagerMySQL {
 
             st.executeUpdate(sql);
 
-            //conexion.close();
+            conexion.close();
         } //try  
         catch (SQLException ex) {
             Logger.getLogger(ManagerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -145,7 +145,7 @@ public class ManagerMySQL {
 
             st.executeUpdate(sql);
 
-            //conexion.close();
+            conexion.close();
         } //try  
         catch (SQLException ex) {
             Logger.getLogger(ManagerMySQL.class.getName()).log(Level.SEVERE, null, ex);
@@ -167,7 +167,7 @@ public class ManagerMySQL {
             ResultSet rs = st.executeQuery(sql);
             resultado = rs.next();
             System.err.println(""+ip+" "+resultado);
-            //conexion.close();
+            conexion.close();
         } //try  
         catch (SQLException ex) {
             Logger.getLogger(ManagerMySQL.class.getName()).log(Level.SEVERE, null, ex);

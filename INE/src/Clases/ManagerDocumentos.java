@@ -243,7 +243,7 @@ public class ManagerDocumentos {
                     st.executeUpdate(sql);
                 }
             }//for
-			
+            conexion.close();
             return true;
 
         } catch (Exception ex) {
@@ -274,7 +274,7 @@ public class ManagerDocumentos {
                     st.executeUpdate(sql);
                 }
             }//for
-			
+            conexion.close();
             return true;
 
         } catch (Exception ex) {
@@ -302,7 +302,7 @@ public class ManagerDocumentos {
             //Le damos la fecha de salida al documento
             sql = "update documentos set Fecha_Salida = '"+fecha+"' where ID_Documento = '"+id_documento+"';";
             st.executeUpdate(sql);
-			
+            conexion.close();
             return true;
 
         } catch (Exception ex) {

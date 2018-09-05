@@ -267,12 +267,13 @@ public class ManagerInventario {
 				//Añadimos la fila
                 table.addRow(datos);
            };
+           conexion.close();
 
         } catch (SQLException ex) {
             System.out.printf("Error getTabla Inventario SQL");
             Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
         } 
-        
+            
 		return table;
     }//getInventario
     
@@ -627,7 +628,7 @@ public class ManagerInventario {
                     }
                 }//if(cambio[i])
             }//for
-			
+            conexion.close();
             return status;
 
         } catch (Exception ex) {
