@@ -271,6 +271,7 @@ public class Principal extends javax.swing.JFrame {
         SolicitarBaja = new javax.swing.JMenuItem();
         Servicio = new javax.swing.JMenuItem();
         ActualizarInfoV = new javax.swing.JMenuItem();
+        ExcelVehiculos = new javax.swing.JMenuItem();
         MenuResguardoPersonal = new javax.swing.JPopupMenu();
         QuitarResguardo = new javax.swing.JMenuItem();
         MenuAsginados = new javax.swing.JPopupMenu();
@@ -716,6 +717,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MenuVehiculos.add(ActualizarInfoV);
+
+        ExcelVehiculos.setText("Exportar a excel");
+        ExcelVehiculos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExcelVehiculosActionPerformed(evt);
+            }
+        });
+        MenuVehiculos.add(ExcelVehiculos);
 
         QuitarResguardo.setText("Salida del producto");
         QuitarResguardo.addActionListener(new java.awt.event.ActionListener() {
@@ -6079,6 +6088,21 @@ public void metodoValeRecoleccion(){
         }
     
     }//GEN-LAST:event_btnCancelarConsumible2ActionPerformed
+
+    private void ExcelVehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExcelVehiculosActionPerformed
+        // TODO add your handling code here:
+        try{
+            if(manager_permisos.accesoModulo("consulta","Vehiculos",Username)){
+                Excel excel = new Excel();
+                excel.GuardarComo(tablaVehiculos);
+            }else{
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en los Vehiculos.");
+                tablaVehiculos.setModel(new DefaultTableModel());
+            }
+        }catch(NullPointerException e){
+        
+        }
+    }//GEN-LAST:event_ExcelVehiculosActionPerformed
        
     public void cargarImagen(String busqueda, int numero) {
 
@@ -6274,6 +6298,7 @@ public void metodoValeRecoleccion(){
     private javax.swing.JMenuItem EstatusDefinitivo;
     private javax.swing.JMenuItem ExcelConsumibles;
     private javax.swing.JMenuItem ExcelInventario;
+    private javax.swing.JMenuItem ExcelVehiculos;
     private javax.swing.JMenuItem ExportarEmpleados;
     private javax.swing.JMenuItem ExportarUsuarios;
     private javax.swing.JMenuItem GenerarVale;
