@@ -501,8 +501,9 @@ public class ManejadorInventario {
             //Llenar tabla
             while (rs.next()) {
                 datos[0] = Boolean.FALSE;
-				datos[1] = validaciones.constructFormatID(rs.getObject(1).toString());
-                for(int i = 2;i<11;i++){
+				datos[1] = rs.getObject(1).toString();
+				datos[2] = validaciones.constructFormatID(rs.getObject(2).toString());
+                for(int i = 3;i<11;i++){
                     datos[i] = rs.getObject(i);
                 }//Llenamos las columnas por registro
                 datos[11] = "Selecciona la nueva ubicación...";
@@ -540,6 +541,8 @@ public class ManejadorInventario {
                 for(int i = 0; i< idVales.length;i++){
                     sql = "update detalle_vale set estado = 'Entregado', fecha_entrega = '"+fecha+"' where id_producto = '"+Validaciones.deconstructFormatID(Claves[i])+"' and id_vale = '"+idVales[i]+"';";
                     st.executeUpdate(sql);
+                    System.out.println(Validaciones.deconstructFormatID(Claves[i]));
+                    System.out.println(idVales[i]);
                 }//for
                 
                 //Actualizamos la información del producto, en donde se vuelve disponible, se agregan observaciones(si las tuvo) y su ubicación

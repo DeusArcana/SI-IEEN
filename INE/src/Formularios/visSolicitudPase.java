@@ -353,7 +353,7 @@ public class visSolicitudPase extends javax.swing.JDialog {
         txttipoasunto.setText(tipoasunto1);
         txtasunto.setText(asunto1);
         txtestado.setText(estado1);
-        if(estado1.equals("Aceptada")){
+        if(estado1.equals("Aceptado")){
             txtestado.setBackground(Color.GREEN);
         }else{
             txtestado.setBackground(Color.RED);

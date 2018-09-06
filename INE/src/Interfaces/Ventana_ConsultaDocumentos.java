@@ -109,7 +109,7 @@ public class Ventana_ConsultaDocumentos extends javax.swing.JDialog {
 
         jLabel1.setText("Seleccione un documento:");
         pn_asignarEquipo.add(jLabel1);
-        jLabel1.setBounds(10, 14, 125, 14);
+        jLabel1.setBounds(10, 14, 490, 14);
 
         tablaDocumentosProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -131,7 +131,7 @@ public class Ventana_ConsultaDocumentos extends javax.swing.JDialog {
 
         jLabel4.setText("Productos del documento");
         pn_asignarEquipo.add(jLabel4);
-        jLabel4.setBounds(10, 212, 121, 14);
+        jLabel4.setBounds(10, 212, 490, 14);
         pn_asignarEquipo.add(jSeparator2);
         jSeparator2.setBounds(10, 204, 979, 2);
 

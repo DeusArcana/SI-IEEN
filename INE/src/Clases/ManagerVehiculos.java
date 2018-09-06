@@ -238,7 +238,7 @@ public class ManagerVehiculos {
             if(tipoBusqueda.equals("Año")){
                 sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje from vehiculos where modelo like '"+busqueda+"%' order by clave;";
             }else if(tipoBusqueda.equals("No. Inventario")){
-                sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje from vehiculos where concat(Folio,'-',Numero) like '%"+busqueda+"%' order by clave;";
+                sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje from vehiculos where Numero like '%"+busqueda+"%' order by clave;";
             }else{
                 sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje from vehiculos where "+tipoBusqueda+" like '"+busqueda+"%' order by clave;";
             }
