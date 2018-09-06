@@ -2965,13 +2965,13 @@ public class Principal extends javax.swing.JFrame {
 
         comboFiltroVehiculos.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboFiltroVehiculos.addItem("No. Inventario");
+        comboFiltroVehiculos.addItem("Descripción");
         comboFiltroVehiculos.addItem("Marca");
         comboFiltroVehiculos.addItem("Linea");
         comboFiltroVehiculos.addItem("Año");
         comboFiltroVehiculos.addItem("Color");
         comboFiltroVehiculos.addItem("Matricula");
         comboFiltroVehiculos.addItem("Kilometraje");
-        comboFiltroVehiculos.addItem("Descripción");
         
         //---------------------------------- PESTAÑA VEHICULOS --------------------------------------// 2
         
@@ -4122,14 +4122,19 @@ public void metodoValeRecoleccion(){
         // TODO add your handling code here:
 
     }//GEN-LAST:event_vehiculosMouseClicked
-    public void buscarVehiculo(){
-        if(manager_permisos.accesoModulo("consulta","Vehiculos",Username)){
+    public void buscarVehiculo() {
+        if (manager_permisos.accesoModulo("consulta", "Vehiculos", Username)) {
             String filtro = comboFiltroVehiculos.getSelectedItem().toString();
             String busqueda = txtBusquedaVehiculos.getText();
+            if (comboFiltroVehiculos.getSelectedItem().toString().equals("No. Inventario")) {
+                tablaVehiculos.setModel(managerVehiculos.getVehiculosEspecificos(filtro, busqueda));
+            } else if (comboFiltroVehiculos.getSelectedItem().toString().equals("Descripción")) {
+                tablaVehiculos.setModel(managerVehiculos.getVehiculosEspecificos("descripcion", busqueda));
+            } else {
+                tablaVehiculos.setModel(managerVehiculos.getVehiculosEspecificos(filtro, busqueda));
+            }
 
-            tablaVehiculos.setModel(managerVehiculos.getVehiculosEspecificos(filtro,busqueda));
-            
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "No cuentas con permiso para consultar los vehiculos");
         }
     }

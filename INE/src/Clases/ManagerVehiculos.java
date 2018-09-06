@@ -236,9 +236,9 @@ public class ManagerVehiculos {
             String sql;
             //Consulta de los vehiculos
             if(tipoBusqueda.equals("Año")){
-                sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje from vehiculos where modelo like '"+busqueda+"%';";
+                sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje from vehiculos where modelo like '"+busqueda+"%' order by clave;";
             }else if(tipoBusqueda.equals("No. Inventario")){
-                sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje from vehiculos where Numero like '%"+busqueda+"%';";
+                sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje from vehiculos where concat(Folio,'-',Numero) like '%"+busqueda+"%' order by clave;";
             }else{
                 sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje from vehiculos where "+tipoBusqueda+" like '"+busqueda+"%' order by clave;";
             }
@@ -249,8 +249,8 @@ public class ManagerVehiculos {
 
             //Llenar tabla
             while (rs.next()) {
-
-                for(int i = 0;i<8;i++){
+                    datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());
+                for(int i = 1;i<8;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
