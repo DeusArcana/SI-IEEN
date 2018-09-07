@@ -430,8 +430,13 @@ public class addUsuarios extends javax.swing.JDialog {
         String cadena2 = ""+hora+":"+minuto+":"+segundo;
         
         System.out.println(""+cadena1+" "+cadena2);
+        // 6 campos
         try {
-            ob.createTicket(cadena, txtUsuario.getText(), txtContraseña.getText(), res,cadena1,cadena2);
+            int fila = Principal.tablaUsuarios.getSelectedRow();
+            String nombre = Principal.tablaUsuarios.getValueAt(fila, 1).toString()+" "+Principal.tablaUsuarios.getValueAt(fila, 2).toString()+" "+Principal.tablaUsuarios.getValueAt(fila, 3).toString();
+            String area = Principal.tablaUsuarios.getValueAt(fila, 4).toString();
+            String puesto = Principal.tablaUsuarios.getValueAt(fila, 5).toString();
+            ob.createTicket(cadena, nombre,area,puesto,txtUsuario.getText(), txtContraseña.getText(), res,cadena1,cadena2);
         } catch (DocumentException ex) {
             Logger.getLogger(addUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }

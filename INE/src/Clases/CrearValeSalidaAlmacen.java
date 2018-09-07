@@ -133,7 +133,8 @@ public class CrearValeSalidaAlmacen {
 
             //Obtener la imagen
             com.itextpdf.text.Image image = com.itextpdf.text.Image.getInstance("print/blogin.png");
-
+            image.scaleAbsoluteWidth(75f);
+            image.scaleAbsoluteHeight(50f);
             PdfPCell LogoCell = new PdfPCell(image, false);
             LogoCell.setBorderColor(BaseColor.WHITE);
           
