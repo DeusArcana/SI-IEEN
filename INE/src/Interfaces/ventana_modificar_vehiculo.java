@@ -64,10 +64,10 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
     public ventana_modificar_vehiculo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        nuevasFotos.setVisible(false);
-        contadorImg.setVisible(false);
-        campoRuta.setVisible(false);
-        campo.setVisible(false);
+        //nuevasFotos.setVisible(false);
+        //contadorImg.setVisible(false);
+        //campoRuta.setVisible(false);
+        //campo.setVisible(false);
         this.setLocationRelativeTo(null);
 
         vehiculos = new ManagerVehiculos();
@@ -427,15 +427,15 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
 
         contadorImg.setText("0");
         pn_permisos.add(contadorImg);
-        contadorImg.setBounds(580, 390, 50, 14);
+        contadorImg.setBounds(510, 340, 90, 50);
 
         nuevasFotos.setText("0");
         pn_permisos.add(nuevasFotos);
         nuevasFotos.setBounds(490, 390, 50, 14);
         pn_permisos.add(campoRuta);
-        campoRuta.setBounds(190, 380, 140, 30);
+        campoRuta.setBounds(430, 380, 90, 30);
         pn_permisos.add(campo);
-        campo.setBounds(390, 380, 50, 20);
+        campo.setBounds(640, 360, 50, 20);
 
         jLabel16.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
         jLabel16.setText("* Campos requeridos.");
@@ -568,26 +568,43 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        String fecha = formato.format(campo_fecha_compra.getDate());
+
         if (manager_permisos.accesoModulo("actualizar", "Vehiculos", Username)) {
             if (validarCampos()) {
-
-                //en este metodo la informacion se guarda sin cambios en la imagen
-                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-                String fecha = formato.format(campo_fecha_compra.getDate());
-                if (vehiculos.actualizarVehiculo(campoMarca.getText(), campoLinea.getText(), campoColor.getText(),
-                        campoModelo.getValue().toString(), campoMotor.getValue().toString(), campoKilometraje.getText(),
-                        campoMatricula.getText(), campoObservaciones1.getText(), contadorRutas + Integer.parseInt(contadorImg.getText()),campo_no_motor.getText(),
-                        fecha,campo_no_factura.getText(),campo_importe.getText(),campo_descripcion.getText())) {
-                    String nombreParametro = "EY-10-" + txtNumero.getText();
-                    JOptionPane.showMessageDialog(null, "Informacion actualizada correctamente!", "Información!", JOptionPane.INFORMATION_MESSAGE);
-                    this.dispose();
-                    Principal.tablaVehiculos.setModel(vehiculos.getVehiculos());
-                    managerPost.prepararImagenesVehiculoActualizar(rutas, nombreParametro, contadorRutas, Integer.parseInt(contadorImg.getText()));
-
+                if (contadorImg.getText().equals("0")) {
+                    if (vehiculos.actualizarVehiculo(campoMarca.getText(), campoLinea.getText(), campoColor.getText(),
+                            campoModelo.getValue().toString(), campoMotor.getValue().toString(), campoKilometraje.getText(),
+                            campoMatricula.getText(), campoObservaciones1.getText(), 0, campo_no_motor.getText(),
+                            fecha, campo_no_factura.getText(), campo_importe.getText(), campo_descripcion.getText())) {
+                        String nombreParametro = "EY-10-" + txtNumero.getText();
+                        JOptionPane.showMessageDialog(null, "Informacion actualizada correctamente!", "Información!", JOptionPane.INFORMATION_MESSAGE);
+                        this.dispose();
+                        Principal.tablaVehiculos.setModel(vehiculos.getVehiculos());
+                        System.out.println("ENTRO");
+                        managerPost.prepararImagenesVehiculoActualizarNuevasfotos(rutas, nombreParametro, contadorRutas);
+                        vehiculos.actualizarCantidadFotosVehiculo(campoMatricula.getText(), contadorRutas);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error al actualizar!", "Información!", JOptionPane.WARNING_MESSAGE);
+                    }//else
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error al actualizar!", "Información!", JOptionPane.WARNING_MESSAGE);
-                }//else
 
+                    //en este metodo la informacion se guarda sin cambios en la imagen
+                    if (vehiculos.actualizarVehiculo(campoMarca.getText(), campoLinea.getText(), campoColor.getText(),
+                            campoModelo.getValue().toString(), campoMotor.getValue().toString(), campoKilometraje.getText(),
+                            campoMatricula.getText(), campoObservaciones1.getText(), contadorRutas + Integer.parseInt(contadorImg.getText()), campo_no_motor.getText(),
+                            fecha, campo_no_factura.getText(), campo_importe.getText(), campo_descripcion.getText())) {
+                        String nombreParametro = "EY-10-" + txtNumero.getText();
+                        JOptionPane.showMessageDialog(null, "Informacion actualizada correctamente!", "Información!", JOptionPane.INFORMATION_MESSAGE);
+                        this.dispose();
+                        Principal.tablaVehiculos.setModel(vehiculos.getVehiculos());
+                        managerPost.prepararImagenesVehiculoActualizar(rutas, nombreParametro, contadorRutas, Integer.parseInt(contadorImg.getText()));
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error al actualizar!", "Información!", JOptionPane.WARNING_MESSAGE);
+                    }//else
+                }//Vemos si tenemos fotos anteriormente o no
             } else {
                 JOptionPane.showMessageDialog(null, "Llene todos los campos requeridos!", "Información!", JOptionPane.INFORMATION_MESSAGE);
             }

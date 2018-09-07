@@ -3632,7 +3632,7 @@ public void metodoValeRecoleccion(){
         
         try {
             ob.createTicket("resguardo_"+dia+"_"+(mes+1)+"_"+año+"_"+hora+"_"+minuto+"_"+segundo, 
-                    res, cadena1, cadena2,v,datosempleado,validaciones.constructValesFormatID(numeroResguardo));
+                    res, cadena1, cadena2,v,datosempleado,numeroResguardo);
         } catch (DocumentException ex) {
             Logger.getLogger(addUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -3705,7 +3705,7 @@ public void metodoValeRecoleccion(){
         
         try {
             ob.createTicket("recoleccion_"+dia+"_"+(mes+1)+"_"+año+"_"+hora+"_"+minuto+"_"+segundo, 
-                    res, cadena1, cadena2,v,vfaltante, datosempleado, validaciones.constructValesFormatID(recoleccion));
+                    res, cadena1, cadena2,v,vfaltante, datosempleado, recoleccion);
         } catch (DocumentException ex) {
             Logger.getLogger(addUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -6095,14 +6095,19 @@ public void metodoValeRecoleccion(){
 
             String cadena = "\\\\" + ip + "\\imagenes\\vehiculos\\" + busqueda + "\\" + busqueda + numero + ".png";
             System.out.println("" + cadena);
+
             img = ImageIO.read(new File(cadena));
+
         } catch (IOException ex) {
+            imagenVehiculo.setIcon(null);
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             if (banderaFoto.equals("i")) {
                 izquierdaBtn.setEnabled(false);
+                imagenVehiculo.setIcon(null);
                 nFoto++;
             } else {
                 derechaBtn.setEnabled(false);
+                imagenVehiculo.setIcon(null);
                 nFoto--;
             }
         }

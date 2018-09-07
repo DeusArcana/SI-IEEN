@@ -53,6 +53,7 @@ public class CrearValeResguardoBienes {
     private String fechaPago,fechaIni,fechaFin, trab;
     private File directorio;
     private File archivo;
+    Validaciones validaciones;
     private String path, archivo_nombre;
   //  private infoTicket info;
     private Vector ventaTotal;
@@ -64,6 +65,7 @@ public class CrearValeResguardoBienes {
     //    obtener_productos = new ObtenerProductos();
         path = "C:\\SIIEEN\\vales\\resguardo\\";
         directorio = new File(path);
+        validaciones = new Validaciones();
     //    info = new infoTicket();
         ob = new enviarPDF();
         if (directorio.exists()) {
@@ -291,7 +293,7 @@ public class CrearValeResguardoBienes {
             encabezado.setWidthPercentage(100f);
             PdfPCell encabezadocell;
             
-            encabezadocell = new PdfPCell(new Phrase("RELACION DE MOBILIARIO", subFont3));
+            encabezadocell = new PdfPCell(new Phrase("RELACIÓN DE MOBILIARIO", subFont3));
             encabezadocell.setHorizontalAlignment(Element.ALIGN_CENTER);
             encabezadocell.setBackgroundColor(BaseColor.LIGHT_GRAY);
             
@@ -345,7 +347,7 @@ public class CrearValeResguardoBienes {
                 String temporal[] = productos.get(i).toString().split(",,");
                 //Cantidad numero y letra
                 PdfPCell cell;
-                cell = new PdfPCell(new Phrase("" + temporal[0].toUpperCase(), subFont2));
+                cell = new PdfPCell(new Phrase("" + validaciones.constructFormatID(temporal[0].toUpperCase()), subFont2));
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 
 

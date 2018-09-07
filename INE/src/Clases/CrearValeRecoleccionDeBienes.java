@@ -269,8 +269,8 @@ public class CrearValeRecoleccionDeBienes {
             
             datosResponsableCell12 = new PdfPCell(new Phrase("Cargo: ", subFont3));
             datosResponsableCell22 = new PdfPCell(new Phrase(""+datos[2], subFont2));
-            datosResponsableCell32 = new PdfPCell(new Phrase("Municipio: ", subFont3));
-            datosResponsableCell42 = new PdfPCell(new Phrase(""+datos[3], subFont2));
+            datosResponsableCell32 = new PdfPCell(new Phrase("Estado: ", subFont3));
+            datosResponsableCell42 = new PdfPCell(new Phrase(""+datos[4], subFont2));
             
             datosResponsableCell12.setHorizontalAlignment(Element.ALIGN_RIGHT);
             datosResponsableCell32.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -288,8 +288,8 @@ public class CrearValeRecoleccionDeBienes {
             
             datosResponsableCell13 = new PdfPCell(new Phrase("Área: ", subFont3));
             datosResponsableCell23 = new PdfPCell(new Phrase(""+datos[1], subFont2));
-            datosResponsableCell33 = new PdfPCell(new Phrase("Localidad: ", subFont3));
-            datosResponsableCell43 = new PdfPCell(new Phrase(""+datos[4], subFont2));
+            datosResponsableCell33 = new PdfPCell(new Phrase("Municipio: ", subFont3));
+            datosResponsableCell43 = new PdfPCell(new Phrase(""+datos[3], subFont2));
             
             datosResponsableCell13.setHorizontalAlignment(Element.ALIGN_RIGHT);
             datosResponsableCell33.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -307,7 +307,7 @@ public class CrearValeRecoleccionDeBienes {
             encabezado.setWidthPercentage(100f);
             PdfPCell encabezadocell;
             
-            encabezadocell = new PdfPCell(new Phrase("RELACION DE MOBILIARIO", subFont3));
+            encabezadocell = new PdfPCell(new Phrase("RELACIÓN DE MOBILIARIO", subFont3));
             encabezadocell.setHorizontalAlignment(Element.ALIGN_CENTER);
             encabezadocell.setBackgroundColor(BaseColor.LIGHT_GRAY);
             
