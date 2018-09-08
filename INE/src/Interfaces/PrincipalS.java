@@ -161,6 +161,7 @@ public class PrincipalS extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         txtbusquedasoli = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        btnActualizarSolic = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
         tablonsolicitud1 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
@@ -185,6 +186,7 @@ public class PrincipalS extends javax.swing.JFrame {
         jScrollPane16 = new javax.swing.JScrollPane();
         tabloncanceladas = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel6 = new javax.swing.JLabel();
+        btnActualizar = new javax.swing.JButton();
         jLabel28 = new javax.swing.JLabel();
         informe = new javax.swing.JPanel();
         jlb = new javax.swing.JLabel();
@@ -212,6 +214,7 @@ public class PrincipalS extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         cmbArea = new javax.swing.JComboBox();
         jLabel7 = new javax.swing.JLabel();
+        btnActualizarInforme = new javax.swing.JButton();
         jLabel24 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -683,6 +686,16 @@ public class PrincipalS extends javax.swing.JFrame {
         solicitudviaticos1.add(jLabel5);
         jLabel5.setBounds(20, 20, 1350, 80);
 
+        btnActualizarSolic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/if_view-refresh_118801.png"))); // NOI18N
+        btnActualizarSolic.setText("Actualizar");
+        btnActualizarSolic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarSolicActionPerformed(evt);
+            }
+        });
+        solicitudviaticos1.add(btnActualizarSolic);
+        btnActualizarSolic.setBounds(1060, 120, 120, 30);
+
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         solicitudviaticos1.add(jLabel19);
         jLabel19.setBounds(0, 0, 1366, 769);
@@ -943,6 +956,16 @@ public class PrincipalS extends javax.swing.JFrame {
         tablonsolicitud1.add(jLabel6);
         jLabel6.setBounds(20, 20, 1350, 80);
 
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/if_view-refresh_118801.png"))); // NOI18N
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+        tablonsolicitud1.add(btnActualizar);
+        btnActualizar.setBounds(1060, 120, 120, 30);
+
         jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         tablonsolicitud1.add(jLabel28);
         jLabel28.setBounds(0, 0, 1366, 769);
@@ -1110,8 +1133,9 @@ public class PrincipalS extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Área:");
         informe.add(jLabel2);
-        jLabel2.setBounds(535, 122, 50, 22);
+        jLabel2.setBounds(530, 120, 50, 22);
 
+        cmbArea.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         cmbArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbArea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1124,6 +1148,16 @@ public class PrincipalS extends javax.swing.JFrame {
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/banner informes.png"))); // NOI18N
         informe.add(jLabel7);
         jLabel7.setBounds(20, 20, 1350, 80);
+
+        btnActualizarInforme.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/if_view-refresh_118801.png"))); // NOI18N
+        btnActualizarInforme.setText("Actualizar");
+        btnActualizarInforme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarInformeActionPerformed(evt);
+            }
+        });
+        informe.add(btnActualizarInforme);
+        btnActualizarInforme.setBounds(1060, 120, 120, 30);
 
         jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         informe.add(jLabel24);
@@ -1466,12 +1500,12 @@ public class PrincipalS extends javax.swing.JFrame {
                             sentencia.executeUpdate("UPDATE Oficio_comision SET Monto = " + monto + "WHERE(Folio =" + folio + ")");
                             //sentencia.executeUpdate("UPDATE solicitud_viatico SET Estado = 'C' WHERE (idSolicitud = '" + id + "')");
                             javax.swing.JOptionPane.showMessageDialog(null, "Monto Asignado");
-                            ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'",cn);
-                            while (rs.next()) {
-                                idSolicitud = rs.getString("Solicitud_idSolicitud");
-                            }
-                            sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'AR', gastos_comprobar = 'false' WHERE (idSolicitud = " + idSolicitud + ")");
-                            javax.swing.JOptionPane.showMessageDialog(null, "Solicitud archivada");
+//                            ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'",cn);
+//                            while (rs.next()) {
+//                                idSolicitud = rs.getString("Solicitud_idSolicitud");
+//                            }
+//                            sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'AR', gastos_comprobar = 'false' WHERE (idSolicitud = " + idSolicitud + ")");
+//                            javax.swing.JOptionPane.showMessageDialog(null, "Solicitud archivada");
                         }
                     }
                     sentencia.close();
@@ -3270,6 +3304,53 @@ public class PrincipalS extends javax.swing.JFrame {
         guardargac.setVisible(false);
     }//GEN-LAST:event_menutablonesStateChanged
 
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // TODO add your handling code here:
+        if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
+            tablonpendientes.setModel(manager_soviaticos.SolicitudP());
+            tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
+            tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
+            tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
+        }
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnActualizarSolicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarSolicActionPerformed
+        // TODO add your handling code here:
+        if (manager_permisos.accesoModulo("consulta", "Solicitud Viaticos", Principal.Username)) {
+            tablasolic.setModel(manager_soviaticos.getTasol());
+            tablasolicvehiculo.setModel(manager_soviaticos.getTasolVehiculo());
+        }
+    }//GEN-LAST:event_btnActualizarSolicActionPerformed
+
+    private void btnActualizarInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarInformeActionPerformed
+        // TODO add your handling code here:
+        ResultSet usuario;
+            try {
+                usuario = cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+                usuario.next();
+                if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
+                    if(idArea>0){
+                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea);
+                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area="+idArea+" ORDER BY I.Id_Informe DESC");
+                    }else{
+                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+                    }
+                    cmbArea.setVisible(true);
+                    jLabel2.setVisible(true);
+                }else{
+                    usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                    usuario.next();
+                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and S.nombre='"+usuario.getString("nombre")+"'");
+                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and S.nombre='"+usuario.getString("nombre")+"' ORDER BY I.Id_Informe DESC");
+                    cmbArea.setVisible(false);
+                    jLabel2.setVisible(false);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }//GEN-LAST:event_btnActualizarInformeActionPerformed
+
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3501,6 +3582,9 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JMenuItem SolicitarVehiculo;
     private javax.swing.JMenuItem SolicitarVehiculo1;
     private javax.swing.JMenuItem SolicitarVehiculo2;
+    private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnActualizarInforme;
+    private javax.swing.JButton btnActualizarSolic;
     private javax.swing.JButton btnAddInventario2;
     private javax.swing.JButton btnguardar;
     private javax.swing.JButton btnregresar;
