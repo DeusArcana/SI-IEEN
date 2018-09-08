@@ -162,11 +162,11 @@ public class Ventana_Documentos extends javax.swing.JDialog {
 
         jLabel1.setText("Seleccione un documento:");
         pn_asignarEquipo.add(jLabel1);
-        jLabel1.setBounds(10, 11, 125, 14);
+        jLabel1.setBounds(10, 11, 240, 14);
 
         jLabel2.setText("Productos a seleccionar");
         pn_asignarEquipo.add(jLabel2);
-        jLabel2.setBounds(10, 156, 113, 14);
+        jLabel2.setBounds(10, 156, 230, 14);
 
         tablaDocumentosProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -188,7 +188,7 @@ public class Ventana_Documentos extends javax.swing.JDialog {
 
         jLabel4.setText("Productos del documento");
         pn_asignarEquipo.add(jLabel4);
-        jLabel4.setBounds(535, 156, 121, 14);
+        jLabel4.setBounds(535, 156, 230, 14);
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         pn_asignarEquipo.add(jSeparator1);

@@ -27,7 +27,7 @@ public class updateEmpleado extends javax.swing.JDialog {
     String nombres,apellido_p,apellido_m,telefono,curp,rfc,calle,colonia,fecha,codigoP,municipio,localidad,busqueda;
     boolean documentacion;
     int id,filtro, bandera,area,puesto;
-    int[] ids_area,ids_puesto;
+    int[] ids_area,ids_puesto,ids_estado,ids_localidad;
     
     ManagerUsers manager_users;
     ManagerComplemento manager_complemento;
@@ -74,6 +74,17 @@ public class updateEmpleado extends javax.swing.JDialog {
             ids_area[j] = Integer.parseInt(recoger[i-1]);
         }
         
+        //ComboEstados
+        lista = manager_complemento.obtenerEstados();
+        recoger = lista.split(",,");
+        ids_estado = new int[recoger.length/2];
+        
+        comboEstados.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        for(int i = 1,j = 0; i <= recoger.length;i = i+2,j++){
+            comboEstados.addItem(recoger[i]);
+            ids_estado[j] = Integer.parseInt(recoger[i-1]);
+        }
+        
         //Acomodamos los datos donde van
         colocarDatos(datosEmpleado);
         
@@ -97,6 +108,8 @@ public class updateEmpleado extends javax.swing.JDialog {
 
         pn_empleado = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
+        comboLocalidad = new javax.swing.JComboBox<>();
+        comboEstados = new javax.swing.JComboBox<>();
         comboArea = new javax.swing.JComboBox<>();
         jLabel18 = new javax.swing.JLabel();
         comboPuesto = new javax.swing.JComboBox<>();
@@ -121,9 +134,7 @@ public class updateEmpleado extends javax.swing.JDialog {
         jLabel10 = new javax.swing.JLabel();
         txtFecha = new com.toedter.calendar.JDateChooser();
         jLabel15 = new javax.swing.JLabel();
-        txtMunicipio = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        txtLocalidad = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
@@ -142,6 +153,26 @@ public class updateEmpleado extends javax.swing.JDialog {
         jLabel14.setText("Área:");
         pn_empleado.add(jLabel14);
         jLabel14.setBounds(450, 170, 32, 17);
+
+        comboLocalidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboLocalidad.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
+        comboLocalidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboLocalidadActionPerformed(evt);
+            }
+        });
+        pn_empleado.add(comboLocalidad);
+        comboLocalidad.setBounds(120, 190, 200, 23);
+
+        comboEstados.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboEstados.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
+        comboEstados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboEstadosActionPerformed(evt);
+            }
+        });
+        pn_empleado.add(comboEstados);
+        comboEstados.setBounds(120, 160, 200, 23);
 
         comboArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboArea.setNextFocusableComponent(comboPuesto);
@@ -214,7 +245,6 @@ public class updateEmpleado extends javax.swing.JDialog {
         jLabel5.setBounds(65, 130, 49, 17);
 
         txtColonia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtColonia.setNextFocusableComponent(txtMunicipio);
         pn_empleado.add(txtColonia);
         txtColonia.setBounds(118, 127, 202, 25);
 
@@ -288,24 +318,14 @@ public class updateEmpleado extends javax.swing.JDialog {
         txtFecha.setBounds(487, 130, 202, 25);
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel15.setText("Municipio:");
+        jLabel15.setText("Estado:");
         pn_empleado.add(jLabel15);
-        jLabel15.setBounds(54, 159, 60, 17);
-
-        txtMunicipio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtMunicipio.setNextFocusableComponent(txtLocalidad);
-        pn_empleado.add(txtMunicipio);
-        txtMunicipio.setBounds(118, 156, 202, 25);
+        jLabel15.setBounds(70, 160, 60, 17);
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel16.setText("Localidad:");
+        jLabel16.setText("Municipio:");
         pn_empleado.add(jLabel16);
-        jLabel16.setBounds(53, 188, 61, 17);
-
-        txtLocalidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtLocalidad.setNextFocusableComponent(txtTelefono);
-        pn_empleado.add(txtLocalidad);
-        txtLocalidad.setBounds(118, 185, 202, 25);
+        jLabel16.setBounds(53, 188, 60, 17);
 
         btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
@@ -401,12 +421,8 @@ public class updateEmpleado extends javax.swing.JDialog {
         if(datos[11].equals("null")){
             datos[11] = "Sin especificar";
         }
-        txtMunicipio.setText(datos[11]);
-        //Localidad
-        if(datos[12].equals("null")){
-            datos[12] = "Sin especificar";
-        }
-        txtLocalidad.setText(datos[12]);
+        comboEstados.setSelectedItem(datos[11]);
+        comboLocalidad.setSelectedItem(datos[12]);
         //Puesto
         comboPuesto.setSelectedItem(datos[13]);
         
@@ -455,17 +471,10 @@ public class updateEmpleado extends javax.swing.JDialog {
             rfc = txtRfc.getText();
         }
         //Municipio
-        if(txtMunicipio.getText().isEmpty()){
-            municipio = "Sin especificar";
-        }else{
-            municipio = txtMunicipio.getText();
-        }
+        municipio = comboEstados.getSelectedItem().toString();
         //Localidad
-        if(txtLocalidad.getText().isEmpty()){
-            localidad = "Sin especificar";
-        }else{
-            localidad = txtLocalidad.getText();
-        }
+        localidad = comboLocalidad.getSelectedItem().toString();
+        
         area = ids_area[comboArea.getSelectedIndex()];
         puesto = ids_puesto[comboPuesto.getSelectedIndex()];
         
@@ -639,6 +648,24 @@ public class updateEmpleado extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtRfcKeyTyped
 
+    private void comboLocalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboLocalidadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboLocalidadActionPerformed
+
+    private void comboEstadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEstadosActionPerformed
+        // TODO add your handling code here:
+        //ComboPuesto
+        String lista = manager_complemento.obtenerLocalidades(comboEstados.getSelectedIndex()+1);
+        String[] recoger = lista.split(",,");
+        ids_localidad = new int[recoger.length/2];
+
+        comboLocalidad.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        for(int i = 1,j = 0; i <= recoger.length;i = i+2,j++){
+            comboLocalidad.addItem(recoger[i]);
+            ids_localidad[j] = Integer.parseInt(recoger[i-1]);
+        }
+    }//GEN-LAST:event_comboEstadosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -671,6 +698,8 @@ public class updateEmpleado extends javax.swing.JDialog {
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JComboBox<String> comboArea;
+    private javax.swing.JComboBox<String> comboEstados;
+    private javax.swing.JComboBox<String> comboLocalidad;
     private javax.swing.JComboBox<String> comboPuesto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -695,8 +724,6 @@ public class updateEmpleado extends javax.swing.JDialog {
     private javax.swing.JTextField txtColonia;
     private javax.swing.JTextField txtCurp;
     private com.toedter.calendar.JDateChooser txtFecha;
-    private javax.swing.JTextField txtLocalidad;
-    private javax.swing.JTextField txtMunicipio;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtRfc;
     private javax.swing.JTextField txtTelefono;

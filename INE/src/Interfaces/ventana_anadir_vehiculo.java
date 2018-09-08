@@ -494,7 +494,7 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
 
         contadorImg.setText("0");
         pn_permisos.add(contadorImg);
-        contadorImg.setBounds(490, 350, 200, 14);
+        contadorImg.setBounds(490, 344, 200, 20);
 
         jLabel11.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         jLabel11.setText("Descripción:");
@@ -592,8 +592,14 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
                         campo_descripcion.getText(),"EY-10",txtNumero.getText())) {
                     // Para crear la carpeta se concatena la marca el color y la placa del vehiculo
                     String nombreParametro = "EY-10-"+txtNumero.getText();
-
-                    managerPost.prepararImagenesVehiculo(rutas, nombreParametro, contadorRutas);
+                    if(!contadorImg.getText().equals("0")){
+                        managerPost.prepararImagenesVehiculo(rutas, nombreParametro, contadorRutas);
+                        //System.out.println("CON FOTO");
+                    }else{
+                        managerPost.prepararImagenesVehiculoSinFoto(nombreParametro);
+                        //System.out.println("SIN FOTO");
+                    }
+                    
                     JOptionPane.showMessageDialog(null, "¡Insertado Correctamente!", "¡Información!", JOptionPane.INFORMATION_MESSAGE);
                     Principal.tablaVehiculos.setModel(vehiculos.getVehiculos());
                     this.dispose();

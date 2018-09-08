@@ -96,7 +96,8 @@ BEGIN
 											INNER JOIN `INE`.`Detalle_Vale`		ON (`Detalle_Vale`.`ID_Vale`		= CONCAT(`Vales`.`Folio`, '-', `Vales`.`Numero`, '-', `Vales`.`Año`))
 											INNER JOIN `INE`.`Inventario`		ON (`Detalle_Vale`.`ID_Producto`	= CONCAT(`Inventario`.`Folio`, '-', `Inventario`.`Numero`, `Inventario`.`Extension`))
 											INNER JOIN `INE`.`Empleados`		ON (`Empleados`.`ID_Empleado`		= `Vales`.`ID_Empleado`)
-											WHERE  
+											WHERE `Detalle_Vale`.`estado`= 'Asignado'
+												AND
 													CASE -- Filtro por Status
 														WHEN `Inv_Estatus` IS NOT NULL THEN `Inventario`.`Estatus`= `Inv_Estatus`
 														WHEN `Inv_Estatus` IS NULL THEN 1
@@ -156,7 +157,7 @@ BEGIN
 						INNER JOIN `INE`.`Detalle_Vale`		ON (`Detalle_Vale`.`ID_Vale`		= CONCAT(`Vales`.`Folio`, '-', `Vales`.`Numero`, '-', `Vales`.`Año`))
 						INNER JOIN `INE`.`Inventario`		ON (`Detalle_Vale`.`ID_Producto`	= CONCAT(`Inventario`.`Folio`, '-', `Inventario`.`Numero`, `Inventario`.`Extension`))
 						INNER JOIN `INE`.`Empleados`		ON (`Empleados`.`ID_Empleado`		= `Vales`.`ID_Empleado`)
-							WHERE `Inventario`.`Estatus`= `Inv_Estatus`
+							WHERE `Inventario`.`Estatus`= `Inv_Estatus` and `Detalle_Vale`.`estado`= 'Asignado'
 							AND 
 								CASE	-- Filtro por búsqueda de responsable
 									 WHEN `Inv_Busqueda` IS NULL THEN 1

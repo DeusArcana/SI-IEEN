@@ -125,25 +125,27 @@ public class ManagerVehiculos {
         DefaultTableModel table = new DefaultTableModel();
 
         try {
-            table.addColumn("Clave");
+            table.addColumn("No. Inventario");
+            table.addColumn("Descripción");
             table.addColumn("Marca");
             table.addColumn("Linea");
             table.addColumn("Año");
             table.addColumn("Color");
             table.addColumn("Matricula");
+            table.addColumn("Kilometraje");
             
             
             //Consulta de los empleados
-            String sql = "select concat(Folio,'-',Numero) as clave,marca,linea,modelo,color,matricula from vehiculos order by clave;";
+            String sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje from vehiculos order by clave;";
             con = db.getConexion();
             Statement st = con.createStatement();
-            Object datos[] = new Object[6];
+            Object datos[] = new Object[8];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
                     datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());	
-                for(int i = 1;i<6;i++){
+                for(int i = 1;i<8;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -223,29 +225,34 @@ public class ManagerVehiculos {
         DefaultTableModel table = new DefaultTableModel();
 
         try {
-            table.addColumn("Clave");
+            table.addColumn("No. Inventario");
+            table.addColumn("Descripción");
             table.addColumn("Marca");
             table.addColumn("Linea");
             table.addColumn("Año");
             table.addColumn("Color");
             table.addColumn("Matricula");
+            table.addColumn("Kilometraje");
+            
             
             String sql;
             //Consulta de los vehiculos
             if(tipoBusqueda.equals("Año")){
-                sql = "select concat(Folio,'-',Numero) as clave,marca,linea,modelo,color,matricula from vehiculos where modelo like '"+busqueda+"%' order by clave;";
+                sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje from vehiculos where modelo like '"+busqueda+"%' order by Numero;";
+            }else if(tipoBusqueda.equals("No. Inventario")){
+                sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje from vehiculos where Numero like '%"+busqueda+"%' order by Numero;";
             }else{
-                sql = "select concat(Folio,'-',Numero)as clave,marca,linea,modelo,color,matricula from vehiculos where "+tipoBusqueda+" like '"+busqueda+"%' order by clave;";
+                sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje from vehiculos where "+tipoBusqueda+" like '"+busqueda+"%' order by Numero;";
             }
             con = db.getConexion();
             Statement st = con.createStatement();
-            Object datos[] = new Object[6];
+            Object datos[] = new Object[8];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
-
-                for(int i = 0;i<6;i++){
+                    datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());
+                for(int i = 1;i<8;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -305,6 +312,31 @@ public class ManagerVehiculos {
 
     }//guardarImagen
     
+    public boolean actualizarCantidadFotosVehiculo(String matricula, int cantidad) {
+        con = db.getConexion();
+
+        String update = "update vehiculos set cantidad_fotos = ? where matricula = '" + matricula + "'";
+
+        PreparedStatement ps = null;
+
+        try {
+
+            ps = con.prepareStatement(update);
+
+            ps.setInt(1, cantidad);
+
+            ps.executeUpdate();
+
+            return true;
+
+        } catch (Exception ex) {
+            System.out.println("Error al actualizar cantidad de fotos " + ex.getMessage());
+            return false;
+
+        }
+
+    }//guardarImagen
+    
     public boolean actualizarVehiculoSinFoto(String marca, String linea, String color, String modelo, String motor,
             String kilomentraje, String matricula, String observaciones) {
         con = db.getConexion();
@@ -343,7 +375,7 @@ public class ManagerVehiculos {
     public void getVehiculosDisponibles(JComboBox combo) {
         try{
            
-            String sql = "select concat(linea,'-'matricula) as clave from Vehiculos order by clave;";
+            String sql = "select concat(linea,'-'matricula) as clave from Vehiculos order by Numero;";
             con = db.getConexion();
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);

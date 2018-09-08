@@ -112,7 +112,7 @@ public class Ventana_ConsultaSolicitudes extends javax.swing.JDialog {
 
         jLabel4.setText("Productos del documento");
         pn_asignarEquipo.add(jLabel4);
-        jLabel4.setBounds(10, 212, 121, 14);
+        jLabel4.setBounds(10, 212, 300, 14);
         pn_asignarEquipo.add(jSeparator2);
         jSeparator2.setBounds(10, 204, 979, 2);
 

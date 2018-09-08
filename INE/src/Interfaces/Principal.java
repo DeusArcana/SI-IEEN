@@ -267,10 +267,6 @@ public class Principal extends javax.swing.JFrame {
         ExportarUsuarios = new javax.swing.JMenuItem();
         MenuVehiculos = new javax.swing.JPopupMenu();
         ActualizarV = new javax.swing.JMenuItem();
-        SolictarMas = new javax.swing.JMenu();
-        SolicitarBaja = new javax.swing.JMenuItem();
-        Servicio = new javax.swing.JMenuItem();
-        ActualizarInfoV = new javax.swing.JMenuItem();
         ExcelVehiculos = new javax.swing.JMenuItem();
         MenuResguardoPersonal = new javax.swing.JPopupMenu();
         QuitarResguardo = new javax.swing.JMenuItem();
@@ -355,7 +351,6 @@ public class Principal extends javax.swing.JFrame {
         comboFiltroVehiculos = new javax.swing.JComboBox<>();
         jLabel20 = new javax.swing.JLabel();
         txtBusquedaVehiculos = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         empleado = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -689,34 +684,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MenuVehiculos.add(ActualizarV);
-
-        SolictarMas.setText("Solicitar...");
-
-        SolicitarBaja.setText("Solicitud baja/comodato/donación");
-        SolicitarBaja.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SolicitarBajaActionPerformed(evt);
-            }
-        });
-        SolictarMas.add(SolicitarBaja);
-
-        Servicio.setText("Servicio");
-        Servicio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ServicioActionPerformed(evt);
-            }
-        });
-        SolictarMas.add(Servicio);
-
-        MenuVehiculos.add(SolictarMas);
-
-        ActualizarInfoV.setText("Refrescar tabla");
-        ActualizarInfoV.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ActualizarInfoVActionPerformed(evt);
-            }
-        });
-        MenuVehiculos.add(ActualizarInfoV);
 
         ExcelVehiculos.setText("Exportar a excel");
         ExcelVehiculos.addActionListener(new java.awt.event.ActionListener() {
@@ -1082,6 +1049,11 @@ public class Principal extends javax.swing.JFrame {
                 "ID", "Nombre(s)", "Apellido Paterno", "Apellido Materno", "Área"
             }
         ));
+        tablaUsuarios.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                tablaUsuariosMouseMoved(evt);
+            }
+        });
         tablaUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tablaUsuariosMouseReleased(evt);
@@ -1196,6 +1168,11 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tablaVehiculos.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                tablaVehiculosMouseMoved(evt);
+            }
+        });
         tablaVehiculos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaVehiculosMouseClicked(evt);
@@ -1217,7 +1194,7 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane10.setViewportView(tablaVehiculos);
 
         jPanel6.add(jScrollPane10);
-        jScrollPane10.setBounds(20, 170, 900, 540);
+        jScrollPane10.setBounds(20, 150, 900, 560);
 
         jPanel14.setBackground(new java.awt.Color(255, 255, 255));
         jPanel14.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -1312,7 +1289,7 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(etiquetaMarca)
                     .addComponent(etiquetaLinea)
                     .addComponent(etiquetaAño))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addComponent(fondoVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1326,7 +1303,7 @@ public class Principal extends javax.swing.JFrame {
         );
 
         jPanel6.add(jPanel14);
-        jPanel14.setBounds(930, 170, 420, 540);
+        jPanel14.setBounds(930, 150, 420, 560);
 
         btnAñadirVehiculo.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
         btnAñadirVehiculo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/agregar.png"))); // NOI18N
@@ -1338,7 +1315,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel6.add(btnAñadirVehiculo);
-        btnAñadirVehiculo.setBounds(930, 80, 420, 30);
+        btnAñadirVehiculo.setBounds(930, 100, 420, 30);
 
         jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baner vehiculos.png"))); // NOI18N
         jPanel6.add(jLabel29);
@@ -1351,12 +1328,12 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel6.add(comboFiltroVehiculos);
-        comboFiltroVehiculos.setBounds(160, 100, 210, 28);
+        comboFiltroVehiculos.setBounds(160, 90, 210, 28);
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel20.setText("Búsqueda por ");
         jPanel6.add(jLabel20);
-        jLabel20.setBounds(30, 100, 130, 22);
+        jLabel20.setBounds(30, 90, 130, 22);
 
         txtBusquedaVehiculos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtBusquedaVehiculos.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -1365,19 +1342,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel6.add(txtBusquedaVehiculos);
-        txtBusquedaVehiculos.setBounds(390, 100, 290, 30);
-
-        jButton5.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/modificar.png"))); // NOI18N
-        jButton5.setText("Modificar");
-        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        jPanel6.add(jButton5);
-        jButton5.setBounds(930, 120, 420, 30);
+        txtBusquedaVehiculos.setBounds(390, 90, 290, 30);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         jPanel6.add(jLabel4);
@@ -1835,7 +1800,7 @@ public class Principal extends javax.swing.JFrame {
         pn_asignacion_inventario1.setPreferredSize(new java.awt.Dimension(1340, 740));
 
         jLabel33.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel33.setText("Categoria:");
+        jLabel33.setText("Categoría:");
 
         lb_objetos_asignables2.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         lb_objetos_asignables2.setText("Objetos Asignables");
@@ -2312,7 +2277,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel21.setBounds(30, 10, 1340, 80);
 
         jLabel32.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel32.setText("Categoria:");
+        jLabel32.setText("Categoría:");
         jPanel12.add(jLabel32);
         jLabel32.setBounds(520, 100, 90, 22);
 
@@ -2407,7 +2372,7 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 1310, Short.MAX_VALUE)
                     .addComponent(jScrollPane12)
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -2956,22 +2921,17 @@ public class Principal extends javax.swing.JFrame {
         }
         //---------------------------------- PESTAÑA INVENTARIO --------------------------------------// 0
 
-        //--------------------------- PESTAÑA DE EMPLEADOS Y USUARIOS --------------------------------// 1
-        
+        //---------------------------------- PESTAÑA VEHICULOS --------------------------------------// 2
+
         comboFiltroVehiculos.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        comboFiltroVehiculos.addItem("No. Inventario");
+        comboFiltroVehiculos.addItem("Descripción");
         comboFiltroVehiculos.addItem("Marca");
         comboFiltroVehiculos.addItem("Linea");
         comboFiltroVehiculos.addItem("Año");
         comboFiltroVehiculos.addItem("Color");
         comboFiltroVehiculos.addItem("Matricula");
-        
-        //--------------------------- PESTAÑA DE EMPLEADOS Y USUARIOS --------------------------------// 1
-        
-        //---------------------------------- PESTAÑA VEHICULOS --------------------------------------// 2
-        
-        if(manager_permisos.accesoModulo("consulta","Vehiculos",Username)){
-            tablaVehiculos.setModel(managerVehiculos.getVehiculos());
-        }
+        comboFiltroVehiculos.addItem("Kilometraje");
         
         //---------------------------------- PESTAÑA VEHICULOS --------------------------------------// 2
         
@@ -3148,7 +3108,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_itemSalirActionPerformed
     public void metodoVehiculos(){
         int fila = tablaVehiculos.getSelectedRow();
-        Vector vVehiculos = managerVehiculos.infoVehiculos(tablaVehiculos.getValueAt(fila, 5).toString());
+        Vector vVehiculos = managerVehiculos.infoVehiculos(tablaVehiculos.getValueAt(fila, 6).toString());
         // marca,linea,clase,kilometraje,modelo,color,motor,matricula,observaciones,estado  
         //Cantidad
         String temporal[] = vVehiculos.get(0).toString().split(",");
@@ -3184,9 +3144,15 @@ public class Principal extends javax.swing.JFrame {
         
     private void ActualizarVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarVActionPerformed
         // TODO add your handling code here:
-        if(manager_permisos.accesoModulo("actualizar","Vehiculos",Username)){
-            
-        }else{
+        if (manager_permisos.accesoModulo("actualizar", "Vehiculos", Username)) {
+            try {
+                ventana_modificar_vehiculo ob = new ventana_modificar_vehiculo(this, true);
+                campo.setText(tablaVehiculos.getValueAt(tablaVehiculos.getSelectedRow(), 6).toString());
+                ob.setVisible(true);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Seleccione un vehículo!", "Información", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
             JOptionPane.showMessageDialog(null, "No cuenta con permisos para actualizar la información de los vehiculos.");
         }
         
@@ -3739,7 +3705,7 @@ public void metodoValeRecoleccion(){
         
         try {
             ob.createTicket("recoleccion_"+dia+"_"+(mes+1)+"_"+año+"_"+hora+"_"+minuto+"_"+segundo, 
-                    res, cadena1, cadena2,v,vfaltante, datosempleado, validaciones.constructFormatID(recoleccion));
+                    res, cadena1, cadena2,v,vfaltante, datosempleado, recoleccion);
         } catch (DocumentException ex) {
             Logger.getLogger(addUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -4122,34 +4088,37 @@ public void metodoValeRecoleccion(){
         // TODO add your handling code here:
 
     }//GEN-LAST:event_vehiculosMouseClicked
+    public void buscarVehiculo() {
+        if (manager_permisos.accesoModulo("consulta", "Vehiculos", Username)) {
+            String filtro = comboFiltroVehiculos.getSelectedItem().toString();
+            String busqueda = txtBusquedaVehiculos.getText();
+            if (comboFiltroVehiculos.getSelectedItem().toString().equals("Descripción")) {
+                tablaVehiculos.setModel(managerVehiculos.getVehiculosEspecificos("descripcion", busqueda));
+            } else {
+                tablaVehiculos.setModel(managerVehiculos.getVehiculosEspecificos(filtro, busqueda));
+            }
 
+        } else {
+            JOptionPane.showMessageDialog(null, "No cuentas con permiso para consultar los vehiculos");
+        }
+    }
     private void txtBusquedaVehiculosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaVehiculosKeyReleased
         // TODO add your handling code here:
-        String filtro = comboFiltroVehiculos.getSelectedItem().toString();
-        String busqueda = txtBusquedaVehiculos.getText();
-
-        //Si no hay nada en el campo entonces mostramos todos los empleados
-        if(busqueda.equals("")){
-            tablaVehiculos.setModel(managerVehiculos.getVehiculos());
-        }//if
-
-        else{
-
-            //Si hay coincidencias entonces los muestra
-            if(managerVehiculos.existeVehiculo(filtro, busqueda)){
-                tablaVehiculos.setModel(managerVehiculos.getVehiculosEspecificos(filtro,busqueda));
-            }//if
-
-            //Si no hay coincidecnias entonces mostramos todos los vehiculos
-            else{
-                tablaVehiculos.setModel(managerVehiculos.getVehiculos());
-            }//Segundo else
-
-        }//Primer else
+        if(manager_permisos.accesoModulo("consulta","Vehiculos",Username)){
+            buscarVehiculo();
+        }else{
+            tablaVehiculos.setModel(new DefaultTableModel());
+        }
     }//GEN-LAST:event_txtBusquedaVehiculosKeyReleased
 
     private void comboFiltroVehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroVehiculosActionPerformed
         // TODO add your handling code here:
+        if(manager_permisos.accesoModulo("consulta","Vehiculos",Username)){
+            buscarVehiculo();
+        }else{
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar vehiculos.");
+            tablaVehiculos.setModel(new DefaultTableModel());
+        }
     }//GEN-LAST:event_comboFiltroVehiculosActionPerformed
 
     private void btnAñadirVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirVehiculoActionPerformed
@@ -4458,15 +4427,6 @@ public void metodoValeRecoleccion(){
             JOptionPane.showMessageDialog(null,"Usted no cuenta con los permisos para actualizar un consumible.");
         }
     }//GEN-LAST:event_ActualizarConsumibleActionPerformed
-
-    private void ActualizarInfoVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoVActionPerformed
-        // TODO add your handling code here:
-        if(manager_permisos.accesoModulo("consulta","Vehiculos",Username)){
-            tablaVehiculos.setModel(managerVehiculos.getVehiculos());
-        }else{
-            JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar los vehiculos.");
-        }
-    }//GEN-LAST:event_ActualizarInfoVActionPerformed
 
     private void ActualizarInfoSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoSPActionPerformed
         // TODO add your handling code here:
@@ -5026,6 +4986,13 @@ public void metodoValeRecoleccion(){
                 }
                 break;
             //Pestaña personal del empleado que se logueo
+            case 2:
+                if(manager_permisos.accesoModulo("consulta","Vehiculos",Username)){
+                    buscarVehiculo();
+                }else{
+                    tablaVehiculos.setModel(new DefaultTableModel());
+                }
+                break;
             case 3:
                 DefaultTableModel limpiarTabla = new DefaultTableModel();
                 tablaResguardoPersonal.setModel(limpiarTabla);
@@ -5213,25 +5180,6 @@ public void metodoValeRecoleccion(){
                 JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el estatus del inventario.");
             }
     }//GEN-LAST:event_NoDisponibleActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-        try {
-            ventana_modificar_vehiculo ob = new ventana_modificar_vehiculo(this, true);
-            campo.setText(tablaVehiculos.getValueAt(tablaVehiculos.getSelectedRow(), 5).toString());
-            ob.setVisible(true);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Seleccione un vehículo!","Información",JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void SolicitarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitarBajaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SolicitarBajaActionPerformed
-
-    private void ServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ServicioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ServicioActionPerformed
 
     private void CancelarSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarSolicitudActionPerformed
         // TODO add your handling code here:
@@ -6031,7 +5979,7 @@ public void metodoValeRecoleccion(){
     private void btnCancelarConsumibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarConsumibleActionPerformed
         // TODO add your handling code here:
         int fila = tablaCantidadGranel.getSelectedRow();
-        if(fila > 0){
+        if(fila >= 0){
             String[] opciones = {"Aceptar", "Cancelar"};
             int seleccion = JOptionPane.showOptionDialog(null, "¿Desea cancelar el producto \""+tablaCantidadGranel.getValueAt(fila, 0).toString()+"\"?","Confirmación de cancelación", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
             if(seleccion == 0){
@@ -6103,6 +6051,28 @@ public void metodoValeRecoleccion(){
         
         }
     }//GEN-LAST:event_ExcelVehiculosActionPerformed
+
+    private void tablaUsuariosMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaUsuariosMouseMoved
+
+    private void tablaVehiculosMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaVehiculosMouseMoved
+        // TODO add your handling code here:
+        try{
+            //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
+            int r = tablaVehiculos.rowAtPoint(evt.getPoint());
+            int c = tablaVehiculos.columnAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablaVehiculos.getRowCount()){
+                if(c == 1){
+                    tablaVehiculos.setToolTipText(tablaVehiculos.getValueAt(r, c).toString());
+                }else{
+                    tablaVehiculos.setToolTipText(null);
+                }
+            }
+        }catch(NullPointerException e){
+        
+        }
+    }//GEN-LAST:event_tablaVehiculosMouseMoved
        
     public void cargarImagen(String busqueda, int numero) {
 
@@ -6125,14 +6095,19 @@ public void metodoValeRecoleccion(){
 
             String cadena = "\\\\" + ip + "\\imagenes\\vehiculos\\" + busqueda + "\\" + busqueda + numero + ".png";
             System.out.println("" + cadena);
+
             img = ImageIO.read(new File(cadena));
+
         } catch (IOException ex) {
+            imagenVehiculo.setIcon(null);
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             if (banderaFoto.equals("i")) {
                 izquierdaBtn.setEnabled(false);
+                imagenVehiculo.setIcon(null);
                 nFoto++;
             } else {
                 derechaBtn.setEnabled(false);
+                imagenVehiculo.setIcon(null);
                 nFoto--;
             }
         }
@@ -6277,7 +6252,6 @@ public void metodoValeRecoleccion(){
     private javax.swing.JMenuItem ActualizarInfoPP;
     private javax.swing.JMenuItem ActualizarInfoSM;
     private javax.swing.JMenuItem ActualizarInfoSP;
-    private javax.swing.JMenuItem ActualizarInfoV;
     private javax.swing.JMenuItem ActualizarProd;
     private javax.swing.JMenuItem ActualizarV;
     private javax.swing.JMenuItem AddDocuments;
@@ -6326,9 +6300,6 @@ public void metodoValeRecoleccion(){
     private javax.swing.JMenuItem Permisos;
     private javax.swing.JMenuItem QuitarResguardo;
     private javax.swing.JMenuItem SelectProducts;
-    private javax.swing.JMenuItem Servicio;
-    private javax.swing.JMenuItem SolicitarBaja;
-    private javax.swing.JMenu SolictarMas;
     private javax.swing.JMenuItem activar;
     private javax.swing.JMenuItem activarE;
     private javax.swing.JMenuItem bajaE;
@@ -6389,7 +6360,6 @@ public void metodoValeRecoleccion(){
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

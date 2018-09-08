@@ -138,20 +138,10 @@ public class CrearUsuarioPDF {
     
     
     
-    public void createTicket(String pdfFilename,String usuario, String contrasena, int res,String fecha, String hora)throws DocumentException {
-        Cabecera encClass = new Cabecera();
-        encClass.setEncabezado("algo");
-       // Rectangle pagesize = new Rectangle(250, 14400);
-        Document doc = new Document(PageSize.A4, 36, 36, 54, 36);
-        Cabecera cab = new Cabecera();
-        //Paragraph parrafo;
-        //int i;
+    public void createTicket(String pdfFilename,String nombre,String area,String puesto,String usuario, String contrasena, int res,String fecha, String hora)throws DocumentException {
         
-        cab.setEncabezado("");
-        
-        // indicamos que objecto manejara los eventos al escribir el Pdf
         Rectangle pagesize = new Rectangle(250, 14400);
-        //Document doc = new Document(pagesize);
+        Document doc = new Document(pagesize);
         PdfWriter docWriter = null;
 
         try {
@@ -159,7 +149,6 @@ public class CrearUsuarioPDF {
             //CODIGO DE BARRAS------------------------------------------------------------------------
             String path = this.path + pdfFilename + ".pdf";
             docWriter = PdfWriter.getInstance(doc, new FileOutputStream(path));
-            docWriter.setPageEvent(cab);
             doc.addAuthor("IEEN");
             doc.addCreationDate();
             doc.addProducer();
@@ -178,7 +167,8 @@ public class CrearUsuarioPDF {
 
             //Obtener la imagen
             com.itextpdf.text.Image image = com.itextpdf.text.Image.getInstance("print/blogin.png");
-
+            image.scaleAbsoluteWidth(75f);
+            image.scaleAbsoluteHeight(50f);
             PdfPCell LogoCell = new PdfPCell(image, false);
 
             LogoCell.setBorderColor(BaseColor.WHITE);
@@ -201,7 +191,7 @@ public class CrearUsuarioPDF {
             //Esqueleto firma
             PdfPTable firma = new PdfPTable(1);
             PdfPCell firmaCell;
-            firmaCell = new PdfPCell(new Phrase("_______________________________________________\nFirma de conformidad.", subFont2));
+            firmaCell = new PdfPCell(new Phrase("_______________________________________________\n\nFirma de conformidad.", subFont2));
             firmaCell.setBorderColor(BaseColor.WHITE);
             firmaCell.setHorizontalAlignment(ALIGN_CENTER);
             firma.addCell(firmaCell);
@@ -211,30 +201,63 @@ public class CrearUsuarioPDF {
             
             PdfPTable proceso = new PdfPTable(1);
             
-            PdfPCell tituloproceso = new PdfPCell(new Phrase("Proceso de asignación de usuario", subFont2));
+            PdfPCell tituloproceso = new PdfPCell(new Phrase("Acuse de Recibo dé Cuenta de Usuario", subFont2));
             proceso.setHorizontalAlignment(ALIGN_CENTER);
+            tituloproceso.setHorizontalAlignment(ALIGN_CENTER);
+            tituloproceso.setBorderColor(BaseColor.WHITE);
             proceso.addCell(tituloproceso);
             
+            
+            PdfPTable proceso2 = new PdfPTable(1);
+            
+            PdfPCell tituloproceso2 = new PdfPCell(new Phrase("Datos de la Cuenta de Usuario", subFont2));
+            proceso2.setHorizontalAlignment(ALIGN_CENTER);
+            tituloproceso2.setHorizontalAlignment(ALIGN_CENTER);
+            tituloproceso2.setBorderColor(BaseColor.WHITE);
+            proceso2.addCell(tituloproceso2);
+            
+            PdfPTable empleadoPTable = new PdfPTable(2);
+            PdfPTable areaPTable = new PdfPTable(2);
+            PdfPTable puestoPTable = new PdfPTable(2);
             PdfPTable usuarioPTable = new PdfPTable(2);
             PdfPTable contraPTable = new PdfPTable(2);
            
             
-            PdfPCell usuario11,usuario12,contra11,contra12;
+            PdfPCell empleado1,empleado2,area1,area2,puesto1,puesto2,usuario11,usuario12,contra11,contra12;
+            
+            empleado1 = new PdfPCell(new Phrase("Empleado: ", subFont));
+            empleado2 = new PdfPCell(new Phrase(""+nombre, subFont2));
+            
+            area1 = new PdfPCell(new Phrase("Área: ", subFont));
+            area2 = new PdfPCell(new Phrase(""+area, subFont2));
+            
+            puesto1 = new PdfPCell(new Phrase("Puesto: ", subFont));
+            puesto2 = new PdfPCell(new Phrase(""+puesto, subFont2));
             
             usuario11 = new PdfPCell(new Phrase("Usuario: ", subFont));
             usuario12 = new PdfPCell(new Phrase(""+usuario, subFont2));
             
+            contra11 = new PdfPCell(new Phrase("Contraseña:", subFont));
+            contra12 = new PdfPCell(new Phrase(""+contrasena, subFont2));
+
+            empleadoPTable.addCell(empleado1);
+            empleadoPTable.addCell(empleado2);
+            
+            areaPTable.addCell(area1);
+            areaPTable.addCell(area2);
+            
+            puestoPTable.addCell(puesto1);
+            puestoPTable.addCell(puesto2);
             
             usuarioPTable.addCell(usuario11);
             usuarioPTable.addCell(usuario12);
             
-            PdfPCell cell = new PdfPCell(new Phrase("--------------------------------------------------------------------------------", estilo));
-            
-            contra11 = new PdfPCell(new Phrase("Contraseña:", subFont));
-            contra12 = new PdfPCell(new Phrase(""+contrasena, subFont2));
-
             contraPTable.addCell(contra11);
             contraPTable.addCell(contra12);
+            
+            PdfPCell cell = new PdfPCell(new Phrase("--------------------------------------------------------------------------------", estilo));
+            
+            
             PdfPTable midLane = new PdfPTable(1);
            //LINEA A LA MITAD
             midLane.setWidthPercentage(110f);
@@ -253,7 +276,7 @@ public class CrearUsuarioPDF {
             doc.add(encabezadoTOP);
             //Espacio en blanco
             doc.add(BLANCO);
-            
+
             //Espacio en blanco
             doc.add(BLANCO);
             //Encabezado   Logo | Instituto estatal ....
@@ -264,36 +287,37 @@ public class CrearUsuarioPDF {
             doc.add(proceso);
             //Espacio en blanco
             doc.add(BLANCO);
-            
+
+            doc.add(empleadoPTable);
+            doc.add(areaPTable);
+            doc.add(puestoPTable);
             doc.add(usuarioPTable);
             doc.add(contraPTable);
-            
+
             //Espacio en blanco
             doc.add(BLANCO);
-            
+
             doc.add(condiciones);
             //Espacio en blanco
             doc.add(BLANCO);
             //Espacio en blanco
             doc.add(BLANCO);
-            
+
             //Firma de conformidad
             doc.add(firma);
-            
+
             //COPIA
-             doc.add(BLANCO);
-              doc.add(BLANCO);
-               doc.add(BLANCO);
-               //LINEA PUNTEADA
-               doc.add(midLane);
-              
-                doc.add(BLANCO);
-            
-            
+            doc.add(BLANCO);
+            doc.add(BLANCO);
+            //LINEA PUNTEADA
+            doc.add(midLane);
+
+            doc.add(BLANCO);
+
             doc.add(encabezadoTOP);
             //Espacio en blanco
             doc.add(BLANCO);
-            
+
             //Espacio en blanco
             doc.add(BLANCO);
             //Encabezado   Logo | Instituto estatal ....
@@ -301,24 +325,21 @@ public class CrearUsuarioPDF {
             //Espacio en blanco
             doc.add(BLANCO);
             //TITULO PROCESO
-            doc.add(proceso);
+            doc.add(proceso2);
             //Espacio en blanco
             doc.add(BLANCO);
-            
+
+            doc.add(empleadoPTable);
+            doc.add(areaPTable);
+            doc.add(puestoPTable);
             doc.add(usuarioPTable);
             doc.add(contraPTable);
-            
+
             //Espacio en blanco
             doc.add(BLANCO);
-            
+
             doc.add(condiciones);
-            //Espacio en blanco
-            doc.add(BLANCO);
-            //Espacio en blanco
-            doc.add(BLANCO);
             
-            //Firma de conformidad
-            doc.add(firma);
 
             archivo_nombre = pdfFilename;
                      

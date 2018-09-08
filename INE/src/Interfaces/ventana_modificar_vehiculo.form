@@ -615,7 +615,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="580" y="390" width="50" height="-1"/>
+              <AbsoluteConstraints x="510" y="340" width="90" height="50"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -632,7 +632,7 @@
         <Component class="javax.swing.JTextField" name="campoRuta">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="190" y="380" width="140" height="30"/>
+              <AbsoluteConstraints x="430" y="380" width="90" height="30"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -642,7 +642,7 @@
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="390" y="380" width="50" height="-1"/>
+              <AbsoluteConstraints x="640" y="360" width="50" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>

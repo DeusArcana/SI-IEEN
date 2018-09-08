@@ -85,7 +85,7 @@ public class ManagerUsers {
                        + "e.rfc, e.municipio, e.localidad, a.area, pt.Puesto,e.estatus from empleados e "
                        + "inner join area a on (a.ID_Area = e.area) "
                        + "inner join puestos_trabajo pt on (pt.ID_Puesto = e.puesto) "
-                       + "where "+tipoBusqueda+" like '%"+busqueda+"%' and e.id_empleado not in (select id_empleado from user where id_user = '"+usuario+"');";;
+                       + "where "+tipoBusqueda+" like '%"+busqueda+"%';";;
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             Object datos[] = new Object[15];
@@ -167,7 +167,7 @@ public class ManagerUsers {
                        + "e.rfc, e.municipio, e.localidad, a.area, pt.Puesto,e.estatus from empleados e "
                        + "inner join area a on (a.ID_Area = e.area) "
                        + "inner join puestos_trabajo pt on (pt.ID_Puesto = e.puesto) "
-                       + "where "+tipoBusqueda+" like '%"+busqueda+"%' and e.id_empleado not in (select id_empleado from user);";;
+                       + "where "+tipoBusqueda+" like '%"+busqueda+"%';";;
             conexion = db.getConexion();
             Statement st = conexion.createStatement();
             Object datos[] = new Object[15];
