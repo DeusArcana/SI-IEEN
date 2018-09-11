@@ -139,6 +139,7 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
         jLabel1.setText("Empleados Asignados");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 10, -1, -1));
 
+        btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnAceptar.setText(">>");
         btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -163,6 +164,7 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 40, 320, 344));
 
+        btnListo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnListo.setText("Listo");
         btnListo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnListo.addActionListener(new java.awt.event.ActionListener() {
