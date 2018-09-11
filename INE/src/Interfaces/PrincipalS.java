@@ -123,7 +123,6 @@ public class PrincipalS extends javax.swing.JFrame {
         ExportarExcelA = new javax.swing.JMenuItem();
         MenuTablonC = new javax.swing.JPopupMenu();
         ConsultarC = new javax.swing.JMenuItem();
-        AceptarC = new javax.swing.JMenuItem();
         ExportarExcelC = new javax.swing.JMenuItem();
         MenuPanelSolicitudViatico = new javax.swing.JPopupMenu();
         Add1 = new javax.swing.JMenuItem();
@@ -397,14 +396,6 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         MenuTablonC.add(ConsultarC);
-
-        AceptarC.setText("Aceptar");
-        AceptarC.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AceptarCActionPerformed(evt);
-            }
-        });
-        MenuTablonC.add(AceptarC);
 
         ExportarExcelC.setText("ExportarExcel");
         ExportarExcelC.addActionListener(new java.awt.event.ActionListener() {
@@ -1685,65 +1676,6 @@ public class PrincipalS extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para aceptar solicitudes.");
         }
     }//GEN-LAST:event_AceptarPActionPerformed
-
-    private void AceptarCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarCActionPerformed
-        // TODO add your handling code here:
-        if (manager_permisos.accesoModulo("actualizar", "Tablon Solicitudes", Principal.Username)) {
-            int k = tabloncanceladas.getSelectedRow();
-            if (k >= 0) {
-                int id = Integer.parseInt(tabloncanceladas.getValueAt(k, 0).toString());
-                Calendar calendar = Calendar.getInstance();
-                try {
-
-                    String total = "";
-                    Statement sentencia = cn.createStatement();
-                    ResultSet rs0 = cbd.getTabla("SELECT COUNT(*) as Folio FROM Oficio_comision",cn);
-                    while (rs0.next()) {
-                        total = rs0.getString("Folio");
-                    }
-                    int total1 = Integer.parseInt(total);
-                    int folio = 0;
-                    String valor = "";
-                    if (total1 != 0) {
-                        ResultSet rs = cbd.getTabla("SELECT MAX(Folio) AS Folio FROM Oficio_comision",cn);
-                        while (rs.next()) {
-                            valor = rs.getString("Folio");
-                        }
-                        int an = Integer.parseInt(valor.substring(0, 4));
-                        if (an == calendar.get(Calendar.YEAR)) {
-                            valor = valor.substring(4);
-                            folio = Integer.parseInt(valor) + 1;
-                            valor = an + "" + folio;
-                            folio = Integer.parseInt(valor);
-                        } else {
-                            valor = calendar.get(Calendar.YEAR) + "1";
-                            folio = Integer.parseInt(valor);
-                        }
-                    } else {
-                        valor = calendar.get(Calendar.YEAR) + "1";
-                        folio = Integer.parseInt(valor);
-                    }
-                    sentencia.execute("INSERT INTO Oficio_comision VALUES(" + folio + "," + id + "," + 0.00 + ")");
-                    sentencia.executeUpdate("UPDATE Solicitud_viatico SET Estado = 'A' WHERE (idSolicitud = '" + id + "')");
-                    sentencia.executeUpdate("UPDATE Solicitud_viatico SET Motivo = NULL WHERE (idSolicitud = '" + id + "')");
-                    javax.swing.JOptionPane.showMessageDialog(null, "Solicitud aceptada");
-                    sentencia.close();
-                } catch (SQLException ex) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta o folio ya asignado");
-
-                }/*catch (ClassNotFoundException e) {
-                 e.printStackTrace();
-                 }*/ //fin del catch
-
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
-            }
-            tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
-            tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
-        }else{
-            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para aceptar solicitudes.");
-        }
-    }//GEN-LAST:event_AceptarCActionPerformed
 
     private void AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddActionPerformed
         // TODO add your handling code here:
@@ -3533,7 +3465,6 @@ public class PrincipalS extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem AceptarC;
     private javax.swing.JMenuItem AceptarP;
     private javax.swing.JMenuItem Add;
     private javax.swing.JMenuItem Add1;

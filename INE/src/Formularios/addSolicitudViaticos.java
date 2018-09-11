@@ -207,7 +207,6 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         lblAviso = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jTextArea1 = new javax.swing.JTextArea();
         cmb_Vehiculo = new javax.swing.JComboBox();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -302,7 +301,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             txt_Actividad.setRows(5);
             jScrollPane1.setViewportView(txt_Actividad);
 
-            pn_addInventario.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 281, 460, 120));
+            pn_addInventario.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 281, 480, 120));
 
             btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
@@ -361,34 +360,29 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             jLabel7.setText("Área:");
             pn_addInventario.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, -1, -1));
 
-            jTextArea1.setColumns(20);
-            jTextArea1.setRows(5);
-            jTextArea1.setText("Para seleccionar un vehículo\nprimero hay que llenar el formulario\nde la izquierda y presionar aceptar.");
-            pn_addInventario.add(jTextArea1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 10, -1, -1));
-
             cmb_Vehiculo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
             cmb_Vehiculo.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     cmb_VehiculoActionPerformed(evt);
                 }
             });
-            pn_addInventario.add(cmb_Vehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 120, 190, -1));
+            pn_addInventario.add(cmb_Vehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, 190, -1));
 
             jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             jLabel9.setText("Vehiculo:");
-            pn_addInventario.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 120, -1, -1));
+            pn_addInventario.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, -1, -1));
 
             jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             jLabel10.setText("Kilometraje:");
-            pn_addInventario.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 170, -1, -1));
+            pn_addInventario.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 70, -1, -1));
 
             txtKilometraje.setEditable(false);
             txtKilometraje.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            pn_addInventario.add(txtKilometraje, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 170, 80, -1));
+            pn_addInventario.add(txtKilometraje, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 70, 190, -1));
 
             jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             jLabel11.setText("Descripción:");
-            pn_addInventario.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 220, -1, -1));
+            pn_addInventario.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 120, -1, -1));
 
             txtADescripcion.setEditable(false);
             txtADescripcion.setColumns(20);
@@ -396,18 +390,20 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             txtADescripcion.setRows(5);
             jScrollPane2.setViewportView(txtADescripcion);
 
-            pn_addInventario.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 250, -1, -1));
+            pn_addInventario.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 150, 280, -1));
 
             hora_Salida_A.setText("jTextField1");
             pn_addInventario.add(hora_Salida_A, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, 100, -1));
 
+            btnEditar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+            btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png"))); // NOI18N
             btnEditar.setText("Editar");
             btnEditar.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     btnEditarActionPerformed(evt);
                 }
             });
-            pn_addInventario.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 390, -1, -1));
+            pn_addInventario.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 280, -1, -1));
 
             jLabel12.setText("*");
             pn_addInventario.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, 40, -1));
@@ -419,7 +415,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             pn_addInventario.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 200, 40, -1));
 
             jLabel14.setText("*");
-            pn_addInventario.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, -1, -1));
+            pn_addInventario.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 10, 30));
 
             jLabel16.setText("*");
             pn_addInventario.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 30, -1));
@@ -1270,7 +1266,6 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblAviso;
     private javax.swing.JLabel lblLugar;
     private javax.swing.JPanel pn_addInventario;
