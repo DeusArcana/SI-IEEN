@@ -83,7 +83,7 @@ public class PrincipalP extends javax.swing.JFrame {
         tablapase = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel17 = new javax.swing.JLabel();
         txtbusquedasoli = new javax.swing.JTextField();
-        comboAño = new javax.swing.JComboBox<String>();
+        comboAño = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
@@ -144,16 +144,16 @@ public class PrincipalP extends javax.swing.JFrame {
         });
         MenuPases.add(ExportarExcel);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Sistema Integral - Instituto Estatal Electoral de Nayarit");
         setPreferredSize(new java.awt.Dimension(1366, 793));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
@@ -409,9 +409,8 @@ public class PrincipalP extends javax.swing.JFrame {
                     solicitud[10] = rs.getString("Estado");
                     modelo.addRow(solicitud);
                 }
-                rs.close();
+                //rs.close();
                 sentencia.close();
-                    
             } catch (SQLException ex) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Error al consultar los datos");
             }          
@@ -461,6 +460,7 @@ public class PrincipalP extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (manager_permisos.accesoModulo("consulta", "Pase Salida", Principal.Username)) {
             int fila = tablapase.getSelectedRow();
+            //CrearPaseSalida cps = new CrearPaseSalida();
             CrearPaseSalida cps = new CrearPaseSalida();
             if(fila >= 0){
                 if(tablapase.getValueAt(fila,11).toString().equals("Cancelado")){
@@ -484,9 +484,10 @@ public class PrincipalP extends javax.swing.JFrame {
 
                         //javax.swing.JOptionPane.showMessageDialog(null,responarea);
 
-                        cps.createTicket(1,folio[0],folio[1],nombreem,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,responarea);
+                        //cps.createTicket(1,folio[0],folio[1],nombreem,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,responarea);
+                        cps.createTicket(1,folio[0],folio[1], nombreem, puesto, area, fecha, horaes, horall, horas, tipohorario, tipoasunto, asunto, responarea);
                     } catch (Exception ex) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Error! problema al imprimir el pase");
+                    javax.swing.JOptionPane.showMessageDialog(null, "Hubo un problema al imprimir el pase");
                         }
                 }
             }else{
@@ -505,34 +506,45 @@ public class PrincipalP extends javax.swing.JFrame {
                 String[] ho=tablapase.getValueAt(k, 5).toString().split(":");
                 int ho1=Integer.parseInt(ho[0]);
                 int ho2=Integer.parseInt(ho[1]);
-                javax.swing.JOptionPane.showMessageDialog(null,ho1+" "+ho2);
+                //javax.swing.JOptionPane.showMessageDialog(null,ho1+" "+ho2);
                 if(tablapase.getValueAt(k,8).toString().equals("Intermedio")){
                     //javax.swing.JOptionPane.showMessageDialog(null, "Si se puede");
                     String folio = tablapase.getValueAt(k, 0).toString();
                     String[] numfol=folio.split("-");
+                     String horallegada="";
                     //javax.swing.JOptionPane.showMessageDialog(null,id);
                     if(tablapase.getValueAt(k,6).toString().isEmpty()){
                         if(tablapase.getValueAt(k,11).toString().equals("Cancelado")){
-                           javax.swing.JOptionPane.showMessageDialog(null, "Pase cancelado, no se puede actualizar la hora");  
+                           javax.swing.JOptionPane.showMessageDialog(null, "Pase cancelado, no se puede actualizar la hora");
                         }else{
                         try {
                     Statement sentencia = cn.createStatement();
-                    String horallegada = javax.swing.JOptionPane.showInputDialog("Asignar hora de llegada");
+                    horallegada = javax.swing.JOptionPane.showInputDialog("Asignar hora de llegada");
                     
                     if (horallegada.equals("")) {
-                        javax.swing.JOptionPane.showMessageDialog(null, "El Formato de horas debe ser 00:00, vuelva a intentarlo");  
+                        javax.swing.JOptionPane.showMessageDialog(null, "El Formato de horas debe ser 00:00, vuelva a intentarlo");
+                        //horallegada = javax.swing.JOptionPane.showInputDialog("Asignar hora de llegada");
                     } else {
 
                         if (horallegada.split(":").length!=2) {
                             javax.swing.JOptionPane.showMessageDialog(null, "El Formato de horas debe ser 00:00, vuelva a intentarlo");
+                            //horallegada = javax.swing.JOptionPane.showInputDialog("Asignar hora de llegada");
                         } else {
                             String[] desco=horallegada.split(":");
                              int com1=Integer.parseInt(desco[0]);
                              int com2=Integer.parseInt(desco[1]);
                              
                              if(com1<ho1){
-                               javax.swing.JOptionPane.showMessageDialog(null,"La hora asignada es menor a la hora de E/S");  
-                             }else{
+                               javax.swing.JOptionPane.showMessageDialog(null,"La hora asignada es menor a la hora de E/S");
+                               //horallegada = javax.swing.JOptionPane.showInputDialog("Asignar hora de llegada");
+                             }else if(com1 > 24 || com1 < 0){
+                               javax.swing.JOptionPane.showMessageDialog(null,"El rango de las horas debe estar entre las 00 y 24 horas, vuelva a intentarlo");   
+                               //horallegada = javax.swing.JOptionPane.showInputDialog("Asignar hora de llegada");
+                             }else if(com2 > 59 || com2 < 0){
+                               javax.swing.JOptionPane.showMessageDialog(null,"El rango de las horas debe estar entre las 00 y 59 minutos, vuelva a intentarlo");   
+                               //horallegada = javax.swing.JOptionPane.showInputDialog("Asignar hora de llegada");
+                             }                             
+                             else{
                                sentencia.executeUpdate("UPDATE solicitud_pase SET Hora_Llegada = '" + horallegada + "' WHERE Folio = '" + numfol[0] + "' AND Numero = '" + numfol[1] + "' AND Año = '" + fechag + "';");
                             //javax.swing.JOptionPane.showMessageDialog(null, horallegada); 
                             javax.swing.JOptionPane.showMessageDialog(null, "Hora de llegada actualizada");   

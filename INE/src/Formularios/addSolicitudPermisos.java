@@ -102,6 +102,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         jLabel12 = new javax.swing.JLabel();
         date_Salida = new com.toedter.calendar.JDateChooser();
         jlfechacompleta = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -118,34 +119,34 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         pn_addPermiso.setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Área:");
+        jLabel1.setText("*Área:");
         pn_addPermiso.add(jLabel1);
-        jLabel1.setBounds(90, 130, 36, 17);
+        jLabel1.setBounds(80, 125, 40, 17);
 
         txt_Puesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txt_Puesto.setEnabled(false);
         pn_addPermiso.add(txt_Puesto);
-        txt_Puesto.setBounds(140, 185, 410, 27);
+        txt_Puesto.setBounds(140, 185, 410, 23);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Puesto:");
+        jLabel2.setText("*Puesto:");
         pn_addPermiso.add(jLabel2);
-        jLabel2.setBounds(70, 190, 54, 17);
+        jLabel2.setBounds(65, 187, 60, 17);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setText("Asunto:");
+        jLabel3.setText("*Campos obligatorios");
         pn_addPermiso.add(jLabel3);
-        jLabel3.setBounds(70, 340, 54, 17);
+        jLabel3.setBounds(2, 490, 140, 17);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("Hora de E/S:");
+        jLabel4.setText("*Hora de E/S:");
         pn_addPermiso.add(jLabel4);
-        jLabel4.setBounds(40, 270, 86, 17);
+        jLabel4.setBounds(34, 262, 90, 17);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel5.setText("Horas:");
+        jLabel5.setText("*Horas:");
         pn_addPermiso.add(jLabel5);
-        jLabel5.setBounds(290, 310, 45, 17);
+        jLabel5.setBounds(280, 303, 50, 17);
 
         txt_Actividad.setColumns(20);
         txt_Actividad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -163,17 +164,17 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Folio:");
         pn_addPermiso.add(jLabel8);
-        jLabel8.setBounds(390, 50, 37, 17);
+        jLabel8.setBounds(390, 43, 32, 17);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel7.setText("Nombre:");
+        jLabel7.setText("*Nombre:");
         pn_addPermiso.add(jLabel7);
-        jLabel7.setBounds(70, 160, 60, 17);
+        jLabel7.setBounds(59, 155, 70, 17);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel10.setText("Por horario:");
+        jLabel10.setText("*Por horario:");
         pn_addPermiso.add(jLabel10);
-        jLabel10.setBounds(50, 90, 80, 17);
+        jLabel10.setBounds(40, 85, 90, 17);
 
         comboArea.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         comboArea.addActionListener(new java.awt.event.ActionListener() {
@@ -182,7 +183,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             }
         });
         pn_addPermiso.add(comboArea);
-        comboArea.setBounds(140, 123, 410, 25);
+        comboArea.setBounds(140, 123, 410, 21);
 
         comboEmpleados.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         comboEmpleados.addActionListener(new java.awt.event.ActionListener() {
@@ -191,7 +192,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             }
         });
         pn_addPermiso.add(comboEmpleados);
-        comboEmpleados.setBounds(140, 153, 410, 25);
+        comboEmpleados.setBounds(140, 153, 410, 21);
 
         btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
@@ -202,7 +203,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             }
         });
         pn_addPermiso.add(btnAceptar);
-        btnAceptar.setBounds(180, 460, 120, 36);
+        btnAceptar.setBounds(180, 460, 120, 33);
 
         btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
@@ -213,7 +214,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             }
         });
         pn_addPermiso.add(btnCancelar);
-        btnCancelar.setBounds(330, 460, 120, 36);
+        btnCancelar.setBounds(330, 460, 120, 33);
 
         comboHorario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "De Entrada", "Intermedio", "De Salida" }));
         comboHorario.addActionListener(new java.awt.event.ActionListener() {
@@ -222,51 +223,51 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             }
         });
         pn_addPermiso.add(comboHorario);
-        comboHorario.setBounds(140, 83, 126, 28);
+        comboHorario.setBounds(140, 83, 87, 20);
 
         comboAsunto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "Particular", "Oficial", "Médico" }));
         pn_addPermiso.add(comboAsunto);
-        comboAsunto.setBounds(423, 83, 126, 28);
+        comboAsunto.setBounds(423, 83, 87, 20);
 
         JSpinner.DateEditor de = new JSpinner.DateEditor(hora_e_s,"HH:mm");
         hora_e_s.setEditor(de);
         pn_addPermiso.add(hora_e_s);
-        hora_e_s.setBounds(140, 260, 110, 28);
+        hora_e_s.setBounds(140, 260, 90, 20);
 
         txt_hora_llegada.setEditable(false);
         txt_hora_llegada.setEnabled(false);
         pn_addPermiso.add(txt_hora_llegada);
-        txt_hora_llegada.setBounds(140, 300, 110, 28);
+        txt_hora_llegada.setBounds(140, 300, 110, 20);
 
         txt_horas.setEditable(false);
         txt_horas.setEnabled(false);
         pn_addPermiso.add(txt_horas);
-        txt_horas.setBounds(340, 300, 110, 28);
+        txt_horas.setBounds(340, 300, 110, 20);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel11.setText("Hora de llegada:");
+        jLabel11.setText("  Hora de llegada:");
         pn_addPermiso.add(jLabel11);
-        jLabel11.setBounds(20, 310, 112, 17);
+        jLabel11.setBounds(14, 302, 110, 17);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel9.setText("Por asunto:");
+        jLabel9.setText("*Por asunto:");
         pn_addPermiso.add(jLabel9);
-        jLabel9.setBounds(330, 90, 80, 17);
+        jLabel9.setBounds(333, 86, 80, 17);
 
         txt_Folio.setEditable(false);
         pn_addPermiso.add(txt_Folio);
-        txt_Folio.setBounds(430, 40, 120, 28);
+        txt_Folio.setBounds(430, 40, 120, 20);
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel12.setText("Fecha de entrada:");
+        jLabel12.setText("*Fecha de entrada:");
         pn_addPermiso.add(jLabel12);
-        jLabel12.setBounds(6, 230, 126, 17);
+        jLabel12.setBounds(5, 222, 120, 17);
 
         date_Salida.setDateFormatString("d-MM-yyyy");
         date_Salida.setEnabled(false);
         date_Salida.setFocusable(false);
         pn_addPermiso.add(date_Salida);
-        date_Salida.setBounds(140, 220, 215, 28);
+        date_Salida.setBounds(140, 220, 215, 20);
         date_Salida.getDateEditor().addPropertyChangeListener(
             new java.beans.PropertyChangeListener() {
                 @Override
@@ -279,7 +280,12 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
 
             jlfechacompleta.setText(".");
             pn_addPermiso.add(jlfechacompleta);
-            jlfechacompleta.setBounds(307, 10, 280, 18);
+            jlfechacompleta.setBounds(307, 10, 280, 14);
+
+            jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+            jLabel13.setText("*Asunto:");
+            pn_addPermiso.add(jLabel13);
+            jLabel13.setBounds(65, 335, 60, 17);
 
             jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
             pn_addPermiso.add(jLabel6);
@@ -378,6 +384,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             horas="";
         }
         
+        
         String tipohorario=comboHorario.getSelectedItem().toString();
         String tipoasunto=comboAsunto.getSelectedItem().toString();
         String asunto=txt_Actividad.getText();
@@ -436,7 +443,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             txt_Folio.setBackground(Color.GREEN);
             
         }else{
-            System.out.printf("ERROR!! al cargar las areas");
+            //System.out.printf("ERROR!! al cargar las areas");
         }
         
     }//GEN-LAST:event_comboAreaActionPerformed
@@ -651,6 +658,20 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             else{
                 cad+="\n-No se ha insertado el formato de las horas, vuelva a intentarlo";
             }
+        }else if(Integer.parseInt(txt_horas.getText().split(":")[0]) > 24 || Integer.parseInt(txt_horas.getText().split(":")[0]) < 0){
+            if(cad.equals("")){ 
+                cad+="-El rango de las horas debe estar entre las 00 y 24 horas, vuelva a intentarlo";
+            }
+            else{
+                cad+="\n-El rango de las horas debe estar entre las 00 y 24 horas, vuelva a intentarlo";
+            }
+        }else if(Integer.parseInt(txt_horas.getText().split(":")[1]) > 59 || Integer.parseInt(txt_horas.getText().split(":")[1]) < 0){
+            if(cad.equals("")){ 
+                cad+="-El rango de las horas debe estar entre las 00 y 59 minutos, vuelva a intentarlo";
+            }
+            else{
+                cad+="\n-El rango de las horas debe estar entre las 00 y 59 minutos, vuelva a intentarlo";
+            }
         }
         }
         if(txt_Puesto.getText().equals("")){
@@ -761,6 +782,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

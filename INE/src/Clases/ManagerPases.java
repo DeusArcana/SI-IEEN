@@ -21,13 +21,14 @@ import javax.swing.table.DefaultTableModel;
  * @author guillermo
  */
 public class ManagerPases {
-    private Connection conexion;
-    private Conexion db;
+    Conexion db;
+    Connection conexion;
     public static DefaultTableModel modelo;
 
     public ManagerPases() {
         db = new Conexion();
         modelo = new DefaultTableModel();
+        //conexion = db.getConexion();
     }
     
     public DefaultTableModel getTasolpa(String year) {
@@ -92,6 +93,7 @@ public class ManagerPases {
 
                 tapa.addRow(datos);//Añadimos la fila
            }//while
+            st.close();
             conexion.close();
         } catch (SQLException ex) {
             System.out.printf("Error getTabla solicitudpase SQL");
@@ -135,6 +137,7 @@ public class ManagerPases {
                 combo.addItem(rs.getObject(1).toString());
             }
             
+            st.close();
             conexion.close();
         } catch (SQLException ex) {
             System.out.printf("Error al obtener las areas para ingresarlos al combo SQL");
@@ -153,6 +156,7 @@ public class ManagerPases {
             rs.next();
             String abre = rs.getString(1);
             
+            st.close();
             conexion.close();
             return abre;
         } catch (SQLException ex) {
@@ -174,6 +178,7 @@ public class ManagerPases {
             rs.next();
             String abre = rs.getString(1);
             
+            st.close();
             conexion.close();
             return abre;
         } catch (SQLException ex) {
@@ -195,6 +200,7 @@ public class ManagerPases {
             rs.next();
             String abre = rs.getString(1);
             
+            st.close();
             conexion.close();
             return abre;
         } catch (SQLException ex) {
@@ -218,7 +224,7 @@ public class ManagerPases {
             while(rs.next()){
                 combo.addItem(rs.getObject(1).toString());
             }
-            
+            st.close();
             conexion.close();
         } catch (SQLException ex) {
             System.out.printf("Error al obtener los nombres de los empleados para ingresarlos al combo SQL");
@@ -234,12 +240,13 @@ public class ManagerPases {
            sql = "select * from acceder_year order by Year DESC;";  
            
             conexion = db.getConexion();
-            Statement st = conexion.createStatement();
+            Statement st = conexion.createStatement(); 
             ResultSet rs = st.executeQuery(sql);
             while(rs.next()){
                 combo.addItem(rs.getObject(1).toString());
             }
             
+            st.close();
             conexion.close();
         } catch (SQLException ex) {
             System.out.printf("Error al obtener los años para ingresarlos al combo SQL");
@@ -265,6 +272,7 @@ public class ManagerPases {
             String puesto = rs.getString(1);
             
             //Cerramos la conexión
+            st.close();
             conexion.close();
             return puesto;
             
