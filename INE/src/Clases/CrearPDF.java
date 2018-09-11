@@ -471,7 +471,7 @@ public class CrearPDF {
         //Label presidente
         cb.setFontAndSize(bfNoNegritas,12);
         cb.setTextMatrix(350,120+espacio);
-        cb.showText("Consejero presidente");
+        cb.showText("Director administrativo");
         
         
         //Fin del contenido
@@ -661,58 +661,47 @@ public class CrearPDF {
             cb.setFontAndSize(bf, 16);
             cb.setTextMatrix(200,750);
             cb.showText("Reporte de actividad");
-            //Label nombre
-            cb.setFontAndSize(bfNoNegritas, size);
-            cb.setTextMatrix(50,700);
-            cb.showText("Nombre: ");
-            //Nombre base de datos
-            cb.setFontAndSize(bf, size);
-            cb.setTextMatrix(120,700);
-            datos=conexion.acceder("select S.nombre from informe I inner join solicitud_viatico S on I.Solicitud_idSolicitud =S.idSolicitud;");
-            cb.showText(datos.get(0));
-            //Label puesto
-            cb.setFontAndSize(bfNoNegritas, size);
-            cb.setTextMatrix(50,675);
-            cb.showText("Puesto: ");
-            //Puesto base de datos
-            cb.setFontAndSize(bf,size);
-            cb.setTextMatrix(120,675);
-            datos=conexion.acceder("select S.puesto from informe I inner join solicitud_viatico S on I.Solicitud_idSolicitud =S.idSolicitud where I.id_informe="+idInforme);
-            cb.showText(datos.get(0));
             //Label Folio de oficio
             cb.setFontAndSize(bfNoNegritas, size);
-            cb.setTextMatrix(50,650);
-            cb.showText("Folio de oficio de comision:");
+            cb.setTextMatrix(400,750);
+            cb.showText("Folio de comision:");
             //Folio base de datos
             cb.setFontAndSize(bf, size);
-            cb.setTextMatrix(250,650);
+            cb.setTextMatrix(500,750);
             datos=conexion.acceder("select O.folio from informe I inner join solicitud_viatico S on I.Solicitud_idSolicitud =S.idSolicitud inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where I.id_informe="+idInforme);
             cb.showText(datos.get(0));
             //Label fecha
             cb.setFontAndSize(bfNoNegritas, size);
-            cb.setTextMatrix(50,625);
+            cb.setTextMatrix(50,700);
             cb.showText("Periodo de viaticos:");
             //Fecha base de datos
             cb.setFontAndSize(bf,size);
-            cb.setTextMatrix(200,625);
+            cb.setTextMatrix(200,700);
             datos=conexion.acceder("select S.fecha_salida,S.fecha_llegada from solicitud_viatico S inner join informe I on S.idSolicitud=I.Solicitud_idSolicitud where I.id_informe="+idInforme);
-            cb.showText(datos.get(0)+" - "+datos.get(1));
+            cb.showText(datos.get(0)+" al "+datos.get(1));
             //Label monto
             cb.setFontAndSize(bfNoNegritas, size);
-            cb.setTextMatrix(50,600);
-            cb.showText("Monto: ");
+            cb.setTextMatrix(50,675);
+            cb.showText("Lugar: ");
             //Monto base de datos
             cb.setFontAndSize(bf, size);
-            cb.setTextMatrix(120,600);
-            datos=conexion.acceder("select C.monto from oficio_comision C inner join solicitud_viatico S on C.Solicitud_idSolicitud=S.idSolicitud inner join informe I on S.idSolicitud=I.Solicitud_idSolicitud where I.id_informe="+idInforme);
+            cb.setTextMatrix(120,675);
+            datos=conexion.acceder("select S.Lugar from oficio_comision C inner join solicitud_viatico S on C.Solicitud_idSolicitud=S.idSolicitud inner join informe I on S.idSolicitud=I.Solicitud_idSolicitud where I.id_informe="+idInforme);
             cb.showText(datos.get(0));
+            //Actividad
+            cb.setFontAndSize(bfNoNegritas, size);
+            cb.setTextMatrix(50,625);
+            cb.showText("Actividad: ");
+            //
+            datos=datos=conexion.acceder("select S.Actividad from oficio_comision C inner join solicitud_viatico S on C.Solicitud_idSolicitud=S.idSolicitud inner join informe I on S.idSolicitud=I.Solicitud_idSolicitud where I.id_informe="+idInforme);
+            acomodar_Actividad(datos.get(0),cb,bf,600);
             //Observaciones
             cb.setFontAndSize(bfNoNegritas, size);
-            cb.setTextMatrix(50,575);
+            cb.setTextMatrix(50,425);
             cb.showText("Observaciones: ");
             //Observaciones base de datos
             datos=conexion.acceder("select I.observaciones from informe I where I.id_informe="+idInforme);
-            acomodar_Actividad(datos.get(0),cb,bf,550);
+            acomodar_Actividad(datos.get(0),cb,bf,400);
             int espacio=0;
             /*datos=conexion.acceder("select S.vehiculo from informe I inner join solicitud_viatico S on I.Solicitud_idSolicitud=S.idSolicitud where I.id_informe="+idInforme);
             if(!datos.get(0).equals("Seleccione el vehículo")){
@@ -736,19 +725,33 @@ public class CrearPDF {
                     espacio=-60;
                     //Label vehiculo
                     cb.setFontAndSize(bfNoNegritas,12);
-                    cb.setTextMatrix(50,375);
+                    cb.setTextMatrix(50,300);
                     cb.showText("Observaciones del vehículo:                Kilometraje: ");
                     //----
                     cb.setFontAndSize(bf,12);
-                    cb.setTextMatrix(350,375);
+                    cb.setTextMatrix(350,300);
                     cb.showText(aux.getString("kilometraje"));                
                     //Vehiculo base de datos
                     cb.setFontAndSize(bf,12);
-                    cb.setTextMatrix(50,350);
+                    cb.setTextMatrix(50,275);
                     cb.showText(rs.getString("Observaciones_Vehiculo"));
+                    
                 }
             }
-            
+            //
+            cb.setFontAndSize(bfNoNegritas,12);
+            cb.setTextMatrix(150,150);
+            cb.showText("_________________________________");
+            //Nombre base de datos
+            cb.setFontAndSize(bf, size);
+            cb.setTextMatrix(150,125);
+            datos=conexion.acceder("select S.nombre from informe I inner join solicitud_viatico S on I.Solicitud_idSolicitud =S.idSolicitud;");
+            cb.showText(datos.get(0));
+            //Puesto base de datos
+            cb.setFontAndSize(bf,size);
+            cb.setTextMatrix(150,100);
+            datos=conexion.acceder("select S.puesto from informe I inner join solicitud_viatico S on I.Solicitud_idSolicitud =S.idSolicitud where I.id_informe="+idInforme);
+            cb.showText(datos.get(0));
             //Fin del contenido
             cb.endText();
             ArrayList<String> indices=new ArrayList<String>();
@@ -805,7 +808,7 @@ public class CrearPDF {
     public static void main(String[] args){
         CrearPDF a=new CrearPDF();
         try{
-            a.generarPDF();
+            a.reporte("1");
             //a.generarPDF();
         }catch(Exception e){}
     }
