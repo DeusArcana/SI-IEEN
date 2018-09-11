@@ -30,6 +30,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
@@ -186,6 +187,11 @@ public class PrincipalS extends javax.swing.JFrame {
         tabloncanceladas = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel6 = new javax.swing.JLabel();
         btnActualizar = new javax.swing.JButton();
+        btnbuscarporfecha = new javax.swing.JButton();
+        fechainicio = new com.toedter.calendar.JDateChooser();
+        fechafinal = new com.toedter.calendar.JDateChooser();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         informe = new javax.swing.JPanel();
         jlb = new javax.swing.JLabel();
@@ -957,6 +963,35 @@ public class PrincipalS extends javax.swing.JFrame {
         tablonsolicitud1.add(btnActualizar);
         btnActualizar.setBounds(1060, 120, 120, 30);
 
+        btnbuscarporfecha.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        btnbuscarporfecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/buscar.png"))); // NOI18N
+        btnbuscarporfecha.setText("Buscar por fecha");
+        btnbuscarporfecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnbuscarporfechaActionPerformed(evt);
+            }
+        });
+        tablonsolicitud1.add(btnbuscarporfecha);
+        btnbuscarporfecha.setBounds(750, 120, 150, 30);
+        tablonsolicitud1.add(fechainicio);
+        fechainicio.setBounds(600, 110, 130, 20);
+        Calendar cb1 = new GregorianCalendar();
+        fechainicio.setCalendar(cb1);
+        tablonsolicitud1.add(fechafinal);
+        fechafinal.setBounds(600, 140, 130, 20);
+        Calendar cb2 = new GregorianCalendar();
+        fechafinal.setCalendar(cb2);
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel4.setText("Fecha final");
+        tablonsolicitud1.add(jLabel4);
+        jLabel4.setBounds(532, 140, 60, 15);
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel8.setText("Fecha de inicio");
+        tablonsolicitud1.add(jLabel8);
+        jLabel8.setBounds(510, 110, 80, 15);
+
         jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         tablonsolicitud1.add(jLabel28);
         jLabel28.setBounds(0, 0, 1366, 769);
@@ -1590,58 +1625,90 @@ public class PrincipalS extends javax.swing.JFrame {
                     String tarifa = "";
                     float tarif = 0;
                     if (et[0].equals("Nayarit")) {
-                        if (et[1].equals("Bahía de Banderas")) {
+                        float tarifMayor = 0;
+                    for (int i = 1; i < et.length; i++) {
+                        if (et[i].equals("Bahía de Banderas")) {
                             if (dias == 0) {
-                                ResultSet rs3 = cbd.getTabla("SELECT SinPernoctarBDB FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'",cn);
+                                ResultSet rs3 = sentencia.executeQuery("SELECT SinPernoctarBDB FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
                                 while (rs3.next()) {
                                     tarifa = rs3.getString("SinPernoctarBDB");
                                 }
+                                tarif = Float.parseFloat(tarifa);
+                                if (tarif > tarifMayor) {
+                                    tarifMayor = tarif;
+                                    tarifa = tarifMayor + "";
+                                }
                             } else {
-                                ResultSet rs3 = cbd.getTabla("SELECT PernoctandoBDB FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'",cn);
+                                ResultSet rs3 = sentencia.executeQuery("SELECT PernoctandoBDB FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
                                 while (rs3.next()) {
                                     tarifa = rs3.getString("PernoctandoBDB");
                                 }
                                 tarif = Float.parseFloat(tarifa);
                                 tarif = (tarif * dias) + tarif;
-                                tarifa = tarif + "";
+                                if (tarif > tarifMayor) {
+                                    tarifMayor = tarif;
+                                    tarifa = tarifMayor + "";
+                                }
                             }
                         } else {
-                            if (et[1].equals("Tepic") || et[1].equals("Xalisco")) {
+                            if (et[i].equals("Tepic") || et[i].equals("Xalisco")) {
                                 tarifa = "0.00";
+                                tarif = Float.parseFloat(tarifa);
+                                if (tarif > tarifMayor) {
+                                    tarifMayor = tarif;
+                                    tarifa = tarifMayor + "";
+                                }
                             } else {
-                                if (et[1].equals("Acaponeta") || et[1].equals("Amatlán de Cañas") || et[1].equals("El Nayar") || et[1].equals("Huajicori") || et[1].equals("La Yesca") || et[1].equals("Tecuala")) {
+                                if (et[i].equals("Acaponeta") || et[i].equals("Amatlán de Cañas") || et[i].equals("El Nayar") || et[i].equals("Huajicori") || et[i].equals("La Yesca") || et[i].equals("Tecuala")) {
                                     if (dias == 0) {
-                                        ResultSet rs3 = cbd.getTabla("SELECT  SinPernoctar100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'",cn);
+                                        ResultSet rs3 = sentencia.executeQuery("SELECT  SinPernoctar100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
                                         while (rs3.next()) {
                                             tarifa = rs3.getString("SinPernoctar100");
                                         }
+                                        tarif = Float.parseFloat(tarifa);
+                                        if (tarif > tarifMayor) {
+                                            tarifMayor = tarif;
+                                            tarifa = tarifMayor + "";
+                                        }
                                     } else {
-                                        ResultSet rs3 = cbd.getTabla("SELECT Pernoctando100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'",cn);
+                                        ResultSet rs3 = sentencia.executeQuery("SELECT Pernoctando100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
                                         while (rs3.next()) {
                                             tarifa = rs3.getString("Pernoctando100");
                                         }
                                         tarif = Float.parseFloat(tarifa);
                                         tarif = (tarif * dias) + tarif;
-                                        tarifa = tarif + "";
+                                        if (tarif > tarifMayor) {
+                                            tarifMayor = tarif;
+                                            tarifa = tarifMayor + "";
+                                        }
                                     }
                                 } else {
                                     if (dias == 0) {
-                                        ResultSet rs3 = cbd.getTabla("SELECT  SinPernoctar30100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'",cn);
+                                        ResultSet rs3 = sentencia.executeQuery("SELECT  SinPernoctar30100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
                                         while (rs3.next()) {
                                             tarifa = rs3.getString("SinPernoctar30100");
                                         }
+                                        tarif = Float.parseFloat(tarifa);
+                                        if (tarif > tarifMayor) {
+                                            tarifMayor = tarif;
+                                            tarifa = tarifMayor + "";
+                                        }
                                     } else {
-                                        ResultSet rs3 = cbd.getTabla("SELECT Pernoctando30100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'",cn);
+                                        ResultSet rs3 = sentencia.executeQuery("SELECT Pernoctando30100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
                                         while (rs3.next()) {
                                             tarifa = rs3.getString("Pernoctando30100");
                                         }
                                         tarif = Float.parseFloat(tarifa);
                                         tarif = (tarif * dias) + tarif;
-                                        tarifa = tarif + "";
+                                        if (tarif > tarifMayor) {
+                                            tarifMayor = tarif;
+                                            tarifa = tarifMayor + "";
+                                        }
                                     }
                                 }
                             }
                         }
+                    }
                     } else {
                         if (dias == 0) {
                             ResultSet rs3 = cbd.getTabla("SELECT SinPernoctarFDE FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'",cn);
@@ -1823,9 +1890,57 @@ public class PrincipalS extends javax.swing.JFrame {
                         }
                     }
                     javax.swing.JOptionPane.showMessageDialog(null, "Reporte Generado");
+                    /////////////////////
+                    btnregresar1.setVisible(false);
+                    txtobvia.setText("");
+                    txtobveh.setText("");
+                    GaTot.setText("");
+                    txtobvia.enable(false);
+                    txtobveh.enable(false);
+                    txtobvia.setVisible(false);
+                    txtobveh.setVisible(false);
+                    btnregresar.setVisible(false);
+                    btnguardar.setVisible(false);
+                    tablainfo.enable(true);
+                    jlb.setVisible(true);
+                    txtbusquedasoli2.setVisible(true);
+                    jLabel1.setVisible(false);
+                    lblObsVehiculo.setVisible(false);
+                    jLabel3.setVisible(false);
+                    GaTot.enable(false);
+                    GaTot.setVisible(false);
+                    jScrollPane3.setVisible(false);
+                    jScrollPane1.setVisible(true);
+                    lblKilometraje.setVisible(false);
+                    txtKilometraje.setVisible(false);
+                    ////////////////////
                 } else {
                     sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Solicitud_idSolicitud) VALUES('" + txtobvia.getText() + "','" + txtobveh.getText() + "'," + id + ")");
                     javax.swing.JOptionPane.showMessageDialog(null, "Reporte Generado");
+                    /////////////////////
+                    btnregresar1.setVisible(false);
+                    txtobvia.setText("");
+                    txtobveh.setText("");
+                    GaTot.setText("");
+                    txtobvia.enable(false);
+                    txtobveh.enable(false);
+                    txtobvia.setVisible(false);
+                    txtobveh.setVisible(false);
+                    btnregresar.setVisible(false);
+                    btnguardar.setVisible(false);
+                    tablainfo.enable(true);
+                    jlb.setVisible(true);
+                    txtbusquedasoli2.setVisible(true);
+                    jLabel1.setVisible(false);
+                    lblObsVehiculo.setVisible(false);
+                    jLabel3.setVisible(false);
+                    GaTot.enable(false);
+                    GaTot.setVisible(false);
+                    jScrollPane3.setVisible(false);
+                    jScrollPane1.setVisible(true);
+                    lblKilometraje.setVisible(false);
+                    txtKilometraje.setVisible(false);
+                    ////////////////////
                 }
                 if (c == 1) {
                     txtobvia.enable(false);
@@ -2320,6 +2435,8 @@ public class PrincipalS extends javax.swing.JFrame {
             GaTot.setVisible(false);
             jScrollPane3.setVisible(false);
             jScrollPane1.setVisible(true);
+            lblKilometraje.setVisible(false);
+            txtKilometraje.setVisible(false);
             if(idArea>0){
                 Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea);
                 SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area="+idArea+" ORDER BY I.Id_Informe DESC");
@@ -2602,7 +2719,7 @@ public class PrincipalS extends javax.swing.JFrame {
     private void tablonarchivadasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablonarchivadasMouseReleased
         // TODO add your handling code here:
         guardargac.setVisible(true);
-        if (SwingUtilities.isRightMouseButton(evt)) {
+        if (SwingUtilities.isLeftMouseButton(evt)) {
             int r = tablonarchivadas.rowAtPoint(evt.getPoint());
             if (r >= 0 && r < tablonarchivadas.getRowCount()) {
                 tablonarchivadas.setRowSelectionInterval(r, r);
@@ -2631,6 +2748,13 @@ public class PrincipalS extends javax.swing.JFrame {
 
             } else {
                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            }
+            MenuTablonAr.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            int r = tablonarchivadas.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablonarchivadas.getRowCount()) {
+                tablonarchivadas.setRowSelectionInterval(r, r);
             }
             MenuTablonAr.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
         }//clic derecho
@@ -3283,6 +3407,251 @@ public class PrincipalS extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_btnActualizarInformeActionPerformed
 
+    private void btnbuscarporfechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscarporfechaActionPerformed
+        // TODO add your handling code here:
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        String fecha_inicio=sdf.format(fechainicio.getDate().getTime());
+        String fecha_final=sdf.format(fechafinal.getDate().getTime());
+        if (menutablones.getSelectedIndex() == 0) {
+            modelo = new DefaultTableModel() {
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return false;
+                }
+            };
+            modelo.addColumn("ID");
+            modelo.addColumn("Tipo de solicitud");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Puesto");
+            modelo.addColumn("Fecha de salida");
+            modelo.addColumn("Fecha de llegada");
+            modelo.addColumn("Lugar");
+            this.tablonpendientes.setModel(modelo);
+            try {
+
+                Statement sentencia = cn.createStatement();
+
+                ResultSet rs = cbd.getTabla("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'P' AND (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') ",cn);
+
+                String solicitud[] = new String[7];
+                while (rs.next()) {
+                    solicitud[0] = rs.getString("idSolicitud");
+                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                    if(aux.next()){
+                        solicitud[1]="Vehículo";
+                    }else{
+                        solicitud[1]="Viático";
+                    }
+                    solicitud[2] = rs.getString("Nombre");
+                    solicitud[3] = rs.getString("Puesto");
+                    solicitud[4] = rs.getString("Fecha_salida");
+                    solicitud[5] = rs.getString("Fecha_llegada");
+                    solicitud[6] = rs.getString("Lugar");
+                    modelo.addRow(solicitud);
+                }
+                sentencia.close();
+            } catch (SQLException ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+
+            }
+        }
+        if (menutablones.getSelectedIndex() == 1) {
+            modelo = new DefaultTableModel() {
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return false;
+                }
+            };
+            modelo.addColumn("Folio");
+            modelo.addColumn("Tipo de solicitud");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Puesto");
+            modelo.addColumn("Monto");
+            modelo.addColumn("Fecha de salida");
+            modelo.addColumn("Fecha de llegada");
+            modelo.addColumn("Lugar");
+            this.tablonaceptadas.setModel(modelo);
+            try {
+
+                Statement sentencia = cn.createStatement();
+
+                ResultSet rs = cbd.getTabla("SELECT O.Folio,S.nombre, S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud AND (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') ",cn);
+
+                String solicitud[] = new String[8];
+                while (rs.next()) {
+                    solicitud[0] = rs.getString("Folio");
+                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                    if(aux.next()){
+                        solicitud[1]="Vehículo";
+                    }else{
+                        solicitud[1]="Viático";
+                    }
+                    solicitud[2] = rs.getString("Nombre");
+                    solicitud[3] = rs.getString("Puesto");
+                    solicitud[4] = rs.getString("Monto");
+                    solicitud[5] = rs.getString("Fecha_salida");
+                    solicitud[6] = rs.getString("Fecha_llegada");
+                    solicitud[7] = rs.getString("Lugar");
+                    modelo.addRow(solicitud);
+                }
+                sentencia.close();
+            } catch (SQLException ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+
+            }
+        }
+        if (menutablones.getSelectedIndex() == 2) {
+            JTable checks = new JTable();//{  public boolean isCellEditable(int rowIndex, int colIndex){ if(colIndex == 0){return true;} else{return false; } }  };
+            JScrollPane scroll = new JScrollPane();        
+            DefaultTableModel table = new DefaultTableModel();
+
+            //Creamos la tabla con las caracterisiticas que necesitamos
+            checks.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+            checks.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+
+                },
+                //Declaramos el titulo de las columnas
+                new String []{
+                    "Folio ","Tipo de solicitud","Nombre","Puesto","Monto", "Fecha de salida", "Fecha de llegada", "Lugar", "Gastos a comprobar", "Informe"
+                }
+            ){
+                //El tipo que sera cada columna, la primera columna un checkbox y los demas seran objetos
+                Class[] types = new Class [] {
+                    java.lang.Object.class,
+                    java.lang.Object.class,
+                    java.lang.Object.class,
+                    java.lang.Object.class,
+                    java.lang.Object.class,
+                    java.lang.Object.class,
+                    java.lang.Object.class,
+                    java.lang.Object.class,
+                    java.lang.Boolean.class,
+                    java.lang.Object.class
+                };
+
+                public Class getColumnClass(int columnIndex) {
+                    return types [columnIndex];
+                }
+                //Esto es para indicar que columnas dejaremos editar o no
+                boolean[] canEdit = new boolean [] {
+                    false, 
+                    false,
+                    false,
+                    false, 
+                    false,
+                    false,
+                    false,
+                    false,
+                    true, 
+                    false
+                };
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit [columnIndex];
+                }
+
+              }
+
+            );
+            //Agregamos un scroll a la tabla
+            scroll.setViewportView(checks);
+            scroll.setBounds(30, 130, 1110, 500);
+
+            table = (DefaultTableModel)checks.getModel();
+
+            try {
+                //conexion = db.getConexion();
+                String sql="SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "')  ORDER BY O.FOLIO DESC";
+                ResultSet usuario=cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+                usuario.next();
+                if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
+                    sql="SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "')  ORDER BY O.FOLIO DESC";
+                }else{
+                    usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                    usuario.next();
+                    sql = "SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and nombre='"+usuario.getString("nombre")+"' and (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') order by O.Folio DESC";
+                }
+                Statement sentencia = cn.createStatement();
+                Object datos[] = new Object[10];
+                ResultSet rs = cbd.getTabla(sql,cn);
+                //Llenar tabla
+                while (rs.next()) {
+                    int indexDatos=0;
+                    for(int i = 0;i<9;i++){
+                        if(indexDatos==1){
+                            indexDatos=2;
+                        }
+                        if(i == 7){
+                            datos[indexDatos]=rs.getBoolean(i+1);
+                        }else{
+                            datos[indexDatos] = rs.getObject(i+1);
+                        }
+                        indexDatos++;
+
+                    }//Llenamos las columnas por registro
+                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                    if(aux.next()){
+                        datos[1]="Vehículo";
+                    }else{
+                        datos[1]="Viático";
+                    }
+                    table.addRow(datos);//Añadimos la fila
+               }//while
+                //cn.close();
+                sentencia.close();
+            } catch (SQLException ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta de Solicitudes Archivadas");
+
+            }finally {
+
+                tablonarchivadas.setModel(table);
+            }
+        }
+        if (menutablones.getSelectedIndex() == 3) {
+            modelo = new DefaultTableModel() {
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return false;
+                }
+            };
+            modelo.addColumn("ID");
+            modelo.addColumn("Tipo de solicitud");            
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Puesto");
+            modelo.addColumn("Fecha de salida");
+            modelo.addColumn("Fecha de llegada");
+            modelo.addColumn("Lugar");
+            modelo.addColumn("Motivo");
+            this.tabloncanceladas.setModel(modelo);
+            try {
+
+                Statement sentencia = cn.createStatement();
+
+                ResultSet rs = cbd.getTabla("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar, Motivo FROM Solicitud_viatico WHERE Estado = 'C' AND (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') order by idSolicitud DESC",cn);
+
+                String solicitud[] = new String[8];
+                while (rs.next()) {
+                    solicitud[0] = rs.getString("idSolicitud");
+                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                    if(aux.next()){
+                        solicitud[1]="Vehículo";
+                    }else{
+                        solicitud[1]="Viático";
+                    }
+                    solicitud[2] = rs.getString("Nombre");
+                    solicitud[3] = rs.getString("Puesto");
+                    solicitud[4] = rs.getString("Fecha_salida");
+                    solicitud[5] = rs.getString("Fecha_llegada");
+                    solicitud[6] = rs.getString("Lugar");
+                    solicitud[7] = rs.getString("Motivo");
+                    modelo.addRow(solicitud);
+                }
+                sentencia.close();
+            } catch (SQLException ex) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
+
+            }
+        }
+    }//GEN-LAST:event_btnbuscarporfechaActionPerformed
+
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3517,10 +3886,13 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JButton btnActualizarInforme;
     private javax.swing.JButton btnActualizarSolic;
     private javax.swing.JButton btnAddInventario2;
+    private javax.swing.JButton btnbuscarporfecha;
     private javax.swing.JButton btnguardar;
     private javax.swing.JButton btnregresar;
     private javax.swing.JButton btnregresar1;
     private javax.swing.JComboBox cmbArea;
+    private com.toedter.calendar.JDateChooser fechafinal;
+    private com.toedter.calendar.JDateChooser fechainicio;
     private javax.swing.JButton guardargac;
     private javax.swing.JPanel informe;
     private javax.swing.JMenuItem itemSalir;
@@ -3533,9 +3905,11 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem2;
