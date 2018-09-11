@@ -247,7 +247,7 @@ public class ManagerSoViaticos {
                     datos[datoIndex] = rs.getObject(i+1);
                     datoIndex++;
                 }//Llenamos las columnas por registro
-                ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
                 if(aux.next()){
                     datos[1]="Vehículo";
                 }else{
@@ -304,7 +304,7 @@ public class ManagerSoViaticos {
                     datos[indexDatos] = rs.getObject(i+1);
                     indexDatos++;
                 }//Llenamos las columnas por registro
-                ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
                 if(aux.next()){
                     datos[1]="Vehículo";
                 }else{
@@ -358,7 +358,7 @@ public class ManagerSoViaticos {
                     datos[indexDatos] = rs.getObject(i+1);
                     indexDatos++;
                 }//Llenamos las columnas por registro
-                ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
                 if(aux.next()){
                     datos[1]="Vehículo";
                 }else{
@@ -501,7 +501,7 @@ public class ManagerSoViaticos {
                     indexDatos++;
                     
                 }//Llenamos las columnas por registro
-                ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
                 if(aux.next()){
                     datos[1]="Vehículo";
                 }else{

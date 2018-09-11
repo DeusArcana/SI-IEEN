@@ -1059,9 +1059,11 @@ public class PrincipalS extends javax.swing.JFrame {
         jPanel1.add(GaTot);
         GaTot.setBounds(210, 440, 240, 20);
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 66, 0));
         jLabel3.setText("Gasto total");
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(140, 440, 70, 14);
+        jLabel3.setBounds(100, 440, 110, 22);
 
         btnguardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/guardarsol.png"))); // NOI18N
         btnguardar.setText("Guardar");
@@ -1108,6 +1110,11 @@ public class PrincipalS extends javax.swing.JFrame {
         tablaact.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tablaactMouseReleased(evt);
+            }
+        });
+        tablaact.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tablaactKeyPressed(evt);
             }
         });
         jScrollPane3.setViewportView(tablaact);
@@ -1908,6 +1915,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     lblObsVehiculo.setVisible(false);
                     jLabel3.setVisible(false);
                     GaTot.enable(false);
+                    btnActualizarInforme.setVisible(true);
                     GaTot.setVisible(false);
                     jScrollPane3.setVisible(false);
                     jScrollPane1.setVisible(true);
@@ -1981,6 +1989,7 @@ public class PrincipalS extends javax.swing.JFrame {
     }
     private void txtbusquedasoli2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedasoli2KeyReleased
         // TODO add your handling code here:
+        String soloUsuarioActual="";
         if (menuInforme.getSelectedIndex() == 0) {
             modelo = new DefaultTableModel() {
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1994,10 +2003,21 @@ public class PrincipalS extends javax.swing.JFrame {
             modelo.addColumn("Monto");
             this.tablainfo.setModel(modelo);
             try {
+                
+                ResultSet usuario;
+                usuario = cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+                usuario.next();
+                if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
+                    soloUsuarioActual="";
+                }else{
+                    usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                    usuario.next();
+                    soloUsuarioActual=" and nombre='"+usuario.getString("nombre")+"'";
+                }
                 Statement sentencia = cn.createStatement();
 
                 ResultSet rs = cbd.getTabla("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 AND (O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%'"
-                        + "OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Actividad LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Lugar LIKE '%" + txtbusquedasoli2.getText() + "%'OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%') ",cn);
+                        + "OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Actividad LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Lugar LIKE '%" + txtbusquedasoli2.getText() + "%'OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%') "+soloUsuarioActual+" order by idSolicitud",cn);
 
                 String solicitud[] = new String[5];
                 while (rs.next()) {
@@ -2029,7 +2049,7 @@ public class PrincipalS extends javax.swing.JFrame {
             try {
                 Statement sentencia = cn.createStatement();
                 ResultSet rs = cbd.getTabla("SELECT I.Id_Informe, O.Folio, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 AND (I.Id_Informe LIKE '%" + txtbusquedasoli2.getText()
-                        + "%' OR O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%' OR I.importe_total LIKE '%" + txtbusquedasoli2.getText() + "%') ORDER BY I.Id_Informe DESC",cn);
+                        + "%' OR O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%' OR I.importe_total LIKE '%" + txtbusquedasoli2.getText() + "%')"+soloUsuarioActual+" ORDER BY I.Id_Informe DESC",cn);
 
                 String solicitud[] = new String[5];
                 while (rs.next()) {
@@ -2111,8 +2131,10 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void txtbusquedasoli1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedasoli1KeyReleased
         // TODO add your handling code here:
+        String soloUsuarioActual="";
         if (menutablones.getSelectedIndex() == 0) {
             modelo = new DefaultTableModel() {
+                @Override
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
                     return false;
                 }
@@ -2127,16 +2149,27 @@ public class PrincipalS extends javax.swing.JFrame {
             this.tablonpendientes.setModel(modelo);
             try {
 
+                
+                ResultSet usuario;
+                usuario = cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+                usuario.next();
+                if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
+                    soloUsuarioActual="";
+                }else{
+                    usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                    usuario.next();
+                    soloUsuarioActual=" and nombre='"+usuario.getString("nombre")+"'";
+                }
                 Statement sentencia = cn.createStatement();
 
                 ResultSet rs = cbd.getTabla("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'P' AND (idSolicitud LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR Nombre LIKE '%" + txtbusquedasoli1.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
-                        + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%') ",cn);
+                        + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%') "+soloUsuarioActual+" order by idSolicitud DESC",cn);
 
                 String solicitud[] = new String[7];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("idSolicitud");
-                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
                     if(aux.next()){
                         solicitud[1]="Vehículo";
                     }else{
@@ -2176,12 +2209,12 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 ResultSet rs = cbd.getTabla("SELECT O.Folio,S.nombre, S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud AND (O.Folio LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR O.Monto LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
-                        + "OR S.Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Nombre LIKE'%"+txtbusquedasoli1.getText()+"%') ",cn);
+                        + "OR S.Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Nombre LIKE'%"+txtbusquedasoli1.getText()+"%') "+soloUsuarioActual+" order by idSolicitud DESC",cn);
 
                 String solicitud[] = new String[8];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("Folio");
-                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
                     if(aux.next()){
                         solicitud[1]="Vehículo";
                     }else{
@@ -2291,7 +2324,7 @@ public class PrincipalS extends javax.swing.JFrame {
                         indexDatos++;
 
                     }//Llenamos las columnas por registro
-                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
                     if(aux.next()){
                         datos[1]="Vehículo";
                     }else{
@@ -2330,12 +2363,12 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 ResultSet rs = cbd.getTabla("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar, Motivo FROM Solicitud_viatico WHERE Estado = 'C' AND (idSolicitud LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR Nombre LIKE '%" + txtbusquedasoli1.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
-                        + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR Motivo LIKE '%" + txtbusquedasoli1.getText() + "%') order by idSolicitud DESC",cn);
+                        + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR Motivo LIKE '%" + txtbusquedasoli1.getText() + "%')"+soloUsuarioActual+" order by idSolicitud DESC",cn);
 
                 String solicitud[] = new String[8];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("idSolicitud");
-                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
                     if(aux.next()){
                         solicitud[1]="Vehículo";
                     }else{
@@ -2416,6 +2449,7 @@ public class PrincipalS extends javax.swing.JFrame {
         int s = JOptionPane.showConfirmDialog(null, "¿Esta seguro?", "Alerta!", JOptionPane.YES_NO_OPTION);
         if (s == JOptionPane.YES_OPTION) {
             btnregresar1.setVisible(false);
+            btnActualizarInforme.setVisible(true);
             txtobvia.setText("");
             txtobveh.setText("");
             GaTot.setText("");
@@ -2461,7 +2495,7 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void tablaactMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaactMouseReleased
         // TODO add your handling code here:
-        if (SwingUtilities.isRightMouseButton(evt)) {
+        if (SwingUtilities.isRightMouseButton(evt) && tablaact.isEnabled()) {
             int r = tablaact.rowAtPoint(evt.getPoint());
             if (r >= 0 && r < tablaact.getRowCount()) {
                 tablaact.setRowSelectionInterval(r, r);
@@ -2507,15 +2541,18 @@ public class PrincipalS extends javax.swing.JFrame {
                     }
                     if (gastos_comprobar.equals("true")) {
                         jScrollPane3.setVisible(true);
-                        GaTot.enable(true);
+                        GaTot.enable(false);
+                        tablaact.setEnabled(true);
                         GaTot.setVisible(true);
                         jLabel3.setVisible(true);
                         c = 1;
                     } else {
-                        jScrollPane3.setVisible(false);
+                        jScrollPane3.setVisible(true);
+                        GaTot.setVisible(true);
+                        jLabel3.setEnabled(false);
+                        tablaact.setEnabled(false);
+                        jScrollPane3.setEnabled(false);
                         GaTot.enable(false);
-                        GaTot.setVisible(false);
-                        jLabel3.setVisible(false);
                         c = 0;
                     }
                     rs=cbd.getTabla("select * from oficio_comision OC inner join solicitud_viatico SVI on OC.Solicitud_idSolicitud=SVI.idSolicitud inner join vehiculo_viatico VV on SVI.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo where OC.Folio="+folio, cn);
@@ -2547,6 +2584,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     btnguardar.setVisible(true);
                     jlb.setVisible(false);
                     txtbusquedasoli2.setVisible(false);
+                    btnActualizarInforme.setVisible(false);
                     jLabel1.setVisible(true);
                     jScrollPane1.setVisible(false);
                     sentencia.close();
@@ -2563,7 +2601,7 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void jScrollPane3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane3MouseReleased
         // TODO add your handling code here:
-        if (SwingUtilities.isRightMouseButton(evt)) {
+        if (SwingUtilities.isRightMouseButton(evt) && tablaact.isEnabled()) {
             int r = tablaact.rowAtPoint(evt.getPoint());
             if (r >= 0 && r < tablaact.getRowCount()) {
                 tablaact.setRowSelectionInterval(r, r);
@@ -2772,12 +2810,12 @@ public class PrincipalS extends javax.swing.JFrame {
     private void tablaactFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tablaactFocusGained
         // TODO add your handling code here:
         //suma de precio o costo
-        int valor = 0;
+        float valor = 0;
         int filas = tablaact.getRowCount();
         if (filas != 0) {
             for (int j = 0; filas > j; j++) {
                 if (tablaact.getValueAt(j, 1) != null || tablaact.getValueAt(j, 1) != "") {
-                    valor = valor + Integer.parseInt(tablaact.getValueAt(j, 1) + "");
+                    valor = valor + Float.parseFloat(tablaact.getValueAt(j, 1) + "");
                 }
             }
         }
@@ -2987,6 +3025,7 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void txtbusquedasoliKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedasoliKeyReleased
         // TODO add your handling code here:
+        String soloUsuarioActual="";
         if (jTabbedPane1.getSelectedIndex() == 0) {
             modelo = new DefaultTableModel() {
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3005,11 +3044,23 @@ public class PrincipalS extends javax.swing.JFrame {
             this.tablasolic.setModel(modelo);
             try {
 
+                
+                
+                ResultSet usuario;
+                usuario = cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+                usuario.next();
+                if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
+                    soloUsuarioActual="";
+                }else{
+                    usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                    usuario.next();
+                    soloUsuarioActual=" and nombre='"+usuario.getString("nombre")+"'";
+                }
                 Statement sentencia = cn.createStatement();
 
                 ResultSet rs = cbd.getTabla("SELECT idSolicitud,Fecha_salida, Lugar, Nombre,Actividad, Pernoctado, Puesto, Fecha_llegada,  Estado FROM Solicitud_viatico WHERE (idSolicitud LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli.getText() + "%'"
-                    + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%' OR Pernoctado LIKE '%" + txtbusquedasoli.getText() + "%' OR Actividad LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%') and estado='P'",cn);
+                    + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%' OR Pernoctado LIKE '%" + txtbusquedasoli.getText() + "%' OR Actividad LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%') and estado='P' "+soloUsuarioActual+" order by idSolicitud DESC",cn);
 
                 String solicitud[] = new String[10];
                 while (rs.next()) {
@@ -3067,7 +3118,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 ResultSet rs = cbd.getTabla("SELECT idSolicitud, Actividad, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar,Pernoctado,Hora_salida,Hora_llegada,estado FROM solicitud_viatico SVI inner join vehiculo_viatico VV on SVI.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo"
                     + " WHERE (idSolicitud LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli.getText() + "%'"
-                    + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%') and SV.chofer='1' and estado='P'",cn);
+                    + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%') and SV.chofer='1' and estado='P' "+soloUsuarioActual+" order by idSolicitud DESC",cn);
 
                 String solicitud[] = new String[11];
                 while (rs.next()) {
@@ -3409,9 +3460,23 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void btnbuscarporfechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscarporfechaActionPerformed
         // TODO add your handling code here:
+        String soloUsuarioActual="";
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         String fecha_inicio=sdf.format(fechainicio.getDate().getTime());
         String fecha_final=sdf.format(fechafinal.getDate().getTime());
+        
+        try{
+            ResultSet usuario;
+            usuario = cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+            usuario.next();
+            if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
+                soloUsuarioActual="";
+            }else{
+                usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                usuario.next();
+                soloUsuarioActual=" and nombre='"+usuario.getString("nombre")+"'";
+            }
+        }catch(SQLException e){}
         if (menutablones.getSelectedIndex() == 0) {
             modelo = new DefaultTableModel() {
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3428,14 +3493,16 @@ public class PrincipalS extends javax.swing.JFrame {
             this.tablonpendientes.setModel(modelo);
             try {
 
+                
+                
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = cbd.getTabla("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'P' AND (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') ",cn);
+                ResultSet rs = cbd.getTabla("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'P' AND (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') "+soloUsuarioActual+" order by idSolicitud",cn);
 
                 String solicitud[] = new String[7];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("idSolicitud");
-                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
                     if(aux.next()){
                         solicitud[1]="Vehículo";
                     }else{
@@ -3473,12 +3540,12 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = cbd.getTabla("SELECT O.Folio,S.nombre, S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud AND (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') ",cn);
+                ResultSet rs = cbd.getTabla("SELECT O.Folio,S.nombre, S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud AND (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') "+soloUsuarioActual+" order by folio",cn);
 
                 String solicitud[] = new String[8];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("Folio");
-                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
                     if(aux.next()){
                         solicitud[1]="Vehículo";
                     }else{
@@ -3564,11 +3631,11 @@ public class PrincipalS extends javax.swing.JFrame {
                 ResultSet usuario=cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
                 usuario.next();
                 if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
-                    sql="SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "')  ORDER BY O.FOLIO DESC";
+                    sql="SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "')   ORDER BY O.FOLIO DESC";
                 }else{
                     usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
                     usuario.next();
-                    sql = "SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and nombre='"+usuario.getString("nombre")+"' and (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') order by O.Folio DESC";
+                    sql = "SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and nombre='"+usuario.getString("nombre")+"' and (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') "+soloUsuarioActual+" order by O.Folio DESC";
                 }
                 Statement sentencia = cn.createStatement();
                 Object datos[] = new Object[10];
@@ -3588,7 +3655,7 @@ public class PrincipalS extends javax.swing.JFrame {
                         indexDatos++;
 
                     }//Llenamos las columnas por registro
-                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
                     if(aux.next()){
                         datos[1]="Vehículo";
                     }else{
@@ -3625,12 +3692,12 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = cbd.getTabla("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar, Motivo FROM Solicitud_viatico WHERE Estado = 'C' AND (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') order by idSolicitud DESC",cn);
+                ResultSet rs = cbd.getTabla("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar, Motivo FROM Solicitud_viatico WHERE Estado = 'C' AND (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') "+soloUsuarioActual+" order by idSolicitud DESC",cn);
 
                 String solicitud[] = new String[8];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("idSolicitud");
-                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud"), cn);
+                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
                     if(aux.next()){
                         solicitud[1]="Vehículo";
                     }else{
@@ -3651,6 +3718,20 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnbuscarporfechaActionPerformed
+
+    private void tablaactKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaactKeyPressed
+        // TODO add your handling code here:
+        float valor = 0;
+        int filas = tablaact.getRowCount();
+        if (filas != 0) {
+            for (int j = 0; filas > j; j++) {
+                if (tablaact.getValueAt(j, 1) != null || tablaact.getValueAt(j, 1) != "") {
+                    valor = valor + Float.parseFloat(tablaact.getValueAt(j, 1) + "");
+                }
+            }
+        }
+        GaTot.setText(valor + "");
+    }//GEN-LAST:event_tablaactKeyPressed
 
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {
