@@ -226,7 +226,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         jLabel19 = new javax.swing.JLabel();
         btnMasMun = new javax.swing.JButton();
         btnLimpiarLugar = new javax.swing.JButton();
-        lblLugar = new javax.swing.JLabel();
+        lblLugar = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -299,6 +299,11 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             txt_Actividad.setColumns(20);
             txt_Actividad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             txt_Actividad.setRows(5);
+            txt_Actividad.addKeyListener(new java.awt.event.KeyAdapter() {
+                public void keyTyped(java.awt.event.KeyEvent evt) {
+                    txt_ActividadKeyTyped(evt);
+                }
+            });
             jScrollPane1.setViewportView(txt_Actividad);
 
             pn_addInventario.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 281, 480, 120));
@@ -445,8 +450,8 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             });
             pn_addInventario.add(btnLimpiarLugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 250, 70, -1));
 
-            lblLugar.setText("Lugar");
-            pn_addInventario.add(lblLugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 220, 290, -1));
+            lblLugar.setEditable(false);
+            pn_addInventario.add(lblLugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 220, 310, -1));
 
             jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
             pn_addInventario.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 880, 520));
@@ -674,6 +679,12 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         lblLugar.setText("Lugar");
         cmbEstado.setEnabled(true);
     }//GEN-LAST:event_btnLimpiarLugarActionPerformed
+
+    private void txt_ActividadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_ActividadKeyTyped
+        // TODO add your handling code here:
+        txt_Actividad.setLineWrap(true);
+        txt_Actividad.setWrapStyleWord(true);
+    }//GEN-LAST:event_txt_ActividadKeyTyped
     public void insertar_Solicitud(int ConCarro){
         try{
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
@@ -1267,7 +1278,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblAviso;
-    private javax.swing.JLabel lblLugar;
+    private javax.swing.JTextField lblLugar;
     private javax.swing.JPanel pn_addInventario;
     private javax.swing.JTextArea txtADescripcion;
     private javax.swing.JTextField txtKilometraje;

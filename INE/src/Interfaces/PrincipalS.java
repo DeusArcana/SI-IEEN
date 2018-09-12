@@ -212,6 +212,7 @@ public class PrincipalS extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaact = new javax.swing.JTable();
         txtKilometraje = new javax.swing.JTextField();
+        jScrollPane5 = new javax.swing.JScrollPane();
         lblKilometraje = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablainfo1 = new javax.swing.JTable();
@@ -1041,11 +1042,21 @@ public class PrincipalS extends javax.swing.JFrame {
 
         txtobvia.setColumns(20);
         txtobvia.setRows(5);
+        txtobvia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtobviaKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtobvia);
         txtobvia.setBounds(480, 90, 800, 220);
 
         txtobveh.setColumns(20);
         txtobveh.setRows(5);
+        txtobveh.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtobvehKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtobveh);
         txtobveh.setBounds(480, 350, 800, 110);
 
@@ -1123,6 +1134,8 @@ public class PrincipalS extends javax.swing.JFrame {
         jScrollPane3.setBounds(30, 10, 420, 420);
         jPanel1.add(txtKilometraje);
         txtKilometraje.setBounds(1189, 320, 90, 20);
+        jPanel1.add(jScrollPane5);
+        jScrollPane5.setBounds(430, 80, 100, 100);
 
         lblKilometraje.setText("Kilometraje");
         jPanel1.add(lblKilometraje);
@@ -1250,11 +1263,11 @@ public class PrincipalS extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(solicviaticos, javax.swing.GroupLayout.DEFAULT_SIZE, 1354, Short.MAX_VALUE)
+            .addComponent(solicviaticos, javax.swing.GroupLayout.DEFAULT_SIZE, 1366, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(solicviaticos, javax.swing.GroupLayout.DEFAULT_SIZE, 758, Short.MAX_VALUE)
+            .addComponent(solicviaticos, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
         );
 
         pack();
@@ -1631,10 +1644,10 @@ public class PrincipalS extends javax.swing.JFrame {
                     }
                     String tarifa = "";
                     float tarif = 0;
-                    if (et[0].equals("Nayarit")) {
+                    if (et[0].equals("Nayarit\r")) {
                         float tarifMayor = 0;
                     for (int i = 1; i < et.length; i++) {
-                        if (et[i].equals("Bahía de Banderas")) {
+                        if (et[i].equals("Bahía de Banderas\r")) {
                             if (dias == 0) {
                                 ResultSet rs3 = sentencia.executeQuery("SELECT SinPernoctarBDB FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
                                 while (rs3.next()) {
@@ -1658,7 +1671,7 @@ public class PrincipalS extends javax.swing.JFrame {
                                 }
                             }
                         } else {
-                            if (et[i].equals("Tepic") || et[i].equals("Xalisco")) {
+                            if (et[i].equals("Tepic\n") || et[i].equals("Xalisco\n")) {
                                 tarifa = "0.00";
                                 tarif = Float.parseFloat(tarifa);
                                 if (tarif > tarifMayor) {
@@ -1666,7 +1679,7 @@ public class PrincipalS extends javax.swing.JFrame {
                                     tarifa = tarifMayor + "";
                                 }
                             } else {
-                                if (et[i].equals("Acaponeta") || et[i].equals("Amatlán de Cañas") || et[i].equals("El Nayar") || et[i].equals("Huajicori") || et[i].equals("La Yesca") || et[i].equals("Tecuala")) {
+                                if (et[i].equals("Acaponeta\n") || et[i].equals("Amatlán de Cañas\n") || et[i].equals("El Nayar\n") || et[i].equals("Huajicori\n") || et[i].equals("La Yesca\n") || et[i].equals("Tecuala\n")) {
                                     if (dias == 0) {
                                         ResultSet rs3 = sentencia.executeQuery("SELECT  SinPernoctar100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
                                         while (rs3.next()) {
@@ -3733,6 +3746,18 @@ public class PrincipalS extends javax.swing.JFrame {
         GaTot.setText(valor + "");
     }//GEN-LAST:event_tablaactKeyPressed
 
+    private void txtobviaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtobviaKeyTyped
+        // TODO add your handling code here:
+        txtobvia.setLineWrap(true);
+        txtobvia.setWrapStyleWord(true);
+    }//GEN-LAST:event_txtobviaKeyTyped
+
+    private void txtobvehKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtobvehKeyTyped
+        // TODO add your handling code here:
+        txtobveh.setLineWrap(true);
+        txtobveh.setWrapStyleWord(true);
+    }//GEN-LAST:event_txtobvehKeyTyped
+
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -4012,6 +4037,7 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel jlb;

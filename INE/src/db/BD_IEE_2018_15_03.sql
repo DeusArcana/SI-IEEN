@@ -573,8 +573,8 @@ DROP TABLE IF EXISTS `ine`.`informe` ;
 
 CREATE TABLE IF NOT EXISTS `ine`.`informe` (
   `Id_Informe` INT(11) NOT NULL AUTO_INCREMENT,
-  `Observaciones` VARCHAR(200) NULL DEFAULT NULL,
-  `Observaciones_Vehiculo` VARCHAR(200) NULL DEFAULT NULL,
+  `Observaciones` LONGTEXT NULL DEFAULT NULL,
+  `Observaciones_Vehiculo` LONGTEXT NULL DEFAULT NULL,
   `Solicitud_idSolicitud` INT(11) NOT NULL,
   `importe_total` FLOAT NULL,
   PRIMARY KEY (`Id_Informe`),
