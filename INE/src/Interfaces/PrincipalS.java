@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 import Clases.ManagerSoViaticos;
 import Clases.CrearPDF;
+import Clases.*;
 import Clases.Excel;
 import Clases.ManagerComplemento;
 import Clases.ManagerPermisos;
@@ -33,6 +34,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -1509,11 +1511,19 @@ public class PrincipalS extends javax.swing.JFrame {
             int i = tablonaceptadas.getSelectedRow();
             if (i >= 0) {
                 String folio = tablonaceptadas.getValueAt(i, 0).toString();
-                try {
+                /*try {
                     pdf.oficio_comision(folio);
+                    
                 } catch (DocumentException ex) {
                     Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SQLException ex) {
+                    Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+                }*/
+                CrearOficioComision coc=new CrearOficioComision();
+                try {
+                    List<String> datos=cbd.acceder("select O.Folio,S.Nombre,S.Puesto,S.Lugar,S.Fecha_salida,S.Fecha_llegada,S.Actividad from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where O.Folio="+folio+";");
+                    coc.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6));
+                } catch (DocumentException ex) {
                     Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
