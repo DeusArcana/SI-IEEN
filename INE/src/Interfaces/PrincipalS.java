@@ -120,6 +120,7 @@ public class PrincipalS extends javax.swing.JFrame {
         MenuTablonA = new javax.swing.JPopupMenu();
         ConsultarA = new javax.swing.JMenuItem();
         OficioComision = new javax.swing.JMenuItem();
+        OficioViatico = new javax.swing.JMenuItem();
         AsignarMonto = new javax.swing.JMenuItem();
         CancelarA = new javax.swing.JMenuItem();
         Archivar = new javax.swing.JMenuItem();
@@ -366,6 +367,14 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuTablonA.add(OficioComision);
 
+        OficioViatico.setText("Oficio de viático");
+        OficioViatico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OficioViaticoActionPerformed(evt);
+            }
+        });
+        MenuTablonA.add(OficioViatico);
+
         AsignarMonto.setText("Modificar monto");
         AsignarMonto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -571,7 +580,6 @@ public class PrincipalS extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Sistema Integral - Instituto Estatal Electoral de Nayarit");
         setIconImage(getIconImage());
-        setPreferredSize(new java.awt.Dimension(1366, 793));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
@@ -1062,7 +1070,7 @@ public class PrincipalS extends javax.swing.JFrame {
         jPanel1.add(txtobveh);
         txtobveh.setBounds(480, 350, 800, 110);
 
-        jLabel1.setText("Observaciones Viaticos");
+        jLabel1.setText("Reporte de actividaes");
         jPanel1.add(jLabel1);
         jLabel1.setBounds(810, 60, 150, 20);
 
@@ -1137,7 +1145,7 @@ public class PrincipalS extends javax.swing.JFrame {
         jPanel1.add(txtKilometraje);
         txtKilometraje.setBounds(1189, 320, 90, 20);
         jPanel1.add(jScrollPane5);
-        jScrollPane5.setBounds(430, 80, 100, 100);
+        jScrollPane5.setBounds(430, 80, 2, 2);
 
         lblKilometraje.setText("Kilometraje");
         jPanel1.add(lblKilometraje);
@@ -1211,7 +1219,7 @@ public class PrincipalS extends javax.swing.JFrame {
         informe.add(jLabel24);
         jLabel24.setBounds(0, 0, 1366, 769);
 
-        solicviaticos.addTab("Informes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/resguardo.png")), informe); // NOI18N
+        solicviaticos.addTab("Informe de Actividades", new javax.swing.ImageIcon(getClass().getResource("/Iconos/resguardo.png")), informe); // NOI18N
 
         jMenu1.setText("Archivo");
 
@@ -3768,6 +3776,27 @@ public class PrincipalS extends javax.swing.JFrame {
         txtobveh.setWrapStyleWord(true);
     }//GEN-LAST:event_txtobvehKeyTyped
 
+    private void OficioViaticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OficioViaticoActionPerformed
+        // TODO add your handling code here:
+        if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
+            int i = tablonaceptadas.getSelectedRow();
+            if (i >= 0) {
+                String folio = tablonaceptadas.getValueAt(i, 0).toString();
+                try {
+                    pdf.pdfFolio(folio);
+                } catch (DocumentException ex) {
+                    Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para imprimir las solicitudes.");
+        }
+    }//GEN-LAST:event_OficioViaticoActionPerformed
+
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3994,6 +4023,7 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JPopupMenu MenuTablonP;
     private javax.swing.JMenuItem OficioComision;
     private javax.swing.JMenuItem OficioComisionAr;
+    private javax.swing.JMenuItem OficioViatico;
     private javax.swing.JMenuItem OficioViaticoAr;
     private javax.swing.JMenuItem SolicitarVehiculo;
     private javax.swing.JMenuItem SolicitarVehiculo1;

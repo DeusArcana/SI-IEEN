@@ -109,7 +109,7 @@ public class ManagerPases {
     public void getArea(JComboBox combo) {
         try{
             String sql="";
-            
+            conexion = db.getConexion();
             ResultSet usuario=db.getTabla("select puesto from User where id_user='"+Principal.Username+"'", conexion);
             usuario.next();
                       
@@ -130,7 +130,6 @@ public class ManagerPases {
                 
             }
            
-            conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while(rs.next()){
@@ -213,12 +212,11 @@ public class ManagerPases {
     
     public void getNombresEmpleadosArea(String area,JComboBox combo) {
         try{
-            
+            conexion = db.getConexion();
             ResultSet idarea=db.getTabla("select ID_Area from Area where Area = '"+area+"'", conexion);
             idarea.next();
            
             String sql = "select concat(nombres,' ',apellido_p,' ',apellido_m) from Empleados where area = '"+idarea.getString("ID_Area")+"';";
-            conexion = db.getConexion();
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql); 
             while(rs.next()){

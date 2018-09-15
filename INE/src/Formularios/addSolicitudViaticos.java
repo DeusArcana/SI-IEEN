@@ -164,10 +164,11 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     }
     private void iniciarEstados(){
         List<String> estados=cbd.acceder("select nombre from Estado;");
+        char sep=92;
         for(int i=0;i<estados.size();i++){
-            cmbEstado.addItem(estados.get(i));
+            cmbEstado.addItem(estados.get(i).split("\r")[0]);
         }
-        cmbEstado.setSelectedItem("Nayarit\r");
+        cmbEstado.setSelectedItem("Nayarit");
     }
 
     /**
@@ -596,9 +597,9 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         if(!asignarVehiculo){
             cmbLocalidad.removeAllItems();
             cmbLocalidad.addItem("Seleccione localidad");
-            List<String> localidades=cbd.acceder("select L.nombre from Localidad L inner join Estado E on L.estado_idestado=E.idestado where E.nombre='"+cmbEstado.getSelectedItem().toString()+"' order by L.nombre;");
+            List<String> localidades=cbd.acceder("select L.nombre from Localidad L inner join Estado E on L.estado_idestado=E.idestado where E.nombre='"+cmbEstado.getSelectedItem().toString()+"\r' order by L.nombre;");
             for(int i=0;i<localidades.size();i++){
-                cmbLocalidad.addItem(localidades.get(i));
+                cmbLocalidad.addItem(localidades.get(i).split("\r")[0]);
             }
         }
     }//GEN-LAST:event_cmbEstadoItemStateChanged

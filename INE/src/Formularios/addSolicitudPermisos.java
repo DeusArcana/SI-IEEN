@@ -79,7 +79,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        jlhoras = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_Actividad = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
@@ -143,10 +143,10 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         pn_addPermiso.add(jLabel4);
         jLabel4.setBounds(34, 262, 90, 17);
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel5.setText("*Horas:");
-        pn_addPermiso.add(jLabel5);
-        jLabel5.setBounds(280, 303, 50, 17);
+        jlhoras.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jlhoras.setText(" Horas:");
+        pn_addPermiso.add(jlhoras);
+        jlhoras.setBounds(280, 303, 50, 17);
 
         txt_Actividad.setColumns(20);
         txt_Actividad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -475,6 +475,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             txt_hora_llegada.setEnabled(true);
             txt_horas.setEnabled(true);
             //txt_hora_llegada.setEditable(true);
+            jlhoras.setText("*Horas:");
             txt_horas.setText("00:00");
             txt_horas.setEditable(true);
             
@@ -651,6 +652,13 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             else{
                 cad+="\n-El Formato de horas debe ser 00:00, vuelva a intentarlo";
             }  
+            }else if(txt_horas.getText().split(":")[0].isEmpty()){
+              if(cad.equals("")){ 
+                cad+="-El Formato de horas debe ser 00:00, vuelva a intentarlo";
+            }
+            else{
+                cad+="\n-El Formato de horas debe ser 00:00, vuelva a intentarlo";
+            }  
             }else if(txt_horas.getText().isEmpty()){
             if(cad.equals("")){ 
                 cad+="-No se ha insertado el formato de las horas, vuelva a intentarlo";
@@ -786,13 +794,13 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlfechacompleta;
+    private javax.swing.JLabel jlhoras;
     private javax.swing.JPanel pn_addPermiso;
     private javax.swing.JTextArea txt_Actividad;
     private javax.swing.JTextField txt_Folio;

@@ -83,7 +83,7 @@ public class PrincipalP extends javax.swing.JFrame {
         tablapase = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel17 = new javax.swing.JLabel();
         txtbusquedasoli = new javax.swing.JTextField();
-        comboAño = new javax.swing.JComboBox<>();
+        comboAño = new javax.swing.JComboBox<String>();
         jLabel5 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
@@ -228,13 +228,14 @@ public class PrincipalP extends javax.swing.JFrame {
         solicitudviaticos1.add(txtbusquedasoli);
         txtbusquedasoli.setBounds(130, 120, 290, 30);
 
+        comboAño.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         comboAño.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboAñoActionPerformed(evt);
             }
         });
         solicitudviaticos1.add(comboAño);
-        comboAño.setBounds(530, 122, 120, 20);
+        comboAño.setBounds(530, 120, 120, 30);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/banner pases.png"))); // NOI18N
         solicitudviaticos1.add(jLabel5);
@@ -358,6 +359,7 @@ public class PrincipalP extends javax.swing.JFrame {
             modelo.addColumn("Fecha");
             modelo.addColumn("Hora_E/S");
             modelo.addColumn("Hora_Llegada");
+            modelo.addColumn("Horas");
             modelo.addColumn("Tipo_Horario");
             modelo.addColumn("Tipo_Asunto");
             modelo.addColumn("Asunto");
@@ -380,11 +382,11 @@ public class PrincipalP extends javax.swing.JFrame {
                 area.next();
                     
             if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
-                 sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Año = '" + yeara + "' And (Numero LIKE '%" + txtbusquedasoli.getText() + "%'"
+                 sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada,Horas, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Año = '" + yeara + "' And (Numero LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Area LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Hora_ES LIKE '%" + txtbusquedasoli.getText() + "%' OR Hora_Llegada LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Horario LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Asunto LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%')";             
             }else{
-                sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Año = '" + yeara + "' And Area = '" + area.getString("Area") + "' And (Numero LIKE '%" + txtbusquedasoli.getText() + "%'"
+                sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada, Horas, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Año = '" + yeara + "' And Area = '" + area.getString("Area") + "' And (Numero LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Area LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Hora_ES LIKE '%" + txtbusquedasoli.getText() + "%' OR Hora_Llegada LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Horario LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Asunto LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%')";
                 
@@ -394,7 +396,7 @@ public class PrincipalP extends javax.swing.JFrame {
 
                 ResultSet rs = sentencia.executeQuery(sql);
 
-                String solicitud[] = new String[11];
+                String solicitud[] = new String[12];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("concat(Folio,'-',Numero)");
                     solicitud[1] = rs.getString("Nombre");
@@ -403,10 +405,11 @@ public class PrincipalP extends javax.swing.JFrame {
                     solicitud[4] = rs.getString("Fecha");
                     solicitud[5] = rs.getString("Hora_ES");
                     solicitud[6] = rs.getString("Hora_Llegada");
-                    solicitud[7] = rs.getString("Tipo_Horario");
-                    solicitud[8] = rs.getString("Tipo_Asunto");
-                    solicitud[9] = rs.getString("Asunto");
-                    solicitud[10] = rs.getString("Estado");
+                    solicitud[7] = rs.getString("Horas");
+                    solicitud[8] = rs.getString("Tipo_Horario");
+                    solicitud[9] = rs.getString("Tipo_Asunto");
+                    solicitud[10] = rs.getString("Asunto");
+                    solicitud[11] = rs.getString("Estado");
                     modelo.addRow(solicitud);
                 }
                 //rs.close();
@@ -530,9 +533,13 @@ public class PrincipalP extends javax.swing.JFrame {
                             javax.swing.JOptionPane.showMessageDialog(null, "El Formato de horas debe ser 00:00, vuelva a intentarlo");
                             //horallegada = javax.swing.JOptionPane.showInputDialog("Asignar hora de llegada");
                         } else {
-                            String[] desco=horallegada.split(":");
-                             int com1=Integer.parseInt(desco[0]);
-                             int com2=Integer.parseInt(desco[1]);
+                                String[] desco=horallegada.split(":");
+                                if(desco[0].isEmpty()){
+                                    javax.swing.JOptionPane.showMessageDialog(null, "El Formato de horas debe ser 00:00, vuelva a intentarlo");
+                                }else{
+                                 int com1=Integer.parseInt(desco[0]);
+                                 int com2=Integer.parseInt(desco[1]);   
+                                                         
                              
                              if(com1<ho1){
                                javax.swing.JOptionPane.showMessageDialog(null,"La hora asignada es menor a la hora de E/S");
@@ -548,7 +555,8 @@ public class PrincipalP extends javax.swing.JFrame {
                                sentencia.executeUpdate("UPDATE solicitud_pase SET Hora_Llegada = '" + horallegada + "' WHERE Folio = '" + numfol[0] + "' AND Numero = '" + numfol[1] + "' AND Año = '" + fechag + "';");
                             //javax.swing.JOptionPane.showMessageDialog(null, horallegada); 
                             javax.swing.JOptionPane.showMessageDialog(null, "Hora de llegada actualizada");   
-                             } 
+                             }
+                        }
                         }
                     }
                 } catch (SQLException ex) {

@@ -188,6 +188,14 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OficioComisionActionPerformed"/>
           </Events>
         </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="OficioViatico">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Oficio de vi&#xe1;tico"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OficioViaticoActionPerformed"/>
+          </Events>
+        </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="AsignarMonto">
           <Properties>
             <Property name="text" type="java.lang.String" value="Modificar monto"/>
@@ -1391,8 +1399,8 @@
         <Container class="javax.swing.JPanel" name="informe">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Informes">
-                <Property name="tabTitle" type="java.lang.String" value="Informes"/>
+              <JTabbedPaneConstraints tabName="Informe de Actividades">
+                <Property name="tabTitle" type="java.lang.String" value="Informe de Actividades"/>
                 <Property name="tabIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Iconos/resguardo.png"/>
                 </Property>
@@ -1523,7 +1531,7 @@
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel1">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="Observaciones Viaticos"/>
+                            <Property name="text" type="java.lang.String" value="Reporte de actividaes"/>
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

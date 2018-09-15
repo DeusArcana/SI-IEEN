@@ -253,16 +253,15 @@ public class ManagerSoViaticos {
                 }else{
                     datos[1]="Viático";
                 }
-
                 modelo.addRow(datos);//Añadimos la fila
            }//while
             //cn.close();
+            sentencia.close();
 
         } catch (SQLException ex) {
             javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta de la tabla Aceptados");
-
         }finally {
-
+            
             return modelo;
         }
     }
@@ -313,6 +312,7 @@ public class ManagerSoViaticos {
                 modelo.addRow(datos);//Añadimos la fila
            }//while
            //cn.close();
+           sentencia.close();
         } catch (SQLException ex) {
             javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
 
@@ -367,6 +367,7 @@ public class ManagerSoViaticos {
                 modelo.addRow(datos);//Añadimos la fila
            }//while
            //cn.close();
+            sentencia.close();
         } catch (SQLException ex) {
             System.out.printf("Error getTabla solicitudviatico SQL");
             Logger.getLogger(ManagerSoViaticos.class.getName()).log(Level.SEVERE, null, ex);
@@ -498,6 +499,13 @@ public class ManagerSoViaticos {
                     }else{
                         datos[indexDatos] = rs.getObject(i+1);
                     }
+                    if(i==8){
+                        if(rs.getObject(i+1).toString().equals("0")){
+                            datos[indexDatos] = "Pendiente";
+                        }else{
+                            datos[indexDatos] = "Terminado";
+                        }
+                    }
                     indexDatos++;
                     
                 }//Llenamos las columnas por registro
@@ -510,7 +518,7 @@ public class ManagerSoViaticos {
                 table.addRow(datos);//Añadimos la fila
            }//while
             //cn.close();
-
+            sentencia.close();
         } catch (SQLException ex) {
             javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta de Solicitudes Archivadas");
 

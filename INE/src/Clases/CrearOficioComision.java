@@ -122,7 +122,8 @@ public class CrearOficioComision {
         PdfWriter docWriter = null;
         String pdfFilename="pruebaoficomision";
         
-        /*String[] separar=fecha.split("-");
+        String[] separar=fecha_salida.split("-");
+        String[] separar_llegada=fecha_llegada.split("-");
         String mes="";
         int n=Integer.parseInt(separar[1]);
         switch(n){
@@ -163,7 +164,70 @@ public class CrearOficioComision {
                 mes="Diciembre";
                 break;
         }
-        String fechacompleta=separar[0]+" de "+mes+" del "+separar[2];*/
+        n=Integer.parseInt(separar_llegada[1]);
+        switch(n){
+            case 1:
+                if(!mes.equals("Enero")){
+                    mes+=" - Enero";
+                }
+                break;
+            case 2:
+                if(!mes.equals("Febrero")){
+                    mes+=" - Febrero";
+                }
+                break;
+            case 3:
+                if(!mes.equals("Marzo")){
+                    mes+=" - Marzo";
+                }
+                break;
+            case 4:
+                if(!mes.equals("Abril")){
+                    mes+=" - Abril";
+                }
+                break;
+            case 5:
+                if(!mes.equals("Mayo")){
+                    mes+=" - Mayo";
+                }
+                break;
+            case 6:
+                if(!mes.equals("Junio")){
+                    mes+=" - Junio";
+                }
+                break;
+            case 7:
+                if(!mes.equals("Julio")){
+                    mes+=" - Julio";
+                }
+                break;
+            case 8:
+                if(!mes.equals("Agosto")){
+                    mes+=" - Agosto";
+                }
+                break;
+            case 9:
+                if(!mes.equals("Septiembre")){
+                    mes+=" - Septiembre";
+                }
+                break;
+            case 10:
+                if(!mes.equals("Octubre")){
+                    mes+=" - Octubre";
+                }
+                break;
+            case 11:
+                if(!mes.equals("Noviembre")){
+                    mes+=" - Noviembre";
+                }
+                break;
+            case 12:
+                if(!mes.equals("Diciembre")){
+                    mes+=" - Diciembre";
+                }
+                break;
+        }
+        
 
         try {
 
@@ -312,7 +376,7 @@ public class CrearOficioComision {
             //lineas24.setBorderWidthTop(0);
             //lineas24.setBorderWidthLeft(0);
             //lineas24.setBorderWidthRight(0);
-            //lineas24.setBorder(0);
+            lineas24.setBorder(0);
             lineas24.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
             
             tableLineas4.addCell(lineas14);
@@ -341,7 +405,7 @@ public class CrearOficioComision {
             lineas15.setBorder(0);
             // Contenido de la linea
             //lineas25 = new PdfPCell(new Phrase("123 "+"Hora de regreso: "+"123123"+" Horas: "+"222hrs", elements2));
-            lineas25 = new PdfPCell(new Phrase(fecha_salida+" al "+fecha_llegada, elements2));
+            lineas25 = new PdfPCell(new Phrase(fecha_salida.split("-")[2]+" al "+fecha_llegada.split("-")[2], elements2));
             lineas25.setBorderWidthTop(0);
             lineas25.setBorderWidthLeft(0);
             lineas25.setBorderWidthRight(0);
@@ -354,7 +418,7 @@ public class CrearOficioComision {
             lineas151.setBorder(0);
             // Contenido de la linea
             //lineas25 = new PdfPCell(new Phrase("123 "+"Hora de regreso: "+"123123"+" Horas: "+"222hrs", elements2));
-            lineas251 = new PdfPCell(new Phrase("Septiembre", elements2));
+            lineas251 = new PdfPCell(new Phrase(mes, elements2));
             lineas251.setBorderWidthTop(0);
             lineas251.setBorderWidthLeft(0);
             lineas251.setBorderWidthRight(0);
