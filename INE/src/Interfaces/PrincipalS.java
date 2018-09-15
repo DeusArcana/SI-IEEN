@@ -109,6 +109,7 @@ public class PrincipalS extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         MenuSolicitudViaticos = new javax.swing.JPopupMenu();
         Impri_Sol = new javax.swing.JMenuItem();
+        ConsultarP1 = new javax.swing.JMenuItem();
         Add = new javax.swing.JMenuItem();
         SolicitarVehiculo = new javax.swing.JMenuItem();
         AgregarEmpleados = new javax.swing.JMenuItem();
@@ -149,6 +150,7 @@ public class PrincipalS extends javax.swing.JFrame {
         ExportarExcelAr = new javax.swing.JMenuItem();
         MenuSolicitudViaticos1 = new javax.swing.JPopupMenu();
         Impri_Sol1 = new javax.swing.JMenuItem();
+        ConsultarP2 = new javax.swing.JMenuItem();
         AsignarVehiculo = new javax.swing.JMenuItem();
         Add2 = new javax.swing.JMenuItem();
         SolicitarVehiculo2 = new javax.swing.JMenuItem();
@@ -278,6 +280,14 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         MenuSolicitudViaticos.add(Impri_Sol);
+
+        ConsultarP1.setText("Consultar");
+        ConsultarP1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConsultarP1ActionPerformed(evt);
+            }
+        });
+        MenuSolicitudViaticos.add(ConsultarP1);
 
         Add.setText("Nueva solicitud de viáticos");
         Add.setActionCommand("Solicitud viático");
@@ -528,6 +538,14 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         MenuSolicitudViaticos1.add(Impri_Sol1);
+
+        ConsultarP2.setText("Consultar");
+        ConsultarP2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConsultarP2ActionPerformed(evt);
+            }
+        });
+        MenuSolicitudViaticos1.add(ConsultarP2);
 
         AsignarVehiculo.setText("Asignar vehículo");
         AsignarVehiculo.addActionListener(new java.awt.event.ActionListener() {
@@ -1427,7 +1445,8 @@ public class PrincipalS extends javax.swing.JFrame {
             int k = tablonpendientes.getSelectedRow();
             if (k >= 0) {
                 int id = Integer.parseInt(tablonpendientes.getValueAt(k, 0).toString());
-                s = new visSolicitudViaticos();
+                s = new visSolicitudViaticos(this,true);
+                s.setLocationRelativeTo(null);
                 s.IdUsuario(id, 0, 0);
                 s.setVisible(true);
             } else {
@@ -1457,7 +1476,8 @@ public class PrincipalS extends javax.swing.JFrame {
                     rs.next();
                     idSolicitud = rs.getString("Solicitud_idSolicitud");
 
-                    s = new visSolicitudViaticos();
+                    s = new visSolicitudViaticos(this,true);
+                    s.setLocationRelativeTo(null);
                     s.IdUsuario(Integer.parseInt(idSolicitud), 1, 1);
                     sentencia.close();
                 } catch (SQLException ex) {
@@ -1489,7 +1509,8 @@ public class PrincipalS extends javax.swing.JFrame {
             int k = tabloncanceladas.getSelectedRow();
             if (k >= 0) {
                 int id = Integer.parseInt(tabloncanceladas.getValueAt(k, 0).toString());
-                s = new visSolicitudViaticos();
+                s = new visSolicitudViaticos(this,true);
+                s.setLocationRelativeTo(null);
                 s.IdUsuario(id, 0, 2);
                 s.setVisible(true);
             } else {
@@ -1865,7 +1886,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 while (rs.next()) {
                     id = rs.getString("Solicitud_idSolicitud");
                 }
-                if(!txtKilometraje.getText().equals("")){
+                if(!txtKilometraje.getText().equals("") && txtKilometraje.getText()!=null){
                     rs=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where VV.solicitud_viatico_idSolicitud="+id, cn);
                     rs.next();
                     String idVehiculo_usado=rs.getString("idVehiculo_usado");
@@ -2709,7 +2730,8 @@ public class PrincipalS extends javax.swing.JFrame {
                     rs.next();
                     idSolicitud = rs.getString("Solicitud_idSolicitud");
 
-                    s = new visSolicitudViaticos();
+                    s = new visSolicitudViaticos(this,true);
+                    s.setLocationRelativeTo(null);
                     s.IdUsuario(Integer.parseInt(idSolicitud), 1, 1);
                     sentencia.close();
                 } catch (SQLException ex) {
@@ -2735,11 +2757,11 @@ public class PrincipalS extends javax.swing.JFrame {
             int i = tablonarchivadas.getSelectedRow();
             if (i >= 0) {
                 String folio = tablonarchivadas.getValueAt(i, 0).toString();
+                CrearOficioComision coc=new CrearOficioComision();
                 try {
-                    pdf.oficio_comision(folio);
+                    List<String> datos=cbd.acceder("select O.Folio,S.Nombre,S.Puesto,S.Lugar,S.Fecha_salida,S.Fecha_llegada,S.Actividad from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where O.Folio="+folio+";");
+                    coc.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6));
                 } catch (DocumentException ex) {
-                    Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
                     Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
@@ -3787,6 +3809,54 @@ public class PrincipalS extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_OficioViaticoActionPerformed
 
+    private void ConsultarP1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarP1ActionPerformed
+        // TODO add your handling code here:
+        if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
+            if (c == 0) {
+                c = 1;
+            } else {
+                s.setVisible(false);
+                c = 1;
+            }
+            int k = tablasolicvehiculo.getSelectedRow();
+            if (k >= 0) {
+                int id = Integer.parseInt(tablasolicvehiculo.getValueAt(k, 0).toString());
+                s = new visSolicitudViaticos(this,true);
+                s.setLocationRelativeTo(null);
+                s.IdUsuario(id, 0, 0);
+                s.setVisible(true);
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para consultar las solicitudes.");
+        }
+    }//GEN-LAST:event_ConsultarP1ActionPerformed
+
+    private void ConsultarP2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarP2ActionPerformed
+        // TODO add your handling code here:
+        if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
+            if (c == 0) {
+                c = 1;
+            } else {
+                s.setVisible(false);
+                c = 1;
+            }
+            int k = tablasolic.getSelectedRow();
+            if (k >= 0) {
+                int id = Integer.parseInt(tablasolic.getValueAt(k, 0).toString());
+                s = new visSolicitudViaticos(this,true);
+                s.setLocationRelativeTo(null);
+                s.IdUsuario(id, 0, 0);
+                s.setVisible(true);
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para consultar las solicitudes.");
+        }
+    }//GEN-LAST:event_ConsultarP2ActionPerformed
+
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3986,6 +4056,8 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JMenuItem ConsultarC;
     private javax.swing.JMenuItem ConsultarInf;
     private javax.swing.JMenuItem ConsultarP;
+    private javax.swing.JMenuItem ConsultarP1;
+    private javax.swing.JMenuItem ConsultarP2;
     private javax.swing.JMenuItem EliminarA;
     private javax.swing.JMenuItem ExportarExcel;
     private javax.swing.JMenuItem ExportarExcel1;

@@ -59,6 +59,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
      */
     public addSolicitudViaticos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        this.setSize(new Dimension(530,520));
         this.setTitle("Solicitud de viáticos");
         initComponents();
         btnEditar.setVisible(false);
@@ -87,6 +88,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     }
     public addSolicitudViaticos(java.awt.Frame parent, boolean modal,int idSolicitud) {
         super(parent, modal);
+        this.setSize(new Dimension(530,520));
         asignarVehiculo=true;
         initComponents();
         btnEditar.setVisible(false);
@@ -233,6 +235,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nueva Solicitud");
         setMinimumSize(new java.awt.Dimension(530, 520));
+        setPreferredSize(new java.awt.Dimension(530, 520));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -555,7 +558,12 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            cn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(addSolicitudViaticos.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 

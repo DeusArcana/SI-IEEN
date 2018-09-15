@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -70,6 +72,7 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
         lbl_Motivo = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txt_Actividad = new javax.swing.JTextArea();
+        btnOk = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -89,10 +92,11 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Nombre:");
-        pn_addInventario.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(63, 43, -1, -1));
+        pn_addInventario.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, -1, -1));
 
         txt_Nombre.setEditable(false);
-        txt_Nombre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_Nombre.setBackground(null);
+        txt_Nombre.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txt_Nombre.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txt_NombreFocusLost(evt);
@@ -101,43 +105,46 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
         pn_addInventario.add(txt_Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 40, 215, -1));
 
         txt_Puesto.setEditable(false);
-        txt_Puesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_Puesto.setBackground(null);
+        txt_Puesto.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_addInventario.add(txt_Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 69, 215, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Puesto:");
-        pn_addInventario.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 72, -1, -1));
+        pn_addInventario.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 70, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Actividad a realizar:");
-        pn_addInventario.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(402, 13, -1, -1));
+        pn_addInventario.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Fecha de salida:");
-        pn_addInventario.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 104, -1, -1));
+        pn_addInventario.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Fecha de llegada:");
-        pn_addInventario.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 133, -1, -1));
+        pn_addInventario.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, -1));
 
         txt_Motivo.setEditable(false);
+        txt_Motivo.setBackground(null);
         txt_Motivo.setColumns(20);
-        txt_Motivo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_Motivo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txt_Motivo.setRows(5);
         jScrollPane1.setViewportView(txt_Motivo);
 
-        pn_addInventario.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 170, 350, 50));
+        pn_addInventario.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 70, 250, 50));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Vehiculo:");
-        pn_addInventario.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(463, 144, -1, -1));
+        pn_addInventario.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 40, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Lugar:");
-        pn_addInventario.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(77, 197, -1, -1));
+        pn_addInventario.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, -1, -1));
 
         txt_Lugar.setEditable(false);
-        txt_Lugar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_Lugar.setBackground(null);
+        txt_Lugar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txt_Lugar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_LugarActionPerformed(evt);
@@ -147,7 +154,7 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("Pernoctado:");
-        pn_addInventario.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 163, -1, -1));
+        pn_addInventario.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
 
         lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_addInventario.add(lblAviso, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 225, 15, -1));
@@ -156,57 +163,74 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
         pn_addInventario.add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 163, -1, -1));
 
         txt_Fecha_Salida.setEditable(false);
+        txt_Fecha_Salida.setBackground(null);
+        txt_Fecha_Salida.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_addInventario.add(txt_Fecha_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 104, 215, -1));
 
         txt_Fecha_Llegada.setEditable(false);
+        txt_Fecha_Llegada.setBackground(null);
+        txt_Fecha_Llegada.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_addInventario.add(txt_Fecha_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(135, 133, 215, -1));
 
         txt_Vehiculo.setEditable(false);
-        pn_addInventario.add(txt_Vehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(522, 144, 248, -1));
+        txt_Vehiculo.setBackground(null);
+        txt_Vehiculo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        pn_addInventario.add(txt_Vehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 40, 248, -1));
 
         lbl_Folio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lbl_Folio.setText("Folio:");
-        pn_addInventario.add(lbl_Folio, new org.netbeans.lib.awtextra.AbsoluteConstraints(475, 175, -1, -1));
+        pn_addInventario.add(lbl_Folio, new org.netbeans.lib.awtextra.AbsoluteConstraints(394, 80, -1, -1));
 
         txt_Folio.setEditable(false);
-        pn_addInventario.add(txt_Folio, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 175, 248, -1));
+        txt_Folio.setBackground(null);
+        txt_Folio.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        pn_addInventario.add(txt_Folio, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 80, 248, -1));
 
         txt_Monto.setEditable(false);
-        pn_addInventario.add(txt_Monto, new org.netbeans.lib.awtextra.AbsoluteConstraints(522, 201, 248, -1));
+        txt_Monto.setBackground(null);
+        txt_Monto.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        pn_addInventario.add(txt_Monto, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 100, 248, -1));
 
         lbl_Monto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lbl_Monto.setText("Monto:");
-        pn_addInventario.add(lbl_Monto, new org.netbeans.lib.awtextra.AbsoluteConstraints(463, 201, -1, -1));
+        pn_addInventario.add(lbl_Monto, new org.netbeans.lib.awtextra.AbsoluteConstraints(383, 100, -1, -1));
 
         lbl_Motivo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lbl_Motivo.setText("Motivo:");
-        pn_addInventario.add(lbl_Motivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 170, -1, -1));
+        pn_addInventario.add(lbl_Motivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, -1, -1));
 
         txt_Actividad.setEditable(false);
+        txt_Actividad.setBackground(null);
         txt_Actividad.setColumns(20);
-        txt_Actividad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txt_Actividad.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txt_Actividad.setRows(5);
+        txt_Actividad.setPreferredSize(new java.awt.Dimension(220, 89));
         jScrollPane2.setViewportView(txt_Actividad);
 
-        pn_addInventario.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(522, 13, 358, 110));
+        pn_addInventario.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, 550, 130));
+
+        btnOk.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnOk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
+        btnOk.setText("Ok");
+        btnOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOkActionPerformed(evt);
+            }
+        });
+        pn_addInventario.add(btnOk, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 400, 130, -1));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
+        pn_addInventario.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 690, 440));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(pn_addInventario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 910, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pn_addInventario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addComponent(pn_addInventario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pn_addInventario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -308,6 +332,16 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
          e.printStackTrace();
          }//fin del catch*/
     }//GEN-LAST:event_formWindowActivated
+
+    private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
+        try {
+            // TODO add your handling code here:
+            cn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(visSolicitudViaticos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.dispose();
+    }//GEN-LAST:event_btnOkActionPerformed
     public void IdUsuario(int id, int ayc, int aoc) {
         this.id = id;
         this.ayc = ayc;
@@ -343,6 +377,7 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnOk;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
