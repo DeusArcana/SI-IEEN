@@ -276,14 +276,6 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SolicitarVehiculo1ActionPerformed"/>
           </Events>
         </MenuItem>
-        <MenuItem class="javax.swing.JMenuItem" name="CambiarConsejero1">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Cambiar Consejero Presidente"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CambiarConsejero1ActionPerformed"/>
-          </Events>
-        </MenuItem>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPopupMenu" name="MenuInfSA">
@@ -438,14 +430,6 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SolicitarVehiculo2ActionPerformed"/>
-          </Events>
-        </MenuItem>
-        <MenuItem class="javax.swing.JMenuItem" name="CambiarConsejero2">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Cambiar Consejero Presidente"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CambiarConsejero2ActionPerformed"/>
           </Events>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="ExportarExcel1">
@@ -1501,34 +1485,6 @@
                             </Component>
                           </SubComponents>
                         </Container>
-                        <Component class="javax.swing.JTextArea" name="txtobvia">
-                          <Properties>
-                            <Property name="columns" type="int" value="20"/>
-                            <Property name="rows" type="int" value="5"/>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtobviaKeyTyped"/>
-                          </Events>
-                          <Constraints>
-                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                              <AbsoluteConstraints x="480" y="90" width="800" height="220"/>
-                            </Constraint>
-                          </Constraints>
-                        </Component>
-                        <Component class="javax.swing.JTextArea" name="txtobveh">
-                          <Properties>
-                            <Property name="columns" type="int" value="20"/>
-                            <Property name="rows" type="int" value="5"/>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtobvehKeyTyped"/>
-                          </Events>
-                          <Constraints>
-                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                              <AbsoluteConstraints x="480" y="350" width="800" height="110"/>
-                            </Constraint>
-                          </Constraints>
-                        </Component>
                         <Component class="javax.swing.JLabel" name="jLabel1">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Reporte de actividaes"/>
@@ -1641,14 +1597,25 @@
                             </Constraint>
                           </Constraints>
                         </Component>
-                        <Container class="javax.swing.JScrollPane" name="jScrollPane5">
+                        <Container class="javax.swing.JScrollPane" name="txtobvia">
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                              <AbsoluteConstraints x="430" y="80" width="-1" height="-1"/>
+                              <AbsoluteConstraints x="480" y="90" width="800" height="220"/>
                             </Constraint>
                           </Constraints>
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                          <SubComponents>
+                            <Component class="javax.swing.JTextArea" name="txtobvia1">
+                              <Properties>
+                                <Property name="columns" type="int" value="20"/>
+                                <Property name="rows" type="int" value="5"/>
+                              </Properties>
+                              <Events>
+                                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtobvia1KeyTyped"/>
+                              </Events>
+                            </Component>
+                          </SubComponents>
                         </Container>
                         <Component class="javax.swing.JLabel" name="lblKilometraje">
                           <Properties>
@@ -1660,6 +1627,26 @@
                             </Constraint>
                           </Constraints>
                         </Component>
+                        <Container class="javax.swing.JScrollPane" name="txtobveh">
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="480" y="350" width="800" height="110"/>
+                            </Constraint>
+                          </Constraints>
+
+                          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                          <SubComponents>
+                            <Component class="javax.swing.JTextArea" name="txtobveh1">
+                              <Properties>
+                                <Property name="columns" type="int" value="20"/>
+                                <Property name="rows" type="int" value="5"/>
+                              </Properties>
+                              <Events>
+                                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtobveh1KeyTyped"/>
+                              </Events>
+                            </Component>
+                          </SubComponents>
+                        </Container>
                       </SubComponents>
                     </Container>
                     <Container class="javax.swing.JScrollPane" name="jScrollPane2">

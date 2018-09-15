@@ -233,7 +233,6 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nueva Solicitud");
         setMinimumSize(new java.awt.Dimension(530, 520));
-        setPreferredSize(new java.awt.Dimension(530, 520));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -318,7 +317,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                     btnAceptarActionPerformed(evt);
                 }
             });
-            pn_addInventario.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 420, -1, -1));
+            pn_addInventario.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 423, -1, 30));
 
             btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
             btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
@@ -1083,8 +1082,6 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             String fecha_Llegada=sdf.format(date_Llegada.getDate().getTime());
             Conexion conexion=new Conexion();
             //conexion.getConexion();
-            
-            cn=cbd.getConexion();
             String[] arr=cmb_Vehiculo.getSelectedItem().toString().split("_");
             ResultSet res=cbd.getTabla("select idvehiculo_usado from vehiculo_usado where vehiculo_usado.vehiculos_Matricula='"+arr[1]+"';", cn);
             System.out.println("select idvehiculo_usado from vehiculo_usado where vehiculo_usado.vehiculos_Matricula='"+arr[1]+"';");
@@ -1092,7 +1089,6 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             String idVehiculo_usado=res.getString("idvehiculo_usado");
             //Inserción de solicitud
             SimpleDateFormat format=new SimpleDateFormat("h:mm:ss a");
-            conexion.getConexion();
             boolean insersion;
             if(!asignarVehiculo){
                 String lugarViatico="";
@@ -1101,18 +1097,18 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                 }else{
                     lugarViatico=lblLugar.getText();
                 }
-                insersion = insersion=conexion.ejecutar("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+
+                insersion = insersion=cbd.ejecutar("insert into Solicitud_viatico (Fecha_Salida,Lugar,Nombre,Actividad,Pernoctado,Puesto,Fecha_Llegada,Estado,Reporte,Hora_Llegada,Hora_Salida) values('"+fecha_Salida+"','"+
                     lugarViatico+"'"
                 + ",'"+comboEmpleados.getSelectedItem().toString()+"','"+txt_Actividad.getText()+"','"+pernoctado+"','"+txt_Puesto.getText()+"','"+fecha_Llegada+"','P','0','"+format.format((Date)hora_Llegada.getValue())+"','"+format.format((Date)hora_Salida.getValue())+"')");
             }
-            insersion=conexion.ejecutar("insert into solicitud_vehiculo(vehiculo_usado_idvehiculo_usado,vehiculo,chofer)values("+idVehiculo_usado+",'"+arr[0]+"','1')");
+            insersion=cbd.ejecutar("insert into solicitud_vehiculo(vehiculo_usado_idvehiculo_usado,vehiculo,chofer,viatico_vehiculo)values("+idVehiculo_usado+",'"+arr[0]+"','1','"+PrincipalS.viatico_vehiculo+"')");
             res=cbd.getTabla("select idSolicitud from solicitud_viatico where Actividad='"+txt_Actividad.getText()+"' and Nombre='"+comboEmpleados.getSelectedItem().toString()+"' and fecha_salida='"+fecha_Salida+"' and fecha_llegada='"+fecha_Llegada+"';", cn);
             res.next();
             String idSolViatico=res.getString("idSolicitud");
             res=cbd.getTabla("select idSolicitud_vehiculo from solicitud_vehiculo order by idSolicitud_vehiculo DESC", cn);
             res.next();
             String idSolVehiculo=res.getString("idSolicitud_vehiculo");
-            insersion=conexion.ejecutar("insert into vehiculo_viatico(solicitud_vehiculo_idSolicitud_vehiculo,solicitud_viatico_idSolicitud,agregado)values("+idSolVehiculo+","+idSolViatico+",'0')");
+            insersion=cbd.ejecutar("insert into vehiculo_viatico(solicitud_vehiculo_idSolicitud_vehiculo,solicitud_viatico_idSolicitud,agregado)values("+idSolVehiculo+","+idSolViatico+",'0')");
             
             if(insersion){
                 JOptionPane.showMessageDialog(this, "Insersión correcta");

@@ -573,8 +573,8 @@ DROP TABLE IF EXISTS `ine`.`informe` ;
 
 CREATE TABLE IF NOT EXISTS `ine`.`informe` (
   `Id_Informe` INT(11) NOT NULL AUTO_INCREMENT,
-  `Observaciones` LONGTEXT NULL DEFAULT NULL,
-  `Observaciones_Vehiculo` LONGTEXT NULL DEFAULT NULL,
+  `Observaciones` VARCHAR(200) NULL DEFAULT NULL,
+  `Observaciones_Vehiculo` VARCHAR(200) NULL DEFAULT NULL,
   `Solicitud_idSolicitud` INT(11) NOT NULL,
   `importe_total` FLOAT NULL,
   PRIMARY KEY (`Id_Informe`),
@@ -712,6 +712,7 @@ CREATE TABLE IF NOT EXISTS `ine`.`solicitud_vehiculo` (
   `vehiculo_usado_idvehiculo_usado` INT NOT NULL,
   `Vehiculo` VARCHAR(100) NULL,
   `chofer` VARCHAR(1) NULL,
+  `viatico_vehiculo` VARCHAR(1) NULL,
   PRIMARY KEY (`idsolicitud_vehiculo`),
   INDEX `fk_solicitud_vehiculo_vehiculo_usado1_idx` (`vehiculo_usado_idvehiculo_usado` ASC),
   CONSTRAINT `fk_solicitud_vehiculo_vehiculo_usado1`

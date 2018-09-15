@@ -61,6 +61,7 @@ public class PrincipalS extends javax.swing.JFrame {
     int idArea=0;
     ManagerComplemento manager_complemento;
     public static int conVehiculo;//Sirve para saber si se tiene que solicitar un vehiculo cuando está en 1
+    public static int viatico_vehiculo=0;
 
     /**
      * Creates new form PrincipalS
@@ -85,6 +86,7 @@ public class PrincipalS extends javax.swing.JFrame {
         String[] recoger = lista.split(",,");
 
         cmbArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        cmbArea.addItem("Todos");
         for(int i = 1; i <= recoger.length;i = i+2){
             cmbArea.addItem(recoger[i]);
         }
@@ -131,7 +133,6 @@ public class PrincipalS extends javax.swing.JFrame {
         MenuPanelSolicitudViatico = new javax.swing.JPopupMenu();
         Add1 = new javax.swing.JMenuItem();
         SolicitarVehiculo1 = new javax.swing.JMenuItem();
-        CambiarConsejero1 = new javax.swing.JMenuItem();
         MenuInfSA = new javax.swing.JPopupMenu();
         GenerarInf = new javax.swing.JMenuItem();
         ExportarExcelInA = new javax.swing.JMenuItem();
@@ -151,7 +152,6 @@ public class PrincipalS extends javax.swing.JFrame {
         AsignarVehiculo = new javax.swing.JMenuItem();
         Add2 = new javax.swing.JMenuItem();
         SolicitarVehiculo2 = new javax.swing.JMenuItem();
-        CambiarConsejero2 = new javax.swing.JMenuItem();
         ExportarExcel1 = new javax.swing.JMenuItem();
         solicviaticos = new javax.swing.JTabbedPane();
         solicitudviaticos1 = new javax.swing.JPanel();
@@ -204,8 +204,6 @@ public class PrincipalS extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablainfo = new javax.swing.JTable();
-        txtobvia = new javax.swing.JTextArea();
-        txtobveh = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         lblObsVehiculo = new javax.swing.JLabel();
         GaTot = new javax.swing.JTextField();
@@ -215,8 +213,11 @@ public class PrincipalS extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaact = new javax.swing.JTable();
         txtKilometraje = new javax.swing.JTextField();
-        jScrollPane5 = new javax.swing.JScrollPane();
+        txtobvia = new javax.swing.JScrollPane();
+        txtobvia1 = new javax.swing.JTextArea();
         lblKilometraje = new javax.swing.JLabel();
+        txtobveh = new javax.swing.JScrollPane();
+        txtobveh1 = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablainfo1 = new javax.swing.JTable();
         btnregresar = new javax.swing.JButton();
@@ -439,14 +440,6 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuPanelSolicitudViatico.add(SolicitarVehiculo1);
 
-        CambiarConsejero1.setText("Cambiar Consejero Presidente");
-        CambiarConsejero1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CambiarConsejero1ActionPerformed(evt);
-            }
-        });
-        MenuPanelSolicitudViatico.add(CambiarConsejero1);
-
         GenerarInf.setText("Generar informe");
         GenerarInf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -560,14 +553,6 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         MenuSolicitudViaticos1.add(SolicitarVehiculo2);
-
-        CambiarConsejero2.setText("Cambiar Consejero Presidente");
-        CambiarConsejero2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CambiarConsejero2ActionPerformed(evt);
-            }
-        });
-        MenuSolicitudViaticos1.add(CambiarConsejero2);
 
         ExportarExcel1.setText("ExportarExcel");
         ExportarExcel1.addActionListener(new java.awt.event.ActionListener() {
@@ -1050,26 +1035,6 @@ public class PrincipalS extends javax.swing.JFrame {
         jPanel1.add(jScrollPane1);
         jScrollPane1.setBounds(0, 0, 1310, 480);
 
-        txtobvia.setColumns(20);
-        txtobvia.setRows(5);
-        txtobvia.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtobviaKeyTyped(evt);
-            }
-        });
-        jPanel1.add(txtobvia);
-        txtobvia.setBounds(480, 90, 800, 220);
-
-        txtobveh.setColumns(20);
-        txtobveh.setRows(5);
-        txtobveh.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtobvehKeyTyped(evt);
-            }
-        });
-        jPanel1.add(txtobveh);
-        txtobveh.setBounds(480, 350, 800, 110);
-
         jLabel1.setText("Reporte de actividaes");
         jPanel1.add(jLabel1);
         jLabel1.setBounds(810, 60, 150, 20);
@@ -1144,12 +1109,34 @@ public class PrincipalS extends javax.swing.JFrame {
         jScrollPane3.setBounds(30, 10, 420, 420);
         jPanel1.add(txtKilometraje);
         txtKilometraje.setBounds(1189, 320, 90, 20);
-        jPanel1.add(jScrollPane5);
-        jScrollPane5.setBounds(430, 80, 2, 2);
+
+        txtobvia1.setColumns(20);
+        txtobvia1.setRows(5);
+        txtobvia1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtobvia1KeyTyped(evt);
+            }
+        });
+        txtobvia.setViewportView(txtobvia1);
+
+        jPanel1.add(txtobvia);
+        txtobvia.setBounds(480, 90, 800, 220);
 
         lblKilometraje.setText("Kilometraje");
         jPanel1.add(lblKilometraje);
         lblKilometraje.setBounds(1114, 320, 60, 14);
+
+        txtobveh1.setColumns(20);
+        txtobveh1.setRows(5);
+        txtobveh1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtobveh1KeyTyped(evt);
+            }
+        });
+        txtobveh.setViewportView(txtobveh1);
+
+        jPanel1.add(txtobveh);
+        txtobveh.setBounds(480, 350, 800, 110);
 
         menuInforme.addTab("Solicitudes aceptadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), jPanel1); // NOI18N
 
@@ -1338,10 +1325,10 @@ public class PrincipalS extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         btnregresar1.setVisible(false);
-            txtobvia.setText("");
+            txtobvia1.setText("");
             txtKilometraje.setVisible(false);
             lblKilometraje.setVisible(false);
-            txtobveh.setText("");
+            txtobveh1.setText("");
             GaTot.setText("");
             txtobvia.enable(false);
             txtobveh.enable(false);
@@ -1815,21 +1802,12 @@ public class PrincipalS extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_CambiarConsejeroActionPerformed
 
-    private void CambiarConsejero1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CambiarConsejero1ActionPerformed
-        // TODO add your handling code here:
-        if (manager_permisos.accesoModulo("actualizar", "Solicitud Viaticos", Principal.Username)) {
-            String nuevo = JOptionPane.showInputDialog("Inserte el nombre del nuevo director general");
-            cbd.ejecutar("update Director_General set Nombre='" + nuevo + "'");
-        }else{
-            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para modificar el nombre del consejero presidente.");
-        }
-    }//GEN-LAST:event_CambiarConsejero1ActionPerformed
-
     private void SolicitarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitarVehiculoActionPerformed
         // TODO add your handling code here:
         if (manager_permisos.accesoModulo("alta", "Solicitud Viaticos", Principal.Username)) {
             addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
             conVehiculo = 1;
+            viatico_vehiculo=0;
             asv.setVisible(true);
         }else{
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar solicitudes de vehículos.");
@@ -1841,6 +1819,7 @@ public class PrincipalS extends javax.swing.JFrame {
         if (manager_permisos.accesoModulo("alta", "Solicitud Viaticos", Principal.Username)) {
             addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
             conVehiculo = 1;
+            viatico_vehiculo=0;
             asv.setVisible(true);
         }else{
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar solicitudes de vehículos.");
@@ -1900,7 +1879,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     sentencia.executeUpdate("UPDATE vehiculo_usado SET kilometraje='"+kilometrajeActualizado+"' where idVehiculo_usado="+idVehiculo_usado);
                     rs=cbd.getTabla("select * from vehiculos where matricula='"+matricula+"'", cn);
                     rs.next();
-                    String observaciones=rs.getString("Observaciones")+"\n------------------\n"+txtobveh.getText();
+                    String observaciones=rs.getString("Observaciones")+"\n------------------\n"+txtobveh1.getText();
                     sentencia.executeUpdate("UPDATE vehiculos SET kilometraje='"+kilometrajeActualizado+"' where matricula='"+matricula+"'");
                     sentencia.executeUpdate("UPDATE vehiculos SET observaciones='"+observaciones+"' where matricula='"+matricula+"'");
                     
@@ -1908,7 +1887,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 }
                 sentencia.executeUpdate("UPDATE Solicitud_viatico SET Reporte = '1' WHERE (idSolicitud = " + id + ")");
                 if (c == 1) {
-                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Solicitud_idSolicitud,importe_total) VALUES('" + txtobvia.getText() + "','" + txtobveh.getText() + "'," + id + "," + GaTot.getText() + ")");
+                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Solicitud_idSolicitud,importe_total) VALUES('" + txtobvia1.getText() + "','" + txtobveh1.getText() + "'," + id + "," + GaTot.getText() + ")");
                     //-----------------------------
                     ResultSet rs2 = cbd.getTabla("SELECT MAX(id_informe) AS id_informe FROM Informe",cn);
                     while (rs2.next()) {
@@ -1930,8 +1909,8 @@ public class PrincipalS extends javax.swing.JFrame {
                     javax.swing.JOptionPane.showMessageDialog(null, "Reporte Generado");
                     /////////////////////
                     btnregresar1.setVisible(false);
-                    txtobvia.setText("");
-                    txtobveh.setText("");
+                    txtobvia1.setText("");
+                    txtobveh1.setText("");
                     GaTot.setText("");
                     txtobvia.enable(false);
                     txtobveh.enable(false);
@@ -1954,12 +1933,12 @@ public class PrincipalS extends javax.swing.JFrame {
                     txtKilometraje.setVisible(false);
                     ////////////////////
                 } else {
-                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Solicitud_idSolicitud) VALUES('" + txtobvia.getText() + "','" + txtobveh.getText() + "'," + id + ")");
+                    sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Solicitud_idSolicitud) VALUES('" + txtobvia1.getText() + "','" + txtobveh1.getText() + "'," + id + ")");
                     javax.swing.JOptionPane.showMessageDialog(null, "Reporte Generado");
                     /////////////////////
                     btnregresar1.setVisible(false);
-                    txtobvia.setText("");
-                    txtobveh.setText("");
+                    txtobvia1.setText("");
+                    txtobveh1.setText("");
                     GaTot.setText("");
                     txtobvia.enable(false);
                     txtobveh.enable(false);
@@ -2352,6 +2331,13 @@ public class PrincipalS extends javax.swing.JFrame {
                         }else{
                             datos[indexDatos] = rs.getObject(i+1);
                         }
+                        if(i==8){
+                            if(rs.getObject(i+1).toString().equals("0")){
+                                datos[indexDatos] = "Pendiente";
+                            }else{
+                                datos[indexDatos] = "Terminado";
+                            }
+                        }
                         indexDatos++;
 
                     }//Llenamos las columnas por registro
@@ -2481,8 +2467,8 @@ public class PrincipalS extends javax.swing.JFrame {
         if (s == JOptionPane.YES_OPTION) {
             btnregresar1.setVisible(false);
             btnActualizarInforme.setVisible(true);
-            txtobvia.setText("");
-            txtobveh.setText("");
+            txtobvia1.setText("");
+            txtobveh1.setText("");
             GaTot.setText("");
             txtobvia.enable(false);
             txtobveh.enable(false);
@@ -2984,21 +2970,12 @@ public class PrincipalS extends javax.swing.JFrame {
         if (manager_permisos.accesoModulo("alta", "Solicitud Viaticos", Principal.Username)) {
             addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
             conVehiculo = 1;
+            viatico_vehiculo=0;
             asv.setVisible(true);
         }else{
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar solicitudes de vehículos.");
         }
     }//GEN-LAST:event_SolicitarVehiculo2ActionPerformed
-
-    private void CambiarConsejero2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CambiarConsejero2ActionPerformed
-        // TODO add your handling code here:
-        if (manager_permisos.accesoModulo("actualizar", "Solicitud Viaticos", Principal.Username)) {
-            String nuevo = JOptionPane.showInputDialog("Inserte el nombre del nuevo director general");
-            cbd.ejecutar("update Director_General set Nombre='" + nuevo + "'");
-        }else{
-            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para modificar el nombre del consejero presidente.");
-        }
-    }//GEN-LAST:event_CambiarConsejero2ActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
@@ -3013,7 +2990,13 @@ public class PrincipalS extends javax.swing.JFrame {
             //Cerrar sesion
             this.dispose();
             Login ob = new Login();
-            ob.setVisible(true);   
+            ob.setVisible(true); 
+            try {
+                cn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
     }//GEN-LAST:event_formWindowClosing
 
@@ -3022,6 +3005,7 @@ public class PrincipalS extends javax.swing.JFrame {
             Principal a = new Principal();
             a.setVisible(true);
             this.dispose();
+            cn.close();
         } catch (ClassNotFoundException | SQLException | IOException ex) {
             Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -3029,9 +3013,14 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void cmbAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAreaActionPerformed
         // TODO add your handling code here:
-        idArea=cmbArea.getSelectedIndex()+1;
-        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea);
-        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area="+idArea+" ORDER BY I.Id_Informe DESC");
+        idArea=cmbArea.getSelectedIndex();
+        if(idArea!=0){
+            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea);
+            SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area="+idArea+" ORDER BY I.Id_Informe DESC");
+        }else{
+            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+        }
     }//GEN-LAST:event_cmbAreaActionPerformed
 
     private void AsignarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AsignarVehiculoActionPerformed
@@ -3043,6 +3032,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 int idSolicitud = (int) tablasolic.getValueAt(k, 0);
                 addSolicitudViaticos asv = new addSolicitudViaticos(this, true,idSolicitud);
                 conVehiculo = 1;
+                viatico_vehiculo=1;
                 asv.setVisible(true);
             }
         }else{
@@ -3764,17 +3754,17 @@ public class PrincipalS extends javax.swing.JFrame {
         GaTot.setText(valor + "");
     }//GEN-LAST:event_tablaactKeyPressed
 
-    private void txtobviaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtobviaKeyTyped
+    private void txtobvia1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtobvia1KeyTyped
         // TODO add your handling code here:
-        txtobvia.setLineWrap(true);
-        txtobvia.setWrapStyleWord(true);
-    }//GEN-LAST:event_txtobviaKeyTyped
+        txtobvia1.setLineWrap(true);
+        txtobvia1.setWrapStyleWord(true);
+    }//GEN-LAST:event_txtobvia1KeyTyped
 
-    private void txtobvehKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtobvehKeyTyped
+    private void txtobveh1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtobveh1KeyTyped
         // TODO add your handling code here:
-        txtobveh.setLineWrap(true);
-        txtobveh.setWrapStyleWord(true);
-    }//GEN-LAST:event_txtobvehKeyTyped
+        txtobveh1.setLineWrap(true);
+        txtobveh1.setWrapStyleWord(true);
+    }//GEN-LAST:event_txtobveh1KeyTyped
 
     private void OficioViaticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OficioViaticoActionPerformed
         // TODO add your handling code here:
@@ -3989,8 +3979,6 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JMenuItem AsignarVehiculo;
     private javax.swing.JMenuItem AñadirA;
     private javax.swing.JMenuItem CambiarConsejero;
-    private javax.swing.JMenuItem CambiarConsejero1;
-    private javax.swing.JMenuItem CambiarConsejero2;
     private javax.swing.JMenuItem CancelarA;
     private javax.swing.JMenuItem CancelarP;
     private javax.swing.JMenuItem ConsultarA;
@@ -4077,7 +4065,6 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel jlb;
@@ -4107,7 +4094,9 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JTextField txtbusquedasoli;
     private javax.swing.JTextField txtbusquedasoli1;
     private javax.swing.JTextField txtbusquedasoli2;
-    private javax.swing.JTextArea txtobveh;
-    private javax.swing.JTextArea txtobvia;
+    private javax.swing.JScrollPane txtobveh;
+    private javax.swing.JTextArea txtobveh1;
+    private javax.swing.JScrollPane txtobvia;
+    private javax.swing.JTextArea txtobvia1;
     // End of variables declaration//GEN-END:variables
 }

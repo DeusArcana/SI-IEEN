@@ -249,10 +249,15 @@ public class ManagerSoViaticos {
                 }//Llenamos las columnas por registro
                 ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
                 if(aux.next()){
-                    datos[1]="Vehículo";
+                    if(aux.getString("viatico_vehiculo").equals("1")){
+                        datos[1]="Viático con vehículo";
+                    }else{
+                        datos[1]="Vehículo";
+                    }
                 }else{
                     datos[1]="Viático";
                 }
+                
                 modelo.addRow(datos);//Añadimos la fila
            }//while
             //cn.close();
@@ -360,7 +365,11 @@ public class ManagerSoViaticos {
                 }//Llenamos las columnas por registro
                 ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
                 if(aux.next()){
-                    datos[1]="Vehículo";
+                    if(aux.getString("viatico_vehiculo").equals("1")){
+                        datos[1]="Viático con vehículo";
+                    }else{
+                        datos[1]="Vehículo";
+                    }
                 }else{
                     datos[1]="Viático";
                 }
@@ -511,7 +520,11 @@ public class ManagerSoViaticos {
                 }//Llenamos las columnas por registro
                 ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
                 if(aux.next()){
-                    datos[1]="Vehículo";
+                    if(aux.getString("viatico_vehiculo").equals("1")){
+                        datos[1]="Viático con vehículo";
+                    }else{
+                        datos[1]="Vehículo";
+                    }
                 }else{
                     datos[1]="Viático";
                 }
