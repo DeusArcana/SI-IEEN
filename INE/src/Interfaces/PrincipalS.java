@@ -3794,13 +3794,11 @@ public class PrincipalS extends javax.swing.JFrame {
             int i = tablonaceptadas.getSelectedRow();
             if (i >= 0) {
                 String folio = tablonaceptadas.getValueAt(i, 0).toString();
-                try {
-                    pdf.pdfFolio(folio);
-                } catch (DocumentException ex) {
-                    Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                try{
+                    CrearOficioViatico cov=new CrearOficioViatico();
+                    List<String> datos=cbd.acceder("select O.Folio,S.Nombre,S.Puesto,O.Monto,S.Actividad,S.Lugar,S.Fecha_salida,S.Fecha_llegada,S.Pernoctado from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where O.Folio="+folio+";");
+                    cov.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6),datos.get(7),datos.get(8));
+                }catch(DocumentException e){}
             } else {
                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }

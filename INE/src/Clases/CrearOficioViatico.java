@@ -113,14 +113,15 @@ public class CrearOficioViatico {
     
     
     
-    public void createTicket(int res)throws DocumentException {
+    public void createTicket(int res,String folioComision,String empleado,String puesto_trabajo,String monto,String actividad,String lugar,String  fecha_salida,String fecha_llegada,String pernoctado)throws DocumentException {
         
         Rectangle pagesize = new Rectangle(250, 14400);
         Document doc = new Document(pagesize);
         PdfWriter docWriter = null;
         String pdfFilename="pruebaofiviatico";
         
-        /*String[] separar=fecha.split("-");
+        String[] separar=fecha_salida.split("-");
+        String[] separar_llegada=fecha_llegada.split("-");
         String mes="";
         int n=Integer.parseInt(separar[1]);
         switch(n){
@@ -161,7 +162,69 @@ public class CrearOficioViatico {
                 mes="Diciembre";
                 break;
         }
-        String fechacompleta=separar[0]+" de "+mes+" del "+separar[2];*/
+        n=Integer.parseInt(separar_llegada[1]);
+        switch(n){
+            case 1:
+                if(!mes.equals("Enero")){
+                    mes+=" - Enero";
+                }
+                break;
+            case 2:
+                if(!mes.equals("Febrero")){
+                    mes+=" - Febrero";
+                }
+                break;
+            case 3:
+                if(!mes.equals("Marzo")){
+                    mes+=" - Marzo";
+                }
+                break;
+            case 4:
+                if(!mes.equals("Abril")){
+                    mes+=" - Abril";
+                }
+                break;
+            case 5:
+                if(!mes.equals("Mayo")){
+                    mes+=" - Mayo";
+                }
+                break;
+            case 6:
+                if(!mes.equals("Junio")){
+                    mes+=" - Junio";
+                }
+                break;
+            case 7:
+                if(!mes.equals("Julio")){
+                    mes+=" - Julio";
+                }
+                break;
+            case 8:
+                if(!mes.equals("Agosto")){
+                    mes+=" - Agosto";
+                }
+                break;
+            case 9:
+                if(!mes.equals("Septiembre")){
+                    mes+=" - Septiembre";
+                }
+                break;
+            case 10:
+                if(!mes.equals("Octubre")){
+                    mes+=" - Octubre";
+                }
+                break;
+            case 11:
+                if(!mes.equals("Noviembre")){
+                    mes+=" - Noviembre";
+                }
+                break;
+            case 12:
+                if(!mes.equals("Diciembre")){
+                    mes+=" - Diciembre";
+                }
+                break;
+        }
 
         try {
 
@@ -218,7 +281,7 @@ public class CrearOficioViatico {
             folio.setWidthPercentage(100f);
             PdfPCell folioCell;
             
-            folioCell = new PdfPCell(new Phrase("FOLIO NÚMERO: "+"0001", elements3));
+            folioCell = new PdfPCell(new Phrase("FOLIO NÚMERO: "+folioComision, elements3));
             folioCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
             folioCell.setBorderColor(BaseColor.WHITE);
             folio.addCell(folioCell);
@@ -257,7 +320,7 @@ public class CrearOficioViatico {
             lineas1.setHorizontalAlignment(Element.ALIGN_LEFT);
             lineas1.setBorder(0);
             // Contenido del NOMBRE
-            lineas2 = new PdfPCell(new Phrase("DR. CELSO VALDERRAMA DELGADO", elements2));
+            lineas2 = new PdfPCell(new Phrase(empleado, elements2));
             lineas2.setBorderColor(BaseColor.WHITE);
             //lineas2.setBorderWidthTop(0);
             //lineas2.setBorderWidthLeft(0);
@@ -277,7 +340,7 @@ public class CrearOficioViatico {
             lineas12.setHorizontalAlignment(Element.ALIGN_LEFT);
             lineas12.setBorder(0);
             // Contenido deL PUESTO
-            lineas22 = new PdfPCell(new Phrase("CONSEJERO PRESIDENTE", elements2));
+            lineas22 = new PdfPCell(new Phrase(puesto_trabajo, elements2));
             lineas22.setBorderColor(BaseColor.WHITE);
             //lineas22.setBorderWidthTop(0);
             //lineas22.setBorderWidthLeft(0);
@@ -297,7 +360,7 @@ public class CrearOficioViatico {
             nombreCellPre.setHorizontalAlignment(Element.ALIGN_LEFT);
             nombreCellPre.setBorderColor(BaseColor.WHITE);
             
-            nombreCellPre2 = new PdfPCell(new Phrase("$0.000", elements2));
+            nombreCellPre2 = new PdfPCell(new Phrase("$"+monto, elements2));
             nombreCellPre2.setHorizontalAlignment(Element.ALIGN_CENTER);
             nombreCellPre2.setBackgroundColor(BaseColor.LIGHT_GRAY);
             //nombreCellPre2.setBorderColor(BaseColor.WHITE);
@@ -322,7 +385,7 @@ public class CrearOficioViatico {
             motivocon.setWidthPercentage(100f);
             PdfPCell lineascon;
             
-            lineascon = new PdfPCell(new Phrase(".", elements2));
+            lineascon = new PdfPCell(new Phrase(actividad, elements2));
             lineascon.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
             //lineas14.setBorder(0);
             motivocon.addCell(lineascon);
@@ -342,7 +405,7 @@ public class CrearOficioViatico {
             nombreestadocon.setWidthPercentage(100f);
             PdfPCell nombreCellCones;
             
-            nombreCellCones = new PdfPCell(new Phrase(".", elements2));
+            nombreCellCones = new PdfPCell(new Phrase(lugar, elements2));
             nombreCellCones.setHorizontalAlignment(Element.ALIGN_LEFT);
             //nombreCellCon.setBorderColor(BaseColor.WHITE);
             nombreestadocon.addCell(nombreCellCones);
@@ -380,7 +443,7 @@ public class CrearOficioViatico {
             lineas15.setBorder(0);
             // Contenido de la linea
             //lineas25 = new PdfPCell(new Phrase("123 "+"Hora de regreso: "+"123123"+" Horas: "+"222hrs", elements2));
-            lineas25 = new PdfPCell(new Phrase("10 y 11", elements2));
+            lineas25 = new PdfPCell(new Phrase(fecha_salida.split("-")[2]+" al "+fecha_llegada.split("-")[2], elements2));
             lineas25.setBorderWidthTop(0);
             lineas25.setBorderWidthLeft(0);
             lineas25.setBorderWidthRight(0);
@@ -393,14 +456,14 @@ public class CrearOficioViatico {
             lineas151.setBorder(0);
             // Contenido de la linea
             //lineas25 = new PdfPCell(new Phrase("123 "+"Hora de regreso: "+"123123"+" Horas: "+"222hrs", elements2));
-            lineas251 = new PdfPCell(new Phrase("Septiembre", elements2));
+            lineas251 = new PdfPCell(new Phrase(mes, elements2));
             lineas251.setBorderWidthTop(0);
             lineas251.setBorderWidthLeft(0);
             lineas251.setBorderWidthRight(0);
             lineas251.setHorizontalAlignment(Element.ALIGN_CENTER);
             
             //puntohoras
-            lineas152 = new PdfPCell(new Phrase("Sin pernoctar", elements2));
+            lineas152 = new PdfPCell(new Phrase("Pernoctado: "+pernoctado, elements2));
             lineas152.setHorizontalAlignment(Element.ALIGN_CENTER);
             lineas152.setBorder(0);
             
@@ -422,7 +485,7 @@ public class CrearOficioViatico {
             nombreCellEst.setHorizontalAlignment(Element.ALIGN_RIGHT);
             nombreCellEst.setBorderColor(BaseColor.WHITE);
             
-            nombreCellEst2 = new PdfPCell(new Phrase("$0.00", elements3));
+            nombreCellEst2 = new PdfPCell(new Phrase("$"+monto, elements3));
             nombreCellEst2.setHorizontalAlignment(Element.ALIGN_CENTER);
             nombreCellEst2.setBorderColor(BaseColor.WHITE);
             
@@ -464,7 +527,7 @@ public class CrearOficioViatico {
             firmas2.setWidths(medidaCeldasfirmas2);
             PdfPCell encabezadosfirmasCell22,encabezadosfirmasCell32,encabezadosfirmasCell42;
             
-            encabezadosfirmasCell22 = new PdfPCell(new Phrase("DR. CELSO VALDERRAMA DELGADO", elements2));
+            encabezadosfirmasCell22 = new PdfPCell(new Phrase(empleado, elements2));
             encabezadosfirmasCell22.setHorizontalAlignment(Element.ALIGN_CENTER);
             //encabezadosfirmasCell22.setBorderColor(BaseColor.WHITE);
             encabezadosfirmasCell22.setBorderWidthBottom(0);
