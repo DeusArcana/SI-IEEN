@@ -113,7 +113,7 @@ public class CrearReporteActividades {
     
     
     
-    public void createTicket(int res)throws DocumentException {
+    public void createTicket(int res,String folioComision,String lugarSalida,String actividad,String observaciones,String empleado,String puesto_trabajo)throws DocumentException {
         
         Rectangle pagesize = new Rectangle(250, 14400);
         Document doc = new Document(pagesize);
@@ -218,7 +218,7 @@ public class CrearReporteActividades {
             folio.setWidthPercentage(100f);
             PdfPCell folioCell;
             
-            folioCell = new PdfPCell(new Phrase("Oficio de Comisión: "+"0001", elements3));
+            folioCell = new PdfPCell(new Phrase("Oficio de Comisión: "+folioComision, elements3));
             folioCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
             folioCell.setBorderColor(BaseColor.WHITE);
             folio.addCell(folioCell);
@@ -257,7 +257,7 @@ public class CrearReporteActividades {
             lineaslu.setHorizontalAlignment(Element.ALIGN_LEFT);
             lineaslu.setBorder(0);
             // Contenido del NOMBRE
-            lineaslu2 = new PdfPCell(new Phrase("San Blas", elements2));
+            lineaslu2 = new PdfPCell(new Phrase(lugarSalida, elements2));
             lineaslu2.setBorderColor(BaseColor.WHITE);
             //lineas2.setBorderWidthTop(0);
             //lineas2.setBorderWidthLeft(0);
@@ -278,7 +278,7 @@ public class CrearReporteActividades {
             lineasasu.setHorizontalAlignment(Element.ALIGN_LEFT);
             lineasasu.setBorder(0);
             // Contenido del NOMBRE
-            lineasasu2 = new PdfPCell(new Phrase("Instalación de equipo de computo y equipo multifuncional en el area PREP", elements2));
+            lineasasu2 = new PdfPCell(new Phrase(actividad, elements2));
             lineasasu2.setBorderColor(BaseColor.WHITE);
             //lineas2.setBorderWidthTop(0);
             //lineas2.setBorderWidthLeft(0);
@@ -304,7 +304,7 @@ public class CrearReporteActividades {
             PdfPCell nombreCellre;
             
             
-            nombreCellre = new PdfPCell(new Phrase("Actividad1\n"+"Actividad2\n"+"Actividad3\n"+"Actividad4\n", elements2));
+            nombreCellre = new PdfPCell(new Phrase(observaciones, elements2));
             nombreCellre.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
             nombreCellre.setFixedHeight(360f); 
             nombreCellre.setBorderColor(BaseColor.WHITE);
@@ -350,7 +350,7 @@ public class CrearReporteActividades {
             encabezadosfirmasCell22.setBorderColor(BaseColor.WHITE);
             encabezadosfirmasCell22.setBackgroundColor(BaseColor.WHITE);
             
-            encabezadosfirmasCell32 = new PdfPCell(new Phrase("EDGAR DANIEL JIMÉNEZ CABRERA", elements2));
+            encabezadosfirmasCell32 = new PdfPCell(new Phrase(empleado, elements2));
             encabezadosfirmasCell32.setHorizontalAlignment(Element.ALIGN_CENTER);
             encabezadosfirmasCell32.setBorderWidthBottom(0);
             encabezadosfirmasCell32.setBorderWidthLeft(0);
@@ -379,7 +379,7 @@ public class CrearReporteActividades {
             encabezadosfirmasCellpu.setBorderColor(BaseColor.WHITE);
             encabezadosfirmasCellpu.setBackgroundColor(BaseColor.WHITE);
             
-            encabezadosfirmasCellpu2 = new PdfPCell(new Phrase("TITULAR DE LA UNIDAD TECNICA DE INFORMÁTICA Y ESTADÍSTICA", elements2));
+            encabezadosfirmasCellpu2 = new PdfPCell(new Phrase(puesto_trabajo, elements2));
             encabezadosfirmasCellpu2.setHorizontalAlignment(Element.ALIGN_CENTER);
             encabezadosfirmasCellpu2.setBorderColor(BaseColor.WHITE);
             

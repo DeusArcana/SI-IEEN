@@ -1420,10 +1420,16 @@ public class PrincipalS extends javax.swing.JFrame {
             try {
 
                 tablasolicvehiculo.clearSelection();
-                CrearPDF pdf = new CrearPDF();
                 if (fila >= 0) {
                     id = tablasolicvehiculo.getValueAt(fila, 0).toString();
-                    pdf.generarPDFSolicitud(id);
+                    CrearSolicitudViatico csv=new CrearSolicitudViatico();
+                    List<String> datos=cbd.acceder("select fecha_salida,Fecha_llegada,Nombre,lugar,actividad,Pernoctado from solicitud_viatico where idSolicitud="+id+";");
+                    List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where S.idSolicitud="+id+";");
+                    if(vehiculo.size()<1){
+                        csv.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),"");
+                    }else{
+                        csv.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),vehiculo.get(0)+"-"+vehiculo.get(1));
+                    }
                 }
             } catch (Exception e) {
 
@@ -1537,8 +1543,14 @@ public class PrincipalS extends javax.swing.JFrame {
                 }*/
                 CrearOficioComision coc=new CrearOficioComision();
                 try {
+                    
                     List<String> datos=cbd.acceder("select O.Folio,S.Nombre,S.Puesto,S.Lugar,S.Fecha_salida,S.Fecha_llegada,S.Actividad from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where O.Folio="+folio+";");
-                    coc.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6));
+                    List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio="+folio+";");
+                    if(vehiculo.size()<1){
+                        coc.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6),"");
+                    }else{
+                        coc.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6),vehiculo.get(0)+"-"+vehiculo.get(1));
+                    }
                 } catch (DocumentException ex) {
                     Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -2656,13 +2668,18 @@ public class PrincipalS extends javax.swing.JFrame {
                 String idInforme = "";
                 if (k >= 0) {
                     idInforme = tablainfo1.getValueAt(k, 0).toString();
-                    pdf.reporte(idInforme);
+                    CrearReporteActividades cra=new CrearReporteActividades();
+                    List<String> datos=cbd.acceder("select O.Folio,S.Lugar,S.Actividad,I.Observaciones,S.Nombre,S.Puesto from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join informe I on S.idSolicitud=I.Solicitud_idSolicitud where I.Id_Informe="+idInforme+";");
+                    List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio="+folio+";");
+                    if(vehiculo.size()<1){
+                        cra.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5));
+                    }else{
+                        cra.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5));
+                    }
                 } else {
                     javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar Informe");
                 }
             } catch (DocumentException ex) {
-                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
                 Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
@@ -2760,7 +2777,12 @@ public class PrincipalS extends javax.swing.JFrame {
                 CrearOficioComision coc=new CrearOficioComision();
                 try {
                     List<String> datos=cbd.acceder("select O.Folio,S.Nombre,S.Puesto,S.Lugar,S.Fecha_salida,S.Fecha_llegada,S.Actividad from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where O.Folio="+folio+";");
-                    coc.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6));
+                    List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio="+folio+";");
+                    if(vehiculo.size()<1){
+                        coc.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6),"");
+                    }else{
+                        coc.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6),vehiculo.get(0)+"-"+vehiculo.get(1));
+                    }
                 } catch (DocumentException ex) {
                     Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -2779,12 +2801,15 @@ public class PrincipalS extends javax.swing.JFrame {
             if (i >= 0) {
                 String folio = tablonarchivadas.getValueAt(i, 0).toString();
                 try {
-                    pdf.pdfFolio(folio);
-                } catch (DocumentException ex) {
-                    Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                    CrearOficioViatico cov=new CrearOficioViatico();
+                    List<String> datos=cbd.acceder("select O.Folio,S.Nombre,S.Puesto,O.Monto,S.Actividad,S.Lugar,S.Fecha_salida,S.Fecha_llegada,S.Pernoctado from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where O.Folio="+folio+";");
+                    List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio="+folio+";");
+                    if(vehiculo.size()<1){
+                        cov.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6),datos.get(7),datos.get(8),"");
+                    }else{
+                        cov.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6),datos.get(7),datos.get(8),vehiculo.get(0)+"-"+vehiculo.get(1));
+                    }
+                }catch(DocumentException e){}
             } else {
                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
@@ -2963,10 +2988,16 @@ public class PrincipalS extends javax.swing.JFrame {
             try {
 
                 tablasolic.clearSelection();
-                CrearPDF pdf = new CrearPDF();
                 if (fila >= 0) {
                     id = tablasolic.getValueAt(fila, 0).toString();
-                    pdf.generarPDFSolicitud(id);
+                    CrearSolicitudViatico csv=new CrearSolicitudViatico();
+                    List<String> datos=cbd.acceder("select fecha_salida,Fecha_llegada,Nombre,lugar,actividad,Pernoctado from solicitud_viatico where idSolicitud="+id+";");
+                    List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where S.idSolicitud="+id+";");
+                    if(vehiculo.size()<1){
+                        csv.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),"");
+                    }else{
+                        csv.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),vehiculo.get(0)+"-"+vehiculo.get(1));
+                    }
                 }
             } catch (Exception e) {
 
@@ -3797,7 +3828,12 @@ public class PrincipalS extends javax.swing.JFrame {
                 try{
                     CrearOficioViatico cov=new CrearOficioViatico();
                     List<String> datos=cbd.acceder("select O.Folio,S.Nombre,S.Puesto,O.Monto,S.Actividad,S.Lugar,S.Fecha_salida,S.Fecha_llegada,S.Pernoctado from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where O.Folio="+folio+";");
-                    cov.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6),datos.get(7),datos.get(8));
+                    List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio="+folio+";");
+                    if(vehiculo.size()<1){
+                        cov.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6),datos.get(7),datos.get(8),"");
+                    }else{
+                        cov.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6),datos.get(7),datos.get(8),vehiculo.get(0)+"-"+vehiculo.get(1));
+                    }
                 }catch(DocumentException e){}
             } else {
                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");

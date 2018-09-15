@@ -115,7 +115,7 @@ public class CrearOficioComision {
     
     
     
-    public void createTicket(int res,String folio,String empleado,String puesto,String lugar,String fecha_salida,String fecha_llegada,String actividad)throws DocumentException {
+    public void createTicket(int res,String folio,String empleado,String puesto,String lugar,String fecha_salida,String fecha_llegada,String actividad,String vehiculoAsingado)throws DocumentException {
         
         Rectangle pagesize = new Rectangle(250, 14400);
         Document doc = new Document(pagesize);
@@ -535,7 +535,7 @@ public class CrearOficioComision {
             PdfPCell nombreCellEstCon5,nombreCellEstCon6;
             estadocon3.setWidths(medidaLineas);
             
-            nombreCellEstCon5 = new PdfPCell(new Phrase("N/A", elements3));
+            nombreCellEstCon5 = new PdfPCell(new Phrase(vehiculoAsingado, elements3));
             nombreCellEstCon5.setHorizontalAlignment(Element.ALIGN_LEFT);
             nombreCellEstCon5.setBorderColor(BaseColor.WHITE);
             

@@ -37,15 +37,15 @@ import javax.swing.border.Border;
  *
  * @author GuillermoR
  */
-public class CrearOficioViatico {
+public class CrearSolicitudViatico {
     private File directorio;
     private File archivo;
     private String path, archivo_nombre;
   //  private infoTicket info;
 
-    public CrearOficioViatico(){
+    public CrearSolicitudViatico(){
     //    obtener_productos = new ObtenerProductos();
-        path = "C:\\SIIEEN\\oficiosviaticos\\";
+        path = "C:\\SIIEEN\\oficiossolicitudesviaticos\\";
         directorio = new File(path);
     //    info = new infoTicket();
             
@@ -113,15 +113,14 @@ public class CrearOficioViatico {
     
     
     
-    public void createTicket(int res,String folioComision,String empleado,String puesto_trabajo,String monto,String actividad,String lugar,String  fecha_salida,String fecha_llegada,String pernoctado,String vehiculoAsignado)throws DocumentException {
+    public void createTicket(int res,String fecha_salida,String fecha_llegada,String empleado,String lugarSalida,String actividadRealizar,String pernoctado,String vehiculoAsignado)throws DocumentException {
         
         Rectangle pagesize = new Rectangle(250, 14400);
         Document doc = new Document(pagesize);
         PdfWriter docWriter = null;
-        String pdfFilename="pruebaofiviatico";
+        String pdfFilename="pruebaofisoliviatico";
         
-        String[] separar=fecha_salida.split("-");
-        String[] separar_llegada=fecha_llegada.split("-");
+        /*String[] separar=fecha.split("-");
         String mes="";
         int n=Integer.parseInt(separar[1]);
         switch(n){
@@ -162,69 +161,7 @@ public class CrearOficioViatico {
                 mes="Diciembre";
                 break;
         }
-        n=Integer.parseInt(separar_llegada[1]);
-        switch(n){
-            case 1:
-                if(!mes.equals("Enero")){
-                    mes+=" - Enero";
-                }
-                break;
-            case 2:
-                if(!mes.equals("Febrero")){
-                    mes+=" - Febrero";
-                }
-                break;
-            case 3:
-                if(!mes.equals("Marzo")){
-                    mes+=" - Marzo";
-                }
-                break;
-            case 4:
-                if(!mes.equals("Abril")){
-                    mes+=" - Abril";
-                }
-                break;
-            case 5:
-                if(!mes.equals("Mayo")){
-                    mes+=" - Mayo";
-                }
-                break;
-            case 6:
-                if(!mes.equals("Junio")){
-                    mes+=" - Junio";
-                }
-                break;
-            case 7:
-                if(!mes.equals("Julio")){
-                    mes+=" - Julio";
-                }
-                break;
-            case 8:
-                if(!mes.equals("Agosto")){
-                    mes+=" - Agosto";
-                }
-                break;
-            case 9:
-                if(!mes.equals("Septiembre")){
-                    mes+=" - Septiembre";
-                }
-                break;
-            case 10:
-                if(!mes.equals("Octubre")){
-                    mes+=" - Octubre";
-                }
-                break;
-            case 11:
-                if(!mes.equals("Noviembre")){
-                    mes+=" - Noviembre";
-                }
-                break;
-            case 12:
-                if(!mes.equals("Diciembre")){
-                    mes+=" - Diciembre";
-                }
-                break;
-        }
+        String fechacompleta=separar[0]+" de "+mes+" del "+separar[2];*/
 
         try {
 
@@ -255,7 +192,7 @@ public class CrearOficioViatico {
             image.scaleAbsoluteWidth(90f);
             image.scaleAbsoluteHeight(75f);
             PdfPCell LogoCell = new PdfPCell(image, false);
-           LogoCell.setBorderColor(BaseColor.WHITE);
+            LogoCell.setBorderColor(BaseColor.WHITE);
           
 
             Head.addCell(LogoCell);
@@ -276,243 +213,228 @@ public class CrearOficioViatico {
             
             addEmptyLine(BLANCO, (float) 1);       
             
-            //folio
-            PdfPTable folio = new PdfPTable(1);
-            folio.setWidthPercentage(100f);
-            PdfPCell folioCell;
-            
-            folioCell = new PdfPCell(new Phrase("FOLIO NÚMERO: "+folioComision, elements3));
-            folioCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            folioCell.setBorderColor(BaseColor.WHITE);
-            folio.addCell(folioCell);
-            //FECHA
-            PdfPTable fecha = new PdfPTable(1);
-            fecha.setWidthPercentage(100f);
-            PdfPCell fechaCell;
-            
-            fechaCell = new PdfPCell(new Phrase("Tepic, Nayarit 11 de Septiembre del 2018", elements3));
-            fechaCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            fechaCell.setBorderColor(BaseColor.WHITE);
-            fecha.addCell(fechaCell);
-            
             //nombreoficio
             PdfPTable nombreofi = new PdfPTable(1);
             nombreofi.setWidthPercentage(100f);
             PdfPCell nombreCellOfi;
             
-            nombreCellOfi = new PdfPCell(new Phrase("VIÁTICOS", Mex));
+            nombreCellOfi = new PdfPCell(new Phrase("SOLICITUD DE VIÁTICOS", Mex));
             nombreCellOfi.setHorizontalAlignment(Element.ALIGN_CENTER);
             nombreCellOfi.setBorderColor(BaseColor.WHITE);
             nombreofi.addCell(nombreCellOfi);           
             
             //NOMBRECONSEJERO
-            PdfPTable nombre = new PdfPTable(2);
-            nombre.setWidthPercentage(100f);
+            PdfPTable fechasalida = new PdfPTable(2);
+            fechasalida.setWidthPercentage(100f);
             PdfPCell lineas1,lineas2;
-            //float[] medidaLineas = {0.65f, 2.10f};
+            float[] medidaLineas = {0.65f, 2.10f};
             float[] medidaLineas2 = {0.35f,2.40f};
-            //float[] medidaLineas3 = {0.45f,2.30f};
-            float[] medidaLineas4 = {2.10f,0.65f};
-            nombre.setWidths(medidaLineas2);
+            float[] medidaLineas3 = {0.45f,2.30f};
+            fechasalida.setWidths(medidaLineas);
             
             
-            lineas1 = new PdfPCell(new Phrase("Nombre:", elements3));
-            lineas1.setHorizontalAlignment(Element.ALIGN_LEFT);
-            lineas1.setBorder(0);
+            lineas1 = new PdfPCell(new Phrase("Fecha de salida:", elements3));
+            lineas1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            lineas1.setBorderColor(BaseColor.WHITE);
+            //lineas1.setBorder(0);
             // Contenido del NOMBRE
-            lineas2 = new PdfPCell(new Phrase(empleado, elements2));
+            lineas2 = new PdfPCell(new Phrase(fecha_salida, elements2));
             lineas2.setBorderColor(BaseColor.WHITE);
             //lineas2.setBorderWidthTop(0);
             //lineas2.setBorderWidthLeft(0);
             //lineas2.setBorderWidthRight(0);
+            //lineas2.setBorder(0);
             lineas2.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
             
-            nombre.addCell(lineas1);
-            nombre.addCell(lineas2);
+            fechasalida.addCell(lineas1);
+            fechasalida.addCell(lineas2);
             
             //PUESTO
-            PdfPTable puesto = new PdfPTable(2);
-            puesto.setWidthPercentage(100f);
+            PdfPTable fechallegada = new PdfPTable(2);
+            fechallegada.setWidthPercentage(100f);
             PdfPCell lineas12,lineas22;
-            puesto.setWidths(medidaLineas2);
+            fechallegada.setWidths(medidaLineas);
             
-            lineas12 = new PdfPCell(new Phrase("Puesto:", elements3));
-            lineas12.setHorizontalAlignment(Element.ALIGN_LEFT);
-            lineas12.setBorder(0);
+            lineas12 = new PdfPCell(new Phrase("Fecha de llegada:", elements3));
+            lineas12.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            lineas12.setBorderColor(BaseColor.WHITE);
+            //lineas12.setBorder(0);
             // Contenido deL PUESTO
-            lineas22 = new PdfPCell(new Phrase(puesto_trabajo, elements2));
+            lineas22 = new PdfPCell(new Phrase(fecha_llegada, elements2));
             lineas22.setBorderColor(BaseColor.WHITE);
             //lineas22.setBorderWidthTop(0);
             //lineas22.setBorderWidthLeft(0);
             //lineas22.setBorderWidthRight(0);
+            //lineas22.setBorder(0);
             lineas22.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
             
-            puesto.addCell(lineas12);
-            puesto.addCell(lineas22);
+            fechallegada.addCell(lineas12);
+            fechallegada.addCell(lineas22);
+            
+            //nombre
+            //nombreoficio
+            PdfPTable nombre = new PdfPTable(2);
+            nombre.setWidthPercentage(100f);
+            PdfPCell nombreCellno,nombreCellno2;
+            nombre.setWidths(medidaLineas);
+            
+            nombreCellno = new PdfPCell(new Phrase("Nombre:", elements3));
+            nombreCellno.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            nombreCellno.setBorderColor(BaseColor.WHITE);
+            
+            nombreCellno2 = new PdfPCell(new Phrase(empleado, elements2));
+            nombreCellno2.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+            nombreCellno2.setBorderColor(BaseColor.WHITE);
+            
+            nombre.addCell(nombreCellno);
+            nombre.addCell(nombreCellno2);
             
             //nombreoficio
-            PdfPTable autocantidad = new PdfPTable(2);
-            autocantidad.setWidthPercentage(100f);
+            PdfPTable lugar = new PdfPTable(2);
+            lugar.setWidthPercentage(100f);
             PdfPCell nombreCellPre,nombreCellPre2;
-            autocantidad.setWidths(medidaLineas4);
+            lugar.setWidths(medidaLineas);
             
-            nombreCellPre = new PdfPCell(new Phrase("Con base en el oficio de comisión se autoriza la cantidad de:", elements3));
-            nombreCellPre.setHorizontalAlignment(Element.ALIGN_LEFT);
+            nombreCellPre = new PdfPCell(new Phrase("Lugar:", elements3));
+            nombreCellPre.setHorizontalAlignment(Element.ALIGN_RIGHT);
             nombreCellPre.setBorderColor(BaseColor.WHITE);
             
-            nombreCellPre2 = new PdfPCell(new Phrase("$"+monto, elements2));
-            nombreCellPre2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            nombreCellPre2.setBackgroundColor(BaseColor.LIGHT_GRAY);
-            //nombreCellPre2.setBorderColor(BaseColor.WHITE);
+            nombreCellPre2 = new PdfPCell(new Phrase(lugarSalida, elements2));
+            nombreCellPre2.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+            nombreCellPre2.setBorderColor(BaseColor.WHITE);
             
-            autocantidad.addCell(nombreCellPre);
-            autocantidad.addCell(nombreCellPre2);
+            lugar.addCell(nombreCellPre);
+            lugar.addCell(nombreCellPre2);
             
             //FECHA
-            PdfPTable motivo = new PdfPTable(1);
-            motivo.setWidthPercentage(100f);
-            PdfPCell lineas14;
-            //motivo.setWidths(medidaLineas);
+            PdfPTable actividad = new PdfPTable(2);
+            actividad.setWidthPercentage(100f);
+            PdfPCell lineas14,lineas24;
+            actividad.setWidths(medidaLineas);
             
-            lineas14 = new PdfPCell(new Phrase("Con motivo de:", elements3));
-            lineas14.setHorizontalAlignment(Element.ALIGN_LEFT);
-            lineas14.setBorder(0);
-            
-            motivo.addCell(lineas14);
-            
-            //contenido de motivo
-            PdfPTable motivocon = new PdfPTable(1);
-            motivocon.setWidthPercentage(100f);
-            PdfPCell lineascon;
-            
-            lineascon = new PdfPCell(new Phrase(actividad, elements2));
-            lineascon.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+            lineas14 = new PdfPCell(new Phrase("Actividad:", elements3));
+            lineas14.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            lineas14.setBorderColor(BaseColor.WHITE);
             //lineas14.setBorder(0);
-            motivocon.addCell(lineascon);
+            // Contenido de la linea
+            //lineas24 = new PdfPCell(new Phrase("ESTE ES UN EJEMPLO DE UNA Dirección/Área", elements2));
+            lineas24 = new PdfPCell(new Phrase(actividadRealizar, elements2));
+            lineas24.setBorderColor(BaseColor.WHITE);
+            lineas24.setFixedHeight(100f); 
+            //lineas24.setBorderWidthTop(0);
+            //lineas24.setBorderWidthLeft(0);
+            //lineas24.setBorderWidthRight(0);
+            //lineas24.setBorder(0);
+            lineas24.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
             
-            //nombre estado
-            PdfPTable nombreestado = new PdfPTable(1);
-            nombreestado.setWidthPercentage(100f);
-            PdfPCell nombreCellCon;
-            
-            nombreCellCon = new PdfPCell(new Phrase("Para llevar a cabo la visita de trabajo en el estado de:", elements3));
-            nombreCellCon.setHorizontalAlignment(Element.ALIGN_LEFT);
-            nombreCellCon.setBorderColor(BaseColor.WHITE);
-            nombreestado.addCell(nombreCellCon);
-            
-            //nombre estado
-            PdfPTable nombreestadocon = new PdfPTable(1);
-            nombreestadocon.setWidthPercentage(100f);
-            PdfPCell nombreCellCones;
-            
-            nombreCellCones = new PdfPCell(new Phrase(lugar, elements2));
-            nombreCellCones.setHorizontalAlignment(Element.ALIGN_LEFT);
-            //nombreCellCon.setBorderColor(BaseColor.WHITE);
-            nombreestadocon.addCell(nombreCellCones);
-            
-            //vehiculo
-            PdfPTable vehiculo = new PdfPTable(1);
-            vehiculo.setWidthPercentage(100f);
-            PdfPCell nombreCellVeh;
-            
-            nombreCellVeh = new PdfPCell(new Phrase("Vehiculo oficial asignado:", elements3));
-            nombreCellVeh.setHorizontalAlignment(Element.ALIGN_LEFT);
-            nombreCellCon.setBorderColor(BaseColor.WHITE);
-            vehiculo.addCell(nombreCellVeh);
-            
-            //nombre estado
-            PdfPTable vehiculocon = new PdfPTable(1);
-            vehiculocon.setWidthPercentage(100f);
-            PdfPCell nombreCellVehcon;
-            
-            nombreCellVehcon = new PdfPCell(new Phrase(vehiculoAsignado, elements2));
-            nombreCellVehcon.setHorizontalAlignment(Element.ALIGN_LEFT);
-            //nombreCellCon.setBorderColor(BaseColor.WHITE);
-            vehiculocon.addCell(nombreCellVehcon);
+            actividad.addCell(lineas14);
+            actividad.addCell(lineas24);
             
             //contenidodelsonsignado
-            PdfPTable dias = new PdfPTable(5);
-            dias.setWidthPercentage(100f);
-            float[] contenidomedidash = {2.15f,2.0f,0.70f,2.0f,3.60f};
-            dias.setWidths(contenidomedidash);
-            PdfPCell lineas15,lineas25,lineas151,lineas251,lineas152;
+            PdfPTable pernoctar = new PdfPTable(6);
+            pernoctar.setWidthPercentage(100f);
+            float[] contenidomedidash = {2.50f,2.50f,2.50f,2.50f,2.50f,2.50f};
+            pernoctar.setWidths(contenidomedidash);
+            PdfPCell lineas15,lineas25,lineas151,lineas251,lineas152,lineas252;
             //tableLineas5.setWidths(medidaLineas);
             
-            lineas15 = new PdfPCell(new Phrase("Los dias:", elements3));
+            lineas15 = new PdfPCell(new Phrase("", elements3));
             lineas15.setHorizontalAlignment(Element.ALIGN_CENTER);
-            lineas15.setBorder(0);
+            lineas15.setBorderColor(BaseColor.WHITE);
+            //lineas15.setBorder(0);
             // Contenido de la linea
             //lineas25 = new PdfPCell(new Phrase("123 "+"Hora de regreso: "+"123123"+" Horas: "+"222hrs", elements2));
-            lineas25 = new PdfPCell(new Phrase(fecha_salida.split("-")[2]+" al "+fecha_llegada.split("-")[2], elements2));
-            lineas25.setBorderWidthTop(0);
-            lineas25.setBorderWidthLeft(0);
-            lineas25.setBorderWidthRight(0);
+            lineas25 = new PdfPCell(new Phrase("Pernoctado:", elements2));
+            lineas25.setBorderColor(BaseColor.WHITE);
+            //lineas25.setBorderWidthTop(0);
+            //lineas25.setBorderWidthLeft(0);
+            //lineas25.setBorderWidthRight(0);
             lineas25.setHorizontalAlignment(Element.ALIGN_CENTER);
             
             //puntohorall
-            
-            lineas151 = new PdfPCell(new Phrase("de", elements3));
+            String per="";
+            if(pernoctado.equals("Si")){
+                per="X";
+            }
+            lineas151 = new PdfPCell(new Phrase(per, elements3));
             lineas151.setHorizontalAlignment(Element.ALIGN_CENTER);
-            lineas151.setBorder(0);
+            lineas151.setBorderWidthRight(0);
+            lineas151.setBorderWidthLeft(0);
+            lineas151.setBorderWidthTop(0);
+            //lineas151.setBorder(0);
             // Contenido de la linea
             //lineas25 = new PdfPCell(new Phrase("123 "+"Hora de regreso: "+"123123"+" Horas: "+"222hrs", elements2));
-            lineas251 = new PdfPCell(new Phrase(mes, elements2));
-            lineas251.setBorderWidthTop(0);
-            lineas251.setBorderWidthLeft(0);
-            lineas251.setBorderWidthRight(0);
+            lineas251 = new PdfPCell(new Phrase("Sin pernoctar", elements2));
+            lineas251.setBorderColor(BaseColor.WHITE);
+            //lineas251.setBorderWidthTop(0);
+            //lineas251.setBorderWidthLeft(0);
+            //lineas251.setBorderWidthRight(0);
             lineas251.setHorizontalAlignment(Element.ALIGN_CENTER);
             
             //puntohoras
-            lineas152 = new PdfPCell(new Phrase("Pernoctado: "+pernoctado, elements2));
+            if(pernoctado.equals("No")){
+                per="X";
+            }else{
+                per="";
+            }
+            lineas152 = new PdfPCell(new Phrase(per, elements3));
             lineas152.setHorizontalAlignment(Element.ALIGN_CENTER);
-            lineas152.setBorder(0);
+            lineas152.setBorderWidthRight(0);
+            lineas152.setBorderWidthLeft(0);
+            lineas152.setBorderWidthTop(0);
+            // Contenido de la linea
+            //lineas25 = new PdfPCell(new Phrase("123 "+"Hora de regreso: "+"123123"+" Horas: "+"222hrs", elements2));
+            lineas252 = new PdfPCell(new Phrase("", elements2));
+            lineas252.setBorderColor(BaseColor.WHITE);
+            //lineas252.setBorderWidthTop(0);
+            //lineas252.setBorderWidthLeft(0);
+            //lineas252.setBorderWidthRight(0);
+            lineas252.setHorizontalAlignment(Element.ALIGN_CENTER);
             
-            dias.addCell(lineas15);
-            dias.addCell(lineas25);
-            dias.addCell(lineas151);
-            dias.addCell(lineas251);
-            dias.addCell(lineas152);
-                        
-             //estado
-            PdfPTable total = new PdfPTable(2);
-            total.setWidthPercentage(100f);
-            PdfPCell nombreCellEst,nombreCellEst2;
-            float[] medidaLineas5 = {2.10f,0.50f};
-            total.setWidths(medidaLineas5);
+            pernoctar.addCell(lineas15);
+            pernoctar.addCell(lineas25);
+            pernoctar.addCell(lineas151);
+            pernoctar.addCell(lineas251);
+            pernoctar.addCell(lineas152);
+            pernoctar.addCell(lineas252);
             
+            //nombreoficio
+            PdfPTable vehiculo = new PdfPTable(2);
+            vehiculo.setWidthPercentage(100f);
+            PdfPCell nombreCellve,nombreCellve2;
+            vehiculo.setWidths(medidaLineas);
             
-            nombreCellEst = new PdfPCell(new Phrase("TOTAL:", elements3));
-            nombreCellEst.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            nombreCellEst.setBorderColor(BaseColor.WHITE);
+            nombreCellve = new PdfPCell(new Phrase("Vehiculo:", elements3));
+            nombreCellve.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            nombreCellve.setBorderColor(BaseColor.WHITE);
             
-            nombreCellEst2 = new PdfPCell(new Phrase("$"+monto, elements3));
-            nombreCellEst2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            nombreCellEst2.setBorderColor(BaseColor.WHITE);
+            nombreCellve2 = new PdfPCell(new Phrase(vehiculoAsignado, elements2));
+            nombreCellve2.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+            nombreCellve2.setBorderColor(BaseColor.WHITE);
             
-            total.addCell(nombreCellEst);
-            total.addCell(nombreCellEst2);
-            
+            vehiculo.addCell(nombreCellve);
+            vehiculo.addCell(nombreCellve2);
             
             //area de firma de autorizado
             PdfPTable firmas = new PdfPTable(3);
             firmas.setWidthPercentage(100f);
-            float[] medidaCeldasfirmas = {1.85f,1.10f,1.85f};
+            float[] medidaCeldasfirmas = {1.10f,1.85f,1.10f};
             firmas.setWidths(medidaCeldasfirmas);
             PdfPCell encabezadosfirmasCell,encabezadosfirmasCell2,encabezadosfirmasCell3;
             
-            encabezadosfirmasCell = new PdfPCell(new Phrase("Firma de autorizado", elements2));
-            encabezadosfirmasCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            encabezadosfirmasCell = new PdfPCell(new Phrase("", elements2));
+            //encabezadosfirmasCell.setHorizontalAlignment(Element.ALIGN_CENTER);
             encabezadosfirmasCell.setBorderColor(BaseColor.WHITE);
             encabezadosfirmasCell.setBackgroundColor(BaseColor.WHITE);
             
-            encabezadosfirmasCell2 = new PdfPCell(new Phrase("", elements2));
+            encabezadosfirmasCell2 = new PdfPCell(new Phrase("V°.B°.", elements2));
             encabezadosfirmasCell2.setHorizontalAlignment(Element.ALIGN_CENTER);
             encabezadosfirmasCell2.setBorderColor(BaseColor.WHITE);
             
             //encabezadosfirmasCell2.setBorder(0);
             
-            encabezadosfirmasCell3 = new PdfPCell(new Phrase("Firma de autorizado", elements2));
-            encabezadosfirmasCell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+            encabezadosfirmasCell3 = new PdfPCell(new Phrase("", elements2));
+            //encabezadosfirmasCell3.setHorizontalAlignment(Element.ALIGN_CENTER);
             encabezadosfirmasCell3.setBorderColor(BaseColor.WHITE);
             encabezadosfirmasCell3.setBackgroundColor(BaseColor.WHITE);
 
@@ -523,32 +445,26 @@ public class CrearOficioViatico {
             //area de firma
             PdfPTable firmas2 = new PdfPTable(3);
             firmas2.setWidthPercentage(100f);
-            float[] medidaCeldasfirmas2 = {1.85f,1.10f,1.85f};
+            float[] medidaCeldasfirmas2 = {1.10f,1.85f,1.10f};
             firmas2.setWidths(medidaCeldasfirmas2);
             PdfPCell encabezadosfirmasCell22,encabezadosfirmasCell32,encabezadosfirmasCell42;
             
-            encabezadosfirmasCell22 = new PdfPCell(new Phrase(empleado, elements2));
-            encabezadosfirmasCell22.setHorizontalAlignment(Element.ALIGN_CENTER);
-            //encabezadosfirmasCell22.setBorderColor(BaseColor.WHITE);
-            encabezadosfirmasCell22.setBorderWidthBottom(0);
-            encabezadosfirmasCell22.setBorderWidthLeft(0);
-            encabezadosfirmasCell22.setBorderWidthRight(0);
+            encabezadosfirmasCell22 = new PdfPCell(new Phrase("", elements2));
+            //encabezadosfirmasCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            encabezadosfirmasCell22.setBorderColor(BaseColor.WHITE);
             encabezadosfirmasCell22.setBackgroundColor(BaseColor.WHITE);
             
-            encabezadosfirmasCell32 = new PdfPCell(new Phrase("", elements2));
+            encabezadosfirmasCell32 = new PdfPCell(new Phrase("CELSO VALDERRAMA DELGADO", elements2));
             encabezadosfirmasCell32.setHorizontalAlignment(Element.ALIGN_CENTER);
-            encabezadosfirmasCell32.setBorderColor(BaseColor.WHITE);
-            //encabezadosfirmasCell32.setBorderWidthBottom(0);
-            //encabezadosfirmasCell32.setBorderWidthLeft(0);
-            //encabezadosfirmasCell32.setBorderWidthRight(0);
+            encabezadosfirmasCell32.setBorderWidthBottom(0);
+            encabezadosfirmasCell32.setBorderWidthLeft(0);
+            encabezadosfirmasCell32.setBorderWidthRight(0);
             
             //encabezadosfirmasCell2.setBorder(0);
             
-            encabezadosfirmasCell42 = new PdfPCell(new Phrase("MTRO. RODRIGO ARANZABAL GONZALEZ", elements2));
-            encabezadosfirmasCell42.setHorizontalAlignment(Element.ALIGN_CENTER);
-            encabezadosfirmasCell42.setBorderWidthBottom(0);
-            encabezadosfirmasCell42.setBorderWidthLeft(0);
-            encabezadosfirmasCell42.setBorderWidthRight(0);
+            encabezadosfirmasCell42 = new PdfPCell(new Phrase("", elements2));
+            //encabezadosfirmasCell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+            encabezadosfirmasCell42.setBorderColor(BaseColor.WHITE);
             encabezadosfirmasCell42.setBackgroundColor(BaseColor.WHITE);
 
             firmas2.addCell(encabezadosfirmasCell22);
@@ -558,23 +474,23 @@ public class CrearOficioViatico {
             //area de firmas 2
             PdfPTable firmas3 = new PdfPTable(3);
             firmas3.setWidthPercentage(100f);
-            float[] medidaCeldasfirmas3 = {1.85f,1.10f,1.85f};
+            float[] medidaCeldasfirmas3 = {1.10f,1.85f,1.10f};
             firmas3.setWidths(medidaCeldasfirmas3);
             PdfPCell encabezadosfirmasCell221,encabezadosfirmasCell321,encabezadosfirmasCell421;
             
-            encabezadosfirmasCell221 = new PdfPCell(new Phrase("COMISIONADO", elements2));
-            encabezadosfirmasCell221.setHorizontalAlignment(Element.ALIGN_CENTER);
+            encabezadosfirmasCell221 = new PdfPCell(new Phrase("", elements2));
+            //encabezadosfirmasCell.setHorizontalAlignment(Element.ALIGN_CENTER);
             encabezadosfirmasCell221.setBorderColor(BaseColor.WHITE);
             encabezadosfirmasCell221.setBackgroundColor(BaseColor.WHITE);
             
-            encabezadosfirmasCell321 = new PdfPCell(new Phrase("", elements2));
+            encabezadosfirmasCell321 = new PdfPCell(new Phrase("SOLICITANTE", elements2));
             encabezadosfirmasCell321.setHorizontalAlignment(Element.ALIGN_CENTER);
             encabezadosfirmasCell321.setBorderColor(BaseColor.WHITE);
             
             //encabezadosfirmasCell2.setBorder(0);
             
-            encabezadosfirmasCell421 = new PdfPCell(new Phrase("DIRECTOR ADMINISTRATIVO", elements2));
-            encabezadosfirmasCell421.setHorizontalAlignment(Element.ALIGN_CENTER);
+            encabezadosfirmasCell421 = new PdfPCell(new Phrase("", elements2));
+            //encabezadosfirmasCell3.setHorizontalAlignment(Element.ALIGN_CENTER);
             encabezadosfirmasCell421.setBorderColor(BaseColor.WHITE);
             encabezadosfirmasCell421.setBackgroundColor(BaseColor.WHITE);
 
@@ -587,60 +503,53 @@ public class CrearOficioViatico {
             //Encabezado   Logo | Instituto estatal ....
             doc.add(Head); 
             //nombre
-            doc.add(folio);
             doc.add(BLANCO);
-            doc.add(fecha);
+            doc.add(nombreofi);
             //Espacio en blanco
+            doc.add(BLANCO);
             doc.add(BLANCO);
             //Encabezados
-            doc.add(nombreofi);
-            //nombre            
-            doc.add(BLANCO);
-            //doc.add(BLANCO);
-            doc.add(nombre);
-            //puesto
-            doc.add(BLANCO);
-            doc.add(puesto);
-            //cantidadasignada
+            doc.add(fechasalida);
+            //
             doc.add(BLANCO);
             doc.add(BLANCO);
-            doc.add(autocantidad);
-            //motivo
-            doc.add(BLANCO);
-            doc.add(BLANCO);
-            doc.add(motivo);
-            doc.add(motivocon);
-            //estado
-            doc.add(BLANCO);
-            doc.add(BLANCO);
-            doc.add(nombreestado);
-            doc.add(nombreestadocon);
-            //vehiculo
-            doc.add(BLANCO);
-             doc.add(BLANCO);
-            doc.add(vehiculo);
-            doc.add(vehiculocon);
-            //asignardias
-            doc.add(BLANCO);
-            doc.add(BLANCO);
-            doc.add(dias);
+            // Lineas
+            doc.add(fechallegada);
             //Espacio en blanco
-            //total
             doc.add(BLANCO);
             doc.add(BLANCO);
-            doc.add(total);
+            doc.add(nombre);
+            //Espacio en blanco
+            doc.add(BLANCO);
+            doc.add(BLANCO);
+            doc.add(lugar);
+            //Espacio en blanco
+            doc.add(BLANCO);
+            doc.add(BLANCO);
+            doc.add(actividad);
+
+            doc.add(BLANCO);
+            doc.add(BLANCO);
+            doc.add(pernoctar);
+            //Espacio en blanco
             
+            doc.add(BLANCO);
+            doc.add(BLANCO);
+            doc.add(vehiculo);
+                      
             //fimas
             doc.add(BLANCO);
             doc.add(BLANCO);
             doc.add(BLANCO);
             doc.add(BLANCO);
+            doc.add(BLANCO);
+            doc.add(BLANCO);
             
+            //doc.add(BLANCO);
             
             doc.add(firmas);
             
             //fimas
-            doc.add(BLANCO);
             doc.add(BLANCO);
             doc.add(BLANCO);
             doc.add(firmas2);
@@ -669,7 +578,7 @@ public class CrearOficioViatico {
         }
     }
     public void imprimir() throws IOException{
-        File fileToPrint = new File("C:\\SIIEEN\\oficiosviaticos\\"+archivo_nombre+".pdf");
+        File fileToPrint = new File("C:\\SIIEEN\\oficiossolicitudesviaticos\\"+archivo_nombre+".pdf");
 		Desktop.getDesktop().open(fileToPrint);
     }
     
