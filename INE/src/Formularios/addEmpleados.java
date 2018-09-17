@@ -357,7 +357,7 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel14.setBounds(470, 170, 32, 17);
 
         jLabel19.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
-        jLabel19.setText("* Campos requeridos.");
+        jLabel19.setText("* Campos obligatorios.");
         pn_empleado.add(jLabel19);
         jLabel19.setBounds(30, 246, 160, 30);
 

@@ -438,7 +438,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         campo.setBounds(640, 360, 50, 20);
 
         jLabel16.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
-        jLabel16.setText("* Campos requeridos.");
+        jLabel16.setText("* Campos obligatorios.");
         pn_permisos.add(jLabel16);
         jLabel16.setBounds(30, 460, 160, 16);
 
