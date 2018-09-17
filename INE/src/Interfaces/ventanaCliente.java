@@ -178,7 +178,8 @@ public class ventanaCliente extends javax.swing.JFrame {
                 guardarIP(campoIP.getText());
                 Login login = new Login();
                 login.setVisible(true);
-
+                
+                this.dispose();
             } else {
                 System.out.println("" + InetAddress.getByName(host).isReachable(1000));
             }

@@ -45,6 +45,7 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import org.jvnet.substance.SubstanceLookAndFeel;
 
 /**
  *
@@ -4084,7 +4085,7 @@ public class PrincipalS extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
+         SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.OfficeSilver2007Skin");
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

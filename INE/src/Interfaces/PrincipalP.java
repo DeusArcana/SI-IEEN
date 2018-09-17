@@ -28,6 +28,7 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import org.jvnet.substance.SubstanceLookAndFeel;
 
 /**
  *
@@ -83,7 +84,7 @@ public class PrincipalP extends javax.swing.JFrame {
         tablapase = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel17 = new javax.swing.JLabel();
         txtbusquedasoli = new javax.swing.JTextField();
-        comboAño = new javax.swing.JComboBox<String>();
+        comboAño = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
@@ -789,7 +790,7 @@ public class PrincipalP extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(PrincipalP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.OfficeSilver2007Skin");
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

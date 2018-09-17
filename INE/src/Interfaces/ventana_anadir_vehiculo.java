@@ -355,7 +355,7 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
         jLabel15.setBounds(10, 230, 100, 16);
 
         jLabel16.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
-        jLabel16.setText("* Campos requeridos.");
+        jLabel16.setText("* Campos obligatorios.");
         pn_permisos.add(jLabel16);
         jLabel16.setBounds(30, 460, 160, 16);
 
