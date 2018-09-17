@@ -274,7 +274,7 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
                 }
                 ResultSet vehiculo = sentencia.executeQuery("select * from vehiculo_viatico VV  inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where VV.solicitud_viatico_idSolicitud= " + id);
                 while(vehiculo.next()){
-                    if(vehiculo.getString("chofer")!=null){
+                    if(vehiculo.getString("agregado").equals("0")){
                         txt_Vehiculo.setText(vehiculo.getString("vehiculos_Matricula")+"-"+vehiculo.getString("Vehiculo")+" (Chofer)");
                     }else{
                         txt_Vehiculo.setText(vehiculo.getString("vehiculos_Matricula")+"-"+vehiculo.getString("Vehiculo"));
@@ -304,7 +304,7 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
                 }
                 ResultSet vehiculo = sentencia.executeQuery("select * from vehiculo_viatico VV  inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where VV.solicitud_viatico_idSolicitud= " + id);
                 while(vehiculo.next()){
-                    if(vehiculo.getString("chofer")!=null){
+                    if(vehiculo.getString("agregado").equals("0")){
                         txt_Vehiculo.setText(vehiculo.getString("vehiculos_Matricula")+"-"+vehiculo.getString("Vehiculo")+" (Chofer)");
                     }else{
                         txt_Vehiculo.setText(vehiculo.getString("vehiculos_Matricula")+"-"+vehiculo.getString("Vehiculo"));
