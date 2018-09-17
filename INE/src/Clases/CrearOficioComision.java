@@ -115,7 +115,7 @@ public class CrearOficioComision {
     
     
     
-    public void createTicket(int res,String folio,String empleado,String puesto,String lugar,String fecha_salida,String fecha_llegada,String actividad,String vehiculoAsingado)throws DocumentException {
+    public void createTicket(int res,String folio,String empleado,String puesto,String lugar,String fecha_salida,String fecha_llegada,String actividad,String vehiculoAsingado, String responsable,String puestoResp)throws DocumentException {
         
         Rectangle pagesize = new Rectangle(250, 14400);
         Document doc = new Document(pagesize);
@@ -586,7 +586,7 @@ public class CrearOficioComision {
             encabezadosfirmasCell22.setBorderColor(BaseColor.WHITE);
             encabezadosfirmasCell22.setBackgroundColor(BaseColor.WHITE);
             
-            encabezadosfirmasCell32 = new PdfPCell(new Phrase("MTRO. RODRIGO ARANZABAL GONZALEZ", elements2));
+            encabezadosfirmasCell32 = new PdfPCell(new Phrase(responsable, elements2));
             encabezadosfirmasCell32.setHorizontalAlignment(Element.ALIGN_CENTER);
             encabezadosfirmasCell32.setBorderWidthBottom(0);
             encabezadosfirmasCell32.setBorderWidthLeft(0);
@@ -615,7 +615,7 @@ public class CrearOficioComision {
             encabezadosfirmasCell221.setBorderColor(BaseColor.WHITE);
             encabezadosfirmasCell221.setBackgroundColor(BaseColor.WHITE);
             
-            encabezadosfirmasCell321 = new PdfPCell(new Phrase("DIRECTOR ADMINISTRATIVO", elements2));
+            encabezadosfirmasCell321 = new PdfPCell(new Phrase(puestoResp, elements2));
             encabezadosfirmasCell321.setHorizontalAlignment(Element.ALIGN_CENTER);
             encabezadosfirmasCell321.setBorderColor(BaseColor.WHITE);
             

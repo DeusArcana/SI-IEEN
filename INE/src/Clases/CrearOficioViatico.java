@@ -113,7 +113,7 @@ public class CrearOficioViatico {
     
     
     
-    public void createTicket(int res,String folioComision,String empleado,String puesto_trabajo,String monto,String actividad,String lugar,String  fecha_salida,String fecha_llegada,String pernoctado,String vehiculoAsignado)throws DocumentException {
+    public void createTicket(int res,String folioComision,String empleado,String puesto_trabajo,String monto,String actividad,String lugar,String  fecha_salida,String fecha_llegada,String pernoctado,String vehiculoAsignado,String responsable,String puestoResp)throws DocumentException {
         
         Rectangle pagesize = new Rectangle(250, 14400);
         Document doc = new Document(pagesize);
@@ -544,7 +544,7 @@ public class CrearOficioViatico {
             
             //encabezadosfirmasCell2.setBorder(0);
             
-            encabezadosfirmasCell42 = new PdfPCell(new Phrase("MTRO. RODRIGO ARANZABAL GONZALEZ", elements2));
+            encabezadosfirmasCell42 = new PdfPCell(new Phrase(responsable, elements2));
             encabezadosfirmasCell42.setHorizontalAlignment(Element.ALIGN_CENTER);
             encabezadosfirmasCell42.setBorderWidthBottom(0);
             encabezadosfirmasCell42.setBorderWidthLeft(0);
@@ -573,7 +573,7 @@ public class CrearOficioViatico {
             
             //encabezadosfirmasCell2.setBorder(0);
             
-            encabezadosfirmasCell421 = new PdfPCell(new Phrase("DIRECTOR ADMINISTRATIVO", elements2));
+            encabezadosfirmasCell421 = new PdfPCell(new Phrase(puestoResp, elements2));
             encabezadosfirmasCell421.setHorizontalAlignment(Element.ALIGN_CENTER);
             encabezadosfirmasCell421.setBorderColor(BaseColor.WHITE);
             encabezadosfirmasCell421.setBackgroundColor(BaseColor.WHITE);

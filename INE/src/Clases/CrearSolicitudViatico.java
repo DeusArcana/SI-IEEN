@@ -113,7 +113,7 @@ public class CrearSolicitudViatico {
     
     
     
-    public void createTicket(int res,String fecha_salida,String fecha_llegada,String empleado,String lugarSalida,String actividadRealizar,String pernoctado,String vehiculoAsignado)throws DocumentException {
+    public void createTicket(int res,String fecha_salida,String fecha_llegada,String empleado,String lugarSalida,String actividadRealizar,String pernoctado,String vehiculoAsignado,String consejero,String area)throws DocumentException {
         
         Rectangle pagesize = new Rectangle(250, 14400);
         Document doc = new Document(pagesize);
@@ -454,7 +454,7 @@ public class CrearSolicitudViatico {
             encabezadosfirmasCell22.setBorderColor(BaseColor.WHITE);
             encabezadosfirmasCell22.setBackgroundColor(BaseColor.WHITE);
             
-            encabezadosfirmasCell32 = new PdfPCell(new Phrase("CELSO VALDERRAMA DELGADO", elements2));
+            encabezadosfirmasCell32 = new PdfPCell(new Phrase(consejero, elements2));
             encabezadosfirmasCell32.setHorizontalAlignment(Element.ALIGN_CENTER);
             encabezadosfirmasCell32.setBorderWidthBottom(0);
             encabezadosfirmasCell32.setBorderWidthLeft(0);
@@ -483,7 +483,7 @@ public class CrearSolicitudViatico {
             encabezadosfirmasCell221.setBorderColor(BaseColor.WHITE);
             encabezadosfirmasCell221.setBackgroundColor(BaseColor.WHITE);
             
-            encabezadosfirmasCell321 = new PdfPCell(new Phrase("SOLICITANTE", elements2));
+            encabezadosfirmasCell321 = new PdfPCell(new Phrase(area, elements2));
             encabezadosfirmasCell321.setHorizontalAlignment(Element.ALIGN_CENTER);
             encabezadosfirmasCell321.setBorderColor(BaseColor.WHITE);
             

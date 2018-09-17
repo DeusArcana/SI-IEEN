@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS `INE`.`Area` (
   `ID_Area` INT NOT NULL AUTO_INCREMENT,
   `Area` VARCHAR(255) NOT NULL,
   `Siglas` VARCHAR(32),
+  `Responsable` INTEGER,
   PRIMARY KEY (`ID_Area`))
 ENGINE = InnoDB;
 
