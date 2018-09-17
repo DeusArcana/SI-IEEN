@@ -4477,20 +4477,19 @@ public void metodoValeRecoleccion(){
                 }else{
 
                     try{
-
                         cantidad = Integer.parseInt(cadena);
 
                         if(cantidad > 0){
-                            entero = true;                    
+                            entero = false;
                         }else{
                             JOptionPane.showMessageDialog(null, "Solo ingrese cantidades mayores a 0.");
                         }
                     }catch(NumberFormatException e){
-                        JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
+                        JOptionPane.showMessageDialog(null,"Solo ingrese números");
                     }//try catch
 
                 }//else
-
+            }//while
                 if(canceloStockMin){
 
                     String codigo = tablaStockMin.getValueAt(fila, 0).toString();//Obtenemos el codigo del producto
@@ -4501,13 +4500,10 @@ public void metodoValeRecoleccion(){
                     }else{
                         JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
                     }
-
                 }//canceloStockMin
-
-            }//while
-        }else{
-            JOptionPane.showMessageDialog(null, "No cuenta con permisos para actualizar los consumibles.");
-        }
+            }else{
+                JOptionPane.showMessageDialog(null, "No cuenta con permisos para actualizar los consumibles.");
+            }
     }//GEN-LAST:event_AgregarStockActionPerformed
 
     private void ActualizarInfoSMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarInfoSMActionPerformed
@@ -5940,7 +5936,7 @@ public void metodoValeRecoleccion(){
         // TODO add your handling code here:
             
             int fila = tablaSolicitarGranel.getSelectedRow();
-            if(fila > 0){
+            if(fila >= 0){
                 int cantidad = 0;
                 //Esto es para validar que ingrese solo numeros y mientras no lo haga, seguira preguntado hasta que
                 //solo teclee numeros o cancele el movimiento
@@ -5957,10 +5953,13 @@ public void metodoValeRecoleccion(){
                         try{
                             //Si hace la conversion correctamente entonces no entra en la excepcion y se sale del ciclo
                             cantidad = Integer.parseInt(cadena);
-                            entero = false;
-
+                            if(cantidad > 0){
+                                entero = false;
+                            }else{
+                                JOptionPane.showMessageDialog(null,"Solo puede solicitar cantidades mayores a 0.");
+                            }
                         }catch(NumberFormatException e){
-                            JOptionPane.showMessageDialog(null,"Solo ingrese numeros");
+                            JOptionPane.showMessageDialog(null,"Solo ingrese números");
                             entero = true;
                         }//try catch
                     }
