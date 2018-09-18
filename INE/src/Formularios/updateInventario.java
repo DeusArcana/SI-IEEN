@@ -184,9 +184,11 @@ public final class updateInventario extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtMarca = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtNoSerie = new javax.swing.JTextField();
         lblAviso = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         txtModelo = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
@@ -225,9 +227,9 @@ public final class updateInventario extends javax.swing.JDialog {
         jLabel1.setBounds(48, 60, 50, 17);
 
         txtProducto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtProducto.setToolTipText("Ejemplo CMP00000001");
+        txtProducto.setToolTipText("");
         pn_addInventario.add(txtProducto);
-        txtProducto.setBounds(120, 100, 215, 30);
+        txtProducto.setBounds(120, 100, 210, 30);
         txtProducto.getAccessibleContext().setAccessibleDescription("");
 
         txtFolio.setEditable(false);
@@ -259,7 +261,12 @@ public final class updateInventario extends javax.swing.JDialog {
 
         txtMarca.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_addInventario.add(txtMarca);
-        txtMarca.setBounds(120, 180, 215, 30);
+        txtMarca.setBounds(120, 180, 210, 30);
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel14.setText("Folio: ");
+        pn_addInventario.add(jLabel14);
+        jLabel14.setBounds(60, 30, 40, 17);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("No serie:");
@@ -268,11 +275,16 @@ public final class updateInventario extends javax.swing.JDialog {
 
         txtNoSerie.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_addInventario.add(txtNoSerie);
-        txtNoSerie.setBounds(120, 140, 215, 30);
+        txtNoSerie.setBounds(120, 140, 210, 30);
 
         lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_addInventario.add(lblAviso);
         lblAviso.setBounds(260, 440, 40, 10);
+
+        jLabel19.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
+        jLabel19.setText("* Campos obligatorios.");
+        pn_addInventario.add(jLabel19);
+        jLabel19.setBounds(30, 460, 160, 30);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("Modelo:");
@@ -281,7 +293,7 @@ public final class updateInventario extends javax.swing.JDialog {
 
         txtModelo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_addInventario.add(txtModelo);
-        txtModelo.setBounds(120, 220, 215, 30);
+        txtModelo.setBounds(120, 220, 210, 30);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setText("Color:");
@@ -290,7 +302,7 @@ public final class updateInventario extends javax.swing.JDialog {
 
         txtColor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_addInventario.add(txtColor);
-        txtColor.setBounds(120, 260, 215, 30);
+        txtColor.setBounds(120, 260, 210, 30);
 
         comboFolio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_addInventario.add(comboFolio);
@@ -322,7 +334,7 @@ public final class updateInventario extends javax.swing.JDialog {
 
         comboUbicacion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_addInventario.add(comboUbicacion);
-        comboUbicacion.setBounds(120, 340, 160, 30);
+        comboUbicacion.setBounds(120, 340, 210, 30);
 
         jPanel1.setLayout(null);
 
@@ -364,16 +376,16 @@ public final class updateInventario extends javax.swing.JDialog {
 
         txtNum.setEditable(false);
         txtNum.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtNum.setToolTipText("Ejemplo CMP00000001");
+        txtNum.setToolTipText("");
         pn_addInventario.add(txtNum);
-        txtNum.setBounds(180, 60, 70, 30);
+        txtNum.setBounds(180, 60, 90, 30);
         txtNum.getAccessibleContext().setAccessibleDescription("");
 
         txtExtension.setEditable(false);
         txtExtension.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtExtension.setToolTipText("Ejemplo CMP00000001");
+        txtExtension.setToolTipText("");
         pn_addInventario.add(txtExtension);
-        txtExtension.setBounds(260, 60, 50, 30);
+        txtExtension.setBounds(280, 60, 50, 30);
         txtExtension.getAccessibleContext().setAccessibleDescription("");
 
         txtDescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -383,36 +395,37 @@ public final class updateInventario extends javax.swing.JDialog {
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("Factura:");
         pn_addInventario.add(jLabel9);
-        jLabel9.setBounds(300, 350, 51, 17);
+        jLabel9.setBounds(350, 350, 51, 17);
 
         txtFactura.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtFactura.setToolTipText("Ejemplo CMP00000001");
+        txtFactura.setToolTipText("");
         pn_addInventario.add(txtFactura);
-        txtFactura.setBounds(360, 340, 120, 30);
+        txtFactura.setBounds(420, 340, 150, 30);
         txtFactura.getAccessibleContext().setAccessibleDescription("");
 
         txtImporte.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtImporte.setToolTipText("Ejemplo CMP00000001");
+        txtImporte.setText("0");
+        txtImporte.setToolTipText("");
         txtImporte.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtImporteKeyTyped(evt);
             }
         });
         pn_addInventario.add(txtImporte);
-        txtImporte.setBounds(570, 340, 120, 30);
+        txtImporte.setBounds(670, 340, 120, 30);
         txtImporte.getAccessibleContext().setAccessibleDescription("");
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Importe: *");
         pn_addInventario.add(jLabel12);
-        jLabel12.setBounds(494, 350, 70, 17);
+        jLabel12.setBounds(600, 350, 70, 17);
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel13.setText("Fecha de compra: *");
+        jLabel13.setText("Fecha compra: *");
         pn_addInventario.add(jLabel13);
-        jLabel13.setBounds(250, 400, 130, 17);
+        jLabel13.setBounds(10, 400, 120, 17);
         pn_addInventario.add(txtFecha);
-        txtFecha.setBounds(380, 390, 200, 30);
+        txtFecha.setBounds(120, 390, 210, 30);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         pn_addInventario.add(jLabel6);
@@ -640,6 +653,8 @@ public final class updateInventario extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

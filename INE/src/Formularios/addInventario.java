@@ -85,6 +85,7 @@ public class addInventario extends javax.swing.JDialog {
         pn_addInventario = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtProducto = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
         txtFolio = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -96,6 +97,7 @@ public class addInventario extends javax.swing.JDialog {
         txtNoSerie = new javax.swing.JTextField();
         lblAviso = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         txtModelo = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -132,9 +134,9 @@ public class addInventario extends javax.swing.JDialog {
         pn_addInventario.setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Clave: *");
+        jLabel1.setText("Folio: ");
         pn_addInventario.add(jLabel1);
-        jLabel1.setBounds(48, 60, 50, 17);
+        jLabel1.setBounds(60, 30, 40, 17);
 
         txtProducto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtProducto.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -145,6 +147,11 @@ public class addInventario extends javax.swing.JDialog {
         pn_addInventario.add(txtProducto);
         txtProducto.setBounds(120, 100, 210, 30);
         txtProducto.getAccessibleContext().setAccessibleDescription("");
+
+        jLabel19.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
+        jLabel19.setText("* Campos obligatorios.");
+        pn_addInventario.add(jLabel19);
+        jLabel19.setBounds(30, 460, 160, 30);
 
         txtFolio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtFolio.setEnabled(false);
@@ -165,7 +172,7 @@ public class addInventario extends javax.swing.JDialog {
         lblCantidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblCantidad.setText("Cantidad: *");
         pn_addInventario.add(lblCantidad);
-        lblCantidad.setBounds(330, 400, 80, 17);
+        lblCantidad.setBounds(340, 400, 80, 17);
 
         txtCantidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtCantidad.setText("1");
@@ -213,6 +220,11 @@ public class addInventario extends javax.swing.JDialog {
         jLabel10.setText("Modelo:");
         pn_addInventario.add(jLabel10);
         jLabel10.setBounds(50, 230, 48, 17);
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setText("Clave: *");
+        pn_addInventario.add(jLabel4);
+        jLabel4.setBounds(50, 70, 50, 17);
 
         txtModelo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_addInventario.add(txtModelo);
@@ -268,7 +280,7 @@ public class addInventario extends javax.swing.JDialog {
 
         comboUbicacion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_addInventario.add(comboUbicacion);
-        comboUbicacion.setBounds(120, 340, 160, 30);
+        comboUbicacion.setBounds(120, 340, 210, 30);
 
         jPanel1.setLayout(null);
 
@@ -364,7 +376,7 @@ public class addInventario extends javax.swing.JDialog {
         pn_addInventario.add(jLabel13);
         jLabel13.setBounds(10, 400, 120, 17);
         pn_addInventario.add(txtFecha);
-        txtFecha.setBounds(120, 390, 160, 30);
+        txtFecha.setBounds(120, 390, 210, 30);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         pn_addInventario.add(jLabel6);
@@ -804,8 +816,10 @@ public class addInventario extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;

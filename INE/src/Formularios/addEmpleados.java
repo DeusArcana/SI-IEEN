@@ -204,7 +204,7 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setText("Teléfono:");
         pn_empleado.add(jLabel6);
-        jLabel6.setBounds(450, 20, 57, 17);
+        jLabel6.setBounds(450, 10, 57, 17);
 
         txtTelefono.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtTelefono.setNextFocusableComponent(txtCodigo);
@@ -219,7 +219,7 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Código Postal:");
         pn_empleado.add(jLabel7);
-        jLabel7.setBounds(420, 50, 88, 17);
+        jLabel7.setBounds(420, 40, 88, 17);
 
         txtCodigo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtCodigo.setNextFocusableComponent(txtCurp);
@@ -234,7 +234,7 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("CURP:");
         pn_empleado.add(jLabel8);
-        jLabel8.setBounds(470, 80, 40, 17);
+        jLabel8.setBounds(470, 70, 40, 17);
 
         txtCurp.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtCurp.setNextFocusableComponent(txtRfc);
@@ -249,7 +249,7 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("RFC:");
         pn_empleado.add(jLabel9);
-        jLabel9.setBounds(480, 110, 30, 17);
+        jLabel9.setBounds(480, 100, 30, 17);
 
         txtRfc.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtRfc.setNextFocusableComponent(txtFecha);
@@ -264,7 +264,7 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setText("*Fecha de nacimiento:");
         pn_empleado.add(jLabel10);
-        jLabel10.setBounds(355, 140, 160, 17);
+        jLabel10.setBounds(360, 130, 160, 17);
 
         txtFecha.setNextFocusableComponent(comboArea);
         pn_empleado.add(txtFecha);

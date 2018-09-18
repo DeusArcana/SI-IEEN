@@ -89,7 +89,7 @@ public class updateEmpleado extends javax.swing.JDialog {
         colocarDatos(datosEmpleado);
         
         this.setLocationRelativeTo(null);
-        this.setTitle("Registro de nuevo empleado");
+        this.setTitle("Actualizar datos del empleado");
         
     }
 
@@ -123,6 +123,7 @@ public class updateEmpleado extends javax.swing.JDialog {
         txtCalle = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtColonia = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtTelefono = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -152,7 +153,7 @@ public class updateEmpleado extends javax.swing.JDialog {
         jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel14.setText("Área:");
         pn_empleado.add(jLabel14);
-        jLabel14.setBounds(450, 170, 32, 17);
+        jLabel14.setBounds(500, 170, 32, 17);
 
         comboLocalidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboLocalidad.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
@@ -162,7 +163,7 @@ public class updateEmpleado extends javax.swing.JDialog {
             }
         });
         pn_empleado.add(comboLocalidad);
-        comboLocalidad.setBounds(120, 190, 200, 23);
+        comboLocalidad.setBounds(170, 190, 200, 23);
 
         comboEstados.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboEstados.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
@@ -172,9 +173,10 @@ public class updateEmpleado extends javax.swing.JDialog {
             }
         });
         pn_empleado.add(comboEstados);
-        comboEstados.setBounds(120, 160, 200, 23);
+        comboEstados.setBounds(170, 160, 200, 23);
 
         comboArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboArea.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         comboArea.setNextFocusableComponent(comboPuesto);
         comboArea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -182,14 +184,15 @@ public class updateEmpleado extends javax.swing.JDialog {
             }
         });
         pn_empleado.add(comboArea);
-        comboArea.setBounds(490, 170, 190, 23);
+        comboArea.setBounds(540, 170, 200, 23);
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel18.setText("Puesto:");
         pn_empleado.add(jLabel18);
-        jLabel18.setBounds(432, 200, 50, 17);
+        jLabel18.setBounds(480, 200, 50, 17);
 
         comboPuesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboPuesto.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         comboPuesto.setNextFocusableComponent(btnAceptar);
         comboPuesto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -197,61 +200,66 @@ public class updateEmpleado extends javax.swing.JDialog {
             }
         });
         pn_empleado.add(comboPuesto);
-        comboPuesto.setBounds(490, 200, 190, 23);
+        comboPuesto.setBounds(540, 200, 200, 23);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Nombre(s):");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setText("*Nombre(s):");
         pn_empleado.add(jLabel1);
-        jLabel1.setBounds(44, 14, 70, 17);
+        jLabel1.setBounds(70, 10, 90, 17);
 
         txtNombre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtNombre.setNextFocusableComponent(txtApellidoP);
         pn_empleado.add(txtNombre);
-        txtNombre.setBounds(118, 11, 202, 25);
+        txtNombre.setBounds(170, 10, 202, 25);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Apellido Paterno:");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setText("*Apellido Paterno:");
         pn_empleado.add(jLabel2);
-        jLabel2.setBounds(12, 43, 102, 17);
+        jLabel2.setBounds(30, 43, 130, 17);
 
         txtApellidoP.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtApellidoP.setNextFocusableComponent(txtApellidoM);
         pn_empleado.add(txtApellidoP);
-        txtApellidoP.setBounds(118, 40, 202, 25);
+        txtApellidoP.setBounds(170, 40, 202, 25);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setText("Apellido Materno:");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setText("*Apellido Materno:");
         pn_empleado.add(jLabel3);
-        jLabel3.setBounds(10, 72, 104, 17);
+        jLabel3.setBounds(30, 72, 140, 17);
 
         txtApellidoM.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtApellidoM.setNextFocusableComponent(txtCalle);
         pn_empleado.add(txtApellidoM);
-        txtApellidoM.setBounds(118, 69, 202, 25);
+        txtApellidoM.setBounds(170, 70, 202, 25);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Calle:");
         pn_empleado.add(jLabel4);
-        jLabel4.setBounds(82, 101, 32, 17);
+        jLabel4.setBounds(130, 100, 32, 17);
 
         txtCalle.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtCalle.setNextFocusableComponent(txtColonia);
         pn_empleado.add(txtCalle);
-        txtCalle.setBounds(118, 98, 202, 25);
+        txtCalle.setBounds(170, 100, 202, 25);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Colonia:");
         pn_empleado.add(jLabel5);
-        jLabel5.setBounds(65, 130, 49, 17);
+        jLabel5.setBounds(110, 130, 49, 17);
 
         txtColonia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_empleado.add(txtColonia);
-        txtColonia.setBounds(118, 127, 202, 25);
+        txtColonia.setBounds(170, 130, 202, 25);
+
+        jLabel19.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
+        jLabel19.setText("* Campos obligatorios.");
+        pn_empleado.add(jLabel19);
+        jLabel19.setBounds(30, 246, 160, 30);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setText("Teléfono:");
         pn_empleado.add(jLabel6);
-        jLabel6.setBounds(420, 14, 57, 17);
+        jLabel6.setBounds(470, 10, 57, 17);
 
         txtTelefono.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtTelefono.setNextFocusableComponent(txtCodigo);
@@ -261,12 +269,12 @@ public class updateEmpleado extends javax.swing.JDialog {
             }
         });
         pn_empleado.add(txtTelefono);
-        txtTelefono.setBounds(487, 11, 202, 25);
+        txtTelefono.setBounds(540, 10, 202, 25);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Código Postal:");
         pn_empleado.add(jLabel7);
-        jLabel7.setBounds(395, 43, 88, 17);
+        jLabel7.setBounds(440, 40, 88, 17);
 
         txtCodigo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtCodigo.setNextFocusableComponent(txtCurp);
@@ -276,12 +284,12 @@ public class updateEmpleado extends javax.swing.JDialog {
             }
         });
         pn_empleado.add(txtCodigo);
-        txtCodigo.setBounds(487, 40, 202, 25);
+        txtCodigo.setBounds(540, 40, 202, 25);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("CURP:");
         pn_empleado.add(jLabel8);
-        jLabel8.setBounds(443, 72, 40, 17);
+        jLabel8.setBounds(490, 70, 40, 17);
 
         txtCurp.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtCurp.setNextFocusableComponent(txtRfc);
@@ -291,12 +299,12 @@ public class updateEmpleado extends javax.swing.JDialog {
             }
         });
         pn_empleado.add(txtCurp);
-        txtCurp.setBounds(487, 69, 202, 25);
+        txtCurp.setBounds(540, 70, 202, 25);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("RFC:");
         pn_empleado.add(jLabel9);
-        jLabel9.setBounds(453, 101, 30, 17);
+        jLabel9.setBounds(500, 100, 30, 17);
 
         txtRfc.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtRfc.setNextFocusableComponent(txtFecha);
@@ -306,26 +314,26 @@ public class updateEmpleado extends javax.swing.JDialog {
             }
         });
         pn_empleado.add(txtRfc);
-        txtRfc.setBounds(487, 98, 202, 25);
+        txtRfc.setBounds(540, 100, 202, 25);
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel10.setText("Fecha de nacimiento:");
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel10.setText("*Fecha de nacimiento:");
         pn_empleado.add(jLabel10);
-        jLabel10.setBounds(353, 130, 130, 17);
+        jLabel10.setBounds(380, 130, 160, 17);
 
         txtFecha.setNextFocusableComponent(comboArea);
         pn_empleado.add(txtFecha);
-        txtFecha.setBounds(487, 130, 202, 25);
+        txtFecha.setBounds(540, 130, 202, 25);
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel15.setText("Estado:");
         pn_empleado.add(jLabel15);
-        jLabel15.setBounds(70, 160, 60, 17);
+        jLabel15.setBounds(110, 160, 60, 17);
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel16.setText("Municipio:");
         pn_empleado.add(jLabel16);
-        jLabel16.setBounds(53, 188, 60, 17);
+        jLabel16.setBounds(100, 190, 60, 17);
 
         btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
@@ -353,17 +361,17 @@ public class updateEmpleado extends javax.swing.JDialog {
 
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         pn_empleado.add(jLabel17);
-        jLabel17.setBounds(0, 0, 720, 290);
+        jLabel17.setBounds(0, 0, 780, 290);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_empleado, javax.swing.GroupLayout.DEFAULT_SIZE, 719, Short.MAX_VALUE)
+            .addComponent(pn_empleado, javax.swing.GroupLayout.DEFAULT_SIZE, 781, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_empleado, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pn_empleado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -708,6 +716,7 @@ public class updateEmpleado extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
