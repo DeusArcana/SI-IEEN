@@ -22,6 +22,7 @@ import Clases.ManagerComplemento;
 
 import Interfaces.PrincipalS;
 import com.toedter.calendar.JTextFieldDateEditor;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ import java.util.logging.Logger;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import java.awt.FocusTraversalPolicy;
 
 /**
  *
@@ -62,6 +64,18 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         this.setSize(new Dimension(530,520));
         this.setTitle("Solicitud de viáticos");
         initComponents();
+        cmbArea.setNextFocusableComponent(comboEmpleados);
+        comboEmpleados.setNextFocusableComponent(date_Salida);
+        date_Salida.setNextFocusableComponent(hora_Salida);
+        hora_Salida.setNextFocusableComponent(date_Llegada);
+        date_Llegada.setNextFocusableComponent(hora_Llegada);
+        hora_Llegada.setNextFocusableComponent(cmbEstado);
+        cmbEstado.setNextFocusableComponent(cmbLocalidad);
+        cmbLocalidad.setNextFocusableComponent(txt_Actividad);
+        txt_Actividad.setNextFocusableComponent(btnAceptar);
+        btnAceptar.setNextFocusableComponent(btnCancelar);
+        btnCancelar.setNextFocusableComponent(cmbArea);
+        cmb_Vehiculo.setNextFocusableComponent(btnAceptar);
         btnEditar.setVisible(false);
         hora_Salida_A.setVisible(false);
         hora_Llegada_A.setVisible(false);
