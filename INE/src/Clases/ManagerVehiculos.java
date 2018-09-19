@@ -476,17 +476,17 @@ public class ManagerVehiculos {
         return numero;
     }
     
-    public boolean ActualizarEstatusVehiculo(String matricula, String estatus) {
+    public boolean ActualizarEstatusVehiculo(String matricula, int estatus) {
         con = db.getConexion();
         String status = "";
         String update = "";
 
-        if (estatus.equals("1")) {
+        if (estatus == 0) {
             update = "update vehiculos set estatus = ? where matricula = '" + matricula + "'";
-            status = "Activo";
+            status = "Baja";
         } else {
             update = "update vehiculos set estatus = ? where matricula = '" + matricula + "'";
-            status = estatus;
+            status = "Activo";
         }
 
         PreparedStatement ps = null;

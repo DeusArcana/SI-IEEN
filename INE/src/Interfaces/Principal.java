@@ -4180,8 +4180,6 @@ public void metodoValeRecoleccion(){
             }
             MenuVehiculos.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
             if (jComboBox1.getSelectedIndex() == 0) {
-                Estatus.setText("Cambiar a Baja/Activo");
-            } else if (jComboBox1.getSelectedIndex() == 1) {
                 Estatus.setText("Cambiar a Baja");
             } else {
                 Estatus.setText("Cambiar a Activo");
@@ -6129,20 +6127,14 @@ public void metodoValeRecoleccion(){
 
         if (opcion == 0) {
 
-            if (Estatus.getText().equals("Cambiar a Baja/Activo")) {
-                
-                managerVehiculos.ActualizarEstatusVehiculo(tablaVehiculos.getValueAt(fila, 6).toString(), tablaVehiculos.getValueAt(fila, 8).toString());
+            if (Estatus.getText().equals("Cambiar a Baja")) {
+
+                managerVehiculos.ActualizarEstatusVehiculo(tablaVehiculos.getValueAt(fila, 6).toString(), 0);
                 tablaVehiculos.setModel(managerVehiculos.getVehiculos());
                 JOptionPane.showMessageDialog(null, "Se ha cambiado el estatus!", "Información", JOptionPane.INFORMATION_MESSAGE);
 
-            } else if (Estatus.getText().equals("Cambiar a Baja")) {
-
-                managerVehiculos.ActualizarEstatusVehiculo(tablaVehiculos.getValueAt(fila, 6).toString(), "0");
-                tablaVehiculos.setModel(managerVehiculos.getVehiculos());
-                JOptionPane.showMessageDialog(null, "Se ha cambiado el estatus!", "Información", JOptionPane.INFORMATION_MESSAGE);
-
-            } else {
-                managerVehiculos.ActualizarEstatusVehiculo(tablaVehiculos.getValueAt(fila, 6).toString(), "1");
+            } else if (Estatus.getText().equals("Cambiar a Activo")) {
+                managerVehiculos.ActualizarEstatusVehiculo(tablaVehiculos.getValueAt(fila, 6).toString(), 1);
                 tablaVehiculos.setModel(managerVehiculos.getVehiculos());
                 JOptionPane.showMessageDialog(null, "Se ha cambiado el estatus!", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
