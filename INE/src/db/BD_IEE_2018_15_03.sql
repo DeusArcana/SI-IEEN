@@ -651,7 +651,7 @@ CREATE TABLE IF NOT EXISTS `INE`.`Vehiculos` (
   
   `Folio` 			CHAR(6) NOT NULL,
   `Numero` 			INT NOT NULL,
-  `Extension` 		CHAR(1) NULL,
+  `Estatus` 		VARCHAR(15) NULL,
   
   PRIMARY KEY (`Matricula`))
 ENGINE = InnoDB;

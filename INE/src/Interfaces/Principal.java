@@ -268,6 +268,9 @@ public class Principal extends javax.swing.JFrame {
         MenuVehiculos = new javax.swing.JPopupMenu();
         ActualizarV = new javax.swing.JMenuItem();
         ExcelVehiculos = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        CambiarEstatus = new javax.swing.JMenu();
+        Estatus = new javax.swing.JMenuItem();
         MenuResguardoPersonal = new javax.swing.JPopupMenu();
         QuitarResguardo = new javax.swing.JMenuItem();
         MenuAsginados = new javax.swing.JPopupMenu();
@@ -351,6 +354,7 @@ public class Principal extends javax.swing.JFrame {
         comboFiltroVehiculos = new javax.swing.JComboBox<>();
         jLabel20 = new javax.swing.JLabel();
         txtBusquedaVehiculos = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         empleado = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -692,6 +696,19 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         MenuVehiculos.add(ExcelVehiculos);
+        MenuVehiculos.add(jSeparator2);
+
+        CambiarEstatus.setText("Cambiar estatus");
+
+        Estatus.setText("...");
+        Estatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EstatusActionPerformed(evt);
+            }
+        });
+        CambiarEstatus.add(Estatus);
+
+        MenuVehiculos.add(CambiarEstatus);
 
         QuitarResguardo.setText("Salida del producto");
         QuitarResguardo.addActionListener(new java.awt.event.ActionListener() {
@@ -1315,7 +1332,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jPanel6.add(btnAñadirVehiculo);
-        btnAñadirVehiculo.setBounds(930, 100, 420, 30);
+        btnAñadirVehiculo.setBounds(930, 90, 420, 30);
 
         jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/baner vehiculos.png"))); // NOI18N
         jPanel6.add(jLabel29);
@@ -1343,6 +1360,16 @@ public class Principal extends javax.swing.JFrame {
         });
         jPanel6.add(txtBusquedaVehiculos);
         txtBusquedaVehiculos.setBounds(390, 90, 290, 30);
+
+        jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Baja" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(jComboBox1);
+        jComboBox1.setBounds(700, 90, 190, 30);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         jPanel6.add(jLabel4);
@@ -4091,11 +4118,12 @@ public void metodoValeRecoleccion(){
     public void buscarVehiculo() {
         if (manager_permisos.accesoModulo("consulta", "Vehiculos", Username)) {
             String filtro = comboFiltroVehiculos.getSelectedItem().toString();
+            String filtroEstatus = jComboBox1.getSelectedItem().toString();
             String busqueda = txtBusquedaVehiculos.getText();
             if (comboFiltroVehiculos.getSelectedItem().toString().equals("Descripción")) {
-                tablaVehiculos.setModel(managerVehiculos.getVehiculosEspecificos("descripcion", busqueda));
+                tablaVehiculos.setModel(managerVehiculos.getVehiculosEspecificos("descripcion", busqueda,filtroEstatus));
             } else {
-                tablaVehiculos.setModel(managerVehiculos.getVehiculosEspecificos(filtro, busqueda));
+                tablaVehiculos.setModel(managerVehiculos.getVehiculosEspecificos(filtro, busqueda,filtroEstatus ));
             }
 
         } else {
@@ -4145,11 +4173,19 @@ public void metodoValeRecoleccion(){
         // TODO add your handling code here:
 
         //Esto es para seleccionar con el click derecho y desplegar el menu solo cuando se seleccione una fila de la tabla
-        if(SwingUtilities.isRightMouseButton(evt)){
+        if (SwingUtilities.isRightMouseButton(evt)) {
             int r = tablaVehiculos.rowAtPoint(evt.getPoint());
-            if (r >= 0 && r < tablaVehiculos.getRowCount())
-            tablaVehiculos.setRowSelectionInterval(r, r);
+            if (r >= 0 && r < tablaVehiculos.getRowCount()) {
+                tablaVehiculos.setRowSelectionInterval(r, r);
+            }
             MenuVehiculos.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+            if (jComboBox1.getSelectedIndex() == 0) {
+                Estatus.setText("Cambiar a Baja/Activo");
+            } else if (jComboBox1.getSelectedIndex() == 1) {
+                Estatus.setText("Cambiar a Baja");
+            } else {
+                Estatus.setText("Cambiar a Activo");
+            }
         }//clic derecho
 
     }//GEN-LAST:event_tablaVehiculosMouseReleased
@@ -6072,6 +6108,50 @@ public void metodoValeRecoleccion(){
         
         }
     }//GEN-LAST:event_tablaVehiculosMouseMoved
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+        if(manager_permisos.accesoModulo("consulta","Vehiculos",Username)){
+            buscarVehiculo();
+        }else{
+            JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar vehiculos.");
+            tablaVehiculos.setModel(new DefaultTableModel());
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void EstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EstatusActionPerformed
+        // TODO add your handling code here:
+        int fila = tablaVehiculos.getSelectedRow();
+
+        Object[] botones = {"Confirmar", "Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this, "¿Desea cambiar el estatus del vehículo?", "Confirmación",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones, botones[0]);
+
+        if (opcion == 0) {
+
+            if (Estatus.getText().equals("Cambiar a Baja/Activo")) {
+                
+                managerVehiculos.ActualizarEstatusVehiculo(tablaVehiculos.getValueAt(fila, 6).toString(), tablaVehiculos.getValueAt(fila, 8).toString());
+                tablaVehiculos.setModel(managerVehiculos.getVehiculos());
+                JOptionPane.showMessageDialog(null, "Se ha cambiado el estatus!", "Información", JOptionPane.INFORMATION_MESSAGE);
+
+            } else if (Estatus.getText().equals("Cambiar a Baja")) {
+
+                managerVehiculos.ActualizarEstatusVehiculo(tablaVehiculos.getValueAt(fila, 6).toString(), "0");
+                tablaVehiculos.setModel(managerVehiculos.getVehiculos());
+                JOptionPane.showMessageDialog(null, "Se ha cambiado el estatus!", "Información", JOptionPane.INFORMATION_MESSAGE);
+
+            } else {
+                managerVehiculos.ActualizarEstatusVehiculo(tablaVehiculos.getValueAt(fila, 6).toString(), "1");
+                tablaVehiculos.setModel(managerVehiculos.getVehiculos());
+                JOptionPane.showMessageDialog(null, "Se ha cambiado el estatus!", "Información", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else if (opcion == 1) {
+            // No hacer nada
+        }
+        
+        
+    }//GEN-LAST:event_EstatusActionPerformed
        
     public void cargarImagen(String busqueda, int numero) {
 
@@ -6259,6 +6339,7 @@ public void metodoValeRecoleccion(){
     private javax.swing.JMenuItem AgregarStock;
     private javax.swing.JMenuItem Asignar_usuario;
     private javax.swing.JMenuItem Atender;
+    private javax.swing.JMenu CambiarEstatus;
     private javax.swing.JMenuItem CancelarA;
     private javax.swing.JMenuItem CancelarSolicitud;
     private javax.swing.JMenuItem CancelarTodoA;
@@ -6268,6 +6349,7 @@ public void metodoValeRecoleccion(){
     private javax.swing.JMenu Documentos;
     private javax.swing.JMenuItem EntregarRecoleccion;
     private javax.swing.JMenu Estadisticas;
+    private javax.swing.JMenuItem Estatus;
     private javax.swing.JMenuItem EstatusDefinitivo;
     private javax.swing.JMenuItem ExcelConsumibles;
     private javax.swing.JMenuItem ExcelInventario;
@@ -6360,6 +6442,7 @@ public void metodoValeRecoleccion(){
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -6437,6 +6520,7 @@ public void metodoValeRecoleccion(){
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lb_empleado3;
     private javax.swing.JLabel lb_objetos_asignables2;

@@ -47,9 +47,9 @@ public class ManagerVehiculos {
     
 
     public boolean guardarImagen(String marca, String linea, String color, String modelo, String motor,
-            String kilometraje, String matricula, String observaciones, String cantidad, String no_motor, String fecha, String factura, String importe, String descripcion, String folio, String numero ) {
+            String kilometraje, String matricula, String observaciones, String cantidad, String no_motor, String fecha, String factura, String importe, String descripcion, String folio, String numero) {
         con = db.getConexion();
-        String insert = "insert into vehiculos(marca, linea, color, modelo, motor,kilometraje ,matricula,observaciones,cantidad_fotos,Estado,No_motor,Fecha_compra,No_factura,importe,descripcion,folio,numero) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        String insert = "insert into vehiculos(marca, linea, color, modelo, motor,kilometraje ,matricula,observaciones,cantidad_fotos,Estado,No_motor,Fecha_compra,No_factura,importe,descripcion,folio,numero,estatus) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
        
         PreparedStatement ps = null;
 
@@ -79,7 +79,7 @@ public class ManagerVehiculos {
             
             ps.setString(16, folio);
             ps.setString(17, numero);
-
+            ps.setString(18, "Activo");
             ps.executeUpdate();
 
             //Inserción en la tabla de vehiculo usado para la parte de viaticos
@@ -133,19 +133,20 @@ public class ManagerVehiculos {
             table.addColumn("Color");
             table.addColumn("Matricula");
             table.addColumn("Kilometraje");
+            table.addColumn("Estatus");
             
             
             //Consulta de los empleados
-            String sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje from vehiculos order by clave;";
+            String sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje,estatus from vehiculos order by clave;";
             con = db.getConexion();
             Statement st = con.createStatement();
-            Object datos[] = new Object[8];
+            Object datos[] = new Object[9];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
                     datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());	
-                for(int i = 1;i<8;i++){
+                for(int i = 1;i<9;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -162,6 +163,58 @@ public class ManagerVehiculos {
         }
 
     }//getEmpleados
+    
+    
+    public DefaultTableModel getVehiculosActivoBaja(String tipoBusqueda, String busqueda) {
+
+        DefaultTableModel table = new DefaultTableModel();
+
+        try {
+            table.addColumn("No. Inventario");
+            table.addColumn("Descripción");
+            table.addColumn("Marca");
+            table.addColumn("Linea");
+            table.addColumn("Año");
+            table.addColumn("Color");
+            table.addColumn("Matricula");
+            table.addColumn("Kilometraje");
+            table.addColumn("Estatus");
+            
+            
+            String sql;
+            //Consulta de los vehiculos
+            if(tipoBusqueda.equals("Activo")){
+                sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje,estatus from vehiculos where estatus like '%"+busqueda+"%' order by Numero;";
+            }else{
+                sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje,estatus from vehiculos where estatus like '"+busqueda+"%' order by Numero;";
+            }
+            con = db.getConexion();
+            Statement st = con.createStatement();
+            Object datos[] = new Object[9];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+                    datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());
+                for(int i = 1;i<9;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+           }//while
+            //La conexion no se debe de cerrar para no perder los parametros de puerto e ip
+           // con.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error getTabla Inventario SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//getEmpleados  
+    
+    
     
     
     public Vector infoVehiculos(String matricula) {
@@ -220,7 +273,7 @@ public class ManagerVehiculos {
         
     }//Buscar si existe el vehiculo
 
-    public DefaultTableModel getVehiculosEspecificos(String tipoBusqueda, String busqueda) {
+    public DefaultTableModel getVehiculosEspecificos(String tipoBusqueda, String busqueda, String estatus) {
 
         DefaultTableModel table = new DefaultTableModel();
 
@@ -233,26 +286,37 @@ public class ManagerVehiculos {
             table.addColumn("Color");
             table.addColumn("Matricula");
             table.addColumn("Kilometraje");
+            table.addColumn("Estatus");
             
             
             String sql;
             //Consulta de los vehiculos
-            if(tipoBusqueda.equals("Año")){
-                sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje from vehiculos where modelo like '"+busqueda+"%' order by Numero;";
-            }else if(tipoBusqueda.equals("No. Inventario")){
-                sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje from vehiculos where Numero like '%"+busqueda+"%' order by Numero;";
+            if (estatus == "Todos") {
+                if (tipoBusqueda.equals("Año")) {
+                    sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje,estatus from vehiculos where modelo like '" + busqueda + "%'  order by Numero;";
+                } else if (tipoBusqueda.equals("No. Inventario")) {
+                    sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje,estatus from vehiculos where Numero like '%" + busqueda + "%'  order by Numero;";
+                } else {
+                    sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje,estatus from vehiculos where " + tipoBusqueda + " like '" + busqueda + "%' order by Numero;";
+                }
             }else{
-                sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje from vehiculos where "+tipoBusqueda+" like '"+busqueda+"%' order by Numero;";
+                if (tipoBusqueda.equals("Año")) {
+                    sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje,estatus from vehiculos where modelo like '" + busqueda + "%' and estatus = '" + estatus + "' order by Numero;";
+                } else if (tipoBusqueda.equals("No. Inventario")) {
+                    sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje,estatus from vehiculos where Numero like '%" + busqueda + "%' and estatus = '" + estatus + "' order by Numero;";
+                } else {
+                    sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje,estatus from vehiculos where " + tipoBusqueda + " like '" + busqueda + "%' and estatus = '" + estatus + "' order by Numero;";
+                }
             }
             con = db.getConexion();
             Statement st = con.createStatement();
-            Object datos[] = new Object[8];
+            Object datos[] = new Object[9];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
                     datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());
-                for(int i = 1;i<8;i++){
+                for(int i = 1;i<9;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -411,6 +475,39 @@ public class ManagerVehiculos {
 
         return numero;
     }
+    
+    public boolean ActualizarEstatusVehiculo(String matricula, String estatus) {
+        con = db.getConexion();
+        String status = "";
+        String update = "";
+
+        if (estatus.equals("1")) {
+            update = "update vehiculos set estatus = ? where matricula = '" + matricula + "'";
+            status = "Activo";
+        } else {
+            update = "update vehiculos set estatus = ? where matricula = '" + matricula + "'";
+            status = estatus;
+        }
+
+        PreparedStatement ps = null;
+
+        try {
+
+            ps = con.prepareStatement(update);
+
+            ps.setString(1, status);
+
+            ps.executeUpdate();
+
+            return true;
+
+        } catch (Exception ex) {
+            System.out.println("Error al actualizar estatus " + ex.getMessage());
+            return false;
+
+        }
+
+    }//guardarImagen
     
     
     public boolean existeCodigoVehiculo(String clave) {
