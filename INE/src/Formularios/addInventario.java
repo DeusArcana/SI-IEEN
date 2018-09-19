@@ -409,21 +409,6 @@ public class addInventario extends javax.swing.JDialog {
                 }else{
                     cantidad = 1;
                 }
-		if (comboFolio.getSelectedIndex() > 0)
-			folio = txtFolio.getText();
-		else return false;
-		
-		if (!txtNum.getText().isEmpty())
-			numero = Integer.parseInt(txtNum.getText());
-		else return false;
-		
-		if (!txtProducto.getText().isEmpty())
-			producto = txtProducto.getText();
-		else return false;
-		
-		if (!txtImporte.getText().isEmpty())
-			importe = Float.parseFloat(txtImporte.getText());
-		else return false;
 		
 		// OPCIONES LIMITADAS
         ubicacion = comboUbicacion.getSelectedItem().toString();
@@ -476,39 +461,82 @@ public class addInventario extends javax.swing.JDialog {
         txtFactura.setText("");
         txtImporte.setText("");
         comboFolio.setSelectedIndex(0);
+        txtCantidad.setText("1");
     }
     
+    private int validar(){
+        if(txtNum.getText().isEmpty()){
+            return 1;
+        }
+        if(txtProducto.getText().isEmpty()){
+            return 2;
+        }
+        if(txtImporte.getText().isEmpty()){
+            return 3;
+        }
+        if(txtFecha.getDate() == null){
+            return 4;
+        }
+        if(txtCantidad.getText().isEmpty()){
+            return 5;
+        }
+        
+        return 0;
+    }//validar()
+    
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-	
-		if(getInfo()){
-			if(manager_permisos.accesoModulo("alta","Inventario",Principal.Username)){
-            
-				if (manager_inventario.guardarImagen(folio,numero,extension, producto, descripcion,ubicacion, marca, "Sin observaciones",noserie, modelo, color,contadorImg.getText(), fecha_compra, factura, importe,cantidad)) {
-					String nombreParametro = txtFolio.getText() + "-" + txtNum.getText()+ txtExtension.getText();
-					managerPOST.prepararImagenesInventario(rutas, nombreParametro, contadorRutas);   
-					JOptionPane.showMessageDialog(null, "Se insertó correctamente al inventario");
+	int res = validar();
+        if(getInfo()){
+            if(manager_permisos.accesoModulo("alta","Inventario",Principal.Username)){
+            switch(res){
+                case 0:
+                    if (manager_inventario.guardarImagen(folio,numero,extension, producto, descripcion,ubicacion, marca, "Sin observaciones",noserie, modelo, color,contadorImg.getText(), fecha_compra, factura, importe,cantidad)) {
+                            String nombreParametro = txtFolio.getText() + "-" + txtNum.getText()+ txtExtension.getText();
+                            managerPOST.prepararImagenesInventario(rutas, nombreParametro, contadorRutas);   
+                            JOptionPane.showMessageDialog(null, "Se insertó correctamente al inventario");
 
-					int num = comboFolio.getSelectedIndex();
-					String nomeclatura = "";
-					//Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
-					if(num > 0){nomeclatura = nomeclaturas[num-1];}
+                            int num = comboFolio.getSelectedIndex();
+                            String nomeclatura = "";
+                            //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
+                            if(num > 0){nomeclatura = nomeclaturas[num-1];}
 
-					if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){            
-						String estatus2 = Principal.comboEstatus.getSelectedItem().toString();
-						int filtro = Principal.comboFiltro.getSelectedIndex();
-						String busqueda = Principal.txtBusqueda.getText();
-						Principal.tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus2));
-						Principal.lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario.cantidadInventario(filtro, busqueda, nomeclatura,estatus2))));
-						Principal.comboFolio.setSelectedIndex(num);
-					}
+                            if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){            
+                                    String estatus2 = Principal.comboEstatus.getSelectedItem().toString();
+                                    int filtro = Principal.comboFiltro.getSelectedIndex();
+                                    String busqueda = Principal.txtBusqueda.getText();
+                                    Principal.tablaInventario.setModel(manager_inventario.getBusquedaInventario(filtro, busqueda, nomeclatura,estatus2));
+                                    Principal.lblProductosTotales.setText("Productos Totales: ".concat(String.valueOf(manager_inventario.cantidadInventario(filtro, busqueda, nomeclatura,estatus2))));
+                                    Principal.comboFolio.setSelectedIndex(num);
+                            }
 
-				} else JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
-			} else JOptionPane.showMessageDialog(null, "No cuenta con permisos para dar de alta nuevos productos al inventario.");
-			
-			clearCampos();
-		} else JOptionPane.showMessageDialog(null, "Verificar campos obligatorios.");
-		
-
+                    } else JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+                    break;
+                case 1:
+                    JOptionPane.showMessageDialog(null, "Por favor ingresa el número de inventario");
+                    txtNum.requestFocus();
+                    break;
+                case 2:
+                    JOptionPane.showMessageDialog(null, "Por favor ingresa el nombre del producto.");
+                    txtProducto.requestFocus();
+                    break;
+                case 3:
+                    JOptionPane.showMessageDialog(null, "Por favor ingresa el importe del producto.");
+                    txtImporte.requestFocus();
+                    break;
+                case 4:
+                    JOptionPane.showMessageDialog(null, "Por favor ingresa la fecha de compra del producto.");
+                    txtFecha.requestFocus();
+                    break;
+                case 5:
+                    JOptionPane.showMessageDialog(null, "Por favor ingresa la cantidad del producto.");
+                    txtCantidad.requestFocus();
+                    break;
+                 
+            }//swtich
+                clearCampos();
+        
+		} else JOptionPane.showMessageDialog(null, "No cuenta con permisos para dar de alta nuevos productos al inventario.");
+    }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed

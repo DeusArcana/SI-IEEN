@@ -455,23 +455,6 @@ public final class updateInventario extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     public boolean getInfo(){
-		// CAMPOS OBLIGATORIOS		
-		if (comboFolio.getSelectedIndex() > 0)
-			folio = txtFolio.getText();
-		else return false;
-		
-		if (!txtNum.getText().isEmpty())
-			numero = Integer.parseInt(txtNum.getText());
-		else return false;
-		
-		if (!txtProducto.getText().isEmpty())
-			producto = txtProducto.getText();
-		else return false;
-		
-		if (!txtImporte.getText().isEmpty())
-			importe = Float.parseFloat(txtImporte.getText());
-		else return false;
-		
 		// OPCIONES LIMITADAS
                 ubicacion = comboUbicacion.getSelectedItem().toString();
 		
@@ -508,12 +491,33 @@ public final class updateInventario extends javax.swing.JDialog {
 		return true;
     }//getInfo
     
+    private int validar(){
+        if(txtNum.getText().isEmpty()){
+            return 1;
+        }
+        if(txtProducto.getText().isEmpty()){
+            return 2;
+        }
+        if(txtImporte.getText().isEmpty()){
+            return 3;
+        }
+        if(txtFecha.getDate() == null){
+            return 4;
+        }
+        
+        return 0;
+    }//validar()
+    
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
+        int res = validar();
 		if (getInfo()) {
 			//Vemos si puede actualizar el producto
 			if(manager_permisos.accesoModulo("actualizar","Inventario",Principal.Username)){
-				//Actualizamos el producto
+				
+                            switch(res){
+                                case 0:
+                                //Actualizamos el producto
 				if (manager_inventario.actualizarProducto(id,producto, descripcion,ubicacion, marca,noserie, modelo, color, fecha_compra, factura, importe,contadorRutas)) {
 					String nombreParametro = txtFolio.getText() + "-" + txtNum.getText()+ txtExtension.getText();
 					managerPOST.prepararImagenesInventario(rutas, nombreParametro, contadorRutas); 
@@ -537,8 +541,25 @@ public final class updateInventario extends javax.swing.JDialog {
 						JOptionPane.showMessageDialog(null, "Le han revocado los permisos para consultar el inventario.");
 					}
 					this.dispose();
-
-				} else	JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+                                    } else	JOptionPane.showMessageDialog(null, "Verificar con el distribuidor.");
+                                        break;
+                case 1:
+                    JOptionPane.showMessageDialog(null, "Por favor ingresa el número de inventario");
+                    txtNum.requestFocus();
+                    break;
+                case 2:
+                    JOptionPane.showMessageDialog(null, "Por favor ingresa el nombre del producto.");
+                    txtProducto.requestFocus();
+                    break;
+                case 3:
+                    JOptionPane.showMessageDialog(null, "Por favor ingresa el importe del producto.");
+                    txtImporte.requestFocus();
+                    break;
+                case 4:
+                    JOptionPane.showMessageDialog(null, "Por favor ingresa la fecha de compra del producto.");
+                    txtFecha.requestFocus();
+                    break;
+                                }
 			} else	JOptionPane.showMessageDialog(null, "No cuenta con permisos para actualizar la información del producto.");
 		} else JOptionPane.showMessageDialog(null, "Verificar campos obligatorios.");
 		
