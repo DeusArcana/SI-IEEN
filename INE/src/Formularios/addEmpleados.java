@@ -198,6 +198,7 @@ public class addEmpleados extends javax.swing.JDialog {
         jLabel5.setBounds(90, 130, 49, 17);
 
         txtColonia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtColonia.setNextFocusableComponent(comboEstados);
         pn_empleado.add(txtColonia);
         txtColonia.setBounds(150, 130, 202, 25);
 
@@ -282,7 +283,7 @@ public class addEmpleados extends javax.swing.JDialog {
 
         comboLocalidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboLocalidad.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
-        comboLocalidad.setNextFocusableComponent(comboPuesto);
+        comboLocalidad.setNextFocusableComponent(txtTelefono);
         comboLocalidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboLocalidadActionPerformed(evt);
@@ -293,7 +294,7 @@ public class addEmpleados extends javax.swing.JDialog {
 
         comboEstados.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboEstados.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
-        comboEstados.setNextFocusableComponent(comboPuesto);
+        comboEstados.setNextFocusableComponent(comboLocalidad);
         comboEstados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboEstadosActionPerformed(evt);

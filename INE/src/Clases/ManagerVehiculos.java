@@ -133,20 +133,19 @@ public class ManagerVehiculos {
             table.addColumn("Color");
             table.addColumn("Matricula");
             table.addColumn("Kilometraje");
-            table.addColumn("Estatus");
             
             
             //Consulta de los empleados
             String sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje,estatus from vehiculos order by clave;";
             con = db.getConexion();
             Statement st = con.createStatement();
-            Object datos[] = new Object[9];
+            Object datos[] = new Object[8];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
                     datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());	
-                for(int i = 1;i<9;i++){
+                for(int i = 1;i<8;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -178,7 +177,6 @@ public class ManagerVehiculos {
             table.addColumn("Color");
             table.addColumn("Matricula");
             table.addColumn("Kilometraje");
-            table.addColumn("Estatus");
             
             
             String sql;
@@ -190,13 +188,13 @@ public class ManagerVehiculos {
             }
             con = db.getConexion();
             Statement st = con.createStatement();
-            Object datos[] = new Object[9];
+            Object datos[] = new Object[8];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
                     datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());
-                for(int i = 1;i<9;i++){
+                for(int i = 1;i<8;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 
@@ -286,7 +284,6 @@ public class ManagerVehiculos {
             table.addColumn("Color");
             table.addColumn("Matricula");
             table.addColumn("Kilometraje");
-            table.addColumn("Estatus");
             
             
             String sql;
@@ -310,13 +307,13 @@ public class ManagerVehiculos {
             }
             con = db.getConexion();
             Statement st = con.createStatement();
-            Object datos[] = new Object[9];
+            Object datos[] = new Object[8];
             ResultSet rs = st.executeQuery(sql);
 
             //Llenar tabla
             while (rs.next()) {
                     datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());
-                for(int i = 1;i<9;i++){
+                for(int i = 1;i<8;i++){
                     datos[i] = rs.getObject(i+1);
                 }//Llenamos las columnas por registro
 

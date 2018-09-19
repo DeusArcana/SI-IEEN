@@ -302,6 +302,7 @@ public class addInventario extends javax.swing.JDialog {
 
         txtNum.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtNum.setEnabled(false);
+        txtNum.setNextFocusableComponent(txtExtension);
         txtNum.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtNumFocusLost(evt);
@@ -318,6 +319,7 @@ public class addInventario extends javax.swing.JDialog {
         txtExtension.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtExtension.setToolTipText("");
         txtExtension.setEnabled(false);
+        txtExtension.setNextFocusableComponent(txtProducto);
         txtExtension.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtExtensionFocusLost(evt);
