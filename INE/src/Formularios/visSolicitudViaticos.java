@@ -321,6 +321,8 @@ public class visSolicitudViaticos extends javax.swing.JDialog {
         } /*catch (ClassNotFoundException e) {
          e.printStackTrace();
          }//fin del catch*/
+        txt_Actividad.setLineWrap(true);
+        txt_Actividad.setWrapStyleWord(true);
     }//GEN-LAST:event_formWindowActivated
 
     private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed

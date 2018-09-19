@@ -42,9 +42,11 @@ public class CrearOficioViatico {
     private File archivo;
     private String path, archivo_nombre;
   //  private infoTicket info;
+    NumeroLetras nl;
 
     public CrearOficioViatico(){
     //    obtener_productos = new ObtenerProductos();
+        nl = new NumeroLetras();
         path = "C:\\SIIEEN\\oficiosviaticos\\";
         directorio = new File(path);
     //    info = new infoTicket();
@@ -368,6 +370,25 @@ public class CrearOficioViatico {
             autocantidad.addCell(nombreCellPre);
             autocantidad.addCell(nombreCellPre2);
             
+            //nombreoficio
+            PdfPTable cantidadletras = new PdfPTable(2);
+            cantidadletras.setWidthPercentage(100f);
+            PdfPCell nombreCellcanle,nombreCellcanle2;
+            float[] medidaLineas44 = {1.60f,1.15f};
+            cantidadletras.setWidths(medidaLineas44);
+            
+            nombreCellcanle = new PdfPCell(new Phrase("", elements3));
+            nombreCellcanle.setHorizontalAlignment(Element.ALIGN_LEFT);
+            nombreCellcanle.setBorderColor(BaseColor.WHITE);
+            
+            nombreCellcanle2 = new PdfPCell(new Phrase(nl.convertir(Integer.parseInt(monto)), elements2));
+            nombreCellcanle2.setHorizontalAlignment(Element.ALIGN_CENTER);
+            nombreCellcanle2.setBackgroundColor(BaseColor.WHITE);
+            nombreCellcanle2.setBorderColor(BaseColor.WHITE);
+            
+            cantidadletras.addCell(nombreCellcanle);
+            cantidadletras.addCell(nombreCellcanle2);
+            
             //FECHA
             PdfPTable motivo = new PdfPTable(1);
             motivo.setWidthPercentage(100f);
@@ -415,7 +436,7 @@ public class CrearOficioViatico {
             vehiculo.setWidthPercentage(100f);
             PdfPCell nombreCellVeh;
             
-            nombreCellVeh = new PdfPCell(new Phrase("Vehiculo oficial asignado:", elements3));
+            nombreCellVeh = new PdfPCell(new Phrase("Vehículo oficial asignado:", elements3));
             nombreCellVeh.setHorizontalAlignment(Element.ALIGN_LEFT);
             nombreCellCon.setBorderColor(BaseColor.WHITE);
             vehiculo.addCell(nombreCellVeh);
@@ -438,7 +459,7 @@ public class CrearOficioViatico {
             PdfPCell lineas15,lineas25,lineas151,lineas251,lineas152;
             //tableLineas5.setWidths(medidaLineas);
             
-            lineas15 = new PdfPCell(new Phrase("Los dias:", elements3));
+            lineas15 = new PdfPCell(new Phrase("Los días:", elements3));
             lineas15.setHorizontalAlignment(Element.ALIGN_CENTER);
             lineas15.setBorder(0);
             // Contenido de la linea
@@ -500,7 +521,7 @@ public class CrearOficioViatico {
             firmas.setWidths(medidaCeldasfirmas);
             PdfPCell encabezadosfirmasCell,encabezadosfirmasCell2,encabezadosfirmasCell3;
             
-            encabezadosfirmasCell = new PdfPCell(new Phrase("Firma de autorizado", elements2));
+            encabezadosfirmasCell = new PdfPCell(new Phrase("Firma de recibido", elements2));
             encabezadosfirmasCell.setHorizontalAlignment(Element.ALIGN_CENTER);
             encabezadosfirmasCell.setBorderColor(BaseColor.WHITE);
             encabezadosfirmasCell.setBackgroundColor(BaseColor.WHITE);
@@ -605,6 +626,7 @@ public class CrearOficioViatico {
             doc.add(BLANCO);
             doc.add(BLANCO);
             doc.add(autocantidad);
+            doc.add(cantidadletras);
             //motivo
             doc.add(BLANCO);
             doc.add(BLANCO);

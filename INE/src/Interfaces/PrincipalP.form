@@ -167,12 +167,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="solicpase" alignment="0" pref="1378" max="32767" attributes="0"/>
+          <Component id="solicpase" alignment="0" min="-2" pref="1378" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="solicpase" alignment="0" pref="740" max="32767" attributes="0"/>
+          <Component id="solicpase" alignment="0" min="-2" pref="740" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>

@@ -49,7 +49,7 @@ public class ManagerPases {
         tapa.addColumn("Estado");
 
         try {
-            
+            conexion = db.getConexion();
             //conexion = db.getConexion();
             
             String sql="";
@@ -79,7 +79,6 @@ public class ManagerPases {
             //Consulta de los empleados
             //sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado from solicitud_pase where Año = '"+ año +"' order by Numero DESC";
             //String sql="select * from solicitud_viatico";
-            conexion = db.getConexion();
             Statement st = conexion.createStatement();
             Object datos[] = new Object[tapa.getColumnCount()];
             ResultSet rs = st.executeQuery(sql);
@@ -216,7 +215,7 @@ public class ManagerPases {
             ResultSet idarea=db.getTabla("select ID_Area from Area where Area = '"+area+"'", conexion);
             idarea.next();
            
-            String sql = "select concat(nombres,' ',apellido_p,' ',apellido_m) from Empleados where area = '"+idarea.getString("ID_Area")+"';";
+            String sql = "select concat(nombres,' ',apellido_p,' ',apellido_m) from Empleados where area = '"+idarea.getString("ID_Area")+"' and estatus = 'Activo';";
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql); 
             while(rs.next()){

@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import java.util.Vector;
 
@@ -42,6 +43,7 @@ public class CrearReporteActividades {
     private File archivo;
     private String path, archivo_nombre;
   //  private infoTicket info;
+    
 
     public CrearReporteActividades(){
     //    obtener_productos = new ObtenerProductos();
@@ -113,7 +115,7 @@ public class CrearReporteActividades {
     
     
     
-    public void createTicket(int res,String folioComision,String lugarSalida,String actividad,String observaciones,String empleado,String puesto_trabajo)throws DocumentException {
+    public void createTicket(int res,String folioComision,String lugarSalida,String actividad,String observaciones,String empleado,String puesto_trabajo,List<Gastos_Comprobar> gc)throws DocumentException {
         
         Rectangle pagesize = new Rectangle(250, 14400);
         Document doc = new Document(pagesize);
@@ -306,9 +308,63 @@ public class CrearReporteActividades {
             
             nombreCellre = new PdfPCell(new Phrase(observaciones, elements2));
             nombreCellre.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
-            nombreCellre.setFixedHeight(360f); 
+            nombreCellre.setFixedHeight(200f); 
             nombreCellre.setBorderColor(BaseColor.WHITE);
             reporte.addCell(nombreCellre); 
+            
+            //asuntocomision
+            PdfPTable gastos = new PdfPTable(2);
+            gastos.setWidthPercentage(100f);
+            PdfPCell gasto1,gasto2;
+            //float[] medidaLineas2 = {0.35f,2.40f};
+            gastos.setWidths(medidaLineas3);
+            
+            
+            gasto1 = new PdfPCell(new Phrase("Gastos:", elements3));
+            gasto1.setHorizontalAlignment(Element.ALIGN_LEFT);
+            gasto1.setBorder(0);
+            // Contenido del NOMBRE
+            gasto2 = new PdfPCell(new Phrase("", elements2));
+            gasto2.setBorderColor(BaseColor.WHITE);
+            //lineas2.setBorderWidthTop(0);
+            //lineas2.setBorderWidthLeft(0);
+            //lineas2.setBorderWidthRight(0);
+            gasto2.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+            
+            gastos.addCell(gasto1);
+            gastos.addCell(gasto2);
+            
+            //gastos a comprobar
+            PdfPTable tablagastos = new PdfPTable(3);
+            tablagastos.setWidthPercentage(100f);
+            PdfPCell descripcion,precio,factura;
+            float[] medidaLineasfor = {0.65f,0.65f,0.65f};
+            tablagastos.setWidths(medidaLineasfor);
+            
+            //descripcion
+            descripcion = new PdfPCell(new Phrase("Descripción", elements3));
+            descripcion.setHorizontalAlignment(Element.ALIGN_CENTER);
+            //des.setBorder(0);
+            // precio
+            precio = new PdfPCell(new Phrase("Precio", elements3));
+            //pre.setBorderColor(BaseColor.WHITE);
+            precio.setHorizontalAlignment(Element.ALIGN_CENTER);
+            //factura
+            factura = new PdfPCell(new Phrase("No Factura", elements3));
+            //pre.setBorderColor(BaseColor.WHITE);
+            factura.setHorizontalAlignment(Element.ALIGN_CENTER);
+            
+            tablagastos.addCell(descripcion);
+            tablagastos.addCell(precio);
+            tablagastos.addCell(factura);
+            
+            //for para el arraylist de los gastos 
+            for(int i=0; i<gc.size(); i++){
+            tablagastos.addCell(gc.get(i).getDescripcion());
+            tablagastos.addCell(gc.get(i).getCosto());
+            tablagastos.addCell(gc.get(i).getFactura());
+                
+            }
             
             //frimas
             //area de firma de autorizado
@@ -417,6 +473,10 @@ public class CrearReporteActividades {
             doc.add(BLANCO);
             doc.add(BLANCO);
             doc.add(reporte);
+            doc.add(BLANCO);
+            doc.add(gastos);
+            doc.add(BLANCO);
+            doc.add(tablagastos);
             
             doc.add(BLANCO);
             //doc.add(BLANCO);

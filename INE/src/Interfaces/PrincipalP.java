@@ -51,7 +51,7 @@ public class PrincipalP extends javax.swing.JFrame {
      */
     public PrincipalP() {
         initComponents();
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setIconImage(new ImageIcon(getClass().getResource("/Iconos/IEE.png")).getImage());
         //tablasolic.setModel(manager_soviaticos.getTasol()); 
@@ -84,7 +84,7 @@ public class PrincipalP extends javax.swing.JFrame {
         tablapase = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel17 = new javax.swing.JLabel();
         txtbusquedasoli = new javax.swing.JTextField();
-        comboAño = new javax.swing.JComboBox<>();
+        comboAño = new javax.swing.JComboBox<String>();
         jLabel5 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
@@ -306,11 +306,11 @@ public class PrincipalP extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(solicpase, javax.swing.GroupLayout.DEFAULT_SIZE, 1378, Short.MAX_VALUE)
+            .addComponent(solicpase, javax.swing.GroupLayout.PREFERRED_SIZE, 1378, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(solicpase, javax.swing.GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)
+            .addComponent(solicpase, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();

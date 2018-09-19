@@ -400,7 +400,7 @@ public class CrearOficioComision {
             PdfPCell lineas15,lineas25,lineas151,lineas251,lineas152,lineas252;
             //tableLineas5.setWidths(medidaLineas);
             
-            lineas15 = new PdfPCell(new Phrase("Los dias:", elements3));
+            lineas15 = new PdfPCell(new Phrase("Los días:", elements3));
             lineas15.setHorizontalAlignment(Element.ALIGN_CENTER);
             lineas15.setBorder(0);
             // Contenido de la linea
@@ -467,7 +467,7 @@ public class CrearOficioComision {
             PdfPCell nombreCellEstCon,nombreCellEstCon2;
             estadocon.setWidths(medidaLineas);
             
-            nombreCellEstCon = new PdfPCell(new Phrase(lugar.split(",")[0], elements3));
+            nombreCellEstCon = new PdfPCell(new Phrase(lugar.split(",")[0], elements2));
             nombreCellEstCon.setHorizontalAlignment(Element.ALIGN_LEFT);
             nombreCellEstCon.setBorderColor(BaseColor.WHITE);
             
@@ -501,7 +501,7 @@ public class CrearOficioComision {
             PdfPCell nombreCellEstCon3,nombreCellEstCon4;
             estadocon2.setWidths(medidaLineas);
             
-            nombreCellEstCon3 = new PdfPCell(new Phrase(actividad, elements3));
+            nombreCellEstCon3 = new PdfPCell(new Phrase(actividad, elements2));
             nombreCellEstCon3.setHorizontalAlignment(Element.ALIGN_LEFT);
             nombreCellEstCon3.setBorderColor(BaseColor.WHITE);
             
@@ -518,7 +518,7 @@ public class CrearOficioComision {
             PdfPCell nombreCellEst5,nombreCellEst6;
             estado3.setWidths(medidaLineas);
             
-            nombreCellEst5 = new PdfPCell(new Phrase("Vehiculo Oficial Asignado:", elements3));
+            nombreCellEst5 = new PdfPCell(new Phrase("Vehículo Oficial Asignado:", elements3));
             nombreCellEst5.setHorizontalAlignment(Element.ALIGN_LEFT);
             nombreCellEst5.setBorderColor(BaseColor.WHITE);
             
@@ -535,7 +535,7 @@ public class CrearOficioComision {
             PdfPCell nombreCellEstCon5,nombreCellEstCon6;
             estadocon3.setWidths(medidaLineas);
             
-            nombreCellEstCon5 = new PdfPCell(new Phrase(vehiculoAsingado, elements3));
+            nombreCellEstCon5 = new PdfPCell(new Phrase(vehiculoAsingado, elements2));
             nombreCellEstCon5.setHorizontalAlignment(Element.ALIGN_LEFT);
             nombreCellEstCon5.setBorderColor(BaseColor.WHITE);
             

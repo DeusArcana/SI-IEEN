@@ -146,7 +146,7 @@ public class visSolicitudPase extends javax.swing.JDialog {
         jScrollPane2.setViewportView(txtasunto);
 
         pn_vissolipase.add(jScrollPane2);
-        jScrollPane2.setBounds(137, 312, 358, 110);
+        jScrollPane2.setBounds(137, 312, 420, 110);
 
         txtfolio.setEditable(false);
         txtfolio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -358,6 +358,8 @@ public class visSolicitudPase extends javax.swing.JDialog {
         }else{
             txtestado.setBackground(Color.RED);
         }
+        txtasunto.setLineWrap(true);
+        txtasunto.setWrapStyleWord(true);
     }//GEN-LAST:event_formWindowActivated
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
