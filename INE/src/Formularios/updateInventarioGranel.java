@@ -75,6 +75,7 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         txtNum = new javax.swing.JTextField();
         txtExtension = new javax.swing.JTextField();
         txtProducto = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
         comboCategoria = new javax.swing.JComboBox();
         jLabel11 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -134,7 +135,7 @@ public class updateInventarioGranel extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(txtNum);
-        txtNum.setBounds(170, 10, 70, 30);
+        txtNum.setBounds(170, 10, 90, 30);
 
         txtExtension.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtExtension.setToolTipText("");
@@ -150,14 +151,19 @@ public class updateInventarioGranel extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(txtExtension);
-        txtExtension.setBounds(250, 10, 50, 30);
+        txtExtension.setBounds(270, 10, 60, 30);
 
         txtProducto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_addInventario.add(txtProducto);
         txtProducto.setBounds(110, 50, 220, 30);
 
+        jLabel19.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
+        jLabel19.setText("* Campos obligatorios.");
+        pn_addInventario.add(jLabel19);
+        jLabel19.setBounds(30, 246, 160, 30);
+
         pn_addInventario.add(comboCategoria);
-        comboCategoria.setBounds(110, 170, 210, 30);
+        comboCategoria.setBounds(110, 170, 220, 30);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setText("Categoría: *");
@@ -186,7 +192,7 @@ public class updateInventarioGranel extends javax.swing.JDialog {
 
         txtMarca.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         pn_addInventario.add(txtMarca);
-        txtMarca.setBounds(110, 130, 215, 30);
+        txtMarca.setBounds(110, 130, 220, 30);
 
         txtAreaDescripcion.setColumns(20);
         txtAreaDescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -219,7 +225,7 @@ public class updateInventarioGranel extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(txtStockMin);
-        txtStockMin.setBounds(110, 210, 215, 30);
+        txtStockMin.setBounds(110, 210, 220, 30);
 
         lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_addInventario.add(lblAviso);
@@ -235,7 +241,7 @@ public class updateInventarioGranel extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(btnAceptar);
-        btnAceptar.setBounds(260, 320, 130, 33);
+        btnAceptar.setBounds(260, 250, 130, 33);
 
         btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
@@ -247,14 +253,14 @@ public class updateInventarioGranel extends javax.swing.JDialog {
             }
         });
         pn_addInventario.add(btnCancelar);
-        btnCancelar.setBounds(420, 320, 150, 33);
+        btnCancelar.setBounds(420, 250, 150, 33);
 
         pn_addInventario.add(comboUbicacion);
-        comboUbicacion.setBounds(110, 90, 210, 30);
+        comboUbicacion.setBounds(110, 90, 220, 30);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         pn_addInventario.add(jLabel6);
-        jLabel6.setBounds(0, 0, 850, 370);
+        jLabel6.setBounds(0, 0, 850, 300);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -264,13 +270,13 @@ public class updateInventarioGranel extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_addInventario, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+            .addComponent(pn_addInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-	public void colocarDatos(String info){
+    public void colocarDatos(String info){
         
         String datos [] = info.split(",,");
         //Numero
@@ -522,6 +528,7 @@ public class updateInventarioGranel extends javax.swing.JDialog {
     private javax.swing.JComboBox comboUbicacion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

@@ -187,7 +187,7 @@ public class ManagerInventarioGranel {
 
             }//Hace la busqueda de acuerdo al filtro
             
-            sql = "select count(*) from Inventario_granel"
+            sql = "select sum(stock) from Inventario_granel"
                             + " where "+campoBusca+" like '%"+busqueda+"%' and estatus like '%"+estatus+"%' and categoria like '%"+categoria+"%';";
             Connection c = db.getConexion();
             Statement st = c.createStatement();    
