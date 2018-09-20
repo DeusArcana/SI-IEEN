@@ -163,6 +163,93 @@ public class ManagerVehiculos {
 
     }//getEmpleados
     
+    public DefaultTableModel getVehiculosActivos() {
+
+        DefaultTableModel table = new DefaultTableModel();
+
+        try {
+            table.addColumn("No. Inventario");
+            table.addColumn("Descripción");
+            table.addColumn("Marca");
+            table.addColumn("Linea");
+            table.addColumn("Año");
+            table.addColumn("Color");
+            table.addColumn("Matricula");
+            table.addColumn("Kilometraje");
+            
+            
+            //Consulta de los empleados
+            String sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje,estatus from vehiculos where estatus = 'Activo' order by clave;";
+            con = db.getConexion();
+            Statement st = con.createStatement();
+            Object datos[] = new Object[8];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+                    datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());	
+                for(int i = 1;i<8;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+           }//while
+            //La conexion no se debe de cerrar para no perder los parametros de puerto e ip
+           // con.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error getTabla Inventario SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//getEmpleados
+    
+    
+    public DefaultTableModel getVehiculosBaja() {
+
+        DefaultTableModel table = new DefaultTableModel();
+
+        try {
+            table.addColumn("No. Inventario");
+            table.addColumn("Descripción");
+            table.addColumn("Marca");
+            table.addColumn("Linea");
+            table.addColumn("Año");
+            table.addColumn("Color");
+            table.addColumn("Matricula");
+            table.addColumn("Kilometraje");
+            
+            
+            //Consulta de los empleados
+            String sql = "select concat(Folio,'-',Numero) as clave,descripcion,marca,linea,modelo,color,matricula,kilometraje,estatus from vehiculos where estatus = 'Baja' order by clave;";
+            con = db.getConexion();
+            Statement st = con.createStatement();
+            Object datos[] = new Object[8];
+            ResultSet rs = st.executeQuery(sql);
+
+            //Llenar tabla
+            while (rs.next()) {
+                    datos[0] = validaciones.constructFormatID(rs.getObject(1).toString());	
+                for(int i = 1;i<8;i++){
+                    datos[i] = rs.getObject(i+1);
+                }//Llenamos las columnas por registro
+
+                table.addRow(datos);//Añadimos la fila
+           }//while
+            //La conexion no se debe de cerrar para no perder los parametros de puerto e ip
+           // con.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error getTabla Inventario SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            return table;
+        }
+
+    }//getEmpleados
+    
     
     public DefaultTableModel getVehiculosActivoBaja(String tipoBusqueda, String busqueda) {
 
@@ -473,38 +560,35 @@ public class ManagerVehiculos {
         return numero;
     }
     
-    public boolean ActualizarEstatusVehiculo(String matricula, int estatus) {
-        con = db.getConexion();
-        String status = "";
-        String update = "";
-
-        if (estatus == 0) {
-            update = "update vehiculos set estatus = ? where matricula = '" + matricula + "'";
-            status = "Baja";
-        } else {
-            update = "update vehiculos set estatus = ? where matricula = '" + matricula + "'";
-            status = "Activo";
-        }
-
-        PreparedStatement ps = null;
-
+    
+    
+    public boolean ActualizarEstatusVehiculo(String id,String estatus) {
         try {
-
-            ps = con.prepareStatement(update);
-
-            ps.setString(1, status);
-
-            ps.executeUpdate();
-
+            //Actualizamos el estatus del usuario
+            String sql = "update vehiculos set estatus = '"+estatus+"' where matricula = '"+id+"';";
+            con = db.getConexion();
+            Statement st = con.createStatement();
+            st.executeUpdate(sql);
+            
+            if(estatus.equals("Baja")){
+                
+                sql = "update vehiculos set estatus = '"+estatus+"' where matricula = '"+id+"';";
+                st = con.createStatement();
+                st.executeUpdate(sql);
+            }
+            
+            //Cerramos la conexión
+            con.close();
             return true;
-
-        } catch (Exception ex) {
-            System.out.println("Error al actualizar estatus " + ex.getMessage());
+        } catch (SQLException ex) {
+            System.out.printf("Error al intentar dar el estatus de "+estatus+" al vehiculo en SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-
         }
 
-    }//guardarImagen
+    }//estatusEmpleado
+    
+   
     
     
     public boolean existeCodigoVehiculo(String clave) {

@@ -226,7 +226,7 @@ public class Principal extends javax.swing.JFrame {
         //Botones para aceptar o cancelar
         btnAceptarInv.setVisible(false);
         btnCancelarInv.setVisible(false);
-        
+
     }//Constructor
       
     /**
@@ -269,8 +269,8 @@ public class Principal extends javax.swing.JFrame {
         ActualizarV = new javax.swing.JMenuItem();
         ExcelVehiculos = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        CambiarEstatus = new javax.swing.JMenu();
-        Estatus = new javax.swing.JMenuItem();
+        Baja = new javax.swing.JMenuItem();
+        Activo = new javax.swing.JMenuItem();
         MenuResguardoPersonal = new javax.swing.JPopupMenu();
         QuitarResguardo = new javax.swing.JMenuItem();
         MenuAsginados = new javax.swing.JPopupMenu();
@@ -698,17 +698,21 @@ public class Principal extends javax.swing.JFrame {
         MenuVehiculos.add(ExcelVehiculos);
         MenuVehiculos.add(jSeparator2);
 
-        CambiarEstatus.setText("Cambiar estatus");
-
-        Estatus.setText("...");
-        Estatus.addActionListener(new java.awt.event.ActionListener() {
+        Baja.setText("Baja");
+        Baja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EstatusActionPerformed(evt);
+                BajaActionPerformed(evt);
             }
         });
-        CambiarEstatus.add(Estatus);
+        MenuVehiculos.add(Baja);
 
-        MenuVehiculos.add(CambiarEstatus);
+        Activo.setText("Activo");
+        Activo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActivoActionPerformed(evt);
+            }
+        });
+        MenuVehiculos.add(Activo);
 
         QuitarResguardo.setText("Salida del producto");
         QuitarResguardo.addActionListener(new java.awt.event.ActionListener() {
@@ -1362,7 +1366,7 @@ public class Principal extends javax.swing.JFrame {
         txtBusquedaVehiculos.setBounds(390, 90, 290, 30);
 
         jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Baja" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Activo", "Baja" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -4179,11 +4183,7 @@ public void metodoValeRecoleccion(){
                 tablaVehiculos.setRowSelectionInterval(r, r);
             }
             MenuVehiculos.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
-            if (jComboBox1.getSelectedIndex() == 0) {
-                Estatus.setText("Cambiar a Baja");
-            } else {
-                Estatus.setText("Cambiar a Activo");
-            }
+            
         }//clic derecho
 
     }//GEN-LAST:event_tablaVehiculosMouseReleased
@@ -6108,42 +6108,68 @@ public void metodoValeRecoleccion(){
     }//GEN-LAST:event_tablaVehiculosMouseMoved
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-        if(manager_permisos.accesoModulo("consulta","Vehiculos",Username)){
+        // TODO add your handling code here:   
+        if (manager_permisos.accesoModulo("consulta", "Vehiculos", Username)) {
+            if (jComboBox1.getSelectedItem().equals("Todos")) {
+                Activo.setVisible(false);
+                Baja.setVisible(false);
+            } else if (jComboBox1.getSelectedItem().equals("Activo")) {
+                Activo.setVisible(false);
+                Baja.setVisible(true);
+
+            } else {
+                Activo.setVisible(true);
+                Baja.setVisible(false);
+            }
             buscarVehiculo();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "No cuenta con permisos para consultar vehiculos.");
             tablaVehiculos.setModel(new DefaultTableModel());
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void EstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EstatusActionPerformed
+    private void ActivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActivoActionPerformed
         // TODO add your handling code here:
         int fila = tablaVehiculos.getSelectedRow();
 
         Object[] botones = {"Confirmar", "Cancelar"};
-        int opcion = JOptionPane.showOptionDialog(this, "¿Desea cambiar el estatus del vehículo?", "Confirmación",
+        int opcion = JOptionPane.showOptionDialog(this, "¿Desea cambiar a Activo el vehículo?", "Confirmación",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones, botones[0]);
 
         if (opcion == 0) {
 
-            if (Estatus.getText().equals("Cambiar a Baja")) {
+            managerVehiculos.ActualizarEstatusVehiculo(tablaVehiculos.getValueAt(fila, 6).toString(), "Activo");
+            tablaVehiculos.setModel(managerVehiculos.getVehiculosBaja());
+            JOptionPane.showMessageDialog(null, "Se ha cambiado a Activo el vehículo!", "Información", JOptionPane.INFORMATION_MESSAGE);
 
-                managerVehiculos.ActualizarEstatusVehiculo(tablaVehiculos.getValueAt(fila, 6).toString(), 0);
-                tablaVehiculos.setModel(managerVehiculos.getVehiculos());
-                JOptionPane.showMessageDialog(null, "Se ha cambiado el estatus!", "Información", JOptionPane.INFORMATION_MESSAGE);
-
-            } else if (Estatus.getText().equals("Cambiar a Activo")) {
-                managerVehiculos.ActualizarEstatusVehiculo(tablaVehiculos.getValueAt(fila, 6).toString(), 1);
-                tablaVehiculos.setModel(managerVehiculos.getVehiculos());
-                JOptionPane.showMessageDialog(null, "Se ha cambiado el estatus!", "Información", JOptionPane.INFORMATION_MESSAGE);
-            }
         } else if (opcion == 1) {
             // No hacer nada
         }
-        
-        
-    }//GEN-LAST:event_EstatusActionPerformed
+
+
+    }//GEN-LAST:event_ActivoActionPerformed
+
+    private void BajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BajaActionPerformed
+        // TODO add your handling code here:
+        // TODO add your handling code here:
+        int fila = tablaVehiculos.getSelectedRow();
+
+        Object[] botones = {"Confirmar", "Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this, "¿Desea cambiar baja el vehículo?", "Confirmación",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones, botones[0]);
+
+        if (opcion == 0) {
+
+            managerVehiculos.ActualizarEstatusVehiculo(tablaVehiculos.getValueAt(fila, 6).toString(), "Baja");
+            tablaVehiculos.setModel(managerVehiculos.getVehiculosActivos());
+            JOptionPane.showMessageDialog(null, "Se ha cambiado a Baja el vehículo!", "Información", JOptionPane.INFORMATION_MESSAGE);
+
+        } else if (opcion == 1) {
+            // No hacer nada
+        }
+
+
+    }//GEN-LAST:event_BajaActionPerformed
        
     public void cargarImagen(String busqueda, int numero) {
 
@@ -6316,6 +6342,7 @@ public void metodoValeRecoleccion(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem Activo;
     private javax.swing.JMenuItem Actualizar;
     private javax.swing.JMenuItem ActualizarAsignacionP;
     private javax.swing.JMenuItem ActualizarConsumible;
@@ -6331,7 +6358,7 @@ public void metodoValeRecoleccion(){
     private javax.swing.JMenuItem AgregarStock;
     private javax.swing.JMenuItem Asignar_usuario;
     private javax.swing.JMenuItem Atender;
-    private javax.swing.JMenu CambiarEstatus;
+    private javax.swing.JMenuItem Baja;
     private javax.swing.JMenuItem CancelarA;
     private javax.swing.JMenuItem CancelarSolicitud;
     private javax.swing.JMenuItem CancelarTodoA;
@@ -6341,7 +6368,6 @@ public void metodoValeRecoleccion(){
     private javax.swing.JMenu Documentos;
     private javax.swing.JMenuItem EntregarRecoleccion;
     private javax.swing.JMenu Estadisticas;
-    private javax.swing.JMenuItem Estatus;
     private javax.swing.JMenuItem EstatusDefinitivo;
     private javax.swing.JMenuItem ExcelConsumibles;
     private javax.swing.JMenuItem ExcelInventario;

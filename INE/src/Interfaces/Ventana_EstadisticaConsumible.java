@@ -6,6 +6,7 @@
 package Interfaces;
 
 
+import Clases.Excel;
 import Clases.ManagerUsers;
 import Clases.ManagerInventarioGranel;
 import Clases.ManagerComplemento;
@@ -52,6 +53,8 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        MenuEstadistica = new javax.swing.JPopupMenu();
+        ExcelConsumibles = new javax.swing.JMenuItem();
         pn_asignarEquipo = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaConsumibles = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
@@ -63,6 +66,14 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         comboArea = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
+
+        ExcelConsumibles.setText("Exportar a excel");
+        ExcelConsumibles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExcelConsumiblesActionPerformed(evt);
+            }
+        });
+        MenuEstadistica.add(ExcelConsumibles);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -175,6 +186,12 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
 
     private void tablaConsumiblesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaConsumiblesMouseReleased
         // TODO add your handling code here:
+        if(SwingUtilities.isRightMouseButton(evt)){
+            int r = tablaConsumibles.rowAtPoint(evt.getPoint());
+            if (r >= 0 && r < tablaConsumibles.getRowCount())
+            tablaConsumibles.setRowSelectionInterval(r, r);
+            MenuEstadistica.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
+        }//clic derecho
     }//GEN-LAST:event_tablaConsumiblesMouseReleased
 
     private void tablaConsumiblesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaConsumiblesMouseClicked
@@ -227,6 +244,20 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
             tablaConsumibles.setModel(new DefaultTableModel());
         }
     }//GEN-LAST:event_btnBusquedaFechaActionPerformed
+
+    private void ExcelConsumiblesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExcelConsumiblesActionPerformed
+        // TODO add your handling code here:
+        try{
+            if(manager_permisos.accesoModulo("consulta","Inventario",Principal.Username)){
+                Excel excel = new Excel();
+                excel.GuardarComo(tablaConsumibles);
+            }else{
+                JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+            }
+        }catch(NullPointerException e){
+
+        }
+    }//GEN-LAST:event_ExcelConsumiblesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -318,6 +349,8 @@ public class Ventana_EstadisticaConsumible extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem ExcelConsumibles;
+    private javax.swing.JPopupMenu MenuEstadistica;
     private javax.swing.JButton btnBusquedaFecha;
     private javax.swing.JComboBox<String> comboArea;
     private com.toedter.calendar.JDateChooser fechaFin;
