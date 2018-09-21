@@ -2111,6 +2111,10 @@ public class PrincipalS extends javax.swing.JFrame {
     private void txtbusquedasoli2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedasoli2KeyReleased
         // TODO add your handling code here:
         String soloUsuarioActual="";
+        String buscarArea="";
+        if(cmbArea.getSelectedIndex()>0){
+            buscarArea="and PT.id_Area="+cmbArea.getSelectedIndex();
+        }
         if (menuInforme.getSelectedIndex() == 0) {
             modelo = new DefaultTableModel() {
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -2136,9 +2140,8 @@ public class PrincipalS extends javax.swing.JFrame {
                     soloUsuarioActual=" and nombre='"+usuario.getString("nombre")+"'";
                 }
                 Statement sentencia = cn.createStatement();
-
-                ResultSet rs = cbd.getTabla("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 AND (O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%'"
-                        + "OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Actividad LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Lugar LIKE '%" + txtbusquedasoli2.getText() + "%'OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%') "+soloUsuarioActual+" order by idSolicitud desc",cn);
+                ResultSet rs = cbd.getTabla("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 AND (O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%'"
+                        + "OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Actividad LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Lugar LIKE '%" + txtbusquedasoli2.getText() + "%'OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%') "+soloUsuarioActual+" "+buscarArea+" order by idSolicitud desc",cn);
 
                 String solicitud[] = new String[5];
                 while (rs.next()) {
@@ -2169,8 +2172,8 @@ public class PrincipalS extends javax.swing.JFrame {
             this.tablainfo1.setModel(modelo);
             try {
                 Statement sentencia = cn.createStatement();
-                ResultSet rs = cbd.getTabla("SELECT I.Id_Informe, O.Folio, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 AND (I.Id_Informe LIKE '%" + txtbusquedasoli2.getText()
-                        + "%' OR O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%' OR I.importe_total LIKE '%" + txtbusquedasoli2.getText() + "%')"+soloUsuarioActual+" ORDER BY I.Id_Informe DESC",cn);
+                ResultSet rs = cbd.getTabla("SELECT I.Id_Informe, O.Folio, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join informe I on S.idSolicitud=I.Solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 AND (I.Id_Informe LIKE '%" + txtbusquedasoli2.getText()
+                        + "%' OR O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%' OR I.importe_total LIKE '%" + txtbusquedasoli2.getText() + "%')"+soloUsuarioActual+" "+buscarArea+" ORDER BY I.Id_Informe DESC",cn);
 
                 String solicitud[] = new String[5];
                 while (rs.next()) {
