@@ -90,20 +90,20 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
         DefaultTableModel model=new DefaultTableModel();
         model.addColumn("Nombre");
         //Agregamos el nombre de la persona que hizo la solicitud del vehiculo
-        ResultSet res=cbd.getTabla("select nombre,idsolicitud_vehiculo from solicitud_vehiculo SV inner join vehiculo_viatico VV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join solicitud_viatico SVI on VV.solicitud_viatico_idSolicitud=SVI.idSolicitud where SVI.idSolicitud="+idSolicitudViatico, cn);
+        ResultSet res=cbd.getTabla("select SVI.idSolicitud,nombre,idsolicitud_vehiculo from solicitud_vehiculo SV inner join vehiculo_viatico VV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join solicitud_viatico SVI on VV.solicitud_viatico_idSolicitud=SVI.idSolicitud where SVI.idSolicitud="+idSolicitudViatico, cn);
         while(res.next()){
-            model.addRow(new Object[]{res.getString("nombre")+" (Chofer)"});
+            model.addRow(new Object[]{res.getString("idSolicitud")+"-"+res.getString("nombre")+" (Chofer)"});
             idSolicitudVehiculo=Integer.parseInt(res.getString("idsolicitud_vehiculo"));
         }
         //sacamos los nombres de los empleados asignados.
         if(empleados.size()>1){
-            String query="select nombre from solicitud_viatico where idSolicitud="+empleados.get(1);
+            String query="select idSolicitud,nombre from solicitud_viatico where idSolicitud="+empleados.get(1);
             for(int i=2;i<empleados.size();i++){
                 query+=" or idSolicitud="+empleados.get(i);
             }
             res=cbd.getTabla(query, cn);
             while(res.next()){
-                model.addRow(new Object[]{res.getString("nombre")});
+                model.addRow(new Object[]{res.getString("idSolicitud")+"-"+res.getString("nombre")});
             }
         }
         tabla.setModel(model);
@@ -125,9 +125,11 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaEmpleados = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        btnQuitar = new javax.swing.JButton();
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -172,7 +174,7 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
                 btnListoActionPerformed(evt);
             }
         });
-        getContentPane().add(btnListo, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 210, 80, 40));
+        getContentPane().add(btnListo, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 240, 90, 40));
 
         tablaEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -192,6 +194,15 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Empleados Disponibles");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, -1, -1));
+
+        btnQuitar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnQuitar.setText("<<");
+        btnQuitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuitarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnQuitar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 180, 90, 40));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 897, 410));
@@ -219,6 +230,18 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_btnListoActionPerformed
 
+    private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
+        // TODO add your handling code here:
+        int k=tabla.getSelectedRow();
+        if(k>0){
+            String item=tabla.getValueAt(k, 0).toString();
+            String idSolicitud=item.split("-")[0];
+            //cbd.ejecutar("INSERT INTO vehiculo_viatico values("+idSolicitudVehiculo+","+idSolicitud+",'1');");
+            cbd.ejecutar("delete from vehiculo_viatico where solicitud_viatico_idSolicitud="+idSolicitud+" and solicitud_vehiculo_idsolicitud_vehiculo="+idSolicitudVehiculo+";");
+            refrescarPantalla(this.idSolicitud,this.fecha);
+        }
+    }//GEN-LAST:event_btnQuitarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -242,6 +265,7 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnListo;
+    private javax.swing.JButton btnQuitar;
     private javax.swing.JLabel fondo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
