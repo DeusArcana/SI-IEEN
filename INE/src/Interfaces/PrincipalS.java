@@ -2049,7 +2049,7 @@ public class PrincipalS extends javax.swing.JFrame {
                         
                         for(int i=0;i<gastos_query.size();i+=3){
                             gastos.add(new Gastos_Comprobar(gastos_query.get(i),gastos_query.get(i+1),gastos_query.get(i+2)));
-                            JOptionPane.showMessageDialog(this, gastos_query.get(i)+"-"+gastos_query.get(i+1)+"-"+gastos_query.get(i+2));
+                            //JOptionPane.showMessageDialog(this, gastos_query.get(i)+"-"+gastos_query.get(i+1)+"-"+gastos_query.get(i+2));
                         }
                     }
                     if(vehiculo.size()<1){

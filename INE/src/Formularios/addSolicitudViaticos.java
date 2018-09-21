@@ -504,13 +504,20 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
            !pernoctado,cmbEstado.getSelectedIndex(),cmbLocalidad.getSelectedIndex(),
            txt_Actividad.getText(),cmbArea.getSelectedItem()+"");
            asv.setVisible(true);*/
-           pernoctado=(date_Salida.getDate().getDate()==date_Llegada.getDate().getDate() && date_Salida.getDate().getMonth()==date_Llegada.getDate().getMonth() && date_Salida.getDate().getYear()==date_Llegada.getDate().getYear())?"No":"Si";
+           try {
+                validarDatos(true,"");
+                pernoctado=(date_Salida.getDate().getDate()==date_Llegada.getDate().getDate() && date_Salida.getDate().getMonth()==date_Llegada.getDate().getMonth() && date_Salida.getDate().getYear()==date_Llegada.getDate().getYear())?"No":"Si";
+            } catch (ExceptionDatosIncompletos ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+                return;
+            }
            if(seleccionarVehiculo){
                verificar_excepcion=true;
                try {
                    validarDatos(true,"");
                } catch (ExceptionDatosIncompletos ex) {
-                   Logger.getLogger(addSolicitudViaticos.class.getName()).log(Level.SEVERE, null, ex);
+                   JOptionPane.showMessageDialog(this, ex.getMessage());
+                   return;
                }
 
                 
@@ -525,7 +532,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                     insertar_Solicitud_Vehiculo(indiceCarro);
 
                 }catch(ExceptionDatosIncompletos e){
-                    if(verificar_excepcion)JOptionPane.showMessageDialog(this, e.getMessage());
+                    JOptionPane.showMessageDialog(this, e.getMessage());
                     return;
                 }catch(NumberFormatException e){
                     JOptionPane.showMessageDialog(this, "El kilometraje debe ser un numero sin letras.");
