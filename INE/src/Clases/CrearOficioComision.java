@@ -45,7 +45,7 @@ public class CrearOficioComision {
     private String path, archivo_nombre;
   //  private infoTicket info;
 
-    public CrearOficioComision(){
+    public CrearOficioComision(String folio){
     //    obtener_productos = new ObtenerProductos();
         path = "C:\\SIIEEN\\oficioscomision\\";
         directorio = new File(path);
@@ -53,12 +53,12 @@ public class CrearOficioComision {
             
         
         if (directorio.exists()) {
-            archivo_nombre = "oficio_" + ".pdf";
+            archivo_nombre = "oficio_" +folio+ ".pdf";
             archivo = new File(directorio, archivo_nombre);
         } else {
             directorio.mkdirs();
             if (directorio.exists()) {
-                archivo_nombre = "oficio_" +".pdf";
+                archivo_nombre = "oficio_" +folio+".pdf";
                 archivo = new File(directorio, archivo_nombre);
             } else {
                 System.out.println("No se pudo crear el directorio");
@@ -120,7 +120,7 @@ public class CrearOficioComision {
         Rectangle pagesize = new Rectangle(250, 14400);
         Document doc = new Document(pagesize);
         PdfWriter docWriter = null;
-        String pdfFilename="pruebaoficomision";
+        String pdfFilename="oficomision"+folio;
         
         String[] separar=fecha_salida.split("-");
         String[] separar_llegada=fecha_llegada.split("-");

@@ -42,21 +42,21 @@ public class CrearSolicitudViatico {
     private File archivo;
     private String path, archivo_nombre;
   //  private infoTicket info;
-
-    public CrearSolicitudViatico(){
+    public String f;
+    public CrearSolicitudViatico(String folio){
     //    obtener_productos = new ObtenerProductos();
         path = "C:\\SIIEEN\\oficiossolicitudesviaticos\\";
         directorio = new File(path);
     //    info = new infoTicket();
             
-        
+        f=folio;
         if (directorio.exists()) {
-            archivo_nombre = "oficio_" + ".pdf";
+            archivo_nombre = "oficio_" + folio+".pdf";
             archivo = new File(directorio, archivo_nombre);
         } else {
             directorio.mkdirs();
             if (directorio.exists()) {
-                archivo_nombre = "oficio_" +".pdf";
+                archivo_nombre = "oficio_" +folio+".pdf";
                 archivo = new File(directorio, archivo_nombre);
             } else {
                 System.out.println("No se pudo crear el directorio");
@@ -118,7 +118,7 @@ public class CrearSolicitudViatico {
         Rectangle pagesize = new Rectangle(250, 14400);
         Document doc = new Document(pagesize);
         PdfWriter docWriter = null;
-        String pdfFilename="pruebaofisoliviatico";
+        String pdfFilename="ofisoliviatico"+f;
         
         /*String[] separar=fecha.split("-");
         String mes="";

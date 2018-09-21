@@ -44,7 +44,7 @@ public class CrearOficioViatico {
   //  private infoTicket info;
     NumeroLetras nl;
 
-    public CrearOficioViatico(){
+    public CrearOficioViatico(String folio){
     //    obtener_productos = new ObtenerProductos();
         nl = new NumeroLetras();
         path = "C:\\SIIEEN\\oficiosviaticos\\";
@@ -53,12 +53,12 @@ public class CrearOficioViatico {
             
         
         if (directorio.exists()) {
-            archivo_nombre = "oficio_" + ".pdf";
+            archivo_nombre = "oficio_" +folio+ ".pdf";
             archivo = new File(directorio, archivo_nombre);
         } else {
             directorio.mkdirs();
             if (directorio.exists()) {
-                archivo_nombre = "oficio_" +".pdf";
+                archivo_nombre = "oficio_" +folio+".pdf";
                 archivo = new File(directorio, archivo_nombre);
             } else {
                 System.out.println("No se pudo crear el directorio");
@@ -120,7 +120,7 @@ public class CrearOficioViatico {
         Rectangle pagesize = new Rectangle(250, 14400);
         Document doc = new Document(pagesize);
         PdfWriter docWriter = null;
-        String pdfFilename="pruebaofiviatico";
+        String pdfFilename="ofiviatico"+folioComision;
         
         String[] separar=fecha_salida.split("-");
         String[] separar_llegada=fecha_llegada.split("-");

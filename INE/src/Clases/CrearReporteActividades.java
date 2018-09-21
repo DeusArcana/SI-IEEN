@@ -45,7 +45,7 @@ public class CrearReporteActividades {
   //  private infoTicket info;
     
 
-    public CrearReporteActividades(){
+    public CrearReporteActividades(String folio){
     //    obtener_productos = new ObtenerProductos();
         path = "C:\\SIIEEN\\oficiosreporteactividades\\";
         directorio = new File(path);
@@ -53,12 +53,12 @@ public class CrearReporteActividades {
             
         
         if (directorio.exists()) {
-            archivo_nombre = "oficio_" + ".pdf";
+            archivo_nombre = "oficio_" +folio+".pdf";
             archivo = new File(directorio, archivo_nombre);
         } else {
             directorio.mkdirs();
             if (directorio.exists()) {
-                archivo_nombre = "oficio_" +".pdf";
+                archivo_nombre = "oficio_" +folio+".pdf";
                 archivo = new File(directorio, archivo_nombre);
             } else {
                 System.out.println("No se pudo crear el directorio");
@@ -120,7 +120,7 @@ public class CrearReporteActividades {
         Rectangle pagesize = new Rectangle(250, 14400);
         Document doc = new Document(pagesize);
         PdfWriter docWriter = null;
-        String pdfFilename="pruebaofireporteactividades";
+        String pdfFilename="ofireporteactividades"+folioComision;
         
         /*String[] separar=fecha.split("-");
         String mes="";
@@ -473,10 +473,12 @@ public class CrearReporteActividades {
             doc.add(BLANCO);
             doc.add(BLANCO);
             doc.add(reporte);
-            doc.add(BLANCO);
-            doc.add(gastos);
-            doc.add(BLANCO);
-            doc.add(tablagastos);
+            if(gc.size()>0){
+                doc.add(BLANCO);
+                doc.add(gastos);
+                doc.add(BLANCO);
+                doc.add(tablagastos);
+            }
             
             doc.add(BLANCO);
             //doc.add(BLANCO);

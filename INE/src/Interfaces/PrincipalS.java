@@ -60,6 +60,7 @@ public class PrincipalS extends javax.swing.JFrame {
     DefaultTableModel modelo;
     CrearPDF pdf = new CrearPDF();
     boolean limpiar = false;
+    boolean superUsuario=false;
     int idArea=0;
     ManagerComplemento manager_complemento;
     public static int conVehiculo;//Sirve para saber si se tiene que solicitar un vehiculo cuando está en 1
@@ -225,7 +226,7 @@ public class PrincipalS extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablainfo1 = new javax.swing.JTable();
         btnregresar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        lblArea = new javax.swing.JLabel();
         cmbArea = new javax.swing.JComboBox();
         jLabel7 = new javax.swing.JLabel();
         btnActualizarInforme = new javax.swing.JButton();
@@ -1193,10 +1194,10 @@ public class PrincipalS extends javax.swing.JFrame {
         informe.add(btnregresar);
         btnregresar.setBounds(867, 220, 170, 40);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel2.setText("Área:");
-        informe.add(jLabel2);
-        jLabel2.setBounds(530, 120, 50, 22);
+        lblArea.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblArea.setText("Área:");
+        informe.add(lblArea);
+        lblArea.setBounds(530, 120, 50, 22);
 
         cmbArea.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         cmbArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -1311,6 +1312,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 usuario = cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
                 usuario.next();
                 if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
+                    superUsuario=true;
                     if(idArea>0){
                         Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea+" order by O.folio desc");
                         SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area="+idArea+" ORDER BY I.Id_Informe DESC");
@@ -1319,21 +1321,22 @@ public class PrincipalS extends javax.swing.JFrame {
                         SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
                     }
                     cmbArea.setVisible(true);
-                    jLabel2.setVisible(true);
+                    lblArea.setVisible(true);
                 }else{
+                    superUsuario=false;
                     usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
                     usuario.next();
                     Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and S.nombre='"+usuario.getString("nombre")+"' order by O.folio desc");
                     SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and S.nombre='"+usuario.getString("nombre")+"' ORDER BY I.Id_Informe DESC");
                     cmbArea.setVisible(false);
-                    jLabel2.setVisible(false);
+                    lblArea.setVisible(false);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
             cmbArea.setVisible(false);
-            jLabel2.setVisible(false);
+            lblArea.setVisible(false);
         }
     }//GEN-LAST:event_formWindowActivated
 
@@ -1395,21 +1398,21 @@ public class PrincipalS extends javax.swing.JFrame {
                         SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
                     }
                     cmbArea.setVisible(true);
-                    jLabel2.setVisible(true);
+                    lblArea.setVisible(true);
                 }else{
                     usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
                     usuario.next();
                     Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and S.nombre='"+usuario.getString("nombre")+"' order by O.folio desc");
                     SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and S.nombre='"+usuario.getString("nombre")+"' ORDER BY I.Id_Informe DESC");
                     cmbArea.setVisible(false);
-                    jLabel2.setVisible(false);
+                    lblArea.setVisible(false);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
             cmbArea.setVisible(false);
-            jLabel2.setVisible(false);
+            lblArea.setVisible(false);
         }
     }//GEN-LAST:event_formWindowOpened
 
@@ -1424,7 +1427,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 tablasolicvehiculo.clearSelection();
                 if (fila >= 0) {
                     id = tablasolicvehiculo.getValueAt(fila, 0).toString();
-                    CrearSolicitudViatico csv=new CrearSolicitudViatico();
+                    CrearSolicitudViatico csv=new CrearSolicitudViatico(id);
                     List<String> datos=cbd.acceder("select fecha_salida,Fecha_llegada,Nombre,lugar,actividad,Pernoctado from solicitud_viatico where idSolicitud="+id+";");
                     List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where S.idSolicitud="+id+";");
                     List<String> responsable=cbd.acceder("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m),PT.Puesto from empleados E inner join area A on E.id_empleado=A.Responsable inner join puestos_trabajo PT on E.puesto=PT.ID_Puesto where A.ID_Area=3;");
@@ -1544,7 +1547,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 } catch (SQLException ex) {
                     Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
                 }*/
-                CrearOficioComision coc=new CrearOficioComision();
+                CrearOficioComision coc=new CrearOficioComision(folio);
                 try {
                     
                     List<String> datos=cbd.acceder("select O.Folio,S.Nombre,S.Puesto,S.Lugar,S.Fecha_salida,S.Fecha_llegada,S.Actividad from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where O.Folio="+folio+";");
@@ -1979,6 +1982,10 @@ public class PrincipalS extends javax.swing.JFrame {
                     jScrollPane1.setVisible(true);
                     lblKilometraje.setVisible(false);
                     txtKilometraje.setVisible(false);
+                    if(superUsuario){
+                        cmbArea.setVisible(true);
+                        lblArea.setVisible(true);
+                    }
                     ////////////////////
                 } else {
                     sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Solicitud_idSolicitud) VALUES('" + txtobvia1.getText() + "','" + txtobveh1.getText() + "'," + id + ")");
@@ -2019,12 +2026,37 @@ public class PrincipalS extends javax.swing.JFrame {
                 }
                 int imprimir=JOptionPane.showConfirmDialog(null, "¿Desea imprimir informe?");
                 if(imprimir==JOptionPane.YES_OPTION){
+                    
                     ResultSet rs2 = cbd.getTabla("SELECT MAX(id_informe) AS id_informe FROM Informe",cn);
                     while (rs2.next()) {
                         idInforme = rs2.getString("id_informe");
                     }
-                    CrearPDF pdf=new CrearPDF();
-                    pdf.reporte(idInforme);
+                    List<Gastos_Comprobar> gastos=new ArrayList<Gastos_Comprobar>();
+                    CrearReporteActividades cra=new CrearReporteActividades(idInforme);
+                    List<String> datos=cbd.acceder("select O.Folio,S.Lugar,S.Actividad,I.Observaciones,S.Nombre,S.Puesto from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join informe I on S.idSolicitud=I.Solicitud_idSolicitud where I.Id_Informe="+idInforme+";");
+                    List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio="+folio+";");
+                    List<String> indices=cbd.acceder("select IG.Gastos_id_gastos from informe_gastos IG inner join informe I on IG.Informe_id_informe=I.id_informe where I.id_informe="+idInforme);
+                    if(indices.size()>0){
+                        String query="select precio,descripcion,factura from gastos where ";
+                        for(int i=0;i<indices.size();i++){
+                            if(i==0){
+                                query+="id_gastos="+indices.get(i);
+                            }else{
+                                query+=" or id_gastos="+indices.get(i);
+                            }
+                        }
+                        List<String> gastos_query=cbd.acceder(query);
+                        
+                        for(int i=0;i<gastos_query.size();i+=3){
+                            gastos.add(new Gastos_Comprobar(gastos_query.get(i),gastos_query.get(i+1),gastos_query.get(i+2)));
+                            JOptionPane.showMessageDialog(this, gastos_query.get(i)+"-"+gastos_query.get(i+1)+"-"+gastos_query.get(i+2));
+                        }
+                    }
+                    if(vehiculo.size()<1){
+                        cra.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),gastos);
+                    }else{
+                        cra.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),gastos);
+                    }
                 }
                 sentencia.close();
             }
@@ -2536,6 +2568,10 @@ public class PrincipalS extends javax.swing.JFrame {
             jScrollPane1.setVisible(true);
             lblKilometraje.setVisible(false);
             txtKilometraje.setVisible(false);
+            if(superUsuario){
+                cmbArea.setVisible(true);
+                lblArea.setVisible(true);
+            }
             if(idArea>0){
                 Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea+" order by O.folio desc");
                 SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area="+idArea+" ORDER BY I.Id_Informe DESC");
@@ -2596,7 +2632,10 @@ public class PrincipalS extends javax.swing.JFrame {
                 txtobvia.enable(true);
                 txtobvia.setVisible(true);
                 btnregresar1.setVisible(true);
-
+                if(superUsuario){
+                    cmbArea.setVisible(false);
+                    lblArea.setVisible(false);
+                }
                 try {
                     Statement sentencia = cn.createStatement();
                     String gastos_comprobar = "";
@@ -2684,7 +2723,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 List<Gastos_Comprobar> gastos=new ArrayList<Gastos_Comprobar>();
                 if (k >= 0) {
                     idInforme = tablainfo1.getValueAt(k, 0).toString();
-                    CrearReporteActividades cra=new CrearReporteActividades();
+                    CrearReporteActividades cra=new CrearReporteActividades(idInforme);
                     List<String> datos=cbd.acceder("select O.Folio,S.Lugar,S.Actividad,I.Observaciones,S.Nombre,S.Puesto from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join informe I on S.idSolicitud=I.Solicitud_idSolicitud where I.Id_Informe="+idInforme+";");
                     List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio="+folio+";");
                     List<String> indices=cbd.acceder("select IG.Gastos_id_gastos from informe_gastos IG inner join informe I on IG.Informe_id_informe=I.id_informe where I.id_informe="+idInforme);
@@ -2701,7 +2740,7 @@ public class PrincipalS extends javax.swing.JFrame {
                         
                         for(int i=0;i<gastos_query.size();i+=3){
                             gastos.add(new Gastos_Comprobar(gastos_query.get(i),gastos_query.get(i+1),gastos_query.get(i+2)));
-                            JOptionPane.showMessageDialog(this, gastos_query.get(i)+"-"+gastos_query.get(i+1)+"-"+gastos_query.get(i+2));
+                            //JOptionPane.showMessageDialog(this, gastos_query.get(i)+"-"+gastos_query.get(i+1)+"-"+gastos_query.get(i+2));
                         }
                     }
                     if(vehiculo.size()<1){
@@ -2807,7 +2846,7 @@ public class PrincipalS extends javax.swing.JFrame {
             int i = tablonarchivadas.getSelectedRow();
             if (i >= 0) {
                 String folio = tablonarchivadas.getValueAt(i, 0).toString();
-                CrearOficioComision coc=new CrearOficioComision();
+                CrearOficioComision coc=new CrearOficioComision(folio);
                 try {
                     List<String> datos=cbd.acceder("select O.Folio,S.Nombre,S.Puesto,S.Lugar,S.Fecha_salida,S.Fecha_llegada,S.Actividad from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where O.Folio="+folio+";");
                     List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio="+folio+";");
@@ -2835,7 +2874,7 @@ public class PrincipalS extends javax.swing.JFrame {
             if (i >= 0) {
                 String folio = tablonarchivadas.getValueAt(i, 0).toString();
                 try {
-                    CrearOficioViatico cov=new CrearOficioViatico();
+                    CrearOficioViatico cov=new CrearOficioViatico(folio);
                     List<String> datos=cbd.acceder("select O.Folio,S.Nombre,S.Puesto,O.Monto,S.Actividad,S.Lugar,S.Fecha_salida,S.Fecha_llegada,S.Pernoctado from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where O.Folio="+folio+";");
                     List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio="+folio+";");
                     List<String> responsable=cbd.acceder("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m),PT.Puesto from empleados E inner join area A on E.id_empleado=A.Responsable inner join puestos_trabajo PT on E.puesto=PT.ID_Puesto where A.ID_Area=4;");
@@ -3025,7 +3064,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 tablasolic.clearSelection();
                 if (fila >= 0) {
                     id = tablasolic.getValueAt(fila, 0).toString();
-                    CrearSolicitudViatico csv=new CrearSolicitudViatico();
+                    CrearSolicitudViatico csv=new CrearSolicitudViatico(id);
                     List<String> datos=cbd.acceder("select fecha_salida,Fecha_llegada,Nombre,lugar,actividad,Pernoctado from solicitud_viatico where idSolicitud="+id+";");
                     List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where S.idSolicitud="+id+";");
                     List<String> responsable=cbd.acceder("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m),PT.Puesto from empleados E inner join area A on E.id_empleado=A.Responsable inner join puestos_trabajo PT on E.puesto=PT.ID_Puesto where A.ID_Area=3;");
@@ -3568,14 +3607,14 @@ public class PrincipalS extends javax.swing.JFrame {
                         SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
                     }
                     cmbArea.setVisible(true);
-                    jLabel2.setVisible(true);
+                    lblArea.setVisible(true);
                 }else{
                     usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
                     usuario.next();
                     Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and S.nombre='"+usuario.getString("nombre")+"' order by O.folio desc");
                     SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and S.nombre='"+usuario.getString("nombre")+"' ORDER BY I.Id_Informe DESC");
                     cmbArea.setVisible(false);
-                    jLabel2.setVisible(false);
+                    lblArea.setVisible(false);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
@@ -3876,7 +3915,7 @@ public class PrincipalS extends javax.swing.JFrame {
             if (i >= 0) {
                 String folio = tablonaceptadas.getValueAt(i, 0).toString();
                 try{
-                    CrearOficioViatico cov=new CrearOficioViatico();
+                    CrearOficioViatico cov=new CrearOficioViatico(folio);
                     List<String> datos=cbd.acceder("select O.Folio,S.Nombre,S.Puesto,O.Monto,S.Actividad,S.Lugar,S.Fecha_salida,S.Fecha_llegada,S.Pernoctado from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where O.Folio="+folio+";");
                     List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio="+folio+";");
                     List<String> responsable=cbd.acceder("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m),PT.Puesto from empleados E inner join area A on E.id_empleado=A.Responsable inner join puestos_trabajo PT on E.puesto=PT.ID_Puesto where A.ID_Area=4;");
@@ -4191,7 +4230,6 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel28;
@@ -4225,6 +4263,7 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel jlb;
+    private javax.swing.JLabel lblArea;
     private javax.swing.JLabel lblKilometraje;
     private javax.swing.JLabel lblObsVehiculo;
     private javax.swing.JTabbedPane menuInforme;
