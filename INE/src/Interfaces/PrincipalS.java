@@ -3011,12 +3011,17 @@ public class PrincipalS extends javax.swing.JFrame {
         if (k >= 0) {
             String folio = tablonarchivadas.getValueAt(k, 0).toString();
             boolean gastosac = (boolean) tablonarchivadas.getValueAt(k, 8);
-            String idSolicitud = "";
+            String idSolicitud = "",informe="";
             try {
                 Statement sentencia = cn.createStatement();
-                ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'",cn);
+                ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud,reporte FROM Oficio_comision O inner join solicitud_viatico S on O.Solicitud_idSolicitud=S.idSolicitud WHERE Folio = '" + folio + "'",cn);
                 while (rs.next()) {
                     idSolicitud = rs.getString("Solicitud_idSolicitud");
+                    informe=rs.getString("reporte");
+                }
+                if(informe.equals("1")){
+                    JOptionPane.showMessageDialog(this,"No se puede modificar esta solicitud porque ya fue terminada");
+                    return;
                 }
                 sentencia.executeUpdate("UPDATE Solicitud_viatico SET gastos_comprobar = '" + gastosac + "' WHERE (idSolicitud = " + idSolicitud + ")");
                 javax.swing.JOptionPane.showMessageDialog(null, "Gastos a comprobar guardados");

@@ -526,14 +526,14 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                 try{
                     verificar_excepcion=true;
 
-                    validarDatos(true,"");
-
+                    
+                    if(indiceCarro==0){
+                        JOptionPane.showMessageDialog(this,"-No se ha seleccionado un vehículo");
+                        return;
+                    }
                     //inserta solicitud
                     insertar_Solicitud_Vehiculo(indiceCarro);
 
-                }catch(ExceptionDatosIncompletos e){
-                    JOptionPane.showMessageDialog(this, e.getMessage());
-                    return;
                 }catch(NumberFormatException e){
                     JOptionPane.showMessageDialog(this, "El kilometraje debe ser un numero sin letras.");
                 }
