@@ -537,7 +537,8 @@ public class ManagerSoViaticos {
             //cn.close();
             sentencia.close();
         } catch (SQLException ex) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta de Solicitudes Archivadas");
+            //javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta de Solicitudes Archivadas");
+            javax.swing.JOptionPane.showMessageDialog(null, ex.getMessage());
 
         }finally {
 

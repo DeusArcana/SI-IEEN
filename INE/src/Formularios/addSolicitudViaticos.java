@@ -702,7 +702,6 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         if(cmbLocalidad.getSelectedIndex()>0){
             if(!masMunicipios){
                 lblLugar.setText(cmbEstado.getSelectedItem().toString());
-                cmbEstado.setEnabled(false);
                 masMunicipios=true;
             }        
             String[] mun=lblLugar.getText().split(",");

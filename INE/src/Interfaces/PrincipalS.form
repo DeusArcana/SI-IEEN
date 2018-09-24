@@ -108,14 +108,6 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SolicitarVehiculoActionPerformed"/>
           </Events>
         </MenuItem>
-        <MenuItem class="javax.swing.JMenuItem" name="AgregarEmpleados">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Agregar empleados al vehiculo"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AgregarEmpleadosActionPerformed"/>
-          </Events>
-        </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="CambiarConsejero">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cambiar Consejero Presidente"/>
@@ -234,6 +226,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ExportarExcelAActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="AgregarEmpleados">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Agregar empleados al vehiculo"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AgregarEmpleadosActionPerformed"/>
           </Events>
         </MenuItem>
       </SubComponents>

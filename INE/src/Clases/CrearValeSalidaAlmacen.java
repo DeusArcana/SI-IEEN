@@ -101,7 +101,7 @@ public class CrearValeSalidaAlmacen {
     
     
     
-    public void createTicket(String pdfFilename,String usuario, String contrasena, int res,String fecha, String hora, Vector productos, String empleado)throws DocumentException {
+    public void createTicket(String pdfFilename,String usuario, String contrasena, int res,String fecha, String hora, Vector productos, String empleado,String directorAdmin, String responsableArea)throws DocumentException {
         
         
        Rectangle pagesize = new Rectangle(250, 14400);
@@ -235,8 +235,8 @@ public class CrearValeSalidaAlmacen {
             
             // ärea de firmas
             PdfPTable tablaFirmas = new PdfPTable(3);
-            PdfPCell firma1 = new PdfPCell(new Phrase("Vo.Bo\n\n\n\n\n____________________\nDirección\nAdministrativa", subFont2));
-            PdfPCell firma2 = new PdfPCell(new Phrase("Autorizó\n\n\n\n\n____________________\nNombre y Firma del\nResponsable del Area Solicitante", subFont2));
+            PdfPCell firma1 = new PdfPCell(new Phrase("Vo.Bo\n\n\n\n"+directorAdmin+"\n____________________\nDirección\nAdministrativa", subFont2));
+            PdfPCell firma2 = new PdfPCell(new Phrase("Autorizó\n\n\n\n"+responsableArea+"\n____________________\nNombre y Firma del\nResponsable del Area Solicitante", subFont2));
             PdfPCell firma3 = new PdfPCell(new Phrase("Recibió\n\n\n\n"+empleado+"\n____________________\nNombre y Firma", subFont2));
             
             firma1.setBorderColor(BaseColor.WHITE);

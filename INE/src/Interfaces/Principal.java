@@ -7,6 +7,7 @@ package Interfaces;
 
 
 import Clases.Archivo;
+import Clases.Conexion;
 import Clases.CrearValeRecoleccionDeBienes;
 import Clases.CrearValeResguardoBienes;
 import Clases.CrearValeSalidaAlmacen;
@@ -67,12 +68,14 @@ import static Interfaces.ventana_modificar_vehiculo.campo;
 import com.itextpdf.text.DocumentException;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.sql.Connection;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
@@ -3614,6 +3617,10 @@ public void metodoValeRecoleccion(){
         System.out.println("" + cadena1 + " " + cadena2);
         Vector v = new Vector();
         CrearValeSalidaAlmacen ob = new CrearValeSalidaAlmacen();
+        Conexion cbd = new Conexion();
+        Connection cn = cbd.getConexion();
+        List<String> responsable=cbd.acceder("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m),PT.Puesto from empleados E inner join area A on E.id_empleado=A.Responsable inner join puestos_trabajo PT on E.puesto=PT.ID_Puesto where A.ID_Area=4;");
+        List<String> responsableArea=cbd.acceder("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) from empleados E inner join area A on E.id_empleado=A.Responsable where A.ID_Area=(select A.id_area from area A inner join empleados E on A.id_Area=E.area where E.id_empleado=1);");
         for(int i = 0;i<tablaMAsignados.getRowCount();i++){
            
            v.add(tablaMAsignados.getValueAt(i, 0).toString()
@@ -3624,8 +3631,11 @@ public void metodoValeRecoleccion(){
         }//Llenar vector de los codigos de barras
         
         try {
-            ob.createTicket("salida_almacen_"+dia+"_"+(mes+1)+"_"+año+"_"+hora+"_"+minuto+"_"+segundo, "", "", res, cadena1, cadena2,v,comboEmpleado.getSelectedItem().toString());
+            ob.createTicket("salida_almacen_"+dia+"_"+(mes+1)+"_"+año+"_"+hora+"_"+minuto+"_"+segundo, "", "", res, cadena1, cadena2,v,comboEmpleado.getSelectedItem().toString(),responsable.get(0),responsableArea.get(0));
+            cn.close();
         } catch (DocumentException ex) {
+            Logger.getLogger(addUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        } catch(SQLException ex){
             Logger.getLogger(addUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

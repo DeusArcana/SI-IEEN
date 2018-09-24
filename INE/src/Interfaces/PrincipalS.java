@@ -143,7 +143,6 @@ public class PrincipalS extends javax.swing.JFrame {
         ConsultarP1 = new javax.swing.JMenuItem();
         Add = new javax.swing.JMenuItem();
         SolicitarVehiculo = new javax.swing.JMenuItem();
-        AgregarEmpleados = new javax.swing.JMenuItem();
         CambiarConsejero = new javax.swing.JMenuItem();
         ExportarExcel = new javax.swing.JMenuItem();
         MenuTablonP = new javax.swing.JPopupMenu();
@@ -159,6 +158,7 @@ public class PrincipalS extends javax.swing.JFrame {
         CancelarA = new javax.swing.JMenuItem();
         Archivar = new javax.swing.JMenuItem();
         ExportarExcelA = new javax.swing.JMenuItem();
+        AgregarEmpleados = new javax.swing.JMenuItem();
         MenuTablonC = new javax.swing.JPopupMenu();
         ConsultarC = new javax.swing.JMenuItem();
         ExportarExcelC = new javax.swing.JMenuItem();
@@ -337,14 +337,6 @@ public class PrincipalS extends javax.swing.JFrame {
         });
         MenuSolicitudViaticos.add(SolicitarVehiculo);
 
-        AgregarEmpleados.setText("Agregar empleados al vehiculo");
-        AgregarEmpleados.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AgregarEmpleadosActionPerformed(evt);
-            }
-        });
-        MenuSolicitudViaticos.add(AgregarEmpleados);
-
         CambiarConsejero.setText("Cambiar Consejero Presidente");
         CambiarConsejero.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -448,6 +440,14 @@ public class PrincipalS extends javax.swing.JFrame {
             }
         });
         MenuTablonA.add(ExportarExcelA);
+
+        AgregarEmpleados.setText("Agregar empleados al vehiculo");
+        AgregarEmpleados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AgregarEmpleadosActionPerformed(evt);
+            }
+        });
+        MenuTablonA.add(AgregarEmpleados);
 
         ConsultarC.setText("Consultar");
         ConsultarC.addActionListener(new java.awt.event.ActionListener() {
@@ -2809,31 +2809,6 @@ public class PrincipalS extends javax.swing.JFrame {
         modelo.removeRow(i);
     }//GEN-LAST:event_EliminarAActionPerformed
 
-    private void AgregarEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarEmpleadosActionPerformed
-        if (manager_permisos.accesoModulo("actualizar", "Solicitud Viaticos", Principal.Username)) {
-            try {
-                // TODO add your handling code here:
-                int fila = tablasolicvehiculo.getSelectedRow();
-                String idSolicitud = tablasolicvehiculo.getValueAt(fila, 0) + "";
-                String fecha = tablasolicvehiculo.getValueAt(fila, 1) + "";
-                ResultSet rs=cbd.getTabla("select * from solicitud_viatico where estado!='AR' and estado!='C' and idSolicitud="+idSolicitud, cn);
-                boolean noModificar=true;
-                while(rs.next()){
-                    noModificar=false;
-                    addViaticoVehiculo avv = new addViaticoVehiculo(this, true, idSolicitud, fecha);
-                    avv.setVisible(true);
-                }
-                if(noModificar){
-                    JOptionPane.showMessageDialog(this, "No se puede agregar empleados al vehiculo porque la solicitud está cancelada o ya le fue asignada un monto");
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }else{
-            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para agregar empleados a las solicitudes de vehículos.");
-        }
-    }//GEN-LAST:event_AgregarEmpleadosActionPerformed
-
     private void ConsultarArActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarArActionPerformed
         // TODO add your handling code here:
         if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
@@ -4019,6 +3994,31 @@ public class PrincipalS extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para consultar las solicitudes.");
         }
     }//GEN-LAST:event_ConsultarP2ActionPerformed
+
+    private void AgregarEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarEmpleadosActionPerformed
+        if (manager_permisos.accesoModulo("actualizar", "Tablon Solicitudes", Principal.Username)) {
+            try {
+                // TODO add your handling code here:
+                int fila = tablasolicvehiculo.getSelectedRow();
+                String idSolicitud = tablasolicvehiculo.getValueAt(fila, 0) + "";
+                String fecha = tablasolicvehiculo.getValueAt(fila, 1) + "";
+                ResultSet rs=cbd.getTabla("select * from solicitud_viatico where estado!='AR' and estado!='C' and idSolicitud="+idSolicitud, cn);
+                boolean noModificar=true;
+                while(rs.next()){
+                    noModificar=false;
+                    addViaticoVehiculo avv = new addViaticoVehiculo(this, true, idSolicitud, fecha);
+                    avv.setVisible(true);
+                }
+                if(noModificar){
+                    JOptionPane.showMessageDialog(this, "No se puede agregar empleados al vehiculo porque la solicitud está cancelada o ya le fue asignada un monto");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para agregar empleados a las solicitudes de vehículos.");
+        }
+    }//GEN-LAST:event_AgregarEmpleadosActionPerformed
 
     public void Solicitud(String s) {
         modelo = new DefaultTableModel() {
