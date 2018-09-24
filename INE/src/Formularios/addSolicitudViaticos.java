@@ -295,188 +295,204 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "HH:mm");
             hora_Salida.setEditor(de);
 
-            c2 = new GregorianCalendar();
-            date_Salida.setCalendar(c2);
-            pn_addInventario.add(date_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 150, 215, -1));
-            pn_addInventario.add(hora_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 150, 100, -1));
-            JSpinner.DateEditor de2 = new JSpinner.DateEditor(hora_Llegada, "HH:mm");
-            hora_Llegada.setEditor(de2);
+            date_Llegada.getDateEditor().addPropertyChangeListener(
+                new java.beans.PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(java.beans.PropertyChangeEvent e) {
+                        if(e.getPropertyName().equals("date")) {
+                            hora_Llegada.setEnabled(true);
+                        }
+                    }
+                });
+                c2 = new GregorianCalendar();
+                date_Salida.setCalendar(c2);
+                pn_addInventario.add(date_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 150, 215, -1));
 
-            cmbEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione estado" }));
-            cmbEstado.addItemListener(new java.awt.event.ItemListener() {
-                public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                    cmbEstadoItemStateChanged(evt);
-                }
-            });
-            pn_addInventario.add(cmbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, -1, -1));
+                hora_Llegada.setEnabled(false);
+                hora_Llegada.addChangeListener(new javax.swing.event.ChangeListener() {
+                    public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                        hora_LlegadaStateChanged(evt);
+                    }
+                });
+                pn_addInventario.add(hora_Llegada, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 150, 100, -1));
+                JSpinner.DateEditor de2 = new JSpinner.DateEditor(hora_Llegada, "HH:mm");
+                hora_Llegada.setEditor(de2);
 
-            cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione municipio" }));
-            pn_addInventario.add(cmbLocalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 190, 130, -1));
+                cmbEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione estado" }));
+                cmbEstado.addItemListener(new java.awt.event.ItemListener() {
+                    public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                        cmbEstadoItemStateChanged(evt);
+                    }
+                });
+                pn_addInventario.add(cmbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, -1, -1));
 
-            txt_Actividad.setColumns(20);
-            txt_Actividad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            txt_Actividad.setRows(5);
-            txt_Actividad.addKeyListener(new java.awt.event.KeyAdapter() {
-                public void keyTyped(java.awt.event.KeyEvent evt) {
-                    txt_ActividadKeyTyped(evt);
-                }
-            });
-            jScrollPane1.setViewportView(txt_Actividad);
+                cmbLocalidad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione municipio" }));
+                pn_addInventario.add(cmbLocalidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 190, 130, -1));
 
-            pn_addInventario.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 281, 480, 120));
+                txt_Actividad.setColumns(20);
+                txt_Actividad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+                txt_Actividad.setRows(5);
+                txt_Actividad.addKeyListener(new java.awt.event.KeyAdapter() {
+                    public void keyTyped(java.awt.event.KeyEvent evt) {
+                        txt_ActividadKeyTyped(evt);
+                    }
+                });
+                jScrollPane1.setViewportView(txt_Actividad);
 
-            btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
-            btnAceptar.setText("Aceptar");
-            btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            btnAceptar.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    btnAceptarActionPerformed(evt);
-                }
-            });
-            pn_addInventario.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 423, -1, 30));
+                pn_addInventario.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 281, 480, 120));
 
-            btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
-            btnCancelar.setText("Cancelar");
-            btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            btnCancelar.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    btnCancelarActionPerformed(evt);
-                }
-            });
-            pn_addInventario.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 420, -1, -1));
+                btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+                btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
+                btnAceptar.setText("Aceptar");
+                btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        btnAceptarActionPerformed(evt);
+                    }
+                });
+                pn_addInventario.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 423, -1, 30));
 
-            jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            jLabel1.setText("Nombre:");
-            pn_addInventario.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, -1, -1));
+                btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+                btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/cancelar.png"))); // NOI18N
+                btnCancelar.setText("Cancelar");
+                btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        btnCancelarActionPerformed(evt);
+                    }
+                });
+                pn_addInventario.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 420, -1, -1));
 
-            txt_Puesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            txt_Puesto.setEnabled(false);
-            pn_addInventario.add(txt_Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 330, -1));
+                jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+                jLabel1.setText("Nombre:");
+                pn_addInventario.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, -1, -1));
 
-            jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            jLabel2.setText("Puesto:");
-            pn_addInventario.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, -1, -1));
+                txt_Puesto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+                txt_Puesto.setEnabled(false);
+                pn_addInventario.add(txt_Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 330, -1));
 
-            jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            jLabel3.setText("Actividad a realizar:");
-            pn_addInventario.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, -1));
+                jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+                jLabel2.setText("Puesto:");
+                pn_addInventario.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, -1, -1));
 
-            jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            jLabel4.setText("Fecha de salida:");
-            pn_addInventario.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, -1));
+                jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+                jLabel3.setText("Actividad a realizar:");
+                pn_addInventario.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, -1));
 
-            jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            jLabel5.setText("Fecha de llegada:");
-            pn_addInventario.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
+                jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+                jLabel4.setText("Fecha de salida:");
+                pn_addInventario.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, -1));
 
-            jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            jLabel8.setText("Lugar:");
-            pn_addInventario.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(93, 193, -1, -1));
+                jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+                jLabel5.setText("Fecha de llegada:");
+                pn_addInventario.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
 
-            lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-            pn_addInventario.add(lblAviso, new org.netbeans.lib.awtextra.AbsoluteConstraints(466, 228, 15, 233));
+                jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+                jLabel8.setText("Lugar:");
+                pn_addInventario.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(93, 193, -1, -1));
 
-            jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            jLabel7.setText("Área:");
-            pn_addInventario.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, -1, -1));
+                lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+                pn_addInventario.add(lblAviso, new org.netbeans.lib.awtextra.AbsoluteConstraints(466, 228, 15, 233));
 
-            cmb_Vehiculo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-            cmb_Vehiculo.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    cmb_VehiculoActionPerformed(evt);
-                }
-            });
-            pn_addInventario.add(cmb_Vehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, 190, -1));
+                jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+                jLabel7.setText("Área:");
+                pn_addInventario.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, -1, -1));
 
-            jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            jLabel9.setText("Vehiculo:");
-            pn_addInventario.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, -1, -1));
+                cmb_Vehiculo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+                cmb_Vehiculo.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        cmb_VehiculoActionPerformed(evt);
+                    }
+                });
+                pn_addInventario.add(cmb_Vehiculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, 190, -1));
 
-            jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            jLabel10.setText("Kilometraje:");
-            pn_addInventario.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 70, -1, -1));
+                jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+                jLabel9.setText("Vehiculo:");
+                pn_addInventario.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, -1, -1));
 
-            txtKilometraje.setEditable(false);
-            txtKilometraje.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            pn_addInventario.add(txtKilometraje, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 70, 190, -1));
+                jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+                jLabel10.setText("Kilometraje:");
+                pn_addInventario.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 70, -1, -1));
 
-            jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            jLabel11.setText("Descripción:");
-            pn_addInventario.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 120, -1, -1));
+                txtKilometraje.setEditable(false);
+                txtKilometraje.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+                pn_addInventario.add(txtKilometraje, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 70, 190, -1));
 
-            txtADescripcion.setEditable(false);
-            txtADescripcion.setColumns(20);
-            txtADescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            txtADescripcion.setRows(5);
-            jScrollPane2.setViewportView(txtADescripcion);
+                jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+                jLabel11.setText("Descripción:");
+                pn_addInventario.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 120, -1, -1));
 
-            pn_addInventario.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 150, 280, -1));
+                txtADescripcion.setEditable(false);
+                txtADescripcion.setColumns(20);
+                txtADescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+                txtADescripcion.setRows(5);
+                jScrollPane2.setViewportView(txtADescripcion);
 
-            hora_Salida_A.setText("jTextField1");
-            pn_addInventario.add(hora_Salida_A, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, 100, -1));
+                pn_addInventario.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 150, 280, -1));
 
-            btnEditar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-            btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png"))); // NOI18N
-            btnEditar.setText("Editar");
-            btnEditar.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    btnEditarActionPerformed(evt);
-                }
-            });
-            pn_addInventario.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 280, -1, -1));
+                hora_Salida_A.setText("jTextField1");
+                pn_addInventario.add(hora_Salida_A, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, 100, -1));
 
-            jLabel12.setText("*");
-            pn_addInventario.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, 40, -1));
+                btnEditar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+                btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png"))); // NOI18N
+                btnEditar.setText("Editar");
+                btnEditar.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        btnEditarActionPerformed(evt);
+                    }
+                });
+                pn_addInventario.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 280, -1, -1));
 
-            jLabel13.setText("*");
-            pn_addInventario.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 30, -1));
+                jLabel12.setText("*");
+                pn_addInventario.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, 40, -1));
 
-            jLabel15.setText("*");
-            pn_addInventario.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 200, 40, -1));
+                jLabel13.setText("*");
+                pn_addInventario.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 30, -1));
 
-            jLabel14.setText("*");
-            pn_addInventario.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 10, 30));
+                jLabel15.setText("*");
+                pn_addInventario.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 200, 40, -1));
 
-            jLabel16.setText("*");
-            pn_addInventario.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 30, -1));
+                jLabel14.setText("*");
+                pn_addInventario.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 10, 30));
 
-            jLabel17.setText("*");
-            pn_addInventario.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, 30, -1));
+                jLabel16.setText("*");
+                pn_addInventario.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 30, -1));
 
-            jLabel18.setText("*");
-            pn_addInventario.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 30, -1));
+                jLabel17.setText("*");
+                pn_addInventario.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, 30, -1));
 
-            jLabel19.setText("* Campo obligatorio");
-            pn_addInventario.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 460, -1, -1));
+                jLabel18.setText("*");
+                pn_addInventario.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 30, -1));
 
-            btnMasMun.setText("+");
-            btnMasMun.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    btnMasMunActionPerformed(evt);
-                }
-            });
-            pn_addInventario.add(btnMasMun, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 220, 70, -1));
+                jLabel19.setText("* Campo obligatorio");
+                pn_addInventario.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 460, -1, -1));
 
-            btnLimpiarLugar.setText("Limpiar");
-            btnLimpiarLugar.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    btnLimpiarLugarActionPerformed(evt);
-                }
-            });
-            pn_addInventario.add(btnLimpiarLugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 250, 70, -1));
+                btnMasMun.setText("+");
+                btnMasMun.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        btnMasMunActionPerformed(evt);
+                    }
+                });
+                pn_addInventario.add(btnMasMun, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 220, 70, -1));
 
-            lblLugar.setEditable(false);
-            pn_addInventario.add(lblLugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 220, 310, -1));
+                btnLimpiarLugar.setText("Limpiar");
+                btnLimpiarLugar.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        btnLimpiarLugarActionPerformed(evt);
+                    }
+                });
+                pn_addInventario.add(btnLimpiarLugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 250, 70, -1));
 
-            jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
-            pn_addInventario.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 880, 520));
+                lblLugar.setEditable(false);
+                pn_addInventario.add(lblLugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 220, 310, -1));
 
-            getContentPane().add(pn_addInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 860, 520));
+                jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
+                pn_addInventario.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 880, 520));
 
-            pack();
-        }// </editor-fold>//GEN-END:initComponents
+                getContentPane().add(pn_addInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 860, 520));
+
+                pack();
+            }// </editor-fold>//GEN-END:initComponents
     public void maxid(){
         String sql="Select max(idSolicitud) from solicitud_viatico";
         int datos[]=new int[1];
@@ -714,6 +730,27 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         txt_Actividad.setLineWrap(true);
         txt_Actividad.setWrapStyleWord(true);
     }//GEN-LAST:event_txt_ActividadKeyTyped
+
+    private void hora_LlegadaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_hora_LlegadaStateChanged
+        // TODO add your handling code here:
+        SimpleDateFormat format=new SimpleDateFormat("HH:mm");
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        String[] hora_salida=format.format(hora_Salida.getValue()).split(":");
+        String[] hora_llegada=format.format(hora_Llegada.getValue()).split(":");
+        String fecha_Salida=sdf.format(date_Salida.getDate().getTime());
+        String fecha_Llegada=sdf.format(date_Llegada.getDate().getTime());
+        if(fecha_Salida.equals(fecha_Llegada)){
+            if(Integer.parseInt(hora_salida[0])>Integer.parseInt(hora_llegada[0])){
+                hora_Llegada.setValue(hora_Salida.getValue());
+            }else{
+                if(Integer.parseInt(hora_salida[0])==Integer.parseInt(hora_llegada[0])){
+                    if(Integer.parseInt(hora_salida[1])>Integer.parseInt(hora_llegada[1])){
+                        hora_Llegada.setValue(hora_Salida.getValue());
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_hora_LlegadaStateChanged
     public void insertar_Solicitud(int ConCarro){
         try{
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");

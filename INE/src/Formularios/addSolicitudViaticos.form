@@ -127,7 +127,7 @@
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="date_Llegada">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="c2 = new GregorianCalendar();&#xa;date_Salida.setCalendar(c2);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="date_Llegada.getDateEditor().addPropertyChangeListener(&#xa;    new java.beans.PropertyChangeListener() {&#xa;        @Override&#xa;        public void propertyChange(java.beans.PropertyChangeEvent e) {&#xa;            if(e.getPropertyName().equals(&quot;date&quot;)) {&#xa;                hora_Llegada.setEnabled(true);&#xa;            }&#xa;        }&#xa;    });&#xa;c2 = new GregorianCalendar();&#xa;date_Salida.setCalendar(c2);"/>
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -136,6 +136,12 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JSpinner" name="hora_Llegada">
+          <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="hora_LlegadaStateChanged"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="JSpinner.DateEditor de2 = new JSpinner.DateEditor(hora_Llegada, &quot;HH:mm&quot;);&#xa;hora_Llegada.setEditor(de2);"/>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(sdm2)"/>
