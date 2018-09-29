@@ -646,6 +646,11 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                 cmbLocalidad.addItem(localidades.get(i).split("\r")[0]);
             }
         }
+        if(cmbEstado.getSelectedIndex()!=0){
+            if(variosEstados==0){
+                variosEstados=1;
+            }
+        }
     }//GEN-LAST:event_cmbEstadoItemStateChanged
 
     private void cmbAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAreaActionPerformed
@@ -697,18 +702,32 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     boolean masMunicipios=false;
+    int variosEstados=-1;
     private void btnMasMunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMasMunActionPerformed
         // TODO add your handling code here:
         if(cmbLocalidad.getSelectedIndex()>0){
             if(!masMunicipios){
                 lblLugar.setText(cmbEstado.getSelectedItem().toString());
                 masMunicipios=true;
+                variosEstados=0;
             }        
+            if(variosEstados==1){
+                lblLugar.setText(lblLugar.getText()+"-"+cmbEstado.getSelectedItem().toString()+","+cmbLocalidad.getSelectedItem().toString());
+                variosEstados=0;
+                lblLugar.setText(ordenarLugar());
+                return;
+            }
             String[] mun=lblLugar.getText().split(",");
             boolean munAsignados=false;
             for(int i=1;i<mun.length;i++){
                 if(cmbLocalidad.getSelectedItem().toString().equals(mun[i])){
                     munAsignados=true;
+                }else{
+                    if(mun[i].split("-").length>1){
+                        if(cmbLocalidad.getSelectedItem().toString().equals(mun[i].split("-")[0])){
+                            munAsignados=true;
+                        }
+                    }
                 }
             }
             if(!munAsignados){
@@ -717,10 +736,39 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnMasMunActionPerformed
 
+    private String ordenarLugar(){
+        String[] estados=lblLugar.getText().split("-");
+        String cadFinal="";
+        String aux=estados[estados.length-1].split(",")[0];
+        String auxMun=estados[estados.length-1].split(",")[1];
+        boolean estadoRep=false;
+        for(int i=0;i<estados.length-1;i++){
+            if(aux.equals(estados[i].split(",")[0])){
+                estadoRep=true;
+                String [] municipios=estados[i].split(",");
+                boolean repetido=false;
+                for(int j=0;j<municipios.length;j++){
+                    if(auxMun.equals(municipios[j])){
+                        repetido=true;
+                    }
+                }
+                if(!repetido){
+                    estados[i]+=","+auxMun;
+                }
+            }
+        }
+        cadFinal+=estados[0];
+        for(int i=1;i<estados.length;i++){
+            if(!(i==estados.length-1 && estadoRep)){
+                cadFinal+="-"+estados[i];
+            }
+        }
+        return cadFinal;
+    }
     private void btnLimpiarLugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarLugarActionPerformed
         // TODO add your handling code here:
         masMunicipios=false;
-        lblLugar.setText("Lugar");
+        lblLugar.setText("");
         cmbEstado.setEnabled(true);
     }//GEN-LAST:event_btnLimpiarLugarActionPerformed
 

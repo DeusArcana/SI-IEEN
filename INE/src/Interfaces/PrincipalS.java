@@ -52,6 +52,7 @@ import org.jvnet.substance.SubstanceLookAndFeel;
  * @author usuario
  */
 public class PrincipalS extends javax.swing.JFrame {
+
     Conexion cbd = new Conexion();
     Connection cn = cbd.getConexion();
     ManagerSoViaticos manager_soviaticos;
@@ -60,11 +61,11 @@ public class PrincipalS extends javax.swing.JFrame {
     DefaultTableModel modelo;
     CrearPDF pdf = new CrearPDF();
     boolean limpiar = false;
-    boolean superUsuario=false;
-    int idArea=0;
+    boolean superUsuario = false;
+    int idArea = 0;
     ManagerComplemento manager_complemento;
     public static int conVehiculo;//Sirve para saber si se tiene que solicitar un vehiculo cuando está en 1
-    public static int viatico_vehiculo=0;
+    public static int viatico_vehiculo = 0;
 
     /**
      * Creates new form PrincipalS
@@ -82,39 +83,39 @@ public class PrincipalS extends javax.swing.JFrame {
         tabloncanceladas.getTableHeader().setReorderingAllowed(false);
         tablonarchivadas.getTableHeader().setReorderingAllowed(false);
         manager_soviaticos = new ManagerSoViaticos();
-        manager_permisos=new ManagerPermisos();
-        manager_complemento=new ManagerComplemento();
+        manager_permisos = new ManagerPermisos();
+        manager_complemento = new ManagerComplemento();
         c = 0;
         String lista = manager_complemento.obtenerAreas();
         String[] recoger = lista.split(",,");
 
-        cmbArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        cmbArea.setModel(new javax.swing.DefaultComboBoxModel(new String[]{}));
         cmbArea.addItem("Todos");
-        for(int i = 1; i <= recoger.length;i = i+2){
+        for (int i = 1; i <= recoger.length; i = i + 2) {
             cmbArea.addItem(recoger[i]);
         }
         if (manager_permisos.accesoModulo("consulta", "Informe", Principal.Username)) {
             ResultSet usuario;
             try {
-                usuario = cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+                usuario = cbd.getTabla("select puesto from user where id_user='" + Principal.Username + "'", cn);
                 usuario.next();
-                if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
-                    superUsuario=true;
-                    if(idArea>0){
-                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea+" order by O.folio desc");
-                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area="+idArea+" ORDER BY I.Id_Informe DESC");
-                    }else{
+                if (usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")) {
+                    superUsuario = true;
+                    if (idArea > 0) {
+                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area=" + idArea + " order by O.folio desc");
+                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area=" + idArea + " ORDER BY I.Id_Informe DESC");
+                    } else {
                         Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 order by O.folio desc");
                         SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
                     }
                     cmbArea.setVisible(true);
                     lblArea.setVisible(true);
-                }else{
-                    superUsuario=false;
-                    usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                } else {
+                    superUsuario = false;
+                    usuario = cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='" + Principal.Username + "';", cn);
                     usuario.next();
-                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and S.nombre='"+usuario.getString("nombre")+"' order by O.folio desc");
-                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and S.nombre='"+usuario.getString("nombre")+"' ORDER BY I.Id_Informe DESC");
+                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and S.nombre='" + usuario.getString("nombre") + "' order by O.folio desc");
+                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and S.nombre='" + usuario.getString("nombre") + "' ORDER BY I.Id_Informe DESC");
                     cmbArea.setVisible(false);
                     lblArea.setVisible(false);
                 }
@@ -201,7 +202,6 @@ public class PrincipalS extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         tablonsolicitud1 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
-        guardargac = new javax.swing.JButton();
         txtbusquedasoli1 = new javax.swing.JTextField();
         jPanel20 = new javax.swing.JPanel();
         menutablones = new javax.swing.JTabbedPane();
@@ -766,24 +766,6 @@ public class PrincipalS extends javax.swing.JFrame {
         tablonsolicitud1.add(jLabel20);
         jLabel20.setBounds(70, 120, 100, 22);
 
-        guardargac.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/aceptar.png"))); // NOI18N
-        guardargac.setText("Guardar");
-        guardargac.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                guardargacFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                guardargacFocusLost(evt);
-            }
-        });
-        guardargac.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                guardargacActionPerformed(evt);
-            }
-        });
-        tablonsolicitud1.add(guardargac);
-        guardargac.setBounds(910, 120, 120, 30);
-
         txtbusquedasoli1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtbusquedasoli1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1337,27 +1319,27 @@ public class PrincipalS extends javax.swing.JFrame {
         if (manager_permisos.accesoModulo("consulta", "Informe", Principal.Username)) {
             ResultSet usuario;
             try {
-                usuario = cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+                usuario = cbd.getTabla("select puesto from user where id_user='" + Principal.Username + "'", cn);
                 usuario.next();
-                if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
-                    superUsuario=true;
-                    if(idArea>0){
-                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea+" order by O.folio desc");
-                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area="+idArea+" ORDER BY I.Id_Informe DESC");
-                    }else{
+                if (usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")) {
+                    superUsuario = true;
+                    if (idArea > 0) {
+                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area=" + idArea + " order by O.folio desc");
+                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area=" + idArea + " ORDER BY I.Id_Informe DESC");
+                    } else {
                         Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 order by O.folio desc");
                         SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
                     }
-                }else{
-                    usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                } else {
+                    usuario = cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='" + Principal.Username + "';", cn);
                     usuario.next();
-                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and S.nombre='"+usuario.getString("nombre")+"' order by O.folio desc");
-                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and S.nombre='"+usuario.getString("nombre")+"' ORDER BY I.Id_Informe DESC");
+                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and S.nombre='" + usuario.getString("nombre") + "' order by O.folio desc");
+                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and S.nombre='" + usuario.getString("nombre") + "' ORDER BY I.Id_Informe DESC");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else{
+        } else {
             cmbArea.setVisible(false);
             lblArea.setVisible(false);
         }
@@ -1371,29 +1353,28 @@ public class PrincipalS extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         btnregresar1.setVisible(false);
-            txtobvia1.setText("");
-            txtKilometraje.setVisible(false);
-            lblKilometraje.setVisible(false);
-            txtobveh1.setText("");
-            GaTot.setText("");
-            txtobvia.enable(false);
-            txtobveh.enable(false);
-            txtobvia.setVisible(false);
-            txtobveh.setVisible(false);
-            btnregresar.setVisible(false);
-            btnguardar.setVisible(false);
-            tablainfo.enable(true);
-            jlb.setVisible(true);
-            txtbusquedasoli2.setVisible(true);
-            jLabel1.setVisible(false);
-            lblObsVehiculo.setVisible(false);
-            jLabel3.setVisible(false);
-            GaTot.enable(false);
-            GaTot.setVisible(false);
-            jScrollPane3.setVisible(false);
-            jScrollPane1.setVisible(true);
+        txtobvia1.setText("");
+        txtKilometraje.setVisible(false);
+        lblKilometraje.setVisible(false);
+        txtobveh1.setText("");
+        GaTot.setText("");
         txtobvia.enable(false);
-        guardargac.setVisible(false);
+        txtobveh.enable(false);
+        txtobvia.setVisible(false);
+        txtobveh.setVisible(false);
+        btnregresar.setVisible(false);
+        btnguardar.setVisible(false);
+        tablainfo.enable(true);
+        jlb.setVisible(true);
+        txtbusquedasoli2.setVisible(true);
+        jLabel1.setVisible(false);
+        lblObsVehiculo.setVisible(false);
+        jLabel3.setVisible(false);
+        GaTot.enable(false);
+        GaTot.setVisible(false);
+        jScrollPane3.setVisible(false);
+        jScrollPane1.setVisible(true);
+        txtobvia.enable(false);
         txtobveh.enable(false);
         btnregresar.setVisible(false);
         btnguardar.setVisible(false);
@@ -1410,30 +1391,30 @@ public class PrincipalS extends javax.swing.JFrame {
         if (manager_permisos.accesoModulo("consulta", "Informe", Principal.Username)) {
             ResultSet usuario;
             try {
-                usuario = cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+                usuario = cbd.getTabla("select puesto from user where id_user='" + Principal.Username + "'", cn);
                 usuario.next();
-                if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
-                    if(idArea>0){
-                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea+" order by O.folio desc");
-                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area="+idArea+" ORDER BY I.Id_Informe DESC");
-                    }else{
+                if (usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")) {
+                    if (idArea > 0) {
+                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area=" + idArea + " order by O.folio desc");
+                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area=" + idArea + " ORDER BY I.Id_Informe DESC");
+                    } else {
                         Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 order by O.folio desc");
                         SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
                     }
                     cmbArea.setVisible(true);
                     lblArea.setVisible(true);
-                }else{
-                    usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                } else {
+                    usuario = cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='" + Principal.Username + "';", cn);
                     usuario.next();
-                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and S.nombre='"+usuario.getString("nombre")+"' order by O.folio desc");
-                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and S.nombre='"+usuario.getString("nombre")+"' ORDER BY I.Id_Informe DESC");
+                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and S.nombre='" + usuario.getString("nombre") + "' order by O.folio desc");
+                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and S.nombre='" + usuario.getString("nombre") + "' ORDER BY I.Id_Informe DESC");
                     cmbArea.setVisible(false);
                     lblArea.setVisible(false);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else{
+        } else {
             cmbArea.setVisible(false);
             lblArea.setVisible(false);
         }
@@ -1450,20 +1431,20 @@ public class PrincipalS extends javax.swing.JFrame {
                 tablasolicvehiculo.clearSelection();
                 if (fila >= 0) {
                     id = tablasolicvehiculo.getValueAt(fila, 0).toString();
-                    CrearSolicitudViatico csv=new CrearSolicitudViatico(id);
-                    List<String> datos=cbd.acceder("select fecha_salida,Fecha_llegada,Nombre,lugar,actividad,Pernoctado from solicitud_viatico where idSolicitud="+id+";");
-                    List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where S.idSolicitud="+id+";");
-                    List<String> responsable=cbd.acceder("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m),PT.Puesto from empleados E inner join area A on E.id_empleado=A.Responsable inner join puestos_trabajo PT on E.puesto=PT.ID_Puesto where A.ID_Area=3;");
-                    if(vehiculo.size()<1){
-                        csv.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),"",responsable.get(0),responsable.get(1));
-                    }else{
-                        csv.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),vehiculo.get(0)+"-"+vehiculo.get(1),responsable.get(0),responsable.get(1));
+                    CrearSolicitudViatico csv = new CrearSolicitudViatico(id);
+                    List<String> datos = cbd.acceder("select fecha_salida,Fecha_llegada,Nombre,lugar,actividad,Pernoctado from solicitud_viatico where idSolicitud=" + id + ";");
+                    List<String> vehiculo = cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where S.idSolicitud=" + id + ";");
+                    List<String> responsable = cbd.acceder("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m),PT.Puesto from empleados E inner join area A on E.id_empleado=A.Responsable inner join puestos_trabajo PT on E.puesto=PT.ID_Puesto where A.ID_Area=3;");
+                    if (vehiculo.size() < 1) {
+                        csv.createTicket(1, datos.get(0), datos.get(1), datos.get(2), datos.get(3), datos.get(4), datos.get(5), "", responsable.get(0), responsable.get(1));
+                    } else {
+                        csv.createTicket(1, datos.get(0), datos.get(1), datos.get(2), datos.get(3), datos.get(4), datos.get(5), vehiculo.get(0) + "-" + vehiculo.get(1), responsable.get(0), responsable.get(1));
                     }
                 }
             } catch (Exception e) {
 
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para imprimir solicitudes de viáticos.");
         }
     }//GEN-LAST:event_Impri_SolActionPerformed
@@ -1480,14 +1461,14 @@ public class PrincipalS extends javax.swing.JFrame {
             int k = tablonpendientes.getSelectedRow();
             if (k >= 0) {
                 int id = Integer.parseInt(tablonpendientes.getValueAt(k, 0).toString());
-                s = new visSolicitudViaticos(this,true);
+                s = new visSolicitudViaticos(this, true);
                 s.setLocationRelativeTo(null);
                 s.IdUsuario(id, 0, 0);
                 s.setVisible(true);
             } else {
                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para consultar las solicitudes.");
         }
     }//GEN-LAST:event_ConsultarPActionPerformed
@@ -1507,11 +1488,11 @@ public class PrincipalS extends javax.swing.JFrame {
                 String idSolicitud = "";
                 try {
                     Statement sentencia = cn.createStatement();
-                    ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'",cn);
+                    ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'", cn);
                     rs.next();
                     idSolicitud = rs.getString("Solicitud_idSolicitud");
 
-                    s = new visSolicitudViaticos(this,true);
+                    s = new visSolicitudViaticos(this, true);
                     s.setLocationRelativeTo(null);
                     s.IdUsuario(Integer.parseInt(idSolicitud), 1, 1);
                     sentencia.close();
@@ -1527,7 +1508,7 @@ public class PrincipalS extends javax.swing.JFrame {
             } else {
                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para consultar las solicitudes.");
         }
     }//GEN-LAST:event_ConsultarAActionPerformed
@@ -1544,14 +1525,14 @@ public class PrincipalS extends javax.swing.JFrame {
             int k = tabloncanceladas.getSelectedRow();
             if (k >= 0) {
                 int id = Integer.parseInt(tabloncanceladas.getValueAt(k, 0).toString());
-                s = new visSolicitudViaticos(this,true);
+                s = new visSolicitudViaticos(this, true);
                 s.setLocationRelativeTo(null);
                 s.IdUsuario(id, 0, 2);
                 s.setVisible(true);
             } else {
                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para consultar las solicitudes.");
         }
     }//GEN-LAST:event_ConsultarCActionPerformed
@@ -1563,23 +1544,23 @@ public class PrincipalS extends javax.swing.JFrame {
             if (i >= 0) {
                 String folio = tablonaceptadas.getValueAt(i, 0).toString();
                 /*try {
-                    pdf.oficio_comision(folio);
+                 pdf.oficio_comision(folio);
                     
-                } catch (DocumentException ex) {
-                    Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
-                }*/
-                CrearOficioComision coc=new CrearOficioComision(folio);
+                 } catch (DocumentException ex) {
+                 Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+                 } catch (SQLException ex) {
+                 Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+                 }*/
+                CrearOficioComision coc = new CrearOficioComision(folio);
                 try {
-                    
-                    List<String> datos=cbd.acceder("select O.Folio,S.Nombre,S.Puesto,S.Lugar,S.Fecha_salida,S.Fecha_llegada,S.Actividad from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where O.Folio="+folio+";");
-                    List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio="+folio+";");
-                    List<String> responsable=cbd.acceder("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m),PT.Puesto from empleados E inner join area A on E.id_empleado=A.Responsable inner join puestos_trabajo PT on E.puesto=PT.ID_Puesto where A.ID_Area=4;");
-                    if(vehiculo.size()<1){
-                        coc.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6),"",responsable.get(0),responsable.get(1));
-                    }else{
-                        coc.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6),vehiculo.get(0)+"-"+vehiculo.get(1),responsable.get(0),responsable.get(1));
+
+                    List<String> datos = cbd.acceder("select O.Folio,S.Nombre,S.Puesto,S.Lugar,S.Fecha_salida,S.Fecha_llegada,S.Actividad from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where O.Folio=" + folio + ";");
+                    List<String> vehiculo = cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio=" + folio + ";");
+                    List<String> responsable = cbd.acceder("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m),PT.Puesto from empleados E inner join area A on E.id_empleado=A.Responsable inner join puestos_trabajo PT on E.puesto=PT.ID_Puesto where A.ID_Area=4;");
+                    if (vehiculo.size() < 1) {
+                        coc.createTicket(1, datos.get(0), datos.get(1), datos.get(2), datos.get(3), datos.get(4), datos.get(5), datos.get(6), "", responsable.get(0), responsable.get(1));
+                    } else {
+                        coc.createTicket(1, datos.get(0), datos.get(1), datos.get(2), datos.get(3), datos.get(4), datos.get(5), datos.get(6), vehiculo.get(0) + "-" + vehiculo.get(1), responsable.get(0), responsable.get(1));
                     }
                 } catch (DocumentException ex) {
                     Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
@@ -1587,7 +1568,7 @@ public class PrincipalS extends javax.swing.JFrame {
             } else {
                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para imprimir las solicitudes.");
         }
     }//GEN-LAST:event_OficioComisionActionPerformed
@@ -1636,7 +1617,7 @@ public class PrincipalS extends javax.swing.JFrame {
             tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
             tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
             Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para modificar el monto.");
         }
     }//GEN-LAST:event_AsignarMontoActionPerformed
@@ -1645,14 +1626,14 @@ public class PrincipalS extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (manager_permisos.accesoModulo("actualizar", "Tablon Solicitudes", Principal.Username)) {
             int k = tablonpendientes.getSelectedRow();
-            int id=-1;
+            int id = -1;
             if (k >= 0) {
                 id = Integer.parseInt(tablonpendientes.getValueAt(k, 0).toString());
                 Calendar calendar = Calendar.getInstance();
                 try {
                     String total = "";
                     Statement sentencia = cn.createStatement();
-                    ResultSet rs0 = cbd.getTabla("SELECT COUNT(*) as Folio FROM Oficio_comision",cn);
+                    ResultSet rs0 = cbd.getTabla("SELECT COUNT(*) as Folio FROM Oficio_comision", cn);
                     while (rs0.next()) {
                         total = rs0.getString("Folio");
                     }
@@ -1660,7 +1641,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     int folio = 0;
                     String valor = "";
                     if (total1 != 0) {
-                        ResultSet rs = cbd.getTabla("SELECT MAX(Folio) AS Folio FROM Oficio_comision",cn);
+                        ResultSet rs = cbd.getTabla("SELECT MAX(Folio) AS Folio FROM Oficio_comision", cn);
                         while (rs.next()) {
                             valor = rs.getString("Folio");
                         }
@@ -1682,7 +1663,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     String nombre = "";
                     String fecha_salida = "";
                     String fecha_llegada = "";
-                    ResultSet rs1 = cbd.getTabla("SELECT Fecha_salida,Lugar,Nombre,Fecha_llegada FROM Solicitud_viatico WHERE (idSolicitud = '" + id + "')",cn);
+                    ResultSet rs1 = cbd.getTabla("SELECT Fecha_salida,Lugar,Nombre,Fecha_llegada FROM Solicitud_viatico WHERE (idSolicitud = '" + id + "')", cn);
                     while (rs1.next()) {
                         fecha_salida = rs1.getString("Fecha_salida");
                         estadolocalidad = rs1.getString("Lugar");
@@ -1701,58 +1682,44 @@ public class PrincipalS extends javax.swing.JFrame {
                     Calendar calendar3 = new GregorianCalendar(año, mes - 1, dia);
                     java.sql.Date fecha_ll = new java.sql.Date(calendar3.getTimeInMillis());
                     long dias = (fecha_ll.getTime() - fecha_s.getTime()) / MILLSECS_PER_DAY;
+
                     String et[] = new String[2];
                     et = estadolocalidad.split(",");
                     String empleado[] = new String[4];
                     empleado = nombre.split(" ");
                     //String nombres = empleado[0] + " " + empleado[1];
                     String puesto = "";
-                    ResultSet rs2 = cbd.getTabla("SELECT puesto FROM Empleados E WHERE concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) =  '"+nombre+"'",cn);
+                    ResultSet rs2 = cbd.getTabla("SELECT puesto FROM Empleados E WHERE concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) =  '" + nombre + "'", cn);
                     while (rs2.next()) {
                         puesto = rs2.getString("puesto");
                     }
                     String tarifa = "";
                     float tarif = 0;
-                    if (et[0].equals("Nayarit")) {
-                        float tarifMayor = 0;
-                    for (int i = 1; i < et.length; i++) {
-                        if (et[i].equals("Bahía de Banderas")) {
-                            if (dias == 0) {
-                                ResultSet rs3 = sentencia.executeQuery("SELECT SinPernoctarBDB FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
-                                while (rs3.next()) {
-                                    tarifa = rs3.getString("SinPernoctarBDB");
-                                }
-                                tarif = Float.parseFloat(tarifa);
-                                if (tarif > tarifMayor) {
-                                    tarifMayor = tarif;
-                                    tarifa = tarifMayor + "";
-                                }
-                            } else {
-                                ResultSet rs3 = sentencia.executeQuery("SELECT PernoctandoBDB FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
-                                while (rs3.next()) {
-                                    tarifa = rs3.getString("PernoctandoBDB");
-                                }
-                                tarif = Float.parseFloat(tarifa);
-                                tarif = (tarif * dias) + tarif;
-                                if (tarif > tarifMayor) {
-                                    tarifMayor = tarif;
-                                    tarifa = tarifMayor + "";
-                                }
+                    int estadoFuera=estadolocalidad.split("-").length;
+                    if (estadoFuera > 1) {
+                        if (dias == 0) {
+                            ResultSet rs3 = cbd.getTabla("SELECT SinPernoctarFDE FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'", cn);
+                            while (rs3.next()) {
+                                tarifa = rs3.getString("SinPernoctarFDE");
                             }
                         } else {
-                            if (et[i].equals("Tepic") || et[i].equals("Xalisco")) {
-                                tarifa = "0.00";
-                                tarif = Float.parseFloat(tarifa);
-                                if (tarif > tarifMayor) {
-                                    tarifMayor = tarif;
-                                    tarifa = tarifMayor + "";
-                                }
-                            } else {
-                                if (et[i].equals("Acaponeta") || et[i].equals("Amatlán de Cañas") || et[i].equals("El Nayar") || et[i].equals("Huajicori") || et[i].equals("La Yesca") || et[i].equals("Tecuala")) {
+                            ResultSet rs3 = cbd.getTabla("SELECT PernoctandoFDE FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'", cn);
+                            while (rs3.next()) {
+                                tarifa = rs3.getString("PernoctandoFDE");
+                            }
+                            tarif = Float.parseFloat(tarifa);
+                            tarif = (tarif * dias) + tarif;
+                            tarifa = tarif + "";
+                        }
+                    } else {
+                        if (et[0].equals("Nayarit")) {
+                            float tarifMayor = 0;
+                            for (int i = 1; i < et.length; i++) {
+                                if (et[i].equals("Bahía de Banderas")) {
                                     if (dias == 0) {
-                                        ResultSet rs3 = sentencia.executeQuery("SELECT  SinPernoctar100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                                        ResultSet rs3 = sentencia.executeQuery("SELECT SinPernoctarBDB FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
                                         while (rs3.next()) {
-                                            tarifa = rs3.getString("SinPernoctar100");
+                                            tarifa = rs3.getString("SinPernoctarBDB");
                                         }
                                         tarif = Float.parseFloat(tarifa);
                                         if (tarif > tarifMayor) {
@@ -1760,9 +1727,9 @@ public class PrincipalS extends javax.swing.JFrame {
                                             tarifa = tarifMayor + "";
                                         }
                                     } else {
-                                        ResultSet rs3 = sentencia.executeQuery("SELECT Pernoctando100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                                        ResultSet rs3 = sentencia.executeQuery("SELECT PernoctandoBDB FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
                                         while (rs3.next()) {
-                                            tarifa = rs3.getString("Pernoctando100");
+                                            tarifa = rs3.getString("PernoctandoBDB");
                                         }
                                         tarif = Float.parseFloat(tarifa);
                                         tarif = (tarif * dias) + tarif;
@@ -1772,46 +1739,79 @@ public class PrincipalS extends javax.swing.JFrame {
                                         }
                                     }
                                 } else {
-                                    if (dias == 0) {
-                                        ResultSet rs3 = sentencia.executeQuery("SELECT  SinPernoctar30100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
-                                        while (rs3.next()) {
-                                            tarifa = rs3.getString("SinPernoctar30100");
-                                        }
+                                    if (et[i].equals("Tepic") || et[i].equals("Xalisco")) {
+                                        tarifa = "0.00";
                                         tarif = Float.parseFloat(tarifa);
                                         if (tarif > tarifMayor) {
                                             tarifMayor = tarif;
                                             tarifa = tarifMayor + "";
                                         }
                                     } else {
-                                        ResultSet rs3 = sentencia.executeQuery("SELECT Pernoctando30100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
-                                        while (rs3.next()) {
-                                            tarifa = rs3.getString("Pernoctando30100");
-                                        }
-                                        tarif = Float.parseFloat(tarifa);
-                                        tarif = (tarif * dias) + tarif;
-                                        if (tarif > tarifMayor) {
-                                            tarifMayor = tarif;
-                                            tarifa = tarifMayor + "";
+                                        if (et[i].equals("Acaponeta") || et[i].equals("Amatlán de Cañas") || et[i].equals("El Nayar") || et[i].equals("Huajicori") || et[i].equals("La Yesca") || et[i].equals("Tecuala")) {
+                                            if (dias == 0) {
+                                                ResultSet rs3 = sentencia.executeQuery("SELECT  SinPernoctar100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                                                while (rs3.next()) {
+                                                    tarifa = rs3.getString("SinPernoctar100");
+                                                }
+                                                tarif = Float.parseFloat(tarifa);
+                                                if (tarif > tarifMayor) {
+                                                    tarifMayor = tarif;
+                                                    tarifa = tarifMayor + "";
+                                                }
+                                            } else {
+                                                ResultSet rs3 = sentencia.executeQuery("SELECT Pernoctando100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                                                while (rs3.next()) {
+                                                    tarifa = rs3.getString("Pernoctando100");
+                                                }
+                                                tarif = Float.parseFloat(tarifa);
+                                                tarif = (tarif * dias) + tarif;
+                                                if (tarif > tarifMayor) {
+                                                    tarifMayor = tarif;
+                                                    tarifa = tarifMayor + "";
+                                                }
+                                            }
+                                        } else {
+                                            if (dias == 0) {
+                                                ResultSet rs3 = sentencia.executeQuery("SELECT  SinPernoctar30100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                                                while (rs3.next()) {
+                                                    tarifa = rs3.getString("SinPernoctar30100");
+                                                }
+                                                tarif = Float.parseFloat(tarifa);
+                                                if (tarif > tarifMayor) {
+                                                    tarifMayor = tarif;
+                                                    tarifa = tarifMayor + "";
+                                                }
+                                            } else {
+                                                ResultSet rs3 = sentencia.executeQuery("SELECT Pernoctando30100 FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'");
+                                                while (rs3.next()) {
+                                                    tarifa = rs3.getString("Pernoctando30100");
+                                                }
+                                                tarif = Float.parseFloat(tarifa);
+                                                tarif = (tarif * dias) + tarif;
+                                                if (tarif > tarifMayor) {
+                                                    tarifMayor = tarif;
+                                                    tarifa = tarifMayor + "";
+                                                }
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                    }
-                    } else {
-                        if (dias == 0) {
-                            ResultSet rs3 = cbd.getTabla("SELECT SinPernoctarFDE FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'",cn);
-                            while (rs3.next()) {
-                                tarifa = rs3.getString("SinPernoctarFDE");
-                            }
                         } else {
-                            ResultSet rs3 = cbd.getTabla("SELECT PernoctandoFDE FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'",cn);
-                            while (rs3.next()) {
-                                tarifa = rs3.getString("PernoctandoFDE");
+                            if (dias == 0) {
+                                ResultSet rs3 = cbd.getTabla("SELECT SinPernoctarFDE FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'", cn);
+                                while (rs3.next()) {
+                                    tarifa = rs3.getString("SinPernoctarFDE");
+                                }
+                            } else {
+                                ResultSet rs3 = cbd.getTabla("SELECT PernoctandoFDE FROM Puestos_Trabajo WHERE ID_Puesto = '" + puesto + "'", cn);
+                                while (rs3.next()) {
+                                    tarifa = rs3.getString("PernoctandoFDE");
+                                }
+                                tarif = Float.parseFloat(tarifa);
+                                tarif = (tarif * dias) + tarif;
+                                tarifa = tarif + "";
                             }
-                            tarif = Float.parseFloat(tarifa);
-                            tarif = (tarif * dias) + tarif;
-                            tarifa = tarif + "";
                         }
                     }
                     sentencia.execute("INSERT INTO Oficio_comision VALUES(" + folio + "," + id + "," + tarifa + ")");
@@ -1823,16 +1823,17 @@ public class PrincipalS extends javax.swing.JFrame {
                 }/*catch (ClassNotFoundException e) {
                  e.printStackTrace();
                  }*/ //fin del catch
+
             } else {
                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
-            List<String> datos=cbd.acceder("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+id+" and SV.viatico_vehiculo=0;");
-            if(datos.size()>0){
-                cbd.ejecutar("update oficio_comision set monto=0 where Solicitud_idSolicitud="+id+";");
+            List<String> datos = cbd.acceder("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo where VV.solicitud_viatico_idSolicitud=" + id + " and SV.viatico_vehiculo=0;");
+            if (datos.size() > 0) {
+                cbd.ejecutar("update oficio_comision set monto=0 where Solicitud_idSolicitud=" + id + ";");
             }
             tablonpendientes.setModel(manager_soviaticos.SolicitudP());
             tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para aceptar solicitudes.");
         }
     }//GEN-LAST:event_AceptarPActionPerformed
@@ -1842,20 +1843,19 @@ public class PrincipalS extends javax.swing.JFrame {
         if (manager_permisos.accesoModulo("alta", "Solicitud Viaticos", Principal.Username)) {
             addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
             asv.setVisible(true);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar solicitudes de viáticos.");
         }
     }//GEN-LAST:event_AddActionPerformed
 
     private void Add1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Add1ActionPerformed
         // TODO add your handling code here:
-        
-        
+
         if (manager_permisos.accesoModulo("alta", "Solicitud Viaticos", Principal.Username)) {
             addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
             conVehiculo = 0;
             asv.setVisible(true);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar solicitudes de viáticos.");
         }
     }//GEN-LAST:event_Add1ActionPerformed
@@ -1865,7 +1865,7 @@ public class PrincipalS extends javax.swing.JFrame {
         if (manager_permisos.accesoModulo("actualizar", "Solicitud Viaticos", Principal.Username)) {
             String nuevo = JOptionPane.showInputDialog("Inserte el nombre del nuevo director general");
             cbd.ejecutar("update Director_General set Nombre='" + nuevo + "'");
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para modificar el nombre del consejero presidente.");
         }
     }//GEN-LAST:event_CambiarConsejeroActionPerformed
@@ -1875,9 +1875,9 @@ public class PrincipalS extends javax.swing.JFrame {
         if (manager_permisos.accesoModulo("alta", "Solicitud Viaticos", Principal.Username)) {
             addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
             conVehiculo = 1;
-            viatico_vehiculo=0;
+            viatico_vehiculo = 0;
             asv.setVisible(true);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar solicitudes de vehículos.");
         }
     }//GEN-LAST:event_SolicitarVehiculoActionPerformed
@@ -1887,9 +1887,9 @@ public class PrincipalS extends javax.swing.JFrame {
         if (manager_permisos.accesoModulo("alta", "Solicitud Viaticos", Principal.Username)) {
             addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
             conVehiculo = 1;
-            viatico_vehiculo=0;
+            viatico_vehiculo = 0;
             asv.setVisible(true);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar solicitudes de vehículos.");
         }
     }//GEN-LAST:event_SolicitarVehiculo1ActionPerformed
@@ -1924,9 +1924,9 @@ public class PrincipalS extends javax.swing.JFrame {
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
         // TODO add your handling code here:
         //Validación de campos
-        String cad="";
-        if(tablaact.isEnabled() && tablaact.getRowCount()==0){
-            cad="Falta insertar la comprobación de gastos";
+        String cad = "";
+        if (tablaact.isEnabled() && tablaact.getRowCount() == 0) {
+            cad = "Falta insertar la comprobación de gastos";
             JOptionPane.showMessageDialog(this, cad);
             return;
         }
@@ -1937,35 +1937,34 @@ public class PrincipalS extends javax.swing.JFrame {
             if (s == JOptionPane.YES_OPTION) {
                 String id = "";
                 Statement sentencia = cn.createStatement();
-                ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = " + folio,cn);
+                ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = " + folio, cn);
                 while (rs.next()) {
                     id = rs.getString("Solicitud_idSolicitud");
                 }
-                if(!txtKilometraje.getText().equals("") && txtKilometraje.getText()!=null){
-                    rs=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where VV.solicitud_viatico_idSolicitud="+id, cn);
+                if (!txtKilometraje.getText().equals("") && txtKilometraje.getText() != null) {
+                    rs = cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where VV.solicitud_viatico_idSolicitud=" + id, cn);
                     rs.next();
-                    String idVehiculo_usado=rs.getString("idVehiculo_usado");
-                    String matricula=rs.getString("vehiculos_matricula");
-                    int kilometrajeActual=Integer.parseInt(rs.getString("kilometraje"));
-                    int kilometrajeActualizado=Integer.parseInt(txtKilometraje.getText());
-                    if(kilometrajeActualizado<kilometrajeActual){
-                        JOptionPane.showMessageDialog(this, "El kilometraje debe de ser mayor al kilometraje actual de: "+kilometrajeActual);
+                    String idVehiculo_usado = rs.getString("idVehiculo_usado");
+                    String matricula = rs.getString("vehiculos_matricula");
+                    int kilometrajeActual = Integer.parseInt(rs.getString("kilometraje"));
+                    int kilometrajeActualizado = Integer.parseInt(txtKilometraje.getText());
+                    if (kilometrajeActualizado < kilometrajeActual) {
+                        JOptionPane.showMessageDialog(this, "El kilometraje debe de ser mayor al kilometraje actual de: " + kilometrajeActual);
                         return;
                     }
-                    sentencia.executeUpdate("UPDATE vehiculo_usado SET kilometraje='"+kilometrajeActualizado+"' where idVehiculo_usado="+idVehiculo_usado);
-                    rs=cbd.getTabla("select * from vehiculos where matricula='"+matricula+"'", cn);
+                    sentencia.executeUpdate("UPDATE vehiculo_usado SET kilometraje='" + kilometrajeActualizado + "' where idVehiculo_usado=" + idVehiculo_usado);
+                    rs = cbd.getTabla("select * from vehiculos where matricula='" + matricula + "'", cn);
                     rs.next();
-                    String observaciones=rs.getString("Observaciones")+"\n------------------\n"+txtobveh1.getText();
-                    sentencia.executeUpdate("UPDATE vehiculos SET kilometraje='"+kilometrajeActualizado+"' where matricula='"+matricula+"'");
-                    sentencia.executeUpdate("UPDATE vehiculos SET observaciones='"+observaciones+"' where matricula='"+matricula+"'");
-                    
-                    
+                    String observaciones = rs.getString("Observaciones") + "\n------------------\n" + txtobveh1.getText();
+                    sentencia.executeUpdate("UPDATE vehiculos SET kilometraje='" + kilometrajeActualizado + "' where matricula='" + matricula + "'");
+                    sentencia.executeUpdate("UPDATE vehiculos SET observaciones='" + observaciones + "' where matricula='" + matricula + "'");
+
                 }
                 sentencia.executeUpdate("UPDATE Solicitud_viatico SET Reporte = '1' WHERE (idSolicitud = " + id + ")");
                 if (c == 1) {
                     sentencia.execute("INSERT INTO Informe (Observaciones,Observaciones_Vehiculo,Solicitud_idSolicitud,importe_total) VALUES('" + txtobvia1.getText() + "','" + txtobveh1.getText() + "'," + id + "," + GaTot.getText() + ")");
                     //-----------------------------
-                    ResultSet rs2 = cbd.getTabla("SELECT MAX(id_informe) AS id_informe FROM Informe",cn);
+                    ResultSet rs2 = cbd.getTabla("SELECT MAX(id_informe) AS id_informe FROM Informe", cn);
                     while (rs2.next()) {
                         idInforme = rs2.getString("id_informe");
                     }
@@ -1974,14 +1973,14 @@ public class PrincipalS extends javax.swing.JFrame {
                     int filas = tablaact.getRowCount();
                     if (filas != 0) {
                         for (int j = 0; filas > j; j++) {
-                            String factura="";
-                            if(tablaact.getValueAt(j, 2).toString().equals("") || tablaact.getValueAt(j, 2).toString()==null){
-                                factura="-";
-                            }else{
-                                factura=tablaact.getValueAt(j, 2).toString();
+                            String factura = "";
+                            if (tablaact.getValueAt(j, 2).toString().equals("") || tablaact.getValueAt(j, 2).toString() == null) {
+                                factura = "-";
+                            } else {
+                                factura = tablaact.getValueAt(j, 2).toString();
                             }
                             sentencia.execute("INSERT INTO Gastos (Precio,Descripcion,Factura) VALUES('" + tablaact.getValueAt(j, 1).toString() + "','" + tablaact.getValueAt(j, 0).toString() + "','" + factura + "')");
-                            ResultSet rs3 = cbd.getTabla("SELECT MAX(id_Gastos) AS id_Gastos FROM Gastos",cn);
+                            ResultSet rs3 = cbd.getTabla("SELECT MAX(id_Gastos) AS id_Gastos FROM Gastos", cn);
                             while (rs3.next()) {
                                 idGastos = rs3.getString("id_Gastos");
                             }
@@ -2013,7 +2012,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     jScrollPane1.setVisible(true);
                     lblKilometraje.setVisible(false);
                     txtKilometraje.setVisible(false);
-                    if(superUsuario){
+                    if (superUsuario) {
                         cmbArea.setVisible(true);
                         lblArea.setVisible(true);
                     }
@@ -2055,45 +2054,45 @@ public class PrincipalS extends javax.swing.JFrame {
                     txtobvia.enable(false);
                     txtobveh.enable(false);
                 }
-                int imprimir=JOptionPane.showConfirmDialog(null, "¿Desea imprimir informe?");
-                if(imprimir==JOptionPane.YES_OPTION){
-                    
-                    ResultSet rs2 = cbd.getTabla("SELECT MAX(id_informe) AS id_informe FROM Informe",cn);
+                int imprimir = JOptionPane.showConfirmDialog(null, "¿Desea imprimir informe?");
+                if (imprimir == JOptionPane.YES_OPTION) {
+
+                    ResultSet rs2 = cbd.getTabla("SELECT MAX(id_informe) AS id_informe FROM Informe", cn);
                     while (rs2.next()) {
                         idInforme = rs2.getString("id_informe");
                     }
-                    List<Gastos_Comprobar> gastos=new ArrayList<Gastos_Comprobar>();
-                    CrearReporteActividades cra=new CrearReporteActividades(idInforme);
-                    List<String> datos=cbd.acceder("select O.Folio,S.Lugar,S.Actividad,I.Observaciones,S.Nombre,S.Puesto from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join informe I on S.idSolicitud=I.Solicitud_idSolicitud where I.Id_Informe="+idInforme+";");
-                    List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio="+folio+";");
-                    List<String> indices=cbd.acceder("select IG.Gastos_id_gastos from informe_gastos IG inner join informe I on IG.Informe_id_informe=I.id_informe where I.id_informe="+idInforme);
-                    if(indices.size()>0){
-                        String query="select precio,descripcion,factura from gastos where ";
-                        for(int i=0;i<indices.size();i++){
-                            if(i==0){
-                                query+="id_gastos="+indices.get(i);
-                            }else{
-                                query+=" or id_gastos="+indices.get(i);
+                    List<Gastos_Comprobar> gastos = new ArrayList<Gastos_Comprobar>();
+                    CrearReporteActividades cra = new CrearReporteActividades(idInforme);
+                    List<String> datos = cbd.acceder("select O.Folio,S.Lugar,S.Actividad,I.Observaciones,S.Nombre,S.Puesto from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join informe I on S.idSolicitud=I.Solicitud_idSolicitud where I.Id_Informe=" + idInforme + ";");
+                    List<String> vehiculo = cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio=" + folio + ";");
+                    List<String> indices = cbd.acceder("select IG.Gastos_id_gastos from informe_gastos IG inner join informe I on IG.Informe_id_informe=I.id_informe where I.id_informe=" + idInforme);
+                    if (indices.size() > 0) {
+                        String query = "select precio,descripcion,factura from gastos where ";
+                        for (int i = 0; i < indices.size(); i++) {
+                            if (i == 0) {
+                                query += "id_gastos=" + indices.get(i);
+                            } else {
+                                query += " or id_gastos=" + indices.get(i);
                             }
                         }
-                        List<String> gastos_query=cbd.acceder(query);
-                        
-                        for(int i=0;i<gastos_query.size();i+=3){
-                            gastos.add(new Gastos_Comprobar(gastos_query.get(i),gastos_query.get(i+1),gastos_query.get(i+2)));
+                        List<String> gastos_query = cbd.acceder(query);
+
+                        for (int i = 0; i < gastos_query.size(); i += 3) {
+                            gastos.add(new Gastos_Comprobar(gastos_query.get(i), gastos_query.get(i + 1), gastos_query.get(i + 2)));
                             //JOptionPane.showMessageDialog(this, gastos_query.get(i)+"-"+gastos_query.get(i+1)+"-"+gastos_query.get(i+2));
                         }
                     }
-                    if(vehiculo.size()<1){
-                        cra.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),gastos);
-                    }else{
-                        cra.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),gastos);
+                    if (vehiculo.size() < 1) {
+                        cra.createTicket(1, datos.get(0), datos.get(1), datos.get(2), datos.get(3), datos.get(4), datos.get(5), gastos);
+                    } else {
+                        cra.createTicket(1, datos.get(0), datos.get(1), datos.get(2), datos.get(3), datos.get(4), datos.get(5), gastos);
                     }
                 }
                 sentencia.close();
             }
         } catch (SQLException ex) {
             javax.swing.JOptionPane.showMessageDialog(null, "Error al generar reporte");
-        } catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             javax.swing.JOptionPane.showMessageDialog(null, "Kilometraje debe ser un número positivo mayor al kilometraje actual");
         } catch (DocumentException ex) {
             Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
@@ -2105,15 +2104,14 @@ public class PrincipalS extends javax.swing.JFrame {
         Image retValue = Toolkit.getDefaultToolkit().
                 getImage(ClassLoader.getSystemResource("Iconos/IEE.png"));
 
-
         return retValue;
     }
     private void txtbusquedasoli2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedasoli2KeyReleased
         // TODO add your handling code here:
-        String soloUsuarioActual="";
-        String buscarArea="";
-        if(cmbArea.getSelectedIndex()>0){
-            buscarArea="and PT.id_Area="+cmbArea.getSelectedIndex();
+        String soloUsuarioActual = "";
+        String buscarArea = "";
+        if (cmbArea.getSelectedIndex() > 0) {
+            buscarArea = "and PT.id_Area=" + cmbArea.getSelectedIndex();
         }
         if (menuInforme.getSelectedIndex() == 0) {
             modelo = new DefaultTableModel() {
@@ -2128,20 +2126,20 @@ public class PrincipalS extends javax.swing.JFrame {
             modelo.addColumn("Monto");
             this.tablainfo.setModel(modelo);
             try {
-                
+
                 ResultSet usuario;
-                usuario = cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+                usuario = cbd.getTabla("select puesto from user where id_user='" + Principal.Username + "'", cn);
                 usuario.next();
-                if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
-                    soloUsuarioActual="";
-                }else{
-                    usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                if (usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")) {
+                    soloUsuarioActual = "";
+                } else {
+                    usuario = cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='" + Principal.Username + "';", cn);
                     usuario.next();
-                    soloUsuarioActual=" and nombre='"+usuario.getString("nombre")+"'";
+                    soloUsuarioActual = " and nombre='" + usuario.getString("nombre") + "'";
                 }
                 Statement sentencia = cn.createStatement();
                 ResultSet rs = cbd.getTabla("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 AND (O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%'"
-                        + "OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Actividad LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Lugar LIKE '%" + txtbusquedasoli2.getText() + "%'OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%') "+soloUsuarioActual+" "+buscarArea+" order by idSolicitud desc",cn);
+                        + "OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Actividad LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Lugar LIKE '%" + txtbusquedasoli2.getText() + "%'OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%') " + soloUsuarioActual + " " + buscarArea + " order by idSolicitud desc", cn);
 
                 String solicitud[] = new String[5];
                 while (rs.next()) {
@@ -2173,7 +2171,7 @@ public class PrincipalS extends javax.swing.JFrame {
             try {
                 Statement sentencia = cn.createStatement();
                 ResultSet rs = cbd.getTabla("SELECT I.Id_Informe, O.Folio, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join informe I on S.idSolicitud=I.Solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 AND (I.Id_Informe LIKE '%" + txtbusquedasoli2.getText()
-                        + "%' OR O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%' OR I.importe_total LIKE '%" + txtbusquedasoli2.getText() + "%')"+soloUsuarioActual+" "+buscarArea+" ORDER BY I.Id_Informe DESC",cn);
+                        + "%' OR O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%' OR I.importe_total LIKE '%" + txtbusquedasoli2.getText() + "%')" + soloUsuarioActual + " " + buscarArea + " ORDER BY I.Id_Informe DESC", cn);
 
                 String solicitud[] = new String[5];
                 while (rs.next()) {
@@ -2226,7 +2224,7 @@ public class PrincipalS extends javax.swing.JFrame {
             }
             tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
             tablonpendientes.setModel(manager_soviaticos.SolicitudP());
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para cancelar solicitudes.");
         }
     }//GEN-LAST:event_CancelarPActionPerformed
@@ -2255,7 +2253,7 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void txtbusquedasoli1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedasoli1KeyReleased
         // TODO add your handling code here:
-        String soloUsuarioActual="";
+        String soloUsuarioActual = "";
         if (menutablones.getSelectedIndex() == 0) {
             modelo = new DefaultTableModel() {
                 @Override
@@ -2273,31 +2271,30 @@ public class PrincipalS extends javax.swing.JFrame {
             this.tablonpendientes.setModel(modelo);
             try {
 
-                
                 ResultSet usuario;
-                usuario = cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+                usuario = cbd.getTabla("select puesto from user where id_user='" + Principal.Username + "'", cn);
                 usuario.next();
-                if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
-                    soloUsuarioActual="";
-                }else{
-                    usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                if (usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")) {
+                    soloUsuarioActual = "";
+                } else {
+                    usuario = cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='" + Principal.Username + "';", cn);
                     usuario.next();
-                    soloUsuarioActual=" and nombre='"+usuario.getString("nombre")+"'";
+                    soloUsuarioActual = " and nombre='" + usuario.getString("nombre") + "'";
                 }
                 Statement sentencia = cn.createStatement();
 
                 ResultSet rs = cbd.getTabla("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'P' AND (idSolicitud LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR Nombre LIKE '%" + txtbusquedasoli1.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
-                        + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%') "+soloUsuarioActual+" order by idSolicitud DESC",cn);
+                        + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%') " + soloUsuarioActual + " order by idSolicitud DESC", cn);
 
                 String solicitud[] = new String[7];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("idSolicitud");
-                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
-                    if(aux.next()){
-                        solicitud[1]="Vehículo";
-                    }else{
-                        solicitud[1]="Viático";
+                    ResultSet aux = cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud=" + rs.getString("idSolicitud") + " and VV.agregado='0'", cn);
+                    if (aux.next()) {
+                        solicitud[1] = "Vehículo";
+                    } else {
+                        solicitud[1] = "Viático";
                     }
                     solicitud[2] = rs.getString("Nombre");
                     solicitud[3] = rs.getString("Puesto");
@@ -2333,16 +2330,16 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 ResultSet rs = cbd.getTabla("SELECT O.Folio,S.nombre, S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud AND (O.Folio LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR O.Monto LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
-                        + "OR S.Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Nombre LIKE'%"+txtbusquedasoli1.getText()+"%') "+soloUsuarioActual+" order by idSolicitud DESC",cn);
+                        + "OR S.Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Nombre LIKE'%" + txtbusquedasoli1.getText() + "%') " + soloUsuarioActual + " order by idSolicitud DESC", cn);
 
                 String solicitud[] = new String[8];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("Folio");
-                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
-                    if(aux.next()){
-                        solicitud[1]="Vehículo";
-                    }else{
-                        solicitud[1]="Viático";
+                    ResultSet aux = cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud=" + rs.getString("idSolicitud") + " and VV.agregado='0'", cn);
+                    if (aux.next()) {
+                        solicitud[1] = "Vehículo";
+                    } else {
+                        solicitud[1] = "Viático";
                     }
                     solicitud[2] = rs.getString("Nombre");
                     solicitud[3] = rs.getString("Puesto");
@@ -2360,22 +2357,20 @@ public class PrincipalS extends javax.swing.JFrame {
         }
         if (menutablones.getSelectedIndex() == 2) {
             JTable checks = new JTable();//{  public boolean isCellEditable(int rowIndex, int colIndex){ if(colIndex == 0){return true;} else{return false; } }  };
-            JScrollPane scroll = new JScrollPane();        
+            JScrollPane scroll = new JScrollPane();
             DefaultTableModel table = new DefaultTableModel();
 
             //Creamos la tabla con las caracterisiticas que necesitamos
             checks.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
             checks.setModel(new javax.swing.table.DefaultTableModel(
-                new Object [][] {
-
-                },
-                //Declaramos el titulo de las columnas
-                new String []{
-                    "Folio ","Tipo de solicitud","Nombre","Puesto","Monto", "Fecha de salida", "Fecha de llegada", "Lugar", "Gastos a comprobar", "Informe"
-                }
-            ){
+                    new Object[][]{},
+                    //Declaramos el titulo de las columnas
+                    new String[]{
+                        "Folio ", "Tipo de solicitud", "Nombre", "Puesto", "Monto", "Fecha de salida", "Fecha de llegada", "Lugar", "Gastos a comprobar", "Informe"
+                    }
+            ) {
                 //El tipo que sera cada columna, la primera columna un checkbox y los demas seran objetos
-                Class[] types = new Class [] {
+                Class[] types = new Class[]{
                     java.lang.Object.class,
                     java.lang.Object.class,
                     java.lang.Object.class,
@@ -2389,86 +2384,85 @@ public class PrincipalS extends javax.swing.JFrame {
                 };
 
                 public Class getColumnClass(int columnIndex) {
-                    return types [columnIndex];
+                    return types[columnIndex];
                 }
                 //Esto es para indicar que columnas dejaremos editar o no
-                boolean[] canEdit = new boolean [] {
-                    false, 
-                    false,
-                    false,
-                    false, 
+                boolean[] canEdit = new boolean[]{
                     false,
                     false,
                     false,
                     false,
-                    true, 
+                    false,
+                    false,
+                    false,
+                    false,
+                    true,
                     false
                 };
 
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
-                    return canEdit [columnIndex];
+                    return canEdit[columnIndex];
                 }
 
-              }
-
+            }
             );
             //Agregamos un scroll a la tabla
             scroll.setViewportView(checks);
             scroll.setBounds(30, 130, 1110, 500);
 
-            table = (DefaultTableModel)checks.getModel();
+            table = (DefaultTableModel) checks.getModel();
 
             try {
                 //conexion = db.getConexion();
-                String sql="SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and (nombre LIKE '%"+txtbusquedasoli1.getText()+"%' or puesto like '%"+txtbusquedasoli1.getText()+"%' or fecha_salida like '%"+txtbusquedasoli1.getText()+"%' or fecha_llegada like '%"+txtbusquedasoli1.getText()+"%' or lugar like '%"+txtbusquedasoli1.getText()+"%') ORDER BY O.FOLIO DESC";
-                ResultSet usuario=cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+                String sql = "SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and (nombre LIKE '%" + txtbusquedasoli1.getText() + "%' or puesto like '%" + txtbusquedasoli1.getText() + "%' or fecha_salida like '%" + txtbusquedasoli1.getText() + "%' or fecha_llegada like '%" + txtbusquedasoli1.getText() + "%' or lugar like '%" + txtbusquedasoli1.getText() + "%') ORDER BY O.FOLIO DESC";
+                ResultSet usuario = cbd.getTabla("select puesto from user where id_user='" + Principal.Username + "'", cn);
                 usuario.next();
-                if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
-                    sql="SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and (nombre LIKE '%"+txtbusquedasoli1.getText()+"%' or puesto like '%"+txtbusquedasoli1.getText()+"%' or fecha_salida like '%"+txtbusquedasoli1.getText()+"%' or fecha_llegada like '%"+txtbusquedasoli1.getText()+"%' or lugar like '%"+txtbusquedasoli1.getText()+"%') ORDER BY O.FOLIO DESC";
-                }else{
-                    usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                if (usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")) {
+                    sql = "SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and (nombre LIKE '%" + txtbusquedasoli1.getText() + "%' or puesto like '%" + txtbusquedasoli1.getText() + "%' or fecha_salida like '%" + txtbusquedasoli1.getText() + "%' or fecha_llegada like '%" + txtbusquedasoli1.getText() + "%' or lugar like '%" + txtbusquedasoli1.getText() + "%') ORDER BY O.FOLIO DESC";
+                } else {
+                    usuario = cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='" + Principal.Username + "';", cn);
                     usuario.next();
-                    sql = "SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and nombre='"+usuario.getString("nombre")+"' and (nombre LIKE '%"+txtbusquedasoli1.getText()+"%') order by O.Folio DESC";
+                    sql = "SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and nombre='" + usuario.getString("nombre") + "' and (nombre LIKE '%" + txtbusquedasoli1.getText() + "%') order by O.Folio DESC";
                 }
                 Statement sentencia = cn.createStatement();
                 Object datos[] = new Object[10];
-                ResultSet rs = cbd.getTabla(sql,cn);
+                ResultSet rs = cbd.getTabla(sql, cn);
                 //Llenar tabla
                 while (rs.next()) {
-                    int indexDatos=0;
-                    for(int i = 0;i<9;i++){
-                        if(indexDatos==1){
-                            indexDatos=2;
+                    int indexDatos = 0;
+                    for (int i = 0; i < 9; i++) {
+                        if (indexDatos == 1) {
+                            indexDatos = 2;
                         }
-                        if(i == 7){
-                            datos[indexDatos]=rs.getBoolean(i+1);
-                        }else{
-                            datos[indexDatos] = rs.getObject(i+1);
+                        if (i == 7) {
+                            datos[indexDatos] = rs.getBoolean(i + 1);
+                        } else {
+                            datos[indexDatos] = rs.getObject(i + 1);
                         }
-                        if(i==8){
-                            if(rs.getObject(i+1).toString().equals("0")){
+                        if (i == 8) {
+                            if (rs.getObject(i + 1).toString().equals("0")) {
                                 datos[indexDatos] = "Pendiente";
-                            }else{
+                            } else {
                                 datos[indexDatos] = "Terminado";
                             }
                         }
                         indexDatos++;
 
                     }//Llenamos las columnas por registro
-                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
-                    if(aux.next()){
-                        datos[1]="Vehículo";
-                    }else{
-                        datos[1]="Viático";
+                    ResultSet aux = cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud=" + rs.getString("idSolicitud") + " and VV.agregado='0'", cn);
+                    if (aux.next()) {
+                        datos[1] = "Vehículo";
+                    } else {
+                        datos[1] = "Viático";
                     }
                     table.addRow(datos);//Añadimos la fila
-               }//while
+                }//while
                 //cn.close();
                 sentencia.close();
             } catch (SQLException ex) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta de Solicitudes Archivadas");
 
-            }finally {
+            } finally {
 
                 tablonarchivadas.setModel(table);
             }
@@ -2480,7 +2474,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 }
             };
             modelo.addColumn("ID");
-            modelo.addColumn("Tipo de solicitud");            
+            modelo.addColumn("Tipo de solicitud");
             modelo.addColumn("Nombre");
             modelo.addColumn("Puesto");
             modelo.addColumn("Fecha de salida");
@@ -2494,16 +2488,16 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 ResultSet rs = cbd.getTabla("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar, Motivo FROM Solicitud_viatico WHERE Estado = 'C' AND (idSolicitud LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR Nombre LIKE '%" + txtbusquedasoli1.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
-                        + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR Motivo LIKE '%" + txtbusquedasoli1.getText() + "%')"+soloUsuarioActual+" order by idSolicitud DESC",cn);
+                        + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR Motivo LIKE '%" + txtbusquedasoli1.getText() + "%')" + soloUsuarioActual + " order by idSolicitud DESC", cn);
 
                 String solicitud[] = new String[8];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("idSolicitud");
-                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
-                    if(aux.next()){
-                        solicitud[1]="Vehículo";
-                    }else{
-                        solicitud[1]="Viático";
+                    ResultSet aux = cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud=" + rs.getString("idSolicitud") + " and VV.agregado='0'", cn);
+                    if (aux.next()) {
+                        solicitud[1] = "Vehículo";
+                    } else {
+                        solicitud[1] = "Viático";
                     }
                     solicitud[2] = rs.getString("Nombre");
                     solicitud[3] = rs.getString("Puesto");
@@ -2532,7 +2526,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     Class.forName("com.mysql.jdbc.Driver");
 
                     Statement sentencia = cn.createStatement();
-                    ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'",cn);
+                    ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'", cn);
                     while (rs.next()) {
                         idSolicitud = rs.getString("Solicitud_idSolicitud");
                     }
@@ -2556,7 +2550,7 @@ public class PrincipalS extends javax.swing.JFrame {
             }
             tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
             tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para cancelar solicitudes.");
         }
     }//GEN-LAST:event_CancelarAActionPerformed
@@ -2602,14 +2596,14 @@ public class PrincipalS extends javax.swing.JFrame {
             jScrollPane1.setVisible(true);
             lblKilometraje.setVisible(false);
             txtKilometraje.setVisible(false);
-            if(superUsuario){
+            if (superUsuario) {
                 cmbArea.setVisible(true);
                 lblArea.setVisible(true);
             }
-            if(idArea>0){
-                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea+" order by O.folio desc");
-                SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area="+idArea+" ORDER BY I.Id_Informe DESC");
-            }else{
+            if (idArea > 0) {
+                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area=" + idArea + " order by O.folio desc");
+                SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area=" + idArea + " ORDER BY I.Id_Informe DESC");
+            } else {
                 Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 order by O.folio desc");
                 SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
             }
@@ -2666,14 +2660,14 @@ public class PrincipalS extends javax.swing.JFrame {
                 txtobvia.enable(true);
                 txtobvia.setVisible(true);
                 btnregresar1.setVisible(true);
-                if(superUsuario){
+                if (superUsuario) {
                     cmbArea.setVisible(false);
                     lblArea.setVisible(false);
                 }
                 try {
                     Statement sentencia = cn.createStatement();
                     String gastos_comprobar = "";
-                    ResultSet rs = cbd.getTabla("SELECT S.gastos_comprobar FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Folio = " + folio,cn);
+                    ResultSet rs = cbd.getTabla("SELECT S.gastos_comprobar FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Folio = " + folio, cn);
                     while (rs.next()) {
                         gastos_comprobar = rs.getString("gastos_comprobar");
                     }
@@ -2693,17 +2687,17 @@ public class PrincipalS extends javax.swing.JFrame {
                         GaTot.enable(false);
                         c = 0;
                     }
-                    rs=cbd.getTabla("select * from oficio_comision OC inner join solicitud_viatico SVI on OC.Solicitud_idSolicitud=SVI.idSolicitud inner join vehiculo_viatico VV on SVI.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo where OC.Folio="+folio, cn);
-                    boolean bloquearVehiculo=true;
-                    while(rs.next()){
-                        bloquearVehiculo=false;
-                        if(rs.getString("chofer")!=null){
+                    rs = cbd.getTabla("select * from oficio_comision OC inner join solicitud_viatico SVI on OC.Solicitud_idSolicitud=SVI.idSolicitud inner join vehiculo_viatico VV on SVI.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo where OC.Folio=" + folio, cn);
+                    boolean bloquearVehiculo = true;
+                    while (rs.next()) {
+                        bloquearVehiculo = false;
+                        if (rs.getString("chofer") != null) {
                             txtobveh.enable(true);
                             txtobveh.setVisible(true);
                             txtKilometraje.setVisible(true);
                             lblKilometraje.setVisible(true);
                             lblObsVehiculo.setVisible(true);
-                        }else{
+                        } else {
                             txtobveh.enable(false);
                             txtobveh.setVisible(false);
                             txtKilometraje.setVisible(false);
@@ -2711,7 +2705,7 @@ public class PrincipalS extends javax.swing.JFrame {
                             lblObsVehiculo.setVisible(false);
                         }
                     }
-                    if(bloquearVehiculo){
+                    if (bloquearVehiculo) {
                         txtobveh.enable(false);
                         txtobveh.setVisible(false);
                         txtKilometraje.setVisible(false);
@@ -2732,7 +2726,7 @@ public class PrincipalS extends javax.swing.JFrame {
             } else {
                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar el informe de actividades.");
         }
     }//GEN-LAST:event_GenerarInfActionPerformed
@@ -2754,33 +2748,33 @@ public class PrincipalS extends javax.swing.JFrame {
             try {
                 int k = tablainfo1.getSelectedRow();
                 String idInforme = "";
-                List<Gastos_Comprobar> gastos=new ArrayList<Gastos_Comprobar>();
+                List<Gastos_Comprobar> gastos = new ArrayList<Gastos_Comprobar>();
                 if (k >= 0) {
                     idInforme = tablainfo1.getValueAt(k, 0).toString();
-                    CrearReporteActividades cra=new CrearReporteActividades(idInforme);
-                    List<String> datos=cbd.acceder("select O.Folio,S.Lugar,S.Actividad,I.Observaciones,S.Nombre,S.Puesto from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join informe I on S.idSolicitud=I.Solicitud_idSolicitud where I.Id_Informe="+idInforme+";");
-                    List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio="+folio+";");
-                    List<String> indices=cbd.acceder("select IG.Gastos_id_gastos from informe_gastos IG inner join informe I on IG.Informe_id_informe=I.id_informe where I.id_informe="+idInforme);
-                    if(indices.size()>0){
-                        String query="select precio,descripcion,factura from gastos where ";
-                        for(int i=0;i<indices.size();i++){
-                            if(i==0){
-                                query+="id_gastos="+indices.get(i);
-                            }else{
-                                query+=" or id_gastos="+indices.get(i);
+                    CrearReporteActividades cra = new CrearReporteActividades(idInforme);
+                    List<String> datos = cbd.acceder("select O.Folio,S.Lugar,S.Actividad,I.Observaciones,S.Nombre,S.Puesto from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join informe I on S.idSolicitud=I.Solicitud_idSolicitud where I.Id_Informe=" + idInforme + ";");
+                    List<String> vehiculo = cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio=" + folio + ";");
+                    List<String> indices = cbd.acceder("select IG.Gastos_id_gastos from informe_gastos IG inner join informe I on IG.Informe_id_informe=I.id_informe where I.id_informe=" + idInforme);
+                    if (indices.size() > 0) {
+                        String query = "select precio,descripcion,factura from gastos where ";
+                        for (int i = 0; i < indices.size(); i++) {
+                            if (i == 0) {
+                                query += "id_gastos=" + indices.get(i);
+                            } else {
+                                query += " or id_gastos=" + indices.get(i);
                             }
                         }
-                        List<String> gastos_query=cbd.acceder(query);
-                        
-                        for(int i=0;i<gastos_query.size();i+=3){
-                            gastos.add(new Gastos_Comprobar(gastos_query.get(i),gastos_query.get(i+1),gastos_query.get(i+2)));
+                        List<String> gastos_query = cbd.acceder(query);
+
+                        for (int i = 0; i < gastos_query.size(); i += 3) {
+                            gastos.add(new Gastos_Comprobar(gastos_query.get(i), gastos_query.get(i + 1), gastos_query.get(i + 2)));
                             //JOptionPane.showMessageDialog(this, gastos_query.get(i)+"-"+gastos_query.get(i+1)+"-"+gastos_query.get(i+2));
                         }
                     }
-                    if(vehiculo.size()<1){
-                        cra.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),gastos);
-                    }else{
-                        cra.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),gastos);
+                    if (vehiculo.size() < 1) {
+                        cra.createTicket(1, datos.get(0), datos.get(1), datos.get(2), datos.get(3), datos.get(4), datos.get(5), gastos);
+                    } else {
+                        cra.createTicket(1, datos.get(0), datos.get(1), datos.get(2), datos.get(3), datos.get(4), datos.get(5), gastos);
                     }
                 } else {
                     javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar Informe");
@@ -2788,7 +2782,7 @@ public class PrincipalS extends javax.swing.JFrame {
             } catch (DocumentException ex) {
                 Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para imprimir solicitudes de viáticos.");
         }
     }//GEN-LAST:event_ConsultarInfActionPerformed
@@ -2824,11 +2818,11 @@ public class PrincipalS extends javax.swing.JFrame {
                 String idSolicitud = "";
                 try {
                     Statement sentencia = cn.createStatement();
-                    ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'",cn);
+                    ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'", cn);
                     rs.next();
                     idSolicitud = rs.getString("Solicitud_idSolicitud");
 
-                    s = new visSolicitudViaticos(this,true);
+                    s = new visSolicitudViaticos(this, true);
                     s.setLocationRelativeTo(null);
                     s.IdUsuario(Integer.parseInt(idSolicitud), 1, 1);
                     sentencia.close();
@@ -2844,7 +2838,7 @@ public class PrincipalS extends javax.swing.JFrame {
             } else {
                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para consultar las solicitudes.");
         }
     }//GEN-LAST:event_ConsultarArActionPerformed
@@ -2855,15 +2849,15 @@ public class PrincipalS extends javax.swing.JFrame {
             int i = tablonarchivadas.getSelectedRow();
             if (i >= 0) {
                 String folio = tablonarchivadas.getValueAt(i, 0).toString();
-                CrearOficioComision coc=new CrearOficioComision(folio);
+                CrearOficioComision coc = new CrearOficioComision(folio);
                 try {
-                    List<String> datos=cbd.acceder("select O.Folio,S.Nombre,S.Puesto,S.Lugar,S.Fecha_salida,S.Fecha_llegada,S.Actividad from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where O.Folio="+folio+";");
-                    List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio="+folio+";");
-                    List<String> responsable=cbd.acceder("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m),PT.Puesto from empleados E inner join area A on E.id_empleado=A.Responsable inner join puestos_trabajo PT on E.puesto=PT.ID_Puesto where A.ID_Area=4;");
-                    if(vehiculo.size()<1){
-                        coc.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6),"",responsable.get(0),responsable.get(1));
-                    }else{
-                        coc.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6),vehiculo.get(0)+"-"+vehiculo.get(1),responsable.get(0),responsable.get(1));
+                    List<String> datos = cbd.acceder("select O.Folio,S.Nombre,S.Puesto,S.Lugar,S.Fecha_salida,S.Fecha_llegada,S.Actividad from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where O.Folio=" + folio + ";");
+                    List<String> vehiculo = cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio=" + folio + ";");
+                    List<String> responsable = cbd.acceder("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m),PT.Puesto from empleados E inner join area A on E.id_empleado=A.Responsable inner join puestos_trabajo PT on E.puesto=PT.ID_Puesto where A.ID_Area=4;");
+                    if (vehiculo.size() < 1) {
+                        coc.createTicket(1, datos.get(0), datos.get(1), datos.get(2), datos.get(3), datos.get(4), datos.get(5), datos.get(6), "", responsable.get(0), responsable.get(1));
+                    } else {
+                        coc.createTicket(1, datos.get(0), datos.get(1), datos.get(2), datos.get(3), datos.get(4), datos.get(5), datos.get(6), vehiculo.get(0) + "-" + vehiculo.get(1), responsable.get(0), responsable.get(1));
                     }
                 } catch (DocumentException ex) {
                     Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
@@ -2871,7 +2865,7 @@ public class PrincipalS extends javax.swing.JFrame {
             } else {
                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para imprimir las solicitudes.");
         }
     }//GEN-LAST:event_OficioComisionArActionPerformed
@@ -2883,27 +2877,27 @@ public class PrincipalS extends javax.swing.JFrame {
             if (i >= 0) {
                 String folio = tablonarchivadas.getValueAt(i, 0).toString();
                 try {
-                    CrearOficioViatico cov=new CrearOficioViatico(folio);
-                    List<String> datos=cbd.acceder("select O.Folio,S.Nombre,S.Puesto,O.Monto,S.Actividad,S.Lugar,S.Fecha_salida,S.Fecha_llegada,S.Pernoctado from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where O.Folio="+folio+";");
-                    List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio="+folio+";");
-                    List<String> responsable=cbd.acceder("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m),PT.Puesto from empleados E inner join area A on E.id_empleado=A.Responsable inner join puestos_trabajo PT on E.puesto=PT.ID_Puesto where A.ID_Area=4;");
-                    if(vehiculo.size()<1){
-                        cov.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6),datos.get(7),datos.get(8),"",responsable.get(0),responsable.get(1));
-                    }else{
-                        cov.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6),datos.get(7),datos.get(8),vehiculo.get(0)+"-"+vehiculo.get(1),responsable.get(0),responsable.get(1));
+                    CrearOficioViatico cov = new CrearOficioViatico(folio);
+                    List<String> datos = cbd.acceder("select O.Folio,S.Nombre,S.Puesto,O.Monto,S.Actividad,S.Lugar,S.Fecha_salida,S.Fecha_llegada,S.Pernoctado from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where O.Folio=" + folio + ";");
+                    List<String> vehiculo = cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio=" + folio + ";");
+                    List<String> responsable = cbd.acceder("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m),PT.Puesto from empleados E inner join area A on E.id_empleado=A.Responsable inner join puestos_trabajo PT on E.puesto=PT.ID_Puesto where A.ID_Area=4;");
+                    if (vehiculo.size() < 1) {
+                        cov.createTicket(1, datos.get(0), datos.get(1), datos.get(2), datos.get(3), datos.get(4), datos.get(5), datos.get(6), datos.get(7), datos.get(8), "", responsable.get(0), responsable.get(1));
+                    } else {
+                        cov.createTicket(1, datos.get(0), datos.get(1), datos.get(2), datos.get(3), datos.get(4), datos.get(5), datos.get(6), datos.get(7), datos.get(8), vehiculo.get(0) + "-" + vehiculo.get(1), responsable.get(0), responsable.get(1));
                     }
-                }catch(DocumentException e){}
+                } catch (DocumentException e) {
+                }
             } else {
                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para imprimir las solicitudes.");
         }
     }//GEN-LAST:event_OficioViaticoArActionPerformed
 
     private void tablonarchivadasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablonarchivadasMouseReleased
         // TODO add your handling code here:
-        guardargac.setVisible(true);
         if (SwingUtilities.isLeftMouseButton(evt)) {
             int r = tablonarchivadas.rowAtPoint(evt.getPoint());
             if (r >= 0 && r < tablonarchivadas.getRowCount()) {
@@ -2912,12 +2906,12 @@ public class PrincipalS extends javax.swing.JFrame {
             int k = tablonarchivadas.getSelectedRow();
             if (k >= 0) {
                 String folio = tablonarchivadas.getValueAt(k, 0).toString();
-                boolean gastosac = (boolean) tablonarchivadas.getValueAt(k, 7);
+                boolean gastosac = (boolean) tablonarchivadas.getValueAt(k, 8);
                 String idSolicitud = "";
                 try {
 
                     Statement sentencia = cn.createStatement();
-                    ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'",cn);
+                    ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'", cn);
                     while (rs.next()) {
                         idSolicitud = rs.getString("Solicitud_idSolicitud");
                     }
@@ -2934,7 +2928,6 @@ public class PrincipalS extends javax.swing.JFrame {
             } else {
                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
-            MenuTablonAr.show(evt.getComponent(), evt.getX(), evt.getY());//Mostramos el popMenu en la posición donde esta el cursor
         }//clic derecho
         if (SwingUtilities.isRightMouseButton(evt)) {
             int r = tablonarchivadas.rowAtPoint(evt.getPoint());
@@ -2980,51 +2973,8 @@ public class PrincipalS extends javax.swing.JFrame {
         }//clic derecho
     }//GEN-LAST:event_tabloncanceladasMouseReleased
 
-    private void guardargacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardargacActionPerformed
-        // TODO add your handling code here:
-        int k = tablonarchivadas.getSelectedRow();
-        if (k >= 0) {
-            String folio = tablonarchivadas.getValueAt(k, 0).toString();
-            boolean gastosac = (boolean) tablonarchivadas.getValueAt(k, 8);
-            String idSolicitud = "",informe="";
-            try {
-                Statement sentencia = cn.createStatement();
-                ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud,reporte FROM Oficio_comision O inner join solicitud_viatico S on O.Solicitud_idSolicitud=S.idSolicitud WHERE Folio = '" + folio + "'",cn);
-                while (rs.next()) {
-                    idSolicitud = rs.getString("Solicitud_idSolicitud");
-                    informe=rs.getString("reporte");
-                }
-                if(informe.equals("1")){
-                    JOptionPane.showMessageDialog(this,"No se puede modificar esta solicitud porque ya fue terminada");
-                    return;
-                }
-                sentencia.executeUpdate("UPDATE Solicitud_viatico SET gastos_comprobar = '" + gastosac + "' WHERE (idSolicitud = " + idSolicitud + ")");
-                javax.swing.JOptionPane.showMessageDialog(null, "Gastos a comprobar guardados");
-                if(idArea>0){
-                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea);
-                }else{
-                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
-                }
-                sentencia.close();
-            } catch (SQLException ex) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
-
-            } catch (NumberFormatException exp) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Ingresar solo números");
-            }//fin del catch
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
-        }
-    }//GEN-LAST:event_guardargacActionPerformed
-
-    private void guardargacFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_guardargacFocusLost
-        // TODO add your handling code here:
-        guardargac.setVisible(false);
-    }//GEN-LAST:event_guardargacFocusLost
-
     private void tablonsolicitud1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tablonsolicitud1FocusLost
         // TODO add your handling code here:
-        guardargac.setVisible(false);
     }//GEN-LAST:event_tablonsolicitud1FocusLost
 
     private void ArchivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ArchivarActionPerformed
@@ -3037,7 +2987,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 try {
 
                     Statement sentencia = cn.createStatement();
-                    ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'",cn);
+                    ResultSet rs = cbd.getTabla("SELECT Solicitud_idSolicitud FROM Oficio_comision WHERE Folio = '" + folio + "'", cn);
                     while (rs.next()) {
                         idSolicitud = rs.getString("Solicitud_idSolicitud");
                     }
@@ -3056,13 +3006,13 @@ public class PrincipalS extends javax.swing.JFrame {
             }
             tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
             tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
-            
-            if(idArea>0){
-                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea);
-            }else{
+
+            if (idArea > 0) {
+                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area=" + idArea);
+            } else {
                 Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para archivar solicitudes.");
         }
     }//GEN-LAST:event_ArchivarActionPerformed
@@ -3078,20 +3028,20 @@ public class PrincipalS extends javax.swing.JFrame {
                 tablasolic.clearSelection();
                 if (fila >= 0) {
                     id = tablasolic.getValueAt(fila, 0).toString();
-                    CrearSolicitudViatico csv=new CrearSolicitudViatico(id);
-                    List<String> datos=cbd.acceder("select fecha_salida,Fecha_llegada,Nombre,lugar,actividad,Pernoctado from solicitud_viatico where idSolicitud="+id+";");
-                    List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where S.idSolicitud="+id+";");
-                    List<String> responsable=cbd.acceder("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m),PT.Puesto from empleados E inner join area A on E.id_empleado=A.Responsable inner join puestos_trabajo PT on E.puesto=PT.ID_Puesto where A.ID_Area=3;");
-                    if(vehiculo.size()<1){
-                        csv.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),"",responsable.get(0),responsable.get(1));
-                    }else{
-                        csv.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),vehiculo.get(0)+"-"+vehiculo.get(1),responsable.get(0),responsable.get(1));
+                    CrearSolicitudViatico csv = new CrearSolicitudViatico(id);
+                    List<String> datos = cbd.acceder("select fecha_salida,Fecha_llegada,Nombre,lugar,actividad,Pernoctado from solicitud_viatico where idSolicitud=" + id + ";");
+                    List<String> vehiculo = cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where S.idSolicitud=" + id + ";");
+                    List<String> responsable = cbd.acceder("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m),PT.Puesto from empleados E inner join area A on E.id_empleado=A.Responsable inner join puestos_trabajo PT on E.puesto=PT.ID_Puesto where A.ID_Area=3;");
+                    if (vehiculo.size() < 1) {
+                        csv.createTicket(1, datos.get(0), datos.get(1), datos.get(2), datos.get(3), datos.get(4), datos.get(5), "", responsable.get(0), responsable.get(1));
+                    } else {
+                        csv.createTicket(1, datos.get(0), datos.get(1), datos.get(2), datos.get(3), datos.get(4), datos.get(5), vehiculo.get(0) + "-" + vehiculo.get(1), responsable.get(0), responsable.get(1));
                     }
                 }
             } catch (Exception e) {
 
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para imprimir solicitudes de viáticos.");
         }
     }//GEN-LAST:event_Impri_Sol1ActionPerformed
@@ -3102,7 +3052,7 @@ public class PrincipalS extends javax.swing.JFrame {
             addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
             conVehiculo = 0;
             asv.setVisible(true);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar solicitudes de viáticos.");
         }
     }//GEN-LAST:event_Add2ActionPerformed
@@ -3112,33 +3062,33 @@ public class PrincipalS extends javax.swing.JFrame {
         if (manager_permisos.accesoModulo("alta", "Solicitud Viaticos", Principal.Username)) {
             addSolicitudViaticos asv = new addSolicitudViaticos(this, true);
             conVehiculo = 1;
-            viatico_vehiculo=0;
+            viatico_vehiculo = 0;
             asv.setVisible(true);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar solicitudes de vehículos.");
         }
     }//GEN-LAST:event_SolicitarVehiculo2ActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        Object[] botones = {"Confirmar","Cerrar Sesión","Cancelar"};
-        int opcion = JOptionPane.showOptionDialog(this,"¿Salir del Sistema?", "Confirmación",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, botones, botones[0]);
-        
-        if(opcion == 0){
-            
+        Object[] botones = {"Confirmar", "Cerrar Sesión", "Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this, "¿Salir del Sistema?", "Confirmación",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botones, botones[0]);
+
+        if (opcion == 0) {
+
             System.exit(0);
-        }else if(opcion == 1){
+        } else if (opcion == 1) {
             //Cerrar sesion
             this.dispose();
             Login ob = new Login();
-            ob.setVisible(true); 
+            ob.setVisible(true);
             try {
                 cn.close();
             } catch (SQLException ex) {
                 Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
     }//GEN-LAST:event_formWindowClosing
 
@@ -3155,13 +3105,13 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void cmbAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAreaActionPerformed
         // TODO add your handling code here:
-        idArea=cmbArea.getSelectedIndex();
-        if(idArea!=0){
-            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea+" order by O.folio desc");
-            SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area="+idArea+" ORDER BY I.Id_Informe DESC");
-        }else{
+        idArea = cmbArea.getSelectedIndex();
+        if (idArea != 0) {
+            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area=" + idArea + " order by O.folio desc");
+            SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area=" + idArea + " ORDER BY I.Id_Informe DESC");
+        } else {
             Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 order by O.folio desc");
-        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+            SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
         }
     }//GEN-LAST:event_cmbAreaActionPerformed
 
@@ -3172,12 +3122,12 @@ public class PrincipalS extends javax.swing.JFrame {
             if (k >= 0) {
                 String folio = tablasolic.getValueAt(k, 0).toString();
                 int idSolicitud = (int) tablasolic.getValueAt(k, 0);
-                addSolicitudViaticos asv = new addSolicitudViaticos(this, true,idSolicitud);
+                addSolicitudViaticos asv = new addSolicitudViaticos(this, true, idSolicitud);
                 conVehiculo = 1;
-                viatico_vehiculo=1;
+                viatico_vehiculo = 1;
                 asv.setVisible(true);
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar solicitudes de vehículos.");
         }
     }//GEN-LAST:event_AsignarVehiculoActionPerformed
@@ -3188,7 +3138,7 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void txtbusquedasoliKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedasoliKeyReleased
         // TODO add your handling code here:
-        String soloUsuarioActual="";
+        String soloUsuarioActual = "";
         if (jTabbedPane1.getSelectedIndex() == 0) {
             modelo = new DefaultTableModel() {
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3207,29 +3157,27 @@ public class PrincipalS extends javax.swing.JFrame {
             this.tablasolic.setModel(modelo);
             try {
 
-                
-                
                 ResultSet usuario;
-                usuario = cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+                usuario = cbd.getTabla("select puesto from user where id_user='" + Principal.Username + "'", cn);
                 usuario.next();
-                if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
-                    soloUsuarioActual="";
-                }else{
-                    usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                if (usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")) {
+                    soloUsuarioActual = "";
+                } else {
+                    usuario = cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='" + Principal.Username + "';", cn);
                     usuario.next();
-                    soloUsuarioActual=" and nombre='"+usuario.getString("nombre")+"'";
+                    soloUsuarioActual = " and nombre='" + usuario.getString("nombre") + "'";
                 }
                 Statement sentencia = cn.createStatement();
 
                 ResultSet rs = cbd.getTabla("SELECT idSolicitud,Fecha_salida, Lugar, Nombre,Actividad, Pernoctado, Puesto, Fecha_llegada,  Estado FROM Solicitud_viatico WHERE (idSolicitud LIKE '%" + txtbusquedasoli.getText() + "%'"
-                    + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli.getText() + "%'"
-                    + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%' OR Pernoctado LIKE '%" + txtbusquedasoli.getText() + "%' OR Actividad LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%') and estado='P' "+soloUsuarioActual+" order by idSolicitud DESC",cn);
+                        + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli.getText() + "%'"
+                        + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%' OR Pernoctado LIKE '%" + txtbusquedasoli.getText() + "%' OR Actividad LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%') and estado='P' " + soloUsuarioActual + " order by idSolicitud DESC", cn);
 
                 String solicitud[] = new String[10];
                 Statement st = cn.createStatement();
-                ResultSet sol_vehiculos_query=st.executeQuery("select solicitud_viatico_idSolicitud from vehiculo_viatico");
-                List<Integer> sol_vehiculos=new ArrayList<Integer>();
-                while(sol_vehiculos_query.next()){
+                ResultSet sol_vehiculos_query = st.executeQuery("select solicitud_viatico_idSolicitud from vehiculo_viatico");
+                List<Integer> sol_vehiculos = new ArrayList<Integer>();
+                while (sol_vehiculos_query.next()) {
                     sol_vehiculos.add(sol_vehiculos_query.getInt("solicitud_viatico_idSolicitud"));
                 }
                 while (rs.next()) {
@@ -3241,27 +3189,27 @@ public class PrincipalS extends javax.swing.JFrame {
                     solicitud[5] = rs.getString("Pernoctado");
                     solicitud[6] = rs.getString("Puesto");
                     solicitud[7] = rs.getString("Fecha_llegada");
-                    switch(rs.getString("Estado").toString()){
+                    switch (rs.getString("Estado").toString()) {
                         case "P":
-                        solicitud[8] = "Pendiente";
-                        break;
+                            solicitud[8] = "Pendiente";
+                            break;
                         case "A":
-                        solicitud[8] = "Aceptada";
-                        break;
+                            solicitud[8] = "Aceptada";
+                            break;
                         case "AR":
-                        solicitud[8] = "Archivada";
-                        break;
+                            solicitud[8] = "Archivada";
+                            break;
                         case "C":
-                        solicitud[8] = "Cancelada";
-                        break;
+                            solicitud[8] = "Cancelada";
+                            break;
                     }
-                    boolean insertar=true;
-                    for(int i=0;i<sol_vehiculos.size();i++){
-                        if(rs.getInt("idSolicitud")==sol_vehiculos.get(i)){
-                            insertar=false;
+                    boolean insertar = true;
+                    for (int i = 0; i < sol_vehiculos.size(); i++) {
+                        if (rs.getInt("idSolicitud") == sol_vehiculos.get(i)) {
+                            insertar = false;
                         }
                     }
-                    if(insertar){
+                    if (insertar) {
                         modelo.addRow(solicitud);
                     }
                 }
@@ -3293,9 +3241,9 @@ public class PrincipalS extends javax.swing.JFrame {
                 Statement sentencia = cn.createStatement();
 
                 ResultSet rs = cbd.getTabla("SELECT idSolicitud, Actividad, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar,Pernoctado,Hora_salida,Hora_llegada,estado FROM solicitud_viatico SVI inner join vehiculo_viatico VV on SVI.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo"
-                    + " WHERE (idSolicitud LIKE '%" + txtbusquedasoli.getText() + "%'"
-                    + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli.getText() + "%'"
-                    + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%') and SV.chofer='1' and estado='P' "+soloUsuarioActual+" order by idSolicitud DESC",cn);
+                        + " WHERE (idSolicitud LIKE '%" + txtbusquedasoli.getText() + "%'"
+                        + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli.getText() + "%'"
+                        + "OR Lugar LIKE '%" + txtbusquedasoli.getText() + "%') and SV.chofer='1' and estado='P' " + soloUsuarioActual + " order by idSolicitud DESC", cn);
 
                 String solicitud[] = new String[11];
                 while (rs.next()) {
@@ -3309,19 +3257,19 @@ public class PrincipalS extends javax.swing.JFrame {
                     solicitud[7] = rs.getString("Fecha_llegada");
                     solicitud[8] = rs.getString("Hora_salida");
                     solicitud[9] = rs.getString("Hora_llegada");
-                    switch(rs.getString("Estado").toString()){
+                    switch (rs.getString("Estado").toString()) {
                         case "P":
-                        solicitud[10] = "Pendiente";
-                        break;
+                            solicitud[10] = "Pendiente";
+                            break;
                         case "A":
-                        solicitud[10] = "Aceptada";
-                        break;
+                            solicitud[10] = "Aceptada";
+                            break;
                         case "AR":
-                        solicitud[10] = "Archivada";
-                        break;
+                            solicitud[10] = "Archivada";
+                            break;
                         case "C":
-                        solicitud[10] = "Cancelada";
-                        break;
+                            solicitud[10] = "Cancelada";
+                            break;
                     }
                     modelo.addRow(solicitud);
                 }
@@ -3399,7 +3347,7 @@ public class PrincipalS extends javax.swing.JFrame {
 
         Object[] botones = {"Confirmar", "Cancelar"};
         int opcion = JOptionPane.showOptionDialog(this, "¿Desea cerrar sesión?", "Confirmación",
-            JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones, botones[0]);
+                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, botones, botones[0]);
 
         if (opcion == 0) {
             this.dispose();
@@ -3412,13 +3360,13 @@ public class PrincipalS extends javax.swing.JFrame {
 
     private void itemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSalirActionPerformed
         // TODO add your handling code here:
-        Object[] botones = {"Confirmar","Cancelar"};
-        int opcion = JOptionPane.showOptionDialog(this,"¿Salir del Sistema?", "Confirmación",
-            JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
+        Object[] botones = {"Confirmar", "Cancelar"};
+        int opcion = JOptionPane.showOptionDialog(this, "¿Salir del Sistema?", "Confirmación",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, botones, botones[0]);
 
-        if(opcion == 0){
+        if (opcion == 0) {
             System.exit(0);
-        }else if(opcion == 1){
+        } else if (opcion == 1) {
             //Cerrar sesion
         }
     }//GEN-LAST:event_itemSalirActionPerformed
@@ -3426,18 +3374,18 @@ public class PrincipalS extends javax.swing.JFrame {
     private void ExportarExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarExcelActionPerformed
         // TODO add your handling code here:
         if (manager_permisos.accesoModulo("consulta", "Solicitud Viaticos", Principal.Username)) {
-            try{
+            try {
                 //if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
-                    Excel excel = new Excel();
-                    excel.GuardarComo(tablasolicvehiculo);
+                Excel excel = new Excel();
+                excel.GuardarComo(tablasolicvehiculo);
                     //}else{
-                    //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
-                    //tablapase.setModel(new DefaultTableModel());
-                    //}
-            }catch(NullPointerException e){
+                //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+                //tablapase.setModel(new DefaultTableModel());
+                //}
+            } catch (NullPointerException e) {
 
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para exportar solicitudes de vehículos.");
         }
     }//GEN-LAST:event_ExportarExcelActionPerformed
@@ -3445,18 +3393,18 @@ public class PrincipalS extends javax.swing.JFrame {
     private void ExportarExcelPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarExcelPActionPerformed
         // TODO add your handling code here:
         if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
-            try{
+            try {
                 //if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
-                    Excel excel = new Excel();
-                    excel.GuardarComo(tablonpendientes);
+                Excel excel = new Excel();
+                excel.GuardarComo(tablonpendientes);
                     //}else{
-                    //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
-                    //tablapase.setModel(new DefaultTableModel());
-                    //}
-            }catch(NullPointerException e){
+                //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+                //tablapase.setModel(new DefaultTableModel());
+                //}
+            } catch (NullPointerException e) {
 
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para exportar solicitudes pendientes.");
         }
     }//GEN-LAST:event_ExportarExcelPActionPerformed
@@ -3464,18 +3412,18 @@ public class PrincipalS extends javax.swing.JFrame {
     private void ExportarExcelAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarExcelAActionPerformed
         // TODO add your handling code here:
         if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
-            try{
+            try {
                 //if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
-                    Excel excel = new Excel();
-                    excel.GuardarComo(tablonaceptadas);
+                Excel excel = new Excel();
+                excel.GuardarComo(tablonaceptadas);
                     //}else{
-                    //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
-                    //tablapase.setModel(new DefaultTableModel());
-                    //}
-            }catch(NullPointerException e){
+                //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+                //tablapase.setModel(new DefaultTableModel());
+                //}
+            } catch (NullPointerException e) {
 
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para exportar solicitudes aceptadas.");
         }
     }//GEN-LAST:event_ExportarExcelAActionPerformed
@@ -3483,18 +3431,18 @@ public class PrincipalS extends javax.swing.JFrame {
     private void ExportarExcelCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarExcelCActionPerformed
         // TODO add your handling code here:
         if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
-            try{
+            try {
                 //if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
-                    Excel excel = new Excel();
-                    excel.GuardarComo(tabloncanceladas);
+                Excel excel = new Excel();
+                excel.GuardarComo(tabloncanceladas);
                     //}else{
-                    //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
-                    //tablapase.setModel(new DefaultTableModel());
-                    //}
-            }catch(NullPointerException e){
+                //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+                //tablapase.setModel(new DefaultTableModel());
+                //}
+            } catch (NullPointerException e) {
 
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para exportar solicitudes canceladas.");
         }
     }//GEN-LAST:event_ExportarExcelCActionPerformed
@@ -3502,18 +3450,18 @@ public class PrincipalS extends javax.swing.JFrame {
     private void ExportarExcelArActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarExcelArActionPerformed
         // TODO add your handling code here:
         if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
-            try{
+            try {
                 //if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
-                    Excel excel = new Excel();
-                    excel.GuardarComo(tablonarchivadas);
+                Excel excel = new Excel();
+                excel.GuardarComo(tablonarchivadas);
                     //}else{
-                    //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
-                    //tablapase.setModel(new DefaultTableModel());
-                    //}
-            }catch(NullPointerException e){
+                //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+                //tablapase.setModel(new DefaultTableModel());
+                //}
+            } catch (NullPointerException e) {
 
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para exportar solicitudes archivadas.");
         }
     }//GEN-LAST:event_ExportarExcelArActionPerformed
@@ -3521,18 +3469,18 @@ public class PrincipalS extends javax.swing.JFrame {
     private void ExportarExcel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarExcel1ActionPerformed
         // TODO add your handling code here:
         if (manager_permisos.accesoModulo("consulta", "Solicitud Viaticos", Principal.Username)) {
-            try{
+            try {
                 //if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
-                    Excel excel = new Excel();
-                    excel.GuardarComo(tablasolic);
+                Excel excel = new Excel();
+                excel.GuardarComo(tablasolic);
                     //}else{
-                    //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
-                    //tablapase.setModel(new DefaultTableModel());
-                    //}
-            }catch(NullPointerException e){
+                //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+                //tablapase.setModel(new DefaultTableModel());
+                //}
+            } catch (NullPointerException e) {
 
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para exportar solicitudes de viaticos.");
         }
     }//GEN-LAST:event_ExportarExcel1ActionPerformed
@@ -3540,18 +3488,18 @@ public class PrincipalS extends javax.swing.JFrame {
     private void ExportarExcelInAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarExcelInAActionPerformed
         // TODO add your handling code here:
         if (manager_permisos.accesoModulo("consulta", "Informe", Principal.Username)) {
-            try{
+            try {
                 //if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
-                    Excel excel = new Excel();
-                    excel.GuardarComo(tablainfo);
+                Excel excel = new Excel();
+                excel.GuardarComo(tablainfo);
                     //}else{
-                    //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
-                    //tablapase.setModel(new DefaultTableModel());
-                    //}
-            }catch(NullPointerException e){
+                //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+                //tablapase.setModel(new DefaultTableModel());
+                //}
+            } catch (NullPointerException e) {
 
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para exportar informes aceptados.");
         }
     }//GEN-LAST:event_ExportarExcelInAActionPerformed
@@ -3559,18 +3507,18 @@ public class PrincipalS extends javax.swing.JFrame {
     private void ExportarExcelInFiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarExcelInFiActionPerformed
         // TODO add your handling code here:
         if (manager_permisos.accesoModulo("consulta", "Informe", Principal.Username)) {
-            try{
+            try {
                 //if(manager_permisos.accesoModulo("consulta","Inventario",Username)){
-                    Excel excel = new Excel();
-                    excel.GuardarComo(tablainfo1);
+                Excel excel = new Excel();
+                excel.GuardarComo(tablainfo1);
                     //}else{
-                    //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
-                    //tablapase.setModel(new DefaultTableModel());
-                    //}
-            }catch(NullPointerException e){
+                //JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para realizar consultas en el inventario.");
+                //tablapase.setModel(new DefaultTableModel());
+                //}
+            } catch (NullPointerException e) {
 
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para exportar informes finalizados.");
         }
     }//GEN-LAST:event_ExportarExcelInFiActionPerformed
@@ -3579,13 +3527,8 @@ public class PrincipalS extends javax.swing.JFrame {
         // TODO add your handling code hguardargac.setVisible(false);
     }//GEN-LAST:event_solicarchivadasFocusLost
 
-    private void guardargacFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_guardargacFocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_guardargacFocusGained
-
     private void menutablonesStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_menutablonesStateChanged
         // TODO add your handling code here:
-        guardargac.setVisible(false);
     }//GEN-LAST:event_menutablonesStateChanged
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
@@ -3609,51 +3552,52 @@ public class PrincipalS extends javax.swing.JFrame {
     private void btnActualizarInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarInformeActionPerformed
         // TODO add your handling code here:
         ResultSet usuario;
-            try {
-                usuario = cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
-                usuario.next();
-                if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
-                    if(idArea>0){
-                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area="+idArea+" order by O.folio desc");
-                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area="+idArea+" ORDER BY I.Id_Informe DESC");
-                    }else{
-                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 order by O.folio desc");
-                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
-                    }
-                    cmbArea.setVisible(true);
-                    lblArea.setVisible(true);
-                }else{
-                    usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
-                    usuario.next();
-                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and S.nombre='"+usuario.getString("nombre")+"' order by O.folio desc");
-                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and S.nombre='"+usuario.getString("nombre")+"' ORDER BY I.Id_Informe DESC");
-                    cmbArea.setVisible(false);
-                    lblArea.setVisible(false);
+        try {
+            usuario = cbd.getTabla("select puesto from user where id_user='" + Principal.Username + "'", cn);
+            usuario.next();
+            if (usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")) {
+                if (idArea > 0) {
+                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area=" + idArea + " order by O.folio desc");
+                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area=" + idArea + " ORDER BY I.Id_Informe DESC");
+                } else {
+                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 order by O.folio desc");
+                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+                cmbArea.setVisible(true);
+                lblArea.setVisible(true);
+            } else {
+                usuario = cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='" + Principal.Username + "';", cn);
+                usuario.next();
+                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and S.nombre='" + usuario.getString("nombre") + "' order by O.folio desc");
+                SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and S.nombre='" + usuario.getString("nombre") + "' ORDER BY I.Id_Informe DESC");
+                cmbArea.setVisible(false);
+                lblArea.setVisible(false);
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnActualizarInformeActionPerformed
 
     private void btnbuscarporfechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscarporfechaActionPerformed
         // TODO add your handling code here:
-        String soloUsuarioActual="";
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-        String fecha_inicio=sdf.format(fechainicio.getDate().getTime());
-        String fecha_final=sdf.format(fechafinal.getDate().getTime());
-        
-        try{
+        String soloUsuarioActual = "";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String fecha_inicio = sdf.format(fechainicio.getDate().getTime());
+        String fecha_final = sdf.format(fechafinal.getDate().getTime());
+
+        try {
             ResultSet usuario;
-            usuario = cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+            usuario = cbd.getTabla("select puesto from user where id_user='" + Principal.Username + "'", cn);
             usuario.next();
-            if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
-                soloUsuarioActual="";
-            }else{
-                usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+            if (usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")) {
+                soloUsuarioActual = "";
+            } else {
+                usuario = cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='" + Principal.Username + "';", cn);
                 usuario.next();
-                soloUsuarioActual=" and nombre='"+usuario.getString("nombre")+"'";
+                soloUsuarioActual = " and nombre='" + usuario.getString("nombre") + "'";
             }
-        }catch(SQLException e){}
+        } catch (SQLException e) {
+        }
         if (menutablones.getSelectedIndex() == 0) {
             modelo = new DefaultTableModel() {
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -3670,20 +3614,18 @@ public class PrincipalS extends javax.swing.JFrame {
             this.tablonpendientes.setModel(modelo);
             try {
 
-                
-                
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = cbd.getTabla("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'P' AND (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') "+soloUsuarioActual+" order by idSolicitud",cn);
+                ResultSet rs = cbd.getTabla("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'P' AND (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') " + soloUsuarioActual + " order by idSolicitud", cn);
 
                 String solicitud[] = new String[7];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("idSolicitud");
-                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
-                    if(aux.next()){
-                        solicitud[1]="Vehículo";
-                    }else{
-                        solicitud[1]="Viático";
+                    ResultSet aux = cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud=" + rs.getString("idSolicitud") + " and VV.agregado='0'", cn);
+                    if (aux.next()) {
+                        solicitud[1] = "Vehículo";
+                    } else {
+                        solicitud[1] = "Viático";
                     }
                     solicitud[2] = rs.getString("Nombre");
                     solicitud[3] = rs.getString("Puesto");
@@ -3717,16 +3659,16 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = cbd.getTabla("SELECT O.Folio,S.nombre, S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud AND (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') "+soloUsuarioActual+" order by folio",cn);
+                ResultSet rs = cbd.getTabla("SELECT O.Folio,S.nombre, S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud AND (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') " + soloUsuarioActual + " order by folio", cn);
 
                 String solicitud[] = new String[8];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("Folio");
-                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
-                    if(aux.next()){
-                        solicitud[1]="Vehículo";
-                    }else{
-                        solicitud[1]="Viático";
+                    ResultSet aux = cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud=" + rs.getString("idSolicitud") + " and VV.agregado='0'", cn);
+                    if (aux.next()) {
+                        solicitud[1] = "Vehículo";
+                    } else {
+                        solicitud[1] = "Viático";
                     }
                     solicitud[2] = rs.getString("Nombre");
                     solicitud[3] = rs.getString("Puesto");
@@ -3744,22 +3686,20 @@ public class PrincipalS extends javax.swing.JFrame {
         }
         if (menutablones.getSelectedIndex() == 2) {
             JTable checks = new JTable();//{  public boolean isCellEditable(int rowIndex, int colIndex){ if(colIndex == 0){return true;} else{return false; } }  };
-            JScrollPane scroll = new JScrollPane();        
+            JScrollPane scroll = new JScrollPane();
             DefaultTableModel table = new DefaultTableModel();
 
             //Creamos la tabla con las caracterisiticas que necesitamos
             checks.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
             checks.setModel(new javax.swing.table.DefaultTableModel(
-                new Object [][] {
-
-                },
-                //Declaramos el titulo de las columnas
-                new String []{
-                    "Folio ","Tipo de solicitud","Nombre","Puesto","Monto", "Fecha de salida", "Fecha de llegada", "Lugar", "Gastos a comprobar", "Informe"
-                }
-            ){
+                    new Object[][]{},
+                    //Declaramos el titulo de las columnas
+                    new String[]{
+                        "Folio ", "Tipo de solicitud", "Nombre", "Puesto", "Monto", "Fecha de salida", "Fecha de llegada", "Lugar", "Gastos a comprobar", "Informe"
+                    }
+            ) {
                 //El tipo que sera cada columna, la primera columna un checkbox y los demas seran objetos
-                Class[] types = new Class [] {
+                Class[] types = new Class[]{
                     java.lang.Object.class,
                     java.lang.Object.class,
                     java.lang.Object.class,
@@ -3773,79 +3713,78 @@ public class PrincipalS extends javax.swing.JFrame {
                 };
 
                 public Class getColumnClass(int columnIndex) {
-                    return types [columnIndex];
+                    return types[columnIndex];
                 }
                 //Esto es para indicar que columnas dejaremos editar o no
-                boolean[] canEdit = new boolean [] {
-                    false, 
-                    false,
-                    false,
-                    false, 
+                boolean[] canEdit = new boolean[]{
                     false,
                     false,
                     false,
                     false,
-                    true, 
+                    false,
+                    false,
+                    false,
+                    false,
+                    true,
                     false
                 };
 
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
-                    return canEdit [columnIndex];
+                    return canEdit[columnIndex];
                 }
 
-              }
-
+            }
             );
             //Agregamos un scroll a la tabla
             scroll.setViewportView(checks);
             scroll.setBounds(30, 130, 1110, 500);
 
-            table = (DefaultTableModel)checks.getModel();
+            table = (DefaultTableModel) checks.getModel();
 
             try {
                 //conexion = db.getConexion();
-                String sql="SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "')  ORDER BY O.FOLIO DESC";
-                ResultSet usuario=cbd.getTabla("select puesto from user where id_user='"+Principal.Username+"'", cn);
+                String sql = "SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "')  ORDER BY O.FOLIO DESC";
+                ResultSet usuario = cbd.getTabla("select puesto from user where id_user='" + Principal.Username + "'", cn);
                 usuario.next();
-                if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
-                    sql="SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "')   ORDER BY O.FOLIO DESC";
-                }else{
-                    usuario=cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='"+Principal.Username+"';", cn);
+                if (usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")) {
+                    sql = "SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "')   ORDER BY O.FOLIO DESC";
+                } else {
+                    usuario = cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='" + Principal.Username + "';", cn);
                     usuario.next();
-                    sql = "SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and nombre='"+usuario.getString("nombre")+"' and (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') "+soloUsuarioActual+" order by O.Folio DESC";
+                    sql = "SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and nombre='" + usuario.getString("nombre") + "' and (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') " + soloUsuarioActual + " order by O.Folio DESC";
                 }
                 Statement sentencia = cn.createStatement();
                 Object datos[] = new Object[10];
-                ResultSet rs = cbd.getTabla(sql,cn);
+                ResultSet rs = cbd.getTabla(sql, cn);
                 //Llenar tabla
                 while (rs.next()) {
-                    int indexDatos=0;
-                    for(int i = 0;i<9;i++){
-                        if(indexDatos==1){
-                            indexDatos=2;
+                    int indexDatos = 0;
+                    for (int i = 0; i < 9; i++) {
+                        if (indexDatos == 1) {
+                            indexDatos = 2;
                         }
-                        if(i == 7){
-                            datos[indexDatos]=rs.getBoolean(i+1);
-                        }else{
-                            datos[indexDatos] = rs.getObject(i+1);
+                        if (i == 7) {
+                            datos[indexDatos] = rs.getBoolean(i + 1);
+                        } else {
+                            datos[indexDatos] = rs.getObject(i + 1);
                         }
                         indexDatos++;
 
                     }//Llenamos las columnas por registro
-                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
-                    if(aux.next()){
-                        datos[1]="Vehículo";
-                    }else{
-                        datos[1]="Viático";
+                    ResultSet aux = cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud=" + rs.getString("idSolicitud") + " and VV.agregado='0'", cn);
+                    if (aux.next()) {
+                        datos[1] = "Vehículo";
+                    } else {
+                        datos[1] = "Viático";
                     }
                     table.addRow(datos);//Añadimos la fila
-               }//while
+                }//while
                 //cn.close();
                 sentencia.close();
             } catch (SQLException ex) {
                 javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta de Solicitudes Archivadas");
 
-            }finally {
+            } finally {
 
                 tablonarchivadas.setModel(table);
             }
@@ -3857,7 +3796,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 }
             };
             modelo.addColumn("ID");
-            modelo.addColumn("Tipo de solicitud");            
+            modelo.addColumn("Tipo de solicitud");
             modelo.addColumn("Nombre");
             modelo.addColumn("Puesto");
             modelo.addColumn("Fecha de salida");
@@ -3869,16 +3808,16 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = cbd.getTabla("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar, Motivo FROM Solicitud_viatico WHERE Estado = 'C' AND (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') "+soloUsuarioActual+" order by idSolicitud DESC",cn);
+                ResultSet rs = cbd.getTabla("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar, Motivo FROM Solicitud_viatico WHERE Estado = 'C' AND (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') " + soloUsuarioActual + " order by idSolicitud DESC", cn);
 
                 String solicitud[] = new String[8];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("idSolicitud");
-                    ResultSet aux=cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud="+rs.getString("idSolicitud")+" and VV.agregado='0'", cn);
-                    if(aux.next()){
-                        solicitud[1]="Vehículo";
-                    }else{
-                        solicitud[1]="Viático";
+                    ResultSet aux = cbd.getTabla("select * from vehiculo_viatico VV inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idSolicitud_vehiculo=idSolicitud_vehiculo where VV.solicitud_viatico_idSolicitud=" + rs.getString("idSolicitud") + " and VV.agregado='0'", cn);
+                    if (aux.next()) {
+                        solicitud[1] = "Vehículo";
+                    } else {
+                        solicitud[1] = "Viático";
                     }
                     solicitud[2] = rs.getString("Nombre");
                     solicitud[3] = rs.getString("Puesto");
@@ -3928,21 +3867,22 @@ public class PrincipalS extends javax.swing.JFrame {
             int i = tablonaceptadas.getSelectedRow();
             if (i >= 0) {
                 String folio = tablonaceptadas.getValueAt(i, 0).toString();
-                try{
-                    CrearOficioViatico cov=new CrearOficioViatico(folio);
-                    List<String> datos=cbd.acceder("select O.Folio,S.Nombre,S.Puesto,O.Monto,S.Actividad,S.Lugar,S.Fecha_salida,S.Fecha_llegada,S.Pernoctado from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where O.Folio="+folio+";");
-                    List<String> vehiculo=cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio="+folio+";");
-                    List<String> responsable=cbd.acceder("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m),PT.Puesto from empleados E inner join area A on E.id_empleado=A.Responsable inner join puestos_trabajo PT on E.puesto=PT.ID_Puesto where A.ID_Area=4;");
-                    if(vehiculo.size()<1){
-                        cov.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6),datos.get(7),datos.get(8),"",responsable.get(0),responsable.get(1));
-                    }else{
-                        cov.createTicket(1,datos.get(0),datos.get(1),datos.get(2),datos.get(3),datos.get(4),datos.get(5),datos.get(6),datos.get(7),datos.get(8),vehiculo.get(0)+"-"+vehiculo.get(1),responsable.get(0),responsable.get(1));
+                try {
+                    CrearOficioViatico cov = new CrearOficioViatico(folio);
+                    List<String> datos = cbd.acceder("select O.Folio,S.Nombre,S.Puesto,O.Monto,S.Actividad,S.Lugar,S.Fecha_salida,S.Fecha_llegada,S.Pernoctado from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud where O.Folio=" + folio + ";");
+                    List<String> vehiculo = cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio=" + folio + ";");
+                    List<String> responsable = cbd.acceder("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m),PT.Puesto from empleados E inner join area A on E.id_empleado=A.Responsable inner join puestos_trabajo PT on E.puesto=PT.ID_Puesto where A.ID_Area=4;");
+                    if (vehiculo.size() < 1) {
+                        cov.createTicket(1, datos.get(0), datos.get(1), datos.get(2), datos.get(3), datos.get(4), datos.get(5), datos.get(6), datos.get(7), datos.get(8), "", responsable.get(0), responsable.get(1));
+                    } else {
+                        cov.createTicket(1, datos.get(0), datos.get(1), datos.get(2), datos.get(3), datos.get(4), datos.get(5), datos.get(6), datos.get(7), datos.get(8), vehiculo.get(0) + "-" + vehiculo.get(1), responsable.get(0), responsable.get(1));
                     }
-                }catch(DocumentException e){}
+                } catch (DocumentException e) {
+                }
             } else {
                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para imprimir las solicitudes.");
         }
     }//GEN-LAST:event_OficioViaticoActionPerformed
@@ -3959,14 +3899,14 @@ public class PrincipalS extends javax.swing.JFrame {
             int k = tablasolicvehiculo.getSelectedRow();
             if (k >= 0) {
                 int id = Integer.parseInt(tablasolicvehiculo.getValueAt(k, 0).toString());
-                s = new visSolicitudViaticos(this,true);
+                s = new visSolicitudViaticos(this, true);
                 s.setLocationRelativeTo(null);
                 s.IdUsuario(id, 0, 0);
                 s.setVisible(true);
             } else {
                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para consultar las solicitudes.");
         }
     }//GEN-LAST:event_ConsultarP1ActionPerformed
@@ -3983,14 +3923,14 @@ public class PrincipalS extends javax.swing.JFrame {
             int k = tablasolic.getSelectedRow();
             if (k >= 0) {
                 int id = Integer.parseInt(tablasolic.getValueAt(k, 0).toString());
-                s = new visSolicitudViaticos(this,true);
+                s = new visSolicitudViaticos(this, true);
                 s.setLocationRelativeTo(null);
                 s.IdUsuario(id, 0, 0);
                 s.setVisible(true);
             } else {
                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para consultar las solicitudes.");
         }
     }//GEN-LAST:event_ConsultarP2ActionPerformed
@@ -4002,20 +3942,20 @@ public class PrincipalS extends javax.swing.JFrame {
                 int fila = tablasolicvehiculo.getSelectedRow();
                 String idSolicitud = tablasolicvehiculo.getValueAt(fila, 0) + "";
                 String fecha = tablasolicvehiculo.getValueAt(fila, 1) + "";
-                ResultSet rs=cbd.getTabla("select * from solicitud_viatico where estado!='AR' and estado!='C' and idSolicitud="+idSolicitud, cn);
-                boolean noModificar=true;
-                while(rs.next()){
-                    noModificar=false;
+                ResultSet rs = cbd.getTabla("select * from solicitud_viatico where estado!='AR' and estado!='C' and idSolicitud=" + idSolicitud, cn);
+                boolean noModificar = true;
+                while (rs.next()) {
+                    noModificar = false;
                     addViaticoVehiculo avv = new addViaticoVehiculo(this, true, idSolicitud, fecha);
                     avv.setVisible(true);
                 }
-                if(noModificar){
+                if (noModificar) {
                     JOptionPane.showMessageDialog(this, "No se puede agregar empleados al vehiculo porque la solicitud está cancelada o ya le fue asignada un monto");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para agregar empleados a las solicitudes de vehículos.");
         }
     }//GEN-LAST:event_AgregarEmpleadosActionPerformed
@@ -4034,7 +3974,7 @@ public class PrincipalS extends javax.swing.JFrame {
         this.tablainfo.setModel(modelo);
         try {
             Statement sentencia = cn.createStatement();
-            ResultSet rs = cbd.getTabla(s,cn);
+            ResultSet rs = cbd.getTabla(s, cn);
             String solicitud[] = new String[5];
             while (rs.next()) {
                 solicitud[0] = rs.getString("Folio");
@@ -4064,7 +4004,7 @@ public class PrincipalS extends javax.swing.JFrame {
         this.tablainfo1.setModel(modelo);
         try {
             Statement sentencia = cn.createStatement();
-            ResultSet rs = cbd.getTabla(s,cn);
+            ResultSet rs = cbd.getTabla(s, cn);
             String solicitud[] = new String[5];
             while (rs.next()) {
                 solicitud[0] = rs.getString("Id_Informe");
@@ -4139,7 +4079,7 @@ public class PrincipalS extends javax.swing.JFrame {
                     + "OR S.gastos_comprobar LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Reporte LIKE '%" + txtbusquedasoli1.getText() + "%')ORDER BY O.FOLIO DESC";
             Statement sentencia = cn.createStatement();
             Object datos[] = new Object[7];
-            ResultSet rs = cbd.getTabla(sql,cn);
+            ResultSet rs = cbd.getTabla(sql, cn);
             //Llenar tabla
             while (rs.next()) {
 
@@ -4192,7 +4132,7 @@ public class PrincipalS extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-         SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.OfficeSilver2007Skin");
+        SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.OfficeSilver2007Skin");
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -4262,7 +4202,6 @@ public class PrincipalS extends javax.swing.JFrame {
     private javax.swing.JComboBox cmbArea;
     private com.toedter.calendar.JDateChooser fechafinal;
     private com.toedter.calendar.JDateChooser fechainicio;
-    private javax.swing.JButton guardargac;
     private javax.swing.JPanel informe;
     private javax.swing.JMenuItem itemSalir;
     private javax.swing.JLabel jLabel1;
