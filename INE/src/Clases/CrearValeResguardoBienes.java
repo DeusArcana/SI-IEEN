@@ -256,7 +256,7 @@ public class CrearValeResguardoBienes {
             
             datosResponsableCell12 = new PdfPCell(new Phrase("Cargo: ", subFont3));
             datosResponsableCell22 = new PdfPCell(new Phrase(""+datos[2], subFont2));
-            datosResponsableCell32 = new PdfPCell(new Phrase("Estado: ", subFont3));
+            datosResponsableCell32 = new PdfPCell(new Phrase("Municipio: ", subFont3));
             datosResponsableCell42 = new PdfPCell(new Phrase(""+datos[4], subFont2));
             
             datosResponsableCell12.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -275,7 +275,7 @@ public class CrearValeResguardoBienes {
             
             datosResponsableCell13 = new PdfPCell(new Phrase("Área: ", subFont3));
             datosResponsableCell23 = new PdfPCell(new Phrase(""+datos[1], subFont2));
-            datosResponsableCell33 = new PdfPCell(new Phrase("Municipio: ", subFont3));
+            datosResponsableCell33 = new PdfPCell(new Phrase("Estado: ", subFont3));
             datosResponsableCell43 = new PdfPCell(new Phrase(""+datos[3], subFont2));
             
             datosResponsableCell13.setHorizontalAlignment(Element.ALIGN_RIGHT);

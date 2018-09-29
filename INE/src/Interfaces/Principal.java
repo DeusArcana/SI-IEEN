@@ -2966,6 +2966,8 @@ public class Principal extends javax.swing.JFrame {
         comboFiltroVehiculos.addItem("Color");
         comboFiltroVehiculos.addItem("Matricula");
         comboFiltroVehiculos.addItem("Kilometraje");
+        Activo.setVisible(false);
+        Baja.setVisible(false);
         
         //---------------------------------- PESTAÑA VEHICULOS --------------------------------------// 2
         
@@ -6126,7 +6128,7 @@ public void metodoValeRecoleccion(){
             } else if (jComboBox1.getSelectedItem().equals("Activo")) {
                 Activo.setVisible(false);
                 Baja.setVisible(true);
-
+                
             } else {
                 Activo.setVisible(true);
                 Baja.setVisible(false);
