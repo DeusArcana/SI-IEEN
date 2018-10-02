@@ -291,6 +291,12 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             });
             Calendar c2 = new GregorianCalendar();
             date_Salida.setCalendar(c2);
+
+            hora_Salida.addChangeListener(new javax.swing.event.ChangeListener() {
+                public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                    hora_SalidaStateChanged(evt);
+                }
+            });
             pn_addInventario.add(hora_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, 100, -1));
             JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "HH:mm");
             hora_Salida.setEditor(de);
@@ -798,6 +804,27 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_hora_LlegadaStateChanged
+
+    private void hora_SalidaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_hora_SalidaStateChanged
+        // TODO add your handling code here:
+        SimpleDateFormat format=new SimpleDateFormat("HH:mm");
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        String[] hora_salida=format.format(hora_Salida.getValue()).split(":");
+        String[] hora_llegada=format.format(hora_Llegada.getValue()).split(":");
+        String fecha_Salida=sdf.format(date_Salida.getDate().getTime());
+        String fecha_Llegada=sdf.format(date_Llegada.getDate().getTime());
+        if(fecha_Salida.equals(fecha_Llegada)){
+            if(Integer.parseInt(hora_salida[0])>Integer.parseInt(hora_llegada[0])){
+                hora_Llegada.setValue(hora_Salida.getValue());
+            }else{
+                if(Integer.parseInt(hora_salida[0])==Integer.parseInt(hora_llegada[0])){
+                    if(Integer.parseInt(hora_salida[1])>Integer.parseInt(hora_llegada[1])){
+                        hora_Llegada.setValue(hora_Salida.getValue());
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_hora_SalidaStateChanged
     public void insertar_Solicitud(int ConCarro){
         try{
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");

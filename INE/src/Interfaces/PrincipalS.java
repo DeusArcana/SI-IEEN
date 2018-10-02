@@ -1002,304 +1002,313 @@ public class PrincipalS extends javax.swing.JFrame {
         btnbuscarporfecha.setBounds(750, 120, 150, 30);
         tablonsolicitud1.add(fechainicio);
         fechainicio.setBounds(600, 110, 130, 20);
-        Calendar cb1 = new GregorianCalendar();
-        fechainicio.setCalendar(cb1);
-        tablonsolicitud1.add(fechafinal);
-        fechafinal.setBounds(600, 140, 130, 20);
-        Calendar cb2 = new GregorianCalendar();
-        fechafinal.setCalendar(cb2);
+        fechainicio.getDateEditor().addPropertyChangeListener(
+            new java.beans.PropertyChangeListener() {
+                @Override
+                public void propertyChange(java.beans.PropertyChangeEvent e) {
+                    if(e.getPropertyName().equals("date")) {
+                        fechafinal.getJCalendar().setMinSelectableDate(fechainicio.getDate());
+                    }
+                }
+            });
+            Calendar cb1 = new GregorianCalendar();
+            fechainicio.setCalendar(cb1);
+            tablonsolicitud1.add(fechafinal);
+            fechafinal.setBounds(600, 140, 130, 20);
+            Calendar cb2 = new GregorianCalendar();
+            fechafinal.setCalendar(cb2);
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel4.setText("Fecha final");
-        tablonsolicitud1.add(jLabel4);
-        jLabel4.setBounds(532, 140, 60, 15);
+            jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+            jLabel4.setText("Fecha final");
+            tablonsolicitud1.add(jLabel4);
+            jLabel4.setBounds(532, 140, 60, 15);
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel8.setText("Fecha de inicio");
-        tablonsolicitud1.add(jLabel8);
-        jLabel8.setBounds(510, 110, 80, 15);
+            jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+            jLabel8.setText("Fecha de inicio");
+            tablonsolicitud1.add(jLabel8);
+            jLabel8.setBounds(510, 110, 80, 15);
 
-        jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
-        tablonsolicitud1.add(jLabel28);
-        jLabel28.setBounds(0, 0, 1366, 769);
+            jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
+            tablonsolicitud1.add(jLabel28);
+            jLabel28.setBounds(0, 0, 1366, 769);
 
-        solicviaticos.addTab("Tablón de Solicitudes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/consumible.png")), tablonsolicitud1); // NOI18N
+            solicviaticos.addTab("Tablón de Solicitudes", new javax.swing.ImageIcon(getClass().getResource("/Iconos/consumible.png")), tablonsolicitud1); // NOI18N
 
-        informe.setLayout(null);
+            informe.setLayout(null);
 
-        jlb.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jlb.setText("Búsqueda:");
-        informe.add(jlb);
-        jlb.setBounds(40, 125, 100, 22);
+            jlb.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+            jlb.setText("Búsqueda:");
+            informe.add(jlb);
+            jlb.setBounds(40, 125, 100, 22);
 
-        txtbusquedasoli2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        txtbusquedasoli2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtbusquedasoli2KeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtbusquedasoli2KeyReleased(evt);
-            }
-        });
-        informe.add(txtbusquedasoli2);
-        txtbusquedasoli2.setBounds(140, 120, 290, 30);
+            txtbusquedasoli2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+            txtbusquedasoli2.addKeyListener(new java.awt.event.KeyAdapter() {
+                public void keyPressed(java.awt.event.KeyEvent evt) {
+                    txtbusquedasoli2KeyPressed(evt);
+                }
+                public void keyReleased(java.awt.event.KeyEvent evt) {
+                    txtbusquedasoli2KeyReleased(evt);
+                }
+            });
+            informe.add(txtbusquedasoli2);
+            txtbusquedasoli2.setBounds(140, 120, 290, 30);
 
-        jPanel21.setLayout(null);
+            jPanel21.setLayout(null);
 
-        jPanel1.setLayout(null);
+            jPanel1.setLayout(null);
 
-        tablainfo.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            tablainfo.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
 
-            },
-            new String [] {
+                },
+                new String [] {
 
-            }
-        ));
-        tablainfo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablainfoMouseReleased(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tablainfo);
+                }
+            ));
+            tablainfo.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    tablainfoMouseReleased(evt);
+                }
+            });
+            jScrollPane1.setViewportView(tablainfo);
 
-        jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(0, 0, 1310, 480);
+            jPanel1.add(jScrollPane1);
+            jScrollPane1.setBounds(0, 0, 1310, 480);
 
-        jLabel1.setText("Reporte de actividaes");
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(810, 60, 150, 20);
+            jLabel1.setText("Reporte de actividaes");
+            jPanel1.add(jLabel1);
+            jLabel1.setBounds(810, 60, 150, 20);
 
-        lblObsVehiculo.setText("Observaciones Vehículo");
-        jPanel1.add(lblObsVehiculo);
-        lblObsVehiculo.setBounds(810, 320, 150, 14);
-        jPanel1.add(GaTot);
-        GaTot.setBounds(210, 440, 240, 20);
+            lblObsVehiculo.setText("Observaciones Vehículo");
+            jPanel1.add(lblObsVehiculo);
+            lblObsVehiculo.setBounds(810, 320, 150, 14);
+            jPanel1.add(GaTot);
+            GaTot.setBounds(210, 440, 240, 20);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 66, 0));
-        jLabel3.setText("Gasto total");
-        jPanel1.add(jLabel3);
-        jLabel3.setBounds(100, 440, 110, 22);
+            jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+            jLabel3.setForeground(new java.awt.Color(255, 66, 0));
+            jLabel3.setText("Gasto total");
+            jPanel1.add(jLabel3);
+            jLabel3.setBounds(100, 440, 110, 22);
 
-        btnguardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/guardarsol.png"))); // NOI18N
-        btnguardar.setText("Guardar");
-        btnguardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnguardarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnguardar);
-        btnguardar.setBounds(1020, 20, 120, 40);
+            btnguardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/guardarsol.png"))); // NOI18N
+            btnguardar.setText("Guardar");
+            btnguardar.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnguardarActionPerformed(evt);
+                }
+            });
+            jPanel1.add(btnguardar);
+            btnguardar.setBounds(1020, 20, 120, 40);
 
-        btnregresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/atras.png"))); // NOI18N
-        btnregresar1.setText("Regresar");
-        btnregresar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnregresar1ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnregresar1);
-        btnregresar1.setBounds(1180, 20, 100, 40);
+            btnregresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/atras.png"))); // NOI18N
+            btnregresar1.setText("Regresar");
+            btnregresar1.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnregresar1ActionPerformed(evt);
+                }
+            });
+            jPanel1.add(btnregresar1);
+            btnregresar1.setBounds(1180, 20, 100, 40);
 
-        jScrollPane3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jScrollPane3MouseReleased(evt);
-            }
-        });
+            jScrollPane3.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    jScrollPane3MouseReleased(evt);
+                }
+            });
 
-        tablaact.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            tablaact.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
 
-            },
-            new String [] {
+                },
+                new String [] {
 
-            }
-        ));
-        tablaact.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                tablaactFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                tablaactFocusLost(evt);
-            }
-        });
-        tablaact.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablaactMouseReleased(evt);
-            }
-        });
-        tablaact.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                tablaactKeyPressed(evt);
-            }
-        });
-        jScrollPane3.setViewportView(tablaact);
+                }
+            ));
+            tablaact.addFocusListener(new java.awt.event.FocusAdapter() {
+                public void focusGained(java.awt.event.FocusEvent evt) {
+                    tablaactFocusGained(evt);
+                }
+                public void focusLost(java.awt.event.FocusEvent evt) {
+                    tablaactFocusLost(evt);
+                }
+            });
+            tablaact.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    tablaactMouseReleased(evt);
+                }
+            });
+            tablaact.addKeyListener(new java.awt.event.KeyAdapter() {
+                public void keyPressed(java.awt.event.KeyEvent evt) {
+                    tablaactKeyPressed(evt);
+                }
+            });
+            jScrollPane3.setViewportView(tablaact);
 
-        jPanel1.add(jScrollPane3);
-        jScrollPane3.setBounds(30, 10, 420, 420);
-        jPanel1.add(txtKilometraje);
-        txtKilometraje.setBounds(1189, 320, 90, 20);
+            jPanel1.add(jScrollPane3);
+            jScrollPane3.setBounds(30, 10, 420, 420);
+            jPanel1.add(txtKilometraje);
+            txtKilometraje.setBounds(1189, 320, 90, 20);
 
-        txtobvia1.setColumns(20);
-        txtobvia1.setRows(5);
-        txtobvia1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtobvia1KeyTyped(evt);
-            }
-        });
-        txtobvia.setViewportView(txtobvia1);
+            txtobvia1.setColumns(20);
+            txtobvia1.setRows(5);
+            txtobvia1.addKeyListener(new java.awt.event.KeyAdapter() {
+                public void keyTyped(java.awt.event.KeyEvent evt) {
+                    txtobvia1KeyTyped(evt);
+                }
+            });
+            txtobvia.setViewportView(txtobvia1);
 
-        jPanel1.add(txtobvia);
-        txtobvia.setBounds(480, 90, 800, 220);
+            jPanel1.add(txtobvia);
+            txtobvia.setBounds(480, 90, 800, 220);
 
-        lblKilometraje.setText("Kilometraje");
-        jPanel1.add(lblKilometraje);
-        lblKilometraje.setBounds(1114, 320, 60, 14);
+            lblKilometraje.setText("Kilometraje");
+            jPanel1.add(lblKilometraje);
+            lblKilometraje.setBounds(1114, 320, 60, 14);
 
-        txtobveh1.setColumns(20);
-        txtobveh1.setRows(5);
-        txtobveh1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtobveh1KeyTyped(evt);
-            }
-        });
-        txtobveh.setViewportView(txtobveh1);
+            txtobveh1.setColumns(20);
+            txtobveh1.setRows(5);
+            txtobveh1.addKeyListener(new java.awt.event.KeyAdapter() {
+                public void keyTyped(java.awt.event.KeyEvent evt) {
+                    txtobveh1KeyTyped(evt);
+                }
+            });
+            txtobveh.setViewportView(txtobveh1);
 
-        jPanel1.add(txtobveh);
-        txtobveh.setBounds(480, 350, 800, 110);
+            jPanel1.add(txtobveh);
+            txtobveh.setBounds(480, 350, 800, 110);
 
-        menuInforme.addTab("Solicitudes aceptadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), jPanel1); // NOI18N
+            menuInforme.addTab("Solicitudes aceptadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), jPanel1); // NOI18N
 
-        tablainfo1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            tablainfo1.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
 
-            },
-            new String [] {
+                },
+                new String [] {
 
-            }
-        ));
-        tablainfo1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablainfo1MouseReleased(evt);
-            }
-        });
-        jScrollPane2.setViewportView(tablainfo1);
+                }
+            ));
+            tablainfo1.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    tablainfo1MouseReleased(evt);
+                }
+            });
+            jScrollPane2.setViewportView(tablainfo1);
 
-        menuInforme.addTab("Solicitudes finalizadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), jScrollPane2); // NOI18N
+            menuInforme.addTab("Solicitudes finalizadas", new javax.swing.ImageIcon(getClass().getResource("/Iconos/solicitudes.png")), jScrollPane2); // NOI18N
 
-        jPanel21.add(menuInforme);
-        menuInforme.setBounds(0, 0, 1310, 520);
+            jPanel21.add(menuInforme);
+            menuInforme.setBounds(0, 0, 1310, 520);
 
-        informe.add(jPanel21);
-        jPanel21.setBounds(20, 160, 1310, 520);
+            informe.add(jPanel21);
+            jPanel21.setBounds(20, 160, 1310, 520);
 
-        btnregresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/atras.png"))); // NOI18N
-        btnregresar.setText("Regresar");
-        btnregresar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnregresarActionPerformed(evt);
-            }
-        });
-        informe.add(btnregresar);
-        btnregresar.setBounds(867, 220, 170, 40);
+            btnregresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/atras.png"))); // NOI18N
+            btnregresar.setText("Regresar");
+            btnregresar.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnregresarActionPerformed(evt);
+                }
+            });
+            informe.add(btnregresar);
+            btnregresar.setBounds(867, 220, 170, 40);
 
-        lblArea.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lblArea.setText("Área:");
-        informe.add(lblArea);
-        lblArea.setBounds(530, 120, 50, 22);
+            lblArea.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+            lblArea.setText("Área:");
+            informe.add(lblArea);
+            lblArea.setBounds(530, 120, 50, 22);
 
-        cmbArea.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        cmbArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cmbArea.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbAreaActionPerformed(evt);
-            }
-        });
-        informe.add(cmbArea);
-        cmbArea.setBounds(590, 120, 250, 20);
+            cmbArea.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+            cmbArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+            cmbArea.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    cmbAreaActionPerformed(evt);
+                }
+            });
+            informe.add(cmbArea);
+            cmbArea.setBounds(590, 120, 250, 20);
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/banner informes.png"))); // NOI18N
-        informe.add(jLabel7);
-        jLabel7.setBounds(20, 20, 1350, 80);
+            jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/banner informes.png"))); // NOI18N
+            informe.add(jLabel7);
+            jLabel7.setBounds(20, 20, 1350, 80);
 
-        btnActualizarInforme.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/if_view-refresh_118801.png"))); // NOI18N
-        btnActualizarInforme.setText("Actualizar");
-        btnActualizarInforme.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarInformeActionPerformed(evt);
-            }
-        });
-        informe.add(btnActualizarInforme);
-        btnActualizarInforme.setBounds(1060, 120, 120, 30);
+            btnActualizarInforme.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/if_view-refresh_118801.png"))); // NOI18N
+            btnActualizarInforme.setText("Actualizar");
+            btnActualizarInforme.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    btnActualizarInformeActionPerformed(evt);
+                }
+            });
+            informe.add(btnActualizarInforme);
+            btnActualizarInforme.setBounds(1060, 120, 120, 30);
 
-        jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
-        informe.add(jLabel24);
-        jLabel24.setBounds(0, 0, 1366, 769);
+            jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
+            informe.add(jLabel24);
+            jLabel24.setBounds(0, 0, 1366, 769);
 
-        solicviaticos.addTab("Informe de Actividades", new javax.swing.ImageIcon(getClass().getResource("/Iconos/resguardo.png")), informe); // NOI18N
+            solicviaticos.addTab("Informe de Actividades", new javax.swing.ImageIcon(getClass().getResource("/Iconos/resguardo.png")), informe); // NOI18N
 
-        jMenu1.setText("Archivo");
+            jMenu1.setText("Archivo");
 
-        mi_inventario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/viatico.png"))); // NOI18N
-        mi_inventario.setText("Inventario");
-        mi_inventario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_inventarioActionPerformed(evt);
-            }
-        });
-        jMenu1.add(mi_inventario);
+            mi_inventario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/viatico.png"))); // NOI18N
+            mi_inventario.setText("Inventario");
+            mi_inventario.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    mi_inventarioActionPerformed(evt);
+                }
+            });
+            jMenu1.add(mi_inventario);
 
-        mi_pases.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        mi_pases.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/pase.png"))); // NOI18N
-        mi_pases.setText("Pases E/S");
-        mi_pases.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_pasesActionPerformed(evt);
-            }
-        });
-        jMenu1.add(mi_pases);
-        jMenu1.add(jSeparator1);
+            mi_pases.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+            mi_pases.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/pase.png"))); // NOI18N
+            mi_pases.setText("Pases E/S");
+            mi_pases.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    mi_pasesActionPerformed(evt);
+                }
+            });
+            jMenu1.add(mi_pases);
+            jMenu1.add(jSeparator1);
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/if_Exit_728935.png"))); // NOI18N
-        jMenuItem2.setText("Cerrar sesión");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem2);
+            jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
+            jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+            jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/if_Exit_728935.png"))); // NOI18N
+            jMenuItem2.setText("Cerrar sesión");
+            jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jMenuItem2ActionPerformed(evt);
+                }
+            });
+            jMenu1.add(jMenuItem2);
 
-        itemSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
-        itemSalir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        itemSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/if_Shutdown_Box_Red_34246.png"))); // NOI18N
-        itemSalir.setText("Salir");
-        itemSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemSalirActionPerformed(evt);
-            }
-        });
-        jMenu1.add(itemSalir);
+            itemSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
+            itemSalir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+            itemSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/if_Shutdown_Box_Red_34246.png"))); // NOI18N
+            itemSalir.setText("Salir");
+            itemSalir.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    itemSalirActionPerformed(evt);
+                }
+            });
+            jMenu1.add(itemSalir);
 
-        jMenuBar1.add(jMenu1);
+            jMenuBar1.add(jMenu1);
 
-        setJMenuBar(jMenuBar1);
+            setJMenuBar(jMenuBar1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(solicviaticos, javax.swing.GroupLayout.PREFERRED_SIZE, 1366, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(solicviaticos, javax.swing.GroupLayout.PREFERRED_SIZE, 772, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(solicviaticos, javax.swing.GroupLayout.PREFERRED_SIZE, 1366, javax.swing.GroupLayout.PREFERRED_SIZE)
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(solicviaticos, javax.swing.GroupLayout.PREFERRED_SIZE, 772, javax.swing.GroupLayout.PREFERRED_SIZE)
+            );
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+            pack();
+        }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         txtobvia.enable(false);
@@ -2254,6 +2263,13 @@ public class PrincipalS extends javax.swing.JFrame {
     private void txtbusquedasoli1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedasoli1KeyReleased
         // TODO add your handling code here:
         String soloUsuarioActual = "";
+        String queryFecha="";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String fecha_inicio = sdf.format(fechainicio.getDate().getTime());
+            String fecha_final = sdf.format(fechafinal.getDate().getTime());
+            if(buscarFecha){
+                queryFecha=" and (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') ";
+            }
         if (menutablones.getSelectedIndex() == 0) {
             modelo = new DefaultTableModel() {
                 @Override
@@ -2285,7 +2301,7 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 ResultSet rs = cbd.getTabla("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'P' AND (idSolicitud LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR Nombre LIKE '%" + txtbusquedasoli1.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
-                        + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%') " + soloUsuarioActual + " order by idSolicitud DESC", cn);
+                        + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%') " + soloUsuarioActual + queryFecha + " order by idSolicitud DESC", cn);
 
                 String solicitud[] = new String[7];
                 while (rs.next()) {
@@ -2330,7 +2346,7 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 ResultSet rs = cbd.getTabla("SELECT O.Folio,S.nombre, S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud AND (O.Folio LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR O.Monto LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
-                        + "OR S.Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Nombre LIKE'%" + txtbusquedasoli1.getText() + "%') " + soloUsuarioActual + " order by idSolicitud DESC", cn);
+                        + "OR S.Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR S.Nombre LIKE'%" + txtbusquedasoli1.getText() + "%') " + soloUsuarioActual + queryFecha + " order by idSolicitud DESC", cn);
 
                 String solicitud[] = new String[8];
                 while (rs.next()) {
@@ -2418,11 +2434,11 @@ public class PrincipalS extends javax.swing.JFrame {
                 ResultSet usuario = cbd.getTabla("select puesto from user where id_user='" + Principal.Username + "'", cn);
                 usuario.next();
                 if (usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")) {
-                    sql = "SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and (nombre LIKE '%" + txtbusquedasoli1.getText() + "%' or puesto like '%" + txtbusquedasoli1.getText() + "%' or fecha_salida like '%" + txtbusquedasoli1.getText() + "%' or fecha_llegada like '%" + txtbusquedasoli1.getText() + "%' or lugar like '%" + txtbusquedasoli1.getText() + "%') ORDER BY O.FOLIO DESC";
+                    sql = "SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and (nombre LIKE '%" + txtbusquedasoli1.getText() + "%' or puesto like '%" + txtbusquedasoli1.getText() + "%' or fecha_salida like '%" + txtbusquedasoli1.getText() + "%' or fecha_llegada like '%" + txtbusquedasoli1.getText() + "%' or lugar like '%" + txtbusquedasoli1.getText() + "%') "+queryFecha+" ORDER BY O.FOLIO DESC";
                 } else {
                     usuario = cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='" + Principal.Username + "';", cn);
                     usuario.next();
-                    sql = "SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and nombre='" + usuario.getString("nombre") + "' and (nombre LIKE '%" + txtbusquedasoli1.getText() + "%') order by O.Folio DESC";
+                    sql = "SELECT O.Folio,S.nombre,S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.gastos_comprobar,S.Reporte,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.idSolicitud = O.Solicitud_idSolicitud and nombre='" + usuario.getString("nombre") + "' and (nombre LIKE '%" + txtbusquedasoli1.getText() + "%')"+queryFecha+" order by O.Folio DESC";
                 }
                 Statement sentencia = cn.createStatement();
                 Object datos[] = new Object[10];
@@ -2488,7 +2504,7 @@ public class PrincipalS extends javax.swing.JFrame {
 
                 ResultSet rs = cbd.getTabla("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar, Motivo FROM Solicitud_viatico WHERE Estado = 'C' AND (idSolicitud LIKE '%" + txtbusquedasoli1.getText() + "%'"
                         + "OR Nombre LIKE '%" + txtbusquedasoli1.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_salida LIKE '%" + txtbusquedasoli1.getText() + "%' OR Fecha_llegada LIKE '%" + txtbusquedasoli1.getText() + "%'"
-                        + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR Motivo LIKE '%" + txtbusquedasoli1.getText() + "%')" + soloUsuarioActual + " order by idSolicitud DESC", cn);
+                        + "OR Lugar LIKE '%" + txtbusquedasoli1.getText() + "%' OR Motivo LIKE '%" + txtbusquedasoli1.getText() + "%')" + soloUsuarioActual + queryFecha + " order by idSolicitud DESC", cn);
 
                 String solicitud[] = new String[8];
                 while (rs.next()) {
@@ -2683,7 +2699,7 @@ public class PrincipalS extends javax.swing.JFrame {
                         GaTot.setVisible(true);
                         jLabel3.setEnabled(false);
                         tablaact.setEnabled(false);
-                        jScrollPane3.setEnabled(false);
+                        //jScrollPane3.setEnabled(false);
                         GaTot.enable(false);
                         c = 0;
                     }
@@ -2790,6 +2806,7 @@ public class PrincipalS extends javax.swing.JFrame {
     private void AñadirAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AñadirAActionPerformed
         // TODO add your handling code here:
         int filas = tablaact.getRowCount();
+        modelo=(DefaultTableModel)tablaact.getModel();
         if (filas == 0) {
             modelo.addRow(new Object[]{"", "", ""});
         } else if (tablaact.getValueAt(filas - 1, 0) != "" && tablaact.getValueAt(filas - 1, 1) != "") {
@@ -2800,7 +2817,11 @@ public class PrincipalS extends javax.swing.JFrame {
     private void EliminarAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarAActionPerformed
         // TODO add your handling code here:
         int i = tablaact.getSelectedRow();
-        modelo.removeRow(i);
+        if(i>=0){
+            modelo=(DefaultTableModel)tablaact.getModel();
+            modelo.removeRow(i);
+            tablaact.setModel(modelo);
+        }
     }//GEN-LAST:event_EliminarAActionPerformed
 
     private void ConsultarArActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarArActionPerformed
@@ -3534,6 +3555,7 @@ public class PrincipalS extends javax.swing.JFrame {
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
         if (manager_permisos.accesoModulo("consulta", "Tablon Solicitudes", Principal.Username)) {
+            buscarFecha=false;
             tablonpendientes.setModel(manager_soviaticos.SolicitudP());
             tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
             tabloncanceladas.setModel(manager_soviaticos.SolicitudC());
@@ -3577,10 +3599,11 @@ public class PrincipalS extends javax.swing.JFrame {
             Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnActualizarInformeActionPerformed
-
+    boolean buscarFecha=false;
     private void btnbuscarporfechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscarporfechaActionPerformed
         // TODO add your handling code here:
         String soloUsuarioActual = "";
+        buscarFecha=true;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String fecha_inicio = sdf.format(fechainicio.getDate().getTime());
         String fecha_final = sdf.format(fechafinal.getDate().getTime());
