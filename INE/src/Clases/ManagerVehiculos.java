@@ -312,12 +312,12 @@ public class ManagerVehiculos {
             ResultSet resultados = st.executeQuery(sql);
             while (resultados.next()) {
                 String temp = "";
-                temp += "" + resultados.getString("marca") + "," + resultados.getString("linea") + "," 
-                         + "," + resultados.getString("kilometraje")+ "," + resultados.getString("modelo")+ "," + resultados.getString("color")
-                        + "," + resultados.getString("motor") + "," + resultados.getString("matricula")+ "," + resultados.getString("observaciones")
-                        + "," + resultados.getString("cantidad_fotos") + "," + resultados.getString("estado")+ "," + resultados.getString("No_motor")
-                        + "," + resultados.getString("Fecha_compra")+ "," + resultados.getString("No_factura")+ "," + resultados.getString("importe")
-                        + "," + resultados.getString("descripcion")+ "," + resultados.getString("numero");
+                temp += "" + resultados.getString("marca") + ",," + resultados.getString("linea") + ",," 
+                         + ",," + resultados.getString("kilometraje")+ ",," + resultados.getString("modelo")+ ",," + resultados.getString("color")
+                        + ",," + resultados.getString("motor") + ",," + resultados.getString("matricula")+ ",," + resultados.getString("observaciones")
+                        + ",," + resultados.getString("cantidad_fotos") + ",," + resultados.getString("estado")+ ",," + resultados.getString("No_motor")
+                        + ",," + resultados.getString("Fecha_compra")+ ",," + resultados.getString("No_factura")+ ",," + resultados.getString("importe")
+                        + ",," + resultados.getString("descripcion")+ ",," + resultados.getString("numero");
                 v.add(temp);
             }
 

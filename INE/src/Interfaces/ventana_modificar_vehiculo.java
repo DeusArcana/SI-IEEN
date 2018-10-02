@@ -64,10 +64,10 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
     public ventana_modificar_vehiculo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        //nuevasFotos.setVisible(false);
-        //contadorImg.setVisible(false);
-        //campoRuta.setVisible(false);
-        //campo.setVisible(false);
+        nuevasFotos.setVisible(false);
+        contadorImg.setVisible(false);
+        campoRuta.setVisible(false);
+        campo.setVisible(false);
         this.setLocationRelativeTo(null);
 
         vehiculos = new ManagerVehiculos();
@@ -81,9 +81,9 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         JSpinner.NumberEditor editor2 = new JSpinner.NumberEditor(campoModelo, "#"); campoModelo.setEditor(editor2);
         //Quitar editable a spinner
         ((DefaultEditor) campoModelo.getEditor()).getTextField().setEditable(false);
-        campoMatricula.setEditable(false);
+        //campoMatricula.setEditable(false);
         campo_descripcion.setLineWrap(true);
-
+        campoObservaciones1.setLineWrap(true);
         campoMarca.requestFocus();
         JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) campo_fecha_compra.getDateEditor();
         date_Salida_Editor.setEditable(false);
@@ -140,12 +140,12 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         btnImagen = new javax.swing.JButton();
         btnImagen1 = new javax.swing.JButton();
         contenedor = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
         contadorImg = new javax.swing.JLabel();
-        nuevasFotos = new javax.swing.JLabel();
+        fondo = new javax.swing.JLabel();
         campoRuta = new javax.swing.JTextField();
         campo = new javax.swing.JTextField();
-        jLabel16 = new javax.swing.JLabel();
-        fondo = new javax.swing.JLabel();
+        nuevasFotos = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Modificar datos del vehículo.");
@@ -425,27 +425,27 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
         pn_permisos.add(imagenVehiculo);
         imagenVehiculo.setBounds(520, 10, 200, 190);
 
-        contadorImg.setText("0");
-        pn_permisos.add(contadorImg);
-        contadorImg.setBounds(510, 340, 90, 50);
-
-        nuevasFotos.setText("0");
-        pn_permisos.add(nuevasFotos);
-        nuevasFotos.setBounds(490, 390, 50, 14);
-        pn_permisos.add(campoRuta);
-        campoRuta.setBounds(430, 380, 90, 30);
-        pn_permisos.add(campo);
-        campo.setBounds(640, 360, 50, 20);
-
         jLabel16.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
         jLabel16.setText("* Campos obligatorios.");
         pn_permisos.add(jLabel16);
         jLabel16.setBounds(30, 460, 160, 16);
 
+        contadorImg.setText("0");
+        pn_permisos.add(contadorImg);
+        contadorImg.setBounds(510, 300, 90, 30);
+
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         fondo.setText("jLabel1");
         pn_permisos.add(fondo);
         fondo.setBounds(0, 0, 770, 570);
+        pn_permisos.add(campoRuta);
+        campoRuta.setBounds(430, 380, 90, 30);
+        pn_permisos.add(campo);
+        campo.setBounds(640, 360, 50, 20);
+
+        nuevasFotos.setText("0");
+        pn_permisos.add(nuevasFotos);
+        nuevasFotos.setBounds(490, 390, 50, 14);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -464,7 +464,7 @@ public class ventana_modificar_vehiculo extends javax.swing.JDialog {
     public void cargarDatos() throws IOException, SQLException, ParseException{
         //marca,linea,clase,kilometraje,modelo,color,motor,matricula,observaciones,estado
         Vector vVehiculos = vehiculos.infoVehiculos(campo.getText());
-        String temporal[] = vVehiculos.get(0).toString().split(",");
+        String temporal[] = vVehiculos.get(0).toString().split(",,");
         
         
         campoMarca.setText(temporal[0]);

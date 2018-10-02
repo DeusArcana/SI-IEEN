@@ -79,7 +79,8 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
         campo_descripcion.setLineWrap(true);
         campoRuta.setText(cargarNoImage()+"\\src\\Imagenes\\noimage.png");
         contadorImg.setVisible(false);
-        
+        campoRuta.setVisible(false);
+        campoObservaciones.setLineWrap(true);
         JTextFieldDateEditor date_Salida_Editor=(JTextFieldDateEditor) campo_fecha_compra.getDateEditor();
         date_Salida_Editor.setEditable(false);
         campo_fecha_compra.getJCalendar().setMaxSelectableDate(new Date()); // sets today as minimum selectable date 
@@ -125,23 +126,15 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
         btnImagen = new javax.swing.JButton();
         contenedor = new javax.swing.JLabel();
         campo_no_motor = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         campo_no_factura = new javax.swing.JTextField();
-        jLabel22 = new javax.swing.JLabel();
         campo_importe = new javax.swing.JTextField();
         txtNumero = new javax.swing.JTextField();
-        jLabel21 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
         campo_fecha_compra = new com.toedter.calendar.JDateChooser();
-        jLabel18 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         campo_descripcion = new javax.swing.JTextArea();
         jLabel19 = new javax.swing.JLabel();
         txtFolio = new javax.swing.JTextField();
-        fondo = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        campoObservaciones1 = new javax.swing.JTextArea();
         jTextField3 = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -153,7 +146,7 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
         jLabel13 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         contadorImg = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Alta de vehículo.");
@@ -349,11 +342,6 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
         pn_permisos.add(campo_no_motor);
         campo_no_motor.setBounds(100, 220, 170, 30);
 
-        jLabel15.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
-        jLabel15.setText("* No. de motor:");
-        pn_permisos.add(jLabel15);
-        jLabel15.setBounds(10, 230, 100, 16);
-
         jLabel16.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
         jLabel16.setText("* Campos obligatorios.");
         pn_permisos.add(jLabel16);
@@ -367,11 +355,6 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
         });
         pn_permisos.add(campo_no_factura);
         campo_no_factura.setBounds(100, 270, 170, 30);
-
-        jLabel22.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
-        jLabel22.setText("* No. de factura:");
-        pn_permisos.add(jLabel22);
-        jLabel22.setBounds(10, 280, 100, 16);
 
         campo_importe.setNextFocusableComponent(campoObservaciones);
         campo_importe.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -397,24 +380,9 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
         pn_permisos.add(txtNumero);
         txtNumero.setBounds(190, 20, 80, 30);
 
-        jLabel21.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
-        jLabel21.setText("* Marca:");
-        pn_permisos.add(jLabel21);
-        jLabel21.setBounds(20, 80, 70, 16);
-
-        jLabel17.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
-        jLabel17.setText("* Importe:");
-        pn_permisos.add(jLabel17);
-        jLabel17.setBounds(330, 280, 80, 16);
-
         campo_fecha_compra.setNextFocusableComponent(campo_importe);
         pn_permisos.add(campo_fecha_compra);
         campo_fecha_compra.setBounds(402, 220, 210, 30);
-
-        jLabel18.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
-        jLabel18.setText("* Fecha de compra:");
-        pn_permisos.add(jLabel18);
-        jLabel18.setBounds(280, 230, 110, 16);
 
         campo_descripcion.setColumns(20);
         campo_descripcion.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
@@ -441,19 +409,6 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
         txtFolio.setEnabled(false);
         pn_permisos.add(txtFolio);
         txtFolio.setBounds(100, 20, 80, 30);
-
-        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
-        fondo.setText("jLabel1");
-        pn_permisos.add(fondo);
-        fondo.setBounds(0, 0, 770, 570);
-
-        campoObservaciones1.setColumns(20);
-        campoObservaciones1.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
-        campoObservaciones1.setRows(5);
-        jScrollPane2.setViewportView(campoObservaciones1);
-
-        pn_permisos.add(jScrollPane2);
-        jScrollPane2.setBounds(370, 330, 340, 120);
         pn_permisos.add(jTextField3);
         jTextField3.setBounds(400, 270, 210, 30);
 
@@ -496,10 +451,10 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
         pn_permisos.add(contadorImg);
         contadorImg.setBounds(490, 344, 200, 20);
 
-        jLabel11.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
-        jLabel11.setText("Descripción:");
-        pn_permisos.add(jLabel11);
-        jLabel11.setBounds(370, 310, 100, 16);
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
+        fondo.setText("jLabel1");
+        pn_permisos.add(fondo);
+        fondo.setBounds(0, 0, 770, 570);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -636,7 +591,7 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
             //System.out.println("Path: " + path);
             BufferedImage img = null;
             contadorImg.setText("" + contadorRutas);
-            contadorImg.setVisible(true);
+            
 
             try {
                 img = ImageIO.read(new File(absolute_path));
@@ -794,15 +749,9 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
     private void campo_no_facturaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_campo_no_facturaKeyTyped
         // TODO add your handling code here:
         char caracter2 = evt.getKeyChar();
-        if (campo_no_factura.getText().length() == 8) {
+        if (campo_no_factura.getText().length() == 10) {
             evt.consume();
         } else if (caracter2 != evt.getKeyCode()) {
-        }
-        if (((caracter2 < '0') || (caracter2 > '9'))) {
-
-            evt.consume();
-        } else {
-
         }
         char c = evt.getKeyChar();
         
@@ -891,7 +840,6 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
     private javax.swing.JSpinner campoModelo;
     private javax.swing.JSpinner campoMotor;
     private javax.swing.JTextArea campoObservaciones;
-    private javax.swing.JTextArea campoObservaciones1;
     private javax.swing.JTextField campoRuta;
     private javax.swing.JTextArea campo_descripcion;
     private com.toedter.calendar.JDateChooser campo_fecha_compra;
@@ -906,18 +854,12 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -926,7 +868,6 @@ public class ventana_anadir_vehiculo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
