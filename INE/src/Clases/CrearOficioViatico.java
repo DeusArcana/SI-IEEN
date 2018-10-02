@@ -382,7 +382,7 @@ public class CrearOficioViatico {
             nombreCellcanle.setBorderColor(BaseColor.WHITE);
             
             nombreCellcanle2 = new PdfPCell(new Phrase(nl.convertir(Integer.parseInt(monto)), elements2));
-            nombreCellcanle2.setHorizontalAlignment(Element.ALIGN_CENTER);
+            nombreCellcanle2.setHorizontalAlignment(Element.ALIGN_RIGHT);
             nombreCellcanle2.setBackgroundColor(BaseColor.WHITE);
             nombreCellcanle2.setBorderColor(BaseColor.WHITE);
             

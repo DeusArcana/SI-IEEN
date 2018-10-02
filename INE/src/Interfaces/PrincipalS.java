@@ -44,6 +44,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.event.*;
+import javax.swing.table.TableModel;
 import javax.swing.table.DefaultTableModel;
 import org.jvnet.substance.SubstanceLookAndFeel;
 
@@ -51,7 +53,7 @@ import org.jvnet.substance.SubstanceLookAndFeel;
  *
  * @author usuario
  */
-public class PrincipalS extends javax.swing.JFrame {
+public class PrincipalS extends javax.swing.JFrame implements TableModelListener {
 
     Conexion cbd = new Conexion();
     Connection cn = cbd.getConexion();
@@ -75,6 +77,7 @@ public class PrincipalS extends javax.swing.JFrame {
         initComponents();
         //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+        
         setIconImage(new ImageIcon(getClass().getResource("/Iconos/IEE.png")).getImage());
         //tablasolic.setModel(manager_soviaticos.getTasol()); 
         tablasolic.getTableHeader().setReorderingAllowed(false);
@@ -2739,6 +2742,7 @@ public class PrincipalS extends javax.swing.JFrame {
                 } catch (SQLException ex) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Error en la consulta");
                 }
+                tablaact.getModel().addTableModelListener(this);
             } else {
                 javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar solicitud");
             }
@@ -3858,8 +3862,28 @@ public class PrincipalS extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnbuscarporfechaActionPerformed
 
+    @Override
+    public void tableChanged(TableModelEvent e) {
+        //JOptionPane.showMessageDialog(this, "Si entró");
+        int row = e.getFirstRow();
+        int column = e.getColumn();
+        TableModel model = (TableModel)e.getSource();
+        String columnName = model.getColumnName(column);
+        Object data=new Object();
+        try{
+        data = model.getValueAt(row, column);
+        }catch(ArrayIndexOutOfBoundsException ex){return;}
+        if(column==1 && data.toString()!=null && !data.toString().equals("")){
+            try{
+                double aux=Double.parseDouble(data.toString());
+            }catch(NumberFormatException ex){
+                JOptionPane.showMessageDialog(this, "Solo se pueden insertar numeros");
+            }
+        }
+        // Do something with the data...
+    }
     private void tablaactKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaactKeyPressed
-        // TODO add your handling code here:
+        // TODO add your handling code here:}
         float valor = 0;
         int filas = tablaact.getRowCount();
         if (filas != 0) {
