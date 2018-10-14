@@ -387,7 +387,7 @@ public class CrearOficioComision {
             nombrecon.setWidthPercentage(100f);
             PdfPCell nombreCellCon;
             
-            nombreCellCon = new PdfPCell(new Phrase("Ha sido comisionado por el suscrito, a efecto de llevar a cabo visita de trabajo:", elements3));
+            nombreCellCon = new PdfPCell(new Phrase("Ha sido comisionado/a por el suscrito, a efecto de llevar a cabo visita de trabajo:", elements3));
             nombreCellCon.setHorizontalAlignment(Element.ALIGN_LEFT);
             nombreCellCon.setBorderColor(BaseColor.WHITE);
             nombrecon.addCell(nombreCellCon);

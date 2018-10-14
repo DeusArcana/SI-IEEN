@@ -291,6 +291,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                 public void propertyChange(java.beans.PropertyChangeEvent e) {
                     if(e.getPropertyName().equals("date")) {
                         date_Llegada.getJCalendar().setMinSelectableDate(date_Salida.getDate());
+                        date_Llegada.setDate(date_Salida.getDate());
                     }
                 }
             });

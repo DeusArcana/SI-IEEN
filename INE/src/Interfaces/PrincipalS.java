@@ -105,11 +105,11 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
                 if (usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")) {
                     superUsuario = true;
                     if (idArea > 0) {
-                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area=" + idArea + " order by O.folio desc");
-                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area=" + idArea + " ORDER BY I.Id_Informe DESC");
+                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud and PT.id_Area=" + idArea + " order by O.folio desc");
+                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud and PT.id_area=" + idArea + " ORDER BY I.Id_Informe DESC");
                     } else {
-                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 order by O.folio desc");
-                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud order by O.folio desc");
+                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud  ORDER BY I.Id_Informe DESC");
                     }
                     cmbArea.setVisible(true);
                     lblArea.setVisible(true);
@@ -117,8 +117,8 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
                     superUsuario = false;
                     usuario = cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='" + Principal.Username + "';", cn);
                     usuario.next();
-                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and S.nombre='" + usuario.getString("nombre") + "' order by O.folio desc");
-                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and S.nombre='" + usuario.getString("nombre") + "' ORDER BY I.Id_Informe DESC");
+                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud and S.nombre='" + usuario.getString("nombre") + "' order by O.folio desc");
+                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud and S.nombre='" + usuario.getString("nombre") + "' ORDER BY I.Id_Informe DESC");
                     cmbArea.setVisible(false);
                     lblArea.setVisible(false);
                 }
@@ -1329,17 +1329,17 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
                 if (usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")) {
                     superUsuario = true;
                     if (idArea > 0) {
-                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area=" + idArea + " order by O.folio desc");
-                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area=" + idArea + " ORDER BY I.Id_Informe DESC");
+                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud  and PT.id_Area=" + idArea + " order by O.folio desc");
+                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud and PT.id_area=" + idArea + " ORDER BY I.Id_Informe DESC");
                     } else {
-                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 order by O.folio desc");
-                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud  order by O.folio desc");
+                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud ORDER BY I.Id_Informe DESC");
                     }
                 } else {
                     usuario = cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='" + Principal.Username + "';", cn);
                     usuario.next();
-                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and S.nombre='" + usuario.getString("nombre") + "' order by O.folio desc");
-                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and S.nombre='" + usuario.getString("nombre") + "' ORDER BY I.Id_Informe DESC");
+                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud  and S.nombre='" + usuario.getString("nombre") + "' order by O.folio desc");
+                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud and S.nombre='" + usuario.getString("nombre") + "' ORDER BY I.Id_Informe DESC");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
@@ -1360,6 +1360,7 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
         btnregresar1.setVisible(false);
         txtobvia1.setText("");
         txtKilometraje.setVisible(false);
+        txtKilometraje.setText("");
         lblKilometraje.setVisible(false);
         txtobveh1.setText("");
         GaTot.setText("");
@@ -1400,19 +1401,19 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
                 usuario.next();
                 if (usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")) {
                     if (idArea > 0) {
-                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area=" + idArea + " order by O.folio desc");
-                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area=" + idArea + " ORDER BY I.Id_Informe DESC");
+                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud and PT.id_Area=" + idArea + " order by O.folio desc");
+                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud and PT.id_area=" + idArea + " ORDER BY I.Id_Informe DESC");
                     } else {
-                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 order by O.folio desc");
-                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+                        Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud  order by O.folio desc");
+                        SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud ORDER BY I.Id_Informe DESC");
                     }
                     cmbArea.setVisible(true);
                     lblArea.setVisible(true);
                 } else {
                     usuario = cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='" + Principal.Username + "';", cn);
                     usuario.next();
-                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and S.nombre='" + usuario.getString("nombre") + "' order by O.folio desc");
-                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and S.nombre='" + usuario.getString("nombre") + "' ORDER BY I.Id_Informe DESC");
+                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud and S.nombre='" + usuario.getString("nombre") + "' order by O.folio desc");
+                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud and S.nombre='" + usuario.getString("nombre") + "' ORDER BY I.Id_Informe DESC");
                     cmbArea.setVisible(false);
                     lblArea.setVisible(false);
                 }
@@ -1621,7 +1622,7 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
             }
             tablonarchivadas.setModel(manager_soviaticos.SolicitudAr());
             tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
-            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud ");
         } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para modificar el monto.");
         }
@@ -1924,6 +1925,18 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
             cad = "Falta insertar la comprobación de gastos";
             JOptionPane.showMessageDialog(this, cad);
             return;
+        }else{
+            if(tablaact.isEnabled() && tablaact.getRowCount() == 1){
+                if (tablaact.getValueAt(0, 0) == "" && tablaact.getValueAt(0, 1) == ""){
+                    cad = "Falta insertar la comprobación de gastos";
+                    JOptionPane.showMessageDialog(this, cad);
+                    return;
+                }
+            }
+        }
+        if(txtobvia1.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Inserte observaciones e intentelo de nuevo.");
+            return;
         }
         //--------------------
         try {
@@ -2007,6 +2020,7 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
                     jScrollPane1.setVisible(true);
                     lblKilometraje.setVisible(false);
                     txtKilometraje.setVisible(false);
+                    txtKilometraje.setText("");
                     if (superUsuario) {
                         cmbArea.setVisible(true);
                         lblArea.setVisible(true);
@@ -2038,6 +2052,7 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
                     jScrollPane1.setVisible(true);
                     lblKilometraje.setVisible(false);
                     txtKilometraje.setVisible(false);
+                    txtKilometraje.setText("");
                     ////////////////////
                 }
                 if (c == 1) {
@@ -2133,7 +2148,7 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
                     soloUsuarioActual = " and nombre='" + usuario.getString("nombre") + "'";
                 }
                 Statement sentencia = cn.createStatement();
-                ResultSet rs = cbd.getTabla("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 AND (O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%'"
+                ResultSet rs = cbd.getTabla("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud  AND (O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%'"
                         + "OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Actividad LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Lugar LIKE '%" + txtbusquedasoli2.getText() + "%'OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%') " + soloUsuarioActual + " " + buscarArea + " order by idSolicitud desc", cn);
 
                 String solicitud[] = new String[5];
@@ -2165,7 +2180,7 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
             this.tablainfo1.setModel(modelo);
             try {
                 Statement sentencia = cn.createStatement();
-                ResultSet rs = cbd.getTabla("SELECT I.Id_Informe, O.Folio, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join informe I on S.idSolicitud=I.Solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 AND (I.Id_Informe LIKE '%" + txtbusquedasoli2.getText()
+                ResultSet rs = cbd.getTabla("SELECT I.Id_Informe, O.Folio, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join informe I on S.idSolicitud=I.Solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND (I.Id_Informe LIKE '%" + txtbusquedasoli2.getText()
                         + "%' OR O.Folio LIKE '%" + txtbusquedasoli2.getText() + "%' OR S.Nombre LIKE '%" + txtbusquedasoli2.getText() + "%' OR O.Monto LIKE '%" + txtbusquedasoli2.getText() + "%' OR I.importe_total LIKE '%" + txtbusquedasoli2.getText() + "%')" + soloUsuarioActual + " " + buscarArea + " ORDER BY I.Id_Informe DESC", cn);
 
                 String solicitud[] = new String[5];
@@ -2598,16 +2613,17 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
             jScrollPane1.setVisible(true);
             lblKilometraje.setVisible(false);
             txtKilometraje.setVisible(false);
+            txtKilometraje.setText("");
             if (superUsuario) {
                 cmbArea.setVisible(true);
                 lblArea.setVisible(true);
             }
             if (idArea > 0) {
-                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area=" + idArea + " order by O.folio desc");
-                SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area=" + idArea + " ORDER BY I.Id_Informe DESC");
+                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud  and PT.id_Area=" + idArea + " order by O.folio desc");
+                SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud and PT.id_area=" + idArea + " ORDER BY I.Id_Informe DESC");
             } else {
-                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 order by O.folio desc");
-                SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud order by O.folio desc");
+                SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud ORDER BY I.Id_Informe DESC");
             }
         } else {
         }
@@ -2703,6 +2719,7 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
                             txtobveh.enable(false);
                             txtobveh.setVisible(false);
                             txtKilometraje.setVisible(false);
+                            txtKilometraje.setText("");
                             lblKilometraje.setVisible(false);
                             lblObsVehiculo.setVisible(false);
                         }
@@ -2711,6 +2728,7 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
                         txtobveh.enable(false);
                         txtobveh.setVisible(false);
                         txtKilometraje.setVisible(false);
+                        txtKilometraje.setText("");
                         lblKilometraje.setVisible(false);
                         lblObsVehiculo.setVisible(false);
                     }
@@ -2915,7 +2933,7 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
             if (k >= 0) {
                 String folio = tablonarchivadas.getValueAt(k, 0).toString();
                 boolean gastosac = (boolean) tablonarchivadas.getValueAt(k, 8);
-                if(tablonarchivadas.getValueAt(k, 9).equals("Terminado")){
+                if(tablonarchivadas.getValueAt(k, 9).equals("Terminado") && tablonarchivadas.getSelectedColumn()==8){
                     JOptionPane.showMessageDialog(this,"No se puede modificar los gastos a comprobar porque la solicitud ya está terminada.");
                     return;
                 }
@@ -3020,9 +3038,9 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
             tablonaceptadas.setModel(manager_soviaticos.SolicitudA());
 
             if (idArea > 0) {
-                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area=" + idArea);
+                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud and PT.id_Area=" + idArea);
             } else {
-                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0");
+                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud");
             }
         } else {
             JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para archivar solicitudes.");
@@ -3119,11 +3137,11 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
         // TODO add your handling code here:
         idArea = cmbArea.getSelectedIndex();
         if (idArea != 0) {
-            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area=" + idArea + " order by O.folio desc");
-            SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area=" + idArea + " ORDER BY I.Id_Informe DESC");
+            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud and PT.id_Area=" + idArea + " order by O.folio desc");
+            SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud  and PT.id_area=" + idArea + " ORDER BY I.Id_Informe DESC");
         } else {
-            Solicitud("SELECT DISTINCT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 order by O.folio desc");
-            SolicitudR("SELECT DISTINCT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+            Solicitud("SELECT DISTINCT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud order by O.folio desc");
+            SolicitudR("SELECT DISTINCT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud  ORDER BY I.Id_Informe DESC");
         }
     }//GEN-LAST:event_cmbAreaActionPerformed
 
@@ -3570,19 +3588,19 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
             usuario.next();
             if (usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")) {
                 if (idArea > 0) {
-                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area=" + idArea + " order by O.folio desc");
-                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area=" + idArea + " ORDER BY I.Id_Informe DESC");
+                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud  and PT.id_Area=" + idArea + " order by O.folio desc");
+                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud and PT.id_area=" + idArea + " ORDER BY I.Id_Informe DESC");
                 } else {
-                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 order by O.folio desc");
-                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+                    Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud  order by O.folio desc");
+                    SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud ORDER BY I.Id_Informe DESC");
                 }
                 cmbArea.setVisible(true);
                 lblArea.setVisible(true);
             } else {
                 usuario = cbd.getTabla("select concat(E.nombres,\" \",E.apellido_p,\" \",E.apellido_m) as nombre from user U inner join empleados E on U.id_empleado=E.id_empleado where U.id_user='" + Principal.Username + "';", cn);
                 usuario.next();
-                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and S.nombre='" + usuario.getString("nombre") + "' order by O.folio desc");
-                SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and S.nombre='" + usuario.getString("nombre") + "' ORDER BY I.Id_Informe DESC");
+                Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud  and S.nombre='" + usuario.getString("nombre") + "' order by O.folio desc");
+                SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S, Oficio_comision O, Informe I WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud  and S.nombre='" + usuario.getString("nombre") + "' ORDER BY I.Id_Informe DESC");
                 cmbArea.setVisible(false);
                 lblArea.setVisible(false);
             }

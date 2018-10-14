@@ -583,7 +583,7 @@ public class CrearOficioViatico {
             firmas3.setWidths(medidaCeldasfirmas3);
             PdfPCell encabezadosfirmasCell221,encabezadosfirmasCell321,encabezadosfirmasCell421;
             
-            encabezadosfirmasCell221 = new PdfPCell(new Phrase("COMISIONADO", elements2));
+            encabezadosfirmasCell221 = new PdfPCell(new Phrase("COMISIONADO/A", elements2));
             encabezadosfirmasCell221.setHorizontalAlignment(Element.ALIGN_CENTER);
             encabezadosfirmasCell221.setBorderColor(BaseColor.WHITE);
             encabezadosfirmasCell221.setBackgroundColor(BaseColor.WHITE);
