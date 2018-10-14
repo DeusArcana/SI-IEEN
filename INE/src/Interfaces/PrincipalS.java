@@ -147,7 +147,6 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
         ConsultarP1 = new javax.swing.JMenuItem();
         Add = new javax.swing.JMenuItem();
         SolicitarVehiculo = new javax.swing.JMenuItem();
-        CambiarConsejero = new javax.swing.JMenuItem();
         ExportarExcel = new javax.swing.JMenuItem();
         MenuTablonP = new javax.swing.JPopupMenu();
         ConsultarP = new javax.swing.JMenuItem();
@@ -339,14 +338,6 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
             }
         });
         MenuSolicitudViaticos.add(SolicitarVehiculo);
-
-        CambiarConsejero.setText("Cambiar Consejero Presidente");
-        CambiarConsejero.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CambiarConsejeroActionPerformed(evt);
-            }
-        });
-        MenuSolicitudViaticos.add(CambiarConsejero);
 
         ExportarExcel.setText("ExportarExcel");
         ExportarExcel.addActionListener(new java.awt.event.ActionListener() {
@@ -1005,6 +996,7 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
         btnbuscarporfecha.setBounds(750, 120, 150, 30);
         tablonsolicitud1.add(fechainicio);
         fechainicio.setBounds(600, 110, 130, 20);
+        fechainicio.setDateFormatString("dd-MM-yyyy");
         fechainicio.getDateEditor().addPropertyChangeListener(
             new java.beans.PropertyChangeListener() {
                 @Override
@@ -1018,6 +1010,7 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
             fechainicio.setCalendar(cb1);
             tablonsolicitud1.add(fechafinal);
             fechafinal.setBounds(600, 140, 130, 20);
+            fechafinal.setDateFormatString("dd-MM-yyyy");
             Calendar cb2 = new GregorianCalendar();
             fechafinal.setCalendar(cb2);
 
@@ -1872,16 +1865,6 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
         }
     }//GEN-LAST:event_Add1ActionPerformed
 
-    private void CambiarConsejeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CambiarConsejeroActionPerformed
-        // TODO add your handling code here:
-        if (manager_permisos.accesoModulo("actualizar", "Solicitud Viaticos", Principal.Username)) {
-            String nuevo = JOptionPane.showInputDialog("Inserte el nombre del nuevo director general");
-            cbd.ejecutar("update Director_General set Nombre='" + nuevo + "'");
-        } else {
-            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para modificar el nombre del consejero presidente.");
-        }
-    }//GEN-LAST:event_CambiarConsejeroActionPerformed
-
     private void SolicitarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SolicitarVehiculoActionPerformed
         // TODO add your handling code here:
         if (manager_permisos.accesoModulo("alta", "Solicitud Viaticos", Principal.Username)) {
@@ -2079,7 +2062,7 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
                     List<String> vehiculo = cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio=" + folio + ";");
                     List<String> indices = cbd.acceder("select IG.Gastos_id_gastos from informe_gastos IG inner join informe I on IG.Informe_id_informe=I.id_informe where I.id_informe=" + idInforme);
                     if (indices.size() > 0) {
-                        String query = "select precio,descripcion,factura from gastos where ";
+                        String query = "select descripcion,precio,factura from gastos where ";
                         for (int i = 0; i < indices.size(); i++) {
                             if (i == 0) {
                                 query += "id_gastos=" + indices.get(i);
@@ -2776,7 +2759,7 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
                     List<String> vehiculo = cbd.acceder("select SV.Vehiculo,VU.vehiculos_Matricula from solicitud_viatico S inner join oficio_comision O on S.idSolicitud=O.Solicitud_idSolicitud inner join vehiculo_viatico VV on S.idSolicitud=VV.solicitud_viatico_idSolicitud inner join solicitud_vehiculo SV on VV.solicitud_vehiculo_idsolicitud_vehiculo=SV.idsolicitud_vehiculo inner join vehiculo_usado VU on SV.vehiculo_usado_idvehiculo_usado=VU.idvehiculo_usado where O.folio=" + folio + ";");
                     List<String> indices = cbd.acceder("select IG.Gastos_id_gastos from informe_gastos IG inner join informe I on IG.Informe_id_informe=I.id_informe where I.id_informe=" + idInforme);
                     if (indices.size() > 0) {
-                        String query = "select precio,descripcion,factura from gastos where ";
+                        String query = "select descripcion,precio,factura from gastos where ";
                         for (int i = 0; i < indices.size(); i++) {
                             if (i == 0) {
                                 query += "id_gastos=" + indices.get(i);
@@ -2932,6 +2915,10 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
             if (k >= 0) {
                 String folio = tablonarchivadas.getValueAt(k, 0).toString();
                 boolean gastosac = (boolean) tablonarchivadas.getValueAt(k, 8);
+                if(tablonarchivadas.getValueAt(k, 9).equals("Terminado")){
+                    JOptionPane.showMessageDialog(this,"No se puede modificar los gastos a comprobar porque la solicitud ya está terminada.");
+                    return;
+                }
                 String idSolicitud = "";
                 try {
 
@@ -3135,8 +3122,8 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
             Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 and PT.id_Area=" + idArea + " order by O.folio desc");
             SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 and PT.id_area=" + idArea + " ORDER BY I.Id_Informe DESC");
         } else {
-            Solicitud("SELECT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 order by O.folio desc");
-            SolicitudR("SELECT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
+            Solicitud("SELECT DISTINCT O.Folio, S.Nombre, S.Actividad, S.Lugar, O.Monto FROM Solicitud_viatico S inner join Oficio_comision O on idSolicitud=O.solicitud_idSolicitud inner join puestos_trabajo PT on S.puesto=PT.Puesto WHERE S.Estado = 'AR' AND S.Reporte = '0' AND S.idSolicitud = O.Solicitud_idSolicitud AND O.Monto != 0 order by O.folio desc");
+            SolicitudR("SELECT DISTINCT I.Id_Informe, O.FOLIO, S.Nombre, O.Monto, I.importe_total FROM Solicitud_viatico S inner join Oficio_comision O on S.idSolicitud=O.solicitud_idSolicitud inner join Informe I on S.idSolicitud=I.solicitud_idSolicitud inner join Puestos_trabajo PT on S.puesto=PT.puesto WHERE S.Estado = 'AR' AND S.Reporte = '1' AND S.idSolicitud = O.Solicitud_idSolicitud AND I.Solicitud_idSolicitud = S.idSolicitud AND O.Monto != 0 ORDER BY I.Id_Informe DESC");
         }
     }//GEN-LAST:event_cmbAreaActionPerformed
 
@@ -3643,7 +3630,7 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = cbd.getTabla("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'P' AND (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') " + soloUsuarioActual + " order by idSolicitud", cn);
+                ResultSet rs = cbd.getTabla("SELECT idSolicitud, Nombre, Puesto, Fecha_salida, Fecha_llegada,Lugar FROM Solicitud_viatico WHERE Estado = 'P' AND (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') " + soloUsuarioActual + " order by idSolicitud DESC", cn);
 
                 String solicitud[] = new String[7];
                 while (rs.next()) {
@@ -3686,7 +3673,7 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
 
                 Statement sentencia = cn.createStatement();
 
-                ResultSet rs = cbd.getTabla("SELECT O.Folio,S.nombre, S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud AND (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') " + soloUsuarioActual + " order by folio", cn);
+                ResultSet rs = cbd.getTabla("SELECT O.Folio,S.nombre, S.puesto, O.Monto, S.Fecha_salida, S.Fecha_llegada,S.Lugar,S.idSolicitud FROM Solicitud_viatico S, Oficio_comision O WHERE S.Estado = 'A' AND S.idSolicitud = O.Solicitud_idSolicitud AND (Fecha_salida >= '" + fecha_inicio + "' AND Fecha_llegada <= '" + fecha_final + "') " + soloUsuarioActual + " order by folio DESC", cn);
 
                 String solicitud[] = new String[8];
                 while (rs.next()) {
@@ -3986,18 +3973,18 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
         if (manager_permisos.accesoModulo("actualizar", "Tablon Solicitudes", Principal.Username)) {
             try {
                 // TODO add your handling code here:
-                int fila = tablasolicvehiculo.getSelectedRow();
-                String idSolicitud = tablasolicvehiculo.getValueAt(fila, 0) + "";
-                String fecha = tablasolicvehiculo.getValueAt(fila, 1) + "";
-                ResultSet rs = cbd.getTabla("select * from solicitud_viatico where estado!='AR' and estado!='C' and idSolicitud=" + idSolicitud, cn);
+                int fila = tablonaceptadas.getSelectedRow();
+                String idSolicitud = tablonaceptadas.getValueAt(fila, 0) + "";
+                String fecha = tablonaceptadas.getValueAt(fila, 4) + "";
+                ResultSet rs = cbd.getTabla("select * from solicitud_viatico SV inner join oficio_comision O on SV.idSolicitud=O.Solicitud_idSolicitud where estado!='AR' and estado!='C' and folio=" + idSolicitud, cn);
                 boolean noModificar = true;
                 while (rs.next()) {
                     noModificar = false;
-                    addViaticoVehiculo avv = new addViaticoVehiculo(this, true, idSolicitud, fecha);
+                    addViaticoVehiculo avv = new addViaticoVehiculo(this, true, rs.getString("idSolicitud"), fecha);
                     avv.setVisible(true);
                 }
                 if (noModificar) {
-                    JOptionPane.showMessageDialog(this, "No se puede agregar empleados al vehiculo porque la solicitud está cancelada o ya le fue asignada un monto");
+                    JOptionPane.showMessageDialog(this, "No se puede agregar empleados al vehiculo porque la solicitud está cancelada o archivada");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(PrincipalS.class.getName()).log(Level.SEVERE, null, ex);
@@ -4198,7 +4185,6 @@ public class PrincipalS extends javax.swing.JFrame implements TableModelListener
     private javax.swing.JMenuItem AsignarMonto;
     private javax.swing.JMenuItem AsignarVehiculo;
     private javax.swing.JMenuItem AñadirA;
-    private javax.swing.JMenuItem CambiarConsejero;
     private javax.swing.JMenuItem CancelarA;
     private javax.swing.JMenuItem CancelarP;
     private javax.swing.JMenuItem ConsultarA;

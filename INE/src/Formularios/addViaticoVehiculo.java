@@ -95,10 +95,15 @@ public class addViaticoVehiculo extends javax.swing.JDialog {
             model.addRow(new Object[]{res.getString("idSolicitud")+"-"+res.getString("nombre")+" (Chofer)"});
             idSolicitudVehiculo=Integer.parseInt(res.getString("idsolicitud_vehiculo"));
         }
+        for(int i=0;i<empleados.size();i++){
+            if(idSolicitudViatico==Integer.parseInt(empleados.get(i))){
+                empleados.remove(i);
+            }
+        }
         //sacamos los nombres de los empleados asignados.
-        if(empleados.size()>1){
-            String query="select idSolicitud,nombre from solicitud_viatico where idSolicitud="+empleados.get(1);
-            for(int i=2;i<empleados.size();i++){
+        if(empleados.size()>0){
+            String query="select idSolicitud,nombre from solicitud_viatico where idSolicitud="+empleados.get(0);
+            for(int i=1;i<empleados.size();i++){
                 query+=" or idSolicitud="+empleados.get(i);
             }
             res=cbd.getTabla(query, cn);

@@ -108,14 +108,6 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SolicitarVehiculoActionPerformed"/>
           </Events>
         </MenuItem>
-        <MenuItem class="javax.swing.JMenuItem" name="CambiarConsejero">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Cambiar Consejero Presidente"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CambiarConsejeroActionPerformed"/>
-          </Events>
-        </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="ExportarExcel">
           <Properties>
             <Property name="text" type="java.lang.String" value="ExportarExcel"/>
@@ -1320,7 +1312,7 @@
             </Component>
             <Component class="com.toedter.calendar.JDateChooser" name="fechainicio">
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="fechainicio.getDateEditor().addPropertyChangeListener(&#xa;    new java.beans.PropertyChangeListener() {&#xa;        @Override&#xa;        public void propertyChange(java.beans.PropertyChangeEvent e) {&#xa;            if(e.getPropertyName().equals(&quot;date&quot;)) {&#xa;                fechafinal.getJCalendar().setMinSelectableDate(fechainicio.getDate());   &#xa;            }&#xa;        }&#xa;    });&#xa;Calendar cb1 = new GregorianCalendar();&#xa;fechainicio.setCalendar(cb1);"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="fechainicio.setDateFormatString(&quot;dd-MM-yyyy&quot;);&#xa;fechainicio.getDateEditor().addPropertyChangeListener(&#xa;    new java.beans.PropertyChangeListener() {&#xa;        @Override&#xa;        public void propertyChange(java.beans.PropertyChangeEvent e) {&#xa;            if(e.getPropertyName().equals(&quot;date&quot;)) {&#xa;                fechafinal.getJCalendar().setMinSelectableDate(fechainicio.getDate());   &#xa;            }&#xa;        }&#xa;    });&#xa;Calendar cb1 = new GregorianCalendar();&#xa;fechainicio.setCalendar(cb1);"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -1330,7 +1322,7 @@
             </Component>
             <Component class="com.toedter.calendar.JDateChooser" name="fechafinal">
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="Calendar cb2 = new GregorianCalendar();&#xa;fechafinal.setCalendar(cb2);"/>
+                <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="fechafinal.setDateFormatString(&quot;dd-MM-yyyy&quot;);&#xa;Calendar cb2 = new GregorianCalendar();&#xa;fechafinal.setCalendar(cb2);"/>
               </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

@@ -85,12 +85,12 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        comboArea = new javax.swing.JComboBox<>();
-        comboEmpleados = new javax.swing.JComboBox<>();
+        comboArea = new javax.swing.JComboBox<String>();
+        comboEmpleados = new javax.swing.JComboBox<String>();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        comboHorario = new javax.swing.JComboBox<>();
-        comboAsunto = new javax.swing.JComboBox<>();
+        comboHorario = new javax.swing.JComboBox<String>();
+        comboAsunto = new javax.swing.JComboBox<String>();
         Date hora = new Date();
         SpinnerDateModel sdm = new SpinnerDateModel(hora,null,null,Calendar.HOUR_OF_DAY);
         hora_e_s = new javax.swing.JSpinner(sdm);
@@ -216,7 +216,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         pn_addPermiso.add(btnCancelar);
         btnCancelar.setBounds(330, 460, 120, 33);
 
-        comboHorario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "De Entrada", "Intermedio", "De Salida" }));
+        comboHorario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione...", "De Entrada", "Intermedio", "De Salida" }));
         comboHorario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboHorarioActionPerformed(evt);
@@ -225,7 +225,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         pn_addPermiso.add(comboHorario);
         comboHorario.setBounds(140, 83, 87, 20);
 
-        comboAsunto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "Particular", "Oficial", "Médico" }));
+        comboAsunto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione...", "Particular", "Oficial", "Médico" }));
         pn_addPermiso.add(comboAsunto);
         comboAsunto.setBounds(423, 83, 87, 20);
 
@@ -263,7 +263,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         pn_addPermiso.add(jLabel12);
         jLabel12.setBounds(5, 222, 120, 17);
 
-        date_Salida.setDateFormatString("d-MM-yyyy");
+        date_Salida.setDateFormatString("dd-MM-yyyy");
         date_Salida.setEnabled(false);
         date_Salida.setFocusable(false);
         pn_addPermiso.add(date_Salida);

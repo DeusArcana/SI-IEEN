@@ -408,7 +408,9 @@
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="date_Salida">
           <Properties>
-            <Property name="dateFormatString" type="java.lang.String" value="d-MM-yyyy"/>
+            <Property name="dateFormatString" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="&quot;dd-MM-yyyy&quot;" type="code"/>
+            </Property>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
           </Properties>

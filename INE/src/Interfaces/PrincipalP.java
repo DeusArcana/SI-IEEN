@@ -383,11 +383,11 @@ public class PrincipalP extends javax.swing.JFrame {
                 area.next();
                     
             if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
-                 sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada,Horas, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Año = '" + yeara + "' And (Numero LIKE '%" + txtbusquedasoli.getText() + "%'"
+                 sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada,Horas, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Año = '" + yeara + "' And ( Folio LIKE '%"+ txtbusquedasoli.getText() + "%' OR Numero LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Area LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Hora_ES LIKE '%" + txtbusquedasoli.getText() + "%' OR Hora_Llegada LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Horario LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Asunto LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%')";             
             }else{
-                sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada, Horas, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Año = '" + yeara + "' And Area = '" + area.getString("Area") + "' And (Numero LIKE '%" + txtbusquedasoli.getText() + "%'"
+                sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada, Horas, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Año = '" + yeara + "' And Area = '" + area.getString("Area") + "' And ( Folio LIKE '%"+ txtbusquedasoli.getText() + "%' OR Numero LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Area LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Hora_ES LIKE '%" + txtbusquedasoli.getText() + "%' OR Hora_Llegada LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Horario LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Asunto LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%')";
                 

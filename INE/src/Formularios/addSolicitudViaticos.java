@@ -106,6 +106,10 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         asignarVehiculo=true;
         initComponents();
         btnEditar.setVisible(false);
+        btnMasMun.setVisible(false);
+        btnLimpiarLugar.setVisible(false);
+        cmbEstado.setEnabled(false);
+        cmbLocalidad.setEnabled(false);
         this.setTitle("Asignar vehículo");
         //JOptionPane.showMessageDialog(this,idSolicitud);
         this.setResizable(false);
@@ -280,6 +284,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         hora_Llegada_A.setText("jTextField1");
         pn_addInventario.add(hora_Llegada_A, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 150, 100, -1));
         pn_addInventario.add(date_Salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 120, 215, -1));
+        date_Salida.setDateFormatString("dd-MM-yyyy");
         date_Salida.getDateEditor().addPropertyChangeListener(
             new java.beans.PropertyChangeListener() {
                 @Override
@@ -301,6 +306,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
             JSpinner.DateEditor de = new JSpinner.DateEditor(hora_Salida, "HH:mm");
             hora_Salida.setEditor(de);
 
+            date_Llegada.setDateFormatString("dd-MM-yyyy");
             date_Llegada.getDateEditor().addPropertyChangeListener(
                 new java.beans.PropertyChangeListener() {
                     @Override

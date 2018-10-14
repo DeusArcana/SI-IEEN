@@ -308,7 +308,7 @@ public class CrearReporteActividades {
             
             nombreCellre = new PdfPCell(new Phrase(observaciones, elements2));
             nombreCellre.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
-            nombreCellre.setFixedHeight(200f); 
+            //nombreCellre.setFixedHeight(200f); 
             nombreCellre.setBorderColor(BaseColor.WHITE);
             reporte.addCell(nombreCellre); 
             
