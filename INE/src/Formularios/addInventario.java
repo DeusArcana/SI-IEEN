@@ -420,8 +420,11 @@ public class addInventario extends javax.swing.JDialog {
 			marca = txtMarca.getText();
 		else marca = "No registrada";
 		
-		// EXTENSION PUEDE IR VACÍO O NO
+        // EXTENSION PUEDE IR VACÍO O NO
+        folio = txtFolio.getText();
+        numero = Integer.parseInt(txtNum.getText());
         extension = txtExtension.getText();
+        producto = txtProducto.getText();
 		
         if(!txtNoSerie.getText().isEmpty())
 			noserie = txtNoSerie.getText();
@@ -496,7 +499,8 @@ public class addInventario extends javax.swing.JDialog {
                             String nombreParametro = txtFolio.getText() + "-" + txtNum.getText()+ txtExtension.getText();
                             managerPOST.prepararImagenesInventario(rutas, nombreParametro, contadorRutas);   
                             JOptionPane.showMessageDialog(null, "Se insertó correctamente al inventario");
-
+                            clearCampos();
+                            
                             int num = comboFolio.getSelectedIndex();
                             String nomeclatura = "";
                             //Si es diferente de 0 entonces esta seleccionado una nomeclatura de algun folio
@@ -535,7 +539,6 @@ public class addInventario extends javax.swing.JDialog {
                     break;
                  
             }//swtich
-                clearCampos();
         
 		} else JOptionPane.showMessageDialog(null, "No cuenta con permisos para dar de alta nuevos productos al inventario.");
     }

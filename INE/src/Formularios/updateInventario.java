@@ -462,9 +462,12 @@ public final class updateInventario extends javax.swing.JDialog {
 		if (!txtMarca.getText().isEmpty())
 			marca = txtMarca.getText();
 		else marca = "No registrada";
-		
-		// EXTENSION PUEDE IR VACÍO O NO
+	
+        // EXTENSION PUEDE IR VACÍO O NO
+        folio = txtFolio.getText();
+        numero = Integer.parseInt(txtNum.getText());
         extension = txtExtension.getText();
+        producto = txtProducto.getText();
 		
         if(!txtNoSerie.getText().isEmpty())
 			noserie = txtNoSerie.getText();

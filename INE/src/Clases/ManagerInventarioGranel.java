@@ -463,7 +463,7 @@ public class ManagerInventarioGranel {
 
         try {
             //Obtenemos los datos del empleado
-            String sql = "select Numero, Extension, nombre_prod,descripcion,almacen,marca,stock,categoria "
+            String sql = "select Numero, Extension, nombre_prod,descripcion,almacen,marca,stock_min,categoria "
                        + "from inventario_granel where concat(Folio,'-',Numero,Extension) = '"+Validaciones.deconstructFormatID(clave)+"';";
             
             conexion = db.getConexion();
