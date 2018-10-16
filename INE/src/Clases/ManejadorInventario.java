@@ -501,7 +501,7 @@ public class ManejadorInventario {
             //Llenar tabla
             while (rs.next()) {
                 datos[0] = Boolean.FALSE;
-				datos[1] = rs.getObject(1).toString();
+				datos[1] = validaciones.constructValesFormatID(rs.getObject(1).toString());
 				datos[2] = validaciones.constructFormatID(rs.getObject(2).toString());
                 for(int i = 3;i<11;i++){
                     datos[i] = rs.getObject(i);
