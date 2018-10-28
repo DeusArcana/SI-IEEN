@@ -31,6 +31,7 @@ public class visSolicitudPase extends javax.swing.JDialog {
     String tipoasunto1="";
     String asunto1="";
     String estado1="";
+    String vehiculo1="";
 
     /**
      * Creates new form visSolicitudPase
@@ -88,6 +89,8 @@ public class visSolicitudPase extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        txtvehiculo = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -125,7 +128,7 @@ public class visSolicitudPase extends javax.swing.JDialog {
             }
         });
         pn_vissolipase.add(txthoraes);
-        txthoraes.setBounds(137, 246, 215, 23);
+        txthoraes.setBounds(137, 246, 140, 23);
 
         lblAviso.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         pn_vissolipase.add(lblAviso);
@@ -137,7 +140,7 @@ public class visSolicitudPase extends javax.swing.JDialog {
 
         txtfecha.setEditable(false);
         pn_vissolipase.add(txtfecha);
-        txtfecha.setBounds(137, 215, 215, 20);
+        txtfecha.setBounds(137, 215, 140, 20);
 
         txtasunto.setEditable(false);
         txtasunto.setColumns(20);
@@ -181,7 +184,7 @@ public class visSolicitudPase extends javax.swing.JDialog {
             }
         });
         pn_vissolipase.add(txthoras);
-        txthoras.setBounds(340, 276, 140, 23);
+        txthoras.setBounds(360, 246, 140, 23);
 
         txttipohorario.setEditable(false);
         txttipohorario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -266,7 +269,7 @@ public class visSolicitudPase extends javax.swing.JDialog {
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Horas:");
         pn_vissolipase.add(jLabel5);
-        jLabel5.setBounds(290, 283, 40, 17);
+        jLabel5.setBounds(310, 252, 40, 17);
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel16.setText("Folio:");
@@ -283,6 +286,15 @@ public class visSolicitudPase extends javax.swing.JDialog {
         });
         pn_vissolipase.add(btnCancelar);
         btnCancelar.setBounds(230, 440, 120, 33);
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel10.setText("Vehículo:");
+        pn_vissolipase.add(jLabel10);
+        jLabel10.setBounds(295, 280, 60, 17);
+
+        txtvehiculo.setEditable(false);
+        pn_vissolipase.add(txtvehiculo);
+        txtvehiculo.setBounds(360, 276, 140, 20);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
         jLabel6.setPreferredSize(new java.awt.Dimension(861, 265));
@@ -353,6 +365,7 @@ public class visSolicitudPase extends javax.swing.JDialog {
         txttipoasunto.setText(tipoasunto1);
         txtasunto.setText(asunto1);
         txtestado.setText(estado1);
+        txtvehiculo.setText(vehiculo1);
         if(estado1.equals("Aceptado")){
             txtestado.setBackground(Color.GREEN);
         }else{
@@ -366,7 +379,7 @@ public class visSolicitudPase extends javax.swing.JDialog {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
-public void recibeinfo(String folio,String nombre,String puesto,String area,String fecha,String horaes,String horall,String horas,String tipohorario,String tipoasunto,String asunto,String estado){
+public void recibeinfo(String folio,String nombre,String puesto,String area,String fecha,String horaes,String horall,String horas,String tipohorario,String tipoasunto,String asunto,String estado,String vehiculo){
         
     folio1=folio;
     nombre1=nombre;
@@ -380,6 +393,7 @@ public void recibeinfo(String folio,String nombre,String puesto,String area,Stri
     tipoasunto1=tipoasunto;
     asunto1=asunto;
     estado1=estado;
+    vehiculo1=vehiculo;
         
     }
     
@@ -428,6 +442,7 @@ public void recibeinfo(String folio,String nombre,String puesto,String area,Stri
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
@@ -455,5 +470,6 @@ public void recibeinfo(String folio,String nombre,String puesto,String area,Stri
     private javax.swing.JTextField txtpuesto;
     private javax.swing.JTextField txttipoasunto;
     private javax.swing.JTextField txttipohorario;
+    private javax.swing.JTextField txtvehiculo;
     // End of variables declaration//GEN-END:variables
 }

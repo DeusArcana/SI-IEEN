@@ -12,19 +12,31 @@ import Clases.ManagerPases;
 import Clases.ManagerPermisos;
 import Formularios.addSolicitudPermisos;
 import Formularios.visSolicitudPase;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JTextArea;
+import javax.swing.JButton;
+import javax.swing.SpinnerDateModel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -76,6 +88,7 @@ public class PrincipalP extends javax.swing.JFrame {
         Consultar = new javax.swing.JMenuItem();
         Cancelar = new javax.swing.JMenuItem();
         ExportarExcel = new javax.swing.JMenuItem();
+        Cambiarvehiculo = new javax.swing.JMenuItem();
         solicpase = new javax.swing.JTabbedPane();
         solicitudviaticos1 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
@@ -84,7 +97,7 @@ public class PrincipalP extends javax.swing.JFrame {
         tablapase = new JTable(){  public boolean isCellEditable(int rowIndex, int colIndex){  return false;  }  };
         jLabel17 = new javax.swing.JLabel();
         txtbusquedasoli = new javax.swing.JTextField();
-        comboAño = new javax.swing.JComboBox<String>();
+        comboAño = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
@@ -145,6 +158,14 @@ public class PrincipalP extends javax.swing.JFrame {
         });
         MenuPases.add(ExportarExcel);
 
+        Cambiarvehiculo.setText("Cambiar Vehículo");
+        Cambiarvehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CambiarvehiculoActionPerformed(evt);
+            }
+        });
+        MenuPases.add(Cambiarvehiculo);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Sistema Integral - Instituto Estatal Electoral de Nayarit");
         setPreferredSize(new java.awt.Dimension(1366, 793));
@@ -181,15 +202,15 @@ public class PrincipalP extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Folio", "Nombre", "Puesto", "Área", "Fecha", "Hora_E/S", "Hora_llegada", "Horas", "Tipo_horario", "Tipo_asunto", "Asunto", "Estado"
+                "Folio", "Nombre", "Puesto", "Área", "Fecha", "Hora_E/S", "Hora_llegada", "Horas", "Tipo_horario", "Tipo_asunto", "Asunto", "Estado", "Vehículo_pase"
             }
         ));
         tablapase.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablapaseMouseReleased(evt);
-            }
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablapaseMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablapaseMouseReleased(evt);
             }
         });
         jScrollPane11.setViewportView(tablapase);
@@ -365,6 +386,7 @@ public class PrincipalP extends javax.swing.JFrame {
             modelo.addColumn("Tipo_Asunto");
             modelo.addColumn("Asunto");
             modelo.addColumn("Estado");
+            modelo.addColumn("Vehículo_pase");
             this.tablapase.setModel(modelo);
             String yeara=comboAño.getSelectedItem().toString();
             try {
@@ -383,11 +405,11 @@ public class PrincipalP extends javax.swing.JFrame {
                 area.next();
                     
             if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
-                 sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada,Horas, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Año = '" + yeara + "' And ( Folio LIKE '%"+ txtbusquedasoli.getText() + "%' OR Numero LIKE '%" + txtbusquedasoli.getText() + "%'"
+                 sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada,Horas, Tipo_Horario, Tipo_Asunto,Asunto,Estado,Vehiculo_pase FROM solicitud_pase WHERE Año = '" + yeara + "' And (Numero LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Area LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Hora_ES LIKE '%" + txtbusquedasoli.getText() + "%' OR Hora_Llegada LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Horario LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Asunto LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%')";             
             }else{
-                sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada, Horas, Tipo_Horario, Tipo_Asunto,Asunto,Estado FROM solicitud_pase WHERE Año = '" + yeara + "' And Area = '" + area.getString("Area") + "' And ( Folio LIKE '%"+ txtbusquedasoli.getText() + "%' OR Numero LIKE '%" + txtbusquedasoli.getText() + "%'"
+                sql = "SELECT concat(Folio,'-',Numero), Nombre, Puesto, Area, Fecha, Hora_ES, Hora_Llegada, Horas, Tipo_Horario, Tipo_Asunto,Asunto,Estado,Vehiculo_pase FROM solicitud_pase WHERE Año = '" + yeara + "' And Area = '" + area.getString("Area") + "' And (Numero LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Nombre LIKE '%" + txtbusquedasoli.getText() + "%' OR Puesto LIKE '%" + txtbusquedasoli.getText() + "%' OR Area LIKE '%" + txtbusquedasoli.getText() + "%' OR Fecha LIKE '%" + txtbusquedasoli.getText() + "%'"
                     + "OR Hora_ES LIKE '%" + txtbusquedasoli.getText() + "%' OR Hora_Llegada LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Horario LIKE '%" + txtbusquedasoli.getText() + "%' OR Tipo_Asunto LIKE '%" + txtbusquedasoli.getText() + "%' OR Estado LIKE '%" + txtbusquedasoli.getText() + "%')";
                 
@@ -397,7 +419,7 @@ public class PrincipalP extends javax.swing.JFrame {
 
                 ResultSet rs = sentencia.executeQuery(sql);
 
-                String solicitud[] = new String[12];
+                String solicitud[] = new String[13];
                 while (rs.next()) {
                     solicitud[0] = rs.getString("concat(Folio,'-',Numero)");
                     solicitud[1] = rs.getString("Nombre");
@@ -411,6 +433,7 @@ public class PrincipalP extends javax.swing.JFrame {
                     solicitud[9] = rs.getString("Tipo_Asunto");
                     solicitud[10] = rs.getString("Asunto");
                     solicitud[11] = rs.getString("Estado");
+                    solicitud[12] = rs.getString("Vehiculo_pase");
                     modelo.addRow(solicitud);
                 }
                 //rs.close();
@@ -485,11 +508,12 @@ public class PrincipalP extends javax.swing.JFrame {
                         String asunto=tablapase.getValueAt(fila,10).toString();
 
                         responarea=manager_pases.getNomResponsableArea(idarea);
+                        String vehiculo=tablapase.getValueAt(fila,12).toString();
 
                         //javax.swing.JOptionPane.showMessageDialog(null,responarea);
 
                         //cps.createTicket(1,folio[0],folio[1],nombreem,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,responarea);
-                        cps.createTicket(1,folio[0],folio[1], nombreem, puesto, area, fecha, horaes, horall, horas, tipohorario, tipoasunto, asunto, responarea);
+                        cps.createTicket(1,folio[0],folio[1], nombreem, puesto, area, fecha, horaes, horall, horas, tipohorario, tipoasunto, asunto, responarea,vehiculo);
                     } catch (Exception ex) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Hubo un problema al imprimir el pase");
                         }
@@ -508,66 +532,217 @@ public class PrincipalP extends javax.swing.JFrame {
             int k = tablapase.getSelectedRow();
             if (k >= 0) {
                 String[] ho=tablapase.getValueAt(k, 5).toString().split(":");
-                int ho1=Integer.parseInt(ho[0]);
-                int ho2=Integer.parseInt(ho[1]);
+                int horas=Integer.parseInt(ho[0]);
+                int min=Integer.parseInt(ho[1]);
                 //javax.swing.JOptionPane.showMessageDialog(null,ho1+" "+ho2);
+                String[] matricula=tablapase.getValueAt(k,12).toString().split(" ");
                 if(tablapase.getValueAt(k,8).toString().equals("Intermedio")){
                     //javax.swing.JOptionPane.showMessageDialog(null, "Si se puede");
                     String folio = tablapase.getValueAt(k, 0).toString();
                     String[] numfol=folio.split("-");
                      String horallegada="";
+                     //int nuevokilo=0;
+                     //String nuevaobse="";
                     //javax.swing.JOptionPane.showMessageDialog(null,id);
                     if(tablapase.getValueAt(k,6).toString().isEmpty()){
                         if(tablapase.getValueAt(k,11).toString().equals("Cancelado")){
                            javax.swing.JOptionPane.showMessageDialog(null, "Pase cancelado, no se puede actualizar la hora");
                         }else{
-                        try {
-                    Statement sentencia = cn.createStatement();
-                    horallegada = javax.swing.JOptionPane.showInputDialog("Asignar hora de llegada");
-                    
-                    if (horallegada.equals("")) {
-                        javax.swing.JOptionPane.showMessageDialog(null, "El Formato de horas debe ser 00:00, vuelva a intentarlo");
-                        //horallegada = javax.swing.JOptionPane.showInputDialog("Asignar hora de llegada");
-                    } else {
+                            if(tablapase.getValueAt(k,12).toString().equals("(Sin vehículo)")){
+                                //javax.swing.JOptionPane.showMessageDialog(null, "El pase no lleva vehiculo");
+                                try{
+                                Statement sentencia = cn.createStatement();
+                                Date hora = new Date();
+                                SpinnerDateModel sdm = new SpinnerDateModel(hora,null,null,Calendar.HOUR_OF_DAY);
+                                JSpinner spinner = new javax.swing.JSpinner(sdm);
+                                JSpinner.DateEditor de = new JSpinner.DateEditor(spinner,"HH:mm");
+                                spinner.setEditor(de);
 
-                        if (horallegada.split(":").length!=2) {
-                            javax.swing.JOptionPane.showMessageDialog(null, "El Formato de horas debe ser 00:00, vuelva a intentarlo");
-                            //horallegada = javax.swing.JOptionPane.showInputDialog("Asignar hora de llegada");
-                        } else {
-                                String[] desco=horallegada.split(":");
-                                if(desco[0].isEmpty()){
-                                    javax.swing.JOptionPane.showMessageDialog(null, "El Formato de horas debe ser 00:00, vuelva a intentarlo");
+                                Object[] boton={"Actualizar","Cancelar"};
+   
+                                int opcion = JOptionPane.showOptionDialog(this,spinner, "Actualize hora de llegada",
+                                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, boton,null);
+                                
+                                if(opcion==0){
+                                    SimpleDateFormat format=new SimpleDateFormat("HH:mm");
+                                    horallegada = format.format((Date)spinner.getValue());
+                                    //JOptionPane.showMessageDialog(this,horallegada);
+                                    String[] horasmin = horallegada.split(":");
+                                    int horasll = Integer.parseInt(horasmin[0]);
+                                    int minll = Integer.parseInt(horasmin[1]);
+                                    if(horasll<horas){
+                                        javax.swing.JOptionPane.showMessageDialog(null,"La hora de llegada es menor a la hora de Salida");
+                                    }else{
+                                        sentencia.executeUpdate("UPDATE solicitud_pase SET Hora_Llegada = '" + horallegada + "' , Vehiculo_estado = 'Disponible' WHERE Folio = '" + numfol[0] + "' AND Numero = '" + numfol[1] + "' AND Año = '" + fechag + "';");
+                                        //javax.swing.JOptionPane.showMessageDialog(null, horallegada); 
+                                        javax.swing.JOptionPane.showMessageDialog(null, "Hora de llegada actualizada");   
+                                    }
+                                }
+                            } catch (SQLException ex) {
+                                javax.swing.JOptionPane.showMessageDialog(null, "Error en la actualización");
+                                }
+                            }else{
+                                //javax.swing.JOptionPane.showMessageDialog(null, "el pase lleva vehiculo");
+ 
+                                    Date hora = new Date();
+                                    SpinnerDateModel sdm = new SpinnerDateModel(hora,null,null,Calendar.HOUR_OF_DAY);
+                                    JSpinner spinner = new javax.swing.JSpinner(sdm);
+                                    JSpinner.DateEditor de = new JSpinner.DateEditor(spinner,"HH:mm");
+                                    spinner.setEditor(de);
+                                    
+                                    JDialog dialog = new JDialog();
+                                    JPanel panel = new JPanel();
+                                    panel.setBounds(60,0,100,60);
+                                            
+                                    JPanel panel2 = new JPanel();
+                                    panel2.setBounds(47,61,140,60); 
+        
+                                    JPanel panel3 = new JPanel();
+                                    panel3.setBounds(19,123,200,150);
+        
+                                    JPanel panel4 = new JPanel();
+                                    panel4.setBounds(80,185,150,150);
+        
+        
+                                    JLabel holl = new JLabel("Hora de llegada:",JLabel.LEFT);
+                                    JLabel ki = new JLabel("Kilometraje del vehículo:",JLabel.LEFT);
+                                    JTextField textfield = new JTextField(8);
+                                    JLabel ob = new JLabel("Observaciones del vehículo:",JLabel.LEFT);
+                                    JTextArea textarea = new JTextArea(5,14);
+                                    textarea.setLineWrap(true);
+                                    textarea.setWrapStyleWord(true);
+                                    JButton button = new JButton("Aceptar");
+        
+                                    panel.add(holl);
+                                    panel.add(spinner);
+                                    panel2.add(ki);
+                                    panel2.add(textfield);
+                                    panel3.add(ob);
+                                    panel3.add(textarea);
+                                    panel3.add(button);
+                                    dialog.add(panel);
+                                    dialog.add(panel2);
+                                    dialog.add(panel3);
+                                    dialog.add(panel4);
+                                    dialog.pack();
+                                    //dialog.setContentPane(panel);
+                                    dialog.setTitle("Pase con vehículo "+matricula[0]);
+                                    dialog.setSize(250,320);
+                                    dialog.setLocationRelativeTo(null);
+                                    dialog.setResizable(false);
+                                    dialog.setVisible(true);
+                                    
+                                    button.addActionListener(new ActionListener(){
+                                        public void actionPerformed(ActionEvent e) {
+                                            SimpleDateFormat format=new SimpleDateFormat("HH:mm");
+                                            String horallegada = format.format((Date)spinner.getValue());
+                                            //JOptionPane.showMessageDialog(this,horallegada);      
+                                            String[] horasmin = horallegada.split(":");
+                                            int horasll = Integer.parseInt(horasmin[0]);
+                                            int minll = Integer.parseInt(horasmin[1]);
+                                            if(horasll<horas){
+                                                javax.swing.JOptionPane.showMessageDialog(null,"La hora de llegada es menor a la hora de Salida");
+                                            }else{
+                                                String nuevokilo = textfield.getText();
+                                                String nuevaobse = textarea.getText();
+                                                if(nuevokilo.equals("") || nuevaobse.equals("")){
+                                                    JOptionPane.showMessageDialog(dialog,"Introduce el kilometraje y/o las observaciones"); 
+                                                }else{
+                                                    try{
+                                                        Statement sentencia = cn.createStatement();
+                                                        ResultSet rs=cbd.getTabla("select * from vehiculos where matricula='"+matricula[0]+"'",cn);
+                                                        rs.next();
+                                                        String actualkilo = rs.getString("Kilometraje");
+                                                        if(Integer.parseInt(nuevokilo) < Integer.parseInt(actualkilo)){
+                                                            javax.swing.JOptionPane.showMessageDialog(null, "El kilometraje debe de ser mayor al kilometraje actual");                                
+                                                        }else{
+                                                            String observaciones=rs.getString("Observaciones")+"\n------------------\n"+nuevaobse;
+                                                            sentencia.executeUpdate("UPDATE solicitud_pase SET Hora_Llegada = '" + horallegada + "' , Vehiculo_estado = 'Disponible' WHERE Folio = '" + numfol[0] + "' AND Numero = '" + numfol[1] + "' AND Año = '" + fechag + "';");
+                                                            sentencia.executeUpdate("UPDATE vehiculos SET kilometraje='"+nuevokilo+"',Observaciones='"+observaciones+"' where matricula='"+matricula[0]+"'");
+                                                            //sentencia.executeUpdate("UPDATE vehiculos SET observaciones='"+observaciones+"' where matricula='"+matricula+"'");
+                                                            //javax.swing.JOptionPane.showMessageDialog(null, horallegada); 
+                                                            javax.swing.JOptionPane.showMessageDialog(null, "Hora de llegada actualizada");
+                                                            dialog.setVisible(false); 
+                                                        }
+                                                    }catch(SQLException ex){
+                                                        javax.swing.JOptionPane.showMessageDialog(null, "Error en la actualización");  
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    });
+                                
+                            }
+                        /*try {
+                    Statement sentencia = cn.createStatement();
+                    Date hora = new Date();
+                    SpinnerDateModel sdm = new SpinnerDateModel(hora,null,null,Calendar.HOUR_OF_DAY);
+                    JSpinner spinner = new javax.swing.JSpinner(sdm);
+                    JSpinner.DateEditor de = new JSpinner.DateEditor(spinner,"HH:mm");
+                    spinner.setEditor(de);
+
+                    Object[] boton={"Actualizar","Cancelar"};
+   
+                    int opcion = JOptionPane.showOptionDialog(this,spinner, "Mostrando Spinner",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, boton,null);
+                    
+                    if(opcion==0){
+                        SimpleDateFormat format=new SimpleDateFormat("HH:mm");
+                        horallegada = format.format((Date)spinner.getValue());
+                        //JOptionPane.showMessageDialog(this,horallegada);
+                        String[] horasmin = horallegada.split(":");
+                        int horasll = Integer.parseInt(horasmin[0]);
+                        int minll = Integer.parseInt(horasmin[1]);
+                        if(horasll<horas){
+                               javax.swing.JOptionPane.showMessageDialog(null,"La hora de llegada es menor a la hora de Salida");
+                        }else{
+                            ResultSet rs=cbd.getTabla("select * from vehiculos where matricula='"+matricula[0]+"'",cn);
+                            rs.next();
+                            String actualkilo = rs.getString("Kilometraje");
+                            String nuevokilo = javax.swing.JOptionPane.showInputDialog("Introduce el nuevo kilometraje:");
+                            if(nuevokilo.equals("")){
+                               javax.swing.JOptionPane.showMessageDialog(null, "Introduce el kilometraje");  
+                            }
+                            else if(Integer.parseInt(nuevokilo) < Integer.parseInt(actualkilo)){
+                                javax.swing.JOptionPane.showMessageDialog(null, "El kilometraje debe de ser mayor al kilometraje actual");                                
+                            }
+                            else{
+                                String obse = javax.swing.JOptionPane.showInputDialog("Introduce nuevas observaciones:");
+                                if(obse.equals("")){
+                                    javax.swing.JOptionPane.showMessageDialog(null, "Introduce las observaciones");                                   
                                 }else{
-                                 int com1=Integer.parseInt(desco[0]);
-                                 int com2=Integer.parseInt(desco[1]);   
-                                                         
-                             
-                             if(com1<ho1){
-                               javax.swing.JOptionPane.showMessageDialog(null,"La hora asignada es menor a la hora de E/S");
-                               //horallegada = javax.swing.JOptionPane.showInputDialog("Asignar hora de llegada");
-                             }else if(com1 > 24 || com1 < 0){
-                               javax.swing.JOptionPane.showMessageDialog(null,"El rango de las horas debe estar entre las 00 y 24 horas, vuelva a intentarlo");   
-                               //horallegada = javax.swing.JOptionPane.showInputDialog("Asignar hora de llegada");
-                             }else if(com2 > 59 || com2 < 0){
-                               javax.swing.JOptionPane.showMessageDialog(null,"El rango de las horas debe estar entre las 00 y 59 minutos, vuelva a intentarlo");   
-                               //horallegada = javax.swing.JOptionPane.showInputDialog("Asignar hora de llegada");
-                             }                             
-                             else{
-                               sentencia.executeUpdate("UPDATE solicitud_pase SET Hora_Llegada = '" + horallegada + "' WHERE Folio = '" + numfol[0] + "' AND Numero = '" + numfol[1] + "' AND Año = '" + fechag + "';");
+                                 String observaciones=rs.getString("Observaciones")+"\n------------------\n"+obse;
+                                //actualizamos la hora de llegada
+                                sentencia.executeUpdate("UPDATE solicitud_pase SET Hora_Llegada = '" + horallegada + "' , Vehiculo_estado = 'Disponible' WHERE Folio = '" + numfol[0] + "' AND Numero = '" + numfol[1] + "' AND Año = '" + fechag + "';");
+                                sentencia.executeUpdate("UPDATE vehiculos SET kilometraje='"+nuevokilo+"',Observaciones='"+observaciones+"' where matricula='"+matricula[0]+"'");
+                                //sentencia.executeUpdate("UPDATE vehiculos SET observaciones='"+observaciones+"' where matricula='"+matricula+"'");
+                                //javax.swing.JOptionPane.showMessageDialog(null, horallegada); 
+                                javax.swing.JOptionPane.showMessageDialog(null, "Hora de llegada actualizada");   
+                                } 
+                            }
+                            //sentencia.executeUpdate("UPDATE solicitud_pase SET Hora_Llegada = '" + horallegada + "' , Vehiculo_estado = 'Disponible' WHERE Folio = '" + numfol[0] + "' AND Numero = '" + numfol[1] + "' AND Año = '" + fechag + "';");
                             //javax.swing.JOptionPane.showMessageDialog(null, horallegada); 
-                            javax.swing.JOptionPane.showMessageDialog(null, "Hora de llegada actualizada");   
-                             }
-                        }
+                            //javax.swing.JOptionPane.showMessageDialog(null, "Hora de llegada actualizada");                            
                         }
                     }
                 } catch (SQLException ex) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Error en la actualización");
-                }catch (NullPointerException ex) {
-                    //javax.swing.JOptionPane.showMessageDialog(null, "Error en la actualización");
-                }
+                }*/
                         }
                     }else{
-                       javax.swing.JOptionPane.showMessageDialog(null, "La hora ya fue actualizada"); 
+                       javax.swing.JOptionPane.showMessageDialog(null, "La hora ya fue actualizada");
+                       /*javax.swing.JOptionPane.showMessageDialog(null,matricula[0]);
+                       try{
+                           ResultSet rs=cbd.getTabla("select * from vehiculos where matricula='"+matricula[0]+"'",cn);
+                           rs.next();
+                           String kilo=rs.getString("Kilometraje");
+                           String obse=rs.getString("Observaciones");
+                           javax.swing.JOptionPane.showMessageDialog(null,kilo);
+                           javax.swing.JOptionPane.showMessageDialog(null,obse);
+                       } catch (SQLException ex) {
+                            javax.swing.JOptionPane.showMessageDialog(null, "Error");
+                        }*/
+                       
                     }
             } else {
                     javax.swing.JOptionPane.showMessageDialog(null, "No se puede actualizar hora de llegada");
@@ -599,7 +774,7 @@ public class PrincipalP extends javax.swing.JFrame {
                 else{
                     try {
                         Statement sentencia = cn.createStatement();
-                        sentencia.executeUpdate("UPDATE solicitud_pase SET Estado = 'Cancelado' WHERE Folio = '" + numfol[0] + "' AND Numero = '" + numfol[1] + "' AND Año = '" + fechag + "';");
+                        sentencia.executeUpdate("UPDATE solicitud_pase SET Estado = 'Cancelado', Vehiculo_estado = 'Disponible' WHERE Folio = '" + numfol[0] + "' AND Numero = '" + numfol[1] + "' AND Año = '" + fechag + "';");
                         javax.swing.JOptionPane.showMessageDialog(null, "Pase cancelado");
                     } catch (SQLException ex) {
                         javax.swing.JOptionPane.showMessageDialog(null, "Error al cancelar");
@@ -652,10 +827,11 @@ public class PrincipalP extends javax.swing.JFrame {
                 String tipoasunto=tablapase.getValueAt(fila,9).toString();
                 String asunto=tablapase.getValueAt(fila,10).toString();
                 String estado=tablapase.getValueAt(fila,11).toString();
+                String vehiculo=tablapase.getValueAt(fila,12).toString();
                 
                 vsp = new visSolicitudPase(this,true,folio);
                 
-                vsp.recibeinfo(folio,nombreem,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,estado);
+                vsp.recibeinfo(folio,nombreem,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,estado,vehiculo);
 
                 vsp.setVisible(true); 
             } else {
@@ -742,6 +918,60 @@ public class PrincipalP extends javax.swing.JFrame {
             //Cerrar sesion
         }
     }//GEN-LAST:event_itemSalirActionPerformed
+
+    private void CambiarvehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CambiarvehiculoActionPerformed
+        // TODO add your handling code here:
+        if (manager_permisos.accesoModulo("actualizar", "Pase Salida", Principal.Username)) {
+            int k = tablapase.getSelectedRow();
+            if (k >= 0) {
+                if(tablapase.getValueAt(k,8).toString().equals("Intermedio")){
+                     String folio = tablapase.getValueAt(k, 0).toString();
+                    String[] numfol=folio.split("-");
+                    if(tablapase.getValueAt(k,6).toString().isEmpty()){
+                        if(tablapase.getValueAt(k,11).toString().equals("Cancelado")){
+                           javax.swing.JOptionPane.showMessageDialog(null, "Pase cancelado, no se puede cambiar el vehículo");
+                        }else{
+                            try {
+                                Statement sentencia = cn.createStatement();
+                                
+                                JComboBox jcb = new JComboBox();
+                                jcb.addItem("(Sin vehículo)"); 
+                                manager_pases.getVehiculos(jcb);
+                                Object[] boton={"Actualizar","Cancelar"};
+                                
+                                int opcion = JOptionPane.showOptionDialog(this,jcb, "Seleccione vehículo",
+                                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE  , null, boton,null);
+                                
+                                if(opcion==0){
+                                    String vehiculo = jcb.getSelectedItem().toString();
+                                    javax.swing.JOptionPane.showMessageDialog(null, vehiculo); 
+                                    sentencia.executeUpdate("UPDATE solicitud_pase SET Vehiculo_pase = '" + vehiculo + "' WHERE Folio = '" + numfol[0] + "' AND Numero = '" + numfol[1] + "' AND Año = '" + fechag + "';");
+                                    //javax.swing.JOptionPane.showMessageDialog(null, horallegada); 
+                                    javax.swing.JOptionPane.showMessageDialog(null, "Se cambio el vehículo");  
+                                }                   
+                            
+                            } catch (SQLException ex) {
+                                javax.swing.JOptionPane.showMessageDialog(null, "Error al cambiar el vehículo");
+                             }                  
+                            
+                        }
+                        
+                    }else{
+                       javax.swing.JOptionPane.showMessageDialog(null, "No se puede cambiar el vehículo\n"+"el pase ya fue realizado"); 
+                    }
+                    
+                }else{
+                   javax.swing.JOptionPane.showMessageDialog(null, "No se puede cambiar el vehículo"); 
+                }
+                
+            }else{
+               javax.swing.JOptionPane.showMessageDialog(null, "Seleccionar pase"); 
+            }
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Usted no cuenta con permisos para actualizar el vehículo.");        
+        }
+    }//GEN-LAST:event_CambiarvehiculoActionPerformed
     //obtenemos las fecha del sistema    
     public static String getfecha(){
         Date fecha=new Date(); 
@@ -800,6 +1030,7 @@ public class PrincipalP extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem Cambiarvehiculo;
     private javax.swing.JMenuItem Cancelar;
     private javax.swing.JMenuItem Consultar;
     private javax.swing.JMenuItem ExportarExcel;

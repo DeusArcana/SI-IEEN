@@ -989,7 +989,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
     private void getAutosDisponibles() throws SQLException{
         ResultSet res;
         Connection cn=cbd.getConexion();
-            res=cbd.getTabla("select marca,matricula from vehiculos",cn);
+            res=cbd.getTabla("select marca,matricula from vehiculos where Estatus='Activo'",cn);
             SimpleDateFormat format=new SimpleDateFormat("h:mm a");
             List<String> autos=new ArrayList<String>();
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
@@ -1012,6 +1012,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                         i=autos_noDisponibles.size();
                     }
                 }
+                
                 if(disponible){
                     autos.add(aux);
                 }
@@ -1019,9 +1020,27 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
                     autos.add(aux);
                 }*/
             }
+            try{
+                sdf=new SimpleDateFormat("dd-MM-yyyy");
+                autos=solicitud_pase(autos,sdf.format(date_Salida.getDate().getTime()));
+            }catch(SQLException e){}
             for(int i=0;i<autos.size();i++){
                 cmb_Vehiculo.addItem(autos.get(i));
             }
+            
+    }
+    private List<String> solicitud_pase(List<String> autos,String fecha) throws SQLException{
+        ResultSet rs=cbd.getTabla("select * from solicitud_pase where fecha='"+fecha+"'", null);
+        while(rs.next()){
+            if(rs.getString("vehiculo_estado").equals("Ocupado")){
+                for(int i=0;i<autos.size();i++){
+                    if(rs.getString("vehiculo_pase").split(" ")[0].equals(autos.get(i).split("_")[1])){
+                        autos.remove(i);
+                    }
+                }
+            }
+        }
+        return autos;
     }
     private List<String> getAutosNoDisponibles(List<Integer> id,String fecha)throws SQLException{
         //Buscamos entre las solicitudes de vehículo los vehiculos que no están disponibles
@@ -1029,7 +1048,7 @@ public class addSolicitudViaticos extends javax.swing.JDialog {
         Connection connection=cbd.getConexion();
         ResultSet res;
         //Obtenemos todos los vehiculos que tienen solicitud de vehiculo a partir de la fecha de salida solicitada
-        res=cbd.getTabla("select idvehiculo_usado,vehiculos_Matricula from vehiculo_usado inner join solicitud_vehiculo on idvehiculo_usado=vehiculo_usado_idvehiculo_usado inner join vehiculo_viatico on idsolicitud_vehiculo=solicitud_vehiculo_idSolicitud_vehiculo inner join solicitud_viatico on solicitud_viatico_idSolicitud=idSolicitud where fecha_salida>='"+fecha+"';", connection);
+        res=cbd.getTabla("select idvehiculo_usado,vehiculos_Matricula from vehiculo_usado inner join solicitud_vehiculo on idvehiculo_usado=vehiculo_usado_idvehiculo_usado inner join vehiculo_viatico on idsolicitud_vehiculo=solicitud_vehiculo_idSolicitud_vehiculo inner join solicitud_viatico on solicitud_viatico_idSolicitud=idSolicitud inner join vehiculos V on vehiculos_Matricula=V.matricula where fecha_salida>='"+fecha+"' and V.Estatus='Activo';", connection);
         List<String> matricula_nodisponible=new ArrayList<String>();
         while(res.next()){
             boolean disponible=false;//Si el registro no está en los autos disponibles entonces no se puede utilizar.

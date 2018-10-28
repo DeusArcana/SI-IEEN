@@ -114,6 +114,8 @@ public class CrearPaseSalida {
     
     private static Font elements2 = new Font(Font.FontFamily.HELVETICA, 9,
             Font.NORMAL);
+    private static Font elements2ve = new Font(Font.FontFamily.HELVETICA, 7,
+            Font.NORMAL);
     private static Font elements2c = new Font(Font.FontFamily.HELVETICA,8,Font.NORMAL,BaseColor.LIGHT_GRAY);
     private static Font elements3 = new Font(Font.FontFamily.HELVETICA, 8,
             Font.BOLD);
@@ -126,7 +128,7 @@ public class CrearPaseSalida {
     
     
     
-    public void createTicket(int res,String folio,String numero,String nombreem,String puesto,String area,String fecha,String horaes,String horall,String horas,String tipohorario,String tipoasunto,String asunto,String responsable)throws DocumentException {
+    public void createTicket(int res,String folio,String numero,String nombreem,String puesto,String area,String fecha,String horaes,String horall,String horas,String tipohorario,String tipoasunto,String asunto,String responsable,String vehiculo)throws DocumentException {
         
         Rectangle pagesize = new Rectangle(250, 14400);
         Document doc = new Document(pagesize);
@@ -404,11 +406,11 @@ public class CrearPaseSalida {
             
             
             
-            PdfPTable tableLineas5 = new PdfPTable(6);
+            PdfPTable tableLineas5 = new PdfPTable(8);
             tableLineas5.setWidthPercentage(100f);
-            float[] contenidomedidash = {2.45f,2.50f,2.10f,2.50f,1.70f,2.50f};
+            float[] contenidomedidash = {2.50f,1.40f,2.10f,1.40f,1.60f,1.40f,1.70f,2.45f};
             tableLineas5.setWidths(contenidomedidash);
-            PdfPCell lineas15,lineas25,lineas151,lineas251,lineas152,lineas252;
+            PdfPCell lineas15,lineas25,lineas151,lineas251,lineas152,lineas252,lineasv,lineasv2;
             //tableLineas5.setWidths(medidaLineas);
             
             lineas15 = new PdfPCell(new Phrase("Hora de E/S:", elements3));
@@ -420,7 +422,7 @@ public class CrearPaseSalida {
             lineas25.setBorderWidthTop(0);
             lineas25.setBorderWidthLeft(0);
             lineas25.setBorderWidthRight(0);
-            lineas25.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+            lineas25.setHorizontalAlignment(Element.ALIGN_CENTER);
             
             //puntohorall
             
@@ -433,7 +435,7 @@ public class CrearPaseSalida {
             lineas251.setBorderWidthTop(0);
             lineas251.setBorderWidthLeft(0);
             lineas251.setBorderWidthRight(0);
-            lineas251.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+            lineas251.setHorizontalAlignment(Element.ALIGN_CENTER);
             
             //puntohoras
             lineas152 = new PdfPCell(new Phrase("Horas:", elements3));
@@ -445,7 +447,20 @@ public class CrearPaseSalida {
             lineas252.setBorderWidthTop(0);
             lineas252.setBorderWidthLeft(0);
             lineas252.setBorderWidthRight(0);
-            lineas252.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+            lineas252.setHorizontalAlignment(Element.ALIGN_CENTER);
+            
+            //vehiculo
+            //puntohoras
+            lineasv = new PdfPCell(new Phrase("Vehículo:", elements3));
+            lineasv.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            lineasv.setBorder(0);
+            // Contenido de la linea
+            //lineas25 = new PdfPCell(new Phrase("123 "+"Hora de regreso: "+"123123"+" Horas: "+"222hrs", elements2));
+            lineasv2 = new PdfPCell(new Phrase(vehiculo, elements2ve));
+            lineasv2.setBorderWidthTop(0);
+            lineasv2.setBorderWidthLeft(0);
+            lineasv2.setBorderWidthRight(0);
+            lineasv2.setHorizontalAlignment(Element.ALIGN_CENTER);
             
             tableLineas5.addCell(lineas15);
             tableLineas5.addCell(lineas25);
@@ -453,6 +468,8 @@ public class CrearPaseSalida {
             tableLineas5.addCell(lineas251);
             tableLineas5.addCell(lineas152);
             tableLineas5.addCell(lineas252);
+            tableLineas5.addCell(lineasv);
+            tableLineas5.addCell(lineasv2);
                         
             //lineasasunto
             
