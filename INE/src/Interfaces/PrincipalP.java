@@ -1020,10 +1020,12 @@ public class PrincipalP extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(PrincipalP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.OfficeSilver2007Skin");
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+             
             public void run() {
+                SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.OfficeSilver2007Skin");
                 new PrincipalP().setVisible(true);
             }
         });
