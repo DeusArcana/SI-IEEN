@@ -26,10 +26,10 @@ ENGINE = InnoDB;
 -- Table `INE`.`Area`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `INE`.`Area` (
-  `ID_Area` INT NOT NULL AUTO_INCREMENT,
+  `ID_Area` INT NOT NULL,
   `Area` VARCHAR(255) NOT NULL,
   `Siglas` VARCHAR(32),
-  `Responsable` INTEGER,
+  `Responsable` INT,
   PRIMARY KEY (`ID_Area`))
 ENGINE = InnoDB;
 
