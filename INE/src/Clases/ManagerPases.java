@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
@@ -47,6 +49,7 @@ public class ManagerPases {
         tapa.addColumn("Tipo_Asunto");
         tapa.addColumn("Asunto");
         tapa.addColumn("Estado");
+        tapa.addColumn("Vehículo_pase");
 
         try {
             conexion = db.getConexion();
@@ -67,10 +70,10 @@ public class ManagerPases {
                 area.next();
                     
             if(usuario.getString("puesto").equals("SuperUsuario") || usuario.getString("puesto").equals("Administrador")){
-                 sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado from solicitud_pase where Año = '"+ year +"' order by Folio , Numero DESC;";
+                 sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado,Vehiculo_pase from solicitud_pase where Año = '"+ year +"' order by Folio , Numero DESC;";
                  
             }else{      
-                sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado from solicitud_pase where Año = '"+ year +"' AND Area = '"+ area.getString("Area") +"' order by Numero DESC;";        
+                sql = "select concat(Folio,'-',Numero),Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado,Vehiculo_pase from solicitud_pase where Año = '"+ year +"' AND Area = '"+ area.getString("Area") +"' order by Numero DESC;";        
                 //System.out.printf(idemp.getString("id_empleado"));
                 //System.out.printf(numarea.getString("area"));
                 //System.out.printf(area.getString("Area"));
@@ -280,6 +283,71 @@ public class ManagerPases {
         } 
         
     }//obtenerPuesto
+    
+    public void getVehiculos(JComboBox combo) {
+        try{
+            
+            conexion = db.getConexion();
+            String sql,sql2="";
+            boolean si=false;
+            
+            ResultSet vacia=db.getTabla("select if(max(Folio) IS NULL,'Esta vacia','No esta vacia') from solicitud_pase", conexion);
+            vacia.next();
+            
+            if(vacia.getString("if(max(Folio) IS NULL,'Esta vacia','No esta vacia')").equals("Esta vacia")){
+               sql = "select Matricula,Marca from Vehiculos where Estado='Disponible' and Estatus='Activo';";
+               sql2 = "select Vehiculo_pase from solicitud_pase where Vehiculo_estado='Ocupado';"; 
+               si=true;
+            }else{
+               sql = "select Matricula,Marca from Vehiculos where Estado='Disponible' and Estatus='Activo';";
+              sql2 = "select Vehiculo_pase from solicitud_pase where Vehiculo_estado='Ocupado';";  
+              si=false;
+            }           
+           //sql="select concat(V.Matricula,' ',V.Marca) from Vehiculos V inner join solicitud_pase SP on concat(V.Marca,' ',V.Matricula) = SP.Vehiculo_pase where V.Estado='Disponible' and SP.Vehiculo_estado='Disponible'";
+           
+            //conexion = db.getConexion();
+            Statement st = conexion.createStatement();
+            List<String> vehiculosdisponibles=new ArrayList<String>();
+            List<String> vehiculosocupados=new ArrayList<String>();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                String todosvehiculos = rs.getString("Matricula") + " " + rs.getString("Marca");
+                vehiculosdisponibles.add(todosvehiculos);
+            }
+            ResultSet rsv = st.executeQuery(sql2);
+            
+            while(rsv.next()){
+                String todosvehiculosocupados = rsv.getString("Vehiculo_pase");
+                vehiculosocupados.add(todosvehiculosocupados);
+            }
+            if(si==true){
+              for(int i = 0; i < vehiculosdisponibles.size(); i++){
+                combo.addItem(vehiculosdisponibles.get(i)); } 
+            }else{
+                boolean vd=true;
+                for(int i = 0; i < vehiculosdisponibles.size(); i++){
+                    vd=true;
+                for(int j = 0; j < vehiculosocupados.size(); j++ ){
+                    if(vehiculosdisponibles.get(i).equals(vehiculosocupados.get(j))){
+                           vd=false;
+                           break;
+                           
+                    }
+                }
+                if(vd){
+                    combo.addItem(vehiculosdisponibles.get(i));
+                }
+            }
+            }                        
+            
+            st.close();
+            conexion.close();
+        } catch (SQLException ex) {
+            System.out.printf("Error al obtener los vehículos disponibles para ingresarlos al combo SQL");
+            Logger.getLogger(ManagerUsers.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+    }//Obtiene todas las areas de trabajo
     
     
 }

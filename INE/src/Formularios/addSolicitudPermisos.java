@@ -18,9 +18,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
@@ -79,18 +81,18 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jlhoras = new javax.swing.JLabel();
+        jlvehiculo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_Actividad = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        comboArea = new javax.swing.JComboBox<String>();
-        comboEmpleados = new javax.swing.JComboBox<String>();
+        comboArea = new javax.swing.JComboBox<>();
+        comboEmpleados = new javax.swing.JComboBox<>();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        comboHorario = new javax.swing.JComboBox<String>();
-        comboAsunto = new javax.swing.JComboBox<String>();
+        comboHorario = new javax.swing.JComboBox<>();
+        comboAsunto = new javax.swing.JComboBox<>();
         Date hora = new Date();
         SpinnerDateModel sdm = new SpinnerDateModel(hora,null,null,Calendar.HOUR_OF_DAY);
         hora_e_s = new javax.swing.JSpinner(sdm);
@@ -103,6 +105,8 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         date_Salida = new com.toedter.calendar.JDateChooser();
         jlfechacompleta = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+        jlhoras = new javax.swing.JLabel();
+        comboVehiculos = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -143,10 +147,10 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         pn_addPermiso.add(jLabel4);
         jLabel4.setBounds(34, 262, 90, 17);
 
-        jlhoras.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jlhoras.setText(" Horas:");
-        pn_addPermiso.add(jlhoras);
-        jlhoras.setBounds(280, 303, 50, 17);
+        jlvehiculo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jlvehiculo.setText(" Vehículo:");
+        pn_addPermiso.add(jlvehiculo);
+        jlvehiculo.setBounds(280, 302, 70, 17);
 
         txt_Actividad.setColumns(20);
         txt_Actividad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -216,18 +220,18 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         pn_addPermiso.add(btnCancelar);
         btnCancelar.setBounds(330, 460, 120, 33);
 
-        comboHorario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione...", "De Entrada", "Intermedio", "De Salida" }));
+        comboHorario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "De Entrada", "Intermedio", "De Salida" }));
         comboHorario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboHorarioActionPerformed(evt);
             }
         });
         pn_addPermiso.add(comboHorario);
-        comboHorario.setBounds(140, 83, 87, 20);
+        comboHorario.setBounds(140, 83, 100, 20);
 
-        comboAsunto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione...", "Particular", "Oficial", "Médico" }));
+        comboAsunto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "Particular", "Oficial", "Médico" }));
         pn_addPermiso.add(comboAsunto);
-        comboAsunto.setBounds(423, 83, 87, 20);
+        comboAsunto.setBounds(423, 83, 100, 20);
 
         JSpinner.DateEditor de = new JSpinner.DateEditor(hora_e_s,"HH:mm");
         hora_e_s.setEditor(de);
@@ -242,7 +246,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         txt_horas.setEditable(false);
         txt_horas.setEnabled(false);
         pn_addPermiso.add(txt_horas);
-        txt_horas.setBounds(340, 300, 110, 20);
+        txt_horas.setBounds(360, 260, 110, 20);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setText("  Hora de llegada:");
@@ -263,7 +267,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         pn_addPermiso.add(jLabel12);
         jLabel12.setBounds(5, 222, 120, 17);
 
-        date_Salida.setDateFormatString("dd-MM-yyyy");
+        date_Salida.setDateFormatString("d-MM-yyyy");
         date_Salida.setEnabled(false);
         date_Salida.setFocusable(false);
         pn_addPermiso.add(date_Salida);
@@ -286,6 +290,15 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             jLabel13.setText("*Asunto:");
             pn_addPermiso.add(jLabel13);
             jLabel13.setBounds(65, 335, 60, 17);
+
+            jlhoras.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+            jlhoras.setText(" Horas:");
+            pn_addPermiso.add(jlhoras);
+            jlhoras.setBounds(295, 262, 50, 17);
+
+            comboVehiculos.setEnabled(false);
+            pn_addPermiso.add(comboVehiculos);
+            comboVehiculos.setBounds(360, 300, 170, 20);
 
             jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/formularios.png"))); // NOI18N
             pn_addPermiso.add(jLabel6);
@@ -367,6 +380,8 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         String horaes=format.format((Date)hora_e_s.getValue());
         String horall="";
         String horas="";
+        String vehiculo="";
+        String vehiculo_estado="Ocupado";
         String estado="Aceptado";
         int h = comboHorario.getSelectedIndex();
         if(h==1){
@@ -379,9 +394,11 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         if(h==2){
             horall="";   
             horas=txt_horas.getText();
+            vehiculo = comboVehiculos.getSelectedItem().toString();
         }else{
             horall="";
             horas="";
+            vehiculo = "";
         }
         
         
@@ -392,7 +409,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                 //validarDatos(true,"");
 
                 //inserta solicitud
-                insertar_Solicitud(folio,numero,año[2],empleado,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,estado);
+                insertar_Solicitud(folio,numero,año[2],empleado,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,estado,vehiculo,vehiculo_estado);
                 //JOptionPane.showMessageDialog(this,area+"\n"+empleado+"\n"+puesto+"\n"+fecha+"\n"+horaes+"\n"+horall+"\n"+tipohorario+"\n"+tipoasunto+"\n"+asunto);
                 //insertar_Solicitud(0);
 
@@ -453,7 +470,17 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         comboArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
         comboArea.addItem("Seleccione área...");
         comboEmpleados.addItem("Seleccione empleado...");
+        comboVehiculos.setModel(new javax.swing.DefaultComboBoxModel(new String[] {}));
+        comboVehiculos.addItem("Seleccione vehículo...");
+        comboVehiculos.addItem("(Sin vehículo)");
         manager_pases.getArea(comboArea);
+        manager_pases.getVehiculos(comboVehiculos);
+        /*try{
+          getAutosDisponibles();  
+        }catch(SQLException e){
+            
+        }*/
+        
         
         fechag=getfecha();
         
@@ -478,10 +505,16 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             jlhoras.setText("*Horas:");
             txt_horas.setText("00:00");
             txt_horas.setEditable(true);
+            jlvehiculo.setText("*Vehículo:");
+            comboVehiculos.setEnabled(true);
+            
             
         }else{
             txt_hora_llegada.setEnabled(false);
+            jlhoras.setText("Horas:");
             txt_horas.setEnabled(false);
+            jlvehiculo.setText("Vehículo:");
+            comboVehiculos.setEnabled(false);
             txt_hora_llegada.setEditable(false);
             txt_horas.setEditable(false);
             txt_horas.setText("");
@@ -550,14 +583,18 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
         return "Tepic, Nayarit a "+separar[0]+" de "+mes+" del "+separar[2];
     }
     
-    public void insertar_Solicitud(String folio,String numero,String año,String nombre,String puesto,String area,String fecha,String horaes,String horall,String horas,String tipohorario,String tipoasunto,String asunto,String estado){
+    public void insertar_Solicitud(String folio,String numero,String año,String nombre,String puesto,String area,String fecha,String horaes,String horall,String horas,String tipohorario,String tipoasunto,String asunto,String estado,String vehiculo,String vehiculoes){
         try{
+            //String[] idv = vehiculo.split("-");
             Conexion conexion=new Conexion();
             //conexion.getConexion();
             //Inserción de solicitud
             conexion.getConexion();
+            boolean insersion;
             
-            boolean insersion = conexion.ejecutar("INSERT INTO solicitud_pase (Folio,Numero,Año,Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado) VALUES('"+folio+"','"+numero+"','"+año+"','"+nombre+"','"+puesto+"','"+area+"','"+fecha+"','"+horaes+"','"+horall+"','"+horas+"','"+tipohorario+"','"+tipoasunto+"','"+asunto+"','"+estado+"')");
+            insersion = conexion.ejecutar("INSERT INTO solicitud_pase (Folio,Numero,Año,Nombre,Puesto,Area,Fecha,Hora_ES,Hora_Llegada,Horas,Tipo_Horario,Tipo_Asunto,Asunto,Estado,Vehiculo_pase,Vehiculo_estado) VALUES('"+folio+"','"+numero+"','"+año+"','"+nombre+"','"+puesto+"','"+area+"','"+fecha+"','"+horaes+"','"+horall+"','"+horas+"','"+tipohorario+"','"+tipoasunto+"','"+asunto+"','"+estado+"','"+vehiculo+"','"+vehiculoes+"')");
+            //String idp=folio+"-"+numero;
+            //insersion = conexion.ejecutar("INSERT INTO vehiculo_pase (IdVehiculo_pase,IdFolio_pase,Fecha) VALUES ('"+idv[0]+"','"+idp+"','"+fecha+"')");
             
             if(insersion){
                 JOptionPane.showMessageDialog(this, "Insersión correcta");
@@ -576,7 +613,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
                     //sacamos el nombre del responsable
                     responarea=manager_pases.getNomResponsableArea(idarea);
                     
-                    cps.createTicket(1,folio,numero,nombre,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,responarea);
+                    cps.createTicket(1,folio,numero,nombre,puesto,area,fecha,horaes,horall,horas,tipohorario,tipoasunto,asunto,responarea,vehiculo);
                 
                 this.setVisible(false);
                 }else if(opcion == 1){
@@ -680,6 +717,13 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             else{
                 cad+="\n-El rango de las horas debe estar entre las 00 y 59 minutos, vuelva a intentarlo";
             }
+        }else if(comboVehiculos.getSelectedItem().toString().equals("Seleccione vehículo...")){
+            if(cad.equals("")){ 
+                cad+="-No se ha seleccionado el vehículo, vuelva a intentarlo";
+            }
+            else{
+                cad+="\n-No se ha seleccionado el vehículo, vuelva a intentarlo";
+            }
         }
         }
         if(txt_Puesto.getText().equals("")){
@@ -776,7 +820,11 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
             }
         });
     }
+    
 
+
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
@@ -784,6 +832,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> comboAsunto;
     private javax.swing.JComboBox<String> comboEmpleados;
     private javax.swing.JComboBox<String> comboHorario;
+    private javax.swing.JComboBox<String> comboVehiculos;
     private com.toedter.calendar.JDateChooser date_Salida;
     private javax.swing.JSpinner hora_e_s;
     private javax.swing.JLabel jLabel1;
@@ -801,6 +850,7 @@ public class addSolicitudPermisos extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlfechacompleta;
     private javax.swing.JLabel jlhoras;
+    private javax.swing.JLabel jlvehiculo;
     private javax.swing.JPanel pn_addPermiso;
     private javax.swing.JTextArea txt_Actividad;
     private javax.swing.JTextField txt_Folio;
